@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ListingType {
+  AUCTION
+  BUY_NOW
+}
+
+enum ListingStatus {
+  DRAFT
+  ACTIVE
+  ENDED
+  SOLD
+  SUSPENDED
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  passwordHash  String
+  emailVerified Boolean  @default(false)
+  role          Role     @default(USER)
+  name          String?
+  avatarUrl     String?
+  location      String?  // AU state/territory code
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  listings      Listing[]   @relation("SellerListings")
+  bids          Bid[]
+  messages      Message[]
+  watchlist     Watchlist[]
+  reports       Report[]    @relation("ReporterReports")
+  orders        Order[]     @relation("BuyerOrders")
+  verificationTokens VerificationToken[]
+}
+
+model VerificationToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model Listing {
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  category    String
+  type        ListingType
+  status      ListingStatus @default(DRAFT)
+  condition   String
+  price       Int           // cents
+  images      String[]      // image URLs/paths
+  location    String        // AU state/territory code
+  endsAt      DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  sellerId    String
+  seller      User          @relation("SellerListings", fields: [sellerId], references: [id])
+
+  bids        Bid[]
+  messages    Message[]
+  watchlist   Watchlist[]
+  reports     Report[]
+  orders      Order[]
+}
+
+model Bid {
+  id        String   @id @default(cuid())
+  amount    Int      // cents
+  createdAt DateTime @default(now())
+
+  bidderId  String
+  bidder    User     @relation(fields: [bidderId], references: [id])
+
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id])
+
+  @@index([listingId])
+  @@index([bidderId])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  body      String
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id])
+
+  @@index([listingId])
+  @@index([userId])
+}
+
+model Watchlist {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id])
+
+  @@unique([userId, listingId])
+  @@index([listingId])
+}
+
+model Report {
+  id         String   @id @default(cuid())
+  reason     String
+  details    String?
+  resolved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  reporterId String
+  reporter   User     @relation("ReporterReports", fields: [reporterId], references: [id])
+
+  listingId  String
+  listing    Listing  @relation(fields: [listingId], references: [id])
+
+  @@index([listingId])
+  @@index([reporterId])
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  amount          Int         // cents
+  status          OrderStatus @default(PENDING)
+  stripeSessionId String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  buyerId         String
+  buyer           User        @relation("BuyerOrders", fields: [buyerId], references: [id])
+
+  listingId       String
+  listing         Listing     @relation(fields: [listingId], references: [id])
+
+  @@index([buyerId])
+  @@index([listingId])
+}
