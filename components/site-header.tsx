@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function SiteHeader() {
+export function SiteHeader() {
   return (
     <header className="w-full border-b">
       <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
@@ -29,3 +29,8 @@ export default function SiteHeader() {
     </header>
   );
 }
+
+// Keep default export too, so BOTH import styles work:
+// import SiteHeader from "..."
+// import { SiteHeader } from "..."
+export default SiteHeader;
