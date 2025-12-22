@@ -32,4 +32,5 @@ export const authOptions: NextAuthOptions = {
     signIn: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
-};
+};// auth helper exported for server usage
+
