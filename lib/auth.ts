@@ -22,22 +22,16 @@ export const authOptions: NextAuthOptions = {
 
         if (!user || !user.passwordHash) return null;
 
-        const ok = await bcrypt.compare(
-          credentials.password,
-          user.passwordHash
-        );
+        const ok = await bcrypt.compare(credentials.password, user.passwordHash);
         if (!ok) return null;
 
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name ?? undefined,
-        };
+        return { id: user.id, email: user.email, name: user.name ?? undefined };
       },
     }),
   ],
   pages: {
-    signIn: "/login",
+    // IMPORTANT: your real login page is /auth/login
+    signIn: "/auth/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
