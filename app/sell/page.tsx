@@ -1,120 +1,162 @@
+import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
-import { Card, Button, Input, Textarea } from "@/components/ui";
 
-const CATEGORIES = ["Vehicles","Property","Electronics","Home & Garden","Jobs","Services","Fashion","Sports","Collectibles","Pets"] as const;
-const STATES = ["NSW","VIC","QLD","WA","SA","TAS","ACT","NT"] as const;
-const CONDITIONS = ["New","Used - Like New","Used - Good","Used - Fair","For parts"] as const;
+function toIntCents(v: FormDataEntryValue | null) {
+  const n = Number(String(v ?? "").trim());
+  if (!Number.isFinite(n)) return null;
+  return Math.max(0, Math.round(n * 100));
+}
 
 export default async function SellPage() {
   const session = await auth();
-  const user = session?.user as any;
-  if (!user) redirect("/auth/login");
+  if (!session?.user?.email) {
+    redirect("/auth/login");
+  }
 
-  async function create(formData: FormData) {
+  async function createListing(formData: FormData) {
     "use server";
-    const { auth } = await import("@/lib/auth");
-    const { prisma } = await import("@/lib/prisma");
-    const { redirect } = await import("next/navigation");
 
     const session = await auth();
-    const user = session?.user as any;
+    if (!session?.user?.email) redirect("/auth/login");
+
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      select: { id: true },
+    });
+
     if (!user) redirect("/auth/login");
 
     const title = String(formData.get("title") ?? "").trim();
     const description = String(formData.get("description") ?? "").trim();
-    const category = String(formData.get("category") ?? "");
-    const type = String(formData.get("type") ?? "BUY_NOW");
-    const location = String(formData.get("location") ?? "");
-    const condition = String(formData.get("condition") ?? "Used - Good");
+    const category = String(formData.get("category") ?? "").trim();
+    const location = String(formData.get("location") ?? "").trim();
+    const type = String(formData.get("type") ?? "BUY_NOW").trim();
+    const condition = String(formData.get("condition") ?? "USED").trim();
+    const priceCents = toIntCents(formData.get("price"));
 
-    const priceDollars = Number(formData.get("price") ?? "0");
-    const price = Math.max(0, Math.round(priceDollars * 100));
-
-    if (!title || !description || !category || !type || !location || !condition) {
-      throw new Error("Missing required fields");
+    if (!title || !description || !category || !location || !priceCents) {
+      // simple fallback: reload page if invalid
+      redirect("/sell");
     }
 
-    let endsAt: Date | null = null;
-    if (type === "AUCTION") {
-      // MVP default: 24 hours
-      endsAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
-    }
+    const now = new Date();
 
-    await prisma.listing.create({
+    // If AUCTION, default to 7 days from now
+    const endsAt =
+      type === "AUCTION"
+        ? new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000)
+        : null;
+
+    const listing = await prisma.listing.create({
       data: {
         title,
         description,
         category,
-        type: type as any,
-        status: "ACTIVE",
-        condition,
-        price,
-        images: [],
         location,
+        type: type === "AUCTION" ? "AUCTION" : "BUY_NOW",
+        condition,
+        price: priceCents,
         endsAt,
-        sellerId: user.id
-      }
+        status: "ACTIVE",
+        sellerId: user.id,
+      } as any,
+      select: { id: true },
     });
 
-    redirect("/dashboard/listings");
+    redirect(`/listing/${listing.id}`);
   }
 
   return (
-    <div className="max-w-2xl">
-      <h1 className="text-2xl font-bold">Create listing</h1>
-      <p className="mt-1 text-sm text-neutral-700">
-        Auctions default to a 24-hour duration in MVP. Add photos later (MVP stores image paths/URLs).
-      </p>
+    <div className="mx-auto max-w-2xl px-4 py-10 space-y-6">
+      <h1 className="text-2xl font-bold">Create a listing</h1>
 
-      <Card className="mt-4">
-        <form action={create} className="flex flex-col gap-3">
+      <form action={createListing} className="space-y-4">
+        <div>
           <label className="text-sm">Title</label>
-          <Input name="title" placeholder="e.g. iPhone 14 Pro 256GB" required />
+          <input
+            name="title"
+            className="w-full border rounded px-3 py-2"
+            placeholder="e.g. iPhone 14 Pro"
+            required
+          />
+        </div>
 
+        <div>
           <label className="text-sm">Description</label>
-          <Textarea name="description" placeholder="Write clear details: condition, included items, pickup/shipping." required />
+          <textarea
+            name="description"
+            className="w-full border rounded px-3 py-2"
+            rows={5}
+            placeholder="Describe your item..."
+            required
+          />
+        </div>
 
-          <div className="grid md:grid-cols-2 gap-3">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm">Listing type</label>
-              <select name="type" defaultValue="BUY_NOW" className="rounded-md border px-3 py-2 text-sm">
-                <option value="BUY_NOW">Buy now</option>
-                <option value="AUCTION">Auction</option>
-              </select>
-            </div>
+        <div>
+          <label className="text-sm">Category</label>
+          <select name="category" className="w-full border rounded px-3 py-2" required>
+            <option value="">Select...</option>
+            <option value="Vehicles">Vehicles</option>
+            <option value="Property">Property</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Home & Garden">Home & Garden</option>
+            <option value="Jobs">Jobs</option>
+            <option value="Services">Services</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Sports">Sports</option>
+            <option value="Collectibles">Collectibles</option>
+            <option value="Pets">Pets</option>
+          </select>
+        </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="text-sm">Condition</label>
-              <select name="condition" defaultValue="Used - Good" className="rounded-md border px-3 py-2 text-sm">
-                {CONDITIONS.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
-            </div>
-          </div>
+        <div>
+          <label className="text-sm">State</label>
+          <select name="location" className="w-full border rounded px-3 py-2" required>
+            <option value="">Select...</option>
+            <option value="NSW">NSW</option>
+            <option value="VIC">VIC</option>
+            <option value="QLD">QLD</option>
+            <option value="WA">WA</option>
+            <option value="SA">SA</option>
+            <option value="TAS">TAS</option>
+            <option value="ACT">ACT</option>
+            <option value="NT">NT</option>
+          </select>
+        </div>
 
-          <div className="grid md:grid-cols-2 gap-3">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm">Category</label>
-              <select name="category" defaultValue="Electronics" className="rounded-md border px-3 py-2 text-sm">
-                {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
-            </div>
+        <div>
+          <label className="text-sm">Type</label>
+          <select name="type" className="w-full border rounded px-3 py-2">
+            <option value="BUY_NOW">Buy now</option>
+            <option value="AUCTION">Auction</option>
+          </select>
+        </div>
 
-            <div className="flex flex-col gap-2">
-              <label className="text-sm">State/Territory</label>
-              <select name="location" defaultValue="NSW" className="rounded-md border px-3 py-2 text-sm">
-                {STATES.map(s => <option key={s} value={s}>{s}</option>)}
-              </select>
-            </div>
-          </div>
+        <div>
+          <label className="text-sm">Condition</label>
+          <select name="condition" className="w-full border rounded px-3 py-2">
+            <option value="NEW">New</option>
+            <option value="USED">Used</option>
+            <option value="REFURBISHED">Refurbished</option>
+          </select>
+        </div>
 
+        <div>
           <label className="text-sm">Price (AUD)</label>
-          <Input name="price" inputMode="decimal" placeholder="e.g. 1299.00" required />
+          <input
+            name="price"
+            className="w-full border rounded px-3 py-2"
+            placeholder="e.g. 199.99"
+            inputMode="decimal"
+            required
+          />
+        </div>
 
-          <Button type="submit" className="bg-black text-white border-black hover:opacity-90">Publish</Button>
-        </form>
-      </Card>
+        <button className="rounded bg-black text-white px-4 py-2" type="submit">
+          Publish listing
+        </button>
+      </form>
     </div>
   );
 }
