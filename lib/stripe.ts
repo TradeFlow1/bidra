@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2024-06-20"
+  // Intentionally omit apiVersion to avoid type mismatches between Stripe SDK versions.
+  // Stripe will use the account's default API version.
 });
