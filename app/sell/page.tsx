@@ -1,31 +1,26 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { Card, Input } from "@/components/ui";
 
-export const dynamic = "force-dynamic";
-
 export default async function SellPage() {
-  // If NextAuth/env is misconfigured, this page should never hard-crash.
-  let session: any = null;
+  const session = await auth();
 
-  try {
-    session = await getServerSession(authOptions);
-  } catch (e) {
-    // If session lookup fails, send to login instead of "Something went wrong"
-    redirect("/auth/login");
-  }
-
-  if (!session || !session.user?.email) {
+  if (!session?.user?.email) {
     redirect("/auth/login");
   }
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold">Create a listing</h1>
+    <div className="mx-auto max-w-2xl space-y-6 px-4 py-6">
+      <div className="flex items-center justify-between gap-3">
+        <h1 className="text-2xl font-bold">Create a listing</h1>
+        <Link className="text-sm underline" href="/listings">
+          Back to listings
+        </Link>
+      </div>
 
       <Card>
-        <form className="space-y-4">
+        <form className="space-y-4" action="/api/listings/create" method="post">
           <div>
             <label className="text-sm">Title</label>
             <Input name="title" placeholder="e.g. iPhone 14 Pro" required />
@@ -38,10 +33,16 @@ export default async function SellPage() {
 
           <button
             type="submit"
-            className="rounded-md bg-black text-white px-4 py-2 text-sm font-medium hover:opacity-90"
+            className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:opacity-90"
           >
             Create listing
           </button>
+
+          <p className="text-xs text-neutral-600">
+            (This form posts to <code>/api/listings/create</code>. If that route
+            doesn’t exist yet, the button won’t work—but the page should load
+            without crashing.)
+          </p>
         </form>
       </Card>
     </div>

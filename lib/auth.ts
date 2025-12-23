@@ -1,8 +1,8 @@
 import type { NextAuthOptions } from "next-auth";
-import { getServerSession } from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth/next";
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -29,13 +29,11 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  pages: {
-    // IMPORTANT: your real login page is /auth/login
-    signIn: "/auth/login",
-  },
+  pages: { signIn: "/auth/login" },
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-export async function auth() {
+// ✅ Use this in Server Components (App Router) instead of calling getServerSession everywhere
+export function auth() {
   return getServerSession(authOptions);
 }
