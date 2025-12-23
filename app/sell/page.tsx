@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { Card, Input } from "@/components/ui";
@@ -31,6 +31,13 @@ export default async function SellPage() {
             <Input name="price" placeholder="100" inputMode="decimal" required />
           </div>
 
+          {/* MVP REQUIRED FIELDS (defaults) */}
+          <input type="hidden" name="description" value="No description provided yet." />
+          <input type="hidden" name="category" value="General" />
+          <input type="hidden" name="type" value="BUY_NOW" />
+          <input type="hidden" name="location" value="VIC" />
+          <input type="hidden" name="condition" value="Used - Good" />
+
           <button
             type="submit"
             className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:opacity-90"
@@ -39,9 +46,7 @@ export default async function SellPage() {
           </button>
 
           <p className="text-xs text-neutral-600">
-            (This form posts to <code>/api/listings/create</code>. If that route
-            doesn’t exist yet, the button won’t work—but the page should load
-            without crashing.)
+            This form posts to <code>/api/listings/create</code>.
           </p>
         </form>
       </Card>
