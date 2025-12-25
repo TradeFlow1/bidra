@@ -53,8 +53,23 @@ export default async function ListingPage({ params }: { params: { id: string } }
           </div>
         </section>
 
-        <section className="rounded-2xl border bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-bold">Description</h2>
+        {Array.isArray(listing.images) && listing.images.length > 0 && (
+          <section className="rounded-2xl border bg-white p-6 shadow-sm">
+            <h2 className="text-lg font-bold">Photos</h2>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {listing.images.slice(0, 4).map((src: any, idx: number) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={idx}
+                  src={String(src)}
+                  alt={`${listing.title} photo ${idx + 1}`}
+                  className="w-full rounded-xl border object-cover"
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
           <p className="mt-3 whitespace-pre-line text-sm leading-6">
             {listing.description}
           </p>
@@ -72,4 +87,5 @@ export default async function ListingPage({ params }: { params: { id: string } }
     </main>
   );
 }
+
 

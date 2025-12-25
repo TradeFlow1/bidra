@@ -21,7 +21,7 @@ export default function SellNewClient() {
       const category = String(fd.get("category") || "Electronics").trim();
       const condition = String(fd.get("condition") || "Used - Good").trim();
       const location = String(fd.get("location") || "QLD").trim();
-      const priceDollars = Number(fd.get("price") || 0);
+      const priceDollars = Number(fd.get("price") || 0);`r`n    const imageUrlsRaw = String(fd.get("imageUrls") || "").trim();`r`n    const images = imageUrlsRaw ? imageUrlsRaw.split(",").map(s => s.trim()).filter(Boolean) : [];
 
       const price = Math.round(priceDollars * 100);
 
@@ -43,7 +43,7 @@ export default function SellNewClient() {
         condition,
         location,
         price,
-        images: [],
+        images,
         type: "BUY_NOW",
       };
 
@@ -147,7 +147,7 @@ export default function SellNewClient() {
             className="w-full rounded-md border px-3 py-2"
             placeholder="e.g. 120.00"
             required
-          />
+          />`r`n            <div className="mt-3">`r`n              <label className="block text-sm font-medium">Image URLs (comma separated)</label>`r`n              <input name="imageUrls" placeholder="https://... , https://..." className="mt-1 w-full rounded-xl border bg-white px-3 py-2" />`r`n              <p className="mt-1 text-xs opacity-70">MVP: paste image links. Uploads come later.</p>`r`n            </div>
         </div>
       </div>
 
@@ -161,3 +161,4 @@ export default function SellNewClient() {
     </form>
   );
 }
+
