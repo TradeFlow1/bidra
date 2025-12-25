@@ -43,3 +43,17 @@ env.backup
 .env
 .env.*
 !.env.example
+.env*.local
+
+# Local brand pack (do not commit)
+Bidra_Full_Brand_Pack.zip/
+
+
+# Local logs / scratch
+*.log
+*.json
+/scripts/
+reset-admin.js
+check-admin*.js
+db-*.js
+

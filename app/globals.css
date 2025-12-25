@@ -1,12 +1,36 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@config "../tailwind.config.js";
+@import "tailwindcss";
 
-/* Small sane defaults */
-html, body {
-  height: 100%;
+/* Bidra – Brand Guide (Primary Colours)
+   Black: #0B0E11
+   Blue:  #1DA1F2
+*/
+:root {
+  --bidra-black: #0B0E11;
+  --bidra-blue:  #1DA1F2;
+
+  /* Neutral surfaces (not specified in guide, kept minimal/premium) */
+  --bidra-bg:    #F7F8FA;
+  --bidra-card:  #FFFFFF;
+  --bidra-border: rgba(11, 14, 17, 0.12);
 }
+
+html, body { height: 100%; }
 
 body {
   margin: 0;
+  color: var(--bidra-black);
+  background: var(--bidra-bg);
+}
+
+* { border-color: var(--bidra-border); }
+
+/* Brand links */
+a { color: var(--bidra-blue); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Better focus visibility */
+:focus-visible {
+  outline: 3px solid rgba(29,161,242,.45);
+  outline-offset: 2px;
 }

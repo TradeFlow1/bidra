@@ -14,7 +14,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <Providers>
           <SiteHeader />
-          <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
+          <div className="mx-auto max-w-5xl px-4 py-8">
+            <div className="rounded-2xl border bg-white p-6 shadow-sm">
+              {children}
+            </div>
+          </div>
         </Providers>
       </body>
     </html>

@@ -1,0 +1,18 @@
+﻿"use client";
+
+import { useEffect } from "react";
+import { signOut } from "next-auth/react";
+
+export default function LogoutPage() {
+  useEffect(() => {
+    signOut({ callbackUrl: "/" });
+  }, []);
+
+  return (
+    <main className="py-10">
+      <div className="rounded-xl border bg-white p-4">
+        Signing you out…
+      </div>
+    </main>
+  );
+}

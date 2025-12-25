@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -23,9 +23,18 @@ export default function Login() {
             const email = String(fd.get("email") ?? "");
             const password = String(fd.get("password") ?? "");
 
-            const res = await signIn("credentials", { email, password, redirect: false, callbackUrl: "/" });
-            if (res?.error) setError("Invalid email or password.");
-            else window.location.href = res?.url || "/";
+            const res = await signIn("credentials", {
+              email,
+              password,
+              redirect: false,
+              callbackUrl: "/",
+            });
+
+            console.log("signIn result:", res);
+
+            if (!res) setError("No response from auth.");
+            else if (res.error) setError(res.error);
+            else window.location.href = res.url || "/";
           }}
         >
           <label className="text-sm">Email</label>
@@ -34,10 +43,10 @@ export default function Login() {
           <Input name="password" type="password" required />
           <Button type="submit" className="bg-black text-white border-black hover:opacity-90">Log in</Button>
 
-          {error ? <div className="text-sm text-red-700">{error}</div> : null}
+          {error ? <div className="text-sm text-red-700 break-words">{error}</div> : null}
 
           <div className="text-sm text-neutral-700">
-            DonÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢t have an account? <Link href="/auth/register" className="hover:underline">Create one</Link>.
+            Don&apos;t have an account? <Link href="/auth/register" className="hover:underline">Create one</Link>.
           </div>
         </form>
       </Card>

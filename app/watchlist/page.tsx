@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -39,7 +39,7 @@ export default async function WatchlistPage() {
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-2xl font-bold">Watchlist</h1>
-          <p className="mt-1 text-sm text-neutral-700">Quick access to listings youÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢re tracking.</p>
+          <p className="mt-1 text-sm text-neutral-700">Quick access to listings you're tracking.</p>
         </div>
         <Link href="/listings" className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50">Browse</Link>
       </div>
@@ -48,7 +48,7 @@ export default async function WatchlistPage() {
         {items.map(w => (
           <Card key={w.id} className="flex items-center justify-between gap-3">
             <div>
-              <div className="text-sm text-neutral-600">{w.listing.category} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ {w.listing.location}</div>
+              <div className="text-sm text-neutral-600">{w.listing.category} • {w.listing.location}</div>
               <Link className="font-semibold hover:underline" href={"/listing/" + w.listingId}>{w.listing.title}</Link>
               <div className="mt-1 text-sm font-bold">${(w.listing.price/100).toFixed(2)} AUD</div>
             </div>
@@ -64,3 +64,4 @@ export default async function WatchlistPage() {
     </div>
   );
 }
+
