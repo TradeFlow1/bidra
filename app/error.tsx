@@ -1,20 +1,40 @@
-"use client";
+﻿"use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 
-export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
-  useEffect(() => { console.error(error); }, [error]);
+export default function GlobalError({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
 
   return (
-    <html>
+    <html lang="en">
       <body>
-        <div style={{ padding: 24, fontFamily: "system-ui" }}>
-          <h1 style={{ fontSize: 22, fontWeight: 700 }}>Something went wrong</h1>
-          <p style={{ marginTop: 8, color: "#444" }}>An unexpected error occurred. You can try again.</p>
-          <button onClick={() => reset()} style={{ marginTop: 12, padding: "8px 12px", border: "1px solid #111", borderRadius: 8 }}>
-            Try again
-          </button>
-        </div>
+        <main className="mx-auto max-w-3xl px-4 py-10">
+          <h1 className="text-2xl font-semibold">Something went wrong</h1>
+          <p className="mt-2 text-sm opacity-80">
+            Try again. If it keeps happening, it’s likely a temporary server issue.
+          </p>
+
+          <div className="mt-6 flex gap-3">
+            <button
+              onClick={() => reset()}
+              className="rounded-xl bg-black px-4 py-2 text-white"
+            >
+              Try again
+            </button>
+            <Link href="/" className="rounded-xl border bg-white px-4 py-2">
+              Go home
+            </Link>
+          </div>
+        </main>
       </body>
     </html>
   );

@@ -2,14 +2,20 @@
 
 export default function NotFound() {
   return (
-    <div className="py-10">
-      <h1 className="text-2xl font-bold">Page not found</h1>
-      <p className="mt-2 text-sm text-neutral-600">
+    <main className="py-10">
+      <h1 className="text-2xl font-semibold">Page not found</h1>
+      <p className="mt-2 text-sm opacity-80">
         The page you’re looking for doesn’t exist.
       </p>
-      <Link className="mt-4 inline-block underline" href="/">
-        Go back home
-      </Link>
-    </div>
+
+      <div className="mt-6 flex gap-3">
+        <Link href="/" className="rounded-xl bg-black px-4 py-2 text-white">
+          Go home
+        </Link>
+        <Link href="/listings" className="rounded-xl border bg-white px-4 py-2">
+          Browse listings
+        </Link>
+      </div>
+    </main>
   );
 }
