@@ -43,7 +43,13 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
-    async jwt({ token, user }) {
+    async redirect({ url, baseUrl }) {
+      // Dev safety: prevent leaking to old Vercel callback URLs
+      if (url && url.startsWith('/')) return baseUrl + url;
+      if (url && url.startsWith(baseUrl)) return url;
+      return baseUrl;
+    },
+async jwt({ token, user }) {
       if (user) {
         token.id = (user as any).id;
         (token as any).role = (user as any).role;

@@ -19,6 +19,17 @@ export async function POST(req: Request) {
 
   const session = await auth();
   const user = session?.user as any;
+
+  // Policy block enforcement
+  const dbUser = await prisma.user.findUnique({
+    where: { id: user?.id },
+    select: { policyBlockedUntil: true },
+  });
+
+  const blockedUntil = dbUser?.policyBlockedUntil ? new Date(dbUser.policyBlockedUntil) : null;
+  if (blockedUntil && blockedUntil.getTime() > Date.now()) {
+    return NextResponse.json({ ok: false, error: "Account temporarily restricted due to policy enforcement." }, { status: 403 });
+  }
   if (!user) return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
   // Feedback enforcement (hard gate): if you have overdue feedback (14+ days), you cannot bid
   const nowGate = new Date();

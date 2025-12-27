@@ -82,6 +82,9 @@ export default function SellNewClient() {
         <div className="mt-4 rounded-md border border-red-300 bg-red-50 p-3 text-sm">
           <div className="font-semibold">Fix this first:</div>
           <div className="mt-1">{error}</div>
+          <div className="mt-2">
+            <a href="/account/restrictions" className="underline font-semibold">View restriction details</a>
+          </div>
         </div>
       ) : null}
 
