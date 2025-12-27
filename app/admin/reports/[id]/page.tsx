@@ -20,7 +20,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
       createdAt: true,
       reporterId: true,
       listingId: true,
-      listing: { select: { id: true, title: true } },
+      listing: { select: { id: true, title: true, status: true } },
     },
   });
 
@@ -32,6 +32,10 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
       </div>
     );
   }
+
+  const listingStatus = report.listing?.status || "UNKNOWN";
+  const canSuspend = listingStatus !== "SUSPENDED";
+  const canUnsuspend = listingStatus === "SUSPENDED";
 
   return (
     <div className="flex flex-col gap-3">
@@ -50,6 +54,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
           <div className="flex gap-2 flex-wrap">
             <Badge>{report.resolved ? "RESOLVED" : "OPEN"}</Badge>
             <Badge>{report.reason}</Badge>
+            <Badge>{`LISTING: ${listingStatus}`}</Badge>
           </div>
 
           <div className="text-sm">
@@ -71,13 +76,33 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
             </div>
           </div>
 
-          <form action="/api/admin/reports/resolve" method="post" className="flex gap-2">
-            <input type="hidden" name="id" value={report.id} />
-            <input type="hidden" name="resolved" value={report.resolved ? "false" : "true"} />
-            <Button type="submit">
-              {report.resolved ? "Mark as Open" : "Mark as Resolved"}
-            </Button>
-          </form>
+          <div className="flex flex-wrap gap-2">
+            <form action="/api/admin/reports/resolve" method="post">
+              <input type="hidden" name="id" value={report.id} />
+              <input type="hidden" name="resolved" value={report.resolved ? "false" : "true"} />
+              <Button type="submit">
+                {report.resolved ? "Mark as Open" : "Mark as Resolved"}
+              </Button>
+            </form>
+
+            <form action="/api/admin/listings/set-status" method="post">
+              <input type="hidden" name="listingId" value={report.listingId} />
+              <input type="hidden" name="status" value="SUSPENDED" />
+              <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
+              <Button type="submit" disabled={!canSuspend}>
+                Suspend listing
+              </Button>
+            </form>
+
+            <form action="/api/admin/listings/set-status" method="post">
+              <input type="hidden" name="listingId" value={report.listingId} />
+              <input type="hidden" name="status" value="ACTIVE" />
+              <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
+              <Button type="submit" disabled={!canUnsuspend}>
+                Unsuspend listing
+              </Button>
+            </form>
+          </div>
         </div>
       </Card>
     </div>
