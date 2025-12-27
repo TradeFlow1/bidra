@@ -35,35 +35,30 @@ export default async function AdminReports() {
   return (
     <div className="flex flex-col gap-3">
       <h1 className="text-2xl font-bold">Reports</h1>
+
       <div className="grid gap-3">
         {reports.map((r: AdminReportRow) => (
           <Card key={r.id}>
             <div className="flex items-start justify-between gap-3">
               <div>
                 <div className="text-sm text-neutral-600">
-                  Report • {new Date(r.createdAt).toLocaleString("en-AU")}
+                  Report {" • "} {new Date(r.createdAt).toLocaleString("en-AU")}
                 </div>
 
                 <div className="mt-1 font-semibold">
-                  {r.listing?.title ? (
-                    <Link className="hover:underline" href={"/listings/" + r.listingId}>
-                      {r.listing.title}
-                    </Link>
-                  ) : (
-                    <Link className="hover:underline" href={"/listings/" + r.listingId}>
-                      Listing {r.listingId}
-                    </Link>
-                  )}
+                  <Link className="hover:underline" href={"/admin/reports/" + r.id}>
+                    {r.listing?.title ? r.listing.title : `Listing ${r.listingId}`}
+                  </Link>
                 </div>
 
                 <div className="mt-2 flex gap-2 flex-wrap">
-                  <Badge>{(r.resolved ? "RESOLVED" : "OPEN")}</Badge>
+                  <Badge>{r.resolved ? "RESOLVED" : "OPEN"}</Badge>
                   <Badge>{r.reason}</Badge>
                 </div>
               </div>
 
               <div className="text-xs text-neutral-600">
-                <Link className="hover:underline" href={"/admin/reports"}>
+                <Link className="hover:underline" href={"/admin/reports/" + r.id}>
                   View
                 </Link>
               </div>
