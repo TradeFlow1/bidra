@@ -9,6 +9,7 @@ export default function SiteHeader() {
   const pathname = usePathname();
   const { data, status } = useSession();
   const isAuthed = status === "authenticated";
+  const isAdmin = (data?.user as any)?.role === "ADMIN";
 
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -200,6 +201,18 @@ export default function SiteHeader() {
                   <Link href="/dashboard" style={menuItemMuted} onClick={() => setOpen(false)}>Dashboard</Link>
 
                   <div style={divider} />
+
+                  {isAdmin ? (
+                    <>
+                      <div style={{ padding: "10px 12px", fontSize: 12, fontWeight: 900, color: "#666" }}>
+                        Admin Console
+                      </div>
+                      <Link href="/admin/reports" style={menuItem} onClick={() => setOpen(false)}>Reports</Link>
+                      <Link href="/admin/users" style={menuItem} onClick={() => setOpen(false)}>Users</Link>
+                      <Link href="/admin/listings" style={menuItem} onClick={() => setOpen(false)}>Listings</Link>
+                      <div style={divider} />
+                    </>
+                  ) : null}
 
                   <button
                     type="button"

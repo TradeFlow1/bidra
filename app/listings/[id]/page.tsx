@@ -34,7 +34,16 @@ function formatRemaining(ms: number) {
   return `${minutes}m remaining`;
 }
 
-export default async function ListingPage({ params }: { params: { id: string } }) {
+export default async function ListingPage({
+  params,
+  searchParams,
+}: {
+  params: { id: string };
+  searchParams?: { returnTo?: string };
+}) {
+  const returnTo = typeof searchParams?.returnTo === "string" ? searchParams.returnTo : "";
+  const backHref = returnTo && returnTo.startsWith("/") ? returnTo : "/listings";
+
   const listing = await prisma.listing.findUnique({
     where: { id: params.id },
     include: {
@@ -46,7 +55,9 @@ export default async function ListingPage({ params }: { params: { id: string } }
   if (!listing) {
     return (
       <div style={{ display: "grid", gap: 16 }}>
-        <Link href="/listings" style={{ textDecoration: "underline" }}>&lt; Back to listings</Link>
+        <Link href={backHref} style={{ textDecoration: "underline" }}>
+          &lt; Back
+        </Link>
 
         <div style={{ border: "1px solid #e5e7eb", borderRadius: 16, padding: 24 }}>
           <h1 style={{ fontSize: 22, fontWeight: 900 }}>Listing not found</h1>
@@ -64,9 +75,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
   }, 0);
 
   const isAuction = listing.type === "AUCTION";
-  const base = isAuction
-    ? (highestBid > 0 ? highestBid : Number(listing.price ?? 0))
-    : Number(listing.price ?? 0);
+  const base = isAuction ? (highestBid > 0 ? highestBid : Number(listing.price ?? 0)) : Number(listing.price ?? 0);
 
   const minBidCents = (Number(base) || 0) + 1;
 
@@ -81,7 +90,9 @@ export default async function ListingPage({ params }: { params: { id: string } }
   return (
     <div style={{ display: "grid", gap: 20 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        <Link href="/listings" style={{ textDecoration: "underline" }}>&lt; Back</Link>
+        <Link href={backHref} style={{ textDecoration: "underline" }}>
+          &lt; Back
+        </Link>
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
           <DeleteListingButton id={listing.id} />
         </div>
@@ -94,7 +105,9 @@ export default async function ListingPage({ params }: { params: { id: string } }
               <h1 style={{ fontSize: 34, fontWeight: 950, margin: 0 }}>{listing.title}</h1>
 
               <div style={{ marginTop: 10, fontSize: 13, opacity: 0.85, display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <span>Seller: <b>{listing.seller?.name ?? "Unknown"}</b></span>
+                <span>
+                  Seller: <b>{listing.seller?.name ?? "Unknown"}</b>
+                </span>
                 <span> - </span>
                 <span>{listing.location ?? "Australia"}</span>
               </div>
@@ -135,18 +148,14 @@ export default async function ListingPage({ params }: { params: { id: string } }
             </div>
 
             <div style={{ border: "1px solid #e5e7eb", borderRadius: 16, padding: 12, minWidth: 200, textAlign: "right" }}>
-              <div style={{ fontSize: 12, opacity: 0.75 }}>
-                {isAuction ? (highestBid > 0 ? "Current bid" : "Starting price") : "Price"}
-              </div>
+              <div style={{ fontSize: 12, opacity: 0.75 }}>{isAuction ? (highestBid > 0 ? "Current bid" : "Starting price") : "Price"}</div>
               <div style={{ marginTop: 6, fontSize: 22, fontWeight: 950 }}>{formatMoney(Number(base) || 0)}</div>
             </div>
           </div>
 
           <div style={{ marginTop: 16 }}>
             <div style={{ fontWeight: 900, fontSize: 13 }}>Description</div>
-            <p style={{ marginTop: 8, whiteSpace: "pre-wrap", opacity: 0.9 }}>
-              {listing.description || "No description provided."}
-            </p>
+            <p style={{ marginTop: 8, whiteSpace: "pre-wrap", opacity: 0.9 }}>{listing.description || "No description provided."}</p>
           </div>
         </div>
 
