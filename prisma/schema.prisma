@@ -8,8 +8,24 @@ datasource db {
 }
 
 model User {
+  policyStrikes      Int       @default(0)
+  policyBlockedUntil DateTime?
+
+  termsAcceptedAt DateTime?
+  termsVersion    String?
+
   id                 String              @id @default(cuid())
   email              String              @unique
+  username           String?             @unique
+  dob                DateTime?
+  country            String?             @default("AU")
+  state              String?
+  suburb             String?
+  postcode           String?
+  phone              String?
+  phoneVerified      Boolean             @default(false)
+  ageVerified        Boolean             @default(false)
+  isActive           Boolean             @default(false)
   passwordHash       String
   emailVerified      Boolean             @default(false)
   role               Role                @default(USER)
@@ -25,6 +41,8 @@ model User {
   reports            Report[]            @relation("ReporterReports")
   verificationTokens VerificationToken[]
   watchlist          Watchlist[]
+  feedbackGiven      Feedback[]          @relation("FeedbackFrom")
+  feedbackReceived   Feedback[]          @relation("FeedbackTo")
 }
 
 model VerificationToken {
@@ -39,6 +57,9 @@ model VerificationToken {
 }
 
 model Listing {
+  reservePrice Int?
+  buyNowPrice  Int?
+
   id          String        @id @default(cuid())
   title       String
   description String
@@ -115,16 +136,21 @@ model Report {
 }
 
 model Order {
-  id              String      @id @default(cuid())
-  amount          Int
-  status          OrderStatus @default(PENDING)
-  stripeSessionId String?
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  buyerId         String
-  listingId       String
-  buyer           User        @relation("BuyerOrders", fields: [buyerId], references: [id])
-  listing         Listing     @relation(fields: [listingId], references: [id])
+  id               String      @id @default(cuid())
+  amount           Int
+  status           OrderStatus @default(PENDING)
+  stripeSessionId  String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  buyerId          String
+  listingId        String
+  buyer            User        @relation("BuyerOrders", fields: [buyerId], references: [id])
+  listing          Listing     @relation(fields: [listingId], references: [id])
+  outcome          SaleOutcome @default(PENDING)
+  buyerFeedbackAt  DateTime?
+  sellerFeedbackAt DateTime?
+  completedAt      DateTime?
+  feedback         Feedback[]
 
   @@index([buyerId])
   @@index([listingId])
@@ -144,6 +170,7 @@ enum Role {
 enum ListingType {
   AUCTION
   BUY_NOW
+  FIXED_PRICE
 }
 
 enum ListingStatus {
@@ -158,4 +185,37 @@ enum OrderStatus {
   PENDING
   PAID
   CANCELLED
+}
+
+model Feedback {
+  id        String       @id @default(cuid())
+  role      FeedbackRole
+  rating    Int
+  comment   String?
+  createdAt DateTime     @default(now())
+
+  orderId    String
+  fromUserId String
+  toUserId   String
+
+  order    Order @relation(fields: [orderId], references: [id])
+  fromUser User  @relation("FeedbackFrom", fields: [fromUserId], references: [id])
+  toUser   User  @relation("FeedbackTo", fields: [toUserId], references: [id])
+
+  @@unique([orderId, fromUserId])
+  @@index([orderId])
+  @@index([fromUserId])
+  @@index([toUserId])
+}
+
+enum FeedbackRole {
+  BUYER
+  SELLER
+}
+
+enum SaleOutcome {
+  PENDING
+  COMPLETED
+  CANCELLED
+  DISPUTED
 }

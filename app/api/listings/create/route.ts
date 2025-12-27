@@ -1,102 +1,197 @@
-﻿import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { getFeedbackGate } from "@/lib/feedback-gate";
 
-type CreateListingBody = {
-  title?: string;
-  description?: string;
-  category?: string;
-  type?: string;
-  location?: string;
-  condition?: string;
-  price?: number; // cents
-  images?: string[];
-  endsAt?: string | null;
-};
+type ListingTypeIn = "AUCTION" | "BUY_NOW" | "FIXED_PRICE";
+
+function isAllowedType(t: any): t is ListingTypeIn {
+  return t === "AUCTION" || t === "BUY_NOW" || t === "FIXED_PRICE";
+}
+
+function toIntOrNull(v: any): number | null {
+  if (v === null || v === undefined || v === "") return null;
+  const n = Number(v);
+  if (!Number.isFinite(n)) return NaN;
+  return Math.trunc(n);
+}
+
+// Very lightweight policy layer (server-side). This is not perfect, but it’s enforceable and strike-backed.
+const PROHIBITED_KEYWORDS = [
+  // Live animals
+  "kitten","puppy","dog","cat","rabbit","bird","snake","reptile","horse","livestock","animal","pet",
+  "pup","kittens","puppies",
+  // Weapons / restricted
+  "gun","firearm","ammo","ammunition","rifle","pistol","shotgun","silencer",
+  "switchblade","brass knuckles",
+  // Drugs / controlled
+  "cocaine","meth","ice","heroin","mdma","ecstasy","weed","marijuana","thc","vape thc"
+];
+
+function textLooksProhibited(text: string) {
+  const t = (text || "").toLowerCase();
+  return PROHIBITED_KEYWORDS.some((k) => t.includes(k));
+}
+
+async function applyStrike(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { policyStrikes: true, policyBlockedUntil: true },
+  });
+
+  const strikes = (user?.policyStrikes ?? 0) + 1;
+
+  // Block ladder
+  // 3 strikes -> 24 hours, 5 strikes -> 7 days
+  let blockedUntil: Date | null = user?.policyBlockedUntil ?? null;
+  const now = new Date();
+
+  if (strikes >= 5) blockedUntil = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  else if (strikes >= 3) blockedUntil = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: {
+      policyStrikes: strikes,
+      policyBlockedUntil: blockedUntil,
+    },
+  });
+
+  return { strikes, blockedUntil };
+}
 
 export async function POST(req: Request) {
   try {
-    const session = await auth();
-    const user = session?.user as any;
-
-    if (!user?.id) {
-      return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    const contentType = (req.headers.get("content-type") || "").toLowerCase();
-    const accept = (req.headers.get("accept") || "").toLowerCase();
+    // If currently blocked
+    const me = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { policyBlockedUntil: true },
+    });
 
-    let title = "";
-    let description = "";
-    let category = "";
-    let type = "BUY_NOW";
-    let location = "";
-    let condition = "Used - Good";
-    let price = 0; // cents
-
-    if (contentType.includes("application/json")) {
-      const body = (await req.json()) as CreateListingBody;
-
-      title = String(body.title ?? "").trim();
-      description = String(body.description ?? "").trim();
-      category = String(body.category ?? "").trim();
-      type = String(body.type ?? "BUY_NOW").trim();
-      location = String(body.location ?? "").trim();
-      condition = String(body.condition ?? "Used - Good").trim();
-
-      price = Math.max(0, Math.round(Number(body.price ?? 0)));
-    } else {
-      const formData = await req.formData();
-
-      title = String(formData.get("title") ?? "").trim();
-      description = String(formData.get("description") ?? "").trim();
-      category = String(formData.get("category") ?? "").trim();
-      type = String(formData.get("type") ?? "BUY_NOW").trim();
-      location = String(formData.get("location") ?? "").trim();
-      condition = String(formData.get("condition") ?? "Used - Good").trim();
-
-      const priceDollars = Number(formData.get("price") ?? "0");
-      price = Math.max(0, Math.round(priceDollars * 100));
+    if (me?.policyBlockedUntil && me.policyBlockedUntil.getTime() > Date.now()) {
+      return NextResponse.json(
+        { error: "Account temporarily restricted due to policy violations. Try again later." },
+        { status: 403 }
+      );
     }
 
-    if (!title || !description || !category || !type || !location || !condition || price <= 0) {
-      return NextResponse.json({ ok: false, error: "Missing required fields" }, { status: 400 });
+    // Feedback enforcement (hard gate):
+    // If you have pending feedback older than 48 hours, you cannot create new listings.
+    const gate = await getFeedbackGate(session.user.id, 48);
+
+    if (gate.blocked) {
+      return NextResponse.json(
+        {
+          error: "Feedback required: please submit feedback to continue listing.",
+          code: "FEEDBACK_REQUIRED",
+          pendingCount: gate.pendingCount,
+          orderId: gate.orderId,
+          feedbackUrl: gate.feedbackUrl,
+          graceHours: gate.graceHours,
+        },
+        { status: 403 }
+      );
     }
 
-    let endsAt: Date | null = null;
-    if (type === "AUCTION") {
-      endsAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
+    const body = await req.json().catch(() => ({}));
+
+    const title = String(body.title || "").trim();
+    const description = String(body.description || "").trim();
+    const category = String(body.category || "General").trim();
+    const condition = String(body.condition || "Used").trim();
+    const location = String(body.location || "").trim();
+
+    const typeRaw = body.type;
+    const type: ListingTypeIn = isAllowedType(typeRaw) ? typeRaw : "FIXED_PRICE";
+
+    const price = Number(body.price); // cents
+    const images = Array.isArray(body.images) ? body.images : [];
+
+    const reservePrice = toIntOrNull(body.reservePrice); // cents or null
+    const buyNowPrice = toIntOrNull(body.buyNowPrice);   // cents or null
+
+    // ---- VALIDATION ----
+    if (title.length < 3) return NextResponse.json({ error: "Title must be at least 3 characters." }, { status: 400 });
+    if (!Number.isFinite(price) || price <= 0) return NextResponse.json({ error: "Price must be greater than 0." }, { status: 400 });
+    if (images.length > 10) return NextResponse.json({ error: "Too many images (max 10)." }, { status: 400 });
+
+    if (Number.isNaN(reservePrice) || Number.isNaN(buyNowPrice)) {
+      return NextResponse.json({ error: "Reserve/Buy Now must be a number or blank." }, { status: 400 });
     }
+
+    // ---- POLICY ENFORCEMENT (with strikes) ----
+    const textToCheck = `${title} ${description} ${category}`.toLowerCase();
+    if (textLooksProhibited(textToCheck)) {
+      const strike = await applyStrike(session.user.id);
+      return NextResponse.json(
+        {
+          error: "This item is not permitted to be listed.",
+          policy: { strikes: strike.strikes, blockedUntil: strike.blockedUntil },
+        },
+        { status: 400 }
+      );
+    }
+
+    const isAuction = type === "AUCTION";
+    const isFixed = type === "FIXED_PRICE" || type === "BUY_NOW";
+
+    let reserveToSave: number | null = null;
+    let buyNowToSave: number | null = null;
+
+    if (isAuction) {
+      if (reservePrice !== null) {
+        if (reservePrice <= 0) return NextResponse.json({ error: "Reserve price must be > 0 (or blank)." }, { status: 400 });
+        if (reservePrice < price) return NextResponse.json({ error: "Reserve price must be >= starting price." }, { status: 400 });
+        reserveToSave = reservePrice;
+      }
+
+      if (buyNowPrice !== null) {
+        if (buyNowPrice <= 0) return NextResponse.json({ error: "Buy Now price must be > 0 (or blank)." }, { status: 400 });
+        if (buyNowPrice < price) return NextResponse.json({ error: "Buy Now price must be >= starting price." }, { status: 400 });
+        if (reserveToSave !== null && buyNowPrice < reserveToSave) {
+          return NextResponse.json({ error: "Buy Now price must be >= reserve price." }, { status: 400 });
+        }
+        buyNowToSave = buyNowPrice;
+      }
+    } else if (isFixed) {
+      reserveToSave = null;
+      buyNowToSave = null;
+    }
+
+    // Normalize legacy BUY_NOW to FIXED_PRICE
+    const typeToSave = type === "BUY_NOW" ? "FIXED_PRICE" : type;
+
+    // Default auction duration: 7 days
+    const now = new Date();
+    const endsAtToSave = isAuction ? new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000) : null;
 
     const listing = await prisma.listing.create({
       data: {
+        type: typeToSave,
         title,
         description,
         category,
-        type: type as any,
-        status: "ACTIVE",
         condition,
-        price,
-        images: [],
         location,
-        endsAt,
-        sellerId: user.id,
+        price,
+        images,
+        reservePrice: reserveToSave,
+        buyNowPrice: buyNowToSave,
+        endsAt: endsAtToSave,
+        sellerId: session.user.id,
+        status: "ACTIVE",
       },
-      select: { id: true },
     });
 
-    const isBrowserForm =
-      contentType.includes("application/x-www-form-urlencoded") ||
-      contentType.includes("multipart/form-data") ||
-      accept.includes("text/html");
-
-    if (isBrowserForm) {
-      return NextResponse.redirect(new URL(`/listings/${listing.id}`, req.url));
-    }
-
-    return NextResponse.json({ ok: true, id: listing.id });
-  } catch (err) {
-    console.error("Create listing API error:", err);
-    return NextResponse.json({ ok: false, error: "Failed to create listing" }, { status: 500 });
+    return NextResponse.json({ listing });
+  } catch (e: any) {
+    console.error("Create listing error:", e);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

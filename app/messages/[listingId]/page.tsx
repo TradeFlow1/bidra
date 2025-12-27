@@ -56,9 +56,9 @@ export default async function MessagesPage({ params }: { params: { listingId: st
       <Card className="max-h-[55vh] overflow-auto">
         {messages.length ? (
           <div className="flex flex-col gap-2">
-            {messages.map(m => (
+            {messages.map((m: any) => (
               <div key={m.id} className="text-sm">
-                <span className="text-neutral-500">{new Date(m.createdAt).toLocaleString("en-AU")} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ </span>
+                <span className="text-neutral-500">{new Date(m.createdAt).toLocaleString("en-AU")} • </span>
                 <b>{m.userId === user.id ? "You" : "Other user"}</b>: {m.body}
               </div>
             ))}

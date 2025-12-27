@@ -53,11 +53,11 @@ export default async function MyListingsPage() {
       </div>
 
       <div className="grid gap-3">
-        {listings.map(l => (
+        {listings.map((l: any) => (
           <Card key={l.id} className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div>
-              <div className="text-sm text-neutral-600">{l.category} ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¢ {l.location}</div>
-              <Link className="font-semibold hover:underline" href={"/listing/" + l.id}>{l.title}</Link>
+              <div className="text-sm text-neutral-600">{l.category} • {l.location}</div>
+              <Link className="font-semibold hover:underline" href={"/listings/" + l.id}>{l.title}</Link>
               <div className="mt-2 flex gap-2 flex-wrap">
                 <Badge>{l.type === "AUCTION" ? "Auction" : "Buy now"}</Badge>
                 <Badge>Status: {l.status}</Badge>

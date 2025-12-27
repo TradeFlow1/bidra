@@ -20,7 +20,46 @@ export async function POST(req: Request) {
   const session = await auth();
   const user = session?.user as any;
   if (!user) return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
+  // Feedback enforcement (hard gate): if you have overdue feedback (14+ days), you cannot bid
+  const nowGate = new Date();
+  const cutoff = new Date(nowGate.getTime() - 14 * 24 * 60 * 60 * 1000);
 
+  const overdueAsBuyer = await prisma.order.findFirst({
+    where: {
+      buyerId: user.id,
+      outcome: "PENDING",
+      createdAt: { lt: cutoff },
+      buyerFeedbackAt: null,
+    },
+    select: { id: true },
+  });
+
+  const overdueAsSeller = !overdueAsBuyer
+    ? await prisma.order.findFirst({
+        where: {
+          outcome: "PENDING",
+          createdAt: { lt: cutoff },
+          sellerFeedbackAt: null,
+          listing: { sellerId: user.id },
+        },
+        select: { id: true },
+      })
+    : null;
+
+  const overdue = overdueAsBuyer ?? overdueAsSeller;
+
+  if (overdue) {
+    return NextResponse.json(
+      {
+        error:
+          "Feedback required: you have an overdue sale. Please submit feedback to continue bidding.",
+        code: "FEEDBACK_REQUIRED",
+        orderId: overdue.id,
+        feedbackUrl: `/orders/${overdue.id}/feedback`,
+      },
+      { status: 403 }
+    );
+  }
   const { listingId, amount } = await req.json().catch(() => ({}));
   const id = String(listingId ?? "");
   const bidAmount = Number(amount);
@@ -57,7 +96,7 @@ export async function POST(req: Request) {
     }
   }
 
-  await prisma.$transaction(async (tx) => {
+  await prisma.$transaction(async (tx: any) => {
     await tx.bid.create({
       data: { listingId: id, bidderId: user.id, amount: cents }
     });

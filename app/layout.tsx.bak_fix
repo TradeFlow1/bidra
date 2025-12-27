@@ -1,0 +1,79 @@
+import "./globals.css";
+import Image from "next/image";
+import Link from "next/link";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className="min-h-screen bg-white text-black antialiased">
+        <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
+          <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4">
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/brand/bidra-logo_light.png"
+                alt="Bidra"
+                width={140}
+                height={32}
+                priority
+              />
+            </Link>
+
+            <nav className="flex items-center gap-5 text-sm text-gray-700">
+              <Link href="/listings" className="hover:text-black">Browse</Link>
+              <Link href="/sell" className="hover:text-black">Sell</Link>
+              <Link href="/dashboard" className="hover:text
+$fp = "C:\dev\bidra\app\layout.tsx"
+
+Copy-Item $fp "$fp.bak" -Force
+
+$code = @'
+import "./globals.css";
+import Image from "next/image";
+import Link from "next/link";
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className="min-h-screen bg-white text-black antialiased">
+        <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
+          <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4">
+            <Link href="/" className="flex items-center">
+              <Image
+                src="/brand/bidra-logo_light.png"
+                alt="Bidra"
+                width={140}
+                height={32}
+                priority
+              />
+            </Link>
+
+            <nav className="flex items-center gap-5 text-sm text-gray-700">
+              <Link href="/listings" className="hover:text-black">Browse</Link>
+              <Link href="/sell" className="hover:text-black">Sell</Link>
+              <Link href="/dashboard" className="hover:text-black">Dashboard</Link>
+              <Link href="/auth/login" className="hover:text-black">Sign in</Link>
+              <Link
+                href="/auth/register"
+                className="rounded-xl bg-blue-600 px-4 py-2 font-semibold text-white shadow-sm hover:opacity-90"
+              >
+                Get started
+              </Link>
+            </nav>
+          </div>
+        </header>
+
+        <main className="mx-auto w-full max-w-6xl px-4 py-8">
+          {children}
+        </main>
+      </body>
+    </html>
+  );
+}

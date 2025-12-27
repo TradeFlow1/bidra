@@ -23,7 +23,7 @@ export default async function OrdersPage() {
       </div>
 
       <div className="grid gap-3">
-        {orders.map(o => (
+        {orders.map((o: any) => (
           <Card key={o.id} className="flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div>
               <div className="text-sm text-neutral-600">

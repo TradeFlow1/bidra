@@ -1,0 +1,9 @@
+/**
+ * Tailwind snippet (paste into tailwind.config.(js|ts))
+ * Add to: theme.extend.colors
+ */
+bidra: {
+  blue: "#3B82F6",
+  ink: "#111827",
+  white: "#FFFFFF",
+},

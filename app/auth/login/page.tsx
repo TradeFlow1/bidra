@@ -1,11 +1,14 @@
-﻿"use client";
+"use client";
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Card, Button, Input } from "@/components/ui";
 
 export default function Login() {
+  const router = useRouter();
+  const sp = useSearchParams();
   const [error, setError] = useState<string | null>(null);
 
   return (
@@ -19,6 +22,7 @@ export default function Login() {
           onSubmit={async (e) => {
             e.preventDefault();
             setError(null);
+
             const fd = new FormData(e.currentTarget);
             const email = String(fd.get("email") ?? "");
             const password = String(fd.get("password") ?? "");
@@ -27,26 +31,41 @@ export default function Login() {
               email,
               password,
               redirect: false,
-              callbackUrl: "/",
             });
 
-            console.log("signIn result:", res);
+            if (!res) {
+              setError("No response from auth.");
+              return;
+            }
 
-            if (!res) setError("No response from auth.");
-            else if (res.error) setError(res.error);
-            else window.location.href = res.url || "/";
+            if (res.error) {
+              setError(res.error);
+              return;
+            }
+
+            // FORCE LOCAL RELATIVE REDIRECT (prevents jumping to vercel in dev)
+            const next = sp.get("next");
+            router.push(next && next.startsWith("/") ? next : "/");
+            router.refresh();
           }}
         >
           <label className="text-sm">Email</label>
           <Input name="email" type="email" required />
+
           <label className="text-sm">Password</label>
           <Input name="password" type="password" required />
-          <Button type="submit" className="bg-black text-white border-black hover:opacity-90">Log in</Button>
+
+          <Button type="submit" className="bg-black text-white border-black hover:opacity-90">
+            Log in
+          </Button>
 
           {error ? <div className="text-sm text-red-700 break-words">{error}</div> : null}
 
           <div className="text-sm text-neutral-700">
-            Don&apos;t have an account? <Link href="/auth/register" className="hover:underline">Create one</Link>.
+            Don&apos;t have an account?{" "}
+            <Link href="/auth/register" className="hover:underline">
+              Create one
+            </Link>.
           </div>
         </form>
       </Card>

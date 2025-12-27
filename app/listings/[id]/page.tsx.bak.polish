@@ -1,0 +1,170 @@
+﻿import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import PlaceBidClient from "./place-bid-client";
+import DeleteListingButton from "./delete-listing-button";
+
+export const dynamic = "force-dynamic";
+
+function formatMoney(cents: number) {
+  const dollars = (cents || 0) / 100;
+  return dollars.toLocaleString("en-AU", { style: "currency", currency: "AUD" });
+}
+
+export default async function ListingPage({ params }: { params: { id: string } }) {
+  const listing = await prisma.listing.findUnique({
+    where: { id: params.id },
+    include: {
+      seller: true,
+      bids: { orderBy: { createdAt: "desc" }, take: 20, include: { bidder: true } },
+    },
+  });
+
+  if (!listing) {
+    return (
+      <div className="space-y-4">
+        <Link href="/listings" className="text-sm text-[var(--bidra-link)] hover:underline">
+          ← Back to listings
+        </Link>
+
+        <div className="rounded-2xl border border-[var(--bidra-border)] bg-[var(--bidra-card)] p-8">
+          <h1 className="text-xl font-bold text-[var(--bidra-fg)]">Listing not found</h1>
+          <p className="mt-2 text-sm text-[var(--bidra-muted)]">
+            This item may have been removed or the link is incorrect.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const base = listing.currentBid ?? listing.price;
+  const minBidCents = (base ?? 0) + 1;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between gap-4">
+        <Link href="/listings" className="text-sm text-[var(--bidra-link)] hover:underline">
+          ← Back
+        </Link>
+
+        <DeleteListingButton listingId={listing.id} />
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        {/* Left: main details */}
+        <section className="space-y-6 lg:col-span-2">
+          <div className="rounded-2xl border border-[var(--bidra-border)] bg-[var(--bidra-card)] p-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div className="min-w-0">
+                <h1 className="truncate text-3xl font-extrabold text-[var(--bidra-fg)]">
+                  {listing.title}
+                </h1>
+
+                <p className="mt-2 text-sm text-[var(--bidra-muted)]">
+                  Seller:{" "}
+                  <span className="font-semibold text-[var(--bidra-fg)]">
+                    {listing.seller?.name ?? "Unknown"}
+                  </span>
+                </p>
+              </div>
+
+              <div className="shrink-0 rounded-2xl border border-[var(--bidra-border)] bg-[var(--bidra-bg)] p-4 text-right">
+                <p className="text-xs text-[var(--bidra-muted)]">
+                  {listing.currentBid ? "Current bid" : "Starting price"}
+                </p>
+                <p className="mt-1 text-2xl font-extrabold text-[var(--bidra-fg)]">
+                  {formatMoney(base ?? 0)}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-2">
+              {listing.category ? (
+                <span className="rounded-full border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-3 py-1 text-xs text-[var(--bidra-muted)]">
+                  {listing.category}
+                </span>
+              ) : null}
+
+              {listing.condition ? (
+                <span className="rounded-full border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-3 py-1 text-xs text-[var(--bidra-muted)]">
+                  {listing.condition}
+                </span>
+              ) : null}
+
+              {listing.location ? (
+                <span className="rounded-full border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-3 py-1 text-xs text-[var(--bidra-muted)]">
+                  {listing.location}
+                </span>
+              ) : null}
+            </div>
+
+            <div className="mt-6">
+              <h2 className="text-sm font-bold text-[var(--bidra-fg)]">Description</h2>
+              <p className="mt-2 whitespace-pre-wrap text-sm text-[var(--bidra-muted)]">
+                {listing.description || "No description provided."}
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-[var(--bidra-border)] bg-[var(--bidra-card)] p-6">
+            <h2 className="text-lg font-bold text-[var(--bidra-fg)]">Bid history</h2>
+
+            {listing.bids.length === 0 ? (
+              <p className="mt-2 text-sm text-[var(--bidra-muted)]">No bids yet.</p>
+            ) : (
+              <div className="mt-4 space-y-2">
+                {listing.bids.map((b) => (
+                  <div
+                    key={b.id}
+                    className="flex items-center justify-between rounded-xl border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-4 py-3"
+                  >
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-semibold text-[var(--bidra-fg)]">
+                        {b.bidder?.name ?? "Bidder"}
+                      </p>
+                      <p className="text-xs text-[var(--bidra-muted)]">
+                        {new Date(b.createdAt).toLocaleString("en-AU")}
+                      </p>
+                    </div>
+
+                    <p className="text-sm font-extrabold text-[var(--bidra-fg)]">
+                      {formatMoney(b.amount)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Right: bidding box */}
+        <aside className="space-y-6">
+          <div className="rounded-2xl border border-[var(--bidra-border)] bg-[var(--bidra-card)] p-6">
+            <h2 className="text-lg font-bold text-[var(--bidra-fg)]">Place a bid</h2>
+
+            <p className="mt-2 text-sm text-[var(--bidra-muted)]">
+              Minimum bid:{" "}
+              <span className="font-semibold text-[var(--bidra-fg)]">
+                {formatMoney(minBidCents)}
+              </span>
+            </p>
+
+            <div className="mt-4">
+              <PlaceBidClient listingId={listing.id} minBidCents={minBidCents} />
+            </div>
+
+            <p className="mt-3 text-xs text-[var(--bidra-muted)]">
+              Anti-sniping extends auction time when bids are placed near the end (MVP placeholder).
+            </p>
+          </div>
+
+          <div className="rounded-2xl border border-[var(--bidra-border)] bg-[var(--bidra-bg)] p-5">
+            <p className="text-sm font-semibold text-[var(--bidra-fg)]">Safety tip</p>
+            <p className="mt-2 text-sm text-[var(--bidra-muted)]">
+              Meet in a public place and verify the item before paying.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}

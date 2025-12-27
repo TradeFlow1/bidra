@@ -8,31 +8,109 @@ function baseUrl() {
   return process.env.NEXTAUTH_URL || "http://localhost:3000";
 }
 
+function isAtLeast18(dob: Date) {
+  const now = new Date();
+  const cutoff = new Date(now.getFullYear() - 18, now.getMonth(), now.getDate());
+  return dob <= cutoff;
+}
+
+// Version label for the verbatim Legal Pack you host at /legal
+const LEGAL_VERSION = "AU-18PLUS-LEGALPACK-2025-12-26";
+
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for") ?? "unknown";
   if (!rateLimit(`auth:register:${ip}`, 10, 60_000)) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429 });
   }
 
-  const { email, password } = await req.json().catch(() => ({}));
-  const emailNorm = String(email ?? "").trim().toLowerCase();
-  const passwordStr = String(password ?? "");
+  const body = await req.json().catch(() => ({}));
+
+  // ✅ Legal acceptance (required)
+  const termsAccepted = Boolean(body?.termsAccepted);
+  if (!termsAccepted) {
+    return NextResponse.json(
+      { error: "You must accept the Terms and confirm you are 18+ to create an account." },
+      { status: 400 }
+    );
+  }
+
+  const emailNorm = String(body?.email ?? "").trim().toLowerCase();
+  const passwordStr = String(body?.password ?? "");
+
+  const username = String(body?.username ?? "").trim();
+  const dobStr = String(body?.dob ?? "").trim(); // YYYY-MM-DD
+  const country = String(body?.country ?? "AU").trim() || "AU";
+
+  const postcode = String(body?.postcode ?? "").trim();
+  const suburb = String(body?.suburb ?? "").trim();
+  const state = String(body?.state ?? "").trim();
 
   if (!emailNorm.includes("@") || passwordStr.length < 8) {
     return NextResponse.json({ error: "Invalid email or password" }, { status: 400 });
   }
 
-  const exists = await prisma.user.findUnique({ where: { email: emailNorm } });
-  if (exists) return NextResponse.json({ error: "Email already registered" }, { status: 409 });
+  // Fix encoding issue: use plain hyphen
+  if (username.length < 3 || username.length > 24) {
+    return NextResponse.json({ error: "Username must be 3-24 characters" }, { status: 400 });
+  }
+  if (!/^[a-zA-Z0-9_\.]+$/.test(username)) {
+    return NextResponse.json({ error: "Username may contain letters, numbers, underscore, dot" }, { status: 400 });
+  }
+
+  const dob = new Date(dobStr);
+  if (!dobStr || Number.isNaN(dob.getTime())) {
+    return NextResponse.json({ error: "Date of birth required" }, { status: 400 });
+  }
+  if (!isAtLeast18(dob)) {
+    return NextResponse.json({ error: "Bidra accounts are 18+ only" }, { status: 403 });
+  }
+
+  const hasPostcode = postcode.length > 0;
+  const hasSuburbState = suburb.length > 0 && state.length > 0;
+  if (!hasPostcode && !hasSuburbState) {
+    return NextResponse.json({ error: "Provide postcode OR suburb + state" }, { status: 400 });
+  }
+
+  const existsEmail = await prisma.user.findUnique({ where: { email: emailNorm } });
+  if (existsEmail) return NextResponse.json({ error: "Email already registered" }, { status: 409 });
+
+  const existsUsername = await prisma.user.findUnique({ where: { username } });
+  if (existsUsername) return NextResponse.json({ error: "Username already taken" }, { status: 409 });
 
   const hash = await bcrypt.hash(passwordStr, 10);
 
+  const locationText =
+    hasPostcode ? `${state || "AU"} ${postcode}` : `${suburb}${state ? ", " + state : ""}`;
+
   const user = await prisma.user.create({
-    data: { email: emailNorm, passwordHash: hash, role: "USER", emailVerified: false }
+    data: {
+      email: emailNorm,
+      passwordHash: hash,
+      role: "USER",
+      emailVerified: false,
+
+      username,
+      name: username,
+      dob,
+      country,
+      suburb: suburb || null,
+      state: state || null,
+      postcode: postcode || null,
+      location: locationText || null,
+
+      // ✅ store legal acceptance proof
+      termsAcceptedAt: new Date(),
+      termsVersion: LEGAL_VERSION,
+
+      // Locked activation policy
+      ageVerified: true,
+      phoneVerified: false,
+      isActive: false
+    }
   });
 
   const token = crypto.randomBytes(24).toString("hex");
-  const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24h
+  const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24);
   await prisma.verificationToken.create({
     data: { userId: user.id, token, expiresAt }
   });

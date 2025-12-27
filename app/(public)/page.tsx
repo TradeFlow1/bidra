@@ -1,68 +1,42 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import Link from "next/link";
-import { Card } from "@/components/ui";
 
 export default function HomePage() {
   return (
-    <div className="mx-auto max-w-5xl px-4 py-10 space-y-10">
-      {/* Hero */}
-      <section className="space-y-4">
-        <h1 className="text-3xl font-bold tracking-tight">
-          Buy, sell, and bid - built for Australia.
-        </h1>
+    <main style={{ maxWidth: 960, margin: "0 auto", padding: 24, fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial" }}>
+      <section style={{ marginTop: 18 }}>
+        <h1 style={{ margin: 0, fontSize: 34, lineHeight: 1.15 }}>Bidra (SEQ Beta)</h1>
 
-        <p className="mt-3 text-neutral-700">
-          Bidra is a modern marketplace with auctions and buy-now listings.
-          Watch favourites, message sellers, and complete purchases via secure
-          checkout (Stripe test mode in MVP).
+        <p style={{ marginTop: 10, marginBottom: 0, opacity: 0.8 }}>
+          Local buy/sell & auctions for the South East Queensland corridor (Toowoomba -&gt; Sunshine Coast -&gt; Coolangatta).
         </p>
 
-        <div className="flex gap-3 pt-4">
-          <Link
-            href="/listings"
-            className="rounded-md bg-black text-white px-4 py-2 text-sm font-medium hover:opacity-90"
-          >
-            Browse listings
-          </Link>
-
-          <Link
-            href="/sell"
-            className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50"
-          >
-            Create a listing
-          </Link>
-        </div>
+        <p style={{ marginTop: 10, marginBottom: 0, opacity: 0.8 }}>
+          Need help? Visit <Link href="/help">Help</Link>.
+        </p>
       </section>
 
-      {/* Features */}
-      <section className="grid gap-4 md:grid-cols-2">
-        <Card className="p-4">
-          <h3 className="font-semibold">Auctions with anti-sniping</h3>
-          <p className="mt-1 text-sm text-neutral-700">
-            Bids placed near the end extend the timer to keep things fair.
-          </p>
-        </Card>
-
-        <Card className="p-4">
-          <h3 className="font-semibold">Watchlist and messaging</h3>
-          <p className="mt-1 text-sm text-neutral-700">
-            Track listings you care about and chat directly with buyers and sellers.
-          </p>
-        </Card>
-
-        <Card className="p-4">
-          <h3 className="font-semibold">Moderation-ready</h3>
-          <p className="mt-1 text-sm text-neutral-700">
-            Reporting tools and an admin dashboard help keep the marketplace trustworthy.
-          </p>
-        </Card>
-
-        <Card className="p-4">
-          <h3 className="font-semibold">Australian focused</h3>
-          <p className="mt-1 text-sm text-neutral-700">
-            Categories, locations, and flows designed specifically for Australia.
-          </p>
-        </Card>
+      <section style={{ marginTop: 24 }}>
+        <h2 style={{ marginBottom: 10 }}>Popular categories (Beta)</h2>
+        <ul style={{ lineHeight: 1.7 }}>
+          <li><Link href="/listings?category=Home%20%26%20Furniture">Home & Furniture</Link></li>
+          <li><Link href="/listings?category=Tech%20%26%20Electronics">Tech & Electronics</Link></li>
+          <li><Link href="/listings?category=Fashion%20%26%20Wearables">Fashion & Wearables</Link></li>
+          <li><Link href="/listings?category=Sports%20%26%20Outdoors">Sports & Outdoors</Link></li>
+          <li><Link href="/listings?category=Kids%20%26%20Toys">Kids & Toys</Link></li>
+          <li><Link href="/listings?category=Appliances">Appliances</Link></li>
+          <li><Link href="/listings?category=Tools%20%26%20DIY">Tools & DIY</Link></li>
+          <li><Link href="/listings?category=Books%20%26%20Media">Books & Media</Link></li>
+          <li><Link href="/listings?category=Collectibles%20%26%20Vintage">Collectibles & Vintage</Link></li>
+          <li><Link href="/listings?category=Seasonal%20Goods">Seasonal Goods</Link></li>
+        </ul>
       </section>
-    </div>
+
+      <footer style={{ marginTop: 40, opacity: 0.7 }}>
+        <p style={{ margin: 0 }}>SEQ beta. Not Australia-wide yet.</p>
+      </footer>
+    </main>
   );
 }

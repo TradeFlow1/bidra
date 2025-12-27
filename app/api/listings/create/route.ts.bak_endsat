@@ -1,0 +1,120 @@
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
+type ListingTypeIn = "AUCTION" | "BUY_NOW" | "FIXED_PRICE";
+
+function isAllowedType(t: any): t is ListingTypeIn {
+  return t === "AUCTION" || t === "BUY_NOW" || t === "FIXED_PRICE";
+}
+
+function toIntOrNull(v: any): number | null {
+  if (v === null || v === undefined) return null;
+  const n = Number(v);
+  if (!Number.isFinite(n)) return NaN;
+  return Math.trunc(n);
+}
+
+export async function POST(req: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    }
+
+    const body = await req.json();
+
+    const title = String(body.title || "").trim();
+    const description = String(body.description || "").trim();
+    const category = String(body.category || "General").trim();
+    const condition = String(body.condition || "Used").trim();
+    const location = String(body.location || "").trim();
+
+    const typeRaw = body.type;
+    const type: ListingTypeIn = isAllowedType(typeRaw) ? typeRaw : "FIXED_PRICE";
+
+    const price = Number(body.price); // cents
+    const images = Array.isArray(body.images) ? body.images : [];
+
+    const reservePrice = toIntOrNull(body.reservePrice); // cents or null
+    const buyNowPrice = toIntOrNull(body.buyNowPrice);   // cents or null
+
+    // ---- SERVER-SIDE VALIDATION ----
+    if (title.length < 3) {
+      return NextResponse.json({ error: "Title must be at least 3 characters." }, { status: 400 });
+    }
+
+    if (!Number.isFinite(price) || price <= 0) {
+      return NextResponse.json({ error: "Price must be greater than 0." }, { status: 400 });
+    }
+
+    if (images.length > 10) {
+      return NextResponse.json({ error: "Too many images (max 10)." }, { status: 400 });
+    }
+
+    if (Number.isNaN(reservePrice) || Number.isNaN(buyNowPrice)) {
+      return NextResponse.json({ error: "Reserve/Buy Now must be a number or blank." }, { status: 400 });
+    }
+
+    const isAuction = type === "AUCTION";
+    const isFixed = type === "FIXED_PRICE" || type === "BUY_NOW";
+
+    let reserveToSave: number | null = null;
+    let buyNowToSave: number | null = null;
+
+    if (isAuction) {
+      if (reservePrice !== null) {
+        if (reservePrice <= 0) {
+          return NextResponse.json({ error: "Reserve price must be > 0 (or blank)." }, { status: 400 });
+        }
+        if (reservePrice < price) {
+          return NextResponse.json({ error: "Reserve price must be >= starting price." }, { status: 400 });
+        }
+        reserveToSave = reservePrice;
+      }
+
+      if (buyNowPrice !== null) {
+        if (buyNowPrice <= 0) {
+          return NextResponse.json({ error: "Buy Now price must be > 0 (or blank)." }, { status: 400 });
+        }
+        if (buyNowPrice < price) {
+          return NextResponse.json({ error: "Buy Now price must be >= starting price." }, { status: 400 });
+        }
+        if (reserveToSave !== null && buyNowPrice < reserveToSave) {
+          return NextResponse.json({ error: "Buy Now price must be >= reserve price." }, { status: 400 });
+        }
+        buyNowToSave = buyNowPrice;
+      }
+    } else if (isFixed) {
+      // Fixed price listings: ignore reserve/buyNow fields
+      reserveToSave = null;
+      buyNowToSave = null;
+    }
+
+    // Normalize legacy BUY_NOW to FIXED_PRICE going forward (optional but cleaner)
+    const typeToSave = type === "BUY_NOW" ? "FIXED_PRICE" : type;
+
+    // ---- CREATE LISTING ----
+    const listing = await prisma.listing.create({
+      data: {
+        type: typeToSave,
+        title,
+        description,
+        category,
+        condition,
+        location,
+        price,
+        images,
+        reservePrice: reserveToSave,
+        buyNowPrice: buyNowToSave,
+        sellerId: session.user.id,
+      },
+    });
+
+    return NextResponse.json({ listing });
+  } catch (e: any) {
+    console.error("Create listing error:", e);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
