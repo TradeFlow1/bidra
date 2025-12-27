@@ -20,7 +20,15 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
       createdAt: true,
       reporterId: true,
       listingId: true,
-      listing: { select: { id: true, title: true, status: true } },
+      listing: {
+        select: {
+          id: true,
+          title: true,
+          status: true,
+          sellerId: true,
+          seller: { select: { id: true, policyStrikes: true, policyBlockedUntil: true } },
+        },
+      },
     },
   });
 
@@ -36,6 +44,10 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
   const listingStatus = report.listing?.status || "UNKNOWN";
   const canSuspend = listingStatus !== "SUSPENDED";
   const canUnsuspend = listingStatus === "SUSPENDED";
+
+  const sellerId = report.listing?.sellerId || "";
+  const sellerStrikes = report.listing?.seller?.policyStrikes ?? null;
+  const sellerBlockedUntil = report.listing?.seller?.policyBlockedUntil ?? null;
 
   return (
     <div className="flex flex-col gap-3">
@@ -55,6 +67,10 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
             <Badge>{report.resolved ? "RESOLVED" : "OPEN"}</Badge>
             <Badge>{report.reason}</Badge>
             <Badge>{`LISTING: ${listingStatus}`}</Badge>
+            {sellerStrikes !== null ? <Badge>{`SELLER STRIKES: ${sellerStrikes}`}</Badge> : null}
+            {sellerBlockedUntil ? (
+              <Badge>{`BLOCKED UNTIL: ${new Date(sellerBlockedUntil).toLocaleDateString("en-AU")}`}</Badge>
+            ) : null}
           </div>
 
           <div className="text-sm">
@@ -62,6 +78,11 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
             <Link className="hover:underline" href={"/listings/" + report.listingId}>
               {report.listing?.title ? report.listing.title : report.listingId}
             </Link>
+          </div>
+
+          <div className="text-sm">
+            <div className="font-semibold">Seller ID</div>
+            <div className="text-neutral-700">{sellerId || "(unknown)"}</div>
           </div>
 
           <div className="text-sm">
@@ -102,6 +123,18 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
                 Unsuspend listing
               </Button>
             </form>
+
+            <form action="/api/admin/users/strike" method="post">
+              <input type="hidden" name="userId" value={sellerId} />
+              <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
+              <Button type="submit" disabled={!sellerId}>
+                Add strike to seller
+              </Button>
+            </form>
+          </div>
+
+          <div className="text-xs text-neutral-600">
+            Strike rule: at 3 strikes → auto block 7 days + suspend all ACTIVE listings.
           </div>
         </div>
       </Card>
