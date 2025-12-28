@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -31,7 +31,12 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
-      <h2 className="mt-8 text-xl font-semibold">My listings</h2>
+      <div className="mt-8 flex items-center justify-between gap-4">
+  <h2 className="text-xl font-semibold">My listings</h2>
+  <Link href="/dashboard/listings" className="text-sm font-medium underline underline-offset-4">
+    View all
+  </Link>
+</div>
 
       {myListings.length === 0 ? (
         <p className="mt-3 text-sm opacity-70">
@@ -46,9 +51,14 @@ export default async function DashboardPage() {
                 <div className="mt-1 text-sm opacity-80">
                   ${Number(l.price || 0) / 100}
                 </div>
-                <div className="mt-2 text-xs opacity-70">
-                  Listing ID: {l.id}
-                </div>
+                <div className="mt-2 flex items-center gap-2 text-xs">
+  <span className="rounded-full border px-2 py-0.5 font-semibold">
+    Status: {l.status}
+  </span>
+</div>
+<div className="mt-2 text-xs opacity-70">
+  Listing ID: {l.id}
+</div>
               </Link>
 
               <div className="mt-3 flex items-center gap-2">

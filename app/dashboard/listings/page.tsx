@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -31,7 +31,7 @@ export default async function MyListingsPage() {
     const listing = await prisma.listing.findUnique({ where: { id } });
     if (!listing || listing.sellerId !== u.id) throw new Error("Not allowed");
 
-    const allowed = ["ACTIVE","SUSPENDED","ENDED","SOLD","DRAFT"];
+    const allowed = ["DRAFT","ACTIVE","ENDED"];
     if (!allowed.includes(status)) throw new Error("Invalid status");
 
     await prisma.listing.update({
@@ -67,11 +67,14 @@ export default async function MyListingsPage() {
 
             <form action={updateStatus} className="flex items-center gap-2">
               <input type="hidden" name="id" value={l.id} />
-              <select name="status" defaultValue={l.status} className="rounded-md border px-3 py-2 text-sm">
+              <select name="status" defaultValue={l.status} disabled={l.status === "SUSPENDED" || l.status === "DELETED"} className="rounded-md border px-3 py-2 text-sm">
                 {["DRAFT","ACTIVE","SUSPENDED","ENDED","SOLD"].map(s => <option key={s} value={s}>{s}</option>)}
               </select>
               <Button type="submit">Update</Button>
-            </form>
+            {(l.status === "SUSPENDED" || l.status === "DELETED") ? (
+  <div className="text-xs text-neutral-600">Policy-locked (admin action)</div>
+) : null}
+</form>
           </Card>
         ))}
       </div>

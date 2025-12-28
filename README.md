@@ -58,7 +58,7 @@ Copy the signing secret into:
 ## 3) Deploy to Vercel via GitHub
 
 1. Push this repo to GitHub.
-2. In Vercel: **New Project** â†’ import your GitHub repo.
+2. In Vercel: **New Project** -> import your GitHub repo.
 3. Add env vars in Vercel Project Settings:
    - DATABASE_URL
    - NEXTAUTH_SECRET
@@ -88,4 +88,4 @@ That route settles ended auctions and creates a pending Order for the winning bi
 - Rate limiting: simple in-memory limiter (sufficient for MVP). For multi-region, swap to Redis/Upstash.
 
 ---
-Â© Bidra â€” original implementation
+(c) Bidra — original implementation

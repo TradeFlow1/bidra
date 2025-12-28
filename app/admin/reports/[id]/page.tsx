@@ -1,7 +1,10 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import ConfirmSubmitButton from "@/components/confirm-submit-button";
+import AiRecommendActions from "@/components/ai-recommend-actions";
+import { analyzeReportDeterministic } from "@/lib/ai/analyze";
 
 export default async function AdminReportDetail({ params }: { params: { id: string } }) {
   const session = await auth();
@@ -29,13 +32,30 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
       <div style={{ maxWidth: 900, margin: "0 auto", padding: 16 }}>
         <h1 style={{ fontSize: 28, margin: 0 }}>Report not found</h1>
         <div style={{ marginTop: 10 }}>
-          <Link href="/admin/reports" style={{ color: "#1DA1F2", textDecoration: "none", fontWeight: 800 }}>
-            Back to reports
-          </Link>
+          <Link href="/admin/reports" style={{ color: "#1DA1F2", textDecoration: "none", fontWeight: 800 }}>← Back</Link>
         </div>
       </div>
     );
   }
+
+  // ===== AI Analysis (deterministic stub) =====
+  const listingAny: any = (report as any).listing || null;
+  const listingId = listingAny?.id || (report as any).listingId || null;
+  const sellerIdForAi = listingAny?.sellerId || "";
+
+  const [listingReportCount, sellerReportCount] = await Promise.all([
+    listingId ? prisma.report.count({ where: { listingId } as any }) : Promise.resolve(0),
+    sellerIdForAi ? prisma.report.count({ where: { listing: { sellerId: sellerIdForAi } } as any }) : Promise.resolve(0),
+  ]);
+
+  const ai = analyzeReportDeterministic({
+    reason: (report as any).reason ?? (report as any).type ?? null,
+    details: (report as any).details ?? (report as any).message ?? (report as any).description ?? null,
+    title: listingAny?.title ?? null,
+    description: null,
+    sellerReportCount,
+    listingReportCount,
+  });
 
   // Load seller enforcement state (so admin can strike/block quickly)
   const sellerId = report.listing?.sellerId || "";
@@ -47,152 +67,208 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
     : null;
 
   const listingStatus = report.listing?.status || "UNKNOWN";
-  const canSuspend = listingStatus !== "SUSPENDED";
-  const canUnsuspend = listingStatus === "SUSPENDED";
+  const isResolved = !!report.resolved;
 
-  const pillStyle: React.CSSProperties = {
-    fontSize: 12,
-    fontWeight: 900,
-    border: "1px solid #ddd",
-    borderRadius: 999,
-    padding: "3px 8px",
-    display: "inline-block",
+  const statusLabelMap: Record<string, string> = {
+    DRAFT: "DRAFT (not published)",
+    ACTIVE: "ACTIVE",
+    ENDED: "ENDED",
+    SOLD: "SOLD",
+    SUSPENDED: "SUSPENDED (policy)",
+    DELETED: "DELETED (admin removed)",
+    UNKNOWN: "UNKNOWN",
   };
 
-  const btnStyle = (primary: boolean): React.CSSProperties => ({
-    display: "inline-block",
-    padding: "10px 12px",
-    borderRadius: 10,
-    textDecoration: "none",
-    fontWeight: 900,
-    fontSize: 13,
-    border: "1px solid #ddd",
-    color: primary ? "#111" : "#1DA1F2",
-    background: primary ? "#f3f3f3" : "#fff",
-    cursor: "pointer",
-  });
+  const listingStatusLabel = statusLabelMap[String(listingStatus)] || String(listingStatus);
 
   const returnTo = encodeURIComponent(`/admin/reports/${report.id}`);
-  const listingHref = `/listings/${report.listingId}?returnTo=${returnTo}`;
+  const listingHref = report.listing?.id ? `/listings/${report.listing.id}` : null;
 
-  const blocked = seller?.policyBlockedUntil ? new Date(seller.policyBlockedUntil) : null;
-  const isBlocked = blocked ? blocked.getTime() > Date.now() : false;
+  const blockedUntilMs = seller?.policyBlockedUntil ? new Date(seller.policyBlockedUntil as any).getTime() : null;
+  const isBlocked = blockedUntilMs ? blockedUntilMs > Date.now() : false;
+
+  const card: React.CSSProperties = { border: "1px solid #e5e5e5", borderRadius: 12, padding: 14, marginTop: 14 };
+  const row: React.CSSProperties = { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" };
+  const pill: React.CSSProperties = { fontSize: 12, fontWeight: 800, border: "1px solid #ddd", borderRadius: 999, padding: "3px 8px", display: "inline-block" };
 
   return (
     <div style={{ maxWidth: 900, margin: "0 auto", padding: 16 }}>
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 34, margin: 0 }}>Report</h1>
-          <div style={{ color: "#666", marginTop: 6 }}>
-            Created {" • "} {new Date(report.createdAt).toLocaleString("en-AU")}
+          <h1 style={{ fontSize: 28, margin: 0 }}>Report</h1>
+          <div style={{ marginTop: 6, fontSize: 12, opacity: 0.8 }}>
+            Created: {new Date(report.createdAt as any).toLocaleString("en-AU")}
           </div>
         </div>
 
-        <Link href="/admin/reports" style={{ color: "#1DA1F2", textDecoration: "none", fontWeight: 900 }}>
-          Back
+        <Link href="/admin/reports" style={{ textDecoration: "none", fontWeight: 900 }}>
+          ← Back
         </Link>
       </div>
 
-      <div style={{ marginTop: 16, border: "1px solid #ddd", borderRadius: 12, padding: 14 }}>
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-          <span style={pillStyle}>{report.resolved ? "RESOLVED" : "OPEN"}</span>
-          <span style={pillStyle}>{report.reason}</span>
-          <span style={pillStyle}>LISTING: {listingStatus}</span>
-          {seller ? <span style={pillStyle}>SELLER STRIKES: {seller.policyStrikes}</span> : null}
-          {seller ? <span style={pillStyle}>{isBlocked ? `BLOCKED until ${blocked!.toLocaleString("en-AU")}` : "NOT BLOCKED"}</span> : null}
-        </div>
+      {/* ===== AI Analysis ===== */}
 
-        <div style={{ marginTop: 14 }}>
-          <div style={{ fontWeight: 900, marginBottom: 6 }}>Listing</div>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-            <Link href={listingHref} style={{ color: "#1DA1F2", textDecoration: "none", fontWeight: 900, fontSize: 16 }}>
-              {report.listing?.title ? report.listing.title : report.listingId}
-            </Link>
-            <Link href={listingHref} style={{ color: "#1DA1F2", textDecoration: "none", fontSize: 13 }}>
-              View listing
-            </Link>
+<AiRecommendActions
+  recommendation={ai.recommendation}
+  sellerId={sellerId}
+  listingId={listingId}
+  reportId={report.id}
+  returnTo={"/admin/reports/" + report.id}
+/>
+
+      <div style={card}>
+        <div style={row}>
+          <div style={{ fontWeight: 900 }}>AI Analysis</div>
+
+
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <span style={pill}>Risk: {ai.riskLevel}</span>
+            <span style={pill}>Recommend: {ai.recommendation}</span>
           </div>
         </div>
 
-        <div style={{ marginTop: 14 }}>
-          <div style={{ fontWeight: 900, marginBottom: 6 }}>Reporter</div>
-          <div style={{ color: "#444", fontSize: 13 }}>{report.reporter?.email ?? "(unknown email)"} — {report.reporterId}</div>
-        </div>
+        <p style={{ marginTop: 10, marginBottom: 0, lineHeight: 1.35 }}>{ai.summary}</p>
 
-        {seller ? (
-          <div style={{ marginTop: 14 }}>
-            <div style={{ fontWeight: 900, marginBottom: 6 }}>Seller</div>
-            <div style={{ color: "#444", fontSize: 13 }}>{seller.email ?? "(unknown email)"} — {seller.id}</div>
-
-            <div style={{ marginTop: 10, display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <form action="/api/admin/users/strike" method="post">
-                <input type="hidden" name="userId" value={seller.id} />
-                <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                <button style={btnStyle(false)} type="submit">Strike user</button>
-              </form>
-
-              <form action="/api/admin/users/block" method="post">
-                <input type="hidden" name="userId" value={seller.id} />
-                <input type="hidden" name="days" value="1" />
-                <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                <button style={btnStyle(false)} type="submit">Block 24h</button>
-              </form>
-
-              <form action="/api/admin/users/block" method="post">
-                <input type="hidden" name="userId" value={seller.id} />
-                <input type="hidden" name="days" value="7" />
-                <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                <button style={btnStyle(false)} type="submit">Block 7d</button>
-              </form>
-
-              <form action="/api/admin/users/block" method="post">
-                <input type="hidden" name="userId" value={seller.id} />
-                <input type="hidden" name="days" value="30" />
-                <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                <button style={btnStyle(false)} type="submit">Block 30d</button>
-              </form>
-            </div>
-          </div>
+        {ai.signals?.length ? (
+          <ul style={{ marginTop: 10, marginBottom: 0, paddingLeft: 18 }}>
+            {ai.signals.map((s: string, i: number) => (
+              <li key={i}>{s}</li>
+            ))}
+          </ul>
         ) : null}
+      </div>
 
-        <div style={{ marginTop: 14 }}>
-          <div style={{ fontWeight: 900, marginBottom: 6 }}>Details</div>
-          <div style={{ color: "#444", fontSize: 14, whiteSpace: "pre-wrap" }}>
-            {report.details ? report.details : "(none)"}
+      {/* ===== Report ===== */}
+      <div style={card}>
+        <div style={row}>
+          <div style={{ fontWeight: 900 }}>Report details</div>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <span style={pill}>{report.resolved ? "RESOLVED" : "OPEN"}</span>
+
+              {!isResolved ? (
+                <form action="/api/admin/reports/resolve" method="post" style={{ display: "inline-block" }}>
+                  <input type="hidden" name="reportId" value={report.id} />
+                  <input type="hidden" name="backTo" value="/admin/reports" />
+                  <button type="submit" style={{ padding: "8px 10px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
+                    Resolve
+                  </button>
+                </form>
+              ) : null}
+
+              {isResolved ? (
+                <form action="/api/admin/reports/reopen" method="post" style={{ display: "inline-block" }}>
+                  <input type="hidden" name="reportId" value={report.id} />
+                  <input type="hidden" name="backTo" value="/admin/reports" />
+                  <button type="submit" style={{ padding: "8px 10px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
+                    Re-open
+                  </button>
+                </form>
+              ) : null}
+              {isResolved ? (
+                <form action="/api/admin/reports/reopen" method="post" style={{ display: "inline-block" }}>
+                  <input type="hidden" name="reportId" value={report.id} />
+                  <input type="hidden" name="backTo" value="/admin/reports" />
+                  <button type="submit" style={{ padding: "8px 10px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
+                    Re-open
+                  </button>
+                </form>
+              ) : null}
+            <span style={pill}>Reason: {String(report.reason)}</span>
+            <span style={pill}>Listing: {listingStatusLabel}</span>
           </div>
         </div>
 
-        <div style={{ marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-          <form action="/api/admin/reports/resolve" method="post">
-            <input type="hidden" name="id" value={report.id} />
-            <input type="hidden" name="resolved" value={report.resolved ? "false" : "true"} />
-            <button style={btnStyle(true)} type="submit">
-              {report.resolved ? "Mark as Open" : "Mark as Resolved"}
-            </button>
-          </form>
+        <div style={{ marginTop: 10, whiteSpace: "pre-wrap" }}>{report.details || "(no details)"}</div>
+      </div>
 
-          <form action="/api/admin/listings/set-status" method="post">
-            <input type="hidden" name="listingId" value={report.listingId} />
-            <input type="hidden" name="status" value="SUSPENDED" />
-            <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-            <button style={btnStyle(false)} type="submit" disabled={!canSuspend}>
-              Suspend listing
-            </button>
-          </form>
-
-          <form action="/api/admin/listings/set-status" method="post">
-            <input type="hidden" name="listingId" value={report.listingId} />
-            <input type="hidden" name="status" value="ACTIVE" />
-            <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-            <button style={btnStyle(false)} type="submit" disabled={!canUnsuspend}>
-              Unsuspend listing
-            </button>
-          </form>
+      {/* ===== Listing ===== */}
+      <div style={card}>
+        <div style={{ fontWeight: 900 }}>Listing</div>
+        <div style={{ marginTop: 8 }}>
+          <div style={{ fontWeight: 800 }}>{report.listing?.title || "(listing missing)"}</div>
+          {listingHref ? (
+            <div style={{ marginTop: 6 }}>
+              <Link href={listingHref} style={{ textDecoration: "none", fontWeight: 800 }}>View listing →</Link>
+            </div>
+          ) : null}
         </div>
 
-        <div style={{ marginTop: 10, color: "#666", fontSize: 12 }}>
-          Tip: Strike/block should be used for repeated policy breaches. Strike threshold auto-blocks and suspends ACTIVE listings.
+        <div style={{ marginTop: 10, fontSize: 12, opacity: 0.85 }}>
+          Tip: DELETED listings are removed from public view.
         </div>
+      </div>
+
+      {/* ===== Reporter ===== */}
+      <div style={card}>
+        <div style={{ fontWeight: 900 }}>Reporter</div>
+        <div style={{ marginTop: 8, fontSize: 13 }}>
+          {report.reporter?.email ? report.reporter.email : report.reporterId}
+        </div>
+      </div>
+
+      {/* ===== Listing actions ===== */}
+      <div style={card}>
+        <div style={row}>
+          <div style={{ fontWeight: 900 }}>Listing actions</div>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <span style={pill}>Status: {listingStatusLabel}</span>
+          </div>
+        </div>
+
+        <div style={{ marginTop: 10, display: "flex", gap: 10, flexWrap: "wrap" }}>
+          {report.listing?.id ? (
+            <>
+              {!isResolved ? (
+<form action="/api/admin/listings/suspend" method="post">
+                <input type="hidden" name="listingId" value={report.listing.id} />
+                <input type="hidden" name="reportId" value={report.id} />
+                <input type="hidden" name="backTo" value="/admin/reports" />
+                <button type="submit" style={{ padding: "10px 12px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
+                  Suspend listing
+                </button>
+              </form>
+) : null}
+
+              {!isResolved ? (
+<form action="/api/admin/listings/unsuspend" method="post">
+                <input type="hidden" name="listingId" value={report.listing.id} />
+                <input type="hidden" name="reportId" value={report.id} />
+                <input type="hidden" name="backTo" value="/admin/reports" />
+                <button type="submit" style={{ padding: "10px 12px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
+                  Unsuspend listing
+                </button>
+              </form>
+) : null}
+
+              {!isResolved ? (
+<form action="/api/admin/listings/delete" method="post">
+                <input type="hidden" name="listingId" value={report.listing.id} />
+                <input type="hidden" name="reportId" value={report.id} />
+                <input type="hidden" name="backTo" value="/admin/reports" />
+
+                <ConfirmSubmitButton
+                  style={{
+                    padding: "10px 12px",
+                    borderRadius: 10,
+                    fontWeight: 900,
+                    border: "1px solid #ddd",
+                    cursor: "pointer",
+                    background: "#ffeded",
+                  }}
+                  confirmMessage="Delete this listing now? This removes it from public view."
+                >
+                  Delete listing
+                </ConfirmSubmitButton>
+              </form>
+) : null}
+            </>
+          ) : (
+            <div style={{ opacity: 0.8 }}>(No listing attached)</div>
+          )}
+        </div>
+      </div>
+
+      <div style={{ marginTop: 18, fontSize: 12, opacity: 0.75 }}>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
   await prisma.report.update({
     where: { id: reportId },
-    data: { resolved: true },
+    data: { resolved: false },
   });
 
   return NextResponse.redirect(new URL(backTo, req.url));

@@ -1,8 +1,9 @@
-import type { NextAuthOptions } from "next-auth";
+﻿import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
+import { getBaseUrl } from "@/lib/base-url";
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -43,11 +44,18 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      // Dev safety: prevent leaking to old Vercel callback URLs
-      if (url && url.startsWith('/')) return baseUrl + url;
-      if (url && url.startsWith(baseUrl)) return url;
-      return baseUrl;
+    async redirect({ url }) {
+      const canonical = getBaseUrl();
+
+      if (url && url.startsWith("/")) return canonical + url;
+
+      try {
+        const u = new URL(url);
+        const c = new URL(canonical);
+        if (u.origin === c.origin) return url;
+      } catch {}
+
+      return canonical;
     },
 async jwt({ token, user }) {
       if (user) {

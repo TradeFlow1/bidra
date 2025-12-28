@@ -1,9 +1,9 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -198,7 +198,7 @@ export default function SiteHeader() {
 
                   <div style={divider} />
 
-                  <Link href="/dashboard" style={menuItemMuted} onClick={() => setOpen(false)}>Dashboard</Link>
+                  <Link href="/dashboard/listings" style={menuItemMuted} onClick={() => setOpen(false)}>My listings</Link>
 
                   <div style={divider} />
 
@@ -214,13 +214,8 @@ export default function SiteHeader() {
                     </>
                   ) : null}
 
-                  <button
-                    type="button"
-                    style={menuItem}
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                  >
-                    Log out
-                  </button>
+                  {/* IMPORTANT: logout is ALWAYS via /logout (no NextAuth redirect logic) */}
+                  <Link href="/logout" style={menuItem} onClick={() => setOpen(false)}>Log out</Link>
                 </div>
               ) : null}
             </div>

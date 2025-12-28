@@ -4,12 +4,12 @@ export default function Page() {
       <h1>Terms</h1>
       <p>
         Bidra provides a marketplace platform that helps people list, discover, and transact with each other.
-        YouÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢re responsible for your listings, communications, and compliance with local laws.
+        You're responsible for your listings, communications, and compliance with local laws.
       </p>
       <h2>Accounts</h2>
       <ul>
         <li>Use a valid email address and keep your login secure.</li>
-        <li>DonÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢t misrepresent identity or listing details.</li>
+        <li>Don't misrepresent identity or listing details.</li>
       </ul>
       <h2>Listings & transactions</h2>
       <ul>

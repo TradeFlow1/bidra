@@ -1,3 +1,4 @@
+﻿const MAX_BLOCK_DAYS = 14;
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -11,11 +12,12 @@ export async function POST(req: Request) {
 
   const form = await req.formData();
   const userId = String(form.get("userId") || "");
-  const daysStr = String(form.get("days") || "0");
-  const backTo = String(form.get("backTo") || "");
+const backTo = String(form.get("backTo") || "");
 
-  const days = Math.max(0, Math.min(365, parseInt(daysStr, 10) || 0));
-  if (!userId) return NextResponse.json({ ok: false, error: "Missing userId" }, { status: 400 });
+// Clamp days to [1..14]
+const rawDays = Number(form.get("days") || 7);
+const days = Math.max(1, Math.min(MAX_BLOCK_DAYS, isFinite(rawDays) ? rawDays : 7));
+if (!userId) return NextResponse.json({ ok: false, error: "Missing userId" }, { status: 400 });
   if (!days) return NextResponse.json({ ok: false, error: "Missing/invalid days" }, { status: 400 });
 
   const blockedUntil = new Date(Date.now() + days * 24 * 60 * 60 * 1000);

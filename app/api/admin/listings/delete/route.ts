@@ -4,19 +4,24 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   const session = await auth();
-  const user = session?.user as any;
+  const user: any = session?.user;
 
   if (!user) return NextResponse.redirect(new URL("/auth/login", req.url));
   if (user.role !== "ADMIN") return NextResponse.redirect(new URL("/", req.url));
 
   const form = await req.formData();
-  const reportId = String(form.get("reportId") || "");
+  const listingId = String(form.get("listingId") || "");
   const backTo = String(form.get("backTo") || "/admin/reports");
 
-  if (!reportId) return NextResponse.redirect(new URL("/admin/reports", req.url));
+  if (!listingId) return NextResponse.redirect(new URL(backTo, req.url));
 
-  await prisma.report.update({
-    where: { id: reportId },
+  await prisma.listing.update({
+    where: { id: listingId },
+    data: { status: "DELETED" },
+  });
+
+  await prisma.report.updateMany({
+    where: { listingId, resolved: false },
     data: { resolved: true },
   });
 

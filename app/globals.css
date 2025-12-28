@@ -85,7 +85,7 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Remove the Ã¢â‚¬Å“boxed newspaperÃ¢â‚¬Â feel */
+/* Remove the "boxed newspaper" feel */
 * {
   box-sizing: border-box;
 }
@@ -189,7 +189,7 @@ button:active, input[type="submit"]:active {
   padding: 18px;
 }
 
-/* ---------- Simple Ã¢â‚¬Å“section dividerÃ¢â‚¬Â only ---------- */
+/* ---------- Simple "section divider" only ---------- */
 hr {
   border: 0;
   border-top: 1px solid var(--border-subtle);

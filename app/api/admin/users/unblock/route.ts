@@ -10,14 +10,14 @@ export async function POST(req: Request) {
   if (user.role !== "ADMIN") return NextResponse.redirect(new URL("/", req.url));
 
   const form = await req.formData();
-  const reportId = String(form.get("reportId") || "");
-  const backTo = String(form.get("backTo") || "/admin/reports");
+  const userId = String(form.get("userId") || "");
+  const backTo = String(form.get("backTo") || "/admin/users");
 
-  if (!reportId) return NextResponse.redirect(new URL("/admin/reports", req.url));
+  if (!userId) return NextResponse.redirect(new URL(backTo, req.url));
 
-  await prisma.report.update({
-    where: { id: reportId },
-    data: { resolved: true },
+  await prisma.user.update({
+    where: { id: userId },
+    data: { policyBlockedUntil: null },
   });
 
   return NextResponse.redirect(new URL(backTo, req.url));

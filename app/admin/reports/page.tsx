@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -56,8 +56,7 @@ export default async function AdminReports({
     <div style={{ maxWidth: 900, margin: "0 auto", padding: 16 }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 34, margin: 0 }}>Reports</h1>
-          <div style={{ color: "#666", marginTop: 6 }}>
+          <h1 style={{ fontSize: 34, margin: 0 }}>Reports</h1>          <div style={{ color: "#666", marginTop: 6 }}>
             {showResolved ? "Showing resolved reports" : "Showing open reports"}
           </div>
         </div>
@@ -85,7 +84,7 @@ export default async function AdminReports({
             {reports.map((r) => (
               <div key={r.id} style={{ borderTop: "1px solid #eee", padding: 12 }}>
                 <div style={{ color: "#666", fontSize: 13 }}>
-                  Report {" • "} {new Date(r.createdAt).toLocaleString("en-AU")}
+                  Report {" – "} {new Date(r.createdAt).toLocaleString("en-AU")}
                 </div>
 
                 <div style={{ marginTop: 6, fontWeight: 900, fontSize: 16 }}>

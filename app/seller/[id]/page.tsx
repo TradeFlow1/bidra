@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 
@@ -20,8 +20,7 @@ export default async function SellerPage({ params }: { params: { id: string } })
     orderBy: { createdAt: "desc" },
     take: 30
   });
-
-  // Simple ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œseller ratingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â placeholder: ratio of sold/ended orders in future iterations.
+  // Simple "seller rating" placeholder: ratio of sold/ended orders in future iterations.
   const totalListings = await prisma.listing.count({ where: { sellerId: seller.id } });
   const activeCount = await prisma.listing.count({ where: { sellerId: seller.id, status: "ACTIVE" } });
 

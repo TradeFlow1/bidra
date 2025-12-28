@@ -57,3 +57,7 @@ reset-admin.js
 check-admin*.js
 db-*.js
 
+
+# Bidra local backups / tmp scripts
+*.bak_*
+tmp-*.js

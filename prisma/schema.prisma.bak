@@ -8,8 +8,6 @@ datasource db {
 }
 
 model User {
-  policyStrikeEvents  PolicyStrike[] @relation("UserPolicyStrikes")
-  clearedStrikes      PolicyStrike[] @relation("ClearedStrikes")
   policyStrikes      Int       @default(0)
   policyBlockedUntil DateTime?
 
@@ -59,7 +57,6 @@ model VerificationToken {
 }
 
 model Listing {
-  policyStrikes PolicyStrike[]
   reservePrice Int?
   buyNowPrice  Int?
 
@@ -125,7 +122,6 @@ model Watchlist {
 }
 
 model Report {
-  policyStrikes PolicyStrike[]
   id         String   @id @default(cuid())
   reason     String
   details    String?
@@ -226,36 +222,3 @@ enum SaleOutcome {
   DISPUTED
 }
 
-
-enum PolicyStrikeAction {
-  WARN
-}
-
-model PolicyStrike {
-  id        String   @id @default(cuid())
-
-  action    PolicyStrikeAction @default(WARN)
-  reason    String
-
-  createdAt DateTime @default(now())
-  expiresAt DateTime
-  clearedAt DateTime?
-  clearedReason String?
-
-  userId    String
-  user      User     @relation("UserPolicyStrikes", fields: [userId], references: [id])
-
-  clearedById String?
-  clearedBy   User?    @relation("ClearedStrikes", fields: [clearedById], references: [id])
-
-  reportId  String?
-  report    Report?   @relation(fields: [reportId], references: [id])
-
-  listingId String?
-  listing   Listing?  @relation(fields: [listingId], references: [id])
-
-  @@index([userId])
-  @@index([reportId])
-  @@index([listingId])
-  @@index([expiresAt])
-}

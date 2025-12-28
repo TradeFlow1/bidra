@@ -1,32 +1,81 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 const STRIKE_THRESHOLD = 3;
-const BLOCK_DAYS = 7;
+const BLOCK_DAYS = 14;
+
+
+const MAX_BLOCK_DAYS = 14;
+// How long a strike stays "active" before expiring automatically.
+// (Reward good behaviour = strikes fall off after TTL, OR can be cleared manually.)
+const STRIKE_TTL_DAYS = 30;
+
+async function recalcActiveStrikes(userId: string) {
+  const now = new Date();
+
+  const activeCount = await prisma.policyStrike.count({
+    where: {
+      userId,
+      clearedAt: null,
+      expiresAt: { gt: now },
+    },
+  });
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { policyStrikes: activeCount },
+  });
+
+  return activeCount;
+}
 
 export async function POST(req: Request) {
   const session = await auth();
-  const user = session?.user as any;
+  const admin = session?.user as any;
 
-  if (!user) return NextResponse.json({ ok: false, error: "Not signed in" }, { status: 401 });
-  if (user.role !== "ADMIN") return NextResponse.json({ ok: false, error: "Forbidden" }, { status: 403 });
+  if (!admin) return NextResponse.json({ ok: false, error: "Not signed in" }, { status: 401 });
+  if (admin.role !== "ADMIN") return NextResponse.json({ ok: false, error: "Forbidden" }, { status: 403 });
 
   const form = await req.formData();
+
   const userId = String(form.get("userId") || "");
   const backTo = String(form.get("backTo") || "");
 
+  // Optional context (helps auditability + “clear when resolved” later)
+  const reportId = String(form.get("reportId") || "") || null;
+  const listingId = String(form.get("listingId") || "") || null;
+
+  // Optional: action + reason. If not provided, default WARN.
+  const actionRaw = String(form.get("action") || "WARN").toUpperCase();
+  const reason = String(form.get("reason") || "Policy strike").trim() || "Policy strike";
+
   if (!userId) return NextResponse.json({ ok: false, error: "Missing userId" }, { status: 400 });
 
-  // Increment strikes
-  const updated = await prisma.user.update({
-    where: { id: userId },
-    data: { policyStrikes: { increment: 1 } },
-    select: { id: true, policyStrikes: true, policyBlockedUntil: true },
+  const action =
+    actionRaw === "WARN" || actionRaw === "SUSPEND" || actionRaw === "DELETE"
+      ? (actionRaw as any)
+      : ("WARN" as any);
+
+  const expiresAt = new Date(Date.now() + STRIKE_TTL_DAYS * 24 * 60 * 60 * 1000);
+
+  // 1) Create an auditable strike event
+  await prisma.policyStrike.create({
+    data: {
+      userId,
+      action,
+      reason,
+      expiresAt,
+      reportId,
+      listingId,
+    },
   });
 
-  // If threshold reached, block and suspend listings
-  if (updated.policyStrikes >= STRIKE_THRESHOLD) {
+  // 2) Recalculate active strikes and sync the counter on User
+  const activeStrikes = await recalcActiveStrikes(userId);
+
+  // 3) If threshold reached, block + suspend ACTIVE listings
+  if (activeStrikes >= STRIKE_THRESHOLD) {
     const blockedUntil = new Date(Date.now() + BLOCK_DAYS * 24 * 60 * 60 * 1000);
 
     await prisma.user.update({
@@ -34,7 +83,6 @@ export async function POST(req: Request) {
       data: { policyBlockedUntil: blockedUntil },
     });
 
-    // Suspend seller ACTIVE listings (don’t touch SOLD/ENDED etc.)
     await prisma.listing.updateMany({
       where: { sellerId: userId, status: "ACTIVE" as any },
       data: { status: "SUSPENDED" as any },
@@ -42,5 +90,5 @@ export async function POST(req: Request) {
   }
 
   if (backTo) return NextResponse.redirect(new URL(backTo, req.url));
-  return NextResponse.json({ ok: true, userId, policyStrikes: updated.policyStrikes });
+  return NextResponse.json({ ok: true, userId, activeStrikes });
 }

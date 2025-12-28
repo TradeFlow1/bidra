@@ -1,7 +1,8 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { getBaseUrl } from "@/lib/base-url";
 import { Card, Button, Badge } from "@/components/ui";
 
 export default async function OrdersPage() {
@@ -56,7 +57,7 @@ export default async function OrdersPage() {
                   if (!order || order.buyerId !== user.id) throw new Error("Not allowed");
                   if (order.status !== "PENDING") redirect("/orders");
 
-                  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+                  const baseUrl = getBaseUrl();
                   const sessionStripe = await stripe.checkout.sessions.create({
                     mode: "payment",
                     success_url: `${baseUrl}/orders?paid=1`,

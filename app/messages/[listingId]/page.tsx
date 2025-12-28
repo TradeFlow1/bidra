@@ -70,10 +70,10 @@ export default async function MessagesPage({ params }: { params: { listingId: st
 
       <Card>
         <form action={send} className="flex flex-col gap-2">
-          <Textarea name="body" placeholder="Write a messageÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦" required />
+          <Textarea name="body" placeholder="Write a message..." required />
           <Button type="submit" className="bg-black text-white border-black hover:opacity-90">Send</Button>
           <div className="text-xs text-neutral-600">
-            Tip: Keep personal information minimal until youÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢re confident.
+            Tip: Keep personal information minimal until you're confident.
           </div>
         </form>
       </Card>
