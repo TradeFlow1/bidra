@@ -20,5 +20,15 @@ export async function POST(req: Request) {
     data: { resolved: true },
   });
 
+  await prisma.adminActionLog.create({
+    data: {
+      adminId: user.id,
+      action: "REPORT_RESOLVE",
+      entityType: "REPORT",
+      entityId: reportId,
+      reportId,
+    },
+  });
+
   return NextResponse.redirect(new URL(backTo, req.url));
 }

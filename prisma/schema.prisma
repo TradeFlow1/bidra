@@ -8,9 +8,9 @@ datasource db {
 }
 
 model User {
-  policyStrikeEvents  PolicyStrike[] @relation("UserPolicyStrikes")
-  clearedStrikes      PolicyStrike[] @relation("ClearedStrikes")
-  policyStrikes      Int       @default(0)
+  policyStrikeEvents PolicyStrike[] @relation("UserPolicyStrikes")
+  clearedStrikes     PolicyStrike[] @relation("ClearedStrikes")
+  policyStrikes      Int            @default(0)
   policyBlockedUntil DateTime?
 
   termsAcceptedAt DateTime?
@@ -45,6 +45,7 @@ model User {
   watchlist          Watchlist[]
   feedbackGiven      Feedback[]          @relation("FeedbackFrom")
   feedbackReceived   Feedback[]          @relation("FeedbackTo")
+  adminActionLogs    AdminActionLog[]
 }
 
 model VerificationToken {
@@ -60,30 +61,30 @@ model VerificationToken {
 
 model Listing {
   policyStrikes PolicyStrike[]
-  reservePrice Int?
-  buyNowPrice  Int?
+  reservePrice  Int?
+  buyNowPrice   Int?
 
-  id          String        @id @default(cuid())
-  title       String
-  description String
-  category    String
-  type        ListingType
-  status      ListingStatus @default(DRAFT)
+  id             String         @id @default(cuid())
+  title          String
+  description    String
+  category       String
+  type           ListingType
+  status         ListingStatus  @default(DRAFT)
   previousStatus ListingStatus?
-  condition   String
-  price       Int
-  images      String[]
-  location    String
-  endsAt      DateTime?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  sellerId    String
-  bids        Bid[]
-  seller      User          @relation("SellerListings", fields: [sellerId], references: [id])
-  messages    Message[]
-  orders      Order[]
-  reports     Report[]
-  watchlist   Watchlist[]
+  condition      String
+  price          Int
+  images         String[]
+  location       String
+  endsAt         DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  sellerId       String
+  bids           Bid[]
+  seller         User           @relation("SellerListings", fields: [sellerId], references: [id])
+  messages       Message[]
+  orders         Order[]
+  reports        Report[]
+  watchlist      Watchlist[]
 }
 
 model Bid {
@@ -126,15 +127,15 @@ model Watchlist {
 
 model Report {
   policyStrikes PolicyStrike[]
-  id         String   @id @default(cuid())
-  reason     String
-  details    String?
-  resolved   Boolean  @default(false)
-  createdAt  DateTime @default(now())
-  reporterId String
-  listingId  String
-  listing    Listing  @relation(fields: [listingId], references: [id])
-  reporter   User     @relation("ReporterReports", fields: [reporterId], references: [id])
+  id            String         @id @default(cuid())
+  reason        String
+  details       String?
+  resolved      Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  reporterId    String
+  listingId     String
+  listing       Listing        @relation(fields: [listingId], references: [id])
+  reporter      User           @relation("ReporterReports", fields: [reporterId], references: [id])
 
   @@index([listingId])
   @@index([reporterId])
@@ -184,7 +185,7 @@ enum ListingStatus {
   ENDED
   SOLD
   SUSPENDED
-DELETED
+  DELETED
 }
 
 enum OrderStatus {
@@ -226,36 +227,53 @@ enum SaleOutcome {
   DISPUTED
 }
 
-
 enum PolicyStrikeAction {
   WARN
 }
 
 model PolicyStrike {
-  id        String   @id @default(cuid())
+  id String @id @default(cuid())
 
-  action    PolicyStrikeAction @default(WARN)
-  reason    String
+  action PolicyStrikeAction @default(WARN)
+  reason String
 
-  createdAt DateTime @default(now())
-  expiresAt DateTime
-  clearedAt DateTime?
+  createdAt     DateTime  @default(now())
+  expiresAt     DateTime
+  clearedAt     DateTime?
   clearedReason String?
 
-  userId    String
-  user      User     @relation("UserPolicyStrikes", fields: [userId], references: [id])
+  userId String
+  user   User   @relation("UserPolicyStrikes", fields: [userId], references: [id])
 
   clearedById String?
-  clearedBy   User?    @relation("ClearedStrikes", fields: [clearedById], references: [id])
+  clearedBy   User?   @relation("ClearedStrikes", fields: [clearedById], references: [id])
 
-  reportId  String?
-  report    Report?   @relation(fields: [reportId], references: [id])
+  reportId String?
+  report   Report? @relation(fields: [reportId], references: [id])
 
   listingId String?
-  listing   Listing?  @relation(fields: [listingId], references: [id])
+  listing   Listing? @relation(fields: [listingId], references: [id])
 
   @@index([userId])
   @@index([reportId])
   @@index([listingId])
   @@index([expiresAt])
+}
+
+model AdminActionLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  adminId String
+  admin   User   @relation(fields: [adminId], references: [id])
+
+  action     String
+  entityType String
+  entityId   String?
+
+  reportId  String?
+  listingId String?
+  userId    String?
+
+  meta Json?
 }
