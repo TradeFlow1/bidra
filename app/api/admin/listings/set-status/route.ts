@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -23,7 +23,18 @@ export async function POST(req: Request) {
     data: { status: status as any },
   });
 
-  const backTo = String(form.get("backTo") || "");
+  
+
+  await prisma.adminActionLog.create({
+    data: {
+      adminId: user.id,
+      action: "LISTING_SET_STATUS",
+      entityType: "LISTING",
+      entityId: listingId,
+      listingId,
+meta: { toStatus: status || null },
+    },
+  });const backTo = String(form.get("backTo") || "");
   if (backTo) return NextResponse.redirect(new URL(backTo, req.url));
 
   return NextResponse.json({ ok: true });

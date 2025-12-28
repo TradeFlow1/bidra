@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
   const nextStrikes = Math.max(0, (existing.policyStrikes || 0) - 1);
 
-  // If strikes drop below threshold, clear the block (does NOT auto-unsuspend listings — admin controls that separately)
+  // If strikes drop below threshold, clear the block (does NOT auto-unsuspend listings â€” admin controls that separately)
   const clearBlock = nextStrikes < STRIKE_THRESHOLD;
 
   await prisma.user.update({
@@ -37,6 +37,17 @@ export async function POST(req: Request) {
     },
   });
 
-  if (backTo) return NextResponse.redirect(new URL(backTo, req.url));
+  
+
+  await prisma.adminActionLog.create({
+    data: {
+      adminId: user.id,
+      action: "USER_UNSTRIKE",
+      entityType: "USER",
+      entityId: userId,
+      userId,
+meta: { note: "policy strike removed" },
+    },
+  });if (backTo) return NextResponse.redirect(new URL(backTo, req.url));
   return NextResponse.json({ ok: true, userId, policyStrikes: nextStrikes });
 }

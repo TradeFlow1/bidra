@@ -22,5 +22,16 @@ export async function POST(req: Request) {
     data: { status: "ACTIVE" },
   });
 
-  return NextResponse.redirect(new URL(backTo, req.url));
+  
+
+  await prisma.adminActionLog.create({
+    data: {
+      adminId: user.id,
+      action: "LISTING_UNSUSPEND",
+      entityType: "LISTING",
+      entityId: listingId,
+      listingId,
+meta: { toStatus: "ACTIVE" },
+    },
+  });return NextResponse.redirect(new URL(backTo, req.url));
 }

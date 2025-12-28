@@ -20,7 +20,18 @@ export async function POST(req: Request) {
     data: { status: "DELETED" },
   });
 
-  await prisma.report.updateMany({
+  
+
+  await prisma.adminActionLog.create({
+    data: {
+      adminId: user.id,
+      action: "LISTING_DELETE",
+      entityType: "LISTING",
+      entityId: listingId,
+      listingId,
+meta: { toStatus: "DELETED" },
+    },
+  });await prisma.report.updateMany({
     where: { listingId, resolved: false },
     data: { resolved: true },
   });

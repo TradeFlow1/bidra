@@ -17,8 +17,7 @@ async function recalcActiveStrikes(userId: string) {
     where: { id: userId },
     data: { policyStrikes: activeCount },
   });
-
-  return activeCount;
+return activeCount;
 }
 
 export async function POST(req: Request) {

@@ -20,5 +20,16 @@ export async function POST(req: Request) {
     data: { policyBlockedUntil: null },
   });
 
-  return NextResponse.redirect(new URL(backTo, req.url));
+  
+
+  await prisma.adminActionLog.create({
+    data: {
+      adminId: user.id,
+      action: "USER_UNBLOCK",
+      entityType: "USER",
+      entityId: userId,
+      userId,
+      meta: { note: "block removed" },
+    },
+  });return NextResponse.redirect(new URL(backTo, req.url));
 }

@@ -26,8 +26,7 @@ async function recalcActiveStrikes(userId: string) {
     where: { id: userId },
     data: { policyStrikes: activeCount },
   });
-
-  return activeCount;
+return activeCount;
 }
 
 export async function POST(req: Request) {
@@ -74,7 +73,18 @@ export async function POST(req: Request) {
   // 2) Recalculate active strikes and sync the counter on User
   const activeStrikes = await recalcActiveStrikes(userId);
 
-  // 3) If threshold reached, block + suspend ACTIVE listings
+  await prisma.adminActionLog.create({
+    data: {
+      adminId: admin.id,
+      action: "USER_STRIKE",
+      entityType: "USER",
+      entityId: userId,
+      userId,
+      reportId: reportId,
+      listingId: listingId,
+      meta: { strikeAction: action, reason },
+    },
+  });// 3) If threshold reached, block + suspend ACTIVE listings
   if (activeStrikes >= STRIKE_THRESHOLD) {
     const blockedUntil = new Date(Date.now() + BLOCK_DAYS * 24 * 60 * 60 * 1000);
 
@@ -82,8 +92,7 @@ export async function POST(req: Request) {
       where: { id: userId },
       data: { policyBlockedUntil: blockedUntil },
     });
-
-    await prisma.listing.updateMany({
+await prisma.listing.updateMany({
       where: { sellerId: userId, status: "ACTIVE" as any },
       data: { status: "SUSPENDED" as any },
     });

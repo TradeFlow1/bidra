@@ -27,6 +27,17 @@ if (!userId) return NextResponse.json({ ok: false, error: "Missing userId" }, { 
     data: { policyBlockedUntil: blockedUntil },
   });
 
-  if (backTo) return NextResponse.redirect(new URL(backTo, req.url));
+  
+
+  await prisma.adminActionLog.create({
+    data: {
+      adminId: user.id,
+      action: "USER_BLOCK",
+      entityType: "USER",
+      entityId: userId,
+      userId,
+meta: { note: "manual block applied" },
+    },
+  });if (backTo) return NextResponse.redirect(new URL(backTo, req.url));
   return NextResponse.json({ ok: true, userId, blockedUntil });
 }
