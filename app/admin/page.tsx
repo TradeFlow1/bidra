@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -28,6 +28,7 @@ export default async function AdminHome() {
           <Link href="/admin/users" className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50">Users</Link>
           <Link href="/admin/listings" className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50">Listings</Link>
           <Link href="/admin/reports" className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50">Reports</Link>
+<Link href="/admin/audit" style={{ textDecoration: "none", fontWeight: 900 }}>Audit log</Link>
         </div>
       </div>
 

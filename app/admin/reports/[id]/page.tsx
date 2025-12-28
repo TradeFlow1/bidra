@@ -114,9 +114,9 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
   listingId={listingId}
   reportId={report.id}
   returnTo={"/admin/reports/" + report.id}
+  isResolved={isResolved}
 />
-
-      <div style={card}>
+<div style={card}>
         <div style={row}>
           <div style={{ fontWeight: 900 }}>AI Analysis</div>
 
