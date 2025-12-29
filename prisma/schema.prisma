@@ -46,6 +46,12 @@ model User {
   feedbackGiven      Feedback[]          @relation("FeedbackFrom")
   feedbackReceived   Feedback[]          @relation("FeedbackTo")
   adminActionLogs    AdminActionLog[]
+  activitySessions   ActivitySession[]
+  badgeFastResponder Boolean             @default(false)
+
+  badgeConsistentSeller Boolean @default(false)
+
+  badgeNewSeller Boolean @default(false)
 }
 
 model VerificationToken {
@@ -276,4 +282,27 @@ model AdminActionLog {
   userId    String?
 
   meta Json?
+}
+
+model ActivitySession {
+  id        String  @id @default(cuid())
+  sessionId String  @unique
+  userId    String?
+  user      User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  startedAt  DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+
+  totalActiveMs Int @default(0)
+  totalIdleMs   Int @default(0)
+
+  lastPath     String?
+  lastReferrer String?
+  userAgent    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([lastSeenAt])
 }

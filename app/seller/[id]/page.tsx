@@ -1,58 +1,98 @@
-﻿import Link from "next/link";
+﻿import { notFound } from "next/navigation";
+import Link from "next/link";
+import TrustPanel from "@/components/trust/trust-panel";
 import { prisma } from "@/lib/prisma";
-import { Card, Badge } from "@/components/ui";
 
-export default async function SellerPage({ params }: { params: { id: string } }) {
-  const seller = await prisma.user.findUnique({ where: { id: params.id } });
-  if (!seller) {
-    return (
-      <div className="max-w-xl">
-        <h1 className="text-2xl font-bold">Seller not found</h1>
-        <Link className="mt-4 inline-block rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50" href="/listings">
-          Browse
-        </Link>
-      </div>
-    );
-  }
+interface PageProps {
+  params: { id: string };
+}
+
+export default async function SellerPage({ params }: PageProps) {
+  const sellerId = params.id;
+
+  const seller = await prisma.user.findUnique({
+    where: { id: sellerId },
+    select: {
+      id: true,
+      username: true,
+      suburb: true,
+      state: true,
+      createdAt: true,
+      _count: {
+        select: {
+          listings: { where: { status: "ACTIVE" } },
+        },
+      },
+    },
+  });
+
+  if (!seller) notFound();
+
+  const soldCount = await prisma.listing.count({
+    where: { sellerId, status: "SOLD" },
+  });
 
   const listings = await prisma.listing.findMany({
-    where: { sellerId: seller.id, status: "ACTIVE" },
+    where: { sellerId, status: "ACTIVE" },
     orderBy: { createdAt: "desc" },
-    take: 30
+    take: 24,
+    select: { id: true, title: true, price: true },
   });
-  // Simple "seller rating" placeholder: ratio of sold/ended orders in future iterations.
-  const totalListings = await prisma.listing.count({ where: { sellerId: seller.id } });
-  const activeCount = await prisma.listing.count({ where: { sellerId: seller.id, status: "ACTIVE" } });
 
   return (
-    <div className="flex flex-col gap-4">
-      <div>
-        <div className="text-sm text-neutral-600">Seller</div>
-        <h1 className="text-2xl font-bold">{seller.name ?? seller.email}</h1>
-        <div className="mt-2 flex gap-2 flex-wrap">
-          {seller.location ? <Badge>{seller.location}</Badge> : null}
-          <Badge>{activeCount} active</Badge>
-          <Badge>{totalListings} total listings</Badge>
-        </div>
-      </div>
+    <div style={{ maxWidth: 1100, margin: "0 auto", padding: 16 }}>
+      <h1 style={{ fontSize: 28, fontWeight: 900, marginBottom: 10 }}>
+        {seller.username}
+      </h1>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {listings.map((l: any) => (
-          <Link key={l.id} href={"/listings/" + l.id}>
-            <Card className="hover:shadow-md">
-              <div className="text-sm text-neutral-600">{l.category} • {l.location}</div>
-              <div className="mt-1 font-semibold">{l.title}</div>
-              <div className="mt-2 flex gap-2 flex-wrap">
-                <Badge>{l.type === "AUCTION" ? "Auction" : "Buy now"}</Badge>
-                <Badge>{l.condition}</Badge>
+      <TrustPanel
+        username={seller.username}
+        suburb={seller.suburb}
+        state={seller.state}
+        joinedAt={seller.createdAt}
+        activeCount={seller._count.listings}
+        soldCount={soldCount}
+      />
+
+      <div style={{ marginTop: 18, fontWeight: 900 }}>Active listings</div>
+
+      <div
+        style={{
+          marginTop: 10,
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+          gap: 16,
+        }}
+      >
+        {listings.map((l) => (
+          <Link
+            key={l.id}
+            href={`/listings/${l.id}`}
+            style={{
+              display: "block",
+              padding: 12,
+              border: "1px solid #e5e7eb",
+              borderRadius: 12,
+              textDecoration: "none",
+              color: "inherit",
+              background: "white",
+            }}
+          >
+            <div style={{ fontWeight: 800, marginBottom: 4 }}>{l.title}</div>
+            {l.price !== null && (
+              <div style={{ fontWeight: 700 }}>
+                ${Number(l.price).toLocaleString()}
               </div>
-              <div className="mt-3 text-sm font-bold">${(l.price/100).toFixed(2)} AUD</div>
-            </Card>
+            )}
           </Link>
         ))}
-      </div>
 
-      {!listings.length ? <div className="text-sm text-neutral-600">No active listings from this seller right now.</div> : null}
+        {listings.length === 0 && (
+          <div style={{ opacity: 0.6 }}>
+            This seller has no active listings.
+          </div>
+        )}
+      </div>
     </div>
   );
 }
