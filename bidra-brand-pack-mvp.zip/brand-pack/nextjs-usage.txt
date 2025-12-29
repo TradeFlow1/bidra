@@ -1,8 +1,0 @@
-/**
- * Next.js App Router usage (recommended):
- * Put assets in: /public/brand/...
- * Then reference:
- *
- * <img src="/brand/logo/bidra-logo_dark.png" className="hidden dark:block" />
- * <img src="/brand/logo/bidra-logo_light.png" className="block dark:hidden" />
- */

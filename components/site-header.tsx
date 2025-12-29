@@ -48,12 +48,14 @@ export default function SiteHeader() {
   const active = (href: string) =>
     pathname === href || (href !== "/" && pathname?.startsWith(href));
 
+  // ✅ Phase 4 VISUALS ONLY — Bidra brand header (ZIP tokens)
   const headerStyle: React.CSSProperties = {
     position: "sticky",
     top: 0,
     zIndex: 50,
-    background: "#fff",
-    borderBottom: "1px solid rgba(0,0,0,0.08)",
+    background: "var(--bidra-ink, #111827)",
+    borderBottom: "1px solid rgba(255,255,255,0.10)",
+    backdropFilter: "saturate(180%) blur(10px)",
   };
 
   const innerStyle: React.CSSProperties = {
@@ -70,19 +72,18 @@ export default function SiteHeader() {
   const brandStyle: React.CSSProperties = {
     display: "inline-flex",
     alignItems: "center",
-    gap: 10,
-    color: "#111",
+    gap: 12,
+    color: "rgba(255,255,255,0.92)",
     textDecoration: "none",
-    fontWeight: 800,
+    fontWeight: 900,
     fontSize: 16,
+    letterSpacing: 0.2,
   };
 
-  const logoDot: React.CSSProperties = {
-    width: 14,
-    height: 14,
-    borderRadius: 5,
-    background: "#1DA1F2",
-    display: "inline-block",
+  const logoStyle: React.CSSProperties = {
+    height: 22,
+    width: "auto",
+    display: "block",
   };
 
   const navStyle: React.CSSProperties = {
@@ -92,140 +93,169 @@ export default function SiteHeader() {
   };
 
   const linkStyle = (isOn: boolean): React.CSSProperties => ({
-    color: "#1DA1F2",
-    textDecoration: isOn ? "underline" : "none",
-    fontWeight: 700,
+    color: isOn ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.78)",
+    textDecoration: "none",
+    fontWeight: 750,
     fontSize: 14,
+    padding: "6px 8px",
+    borderRadius: 10,
+    background: isOn ? "rgba(255,255,255,0.08)" : "transparent",
+    border: isOn ? "1px solid rgba(255,255,255,0.10)" : "1px solid transparent",
   });
 
   const profileBtn: React.CSSProperties = {
     display: "inline-flex",
     alignItems: "center",
     gap: 10,
-    border: "1px solid rgba(0,0,0,0.18)",
-    borderRadius: 12,
-    padding: "6px 10px",
-    background: "#fff",
+    border: "1px solid rgba(255,255,255,0.14)",
+    borderRadius: 14,
+    padding: "7px 10px",
+    background: "rgba(255,255,255,0.06)",
     cursor: "pointer",
     fontSize: 14,
-    fontWeight: 700,
-    color: "#111",
+    fontWeight: 800,
+    color: "rgba(255,255,255,0.92)",
   };
 
   const avatar: React.CSSProperties = {
     width: 28,
     height: 28,
     borderRadius: 10,
-    background: "#f2f4f7",
+    background: "rgba(255,255,255,0.10)",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
+    fontWeight: 900,
+    color: "rgba(255,255,255,0.92)",
     fontSize: 12,
-    fontWeight: 800,
-    color: "#111",
-    border: "1px solid rgba(0,0,0,0.10)",
   };
 
-  const menuStyle: React.CSSProperties = {
+  const menuWrap: React.CSSProperties = {
+    position: "relative",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 10,
+  };
+
+  const menu: React.CSSProperties = {
     position: "absolute",
+    top: 44,
     right: 0,
-    top: "calc(100% + 8px)",
-    width: 220,
-    background: "#fff",
-    border: "1px solid rgba(0,0,0,0.12)",
-    borderRadius: 12,
-    boxShadow: "0 10px 30px rgba(0,0,0,0.10)",
-    overflow: "hidden",
+    minWidth: 220,
+    background: "rgba(17,24,39,0.98)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    borderRadius: 14,
+    boxShadow: "0 20px 60px rgba(0,0,0,0.35)",
+    padding: 8,
   };
 
   const menuItem: React.CSSProperties = {
-    display: "flex",
-    width: "100%",
-    padding: "10px 12px",
+    display: "block",
+    padding: "10px 10px",
+    borderRadius: 12,
     textDecoration: "none",
-    color: "#111",
+    color: "rgba(255,255,255,0.92)",
+    fontWeight: 750,
     fontSize: 14,
-    fontWeight: 600,
-    background: "transparent",
-    border: "none",
-    cursor: "pointer",
-    textAlign: "left",
   };
 
-  const menuItemMuted: React.CSSProperties = {
+  const menuItemSub: React.CSSProperties = {
+    display: "block",
+    padding: "2px 10px 10px 10px",
+    color: "rgba(255,255,255,0.65)",
+    fontSize: 12,
+  };
+
+  const dangerItem: React.CSSProperties = {
     ...menuItem,
-    color: "#555",
-  };
-
-  const divider: React.CSSProperties = {
-    height: 1,
-    background: "rgba(0,0,0,0.08)",
+    color: "rgba(255,255,255,0.92)",
+    background: "rgba(59,130,246,0.18)",
+    border: "1px solid rgba(59,130,246,0.22)",
   };
 
   return (
     <header style={headerStyle}>
       <div style={innerStyle}>
-        {/* Brand / Home */}
-        <Link href="/" style={brandStyle} aria-label="Home">
-          <span aria-hidden="true" style={logoDot} />
-          Bidra
-        </Link>
+        <Link href="/" style={linkStyle(active("/"))}>Home</Link>
 
-        {/* Navigation */}
-        <nav style={navStyle}>
-          <Link href="/listings" style={linkStyle(active("/listings"))}>Browse</Link>
-          <Link href="/sell" style={linkStyle(active("/sell"))}>Sell</Link>
+        <nav style={navStyle} aria-label="Primary">
+          <Link href="/listings" style={linkStyle(active("/listings"))}>
+            Browse
+          </Link>
+          <Link href="/sell" style={linkStyle(active("/sell"))}>
+            Sell
+          </Link>
+          <Link href="/dashboard" style={linkStyle(active("/dashboard"))}>
+            Dashboard
+          </Link>
+          {isAdmin ? (
+            <Link href="/admin" style={linkStyle(active("/admin"))}>
+              Admin
+            </Link>
+          ) : null}
 
-          {isAuthed ? (
-            <div ref={menuRef} style={{ position: "relative" }}>
+          {!isAuthed ? (
+            <>
+              <Link href="/login" style={linkStyle(active("/login"))}>
+                Sign in
+              </Link>
+              <Link
+                href="/register"
+                style={{
+                  ...linkStyle(active("/register")),
+                  color: "var(--bidra-blue, #3B82F6)",
+                  border: "1px solid rgba(59,130,246,0.35)",
+                  background: "rgba(59,130,246,0.12)",
+                }}
+              >
+                Create account
+              </Link>
+            </>
+          ) : (
+            <div style={menuWrap} ref={menuRef}>
               <button
                 type="button"
                 style={profileBtn}
-                onClick={() => setOpen((v) => !v)}
+                onClick={() => setOpen(!open)}
                 aria-haspopup="menu"
                 aria-expanded={open ? "true" : "false"}
               >
-                <span style={avatar} aria-hidden="true">{initials}</span>
-                My account
+                <span style={avatar}>{initials}</span>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  Account
+                  <span style={{ color: "rgba(255,255,255,0.55)", fontWeight: 900 }}>
+                    ▾
+                  </span>
+                </span>
               </button>
 
               {open ? (
-                <div style={menuStyle} role="menu">
-                  <Link href="/account" style={menuItem} onClick={() => setOpen(false)}>My account</Link>
-                  <Link href="/" style={menuItem} onClick={() => setOpen(false)}>Home</Link>
-                  <Link href="/orders" style={menuItem} onClick={() => setOpen(false)}>My purchases</Link>
-                  <Link href="/watchlist" style={menuItem} onClick={() => setOpen(false)}>Watchlist</Link>
+                <div style={menu} role="menu">
+                  <Link href="/account" style={menuItem} role="menuitem">
+                    Account
+                  </Link>
+                  <span style={menuItemSub}>
+                    {(data?.user as any)?.email || ""}
+                  </span>
 
-                  <div style={divider} />
+                  <Link href="/profile" style={menuItem} role="menuitem">
+                    Edit profile
+                  </Link>
 
-                  <Link href="/dashboard/listings" style={menuItemMuted} onClick={() => setOpen(false)}>My listings</Link>
+                  <Link href="/orders" style={menuItem} role="menuitem">
+                    Orders
+                  </Link>
 
-                  <div style={divider} />
+                  <Link href="/account/restrictions" style={menuItem} role="menuitem">
+                    Restrictions
+                  </Link>
 
-                  {isAdmin ? (
-                    <>
-                      <div style={{ padding: "10px 12px", fontSize: 12, fontWeight: 900, color: "#666" }}>
-                        Admin Console
-                      </div>
-                      <Link href="/admin/reports" style={menuItem} onClick={() => setOpen(false)}>Reports</Link>
-                      <Link href="/admin/users" style={menuItem} onClick={() => setOpen(false)}>Users</Link>
-                      <Link href="/admin/listings" style={menuItem} onClick={() => setOpen(false)}>Listings</Link>
-                      <div style={divider} />
-                    </>
-                  ) : null}
-
-                  {/* IMPORTANT: logout is ALWAYS via /logout (no NextAuth redirect logic) */}
-                  <Link href="/logout" style={menuItem} onClick={() => setOpen(false)}>Log out</Link>
+                  <a href="/api/auth/signout" style={dangerItem} role="menuitem">
+                    Sign out
+                  </a>
                 </div>
               ) : null}
             </div>
-          ) : status === "loading" ? (
-            <span style={{ fontSize: 14, color: "#666" }}>Loading...</span>
-          ) : (
-            <>
-              <Link href="/auth/login" style={linkStyle(active("/auth/login"))}>Log in</Link>
-              <Link href="/auth/register" style={linkStyle(active("/auth/register"))}>Register</Link>
-            </>
           )}
         </nav>
       </div>
