@@ -1,4 +1,4 @@
-export const FULL_CATEGORIES = [
+﻿export const FULL_CATEGORIES = [
   "Vehicles",
   "Vehicle Parts & Accessories",
   "Home & Furniture",

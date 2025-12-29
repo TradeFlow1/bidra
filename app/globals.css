@@ -1,219 +1,331 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+﻿/* Bidra Premium UI (no Tailwind)
+   - quiet, neutral, premium
+   - whitespace > borders
+   - subtle shadow, soft radius
+*/
 
-/* =========================
-   Bidra Design System (v1)
-   - Clean, modern, trusted
-   - Mobile-first marketplace UI
-   - Dark + Light tokens
-   ========================= */
+:root{
+  --bg: #fafafa;
+  --surface: #ffffff;
+  --surface-2: #f6f6f7;
 
-/* ---------- Tokens ---------- */
-:root {
-  /* Brand */
-  --brand-primary: #3B82F6;
-  --brand-primary-soft: #DBEAFE;
-  --brand-primary-dark: #1E40AF;
+  --text: #0f1115;
+  --muted: #5b6270;
 
-  /* Light mode */
-  --bg-base: #F8FAFC;
-  --bg-surface: #FFFFFF;
-  --bg-elevated: #F1F5F9;
+  --border: rgba(15,17,21,.10);
 
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
+  /* restrained accent (Bidra blue) */
+  --accent: #2f76ff;
+  --accent-2: rgba(47,118,255,.12);
 
-  --border-subtle: rgba(15, 23, 42, 0.12);
+  --r-sm: 12px;
+  --r-md: 16px;
+  --r-lg: 22px;
 
-  /* Status */
-  --success: #22C55E;
-  --warning: #F59E0B;
-  --error: #EF4444;
-
-  /* Radius + shadow */
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 18px;
-
-  --shadow-sm: 0 1px 2px rgba(2, 6, 23, 0.08);
-  --shadow-md: 0 8px 24px rgba(2, 6, 23, 0.12);
-
-  /* Spacing rhythm */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
+  --shadow-1: 0 1px 2px rgba(0,0,0,.06), 0 6px 18px rgba(0,0,0,.06);
+  --shadow-2: 0 1px 2px rgba(0,0,0,.06), 0 12px 34px rgba(0,0,0,.08);
 }
 
-/* Dark mode overrides (Tailwind uses .dark on <html>) */
-.dark {
-  --bg-base: #0B0E11;
-  --bg-surface: #111720;
-  --bg-elevated: #151C28;
+*{ box-sizing:border-box; }
 
-  --text-primary: #E6E8EB;
-  --text-secondary: #A7AFB7;
-  --text-muted: #7C8796;
-
-  --border-subtle: rgba(230, 232, 235, 0.14);
-}
-
-/* ---------- Base reset + readability ---------- */
-html, body {
-  height: 100%;
-}
-
-body {
-  background: var(--bg-base);
-  color: var(--text-primary);
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  -webkit-font-smoothing: antialiased;
+html,body{
+  padding:0; margin:0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
   text-rendering: optimizeLegibility;
 }
 
-/* Links */
-a {
-  color: var(--brand-primary);
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
+a{ color: inherit; text-decoration: none; }
+a:hover{ text-decoration: none; }
 
-/* Remove the "boxed newspaper" feel */
-* {
-  box-sizing: border-box;
-}
-
-/* ---------- Layout containment (fixes full-width chaos) ---------- */
-main {
-  width: 100%;
-  max-width: 1100px;
+.container{
+  max-width: 1120px;
   margin: 0 auto;
-  padding: 28px 18px;
+  padding: 0 24px;
 }
 
-/* Headings rhythm */
-h1 { font-size: 2rem; line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; }
-h2 { font-size: 1.25rem; line-height: 1.2; font-weight: 700; }
-p  { color: var(--text-secondary); }
-
-/* ---------- Form styling (global MVP upgrade) ---------- */
-form {
-  display: grid;
-  gap: 14px;
+.section{
+  padding: 44px 0;
 }
 
-/* Labels */
-label {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 6px;
+.h1{
+  font-size: 44px;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  margin: 0;
 }
 
-/* Inputs */
-input, textarea, select {
-  width: 100%;
-  max-width: 640px;
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  outline: none;
-  box-shadow: var(--shadow-sm);
+.p{
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.55;
+  margin: 12px 0 0 0;
 }
 
-input::placeholder, textarea::placeholder {
-  color: var(--text-muted);
+.hero{
+  padding: 44px 0 18px 0;
 }
 
-/* Focus (trust + clarity) */
-input:focus, textarea:focus, select:focus {
-  border-color: rgba(59, 130, 246, 0.65);
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.22);
+.heroCard{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-2);
+  padding: 34px;
 }
 
-/* Button baseline (fixes ugly default button) */
-button, input[type="submit"] {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
 
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  border: 1px solid transparent;
+.btnRow{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top: 18px;
+}
 
-  background: var(--brand-primary);
+.btnPrimary{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: var(--accent);
   color: white;
-  font-weight: 700;
-  box-shadow: var(--shadow-md);
-  cursor: pointer;
-
-  transition: transform 120ms ease, background 120ms ease, box-shadow 120ms ease;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: var(--shadow-1);
+  font-weight: 600;
 }
 
-button:hover, input[type="submit"]:hover {
-  background: var(--brand-primary-dark);
+.btnPrimary:hover{ filter: brightness(0.98); }
+
+.btnSecondary{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 11px 14px;
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-1);
+  font-weight: 600;
 }
 
-button:active, input[type="submit"]:active {
-  transform: scale(0.985);
+.grid3{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 16px;
 }
 
-/* Secondary button option (when devs add class="btn-secondary") */
-.btn-secondary {
-  background: transparent !important;
-  color: var(--brand-primary) !important;
-  border-color: rgba(59, 130, 246, 0.35) !important;
-  box-shadow: none !important;
-}
-.btn-secondary:hover {
-  background: rgba(59, 130, 246, 0.10) !important;
+@media (max-width: 900px){
+  .h1{ font-size: 34px; }
+  .heroCard{ padding: 22px; }
+  .grid3{ grid-template-columns: 1fr; }
 }
 
-/* ---------- Cards (when markup uses .card) ---------- */
-.card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
+.card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-1);
   padding: 18px;
 }
 
-/* ---------- Simple "section divider" only ---------- */
-hr {
-  border: 0;
-  border-top: 1px solid var(--border-subtle);
+.cardTitle{
+  font-weight: 700;
+  margin: 0 0 6px 0;
 }
+
+.cardBody{
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+
+
 
 /* =========================
-   BASIC MVP MODE (temporary)
-   Goal: plain, readable UI while we build flows.
-   Tailwind stays installed (do NOT remove).
+   Bidra Global Premium Defaults (v1)
+   - Apply calm + uniform styling site-wide
+   - No layout/logic changes required
    ========================= */
 
-:root{
-  --bidra-bg:#ffffff;
-  --bidra-fg:#111827;     /* gray-900 */
-  --bidra-card:#ffffff;
-  --bidra-border:#d1d5db; /* gray-300 */
-  --bidra-muted:#374151;  /* gray-700 */
-  --bidra-link:#2563eb;   /* blue-600 */
+/* Default page shell for ALL pages */
+:where(main){
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 20px 80px;
 }
 
-/* Hard force readability */
-html, body{
-  background:#ffffff !important;
-  color:#111827 !important;
+/* Quiet premium typography */
+:where(h1){
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 6px 0 10px;
 }
 
-a{ color: var(--bidra-link); }
+:where(h2){
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin: 24px 0 10px;
+}
+
+:where(p){
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Links: calm, readable */
+:where(a){
+  color: inherit;
+  text-decoration: none;
+}
+:where(a:hover){
+  text-decoration: none;
+}
+
+/* Inputs: uniform across all pages */
+:where(input, select, textarea){
+  border: 0;
+  outline: none;
+  border-radius: 14px;
+  padding: 12px 12px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  box-shadow: inset 0 0 0 1px rgba(15,23,42,0.08);
+}
+
+:where(input:focus, select:focus, textarea:focus){
+  box-shadow: inset 0 0 0 1px rgba(15,23,42,0.10), 0 0 0 4px rgba(15,23,42,0.06);
+}
+
+/* Buttons: make common buttons feel premium */
+:where(button){
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-weight: 700;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+:where(button:hover){
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Soft cards: apply to existing “card-like” wrappers that already use borders */
+:where(.card, .panel, .box, .surface){
+  border-radius: 18px;
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+/* If a page uses a grid of cards, spacing feels uniform */
+:where(.grid, .cards, .listingsGrid){
+  gap: 18px;
+}
+
+/* Optional: quick utility if later you need full width pages
+   (we are NOT using it yet; just available)
+*/
+/*
+.fullBleed{
+  max-width: none !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+*/
+
+
+
+
+/* =========================
+   Bidra Global Premium Defaults (Phase4)
+   - Uniform calm styling site-wide
+   - Does NOT force max-width on main (admin stays as-is)
+   ========================= */
+
+:where(h1){
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 6px 0 10px;
+}
+
+:where(h2){
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin: 24px 0 10px;
+}
+
+:where(p){
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+:where(a){
+  color: inherit;
+  text-decoration: none;
+}
+:where(a:hover){
+  text-decoration: none;
+}
+
+/* Inputs: uniform across all pages */
+:where(input, select, textarea){
+  border: 0;
+  outline: none;
+  border-radius: 14px;
+  padding: 12px 12px;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  box-shadow: inset 0 0 0 1px rgba(15,23,42,0.08);
+}
+:where(input:focus, select:focus, textarea:focus){
+  box-shadow: inset 0 0 0 1px rgba(15,23,42,0.10), 0 0 0 4px rgba(15,23,42,0.06);
+}
+
+/* Buttons: calm + premium defaults */
+:where(button){
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-weight: 700;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+:where(button:hover){
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+/* Optional: opt-in page shell (public pages can use this class) */
+.pageShell{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 20px 80px;
+}
