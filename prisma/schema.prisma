@@ -51,7 +51,8 @@ model User {
 
   badgeConsistentSeller Boolean @default(false)
 
-  badgeNewSeller Boolean @default(false)
+  badgeNewSeller      Boolean              @default(false)
+  passwordResetTokens PasswordResetToken[]
 }
 
 model VerificationToken {
@@ -305,4 +306,17 @@ model ActivitySession {
 
   @@index([userId])
   @@index([lastSeenAt])
+}
+
+// Password reset tokens (Phase 3.6 security baseline)
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }

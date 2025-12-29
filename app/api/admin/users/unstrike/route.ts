@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
   const nextStrikes = Math.max(0, (existing.policyStrikes || 0) - 1);
 
-  // If strikes drop below threshold, clear the block (does NOT auto-unsuspend listings â€” admin controls that separately)
+  // If strikes drop below threshold, clear the block (does NOT auto-unsuspend listings - admin controls that separately)
   const clearBlock = nextStrikes < STRIKE_THRESHOLD;
 
   await prisma.user.update({
