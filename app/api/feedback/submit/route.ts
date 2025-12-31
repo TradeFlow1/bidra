@@ -1,10 +1,27 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
+import { requireAdult } from "@/lib/require-adult";
+
+
 import { prisma } from "@/lib/prisma";
+
+
 import { getServerSession } from "next-auth";
+
+
 import { authOptions } from "@/lib/auth";
 
+
+
 export async function POST(req: Request) {
-  const session = await getServerSession(authOptions);
+  
+  const gate = await requireAdult();
+  if (!gate.ok) {
+    return new Response(JSON.stringify({ ok: false, reason: gate.reason }), {
+      status: gate.status,
+      headers: { "content-type": "application/json" },
+    });
+  }
+const session = await getServerSession(authOptions);
   const userId = (session?.user as any)?.id;
 
   if (!userId) {

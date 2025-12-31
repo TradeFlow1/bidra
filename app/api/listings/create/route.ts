@@ -1,8 +1,19 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
+import { requireAdult } from "@/lib/require-adult";
+
+
 import { prisma } from "@/lib/prisma";
+
+
 import { getServerSession } from "next-auth";
+
+
 import { authOptions } from "@/lib/auth";
+
+
 import { getFeedbackGate } from "@/lib/feedback-gate";
+
+
 
 type ListingTypeIn = "AUCTION" | "BUY_NOW" | "FIXED_PRICE";
 
@@ -17,7 +28,7 @@ function toIntOrNull(v: any): number | null {
   return Math.trunc(n);
 }
 
-// Very lightweight policy layer (server-side). This is not perfect, but it’s enforceable and strike-backed.
+// Very lightweight policy layer (server-side). This is not perfect, but itâ€™s enforceable and strike-backed.
 const PROHIBITED_KEYWORDS = [
   // Live animals
   "kitten","puppy","dog","cat","rabbit","bird","snake","reptile","horse","livestock","animal","pet",
@@ -62,7 +73,15 @@ async function applyStrike(userId: string) {
 }
 
 export async function POST(req: Request) {
-  try {
+  
+  const gate = await requireAdult();
+  if (!gate.ok) {
+    return new Response(JSON.stringify({ ok: false, reason: gate.reason }), {
+      status: gate.status,
+      headers: { "content-type": "application/json" },
+    });
+  }
+try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });

@@ -1,11 +1,11 @@
-export const dynamic = "force-dynamic";
+﻿export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default function LegalPage() {
   return (
     <main style={{ maxWidth: 960, margin: "0 auto", padding: 24, fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial" }}>
       <h1>Legal</h1>
-      <p style={{ opacity: 0.8 }}>Last updated: Australia only · 18+ platform</p>
+      <p style={{ opacity: 0.8 }}>Last updated: Australia only Â· 18+ platform</p>
 
       <h2>Terms of Service (Australia)</h2>
 
@@ -13,25 +13,25 @@ export default function LegalPage() {
       <p>
         Bidra is a strictly <strong>18+ platform</strong>. By creating an account, users legally declare that they are
         18 years of age or older. Users under 18 may browse publicly available listings only and must not create
-        accounts, list items, bid, message other users, or transact in any way.
+        accounts, list items, make offers, message other users, or transact in any way.
       </p>
 
       <h3>2. Acceptance of Terms (Single Consent Model)</h3>
       <p>
         At sign-up, users must accept one combined consent only:
         <br />
-        <strong>“I agree to the Terms and Conditions and declare that I am 18 years of age or older.”</strong>
+        <strong>â€œI agree to the Terms and Conditions and declare that I am 18 years of age or older.â€</strong>
       </p>
 
       <h3>3. Platform Role</h3>
       <p>
-        Bidra operates solely as a technology platform facilitating listings, auctions, and communications.
+        Bidra operates solely as a technology platform facilitating listings, offers, and communications.
         Bidra does not sell, purchase, store, inspect, or take ownership of any items.
       </p>
 
-      <h3>4. Listings, Auctions, and Bids</h3>
+      <h3>4. Listings and Offers</h3>
       <p>
-        Sellers are responsible for lawful and accurate listings. Auction bids and fixed-price commitments are
+        Sellers are responsible for lawful and accurate listings. Offers and fixed-price commitments are
         legally binding under Australian law.
       </p>
 

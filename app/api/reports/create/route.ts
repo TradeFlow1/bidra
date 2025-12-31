@@ -1,7 +1,12 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
+import { requireAdult } from "@/lib/require-adult";
+
 import { prisma } from "@/lib/prisma";
+
 import { getServerSession } from "next-auth";
+
 import { authOptions } from "@/lib/auth";
+
 
 
 
@@ -14,7 +19,15 @@ const ALLOWED_REASONS = new Set([
   "OTHER",
 ]);
 export async function POST(req: Request) {
-  try {
+  
+  const gate = await requireAdult();
+  if (!gate.ok) {
+    return new Response(JSON.stringify({ ok: false, reason: gate.reason }), {
+      status: gate.status,
+      headers: { "content-type": "application/json" },
+    });
+  }
+try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });

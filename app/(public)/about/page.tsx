@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 export default function AboutPage() {
   return (
@@ -6,12 +6,12 @@ export default function AboutPage() {
       <h1>About Bidra</h1>
       <p>
         Bidra is an Australian-focused marketplace built from scratch with original design and copy.
-        List items for buy-now or run auctions, message sellers, and keep favourites in your watchlist.
+        List items for buy-now or receive offers, message sellers, and keep favourites in your watchlist.
       </p>
       <h2>Marketplace principles</h2>
       <ul>
         <li>Clarity: listings should be honest and detailed</li>
-        <li>Fairness: auctions discourage last-second ambush bidding</li>
+        <li>Fairness: offers reduce back-and-forth and make intent clear</li>
         <li>Safety: policies and reporting help reduce risky transactions</li>
       </ul>
       <p>

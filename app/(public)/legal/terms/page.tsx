@@ -1,4 +1,4 @@
-export default function Page() {
+﻿export default function Page() {
   return (
     <div className="prose max-w-3xl">
       <h1>Terms</h1>
@@ -14,7 +14,7 @@ export default function Page() {
       <h2>Listings & transactions</h2>
       <ul>
         <li>List only permitted items and provide accurate descriptions.</li>
-        <li>Respect auction rules and honour buy-now purchases.</li>
+        <li>Respect listing rules and honour accepted offers and buy-now purchases.</li>
         <li>Disputes are handled between buyers and sellers where possible.</li>
       </ul>
       <p>See also: Prohibited Items and Safety Tips.</p>

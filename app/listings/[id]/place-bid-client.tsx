@@ -12,9 +12,7 @@ export default function PlaceBidClient({
   const safeMinCents = Number.isFinite(Number(minBidCents)) ? Number(minBidCents) : 0;
   const minDollars = safeMinCents / 100;
 
-  const [amount, setAmount] = useState<string>(
-    minDollars ? (minDollars + 0.5).toFixed(2) : ""
-  );
+  const [amount, setAmount] = useState<string>(minDollars ? (minDollars + 0.5).toFixed(2) : "");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string>("");
 
@@ -29,7 +27,7 @@ export default function PlaceBidClient({
 
     const cents = Math.round(value * 100);
     if (cents < safeMinCents) {
-      setMsg(`Bid must be at least $${(safeMinCents / 100).toFixed(2)}.`);
+      setMsg(`Max offer must be at least $${(safeMinCents / 100).toFixed(2)}.`);
       return;
     }
 
@@ -38,19 +36,23 @@ export default function PlaceBidClient({
       const res = await fetch(`/api/bids/place`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ listingId, amount: cents }),
+        // IMPORTANT: send dollars, server converts -> cents
+        body: JSON.stringify({ listingId, amount: value }),
       });
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setMsg(data?.error || "Bid failed.");
+        setMsg(data?.error || "Offer failed.");
         return;
       }
 
-      setMsg("Bid placed!");
+      const status = data?.status === "WINNING" ? "You have the top offer" : "Your offer has been surpassed";
+      const current = typeof data?.currentBidCents === "number" ? (data.currentBidCents / 100).toFixed(2) : null;
+
+      setMsg(current ? `${status}. Current: $${current}` : `${status}.`);
       window.location.reload();
     } catch {
-      setMsg("Bid failed.");
+      setMsg("Offer failed.");
     } finally {
       setLoading(false);
     }
@@ -59,10 +61,14 @@ export default function PlaceBidClient({
   return (
     <div className="space-y-3">
       <div className="text-xs text-[var(--bidra-muted)]">
-        Minimum bid:{" "}
+        Minimum offer:{" "}
         <span className="font-semibold text-[var(--bidra-fg)]">
           ${minDollars.toFixed(2)}
         </span>
+      </div>
+
+      <div className="text-xs text-[var(--bidra-muted)]">
+        Enter your <span className="font-semibold text-[var(--bidra-fg)]">max offer</span>. We’ll submit your offer up to that amount.
       </div>
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -80,7 +86,7 @@ export default function PlaceBidClient({
           disabled={loading}
           className="rounded-xl bg-[var(--bidra-link)] px-4 py-2 text-sm font-semibold text-[#0B0E11] transition hover:opacity-90 disabled:opacity-60"
         >
-          {loading ? "Placing..." : "Place bid"}
+          {loading ? "Placing..." : "Set max offer"}
         </button>
       </div>
 

@@ -38,6 +38,19 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const highestBidCents =
     listing.bids && listing.bids.length ? (listing.bids[0] as any).amount : 0;
 
+
+  const currentBidCents = Math.max(listing.price, highestBidCents);
+
+  const reserveMet =
+    typeof (listing as any).reservePrice === "number"
+      ? currentBidCents >= (listing as any).reservePrice
+      : true;
+
+  const buyNowAvailable =
+    typeof (listing as any).buyNowPrice === "number"
+      ? currentBidCents < (listing as any).buyNowPrice
+      : false;
+
   const minBidCents = Math.max(listing.price, highestBidCents + 100);
 
   const sellerName =
@@ -72,18 +85,31 @@ export default async function ListingPage({ params }: { params: { id: string } }
       />
 
       <div className="flex gap-2 flex-wrap">
-        <Badge>{listing.type === "AUCTION" ? "Auction" : "Fixed price"}</Badge>
+        <Badge>{listing.type === "AUCTION" ? "Offers" : "Fixed price"}</Badge>
         <Badge>{listing.category}</Badge>
         <Badge>{listing.condition}</Badge>
       </div>
 
-      <div className="text-lg font-semibold">{formatMoney(listing.price)}</div>
+      <div className="text-lg font-semibold">
+  {listing.type === "AUCTION" ? (
+    <>
+      Top offer: {formatMoney(currentBidCents)}
+      {typeof (listing as any).buyNowPrice === "number" && buyNowAvailable ? (
+        <span className="ml-2 text-sm text-neutral-600">
+          • Buy now {formatMoney((listing as any).buyNowPrice)}
+        </span>
+      ) : null}
+    </>
+  ) : (
+    <>Price: {formatMoney(listing.price)}</>
+  )}
+</div>
 
       {listing.type === "AUCTION" ? (
         <PlaceBidClient listingId={listing.id} minBidCents={minBidCents} />
       ) : (
         <div className="text-sm text-neutral-600">
-          Bidding is disabled for fixed price items.
+          Offers are only available on eligible listings.
         </div>
       )}
 

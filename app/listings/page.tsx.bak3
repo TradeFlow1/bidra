@@ -13,11 +13,9 @@ type SearchParams = {
   q?: string;
   category?: string;
   type?: string;
-  condition?: string;
   location?: string;
   min?: string;
   max?: string;
-  sort?: string;
 };
 
 function dollars(cents: number | null | undefined) {
@@ -44,19 +42,6 @@ function firstImage(images: string[] | null | undefined) {
   return u.length ? u : null;
 }
 
-function endsLabel(endsAt: Date | null | undefined) {
-  if (!endsAt) return null;
-  const ms = endsAt.getTime() - Date.now();
-  if (!Number.isFinite(ms)) return null;
-  if (ms <= 0) return "Ended";
-  const mins = Math.floor(ms / 60000);
-  if (mins < 60) return `Ends in ${mins}m`;
-  const hrs = Math.floor(mins / 60);
-  if (hrs < 48) return `Ends in ${hrs}h`;
-  const days = Math.floor(hrs / 24);
-  return `Ends in ${days}d`;
-}
-
 export default async function ListingsPage({
   searchParams,
 }: {
@@ -65,14 +50,13 @@ export default async function ListingsPage({
   const q = cleanStr(searchParams?.q);
   const category = cleanStr(searchParams?.category);
   const type = cleanStr(searchParams?.type);
-  const condition = cleanStr(searchParams?.condition);
   const location = cleanStr(searchParams?.location);
-  const sort = cleanStr(searchParams?.sort);
 
   const minCents = parseMoneyToCents(searchParams?.min);
   const maxCents = parseMoneyToCents(searchParams?.max);
 
-  const moneyErr = Number.isNaN(minCents as any) || Number.isNaN(maxCents as any);
+  const moneyErr =
+    Number.isNaN(minCents as any) || Number.isNaN(maxCents as any);
 
   const where: any = { AND: [] as any[] };
 
@@ -87,8 +71,6 @@ export default async function ListingsPage({
 
   if (category) where.AND.push({ category });
   if (type) where.AND.push({ type });
-  if (condition) where.AND.push({ condition });
-
   if (location) {
     where.AND.push({
       location: { contains: location, mode: "insensitive" },
@@ -102,18 +84,9 @@ export default async function ListingsPage({
 
   const finalWhere = where.AND.length ? where : undefined;
 
-  const orderBy: any =
-    sort === "price_asc"
-      ? { price: "asc" }
-      : sort === "price_desc"
-      ? { price: "desc" }
-      : sort === "ending_soon"
-      ? { endsAt: "asc" }
-      : { createdAt: "desc" };
-
   const listings = await prisma.listing.findMany({
     where: finalWhere,
-    orderBy,
+    orderBy: { createdAt: "desc" },
     take: 50,
     select: {
       id: true,
@@ -122,7 +95,6 @@ export default async function ListingsPage({
       category: true,
       location: true,
       type: true,
-      condition: true,
       price: true,
       buyNowPrice: true,
       reservePrice: true,
@@ -133,9 +105,6 @@ export default async function ListingsPage({
         orderBy: { amount: "desc" },
         take: 1,
         select: { amount: true },
-      },
-      _count: {
-        select: { bids: true },
       },
     },
   });
@@ -157,11 +126,9 @@ export default async function ListingsPage({
     q ||
     category ||
     type ||
-    condition ||
     location ||
     (searchParams?.min ?? "").trim() ||
-    (searchParams?.max ?? "").trim() ||
-    sort
+    (searchParams?.max ?? "").trim()
   );
 
   const inputStyle: React.CSSProperties = {
@@ -214,29 +181,9 @@ export default async function ListingsPage({
                   <div style={labelStyle}>Type</div>
                   <select name="type" defaultValue={type} style={inputStyle}>
                     <option value="">Any</option>
-<option value="BUY_NOW">Buy now</option>
+                    <option value="AUCTION">Auction</option>
+                    <option value="BUY_NOW">Buy now</option>
                     <option value="FIXED_PRICE">Fixed price</option>
-                  </select>
-                </div>
-
-                <div>
-                  <div style={labelStyle}>Condition</div>
-                  <select name="condition" defaultValue={condition} style={inputStyle}>
-                    <option value="">Any</option>
-                    <option value="New">New</option>
-                    <option value="Used - Like New">Used - Like New</option>
-                    <option value="Used - Good">Used - Good</option>
-                    <option value="Used - Fair">Used - Fair</option>
-                  </select>
-                </div>
-
-                <div>
-                  <div style={labelStyle}>Sort</div>
-                  <select name="sort" defaultValue={sort} style={inputStyle}>
-                    <option value="">Newest</option>
-                    <option value="ending_soon">Ending soon</option>
-                    <option value="price_asc">Price: low to high</option>
-                    <option value="price_desc">Price: high to low</option>
                   </select>
                 </div>
               </div>
@@ -296,11 +243,7 @@ export default async function ListingsPage({
               listings.map((l) => {
                 const href = `/listings/${l.id}`;
                 const topBid = l.bids && l.bids.length ? l.bids[0].amount : null;
-
-                const current =
-                  l.type === "AUCTION"
-                    ? (topBid ?? l.price)
-                    : (l.buyNowPrice ?? l.price);
+                const current = l.type === "AUCTION" ? (topBid ?? l.price) : (l.buyNowPrice ?? l.price);
 
                 const reserveMet =
                   l.type !== "AUCTION"
@@ -310,8 +253,7 @@ export default async function ListingsPage({
                       : current >= l.reservePrice;
 
                 const img = firstImage(l.images);
-                const priceLabel = l.type === "AUCTION" ? "Top offer" : "Price";
-                const ends = l.type === "AUCTION" ? endsLabel(l.endsAt) : null;
+                const priceLabel = l.type === "AUCTION" ? "Current" : "Price";
 
                 return (
                   <div key={l.id} className="card cardTap">
@@ -327,22 +269,7 @@ export default async function ListingsPage({
                               sizes="112px"
                               style={{ objectFit: "cover" }}
                             />
-                          ) : (
-                            <div
-                              style={{
-                                position: "absolute",
-                                inset: 0,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: 12,
-                                fontWeight: 900,
-                                color: "rgba(15,17,21,0.45)",
-                              }}
-                            >
-                              No photo
-                            </div>
-                          )}
+                          ) : null}
                         </div>
 
                         <div>
@@ -357,54 +284,20 @@ export default async function ListingsPage({
                           <div className="browseBadges">
                             {l.type === "AUCTION" ? (
                               <>
-                                <span className="browseBadge badgeTimed">Offers</span>
-                                <div className={`reserveLine ${reserveMet ? "reserveMet" : "reserveNotMet"}`}>
-                                  <span className="reserveDot"></span>
-                                  <span>"Offers • Seller accepts an offer"</span>
-                                </div>
+                                <span className="browseBadge">Auction</span>
+                                <span className="browseBadge">{reserveMet ? "Reserve met" : "Reserve not met"}</span>
                               </>
                             ) : l.type === "BUY_NOW" ? (
-                              <span className="browseBadge badgeBuyNow">Buy now</span>
+                              <span className="browseBadge">Buy now</span>
                             ) : (
-                              <span className="browseBadge badgeFixed">Fixed price</span>
+                              <span className="browseBadge">Fixed price</span>
                             )}
                           </div>
 
-                          {l.type === "AUCTION" ? (
-                            <div className="reserveHint">
-                              Seller minimum price
-                            </div>
-                          ) : null}
-
                           <div className="browsePriceRow">
-                            <div style={{ display: "grid", gap: 2 }}>
-                              <div style={{ color: "var(--muted)", fontSize: 13 }}>
-                                {priceLabel}
-                                {l.type === "AUCTION" && typeof l._count?.bids === "number" ? (
-                                  <span style={{ marginLeft: 10 }}>
-                                    {l._count.bids} offer{l._count.bids === 1 ? "" : "s"}
-                                  </span>
-                                ) : null}
-                              </div>
-
-                              <div className="browsePrice">${dollars(current)}</div>
-
-                              {l.type === "AUCTION" && ends ? (
-                                <div style={{ color: "var(--muted)", fontSize: 12 }}>
-                                  {ends}
-                                </div>
-                              ) : null}
-
-                              {l.type === "AUCTION" && typeof l.buyNowPrice === "number" && current < l.buyNowPrice ? (
-                                <div style={{ color: "var(--muted)", fontSize: 12 }}>
-                                  Buy now ${dollars(l.buyNowPrice)}
-                                </div>
-                              ) : null}
-                            </div>
-
-                            <div style={{ position: "relative", zIndex: 5 }}>
-                              <WatchButton listingId={l.id} initialWatched={watchedSet.has(l.id)} compact />
-                            </div>
+                            <div style={{ color: "var(--muted)", fontSize: 13 }}>{priceLabel}</div>
+                            <div className="browsePrice">${dollars(current)}</div>
+                            <WatchButton listingId={l.id} initialWatched={watchedSet.has(l.id)} compact />
                           </div>
 
                           {l.description ? (

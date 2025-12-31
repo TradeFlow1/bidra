@@ -7,7 +7,7 @@ import ActivityPinger from "@/components/activity-pinger";
 
 export const metadata: Metadata = {
   title: "Bidra",
-  description: "Local buy/sell & auctions for South East Queensland.",
+  description: "Local buy/sell for South East Queensland.",
 };
 
 export default function RootLayout({

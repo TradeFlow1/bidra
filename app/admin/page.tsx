@@ -10,7 +10,7 @@ export default async function AdminHome() {
   if (!user) redirect("/auth/login");
   if (user.role !== "ADMIN") redirect("/");
 
-  const [users, listings, activeAuctions, reports] = await Promise.all([
+  const [users, listings, activeTimedBidding, reports] = await Promise.all([
     prisma.user.count(),
     prisma.listing.count(),
     prisma.listing.count({ where: { type: "AUCTION", status: "ACTIVE" } }),
@@ -42,8 +42,8 @@ export default async function AdminHome() {
           <div className="text-2xl font-bold">{listings}</div>
         </Card>
         <Card>
-          <div className="text-sm text-neutral-600">Active auctions</div>
-          <div className="text-2xl font-bold">{activeAuctions}</div>
+          <div className="text-sm text-neutral-600">Active offer listings</div>
+          <div className="text-2xl font-bold">{activeTimedBidding}</div>
         </Card>
         <Card>
           <div className="text-sm text-neutral-600">Open reports</div>

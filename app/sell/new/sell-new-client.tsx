@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { FULL_CATEGORIES } from "@/lib/categories";
 
@@ -18,7 +18,7 @@ const CONDITION_OPTIONS = [
 
 const LOCATION_OPTIONS = ["QLD", "NSW", "VIC", "SA", "WA", "TAS", "ACT", "NT"];
 
-type ListingTypeUI = "AUCTION" | "FIXED_PRICE";
+type ListingTypeUI = "FIXED_PRICE";
 
 export default function SellNewClient() {
   const router = useRouter();
@@ -34,8 +34,6 @@ export default function SellNewClient() {
 
   const [type, setType] = useState<ListingTypeUI>("FIXED_PRICE");
   const [price, setPrice] = useState("");          // dollars
-  const [reservePrice, setReservePrice] = useState(""); // dollars (auction only)
-  const [buyNowPrice, setBuyNowPrice] = useState("");   // dollars (auction only)
 
   const [imageUrls, setImageUrls] = useState("");
 
@@ -54,22 +52,7 @@ export default function SellNewClient() {
     if (!Number.isFinite(p)) return "Price must be a number.";
     if (p <= 0) return "Price must be greater than $0.";
 
-    if (type === "AUCTION") {
-      const r = asDollarsNumberOrNull(reservePrice);
-      if (r !== null) {
-        if (!Number.isFinite(r)) return "Reserve price must be a number (or blank).";
-        if (r <= 0) return "Reserve price must be greater than $0 (or blank).";
-        if (r < p) return "Reserve price must be greater than or equal to the starting price.";
-      }
 
-      const b = asDollarsNumberOrNull(buyNowPrice);
-      if (b !== null) {
-        if (!Number.isFinite(b)) return "Buy Now price must be a number (or blank).";
-        if (b <= 0) return "Buy Now price must be greater than $0 (or blank).";
-        if (b < p) return "Buy Now price must be greater than or equal to the starting price.";
-        if (r !== null && Number.isFinite(r) && b < r) return "Buy Now price must be >= reserve price.";
-      }
-    }
 
     return null;
   }
@@ -108,11 +91,7 @@ export default function SellNewClient() {
               .filter(Boolean);
 
             const startingPriceCents = Math.round(Number(price) * 100);
-
-            const reserveDollars = type === "AUCTION" ? asDollarsNumberOrNull(reservePrice) : null;
-            const buyNowDollars = type === "AUCTION" ? asDollarsNumberOrNull(buyNowPrice) : null;
-
-            const body: any = {
+const body: any = {
               type, // "AUCTION" | "FIXED_PRICE"
               title: title.trim(),
               description: description.trim(),
@@ -121,8 +100,6 @@ export default function SellNewClient() {
               location: location.trim(),
               price: startingPriceCents,
               images,
-              reservePrice: reserveDollars === null ? null : Math.round(reserveDollars * 100),
-              buyNowPrice: buyNowDollars === null ? null : Math.round(buyNowDollars * 100),
             };
 
             const res = await fetch("/api/listings/create", {
@@ -175,54 +152,28 @@ export default function SellNewClient() {
             value={type}
             onChange={(e) => setType(e.target.value as ListingTypeUI)}
           >
-            <option value="FIXED_PRICE">Fixed price</option>
-            <option value="AUCTION">Auction</option>
-          </select>
+            <option value="FIXED_PRICE">Fixed price</option></select>
           <div className="mt-1 text-xs opacity-70">
-            Auction = starting price + optional reserve + optional Buy Now.
+            Listings use fixed pricing. Offers are handled on the listing page.
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
             <label className="text-sm font-medium">
-              {type === "AUCTION" ? "Starting price (AUD) *" : "Price (AUD) *"}
+              Price (AUD) *
             </label>
             <input
               className="mt-1 w-full rounded-md border p-2"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               inputMode="decimal"
-              placeholder={type === "AUCTION" ? "e.g. 50" : "e.g. 120"}
+              placeholder="e.g. 120"
               required
             />
           </div>
 
-          {type === "AUCTION" ? (
-            <>
-              <div>
-                <label className="text-sm font-medium">Reserve price (AUD) (optional)</label>
-                <input
-                  className="mt-1 w-full rounded-md border p-2"
-                  value={reservePrice}
-                  onChange={(e) => setReservePrice(e.target.value)}
-                  inputMode="decimal"
-                  placeholder="e.g. 80"
-                />
-              </div>
 
-              <div>
-                <label className="text-sm font-medium">Buy Now price (AUD) (optional)</label>
-                <input
-                  className="mt-1 w-full rounded-md border p-2"
-                  value={buyNowPrice}
-                  onChange={(e) => setBuyNowPrice(e.target.value)}
-                  inputMode="decimal"
-                  placeholder="e.g. 120"
-                />
-              </div>
-            </>
-          ) : null}
 
           <div>
             <label className="text-sm font-medium">Category</label>

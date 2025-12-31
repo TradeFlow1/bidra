@@ -1,7 +1,7 @@
-# Bidra (AU Marketplace MVP)
+﻿# Bidra (AU Marketplace MVP)
 
 Bidra is a modern Australian-focused marketplace built from scratch (original implementation and copy).
-It supports **Buy Now** listings and **Auctions** with anti-sniping, watchlists, messaging, reporting, and an admin dashboard.
+It supports fixed-price listings and offer-based buying with anti-sniping, watchlists, messaging, reporting, and an admin dashboard.
 
 ## Tech
 - Next.js (App Router) + TypeScript
@@ -9,7 +9,7 @@ It supports **Buy Now** listings and **Auctions** with anti-sniping, watchlists,
 - NextAuth (Credentials provider)
 - Tailwind (simple lightweight UI components)
 - Stripe Checkout (test mode in MVP)
-- Vercel Cron for auction settlement
+- Offer model: no auction settlement cron
 
 ---
 
@@ -75,11 +75,11 @@ npx prisma migrate deploy
 
 ---
 
-## 4) Auction cron
+## 4) Offer model note
 This repo includes `vercel.json` with a cron calling:
 - `/api/cron/settle-auctions` every minute
 
-That route settles ended auctions and creates a pending Order for the winning bidder.
+Auction settlement is disabled. Orders are created when a seller accepts an offer.
 
 ---
 
@@ -88,4 +88,4 @@ That route settles ended auctions and creates a pending Order for the winning bi
 - Rate limiting: simple in-memory limiter (sufficient for MVP). For multi-region, swap to Redis/Upstash.
 
 ---
-(c) Bidra — original implementation
+(c) Bidra â€” original implementation

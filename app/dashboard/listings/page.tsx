@@ -59,7 +59,7 @@ export default async function MyListingsPage() {
               <div className="text-sm text-neutral-600">{l.category} • {l.location}</div>
               <Link className="font-semibold hover:underline" href={"/listings/" + l.id}>{l.title}</Link>
               <div className="mt-2 flex gap-2 flex-wrap">
-                <Badge>{l.type === "AUCTION" ? "Auction" : "Buy now"}</Badge>
+                <Badge>{l.type === "AUCTION" ? "Offers" : "Buy now"}</Badge>
                 <Badge>Status: {l.status}</Badge>
               </div>
               <div className="mt-1 text-sm font-bold">${(l.price/100).toFixed(2)} AUD</div>

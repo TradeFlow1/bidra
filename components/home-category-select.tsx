@@ -1,6 +1,37 @@
 ﻿"use client";
 
+import { FULL_CATEGORIES } from "@/lib/categories";
+
+const POPULAR: string[] = [
+  "Vehicles",
+  "Home & Furniture",
+  "Tech & Electronics",
+  "Fashion & Wearables",
+  "Sports & Outdoors",
+  "Kids & Toys",
+  "Appliances",
+  "Tools & DIY",
+  "Books & Media",
+  "Collectibles & Vintage",
+  "Seasonal Goods",
+];
+
+function uniq(list: string[]) {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const x of list) {
+    if (!seen.has(x)) {
+      seen.add(x);
+      out.push(x);
+    }
+  }
+  return out;
+}
+
 export default function HomeCategorySelect() {
+  const popular = uniq(POPULAR).filter((c) => FULL_CATEGORIES.includes(c as any));
+  const all = FULL_CATEGORIES.filter((c) => !popular.includes(c));
+
   return (
     <select
       aria-label="Browse by category"
@@ -21,17 +52,34 @@ export default function HomeCategorySelect() {
         color: "#0F172A",
       }}
     >
-      <option value="" disabled>Select a category…</option>
-      <option value="Home & Furniture">Home & Furniture</option>
-      <option value="Tech & Electronics">Tech & Electronics</option>
-      <option value="Fashion & Wearables">Fashion & Wearables</option>
-      <option value="Sports & Outdoors">Sports & Outdoors</option>
-      <option value="Kids & Toys">Kids & Toys</option>
-      <option value="Appliances">Appliances</option>
-      <option value="Tools & DIY">Tools & DIY</option>
-      <option value="Books & Media">Books & Media</option>
-      <option value="Collectibles & Vintage">Collectibles & Vintage</option>
-      <option value="Seasonal Goods">Seasonal Goods</option>
+      <option value="" disabled>
+        Select a category…
+      </option>
+
+      {popular.length > 0 ? (
+        <>
+          <optgroup label="Popular">
+            {popular.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </optgroup>
+          <optgroup label="All categories">
+            {all.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </optgroup>
+        </>
+      ) : (
+        FULL_CATEGORIES.map((c) => (
+          <option key={c} value={c}>
+            {c}
+          </option>
+        ))
+      )}
     </select>
   );
 }
