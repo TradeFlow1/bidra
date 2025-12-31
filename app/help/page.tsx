@@ -9,7 +9,7 @@ export default function HelpPage() {
       <header style={{ marginBottom: 18 }}>
         <h1 style={{ margin: 0, fontSize: 30 }}>Help</h1>
         <p style={{ marginTop: 10, marginBottom: 0, opacity: 0.8 }}>
-          Quick guidance for using Bidra. Weâ€™ll add FAQs here later.
+          Quick guidance for using Bidra. We'll add FAQs here later.
         </p>
       </header>
 

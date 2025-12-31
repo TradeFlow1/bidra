@@ -20,7 +20,7 @@ export default function LegalPage() {
       <p>
         At sign-up, users must accept one combined consent only:
         <br />
-        <strong>â€œI agree to the Terms and Conditions and declare that I am 18 years of age or older.â€</strong>
+        <strong>"I agree to the Terms and Conditions and declare that I am 18 years of age or older."</strong>
       </p>
 
       <h3>3. Platform Role</h3>
