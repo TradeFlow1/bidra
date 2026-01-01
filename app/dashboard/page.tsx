@@ -8,7 +8,9 @@ import DeleteListingButton from "./delete-listing-button";
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
 
-  if (!session?.user?.id) {
+  const role = (session?.user as any)?.role;
+  const isAdmin = role === "ADMIN";
+if (!session?.user?.id) {
     redirect("/auth/login");
   }
 
@@ -23,7 +25,11 @@ export default async function DashboardPage() {
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-3xl font-bold">Dashboard</h1>
 
-        <Link
+        
+{isAdmin ? (
+  <Link href="/admin" className="rounded-md border px-3 py-2 text-sm font-medium hover:opacity-90">Admin</Link>
+) : null}
+<Link
           href="/sell/new"
           className="rounded-md border px-3 py-2 text-sm font-medium"
         >

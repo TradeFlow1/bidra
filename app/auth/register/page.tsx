@@ -299,6 +299,11 @@ export default function RegisterPage() {
                   </Link>
                 </div>
               </form>
+
+<div style={{ marginTop: 12, fontSize: 14 }}>
+  <span style={{ opacity: 0.8 }}>Already have an account?</span>{" "}
+  <Link href="/login" className="underline underline-offset-4">Sign in</Link>
+</div>
             </>
           )}
         </div>

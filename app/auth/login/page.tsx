@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -68,6 +68,11 @@ export default function Login() {
             </Link>.
           </div>
         </form>
+
+<div style={{ marginTop: 12, fontSize: 14 }}>
+  <span style={{ opacity: 0.8 }}>Don&apos;t have an account?</span>{" "}
+  <Link href="/register" className="underline underline-offset-4">Register</Link>
+</div>
       </Card>
     </div>
   );
