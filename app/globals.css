@@ -1,4 +1,6 @@
-﻿/* Bidra Premium UI (no Tailwind)
+﻿@import "tailwindcss";
+
+/* Bidra Premium UI (no Tailwind)
    - quiet, neutral, premium
    - whitespace > borders
    - subtle shadow, soft radius
@@ -390,4 +392,18 @@ a:hover{ text-decoration: none; }
 .reserveMet .reserveDot{ background:#22c55e; }
 .reserveNotMet{ color:#92400e; }
 .reserveNotMet .reserveDot{ background:#f59e0b; }
+
+
+/* Home page listing cards: subtle hover lift (desktop) */
+.homeListingCard {
+  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+  will-change: transform;
+}
+@media (hover: hover) and (pointer: fine) {
+  .homeListingCard:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 34px rgba(0,0,0,0.12);
+    border-color: rgba(10,18,32,0.18);
+  }
+}
 

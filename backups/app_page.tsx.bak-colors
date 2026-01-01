@@ -131,13 +131,14 @@ export default async function HomePage() {
         <div style={S.heroInner}>
           <div style={S.logoRow}>
             <div style={S.logoWrap}>
-              <img
+              <Image
                 src={LOGO_SRC}
                 alt="Bidra"
                 width={480}
                 height={140}
-               
-                style={{ height: 84, width: "auto", filter: "drop-shadow(0 10px 22px rgba(0,0,0,0.45))" }} />
+                priority
+                style={{ height: 84, width: "auto", filter: "drop-shadow(0 10px 22px rgba(0,0,0,0.45))" }}
+              />
             </div>
           </div>
 

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -94,13 +94,12 @@ export default function RegisterPage() {
           <div className="flex items-start gap-4">
             <div className="shrink-0">
               {/* Use your existing logo file. Do not change it. */}
-              <Image
+              <img
                 src="/brand/png/bidra_logo_2x.png"
                 alt="Bidra"
                 width={140}
                 height={44}
-                priority
-              />
+                />
             </div>
 
             <div className="flex-1">
@@ -115,7 +114,7 @@ export default function RegisterPage() {
           {/* Success */}
           {ok ? (
             <div className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-5">
-              <p className="text-lg font-bold">Account created ✅</p>
+              <p className="text-lg font-bold">Account created âœ…</p>
               <p className="mt-1 text-sm text-white/70">
                 For MVP, the email verification link prints in the server console.
               </p>
@@ -285,12 +284,12 @@ export default function RegisterPage() {
                   disabled={loading}
                   className="w-full rounded-xl bg-[var(--bidra-blue)] px-4 py-3 font-extrabold text-black transition hover:brightness-110 disabled:opacity-60"
                 >
-                  {loading ? "Creating account…" : "Create account"}
+                  {loading ? "Creating accountâ€¦" : "Create account"}
                 </button>
 
                 <div className="flex flex-col gap-2 text-sm text-white/65 sm:flex-row sm:items-center sm:justify-between">
                   <p className="text-xs text-white/50">
-                    By creating an account you agree to Bidra’s Terms and confirm you are 18+.
+                    By creating an account you agree to Bidraâ€™s Terms and confirm you are 18+.
                   </p>
                   <Link
                     className="font-semibold text-[var(--bidra-blue)] underline underline-offset-4"

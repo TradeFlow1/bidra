@@ -1,0 +1,113 @@
+﻿import Link from "next/link";
+import Image from "next/image";
+import { auth } from "@/lib/auth";
+
+export default async function SiteHeader() {
+  const session = await auth();
+  const user = session?.user as any;
+
+  const isAuthed = !!user?.id;
+  const isAdmin = !!user?.isAdmin;
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/90 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+        {/* Left: Brand */}
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/brand/favicons/bidra-icon_dark-64.png"
+            alt="Bidra"
+            width={28}
+            height={28}
+            className="rounded-md"
+            priority
+          />
+          <span className="hidden text-sm font-semibold text-white sm:inline">Bidra</span>
+        </Link>
+
+        {/* Desktop primary nav */}
+        <nav className="hidden items-center gap-6 text-sm font-semibold text-white/80 sm:flex">
+          <Link href="/listings" className="hover:text-white">Browse</Link>
+          <Link href="/sell/new" className="hover:text-white">Sell</Link>
+        </nav>
+
+        {/* Right side */}
+        <div className="flex items-center gap-2">
+          {/* Desktop account dropdown */}
+          <div className="hidden sm:block">
+            <details className="group relative">
+              <summary className="cursor-pointer list-none rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-semibold text-white hover:border-white/25">
+                Account <span className="text-white/60">▾</span>
+              </summary>
+
+              <div className="absolute right-0 mt-2 w-56 overflow-hidden rounded-2xl border border-white/10 bg-slate-950 shadow-xl">
+                <div className="px-3 py-2 text-xs text-white/60">
+                  {isAuthed ? (user?.email ?? "Signed in") : "Not signed in"}
+                </div>
+
+                <div className="h-px bg-white/10" />
+
+                {isAuthed ? (
+                  <>
+                    <Link className="block px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/dashboard">Dashboard</Link>
+                    <Link className="block px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/watchlist">Watchlist</Link>
+                    <Link className="block px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/orders">Orders</Link>
+                    <Link className="block px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/profile">Profile</Link>
+                    {isAdmin && (
+                      <>
+                        <div className="h-px bg-white/10" />
+                        <Link className="block px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/admin">Admin</Link>
+                      </>
+                    )}
+                    <div className="h-px bg-white/10" />
+                    <Link className="block px-3 py-2 text-sm font-semibold text-white hover:bg-white/5" href="/logout">Sign out</Link>
+                  </>
+                ) : (
+                  <>
+                    <Link className="block px-3 py-2 text-sm font-semibold text-white hover:bg-white/5" href="/login">Sign in</Link>
+                    <Link className="block px-3 py-2 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/register">Create account</Link>
+                  </>
+                )}
+              </div>
+            </details>
+          </div>
+
+          {/* Mobile menu */}
+          <div className="sm:hidden">
+            <details className="group relative">
+              <summary className="cursor-pointer list-none rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-semibold text-white hover:border-white/25">
+                Menu <span className="text-white/60">▾</span>
+              </summary>
+
+              <div className="absolute right-0 mt-2 w-64 overflow-hidden rounded-2xl border border-white/10 bg-slate-950 shadow-xl">
+                <Link className="block px-3 py-3 text-sm font-semibold text-white hover:bg-white/5" href="/listings">Browse</Link>
+                <Link className="block px-3 py-3 text-sm font-semibold text-white hover:bg-white/5" href="/sell/new">Sell</Link>
+
+                <div className="h-px bg-white/10" />
+
+                {isAuthed ? (
+                  <>
+                    <Link className="block px-3 py-3 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/dashboard">Dashboard</Link>
+                    <Link className="block px-3 py-3 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/watchlist">Watchlist</Link>
+                    <Link className="block px-3 py-3 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/orders">Orders</Link>
+                    <Link className="block px-3 py-3 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/profile">Profile</Link>
+                    {isAdmin && (
+                      <Link className="block px-3 py-3 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/admin">Admin</Link>
+                    )}
+                    <div className="h-px bg-white/10" />
+                    <Link className="block px-3 py-3 text-sm font-semibold text-white hover:bg-white/5" href="/logout">Sign out</Link>
+                  </>
+                ) : (
+                  <>
+                    <Link className="block px-3 py-3 text-sm font-semibold text-white hover:bg-white/5" href="/login">Sign in</Link>
+                    <Link className="block px-3 py-3 text-sm text-white/80 hover:bg-white/5 hover:text-white" href="/register">Create account</Link>
+                  </>
+                )}
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}

@@ -1,0 +1,129 @@
+﻿import Link from "next/link";
+import Image from "next/image";
+import { auth } from "@/lib/auth";
+
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="rounded-lg px-3 py-2 text-sm font-semibold text-white/85 hover:bg-white/10 hover:text-white"
+    >
+      {children}
+    </Link>
+  );
+}
+
+export default async function SiteHeader() {
+  const session = await auth();
+  const user = session?.user as any;
+  const isAuthed = !!user?.id;
+  const isAdmin = !!user?.isAdmin;
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/90 backdrop-blur">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
+        {/* Left: Brand */}
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/brand/favicons/bidra-icon_dark-64.png"
+            alt="Bidra"
+            width={28}
+            height={28}
+            priority
+            className="rounded"
+          />
+          <span className="text-sm font-bold tracking-wide text-white">Bidra</span>
+        </Link>
+
+        {/* Desktop nav */}
+        <nav className="hidden items-center gap-1 md:flex">
+          <NavLink href="/listings">Browse</NavLink>
+          <NavLink href="/sell/new">Sell</NavLink>
+
+          {isAuthed ? (
+            <>
+              <NavLink href="/dashboard">Dashboard</NavLink>
+              <NavLink href="/watchlist">Watchlist</NavLink>
+              <NavLink href="/orders">Orders</NavLink>
+              {isAdmin ? <NavLink href="/admin">Admin</NavLink> : null}
+
+              <Link
+                href="/account"
+                className="ml-2 inline-flex items-center justify-center rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10"
+              >
+                Account
+              </Link>
+            </>
+          ) : (
+            <>
+              <NavLink href="/auth/login">Sign in</NavLink>
+              <Link
+                href="/auth/register"
+                className="ml-2 inline-flex items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100"
+              >
+                Create account
+              </Link>
+            </>
+          )}
+        </nav>
+
+        {/* Mobile menu (no client JS needed) */}
+        <div className="md:hidden">
+          <details className="group">
+            <summary className="list-none rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-semibold text-white hover:bg-white/10 cursor-pointer">
+              Menu
+            </summary>
+
+            <div className="absolute right-4 mt-2 w-56 rounded-2xl border border-white/10 bg-slate-950/95 p-2 shadow-xl">
+              <Link className="block rounded-xl px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10" href="/listings">
+                Browse
+              </Link>
+              <Link className="block rounded-xl px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10" href="/sell/new">
+                Sell
+              </Link>
+
+              <div className="my-2 h-px bg-white/10"></div>
+
+              {isAuthed ? (
+                <>
+                  <Link className="block rounded-xl px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10" href="/dashboard">
+                    Dashboard
+                  </Link>
+                  <Link className="block rounded-xl px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10" href="/watchlist">
+                    Watchlist
+                  </Link>
+                  <Link className="block rounded-xl px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10" href="/orders">
+                    Orders
+                  </Link>
+                  {isAdmin ? (
+                    <Link className="block rounded-xl px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10" href="/admin">
+                      Admin
+                    </Link>
+                  ) : null}
+
+                  <div className="my-2 h-px bg-white/10"></div>
+
+                  <Link className="block rounded-xl px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10" href="/account">
+                    Account
+                  </Link>
+                  <Link className="block rounded-xl px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10" href="/logout">
+                    Sign out
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link className="block rounded-xl px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10" href="/auth/login">
+                    Sign in
+                  </Link>
+                  <Link className="block rounded-xl bg-white px-3 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100" href="/auth/register">
+                    Create account
+                  </Link>
+                </>
+              )}
+            </div>
+          </details>
+        </div>
+      </div>
+    </header>
+  );
+}

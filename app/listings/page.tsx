@@ -320,13 +320,12 @@ export default async function ListingsPage({
                       <div className="browseItem">
                         <div className="browseThumb">
                           {img ? (
-                            <Image
+                            <img
                               src={img}
                               alt={l.title || "Listing"}
-                              fill
-                              sizes="112px"
-                              style={{ objectFit: "cover" }}
-                            />
+                             
+                             
+                              style={{ objectFit: "cover" }} />
                           ) : (
                             <div
                               style={{
