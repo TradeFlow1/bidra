@@ -76,6 +76,9 @@ export default async function ListingsPage({
 
   const where: any = { AND: [] as any[] };
 
+  // Always hide DELETED/SUSPENDED/etc from public browse
+  where.AND.push({ status: "ACTIVE" });
+
   if (q) {
     where.AND.push({
       OR: [
@@ -402,7 +405,7 @@ export default async function ListingsPage({
                             </div>
 
                             <div style={{ position: "relative", zIndex: 5 }}>
-                              <WatchButton listingId={l.id} initialWatched={watchedSet.has(l.id)} compact />
+                              <div className="tapExclude"><WatchButton listingId={l.id} initialWatched={watchedSet.has(l.id)} compact  /></div>
                             </div>
                           </div>
 

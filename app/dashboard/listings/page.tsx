@@ -10,7 +10,7 @@ export default async function MyListingsPage() {
   if (!user) redirect("/auth/login");
 
   const listings = await prisma.listing.findMany({
-    where: { sellerId: user.id },
+    where: { sellerId: user.id, status: { not: "DELETED" } },
     orderBy: { createdAt: "desc" },
     take: 100
   });

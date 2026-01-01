@@ -13,7 +13,7 @@ export default async function DashboardPage() {
   }
 
   const myListings = await prisma.listing.findMany({
-    where: { sellerId: session.user.id },
+    where: { sellerId: session.user.id, status: { not: "DELETED" } },
     orderBy: { createdAt: "desc" },
     take: 100,
   });
