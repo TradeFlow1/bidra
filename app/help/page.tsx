@@ -36,7 +36,7 @@ export default function HelpPage() {
       </section>
 
       <p style={{ marginTop: 24 }}>
-        <Link href="/">â† Back to home</Link>
+        <Link href="/">← Back to home</Link>
       </p>
     </main>
   );
