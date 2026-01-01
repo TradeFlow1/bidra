@@ -11,14 +11,14 @@
   --surface: #ffffff;
   --surface-2: #f6f6f7;
 
-  --text: #0f1115;
+  --text: #0B0E11;
   --muted: #5b6270;
 
   --border: rgba(15,17,21,.10);
 
   /* restrained accent (Bidra blue) */
-  --accent: #2f76ff;
-  --accent-2: rgba(47,118,255,.12);
+  --accent: #1DA1F2;
+  --accent-2: rgba(29,161,242,.14);
 
   --r-sm: 12px;
   --r-md: 16px;

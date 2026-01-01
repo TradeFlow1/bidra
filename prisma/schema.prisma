@@ -8,56 +8,50 @@ datasource db {
 }
 
 model User {
-  
-  policyStrikeEvents PolicyStrike[] @relation("UserPolicyStrikes")
-  clearedStrikes     PolicyStrike[] @relation("ClearedStrikes")
-  policyStrikes      Int            @default(0)
-  policyBlockedUntil DateTime?
-
-  termsAcceptedAt DateTime?
-  termsVersion    String?
-
-  id                 String              @id @default(cuid())
-  email              String              @unique
-  username           String?             @unique
-  dob                DateTime?
-  country            String?             @default("AU")
-  state              String?
-  suburb             String?
-  postcode           String?
-  phone              String?
-  phoneVerified      Boolean             @default(false)
-  ageVerified        Boolean             @default(false)
-  isActive           Boolean             @default(false)
-  passwordHash       String
-  emailVerified      Boolean             @default(false)
-  role               Role                @default(USER)
-  name               String?
-  bio                String?
-  avatarUrl          String?
-  location           String?
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  bids               Bid[]
-  listings           Listing[]           @relation("SellerListings")
-  messages           Message[]
-  orders             Order[]             @relation("BuyerOrders")
-  reports            Report[]            @relation("ReporterReports")
-  verificationTokens VerificationToken[]
-  watchlist          Watchlist[]
-  feedbackGiven      Feedback[]          @relation("FeedbackFrom")
-  feedbackReceived   Feedback[]          @relation("FeedbackTo")
-  adminActionLogs    AdminActionLog[]
-  activitySessions   ActivitySession[]
-  badgeFastResponder Boolean             @default(false)
-
-  badgeConsistentSeller Boolean @default(false)
-
-  badgeNewSeller      Boolean              @default(false)
-  passwordResetTokens PasswordResetToken[]
-  listingQuestions    ListingQuestion[]
-
-  listingAnswers ListingAnswer[]
+  id                    String               @id @default(cuid())
+  email                 String               @unique
+  passwordHash          String
+  emailVerified         Boolean              @default(false)
+  role                  Role                 @default(USER)
+  name                  String?
+  avatarUrl             String?
+  location              String?
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  ageVerified           Boolean              @default(false)
+  country               String?              @default("AU")
+  dob                   DateTime?
+  isActive              Boolean              @default(false)
+  phone                 String?
+  phoneVerified         Boolean              @default(false)
+  postcode              String?
+  state                 String?
+  suburb                String?
+  username              String?              @unique
+  termsAcceptedAt       DateTime?
+  termsVersion          String?
+  policyBlockedUntil    DateTime?
+  policyStrikes         Int                  @default(0)
+  badgeConsistentSeller Boolean              @default(false)
+  badgeFastResponder    Boolean              @default(false)
+  badgeNewSeller        Boolean              @default(false)
+  bio                   String?
+  activitySessions      ActivitySession[]
+  adminActionLogs       AdminActionLog[]
+  bids                  Bid[]
+  feedbackGiven         Feedback[]           @relation("FeedbackFrom")
+  feedbackReceived      Feedback[]           @relation("FeedbackTo")
+  listings              Listing[]            @relation("SellerListings")
+  listingAnswers        ListingAnswer[]
+  listingQuestions      ListingQuestion[]
+  messages              Message[]
+  orders                Order[]              @relation("BuyerOrders")
+  passwordResetTokens   PasswordResetToken[]
+  clearedStrikes        PolicyStrike[]       @relation("ClearedStrikes")
+  policyStrikeEvents    PolicyStrike[]       @relation("UserPolicyStrikes")
+  reports               Report[]             @relation("ReporterReports")
+  verificationTokens    VerificationToken[]
+  watchlist             Watchlist[]
 }
 
 model VerificationToken {
@@ -72,17 +66,12 @@ model VerificationToken {
 }
 
 model Listing {
-  policyStrikes PolicyStrike[]
-  reservePrice  Int?
-  buyNowPrice   Int?
-
   id             String            @id @default(cuid())
   title          String
   description    String
   category       String
   type           ListingType
   status         ListingStatus     @default(DRAFT)
-  previousStatus ListingStatus?
   condition      String
   price          Int
   images         String[]
@@ -91,13 +80,17 @@ model Listing {
   createdAt      DateTime          @default(now())
   updatedAt      DateTime          @updatedAt
   sellerId       String
+  buyNowPrice    Int?
+  reservePrice   Int?
+  previousStatus ListingStatus?
   bids           Bid[]
   seller         User              @relation("SellerListings", fields: [sellerId], references: [id])
+  questions      ListingQuestion[]
   messages       Message[]
   orders         Order[]
+  policyStrikes  PolicyStrike[]
   reports        Report[]
   watchlist      Watchlist[]
-  questions      ListingQuestion[]
 }
 
 model Bid {
@@ -139,7 +132,6 @@ model Watchlist {
 }
 
 model Report {
-  policyStrikes PolicyStrike[]
   id            String         @id @default(cuid())
   reason        String
   details       String?
@@ -147,6 +139,7 @@ model Report {
   createdAt     DateTime       @default(now())
   reporterId    String
   listingId     String
+  policyStrikes PolicyStrike[]
   listing       Listing        @relation(fields: [listingId], references: [id])
   reporter      User           @relation("ReporterReports", fields: [reporterId], references: [id])
 
@@ -163,13 +156,13 @@ model Order {
   updatedAt        DateTime    @updatedAt
   buyerId          String
   listingId        String
-  buyer            User        @relation("BuyerOrders", fields: [buyerId], references: [id])
-  listing          Listing     @relation(fields: [listingId], references: [id])
   outcome          SaleOutcome @default(PENDING)
   buyerFeedbackAt  DateTime?
   sellerFeedbackAt DateTime?
   completedAt      DateTime?
   feedback         Feedback[]
+  buyer            User        @relation("BuyerOrders", fields: [buyerId], references: [id])
+  listing          Listing     @relation(fields: [listingId], references: [id])
 
   @@index([buyerId])
   @@index([listingId])
@@ -179,6 +172,121 @@ model playing_with_neon {
   id    Int    @id @default(autoincrement())
   name  String
   value Float? @db.Real
+}
+
+model Feedback {
+  id         String       @id @default(cuid())
+  role       FeedbackRole
+  rating     Int
+  comment    String?
+  createdAt  DateTime     @default(now())
+  orderId    String
+  fromUserId String
+  toUserId   String
+  fromUser   User         @relation("FeedbackFrom", fields: [fromUserId], references: [id])
+  order      Order        @relation(fields: [orderId], references: [id])
+  toUser     User         @relation("FeedbackTo", fields: [toUserId], references: [id])
+
+  @@unique([orderId, fromUserId])
+  @@index([orderId])
+  @@index([fromUserId])
+  @@index([toUserId])
+}
+
+model PolicyStrike {
+  id            String             @id @default(cuid())
+  action        PolicyStrikeAction @default(WARN)
+  reason        String
+  createdAt     DateTime           @default(now())
+  expiresAt     DateTime
+  clearedAt     DateTime?
+  clearedReason String?
+  userId        String
+  clearedById   String?
+  reportId      String?
+  listingId     String?
+  clearedBy     User?              @relation("ClearedStrikes", fields: [clearedById], references: [id])
+  listing       Listing?           @relation(fields: [listingId], references: [id])
+  report        Report?            @relation(fields: [reportId], references: [id])
+  user          User               @relation("UserPolicyStrikes", fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([reportId])
+  @@index([listingId])
+  @@index([expiresAt])
+}
+
+model AdminActionLog {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  adminId    String
+  action     String
+  entityType String
+  entityId   String?
+  reportId   String?
+  listingId  String?
+  userId     String?
+  meta       Json?
+  admin      User     @relation(fields: [adminId], references: [id])
+}
+
+model ActivitySession {
+  id            String   @id @default(cuid())
+  sessionId     String   @unique
+  userId        String?
+  startedAt     DateTime @default(now())
+  lastSeenAt    DateTime @default(now())
+  totalActiveMs Int      @default(0)
+  totalIdleMs   Int      @default(0)
+  lastPath      String?
+  lastReferrer  String?
+  userAgent     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([lastSeenAt])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model ListingQuestion {
+  id        String          @id @default(cuid())
+  listingId String
+  userId    String
+  text      String
+  createdAt DateTime        @default(now())
+  deletedAt DateTime?
+  answers   ListingAnswer[]
+  listing   Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([listingId])
+  @@index([userId])
+}
+
+model ListingAnswer {
+  id         String          @id @default(cuid())
+  questionId String
+  userId     String
+  text       String
+  createdAt  DateTime        @default(now())
+  deletedAt  DateTime?
+  question   ListingQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([questionId])
+  @@index([userId])
 }
 
 enum Role {
@@ -207,27 +315,6 @@ enum OrderStatus {
   CANCELLED
 }
 
-model Feedback {
-  id        String       @id @default(cuid())
-  role      FeedbackRole
-  rating    Int
-  comment   String?
-  createdAt DateTime     @default(now())
-
-  orderId    String
-  fromUserId String
-  toUserId   String
-
-  order    Order @relation(fields: [orderId], references: [id])
-  fromUser User  @relation("FeedbackFrom", fields: [fromUserId], references: [id])
-  toUser   User  @relation("FeedbackTo", fields: [toUserId], references: [id])
-
-  @@unique([orderId, fromUserId])
-  @@index([orderId])
-  @@index([fromUserId])
-  @@index([toUserId])
-}
-
 enum FeedbackRole {
   BUYER
   SELLER
@@ -242,118 +329,4 @@ enum SaleOutcome {
 
 enum PolicyStrikeAction {
   WARN
-}
-
-model PolicyStrike {
-  id String @id @default(cuid())
-
-  action PolicyStrikeAction @default(WARN)
-  reason String
-
-  createdAt     DateTime  @default(now())
-  expiresAt     DateTime
-  clearedAt     DateTime?
-  clearedReason String?
-
-  userId String
-  user   User   @relation("UserPolicyStrikes", fields: [userId], references: [id])
-
-  clearedById String?
-  clearedBy   User?   @relation("ClearedStrikes", fields: [clearedById], references: [id])
-
-  reportId String?
-  report   Report? @relation(fields: [reportId], references: [id])
-
-  listingId String?
-  listing   Listing? @relation(fields: [listingId], references: [id])
-
-  @@index([userId])
-  @@index([reportId])
-  @@index([listingId])
-  @@index([expiresAt])
-}
-
-model AdminActionLog {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-
-  adminId String
-  admin   User   @relation(fields: [adminId], references: [id])
-
-  action     String
-  entityType String
-  entityId   String?
-
-  reportId  String?
-  listingId String?
-  userId    String?
-
-  meta Json?
-}
-
-model ActivitySession {
-  id        String  @id @default(cuid())
-  sessionId String  @unique
-  userId    String?
-  user      User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
-
-  startedAt  DateTime @default(now())
-  lastSeenAt DateTime @default(now())
-
-  totalActiveMs Int @default(0)
-  totalIdleMs   Int @default(0)
-
-  lastPath     String?
-  lastReferrer String?
-  userAgent    String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId])
-  @@index([lastSeenAt])
-}
-
-// Password reset tokens (Phase 3.6 security baseline)
-model PasswordResetToken {
-  id        String   @id @default(cuid())
-  userId    String
-  tokenHash String   @unique
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-}
-
-model ListingQuestion {
-  id        String    @id @default(cuid())
-  listingId String
-  userId    String
-  text      String
-  createdAt DateTime  @default(now())
-  deletedAt DateTime?
-
-  listing Listing         @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  user    User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  answers ListingAnswer[]
-
-  @@index([listingId])
-  @@index([userId])
-}
-
-model ListingAnswer {
-  id         String    @id @default(cuid())
-  questionId String
-  userId     String
-  text       String
-  createdAt  DateTime  @default(now())
-  deletedAt  DateTime?
-
-  question ListingQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([questionId])
-  @@index([userId])
 }
