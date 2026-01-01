@@ -407,3 +407,10 @@ a:hover{ text-decoration: none; }
   }
 }
 
+
+/* Clickable card overlay (stretched link) */
+.cardTap { position: relative !important; }
+.cardTapContent { position: relative !important; z-index: 1 !important; }
+.stretchedLink { position: absolute !important; inset: 0 !important; z-index: 2 !important; display: block !important; }
+.tapExclude { position: relative !important; z-index: 3 !important; }
+
