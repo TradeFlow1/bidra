@@ -28,7 +28,7 @@ function toIntOrNull(v: any): number | null {
   return Math.trunc(n);
 }
 
-// Very lightweight policy layer (server-side). This is not perfect, but itâ€™s enforceable and strike-backed.
+// Very lightweight policy layer (server-side). This is not perfect, but it’s enforceable and strike-backed.
 const PROHIBITED_KEYWORDS = [
   // Live animals
   "kitten","puppy","dog","cat","rabbit","bird","snake","reptile","horse","livestock","animal","pet",

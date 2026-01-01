@@ -5,7 +5,7 @@ export default function LegalPage() {
   return (
     <main style={{ maxWidth: 960, margin: "0 auto", padding: 24, fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial" }}>
       <h1>Legal</h1>
-      <p style={{ opacity: 0.8 }}>Last updated: Australia only Â· 18+ platform</p>
+      <p style={{ opacity: 0.8 }}>Last updated: Australia only · 18+ platform</p>
 
       <h2>Terms of Service (Australia)</h2>
 
@@ -42,7 +42,7 @@ export default function LegalPage() {
 
       <h3>6. Enforcement and Liability</h3>
       <p>
-        Bidra may suspend or terminate accounts, remove listings, freeze funds, and cooperate with authorities
+        Bidra may suspend or terminate accounts, remove listings, pause payouts via our payment partner where applicable, and cooperate with authorities
         where required by law. Nothing limits rights under the Australian Consumer Law.
       </p>
 
