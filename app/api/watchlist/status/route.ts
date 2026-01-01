@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { requireAdult } from "@/lib/require-adult";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,9 @@ export async function GET(req: Request) {
     if (!session?.user?.id) {
       return NextResponse.json({ watched: false });
     }
+
+    const gate = requireAdult(session);
+    if (!gate.ok) return NextResponse.json({ watched: false });
 
     const url = new URL(req.url);
     const listingId = String(url.searchParams.get("listingId") || "").trim();

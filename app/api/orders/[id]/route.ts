@@ -1,12 +1,16 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { requireAdult } from "@/lib/require-adult";
 
 export async function GET(_req: Request, ctx: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id;
   if (!userId) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+
+  const gate = requireAdult(session);
+  if (!gate.ok) return NextResponse.json({ error: gate.reason }, { status: gate.status });
 
   const id = ctx?.params?.id;
   if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
