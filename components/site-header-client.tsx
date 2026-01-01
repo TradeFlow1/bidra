@@ -15,9 +15,7 @@ export default function SiteHeaderClient() {
     <header className="w-full border-b border-white/10 bg-[#0b1220] text-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         {/* Left: Brand/Home */}
-        <Link href="/" className="text-sm font-semibold tracking-wide hover:opacity-90">
-          Bidra
-        </Link>
+        <Link href="/" className="text-sm font-semibold tracking-wide hover:opacity-90">Home</Link>
 
         {/* Right: Nav */}
         <nav className="flex items-center gap-4 text-sm">
