@@ -20,7 +20,7 @@ export function yearsOld(dob: Date, now = new Date()): number {
 }
 
 export async function requireAdult(sessionArg?: any) {
-  const session = await auth();
+  const session = sessionArg ?? (await auth());
   if (!session?.user?.id) {
     return { ok: false as const, status: 401, reason: "NOT_AUTHENTICATED" };
   }
