@@ -9,7 +9,7 @@ export async function GET(_req: Request, ctx: { params: { id: string } }) {
   const userId = session?.user?.id;
   if (!userId) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
 
-  const gate = requireAdult(session);
+  const gate = await requireAdult(session);
   if (!gate.ok) return NextResponse.json({ error: gate.reason }, { status: gate.status });
 
   const id = ctx?.params?.id;

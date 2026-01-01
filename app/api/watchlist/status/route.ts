@@ -13,7 +13,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ watched: false });
     }
 
-    const gate = requireAdult(session);
+    const gate = await requireAdult(session);
     if (!gate.ok) return NextResponse.json({ watched: false });
 
     const url = new URL(req.url);
