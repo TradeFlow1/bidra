@@ -34,6 +34,10 @@ export const authOptions: NextAuthOptions = {
           email: user.email,
           name: user.name ?? undefined,
           role: user.role,
+          dob: user.dob ?? null,
+          ageVerified: user.ageVerified ?? false,
+          emailVerified: user.emailVerified ?? false,
+          phoneVerified: user.phoneVerified ?? false,
         };
       },
     }),
@@ -61,6 +65,10 @@ async jwt({ token, user }) {
       if (user) {
         token.id = (user as any).id;
         (token as any).role = (user as any).role;
+        (token as any).dob = (user as any).dob ?? null;
+        (token as any).ageVerified = (user as any).ageVerified ?? false;
+        (token as any).emailVerified = (user as any).emailVerified ?? false;
+        (token as any).phoneVerified = (user as any).phoneVerified ?? false;
       }
       return token;
     },
@@ -68,6 +76,10 @@ async jwt({ token, user }) {
       if (session.user) {
         (session.user as any).id = (token as any).id;
         (session.user as any).role = (token as any).role;
+        (session.user as any).dob = (token as any).dob ?? null;
+        (session.user as any).ageVerified = (token as any).ageVerified ?? false;
+        (session.user as any).emailVerified = (token as any).emailVerified ?? false;
+        (session.user as any).phoneVerified = (token as any).phoneVerified ?? false;
       }
       return session;
     },

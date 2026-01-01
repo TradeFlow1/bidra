@@ -32,6 +32,11 @@ export async function requireAdult() {
     return { ok: false as const, status: 403, reason: "MISSING_AGE_VERIFICATION" };
   }
 
+  const ageVerified = (session.user as any)?.ageVerified ?? false;
+  if (!ageVerified) {
+    return { ok: false as const, status: 403, reason: "AGE_NOT_VERIFIED" };
+  }
+
   const age = yearsOld(dob);
   if (age < 18) {
     return { ok: false as const, status: 403, reason: "UNDER_18" };
