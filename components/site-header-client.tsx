@@ -6,43 +6,58 @@ import { useSession, signIn, signOut } from "next-auth/react";
 export default function SiteHeaderClient() {
   const { data: session, status } = useSession();
 
-  const isAuthed = !!session?.user;
   const loading = status === "loading";
+  const isAuthed = !!session?.user;
+  const role = (session?.user as any)?.role;
+  const isAdmin = role === "ADMIN";
 
   return (
     <header className="w-full border-b border-white/10 bg-[#0b1220] text-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        {/* Left: HOME */}
+        {/* Left: Brand/Home */}
         <Link href="/" className="text-sm font-semibold tracking-wide hover:opacity-90">
-          Home
+          Bidra
         </Link>
 
-        {/* Right: nav */}
-        <nav className="flex items-center gap-3 text-sm">
-          <Link className="rounded px-3 py-2 hover:bg-white/10" href="/listings">Browse</Link>
-          <Link className="rounded px-3 py-2 hover:bg-white/10" href="/sell">Sell</Link>
+        {/* Right: Nav */}
+        <nav className="flex items-center gap-4 text-sm">
+          <Link href="/listings" className="hover:opacity-90">Browse</Link>
+          <Link href="/sell" className="hover:opacity-90">Sell</Link>
 
-          {loading ? (
-            <span className="rounded px-3 py-2 text-white/60">…</span>
-          ) : isAuthed ? (
+          {!loading && !isAuthed && (
             <>
-              <Link className="rounded px-3 py-2 hover:bg-white/10" href="/dashboard">My account</Link>
+              <Link href="/register" className="hover:opacity-90">Register</Link>
               <button
-                className="rounded bg-white/10 px-3 py-2 hover:bg-white/15"
-                onClick={() => signOut({ callbackUrl: "/" })}
                 type="button"
+                onClick={() => signIn(undefined, { callbackUrl: "/" })}
+                className="rounded-md border border-white/15 px-3 py-1 hover:bg-white/10"
+              >
+                Sign in
+              </button>
+            </>
+          )}
+
+          {!loading && isAuthed && (
+            <>
+              <Link href="/dashboard" className="hover:opacity-90">Dashboard</Link>
+
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  className="rounded-md border border-white/15 px-3 py-1 hover:bg-white/10"
+                >
+                  Admin
+                </Link>
+              )}
+
+              <button
+                type="button"
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="rounded-md border border-white/15 px-3 py-1 hover:bg-white/10"
               >
                 Sign out
               </button>
             </>
-          ) : (
-            <button
-              className="rounded bg-white/10 px-3 py-2 hover:bg-white/15"
-              onClick={() => signIn()}
-              type="button"
-            >
-              Sign in
-            </button>
           )}
         </nav>
       </div>
