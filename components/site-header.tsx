@@ -1,19 +1,7 @@
-﻿import Link from "next/link";
-import { Suspense } from "react";
-import SiteHeaderClient from "./site-header-client";
+﻿import SiteHeaderClient from "./site-header-client";
+import { auth } from "@/lib/auth";
 
-export default function SiteHeader() {
-  return (
-    <header className="w-full border-b bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-4">
-        <Link href="/" className="text-xl font-semibold">
-          Bidra
-        </Link>
-
-        <Suspense fallback={null}>
-          <SiteHeaderClient />
-        </Suspense>
-      </div>
-    </header>
-  );
+export default async function SiteHeader() {
+  const session = await auth();
+  return <SiteHeaderClient session={session} />;
 }
