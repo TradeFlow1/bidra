@@ -67,3 +67,7 @@ tmp-*.js
 *.bak_*
 *.BROKEN.bak
 -Pattern
+
+# Binaries / packs (do not commit)
+*.zip
+
