@@ -1,27 +1,25 @@
-﻿import type { Metadata } from "next";
-import "./globals.css";
-
-import Providers from "@/components/providers";
+﻿import "./globals.css";
 import SiteHeader from "@/components/site-header";
-import ActivityPinger from "@/components/activity-pinger";
+import SiteFooter from "@/components/site-footer";
+import Providers from "@/components/providers";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Bidra",
-  description: "Local buy/sell for South East Queensland.",
+  description: "An Australian marketplace to buy and sell items safely",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body>
         <Providers>
-          <ActivityPinger />
           <SiteHeader />
-          {children}
+          <main>{children}</main>
+          <SiteFooter />
         </Providers>
       </body>
     </html>
