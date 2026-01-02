@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+﻿export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Image from "next/image";
@@ -9,6 +9,7 @@ import { prisma } from "@/lib/prisma";
 import { FULL_CATEGORIES } from "@/lib/categories";
 import WatchButton from "@/components/watch-button";
 import ListingCard from "@/components/listing-card";
+import MobileFiltersToggle from "@/components/mobile-filters-toggle";
 
 type SearchParams = {
   q?: string;
@@ -169,10 +170,10 @@ export default async function ListingsPage({
   );
 
   const inputStyle: React.CSSProperties = {
-    padding: "12px 12px",
+    padding: "12px 14px",
     border: "1px solid rgba(0,0,0,0.15)",
     borderRadius: 12,
-    fontSize: 14,
+    fontSize: 15,
     width: "100%",
     minHeight: 44,
   };
@@ -197,98 +198,195 @@ export default async function ListingsPage({
           </div>
 
           <div className="card" style={{ marginTop: 12 }}>
-            <form action="/listings" method="get" className="browseFilters">
-              <div className="browseFiltersRow">
-                <div>
-                  <div style={labelStyle}>Search</div>
-                  <input name="q" defaultValue={q} placeholder="Search listings" style={inputStyle} />
-                </div>
+            <MobileFiltersToggle>
+<form action="/listings" method="get">
+  <div className="grid gap-3 md:grid-cols-12">
+    <div className="md:col-span-3">
+      <div style={labelStyle}>Search</div>
+      <input name="q" defaultValue={q} placeholder="Search listings" style={inputStyle} />
+    </div>
 
-                <div>
-                  <div style={labelStyle}>Category</div>
-                  <select name="category" defaultValue={category} style={inputStyle}>
-                    <option value="">All categories</option>
-                    {FULL_CATEGORIES.map((c: string) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </select>
-                </div>
+    <div className="md:col-span-3">
+      <div style={labelStyle}>Category</div>
+      <select name="category" defaultValue={category} style={{ ...inputStyle, minWidth: 160 }}>
+        <option value="">All categories</option>
+        {FULL_CATEGORIES.map((c: string) => (
+          <option key={c} value={c}>{c}</option>
+        ))}
+      </select>
+    </div>
 
-                <div>
-                  <div style={labelStyle}>Type</div>
-                  <select name="type" defaultValue={type} style={inputStyle}>
-                    <option value="">Any</option>
-<option value="BUY_NOW">Buy now</option>
-                    <option value="FIXED_PRICE">Fixed price</option>
-                  </select>
-                </div>
+    <div className="md:col-span-2">
+      <div style={labelStyle}>Type</div>
+      <select name="type" defaultValue={type} style={{ ...inputStyle, minWidth: 140 }}>
+        <option value="">Any</option>
+        <option value="BUY_NOW">Buy now</option>
+        <option value="FIXED_PRICE">Fixed price</option>
+      </select>
+    </div>
 
-                <div>
-                  <div style={labelStyle}>Condition</div>
-                  <select name="condition" defaultValue={condition} style={inputStyle}>
-                    <option value="">Any</option>
-                    <option value="New">New</option>
-                    <option value="Used - Like New">Used - Like New</option>
-                    <option value="Used - Good">Used - Good</option>
-                    <option value="Used - Fair">Used - Fair</option>
-                  </select>
-                </div>
+    <div className="md:col-span-2">
+      <div style={labelStyle}>Condition</div>
+      <select name="condition" defaultValue={condition} style={{ ...inputStyle, minWidth: 140 }}>
+        <option value="">Any</option>
+        <option value="New">New</option>
+        <option value="Used - Like New">Used - Like New</option>
+        <option value="Used - Good">Used - Good</option>
+        <option value="Used - Fair">Used - Fair</option>
+      </select>
+    </div>
 
-                <div>
-                  <div style={labelStyle}>Sort</div>
-                  <select name="sort" defaultValue={sort} style={inputStyle}>
-                    <option value="">Newest</option>
-                    <option value="ending_soon">Ending soon</option>
-                    <option value="price_asc">Price: low to high</option>
-                    <option value="price_desc">Price: high to low</option>
-                  </select>
-                </div>
-              </div>
+    <div className="md:col-span-2">
+      <div style={labelStyle}>Sort</div>
+      <select name="sort" defaultValue={sort} style={{ ...inputStyle, minWidth: 140 }}>
+        <option value="">Newest</option>
+        <option value="ending_soon">Ending soon</option>
+        <option value="price_asc">Price: low to high</option>
+        <option value="price_desc">Price: high to low</option>
+      </select>
+    </div>
+  </div>
 
-              <div className="browseFiltersRow">
-                <div>
-                  <div style={labelStyle}>Location</div>
-                  <input name="location" defaultValue={location} placeholder="Location" style={inputStyle} />
-                </div>
+  <div className="mt-3 grid gap-3 md:grid-cols-12">
+    <div className="md:col-span-6">
+      <div style={labelStyle}>Location</div>
+      <input name="location" defaultValue={location} placeholder="Location" style={inputStyle} />
+    </div>
 
-                <div>
-                  <div style={labelStyle}>Min ($)</div>
-                  <input
-                    name="min"
-                    defaultValue={(searchParams?.min ?? "").trim()}
-                    placeholder="Min"
-                    style={inputStyle}
-                    inputMode="decimal"
-                  />
-                </div>
+    <div className="md:col-span-3">
+      <div style={labelStyle}>Min ($)</div>
+      <input
+        name="min"
+        defaultValue={(searchParams?.min ?? "").trim()}
+        placeholder="Min"
+        style={{ ...inputStyle, minWidth: 120 }}
+        inputMode="decimal"
+      />
+    </div>
 
-                <div>
-                  <div style={labelStyle}>Max ($)</div>
-                  <input
-                    name="max"
-                    defaultValue={(searchParams?.max ?? "").trim()}
-                    placeholder="Max"
-                    style={inputStyle}
-                    inputMode="decimal"
-                  />
-                </div>
-              </div>
+    <div className="md:col-span-3">
+      <div style={labelStyle}>Max ($)</div>
+      <input
+        name="max"
+        defaultValue={(searchParams?.max ?? "").trim()}
+        placeholder="Max"
+        style={{ ...inputStyle, minWidth: 120 }}
+        inputMode="decimal"
+      />
+    </div>
+  </div>
 
-              {moneyErr ? (
-                <div style={{ color: "#b91c1c", fontWeight: 900, fontSize: 13 }}>
-                  Price filters must be numbers (example: 10 or 10.50).
-                </div>
-              ) : null}
+  {moneyErr ? (
+    <div style={{ color: "#b91c1c", fontWeight: 900, fontSize: 13, marginTop: 10 }}>
+      Price filters must be numbers (example: 10 or 10.50).
+    </div>
+  ) : null}
 
-              <div className="btnRow" style={{ marginTop: 6 }}>
-                <button type="submit" className="btnPrimary" style={{ cursor: "pointer" }}>
-                  Apply
-                </button>
-                {hasAnyFilter ? (
-                  <Link href="/listings" className="btnSecondary">Clear</Link>
-                ) : null}
-              </div>
-            </form>
+  <div className="mt-3 flex flex-wrap items-center gap-2">
+    <button type="submit" className="btnPrimary" style={{ cursor: "pointer" }}>
+      Apply
+    </button>
+    {hasAnyFilter ? (
+      <Link href="/listings" className="btnSecondary">Clear</Link>
+    ) : null}
+  </div>
+</form>
+</MobileFiltersToggle>
+
+<div className="hidden md:block">
+<form action="/listings" method="get">
+  <div className="grid gap-3 md:grid-cols-12">
+    <div className="md:col-span-3">
+      <div style={labelStyle}>Search</div>
+      <input name="q" defaultValue={q} placeholder="Search listings" style={inputStyle} />
+    </div>
+
+    <div className="md:col-span-3">
+      <div style={labelStyle}>Category</div>
+      <select name="category" defaultValue={category} style={{ ...inputStyle, minWidth: 160 }}>
+        <option value="">All categories</option>
+        {FULL_CATEGORIES.map((c: string) => (
+          <option key={c} value={c}>{c}</option>
+        ))}
+      </select>
+    </div>
+
+    <div className="md:col-span-2">
+      <div style={labelStyle}>Type</div>
+      <select name="type" defaultValue={type} style={{ ...inputStyle, minWidth: 140 }}>
+        <option value="">Any</option>
+        <option value="BUY_NOW">Buy now</option>
+        <option value="FIXED_PRICE">Fixed price</option>
+      </select>
+    </div>
+
+    <div className="md:col-span-2">
+      <div style={labelStyle}>Condition</div>
+      <select name="condition" defaultValue={condition} style={{ ...inputStyle, minWidth: 140 }}>
+        <option value="">Any</option>
+        <option value="New">New</option>
+        <option value="Used - Like New">Used - Like New</option>
+        <option value="Used - Good">Used - Good</option>
+        <option value="Used - Fair">Used - Fair</option>
+      </select>
+    </div>
+
+    <div className="md:col-span-2">
+      <div style={labelStyle}>Sort</div>
+      <select name="sort" defaultValue={sort} style={{ ...inputStyle, minWidth: 140 }}>
+        <option value="">Newest</option>
+        <option value="ending_soon">Ending soon</option>
+        <option value="price_asc">Price: low to high</option>
+        <option value="price_desc">Price: high to low</option>
+      </select>
+    </div>
+  </div>
+
+  <div className="mt-3 grid gap-3 md:grid-cols-12">
+    <div className="md:col-span-6">
+      <div style={labelStyle}>Location</div>
+      <input name="location" defaultValue={location} placeholder="Location" style={inputStyle} />
+    </div>
+
+    <div className="md:col-span-3">
+      <div style={labelStyle}>Min ($)</div>
+      <input
+        name="min"
+        defaultValue={(searchParams?.min ?? "").trim()}
+        placeholder="Min"
+        style={{ ...inputStyle, minWidth: 120 }}
+        inputMode="decimal"
+      />
+    </div>
+
+    <div className="md:col-span-3">
+      <div style={labelStyle}>Max ($)</div>
+      <input
+        name="max"
+        defaultValue={(searchParams?.max ?? "").trim()}
+        placeholder="Max"
+        style={{ ...inputStyle, minWidth: 120 }}
+        inputMode="decimal"
+      />
+    </div>
+  </div>
+
+  {moneyErr ? (
+    <div style={{ color: "#b91c1c", fontWeight: 900, fontSize: 13, marginTop: 10 }}>
+      Price filters must be numbers (example: 10 or 10.50).
+    </div>
+  ) : null}
+
+  <div className="mt-3 flex flex-wrap items-center gap-2">
+    <button type="submit" className="btnPrimary" style={{ cursor: "pointer" }}>
+      Apply
+    </button>
+    {hasAnyFilter ? (
+      <Link href="/listings" className="btnSecondary">Clear</Link>
+    ) : null}
+  </div>
+</form>
+</div>
           </div>
 
           <div className="browseList w-full grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
