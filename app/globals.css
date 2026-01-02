@@ -400,7 +400,22 @@ a:hover{ text-decoration: none; }
   will-change: transform;
 }
 @media (hover: hover) and (pointer: fine) {
-  .homeListingCard:hover {
+  .homeListingCard h3,
+.homeListingCard .title,
+.homeListingCard [data-title="listing-title"]{
+  font-size: 18px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+@media (min-width: 768px){
+  .homeListingCard h3,
+  .homeListingCard .title,
+  .homeListingCard [data-title="listing-title"]{
+    font-size: 20px;
+  }
+}
+
+.homeListingCard:hover {
     transform: translateY(-1px);
     box-shadow: 0 16px 34px rgba(0,0,0,0.12);
     border-color: rgba(10,18,32,0.18);

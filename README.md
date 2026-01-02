@@ -1,4 +1,4 @@
-﻿# Bidra (AU Marketplace MVP)
+# Bidra (AU Marketplace MVP)
 
 Bidra is a modern Australian-focused marketplace built from scratch (original implementation and copy).
 It supports fixed-price listings and offer-based buying with anti-sniping, watchlists, messaging, reporting, and an admin dashboard.
@@ -88,4 +88,4 @@ Auction settlement is disabled. Orders are created when a seller accepts an offe
 - Rate limiting: simple in-memory limiter (sufficient for MVP). For multi-region, swap to Redis/Upstash.
 
 ---
-(c) Bidra â€” original implementation
+(c) Bidra ” original implementation

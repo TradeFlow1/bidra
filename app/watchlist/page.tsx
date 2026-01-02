@@ -95,7 +95,7 @@ export default async function WatchlistPage() {
         <div>
           <h1 style={{ margin: 0, fontSize: 28 }}>Watchlist</h1>
           <p style={{ marginTop: 8, marginBottom: 0, opacity: 0.75 }}>
-            Listings youâ€™ve saved.
+            Listings you've saved.
           </p>
         </div>
 
@@ -125,9 +125,9 @@ export default async function WatchlistPage() {
 
                   <div style={{ marginTop: 6, fontSize: 13, opacity: 0.75 }}>
                     {w.listing.category ? <span>{w.listing.category}</span> : null}
-                    {w.listing.category && w.listing.location ? <span> â€¢ </span> : null}
+                    {w.listing.category && w.listing.location ? <span>  -  </span> : null}
                     {w.listing.location ? <span>{w.listing.location}</span> : null}
-                    {(w.listing.category || w.listing.location) && w.listing.type ? <span> â€¢ </span> : null}
+                    {(w.listing.category || w.listing.location) && w.listing.type ? <span>  -  </span> : null}
                     {w.listing.type ? <span>{w.listing.type}</span> : null}
                   </div>
                 </div>

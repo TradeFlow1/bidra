@@ -1,6 +1,17 @@
 ﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+async function safeJson(req: any) {
+  try {
+        const t = await req.text();
+    if (!t) return {};
+    try { return JSON.parse(t); } catch { return {}; }
+  } catch {
+    return {};
+  }
+}
+
+
 export const dynamic = "force-dynamic";
 
 type PingBody = {
@@ -19,7 +30,7 @@ function clampInt(n: unknown, min: number, max: number) {
 
 export async function POST(req: Request) {
   try {
-    const body = (await req.json()) as PingBody;
+    const body = (await safeJson(req)) as PingBody;
 
     const sessionId = typeof body?.sessionId === "string" ? body.sessionId.trim() : "";
     if (!sessionId || sessionId.length < 8 || sessionId.length > 128) {

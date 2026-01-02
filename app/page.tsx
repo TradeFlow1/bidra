@@ -1,4 +1,6 @@
 ﻿import Link from "next/link";
+
+import ListingCard from "@/components/listing-card";
 import Image from "next/image";
 import { headers } from "next/headers";
 import HomeCategorySelectClient from "@/components/home-category-select-client";
@@ -6,11 +8,14 @@ import HomeCategorySelectClient from "@/components/home-category-select-client";
 type ListingLite = {
   id: string;
   title: string;
+  description?: string | null;
   price: number;
-  buyNowPrice: number | null;
-  category: string;
-  condition: string;
-  createdAt: string;
+  buyNowPrice?: number | null;
+  type?: "FIXED_PRICE" | "AUCTION" | "BUY_NOW" | string;
+  category?: string | null;
+  condition?: string | null;
+  location?: string | null;
+  images?: any;
 };
 
 function money(cents: number) {
@@ -94,7 +99,8 @@ const S = {
   fine: { color: "rgba(255,255,255,0.58)", fontSize: 12, marginTop: 10, lineHeight: 1.5 } as const,
 
   section: { marginTop: 18 } as const,
-  sectionTitle: { color: "rgba(10,18,32,0.88)", fontSize: 14, fontWeight: 800, margin: "18px 0 10px" } as const,
+  sectionTitle: {
+    letterSpacing: "-0.2px", color: "rgba(10,18,32,0.88)", fontSize: "22px", fontWeight: 800, margin: "18px 0 10px" } as const,
 
   card: {
     borderRadius: 18,
@@ -141,7 +147,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div style={S.eyebrow}>AUSTRALIA-WIDE • LIST • BID • SELL</div>
+          <div style={S.eyebrow}>AUSTRALIA-WIDE â€¢ LIST â€¢ BID â€¢ SELL</div>
 
           <h1 style={S.h1}>A marketplace built for real buyers.</h1>
           <p style={S.p}>
@@ -155,7 +161,7 @@ export default async function HomePage() {
           </div>
 
           <div style={S.fine}>
-            Bidra is a neutral marketplace platform — buyers and sellers trade directly. We provide tools, rules, and enforcement.
+            Bidra is a neutral marketplace platform â€” buyers and sellers trade directly. We provide tools, rules, and enforcement.
           </div>
         </div>
       </section>
@@ -180,15 +186,23 @@ export default async function HomePage() {
             </div>
           ) : (
             <div style={S.grid}>
-              {listings.map((l) => (
-                <Link key={l.id} href={`/listings/${l.id}`} style={S.listing} className="homeListingCard">
-                  <div style={S.listingTitle}>{l.title}</div>
-                  <div style={S.listingMeta}>{l.category} • {l.condition}</div>
-                  <div style={S.listingRow}>
-                    <div style={S.price}>{money(l.price)}</div>
-                    <div style={S.badge}>{l.buyNowPrice != null ? `Buy now: ${money(l.buyNowPrice)}` : "Timed bidding"}</div>
-                  </div>
-                </Link>
+              {listings.map((l: any) => (
+                <ListingCard
+                  key={l.id}
+                  listing={{
+                    id: l.id,
+                    title: l.title,
+                    description: l.description ?? null,
+                    price: l.price,
+                    buyNowPrice: l.buyNowPrice ?? null,
+                    type: l.type,
+                    category: l.category,
+                    condition: l.condition ?? null,
+                    location: l.location ?? null,
+                    images: (l as any).images ?? null,
+                  }}
+                  initiallyWatched={false}
+                />
               ))}
             </div>
           )}

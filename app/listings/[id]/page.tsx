@@ -5,6 +5,7 @@ import PlaceBidClient from "./place-bid-client";
 import DeleteListingButton from "./delete-listing-button";
 import ReportListingButton from "./report-listing-button";
 import { Badge } from "@/components/ui";
+import ListingImageGallery from "@/components/listing-image-gallery";
 
 export const dynamic = "force-dynamic";
 
@@ -13,11 +14,33 @@ function formatMoney(cents: number) {
 }
 
 export default async function ListingPage({ params }: { params: { id: string } }) {
-  const listing = await prisma.listing.findUnique({
+    const listing = await prisma.listing.findUnique({
     where: { id: params.id },
-    include: {
-      seller: true,
-      bids: { orderBy: { amount: "desc" }, take: 1 },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      price: true,
+      buyNowPrice: true,
+      reservePrice: true,
+      type: true,
+      category: true,
+      condition: true,
+      location: true,
+      images: true,
+      sellerId: true,
+      seller: {
+        select: {
+          id: true,
+          username: true,
+          name: true,
+          email: true,
+          suburb: true,
+          state: true,
+          createdAt: true,
+        },
+      },
+      bids: { orderBy: { amount: "desc" }, take: 1, select: { amount: true } },
     },
   });
 
@@ -35,23 +58,25 @@ export default async function ListingPage({ params }: { params: { id: string } }
     where: { sellerId, status: "ACTIVE" },
   });
 
-  const highestBidCents =
+    const highestBidCents =
     listing.bids && listing.bids.length ? (listing.bids[0] as any).amount : 0;
 
+  const isAuction = listing.type === "AUCTION";
 
-  const currentBidCents = Math.max(listing.price, highestBidCents);
+  // For AUCTION: listing.price is the starting offer (cents). For FIXED_PRICE: listing.price is the fixed price.
+  const startOfferCents = isAuction ? listing.price : 0;
 
-  const reserveMet =
+  const currentOfferCents = isAuction
+    ? Math.max(startOfferCents, highestBidCents)
+    : listing.price;const reserveMet =
     typeof (listing as any).reservePrice === "number"
-      ? currentBidCents >= (listing as any).reservePrice
+      ? currentOfferCents >= (listing as any).reservePrice
       : true;
 
-  const buyNowAvailable =
-    typeof (listing as any).buyNowPrice === "number"
-      ? currentBidCents < (listing as any).buyNowPrice
-      : false;
-
-  const minBidCents = Math.max(listing.price, highestBidCents + 100);
+    const buyNowAvailable =
+    isAuction && typeof (listing as any).buyNowPrice === "number"
+      ? currentOfferCents < (listing as any).buyNowPrice
+      : false;const minBidCents = Math.max(startOfferCents, highestBidCents + 100);
 
   const sellerName =
     (listing.seller as any)?.username ??
@@ -66,6 +91,8 @@ export default async function ListingPage({ params }: { params: { id: string } }
       </Link>
 
       <h1 className="text-2xl font-bold">{listing.title}</h1>
+
+      <ListingImageGallery images={(listing as any).images ?? (listing as any).imageUrls ?? (listing as any).photos ?? []} title={listing.title} />
 
       <div className="text-sm text-neutral-600">
         Seller:{" "}
@@ -85,7 +112,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
       />
 
       <div className="flex gap-2 flex-wrap">
-        <Badge>{listing.type === "AUCTION" ? "Offers" : "Fixed price"}</Badge>
+        <Badge>{listing.type === "AUCTION" ? "Timed bidding" : "Fixed price"}</Badge>
         <Badge>{listing.category}</Badge>
         <Badge>{listing.condition}</Badge>
       </div>
@@ -93,11 +120,17 @@ export default async function ListingPage({ params }: { params: { id: string } }
       <div className="text-lg font-semibold">
   {listing.type === "AUCTION" ? (
     <>
-      Top offer: {formatMoney(currentBidCents)}
-      {typeof (listing as any).buyNowPrice === "number" && buyNowAvailable ? (
-        <span className="ml-2 text-sm text-neutral-600">
-          • Buy now {formatMoney((listing as any).buyNowPrice)}
-        </span>
+      Top offer: {formatMoney(currentOfferCents)}
+            {typeof (listing as any).buyNowPrice === "number" ? (
+        buyNowAvailable ? (
+          <span className="ml-2 text-sm text-neutral-600">
+            • Buy now {formatMoney((listing as any).buyNowPrice)}
+          </span>
+        ) : (
+          <span className="ml-2 text-sm text-neutral-500">
+            • Buy now reached
+          </span>
+        )
       ) : null}
     </>
   ) : (

@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { requireAdult } from "@/lib/require-adult";
 
 
@@ -129,16 +129,37 @@ try {
     const typeRaw = body.type;
     const type: ListingTypeIn = isAllowedType(typeRaw) ? typeRaw : "FIXED_PRICE";
 
-    const price = Number(body.price); // cents
-    const images = Array.isArray(body.images) ? body.images : [];
+    const durationDaysRaw = (body as any).durationDays;
+    const durationDaysNum = Number(durationDaysRaw);
+    const allowedDurations = new Set([3, 5, 7, 10, 14]);
+    const durationDays = allowedDurations.has(durationDaysNum) ? durationDaysNum : 7;
+
+        const priceIn = toIntOrNull(body.price); // cents or null
+    const startingOfferIn = toIntOrNull((body as any).startingOffer ?? (body as any).startingBid ?? (body as any).startingPrice); // cents or null
+    const images = Array.isArray(body.images) ? body.images : (Array.isArray((body as any).imageUrls) ? (body as any).imageUrls : []);
 
     const reservePrice = toIntOrNull(body.reservePrice); // cents or null
     const buyNowPrice = toIntOrNull(body.buyNowPrice);   // cents or null
 
     // ---- VALIDATION ----
     if (title.length < 3) return NextResponse.json({ error: "Title must be at least 3 characters." }, { status: 400 });
-    if (!Number.isFinite(price) || price <= 0) return NextResponse.json({ error: "Price must be greater than 0." }, { status: 400 });
-    if (images.length > 10) return NextResponse.json({ error: "Too many images (max 10)." }, { status: 400 });
+    
+    // Type-based price validation
+    
+    const isAuctionNow = type === "AUCTION";
+    const isFixedNow = type === "FIXED_PRICE" || type === "BUY_NOW";
+
+    if (isAuctionNow) {
+      if (startingOfferIn === null || Number.isNaN(startingOfferIn) || startingOfferIn <= 0) {
+        return NextResponse.json({ error: "Starting offer must be greater than 0." }, { status: 400 });
+      }
+    } else if (isFixedNow) {
+      if (priceIn === null || Number.isNaN(priceIn) || priceIn <= 0) {
+        return NextResponse.json({ error: "Price must be greater than 0." }, { status: 400 });
+      }
+    }
+
+if (images.length > 10) return NextResponse.json({ error: "Too many images (max 10)." }, { status: 400 });
 
     if (Number.isNaN(reservePrice) || Number.isNaN(buyNowPrice)) {
       return NextResponse.json({ error: "Reserve/Buy Now must be a number or blank." }, { status: 400 });
@@ -157,28 +178,27 @@ try {
       );
     }
 
-    const isAuction = type === "AUCTION";
-    const isFixed = type === "FIXED_PRICE" || type === "BUY_NOW";
+        const priceForRules = (type === "AUCTION" ? (startingOfferIn as number) : (priceIn as number));
 
     let reserveToSave: number | null = null;
     let buyNowToSave: number | null = null;
 
-    if (isAuction) {
+    if (isAuctionNow) {
       if (reservePrice !== null) {
         if (reservePrice <= 0) return NextResponse.json({ error: "Reserve price must be > 0 (or blank)." }, { status: 400 });
-        if (reservePrice < price) return NextResponse.json({ error: "Reserve price must be >= starting price." }, { status: 400 });
+        if (reservePrice < priceForRules) return NextResponse.json({ error: "Reserve price must be >= starting price." }, { status: 400 });
         reserveToSave = reservePrice;
       }
 
       if (buyNowPrice !== null) {
         if (buyNowPrice <= 0) return NextResponse.json({ error: "Buy Now price must be > 0 (or blank)." }, { status: 400 });
-        if (buyNowPrice < price) return NextResponse.json({ error: "Buy Now price must be >= starting price." }, { status: 400 });
+        if (buyNowPrice < priceForRules) return NextResponse.json({ error: "Buy Now price must be >= starting price." }, { status: 400 });
         if (reserveToSave !== null && buyNowPrice < reserveToSave) {
           return NextResponse.json({ error: "Buy Now price must be >= reserve price." }, { status: 400 });
         }
         buyNowToSave = buyNowPrice;
       }
-    } else if (isFixed) {
+    } else if (isFixedNow) {
       reserveToSave = null;
       buyNowToSave = null;
     }
@@ -188,7 +208,7 @@ try {
 
     // Default auction duration: 7 days
     const now = new Date();
-    const endsAtToSave = isAuction ? new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000) : null;
+    const endsAtToSave = isAuctionNow ? new Date(now.getTime() + durationDays * 24 * 60 * 60 * 1000) : null;
 
     const listing = await prisma.listing.create({
       data: {
@@ -198,8 +218,7 @@ try {
         category,
         condition,
         location,
-        price,
-        images,
+        price: priceForRules,images,
         reservePrice: reserveToSave,
         buyNowPrice: buyNowToSave,
         endsAt: endsAtToSave,

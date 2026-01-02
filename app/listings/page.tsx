@@ -1,4 +1,4 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Image from "next/image";
@@ -8,6 +8,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { FULL_CATEGORIES } from "@/lib/categories";
 import WatchButton from "@/components/watch-button";
+import ListingCard from "@/components/listing-card";
 
 type SearchParams = {
   q?: string;
@@ -290,137 +291,32 @@ export default async function ListingsPage({
             </form>
           </div>
 
-          <div className="browseList">
+          <div className="browseList w-full grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {listings.length === 0 ? (
               <div className="card" style={{ opacity: 0.9 }}>
                 <p className="cardBody" style={{ margin: 0 }}>No listings found.</p>
               </div>
             ) : (
-              listings.map((l) => {
-                const href = `/listings/${l.id}`;
-                const topBid = l.bids && l.bids.length ? l.bids[0].amount : null;
-
-                const current =
-                  l.type === "AUCTION"
-                    ? (topBid ?? l.price)
-                    : (l.buyNowPrice ?? l.price);
-
-                const reserveMet =
-                  l.type !== "AUCTION"
-                    ? null
-                    : l.reservePrice === null || l.reservePrice === undefined
-                      ? true
-                      : current >= l.reservePrice;
-
-                const img = firstImage(l.images);
-                const priceLabel = l.type === "AUCTION" ? "Top offer" : "Price";
-                const ends = l.type === "AUCTION" ? endsLabel(l.endsAt) : null;
-
-                return (
-                  <div key={l.id} className="card cardTap">
-                    <Link href={href} className="stretchedLink" aria-label={`Open ${l.title || "listing"}`} />
-                    <div className="cardTapContent">
-                      <div className="browseItem">
-                        <div className="browseThumb">
-                          {img ? (
-                            <img
-                              src={img}
-                              alt={l.title || "Listing"}
-                             
-                             
-                              style={{ objectFit: "cover" }} />
-                          ) : (
-                            <div
-                              style={{
-                                position: "absolute",
-                                inset: 0,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: 12,
-                                fontWeight: 900,
-                                color: "rgba(15,17,21,0.45)",
-                              }}
-                            >
-                              No photo
-                            </div>
-                          )}
-                        </div>
-
-                        <div>
-                          <div className="browseTitle">{l.title}</div>
-
-                          <div className="browseMeta">
-                            {l.category ? <span>{l.category}</span> : null}
-                            {l.category && l.location ? <span> • </span> : null}
-                            {l.location ? <span>{l.location}</span> : null}
-                          </div>
-
-                          <div className="browseBadges">
-                            {l.type === "AUCTION" ? (
-                              <>
-                                <span className="browseBadge badgeTimed">Offers</span>
-                                <div className={`reserveLine ${reserveMet ? "reserveMet" : "reserveNotMet"}`}>
-                                  <span className="reserveDot"></span>
-                                  <span>"Offers • Seller accepts an offer"</span>
-                                </div>
-                              </>
-                            ) : l.type === "BUY_NOW" ? (
-                              <span className="browseBadge badgeBuyNow">Buy now</span>
-                            ) : (
-                              <span className="browseBadge badgeFixed">Fixed price</span>
-                            )}
-                          </div>
-
-                          {l.type === "AUCTION" ? (
-                            <div className="reserveHint">
-                              Seller minimum price
-                            </div>
-                          ) : null}
-
-                          <div className="browsePriceRow">
-                            <div style={{ display: "grid", gap: 2 }}>
-                              <div style={{ color: "var(--muted)", fontSize: 13 }}>
-                                {priceLabel}
-                                {l.type === "AUCTION" && typeof l._count?.bids === "number" ? (
-                                  <span style={{ marginLeft: 10 }}>
-                                    {l._count.bids} offer{l._count.bids === 1 ? "" : "s"}
-                                  </span>
-                                ) : null}
-                              </div>
-
-                              <div className="browsePrice">${dollars(current)}</div>
-
-                              {l.type === "AUCTION" && ends ? (
-                                <div style={{ color: "var(--muted)", fontSize: 12 }}>
-                                  {ends}
-                                </div>
-                              ) : null}
-
-                              {l.type === "AUCTION" && typeof l.buyNowPrice === "number" && current < l.buyNowPrice ? (
-                                <div style={{ color: "var(--muted)", fontSize: 12 }}>
-                                  Buy now ${dollars(l.buyNowPrice)}
-                                </div>
-                              ) : null}
-                            </div>
-
-                            <div style={{ position: "relative", zIndex: 5 }}>
-                              <div className="tapExclude"><WatchButton listingId={l.id} initialWatched={watchedSet.has(l.id)} compact  /></div>
-                            </div>
-                          </div>
-
-                          {l.description ? (
-                            <p className="cardBody" style={{ marginTop: 10, marginBottom: 0 }}>
-                              {l.description.length > 140 ? l.description.slice(0, 140) + "…" : l.description}
-                            </p>
-                          ) : null}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            )}
+              listings.map((l) => (
+                <ListingCard
+                  key={l.id}
+                  listing={{
+                    id: l.id,
+                    title: l.title,
+                    description: l.description,
+                    price: (l.type === "AUCTION"
+                      ? ((l.bids && l.bids.length ? l.bids[0].amount : null) ?? l.price)
+                      : (l.buyNowPrice ?? l.price)
+                    ) as any,
+                    buyNowPrice: l.buyNowPrice,
+                    type: l.type,
+                    category: l.category,
+                    location: l.location,
+                    images: (l as any).images ?? null,
+                  }}
+                  initiallyWatched={typeof watchedSet !== "undefined" ? watchedSet.has(l.id) : false}
+                />
+              )))}
           </div>
         </section>
       </div>
