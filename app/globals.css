@@ -431,3 +431,22 @@ a:hover{ text-decoration: none; }
 .stretchedLink { position: absolute !important; inset: 0 !important; z-index: 2 !important; display: block !important; }
 .tapExclude { position: relative !important; z-index: 3 !important; }
 
+/* System A form primitives */
+.bd-label{
+  display:block;
+  font-size:12px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+.bd-input{
+  width:100%;
+  border:1px solid var(--border);
+  background:var(--surface);
+  border-radius:12px;
+  padding:10px 12px;
+  font-size:14px;
+  outline:none;
+}
+.bd-input:focus{
+  border-color: rgba(0,0,0,0.25);
+}
