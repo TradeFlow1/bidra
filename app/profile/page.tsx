@@ -68,29 +68,29 @@ export default async function ProfilePage({
   }
 
   return (
-    <div className="mx-auto w-full max-w-2xl px-4 py-8">
-      <h1 className="text-3xl font-extrabold text-center">Account settings</h1>
+    <main className="min-h-[calc(100vh-64px)] bg-[var(--bidra-bg)] text-[var(--bidra-fg)] px-4 py-10"><div className="mx-auto w-full max-w-2xl">
+      <h1 className="text-3xl font-extrabold tracking-tight text-center text-white">Account settings</h1>
 
       <div className="mt-5 flex justify-center gap-3">
         <a
           href="/forgot-password"
-          className="inline-flex items-center rounded-md border border-black/15 bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-black/5"
+          className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10"
         >
           Reset password
         </a>
         <a
           href="/logout"
-          className="inline-flex items-center rounded-md border border-black/15 bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-black/5"
+          className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10"
         >
           Log out
         </a>
       </div>
 
       {saved ? (
-        <div className="mt-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
+        <div className="mt-5 rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
           <div className="font-semibold">Profile updated successfully.</div>
           <div className="mt-1">
-            <a href="/profile" className="underline font-medium hover:opacity-90">
+            <a href="/profile" className="underline underline-offset-4 font-semibold text-[var(--bidra-blue)] hover:opacity-90">
               Dismiss
             </a>
           </div>
@@ -99,14 +99,14 @@ export default async function ProfilePage({
 
       <div className="mt-6 space-y-4">
         <Card>
-          <div className="text-sm text-neutral-600">Email</div>
+          <div className="text-sm text-white/70">Email</div>
           <div className="font-semibold">{dbUser.email}</div>
           <div className="mt-2 text-sm">
             Verification:{" "}
             {dbUser.emailVerified ? (
-              <span className="text-green-700 font-medium">Verified</span>
+              <span className="text-emerald-300 font-medium">Verified</span>
             ) : (
-              <span className="text-amber-700 font-medium">Not verified</span>
+              <span className="text-amber-300 font-medium">Not verified</span>
             )}
           </div>
         </Card>
@@ -123,10 +123,10 @@ export default async function ProfilePage({
               <Input name="bio" defaultValue={(dbUser as any).bio ?? ""} placeholder="A short intro (optional)" />
             </div>
 
-            <div className="rounded-xl border border-black/10 bg-white p-4">
+            <div className="rounded-xl border border-white/10 bg-white/[0.06] p-4 text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur rounded-2xl">
               <div className="text-sm font-semibold">Location</div>
-<div className="mt-1 text-xs text-black/60">Provide either your <strong>postcode</strong> OR your <strong>suburb</strong>, and always select a <strong>state</strong>.</div>
-              <div className="mt-1 text-sm text-black/70">
+<div className="mt-1 text-xs text-white/60">Provide either your <strong>postcode</strong> OR your <strong>suburb</strong>, and always select a <strong>state</strong>.</div>
+              <div className="mt-1 text-sm text-white/70">
                 Use <span className="font-semibold">postcode</span> OR <span className="font-semibold">suburb + state</span>. (No street address)
               </div>
 
@@ -136,7 +136,7 @@ export default async function ProfilePage({
                   <Input name="postcode" defaultValue={(dbUser as any).postcode ?? ""} placeholder="e.g. 4301" />
                 </div>
 
-                <div className="hidden sm:flex items-center justify-center text-xs text-black/50">
+                <div className="hidden sm:flex items-center justify-center text-xs text-white/50">
                   OR
                 </div>
 
@@ -151,7 +151,7 @@ export default async function ProfilePage({
                     <select
                       name="state"
                       defaultValue={(dbUser as any).state ?? ""}
-                      className="mt-1 w-full rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-black outline-none focus:border-black/30"
+                      className="mt-1 w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm text-white outline-none focus:border-[var(--bidra-blue)] focus:ring-4 focus:ring-[var(--bidra-blue)]/20"
                     >
                       <option value="">Select state</option>
                       {STATES.map((s) => (
@@ -170,23 +170,23 @@ export default async function ProfilePage({
               <Input name="avatarUrl" defaultValue={(dbUser as any).avatarUrl ?? ""} placeholder="https://..." />
             </div>
 
-            <div className="rounded-xl border border-black/10 bg-white p-4">
+            <div className="rounded-xl border border-white/10 bg-white/[0.06] p-4 text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur rounded-2xl">
   <div className="text-sm font-semibold">Security</div>
   <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-    <a className="inline-flex items-center justify-center rounded-md border border-black/10 bg-white px-4 py-2 text-sm font-medium hover:bg-black/5" href="/forgot-password">
+    <a className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10" href="/forgot-password">
       Reset password
     </a>
-    <a className="inline-flex items-center justify-center rounded-md border border-black/10 bg-white px-4 py-2 text-sm font-medium hover:bg-black/5" href="/logout">
+    <a className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10" href="/logout">
       Log out
     </a>
   </div>
 </div>
 
-<Button type="submit" className="w-full bg-black text-white border-black hover:opacity-90">
+<Button type="submit" className="w-full bg-[var(--bidra-blue)] text-black font-extrabold hover:opacity-95">
               Save changes
             </Button>
 
-            <div className="text-xs text-neutral-600 text-center">
+            <div className="text-xs text-white/70 text-center">
               Privacy-first: we only store general area (suburb/state/postcode). No street addresses.
             </div>
           </form>
