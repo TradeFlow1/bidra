@@ -125,6 +125,7 @@ export default async function ProfilePage({
 
             <div className="rounded-xl border border-black/10 bg-white p-4">
               <div className="text-sm font-semibold">Location</div>
+<div className="mt-1 text-xs text-black/60">Provide either your <strong>postcode</strong> OR your <strong>suburb</strong>, and always select a <strong>state</strong>.</div>
               <div className="mt-1 text-sm text-black/70">
                 Use <span className="font-semibold">postcode</span> OR <span className="font-semibold">suburb + state</span>. (No street address)
               </div>
@@ -169,7 +170,19 @@ export default async function ProfilePage({
               <Input name="avatarUrl" defaultValue={(dbUser as any).avatarUrl ?? ""} placeholder="https://..." />
             </div>
 
-            <Button type="submit" className="w-full bg-black text-white border-black hover:opacity-90">
+            <div className="rounded-xl border border-black/10 bg-white p-4">
+  <div className="text-sm font-semibold">Security</div>
+  <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+    <a className="inline-flex items-center justify-center rounded-md border border-black/10 bg-white px-4 py-2 text-sm font-medium hover:bg-black/5" href="/forgot-password">
+      Reset password
+    </a>
+    <a className="inline-flex items-center justify-center rounded-md border border-black/10 bg-white px-4 py-2 text-sm font-medium hover:bg-black/5" href="/logout">
+      Log out
+    </a>
+  </div>
+</div>
+
+<Button type="submit" className="w-full bg-black text-white border-black hover:opacity-90">
               Save changes
             </Button>
 
