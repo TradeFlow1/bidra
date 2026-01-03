@@ -35,7 +35,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
   }
 
   return (
-    <header className="border-b border-white/10 bg-[#0B0E11] text-white">
+    <header className="border-b border-white/10 text-white bg-[radial-gradient(900px_220px_at_15%_0%,rgba(59,130,246,0.18),rgba(0,0,0,0)),linear-gradient(180deg,rgba(8,14,26,0.92),rgba(8,14,26,0.72))]">
       {/* Top bar */}
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Left: Home */}
@@ -81,7 +81,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
               </button>
 
               {acctOpen ? (
-                <div className="absolute right-0 top-12 z-50 w-56 rounded-md border border-white/10 bg-[#0B0E11] shadow-lg">
+                <div className="absolute right-0 top-12 z-50 w-56 rounded-md border border-white/10 bg-[#080E1A] shadow-lg">
                   <div className="flex flex-col p-2 text-sm">
                     <Link href="/profile" className="rounded px-3 py-2 hover:bg-white/5" onClick={closeAll}>
                       Account settings
@@ -141,7 +141,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
 
       {/* Mobile menu */}
       {open ? (
-        <div className="md:hidden border-t border-white/10 bg-[#0B0E11]">
+        <div className="md:hidden border-t border-white/10 bg-[radial-gradient(900px_220px_at_15%_0%,rgba(59,130,246,0.18),rgba(0,0,0,0)),linear-gradient(180deg,rgba(8,14,26,0.92),rgba(8,14,26,0.72))]">
           <div className="mx-auto max-w-6xl px-4 py-3">
             <div className="flex flex-col gap-3 text-sm">
               <Link href="/listings" onClick={closeAll}>Browse</Link>
