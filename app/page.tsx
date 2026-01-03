@@ -65,7 +65,7 @@ const S = {
 
   eyebrow: { color: "rgba(255,255,255,0.72)", fontSize: 12, letterSpacing: 1.1 } as const,
 
-  h1: { color: "#fff", fontSize: 32, lineHeight: 1.12, margin: "10px 0 0", fontWeight: 750, letterSpacing: "-0.01em" } as const,
+  h1: { color: "#0b1220", fontSize: 32, lineHeight: 1.12, margin: "10px 0 0", fontWeight: 750, letterSpacing: "-0.01em" } as const,
   p: { color: "rgba(255,255,255,0.78)", fontSize: 15, lineHeight: 1.6, margin: "8px 0 0", maxWidth: 560 } as const,
 
   ctas: { display: "flex", flexWrap: "wrap" as const, gap: 10, marginTop: 14 } as const,
@@ -88,9 +88,9 @@ const S = {
     justifyContent: "center",
     padding: "11px 14px",
     borderRadius: 12,
-    border: "1px solid rgba(255,255,255,0.16)",
-    background: "rgba(255,255,255,0.06)",
-    color: "#fff",
+    border: "1px solid rgba(11,18,32,0.14)",
+    background: "#ffffff",
+    color: "#0b1220",
     fontWeight: 700,
     fontSize: 14,
     textDecoration: "none",
@@ -151,7 +151,7 @@ export default async function HomePage() {
 
           <h1 style={S.h1}>A marketplace built for real buyers.</h1>
           <p style={S.p}>
-            Browse listings, place bids with intent, and complete trades without time-wasters.
+            Browse listings, place offers with intent, and complete trades without time-wasters.
           </p>
 
           <div style={S.ctas}>
