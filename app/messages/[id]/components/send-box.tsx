@@ -10,7 +10,7 @@ export default function SendBox({ threadId }: { threadId: string }) {
   async function send() {
     setErr(null)
     const text = body.trim()
-    if (!text) return
+    if (!text || busy) return
     setBusy(true)
     try {
       const res = await fetch(`/api/messages/thread/${threadId}/send`, {
@@ -31,13 +31,19 @@ export default function SendBox({ threadId }: { threadId: string }) {
   }
 
   return (
-    <div className="mt-4 rounded-lg border p-3">
-      <label className="text-sm font-medium">Send a message</label>
+    <div className="bd-card p-4">
+      <label className="bd-label">Send a message</label>
       <textarea
-        className="mt-2 w-full rounded-md border p-2 text-sm"
+        className="bd-input mt-2"
         rows={3}
         value={body}
         onChange={(e) => setBody(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault()
+            send()
+          }
+        }}
         placeholder="Write your message…"
       />
       {err ? <div className="mt-2 text-sm text-red-600">{err}</div> : null}
@@ -46,7 +52,7 @@ export default function SendBox({ threadId }: { threadId: string }) {
           type="button"
           disabled={busy || !body.trim()}
           onClick={send}
-          className="rounded-md border px-3 py-1 text-sm font-medium disabled:opacity-60"
+          className="bd-btn bd-btn-primary disabled:opacity-60"
         >
           {busy ? "Sending..." : "Send"}
         </button>

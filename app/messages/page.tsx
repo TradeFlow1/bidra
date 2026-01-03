@@ -57,20 +57,20 @@ export default async function MessagesInboxPage() {
           <section className="py-10">
             <InboxAutoRefresh />
 
-            <h1 className="text-3xl font-extrabold tracking-tight text-white">Messages</h1>
-            <p className="mt-2 text-sm text-white/70">Private conversations about listings.</p>
+            <h1 className="text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)]">Messages</h1>
+            <p className="mt-2 text-sm text-[var(--bidra-ink-2)]">Private conversations about listings.</p>
 
             <div className="mt-6 space-y-3">
               {items.length === 0 ? (
-                <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-6 text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur">
+                <div className="rounded-2xl bd-card p-6 text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur">
                   <div className="text-base font-semibold">No messages yet</div>
-                  <div className="mt-1 text-sm text-white/70">
+                  <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
                     When you message a seller (or someone messages you), your chats will show up here.
                   </div>
                   <div className="mt-4">
                     <Link
                       href="/listings"
-                      className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10"
+                      className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-[var(--bidra-ink)] hover:bg-white/10"
                     >
                       Browse listings
                     </Link>
@@ -85,18 +85,18 @@ export default async function MessagesInboxPage() {
                     <Link
                       key={it.id}
                       href={`/messages/${it.id}`}
-                      className={`block rounded-lg border p-4 hover:bg-black/5 ${
-                        it.unread ? "bg-blue-50/60 border-blue-200" : ""
+                      className={`block rounded-2xl bd-card p-6 transition hover:bg-black/[0.02] hover:shadow-sm ${
+                        it.unread ? "bg-black/[0.03] border-black/15" : ""
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3">
                         <div className="font-extrabold">{it.listing?.title || "Listing"}</div>
-                        <div className="text-xs text-white/50">
-                          <DateTimeText className="text-xs text-white/50" value={it.lastMessageAt} />
+                        <div className="text-xs text-[var(--bidra-ink-2)]">
+                          <DateTimeText className="text-xs text-[var(--bidra-ink-2)]" value={it.lastMessageAt} />
                         </div>
                       </div>
-                      <div className="mt-1 text-sm text-white/80">With: {otherLabel}</div>
-                      <div className="mt-2 text-sm text-white/70 line-clamp-2">{last}</div>
+                      <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">With: {otherLabel}</div>
+                      <div className="mt-2 text-sm text-[var(--bidra-ink-2)] line-clamp-2">{last}</div>
                     </Link>
                   )
                 })

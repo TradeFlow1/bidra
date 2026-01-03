@@ -74,15 +74,15 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <section className="py-10">
             <div className="flex items-end justify-between gap-3 flex-wrap">
               <div>
-                <div className="text-sm text-white/70">
+                <div className="text-sm text-[var(--bidra-ink-2)]">
                   Listing:{" "}
-                  <Link className="text-white/90 hover:underline underline-offset-4" href={`/listings/${thread.listing.id}`}>
+                  <Link className="text-[var(--bidra-ink)] hover:underline underline-offset-4" href={`/listings/${thread.listing.id}`}>
                     {thread.listing.title}
                   </Link>
                 </div>
-                <h1 className="text-3xl font-extrabold tracking-tight text-white">Messages</h1>
-                <div className="mt-1 text-sm text-white/70">
-                  Chat with <span className="font-medium text-white">{displayName(other)}</span>
+                <h1 className="h1">Messages</h1>
+                <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
+                  Chat with <span className="font-semibold text-[var(--bidra-ink)]">{displayName(other)}</span>
                 </div>
               </div>
 
@@ -90,31 +90,31 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                 <InboxBackButton />
                 <Link
                   href={`/listings/${thread.listing.id}`}
-                  className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10"
+                  className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-[var(--bidra-ink)] hover:bg-white/10"
                 >
                   Back to listing
                 </Link>
               </div>
             </div>
 
-            <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.06] p-4 max-h-[55vh] overflow-auto text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur">
+            <div className="mt-6 bd-card p-4 max-h-[55vh] overflow-auto">
               {messages.length ? (
                 <div className="flex flex-col gap-2">
                   {messages.map((m) => (
                     <div key={m.id} className="text-sm">
-                      <span className="text-white/50">{formatAuDateTime(m.createdAt)} {" · "}</span>
+                      <span className="text-[var(--bidra-ink-2)]">{formatAuDateTime(m.createdAt)} {" · "}</span>
                       <b>{m.userId === me ? "You" : displayName(other)}</b>: {m.body}
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-sm text-white/70">No messages yet.</div>
+                <div className="text-sm text-[var(--bidra-ink-2)]">No messages yet.</div>
               )}
             </div>
 
-            <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.06] p-4 text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur">
+            <div className="mt-4 bd-card p-4">
               <SendBox threadId={thread.id} />
-              <div className="mt-3 text-xs text-white/70">
+              <div className="mt-3 text-xs text-[var(--bidra-ink-2)]">
                 Tip: Keep personal information minimal until you're confident.
               </div>
             </div>

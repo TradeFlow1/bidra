@@ -1,9 +1,13 @@
-import * as React from "react";
-import { cn } from "@/lib/utils";
+﻿import React from "react";
 
 export function Badge({ className, children }: { className?: string; children: React.ReactNode }) {
   return (
-    <span className={cn("inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium text-neutral-700 bg-white", className)}>
+    <span
+      className={
+        "inline-flex items-center justify-center whitespace-nowrap rounded-full border border-black/10 bg-black/5 px-3 h-7 text-[12px] font-extrabold leading-none text-[#0B0E11] " +
+        (className || "")
+      }
+    >
       {children}
     </span>
   );
