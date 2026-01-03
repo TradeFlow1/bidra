@@ -19,23 +19,20 @@ export default function MessageSellerButton(props: { listingId: string }) {
         body: JSON.stringify({ listingId: props.listingId }),
       })
 
-      // If not logged in, NextAuth often returns 401/403 depending on your handler
+      // Not logged in
       if (res.status === 401) {
         setBusy(false)
         router.push(`/auth/login?next=${encodeURIComponent(`/listings/${props.listingId}`)}`)
         return
       }
 
-            const data = await res.json().catch(() => null)
+      const data = await res.json().catch(() => null)
 
-      // Under-18 / restricted users: route to restrictions page (server-side gate also exists)
+      // Restricted / under-18 / gated
       if (res.status === 403) {
-        const code = String((data && (data.error || data.message)) || "").toUpperCase()
-        if (code.includes("ADULT") || code.includes("RESTRICT") || code.includes("UNDER") || code.includes("18")) {
-          setBusy(false)
-          router.push("/account/restrictions")
-          return
-        }
+        setBusy(false)
+        router.push("/account/restrictions")
+        return
       }
 
       if (!res.ok) {
@@ -51,6 +48,7 @@ export default function MessageSellerButton(props: { listingId: string }) {
         setBusy(false)
         return
       }
+
       router.push(`/messages/${threadId}`)
     } catch {
       setErr("Something went wrong. Please try again.")
@@ -69,9 +67,7 @@ export default function MessageSellerButton(props: { listingId: string }) {
         {busy ? "Opening chat…" : "Message seller"}
       </button>
 
-      {err ? (
-        <div className="text-sm text-red-700">{err}</div>
-      ) : null}
+      {err ? <div className="text-sm text-red-700">{err}</div> : null}
 
       <div className="text-xs text-neutral-600">
         Tip: keep personal info minimal until you&apos;re confident.
