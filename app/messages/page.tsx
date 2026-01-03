@@ -1,11 +1,14 @@
 ﻿import Link from "next/link"
+import { formatAuDateTime } from "@/lib/date"
+import InboxAutoRefresh from "./components/inbox-auto-refresh"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
 
 export const dynamic = "force-dynamic"
-
+export const revalidate = 0
+export const fetchCache = "force-no-store"
 export default async function MessagesInboxPage() {
   const session = await auth()
   if (!session?.user?.id) redirect("/auth/login")
@@ -45,6 +48,7 @@ export default async function MessagesInboxPage() {
     return new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime()
   })
   return (<main className="mx-auto max-w-4xl p-6">
+      <InboxAutoRefresh />
       <h1 className="text-2xl font-semibold">Messages</h1>
       <p className="mt-2 text-sm text-neutral-600">Private conversations about listings.</p>
 
@@ -71,7 +75,7 @@ export default async function MessagesInboxPage() {
               <Link key={it.id} href={`/messages/${it.id}`} className={`block rounded-lg border p-4 hover:bg-black/5 ${it.unread ? "bg-blue-50/60 border-blue-200" : ""}`}>
                 <div className="flex items-center justify-between gap-3">
                   <div className="font-medium">{it.listing?.title || "Listing"}</div>
-                  <div className="text-xs text-neutral-500">{new Date(it.lastMessageAt).toLocaleString()}</div>
+                  <div className="text-xs text-neutral-500">{formatAuDateTime(it.lastMessageAt)}</div>
                 </div>
                 <div className="mt-1 text-sm text-neutral-700">With: {otherLabel}</div>
                 <div className="mt-2 text-sm text-neutral-600 line-clamp-2">{last}</div>

@@ -3,7 +3,9 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
+import { formatAuDateTime } from "@/lib/date"
 import SendBox from "./components/send-box"
+import InboxBackButton from "./components/inbox-back-button"
 
 export const dynamic = "force-dynamic"
 
@@ -86,12 +88,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
         </div>
 
         <div className="flex gap-2">
-          <Link
-            href="/messages"
-            className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50"
-          >
-            Inbox
-          </Link>
+          <InboxBackButton />
           <Link
             href={`/listings/${thread.listing.id}`}
             className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50"
@@ -107,7 +104,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
             {messages.map((m) => (
               <div key={m.id} className="text-sm">
                 <span className="text-neutral-500">
-                  {new Date(m.createdAt).toLocaleString("en-AU")} {" · "}
+                  {formatAuDateTime(m.createdAt)} {" · "}
                 </span>
                 <b>{m.userId === me ? "You" : displayName(other)}</b>: {m.body}
               </div>
