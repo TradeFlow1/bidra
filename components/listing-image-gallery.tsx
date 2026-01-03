@@ -26,6 +26,10 @@ export default function ListingImageGallery(props: { images: any; title?: string
   const scroller = useRef<HTMLDivElement | null>(null);
   const [idx, setIdx] = useState(0);
 
+  const dragging = useRef(false);
+  const dragStartX = useRef(0);
+  const dragStartLeft = useRef(0);
+
   const isMulti = imgs.length > 1;
 
   function clamp(i: number) {
@@ -52,6 +56,24 @@ export default function ListingImageGallery(props: { images: any; title?: string
     go(idx + 1);
   }
 
+  function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+    const el = scroller.current;
+    if (!el || !isMulti) return;
+    dragging.current = true;
+    dragStartX.current = e.clientX;
+    dragStartLeft.current = el.scrollLeft;
+  }
+
+  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = scroller.current;
+    if (!el || !dragging.current || !isMulti) return;
+    const dx = e.clientX - dragStartX.current;
+    el.scrollLeft = dragStartLeft.current - dx;
+  }
+
+  function endDrag() {
+    dragging.current = false;
+  }
   // Keep idx synced when user swipes / scrolls
   useEffect(() => {
     const el = scroller.current;
@@ -90,8 +112,12 @@ export default function ListingImageGallery(props: { images: any; title?: string
       <div className="relative overflow-hidden rounded-2xl border border-gray-200 bg-white">
         <div
           ref={scroller}
-          className="flex w-full overflow-x-auto scroll-smooth snap-x snap-mandatory"
-          style={{ scrollbarWidth: "none" as any }}
+          onMouseDown={onMouseDown}
+          onMouseMove={onMouseMove}
+          onMouseUp={endDrag}
+          onMouseLeave={endDrag}
+          className="flex w-full overflow-x-auto scroll-smooth snap-x snap-mandatory select-none"
+          style={{ scrollbarWidth: "none" as any, userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none", cursor: isMulti ? (dragging.current ? "grabbing" : "grab") : "default" } as any }
         >
           {imgs.map((src, i) => (
             <div key={i} className="relative w-full flex-shrink-0 snap-start">
@@ -99,11 +125,13 @@ export default function ListingImageGallery(props: { images: any; title?: string
               <img
                 src={src}
                 alt={title}
-                className="block h-[260px] w-full object-cover md:h-[420px]"
+                className="block h-[260px] w-full object-cover md:h-[420px] select-none"
                 draggable={false}
+                onDragStart={(e) => e.preventDefault()}
+                onContextMenu={(e) => e.preventDefault()}
               />
 
-              <div className="absolute bottom-3 right-3 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
+              <div className="absolute bottom-3 right-2 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
                 {i + 1}/{imgs.length}
               </div>
             </div>
@@ -116,18 +144,20 @@ export default function ListingImageGallery(props: { images: any; title?: string
             <button
               type="button"
               onClick={prev}
-              className="absolute left-3 top-1/2 z-50 -translate-y-1/2 flex h-14 w-14 items-center justify-center rounded-full bg-white opacity-100 text-[40px] font-extrabold text-black shadow-2xl ring-[3px] ring-black/60 hover:bg-white"
+              className="absolute left-2 top-1/2 z-50 -translate-y-1/2 flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/20"
+              style={{ backgroundColor: "#ffffff", opacity: 1 } as any }
               aria-label="Previous photo"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black text-[36px] leading-none">‹</span>
+              <span className="text-[34px] leading-none">‹</span>
             </button>
             <button
               type="button"
               onClick={next}
-              className="absolute right-3 top-1/2 z-50 -translate-y-1/2 flex h-14 w-14 items-center justify-center rounded-full bg-white opacity-100 text-[40px] font-extrabold text-black shadow-2xl ring-[3px] ring-black/60 hover:bg-white"
+              className="absolute right-2 top-1/2 z-50 -translate-y-1/2 flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/20"
+              style={{ backgroundColor: "#ffffff", opacity: 1 } as any }
               aria-label="Next photo"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black text-[36px] leading-none">›</span>
+              <span className="text-[34px] leading-none">›</span>
             </button>
           </>
         )}

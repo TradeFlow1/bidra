@@ -62,7 +62,11 @@ export default function ListingThumbCarousel(props: { images: any; title: string
   const [idx, setIdx] = useState(0);
 
   const drag = useRef<{ down: boolean; startX: number; startLeft: number } | null>(null);
-  const moved = useRef(false); // <— key: suppress Link click only if user dragged
+  const moved = useRef(false); 
+  const dragging = useRef(false);
+  const dragStartX = useRef(0);
+  const dragStartLeft = useRef(0);
+// <— key: suppress Link click only if user dragged
   const isMulti = imgs.length > 1;
 
   function clamp(i: number) {
@@ -76,7 +80,36 @@ export default function ListingThumbCarousel(props: { images: any; title: string
     setIdx(clamp(Math.round(el.scrollLeft / w)));
   }
 
-  function scrollTo(i: number) {
+    function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+    const el = scroller.current as any;
+    if (!el) return;
+    dragging.current = true;
+    dragStartX.current = e.clientX;
+    dragStartLeft.current = el.scrollLeft || 0;
+  }
+
+  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = scroller.current as any;
+    if (!el || !dragging.current) return;
+    const dx = e.clientX - dragStartX.current;
+    el.scrollLeft = dragStartLeft.current - dx;
+  }
+
+  function endDrag() {
+    dragging.current = false;
+  }
+
+  function onWheel(e: React.WheelEvent<HTMLDivElement>) {
+    // Trackpads already work; mouse wheels should scroll horizontally too
+    const el = scroller.current as any;
+    if (!el) return;
+    if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+      el.scrollLeft += e.deltaY;
+      e.preventDefault();
+    }
+  }
+
+function scrollTo(i: number) {
     const el = scroller.current;
     if (!el) return;
     const next = clamp(i);
@@ -115,7 +148,7 @@ export default function ListingThumbCarousel(props: { images: any; title: string
 
   return (
     <div
-      className="relative h-full w-full"
+      className="relative h-full w-full group"
       // IMPORTANT: if user dragged, block the Link navigation click
       onClickCapture={(e) => {
         if (moved.current) {
@@ -124,17 +157,26 @@ export default function ListingThumbCarousel(props: { images: any; title: string
           moved.current = false;
         }
       }}
+    
+      onDragStartCapture={(e) => { e.preventDefault(); e.stopPropagation(); }}
+      onContextMenuCapture={(e) => { e.preventDefault(); e.stopPropagation(); }}
+      onMouseDownCapture={(e) => { if ((e as any).button === 0) { (e as any).preventDefault?.(); } }}
     >
       <div
         ref={scroller}
-        className="flex h-full w-full overflow-x-auto snap-x snap-mandatory"
-        style={{
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={endDrag}
+        onMouseLeave={endDrag}
+        onWheel={onWheel}
+        className="flex h-full w-full overflow-x-auto snap-x snap-mandatory select-none"
+        style={{ userSelect: "none", WebkitUserSelect: "none",
+          cursor: (dragging.current ? "grabbing" : "grab"), 
           WebkitOverflowScrolling: "touch",
           scrollbarWidth: "none" as any,
           msOverflowStyle: "none" as any,
           touchAction: "pan-y",
-          cursor: "grab",
-        }}
+}}
         onPointerDown={(e) => {
           const el = scroller.current;
           if (!el) return;
@@ -174,7 +216,7 @@ export default function ListingThumbCarousel(props: { images: any; title: string
               fill
               sizes="(max-width: 768px) 100vw, 400px"
               className="object-cover select-none"
-              draggable={false}
+              draggable={false} onDragStart={(e) => e.preventDefault()} onContextMenu={(e) => e.preventDefault()}
               priority={i === 0}
             />
           </div>
@@ -191,18 +233,19 @@ export default function ListingThumbCarousel(props: { images: any; title: string
           <button
             type="button"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); moved.current = true; scrollTo(idx - 1); }}
-            className="flex absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-white text-black text-3xl shadow-xl ring-2 ring-black/30"
+            className="absolute left-2 top-1/2 -translate-y-1/2 flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/15 z-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" style={{ backgroundColor: "#ffffff", opacity: 0.95 } as any }
             aria-label="Prev photo"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black text-[34px] leading-none shadow-md ring-1 ring-black/20">‹</span>
+            <span className="text-[26px] leading-none">‹</span>
           </button>
           <button
             type="button"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); moved.current = true; scrollTo(idx + 1); }}
-            className="flex absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-white text-black text-3xl shadow-xl ring-2 ring-black/30"
+            className="absolute right-2 top-1/2 -translate-y-1/2 flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/15 z-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
+            style={{ backgroundColor: "#ffffff", opacity: 0.95 } as any }
             aria-label="Next photo"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black text-[34px] leading-none shadow-md ring-1 ring-black/20">›</span>
+            <span className="text-[26px] leading-none">›</span>
           </button>
         </>
       )}
