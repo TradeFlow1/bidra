@@ -6,7 +6,7 @@ import TrustPanel from "@/components/trust/trust-panel";
 import PlaceBidClient from "./place-bid-client";
 import DeleteListingButton from "./delete-listing-button";
 import ReportListingButton from "./report-listing-button";
-import MessageSellerButton from "./message-seller-button"
+import MessageSellerButton from "./message-seller-button";
 import { Badge } from "@/components/ui";
 import ListingImageGallery from "@/components/listing-image-gallery";
 
@@ -48,7 +48,11 @@ export default async function ListingPage({ params }: { params: { id: string } }
   });
 
   if (!listing) {
-    return <div className="max-w-xl">Listing not found.</div>;
+    return (
+    <main className="bd-container py-6 pb-14">
+      <div className="bd-card p-6">Listing not found.</div>
+    </main>
+  );
   }
 
   
@@ -96,8 +100,9 @@ const sellerId = (listing.seller as any)?.id as string;
     "Seller";
 
   return (
-    <div className="max-w-3xl space-y-4">
-      <Link href="/listings" className="text-sm underline">
+    <main className="bd-container py-6 pb-14">
+      <div className="bd-card p-5 space-y-4">
+      <Link href="/listings" className="bd-link text-sm">
         ← Back
       </Link>
 
@@ -171,6 +176,8 @@ const sellerId = (listing.seller as any)?.id as string;
         ) : null
       }
       </div>
-    </div>
+      </div>
+    </main>
   );
 }
+
