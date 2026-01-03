@@ -1,9 +1,12 @@
 ﻿import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import TrustPanel from "@/components/trust/trust-panel";
 import PlaceBidClient from "./place-bid-client";
 import DeleteListingButton from "./delete-listing-button";
 import ReportListingButton from "./report-listing-button";
+import MessageSellerButton from "./message-seller-button"
 import { Badge } from "@/components/ui";
 import ListingImageGallery from "@/components/listing-image-gallery";
 
@@ -48,7 +51,11 @@ export default async function ListingPage({ params }: { params: { id: string } }
     return <div className="max-w-xl">Listing not found.</div>;
   }
 
-  const sellerId = (listing.seller as any)?.id as string;
+  
+  const session = await getServerSession(authOptions);
+  const role = (session?.user as any)?.role;
+  const isAdmin = role === "ADMIN";
+const sellerId = (listing.seller as any)?.id as string;
 
   const soldCount = await prisma.listing.count({
     where: { sellerId, status: "SOLD" },
@@ -68,7 +75,9 @@ export default async function ListingPage({ params }: { params: { id: string } }
 
   const currentOfferCents = isAuction
     ? Math.max(startOfferCents, highestBidCents)
-    : listing.price;const reserveMet =
+    : listing.price;
+
+  const reserveMet =
     typeof (listing as any).reservePrice === "number"
       ? currentOfferCents >= (listing as any).reservePrice
       : true;
@@ -76,7 +85,9 @@ export default async function ListingPage({ params }: { params: { id: string } }
     const buyNowAvailable =
     isAuction && typeof (listing as any).buyNowPrice === "number"
       ? currentOfferCents < (listing as any).buyNowPrice
-      : false;const minBidCents = Math.max(startOfferCents, highestBidCents + 100);
+      : false;
+
+  const minBidCents = Math.max(startOfferCents, highestBidCents + 100);
 
   const sellerName =
     (listing.seller as any)?.username ??
@@ -148,7 +159,15 @@ export default async function ListingPage({ params }: { params: { id: string } }
 
       <div className="pt-4">
         <ReportListingButton listingId={listing.id} />
-        <DeleteListingButton id={listing.id} />
+        
+        <div className="mt-3">
+          <MessageSellerButton listingId={listing.id} />
+        </div>
+{
+        (session?.user?.id && (isAdmin || listing.sellerId === session.user.id)) ? (
+          <DeleteListingButton id={listing.id} />
+        ) : null
+      }
       </div>
     </div>
   );
