@@ -98,7 +98,7 @@ a:hover{ color:var(--bidra-blue); }
 
   /* White logo on dark hero */
   .bd-hero-logoWrap { @apply inline-flex items-center justify-center rounded-2xl px-1 py-1; }
-  .bd-hero-logo { height: 46px; width: auto; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.25)); }
+  .bd-hero-logo { /* HERO_LOGO_X3 */ height: 138px; width: auto; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.25)); }
 
   .bd-hero-eyebrow { @apply text-[12px] font-bold tracking-[0.18em]; color: rgba(255,255,255,0.70); }
   .bd-hero-h1 { @apply mt-2 text-[32px] font-extrabold leading-[1.12] tracking-tight; color: #fff; }
@@ -107,10 +107,16 @@ a:hover{ color:var(--bidra-blue); }
 
   /* Buttons */
   .bd-btn { @apply inline-flex items-center justify-center rounded-xl px-4 py-3 text-sm font-extrabold transition; }
-  .bd-btn-primary { background: var(--bidra-blue); color: #0b1220; }
+
+  /* HERO_CTA_TEXT_FIX: hero has higher-specificity link color rules; force button text dark on white CTAs */
+  .bd-hero a.bd-btn-primary,
+  .bd-hero a.bd-btn-ghost {
+    color: #0B0E11;
+  }
+  .bd-btn-primary { /* HERO_CTA_WHITE */ /* HERO_CTA_TEXT_IMPORTANT */ background: #fff; color: #0B0E11 !important; }
   .bd-btn-primary:hover { filter: brightness(1.08); }
-  .bd-btn-ghost { border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06); color: #fff; }
-  .bd-btn-ghost:hover { background: rgba(255,255,255,0.10); }
+  .bd-btn-ghost { /* HERO_CTA_WHITE */ /* HERO_CTA_TEXT_IMPORTANT */ border: 1px solid rgba(15,23,42,0.18); background: #fff; color: #0B0E11 !important; }
+  .bd-btn-ghost:hover { background: rgba(255,255,255,0.92); }
 
   /* Forms */
   .bd-input {

@@ -37,7 +37,7 @@ async function getLatestListings(): Promise<ListingLite[]> {
   return Array.isArray(data?.listings) ? data.listings.slice(0, 12) : [];
 }
 
-const LOGO_SRC = "/brand/logo/bidra-logo_light.png";
+const LOGO_SRC = "/brand/logo/Bidra_cropped_1.png";
 
 export default async function HomePage() {
   const listings = await getLatestListings();
@@ -119,6 +119,16 @@ export default async function HomePage() {
           )}
         </div>
       </section>
+
+      {/* SAFETY (minimal trust cue) */}
+      <div className="mt-6 text-xs bd-ink2">
+        <span className="font-semibold bd-ink">Safety:</span>{" "}
+        Meet in a public place and avoid off-platform prepayment.{" "}
+        <Link href="/legal/prohibited-items" className="bd-link">
+          Prohibited items & safety
+        </Link>
+        .
+      </div>
     </main>
   );
 }
