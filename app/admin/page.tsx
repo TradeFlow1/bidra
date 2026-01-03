@@ -57,6 +57,7 @@ export default async function AdminHome() {
           <div className={sub}>See what moderation actions occurred and when.</div>
           <div className="mt-3">
             <Link href="/admin/audit" className="rounded-md border border-black/10 px-3 py-1 text-sm hover:bg-black/5">View audit</Link>
+            <Link href="/admin/events" className="rounded-md border border-black/10 px-3 py-1 text-sm hover:bg-black/5">Events</Link>
           </div>
         </div>
       </div>

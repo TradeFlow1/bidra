@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 
 export type FeedbackGateResult = {
   blocked: boolean;
@@ -15,15 +15,12 @@ export async function getFeedbackGate(
   const now = new Date();
   const cutoff = new Date(now.getTime() - graceHours * 60 * 60 * 1000);
 
-  // We treat "PENDING" as: sale occurred / needs feedback before being marked completed.
-  // Block listing creation only when feedback is overdue (past grace window).
+  // We treat "overdue feedback" as: a completed trade (completedAt set) where feedback is still missing past the grace window. We apply a soft gate (not bans) to protect trust.
   const pendingCount = await prisma.order.count({
     where: {
-      outcome: "PENDING",
-      createdAt: { lt: cutoff },
+      completedAt: { not: null, lt: cutoff },
       OR: [
         { buyerId: userId, buyerFeedbackAt: null },
-        { listing: { sellerId: userId }, sellerFeedbackAt: null },
       ],
     },
   });
@@ -31,14 +28,12 @@ export async function getFeedbackGate(
   const first = pendingCount
     ? await prisma.order.findFirst({
         where: {
-          outcome: "PENDING",
-          createdAt: { lt: cutoff },
+      completedAt: { not: null, lt: cutoff },
           OR: [
-            { buyerId: userId, buyerFeedbackAt: null },
-            { listing: { sellerId: userId }, sellerFeedbackAt: null },
-          ],
+        { buyerId: userId, buyerFeedbackAt: null },
+      ],
         },
-        orderBy: { createdAt: "asc" },
+        orderBy: { completedAt: "asc" },
         select: { id: true },
       })
     : null;

@@ -1,4 +1,5 @@
 ﻿"use client";
+import Link from "next/link";
 
 import React, { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -15,6 +16,11 @@ function dollarsToCentsOrNull(v: string): number | null {
 }
 
 export default function SellNewClient() {
+  const [feedbackGate, setFeedbackGate] = React.useState<null | {
+    message: string;
+    pendingCount: number;
+    feedbackUrl: string | null;
+  }>(null);
   const router = useRouter();
 
   const [type, setType] = useState<ListingTypeUI>("FIXED_PRICE");
@@ -49,6 +55,7 @@ export default function SellNewClient() {
   }, [files]);
 
   async function onSubmit(e: React.FormEvent) {
+    setFeedbackGate(null);
     e.preventDefault();
     setErr(null);
 
@@ -147,6 +154,18 @@ export default function SellNewClient() {
         }),
       });
 
+    // Feedback trust gate: if overdue feedback blocks listing creation, show a friendly CTA.
+    if (res.status === 403) {
+      const data = await res.json().catch(() => null);
+      if (data && (data.code === "FEEDBACK_REQUIRED" || data.error === "FEEDBACK_REQUIRED")) {
+        setFeedbackGate({
+          message: data.error || data.message || "Please leave feedback to continue.",
+          pendingCount: Number(data.pendingCount || 0),
+          feedbackUrl: data.feedbackUrl || null,
+        });
+        return;
+      }
+    }
       const text = await res.text();
       let data: any = null;
       try { data = JSON.parse(text); } catch { data = null; }
@@ -176,8 +195,30 @@ export default function SellNewClient() {
       {err && (
         <div className="mt-4 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{err}</div>
       )}
+      {feedbackGate && (
+        <div className="mb-4 rounded-xl border border-black/10 bg-white p-4">
+          <div className="text-base font-semibold text-black">Feedback required</div>
+          <div className="mt-1 text-sm text-black/70">{feedbackGate.message}</div>
+          {feedbackGate.feedbackUrl && (
+            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
+              <Link
+                href={feedbackGate.feedbackUrl}
+                className="inline-flex items-center justify-center rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white"
+              >
+                Leave feedback to continue
+              </Link>
+              <Link
+                href="/orders"
+                className="inline-flex items-center justify-center rounded-lg border border-black/10 bg-white px-4 py-2 text-sm font-semibold text-black"
+              >
+                Go to Orders
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
 
-      <form onSubmit={onSubmit} className="mt-6 grid gap-4">
+  <form onSubmit={onSubmit} className="mt-6 grid gap-4">
         <div>
           <label className="text-sm font-medium">Sale type</label>
           <select

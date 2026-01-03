@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 
@@ -40,8 +40,15 @@ export default function FeedbackClient({
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
+        // Duplicate feedback (already submitted) should not look like a failure
+        if (res.status === 409) {
+          setStatus("done");
+          setError("");
+          return;
+        }
+
         setStatus("error");
-        setError(data?.error || "Failed to submit feedback.");
+        setError(data?.error || (data?.reason ? `Not allowed: ${data.reason}` : `Request failed (${res.status})`));
         return;
       }
 

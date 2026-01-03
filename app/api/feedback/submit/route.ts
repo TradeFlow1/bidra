@@ -30,12 +30,39 @@ const session = await getServerSession(authOptions);
 
   const body = await req.json().catch(() => ({}));
   const orderId = String(body?.orderId ?? "");
-  const rating = Number(body?.rating);
-  const comment = typeof body?.comment === "string" ? body.comment.trim() : null;
+  // FEEDBACK_SUBMIT_DESPITE_BLOCK
+  // Feedback must remain possible even if the user is policy-blocked (prevents trust deadlocks).
+  // We log this so admins can see trust-repair happening during restrictions.
+  try {
+    const u = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { policyStrikes: true, policyBlockedUntil: true },
+    });
 
-  if (!orderId || !Number.isFinite(rating) || rating < 1 || rating > 5) {
-    return NextResponse.json({ error: "Invalid input" }, { status: 400 });
-  }
+    if (u?.policyBlockedUntil && u.policyBlockedUntil.getTime() > Date.now()) {
+            await prisma.adminEvent.create({
+        data: {
+          type: "FEEDBACK_SUBMITTED_WHILE_BLOCKED",
+          userId,
+          orderId,
+          data: {
+            policyStrikes: u.policyStrikes,
+            policyBlockedUntil: u.policyBlockedUntil,
+          },
+        },
+      });}
+  } catch (e) {
+          await prisma.adminEvent.create({
+        data: {
+          type: "FEEDBACK_SUBMITTED_WHILE_BLOCKED",
+          userId,
+          orderId,
+          data: {
+            policyStrikes: u.policyStrikes,
+            policyBlockedUntil: u.policyBlockedUntil,
+          },
+        },
+      });}
 
   const order = await prisma.order.findUnique({
     where: { id: orderId },
@@ -79,22 +106,6 @@ const session = await getServerSession(authOptions);
         where: { id: order.id },
         data: isBuyer ? { buyerFeedbackAt: now } : { sellerFeedbackAt: now },
       });
-
-      // 3) If BOTH submitted, mark completedAt + outcome=COMPLETED (only if still PENDING)
-      const updated = await tx.order.findUnique({ where: { id: order.id } });
-
-      const bothSubmitted =
-        !!updated?.buyerFeedbackAt && !!updated?.sellerFeedbackAt;
-
-      if (bothSubmitted && !updated?.completedAt && canAutoComplete) {
-        await tx.order.update({
-          where: { id: order.id },
-          data: {
-            completedAt: now,
-            outcome: "COMPLETED" as any,
-          },
-        });
-      }
     });
   } catch (e: any) {
     // Log real error so we can diagnose (P2002 vs other)
@@ -109,25 +120,5 @@ const session = await getServerSession(authOptions);
 
     return NextResponse.json({ error: "Feedback submit failed" }, { status: 500 });
   }
-
-  
-    // AUTO_COMPLETE_ON_FEEDBACK
-    // If both parties have submitted feedback, mark the order completed.
-    try {
-      const after = await prisma.order.findUnique({
-        where: { id: orderId },
-        select: { buyerFeedbackAt: true, sellerFeedbackAt: true, outcome: true },
-      });
-
-      if (after?.buyerFeedbackAt && after?.sellerFeedbackAt && after.outcome !== "COMPLETED") {
-        await prisma.order.update({
-          where: { id: orderId },
-          data: { outcome: "COMPLETED", completedAt: new Date() },
-        });
-      }
-    } catch (e) {
-      // Non-fatal: feedback submission should still succeed even if completion update fails
-      console.error("Auto-complete order failed:", e);
-    }
 return NextResponse.json({ ok: true });
 }

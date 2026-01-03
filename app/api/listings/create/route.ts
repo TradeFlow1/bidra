@@ -1,20 +1,15 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { requireAdult } from "@/lib/require-adult";
 
 
 import { prisma } from "@/lib/prisma";
 
 
+import { getFeedbackGate } from "@/lib/feedback-gate";
 import { getServerSession } from "next-auth";
 
 
 import { authOptions } from "@/lib/auth";
-
-
-import { getFeedbackGate } from "@/lib/feedback-gate";
-
-
-
 type ListingTypeIn = "AUCTION" | "BUY_NOW" | "FIXED_PRICE";
 
 function isAllowedType(t: any): t is ListingTypeIn {
@@ -28,7 +23,7 @@ function toIntOrNull(v: any): number | null {
   return Math.trunc(n);
 }
 
-// Very lightweight policy layer (server-side). This is not perfect, but it’s enforceable and strike-backed.
+// Very lightweight policy layer (server-side). This is not perfect, but it's enforceable and strike-backed.
 const PROHIBITED_KEYWORDS = [
   // Live animals
   "kitten","puppy","dog","cat","rabbit","bird","snake","reptile","horse","livestock","animal","pet",
@@ -71,7 +66,6 @@ async function applyStrike(userId: string) {
 
   return { strikes, blockedUntil };
 }
-
 export async function POST(req: Request) {
   
   const gate = await requireAdult();

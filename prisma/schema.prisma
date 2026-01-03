@@ -359,3 +359,20 @@ enum SaleOutcome {
 enum PolicyStrikeAction {
   WARN
 }
+model AdminEvent {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // e.g. "FEEDBACK_SUBMITTED_WHILE_BLOCKED"
+  type      String
+
+  // actor user id
+  userId    String?
+
+  // useful linkage (optional)
+  orderId   String?
+
+  // structured payload
+  data      Json?
+}
+

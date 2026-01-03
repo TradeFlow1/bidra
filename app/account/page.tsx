@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+﻿export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Link from "next/link";
@@ -51,7 +51,10 @@ export default async function AccountPage() {
       id: true,
       createdAt: true,
       amount: true,
-      listing: { select: { id: true, title: true } },
+      buyerFeedbackAt: true,
+      sellerFeedbackAt: true,
+      listing: { select: { id: true, title: true 
+    } },
     },
   });
 
@@ -68,8 +71,11 @@ export default async function AccountPage() {
       id: true,
       createdAt: true,
       amount: true,
+      buyerFeedbackAt: true,
+      sellerFeedbackAt: true,
       buyerId: true,
-      listing: { select: { id: true, title: true } },
+      listing: { select: { id: true, title: true 
+    } },
     },
   });
 
@@ -101,9 +107,9 @@ export default async function AccountPage() {
       outcome: true,
       status: true,
       amount: true,
-      buyerId: true,
       buyerFeedbackAt: true,
       sellerFeedbackAt: true,
+      buyerId: true,
       listing: { select: { id: true, title: true } },
     },
   });
@@ -272,8 +278,23 @@ export default async function AccountPage() {
                     {pendingFeedbackAsBuyer.map((o) => (
                       <tr key={o.id}>
                         <td style={td}>
-                          {actionLink(`/orders/${o.id}/feedback`, "Leave feedback")}
-                        </td>
+  <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+    {actionLink(`/orders/${o.id}/feedback`, "Leave feedback")}
+
+    {/* Informational only: you are NOT punished for the other party being lazy */}
+    {o.buyerFeedbackAt && !o.sellerFeedbackAt ? (
+      <span style={{ fontSize: 12, fontWeight: 800, padding: "4px 10px", borderRadius: 999, background: "#f1f5f9" }}>
+        Waiting on seller feedback
+      </span>
+    ) : null}
+
+    {o.sellerFeedbackAt && !o.buyerFeedbackAt ? (
+      <span style={{ fontSize: 12, fontWeight: 800, padding: "4px 10px", borderRadius: 999, background: "#f1f5f9" }}>
+        Waiting on buyer feedback
+      </span>
+    ) : null}
+  </div>
+</td>
                         <td style={td}>
                           <Link
                             href={`/listings/${o.listing.id}`}
@@ -311,7 +332,37 @@ export default async function AccountPage() {
                     {pendingFeedbackAsSeller.map((o) => (
                       <tr key={o.id}>
                         <td style={td}>
-                          {actionLink(`/orders/${o.id}/feedback`, "Leave feedback")}
+                          <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+  <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+  {actionLink(`/orders/${o.id}/feedback`, "Leave feedback")}
+
+  {/* Informational only: you are NOT punished for the other party being lazy */}
+  {o.buyerFeedbackAt && !o.sellerFeedbackAt ? (
+    <span style={{ fontSize: 12, fontWeight: 800, padding: "4px 10px", borderRadius: 999, background: "#f1f5f9" }}>
+      Waiting on seller feedback
+    </span>
+  ) : null}
+
+  {o.sellerFeedbackAt && !o.buyerFeedbackAt ? (
+    <span style={{ fontSize: 12, fontWeight: 800, padding: "4px 10px", borderRadius: 999, background: "#f1f5f9" }}>
+      Waiting on buyer feedback
+    </span>
+  ) : null}
+</div>
+
+  {/* Informational only: you are NOT punished for the other party being lazy */}
+  {o.buyerFeedbackAt && !o.sellerFeedbackAt ? (
+    <span style={{ fontSize: 12, fontWeight: 800, padding: "4px 10px", borderRadius: 999, background: "#f1f5f9" }}>
+      Waiting on seller feedback
+    </span>
+  ) : null}
+
+  {o.sellerFeedbackAt && !o.buyerFeedbackAt ? (
+    <span style={{ fontSize: 12, fontWeight: 800, padding: "4px 10px", borderRadius: 999, background: "#f1f5f9" }}>
+      Waiting on buyer feedback
+    </span>
+  ) : null}
+</div>
                         </td>
                         <td style={td}>
                           <Link
