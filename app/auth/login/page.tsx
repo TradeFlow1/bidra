@@ -12,7 +12,8 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
 
   return (
-    <div className="max-w-md">
+    <main className="bd-container py-6 pb-14">
+      <div className="bd-card p-6 max-w-md mx-auto">
       <h1 className="text-2xl font-bold">Log in</h1>
       <p className="mt-1 text-sm text-neutral-700">Use your email and password.</p>
 
@@ -57,11 +58,11 @@ export default function Login() {
 
           
           <div className="mt-2 text-sm">
-            <Link href="/forgot-password" className="text-neutral-700 hover:underline">
+            <Link href="/forgot-password" className="bd-link text-sm">
               Forgot password?
             </Link>
           </div>
-<Button type="submit" className="bg-black text-white border-black hover:opacity-90">
+<Button type="submit" className="bd-btn bd-btn-primary">
             Log in
           </Button>
 
@@ -69,12 +70,14 @@ export default function Login() {
 
           <div className="text-sm text-neutral-700">
             Don&apos;t have an account?{" "}
-            <Link href="/auth/register" className="hover:underline">
+            <Link href="/auth/register" className="bd-link">
               Create one
             </Link>.
           </div>
         </form>
       </Card>
-    </div>
+      </div>
+    </main>
   );
 }
+

@@ -116,7 +116,7 @@ const [ok, setOk] = useState(false);
           {/* Success */}
           {ok ? (
             <div className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-5">
-              <p className="text-lg font-bold">Account created âœ…</p>
+              <p className="text-lg font-bold">Account created ✅</p>
               <p className="mt-1 text-sm text-white/70">
                 For MVP, the email verification link prints in the server console.
               </p>
