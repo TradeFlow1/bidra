@@ -8,14 +8,15 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
-function Pill(props: { ok?: boolean; children: React.ReactNode }) {
+function Pill(props: { tone?: "ok" | "warn"; children: React.ReactNode }) {
+  const tone = props.tone ?? "ok";
+  const cls =
+    tone === "ok"
+      ? "bg-green-100 text-green-800"
+      : "bg-amber-100 text-amber-900";
+
   return (
-    <span
-      className={
-        "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold " +
-        (props.ok ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-900")
-      }
-    >
+    <span className={"inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold " + cls}>
       {props.children}
     </span>
   );
@@ -27,6 +28,17 @@ function Card(props: { title: string; children: React.ReactNode }) {
       <div className="text-sm font-semibold">{props.title}</div>
       <div className="mt-3">{props.children}</div>
     </div>
+  );
+}
+
+function ActionLink(props: { href: string; children: React.ReactNode }) {
+  return (
+    <Link
+      className="rounded-md border border-black/10 px-3 py-2 text-sm font-semibold hover:bg-black/5"
+      href={props.href}
+    >
+      {props.children}
+    </Link>
   );
 }
 
@@ -44,10 +56,6 @@ export default async function DashboardPage() {
     where: { id: me },
     select: {
       id: true,
-      email: true,
-      username: true,
-      name: true,
-      createdAt: true,
       emailVerified: true,
       isActive: true,
       ageVerified: true,
@@ -56,12 +64,11 @@ export default async function DashboardPage() {
       policyBlockedUntil: true,
     },
   });
-
   if (!user) redirect("/auth/login?next=/dashboard");
 
   const now = Date.now();
-  const blockedUntil = user.policyBlockedUntil ? new Date(user.policyBlockedUntil).getTime() : 0;
-  const isBlocked = blockedUntil > now;
+  const blockedUntilMs = user.policyBlockedUntil ? new Date(user.policyBlockedUntil).getTime() : 0;
+  const isBlocked = blockedUntilMs > now;
 
   const myListingsCount = await prisma.listing.count({
     where: { sellerId: me, status: { not: "DELETED" } },
@@ -87,16 +94,25 @@ export default async function DashboardPage() {
     where: { listing: { sellerId: me }, completedAt: { not: null }, sellerFeedbackAt: null },
   });
 
+  const needsEmail = !user.emailVerified;
+  const needsPhone = !user.phoneVerified;
+  const needsAge = !user.ageVerified; // keep only if you still want this surfaced separately
+
+  const hasAttention =
+    !adult.ok || isBlocked || pendingBuyerFeedbackCount > 0 || pendingSellerFeedbackCount > 0 || needsEmail || needsPhone || needsAge;
+
   return (
     <main className="mx-auto max-w-5xl p-6">
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-3xl font-bold">Dashboard</h1>
+
         <div className="flex items-center gap-2">
           {isAdmin ? (
             <Link href="/admin" className="rounded-md border px-3 py-2 text-sm font-semibold hover:bg-black/5">
               Admin
             </Link>
           ) : null}
+
           <Link href="/sell/new" className="rounded-md border px-3 py-2 text-sm font-semibold hover:bg-black/5">
             Create listing
           </Link>
@@ -106,24 +122,10 @@ export default async function DashboardPage() {
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         <Card title="Your status">
           <div className="flex flex-wrap gap-2">
-            <Pill ok={adult.ok}>18+ gate: {adult.ok ? "OK" : "Restricted"}</Pill>
-            <Pill ok={!isBlocked}>Blocked: {isBlocked ? "Yes" : "No"}</Pill>
-            <Pill ok={user.policyStrikes < 3}>Strikes: {user.policyStrikes}</Pill>
-            <Pill ok={user.emailVerified}>Email verified: {user.emailVerified ? "Yes" : "No"}</Pill>
-            <Pill ok={user.ageVerified}>Age verified: {user.ageVerified ? "Yes" : "No"}</Pill>
-            <Pill ok={user.phoneVerified}>Phone verified: {user.phoneVerified ? "Yes" : "No"}</Pill>
-            <Pill ok={user.isActive}>Active: {user.isActive ? "Yes" : "No"}</Pill>
+            <Pill tone={adult.ok ? "ok" : "warn"}>18+ gate: {adult.ok ? "OK" : "Restricted"}</Pill>
+            <Pill tone={!isBlocked ? "ok" : "warn"}>Blocked: {isBlocked ? "Yes" : "No"}</Pill>
+            <Pill tone={user.policyStrikes < 3 ? "ok" : "warn"}>Strikes: {user.policyStrikes}</Pill>
           </div>
-
-          {!adult.ok ? (
-            <div className="mt-3 text-sm text-amber-900">
-              Your account is restricted. Visit{" "}
-              <Link href="/account/restrictions" className="underline">
-                account restrictions
-              </Link>
-              .
-            </div>
-          ) : null}
 
           {isBlocked ? (
             <div className="mt-3 text-sm text-amber-900">
@@ -134,58 +136,66 @@ export default async function DashboardPage() {
               .
             </div>
           ) : null}
+
+          {!adult.ok ? (
+            <div className="mt-3 text-sm text-amber-900">
+              Your account is restricted. Visit{" "}
+              <Link href="/account/restrictions" className="underline">
+                account restrictions
+              </Link>
+              .
+            </div>
+          ) : null}
         </Card>
 
-        <Card title="Quick actions">
-          <div className="flex flex-col gap-2 text-sm">
-            <Link className="rounded-md border px-3 py-2 hover:bg-black/5" href="/profile">
-              Account settings
-            </Link>
-            <Link className="rounded-md border px-3 py-2 hover:bg-black/5" href="/messages">
-              Messages
-            </Link>
-            <Link className="rounded-md border px-3 py-2 hover:bg-black/5" href="/orders">
-              Orders
-            </Link>
-            <Link className="rounded-md border px-3 py-2 hover:bg-black/5" href="/watchlist">
-              Watchlist
-            </Link>
-          </div>
+        <Card title="Needs attention">
+          {!hasAttention ? (
+            <div className="text-sm text-neutral-700">All good. No actions required right now.</div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {pendingSellerFeedbackCount > 0 ? (
+                <ActionLink href="/orders">Leave seller feedback ({pendingSellerFeedbackCount})</ActionLink>
+              ) : null}
+
+              {pendingBuyerFeedbackCount > 0 ? (
+                <ActionLink href="/orders">Leave buyer feedback ({pendingBuyerFeedbackCount})</ActionLink>
+              ) : null}
+
+              {needsEmail ? <ActionLink href="/profile">Verify your email</ActionLink> : null}
+              {needsPhone ? <ActionLink href="/profile">Verify your phone</ActionLink> : null}
+              {needsAge ? <ActionLink href="/profile">Complete age verification</ActionLink> : null}
+
+              {(!needsEmail && !needsPhone && !needsAge && pendingBuyerFeedbackCount === 0 && pendingSellerFeedbackCount === 0 && adult.ok && !isBlocked) ? (
+                <div className="text-sm text-neutral-700">No actions required.</div>
+              ) : null}
+            </div>
+          )}
         </Card>
 
-        <Card title="Seller overview">
+        <Card title="Seller actions">
           <div className="flex flex-wrap gap-2">
-            <Pill ok={true}>Listings: {myListingsCount}</Pill>
-            <Pill ok={true}>Active: {activeListingsCount}</Pill>
-            <Pill ok={true}>Sold: {soldListingsCount}</Pill>
-            <Pill ok={pendingSellerFeedbackCount === 0}>
-              Feedback due: {pendingSellerFeedbackCount}
-            </Pill>
+            <Pill>Listings: {myListingsCount}</Pill>
+            <Pill>Active: {activeListingsCount}</Pill>
+            <Pill>Sold: {soldListingsCount}</Pill>
           </div>
-          <div className="mt-3 flex flex-col gap-2 text-sm">
-            <Link className="rounded-md border px-3 py-2 hover:bg-black/5" href="/dashboard/listings">
-              Manage my listings
-            </Link>
-            <Link className="rounded-md border px-3 py-2 hover:bg-black/5" href="/sell/new">
-              Create a listing
-            </Link>
+
+          <div className="mt-3 flex flex-col gap-2">
+            <ActionLink href="/dashboard/listings">Manage my listings</ActionLink>
+            <ActionLink href="/sell/new">Create a listing</ActionLink>
+            <ActionLink href="/messages">Go to messages</ActionLink>
           </div>
         </Card>
 
-        <Card title="Buyer overview">
+        <Card title="Buyer actions">
           <div className="flex flex-wrap gap-2">
-            <Pill ok={true}>Orders: {ordersAsBuyerCount}</Pill>
-            <Pill ok={pendingBuyerFeedbackCount === 0}>
-              Feedback due: {pendingBuyerFeedbackCount}
-            </Pill>
+            <Pill>Orders: {ordersAsBuyerCount}</Pill>
+            <Pill tone={(pendingBuyerFeedbackCount === 0) ? "ok" : "warn"}>Feedback due: {pendingBuyerFeedbackCount}</Pill>
           </div>
-          <div className="mt-3 flex flex-col gap-2 text-sm">
-            <Link className="rounded-md border px-3 py-2 hover:bg-black/5" href="/orders">
-              View orders
-            </Link>
-            <Link className="rounded-md border px-3 py-2 hover:bg-black/5" href="/messages">
-              Continue chats
-            </Link>
+
+          <div className="mt-3 flex flex-col gap-2">
+            <ActionLink href="/orders">View orders</ActionLink>
+            <ActionLink href="/watchlist">Watchlist</ActionLink>
+            <ActionLink href="/messages">Continue chats</ActionLink>
           </div>
         </Card>
       </div>
