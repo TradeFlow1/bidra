@@ -186,7 +186,7 @@ export default async function ListingsPage({
 
   return (
     <main>
-      <div className="container">
+      <div className="bd-container">
         <section className="section" style={{ paddingTop: 18, paddingBottom: 10 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
             <div>
