@@ -169,20 +169,7 @@ export default async function ListingsPage({
     sort
   );
 
-  const inputStyle: React.CSSProperties = {
-    padding: "12px 14px",
-    border: "1px solid rgba(0,0,0,0.15)",
-    borderRadius: 12,
-    fontSize: 15,
-    width: "100%",
-    minHeight: 44,
-  };
-
-  const labelStyle: React.CSSProperties = {
-    fontSize: 12,
-    fontWeight: 900,
-    marginBottom: 6,
-  };
+  /* STEP3_FILTERS_CLEAN: replace inline filter styles with bd-input / bd-label */
 
   return (
     <main>
@@ -197,18 +184,18 @@ export default async function ListingsPage({
             </div>
           </div>
 
-          <div className="card" style={{ marginTop: 12, padding: 16 }}>
+          <div className="bd-card p-4 mt-3">
             <MobileFiltersToggle>
 <form action="/listings" method="get">
   <div className="grid gap-3 md:grid-cols-12">
     <div className="md:col-span-3">
-      <div style={labelStyle}>Search</div>
-      <input name="q" defaultValue={q} placeholder="Search listings" style={inputStyle} />
+      <div className="bd-label text-xs">Search</div>
+      <input name="q" defaultValue={q} placeholder="Search listings" className="bd-input" />
     </div>
 
     <div className="md:col-span-3">
-      <div style={labelStyle}>Category</div>
-      <select name="category" defaultValue={category} style={{ ...inputStyle, minWidth: 160 }}>
+      <div className="bd-label text-xs">Category</div>
+      <select name="category" defaultValue={category} className="bd-input">
         <option value="">All categories</option>
         {FULL_CATEGORIES.map((c: string) => (
           <option key={c} value={c}>{c}</option>
@@ -217,8 +204,8 @@ export default async function ListingsPage({
     </div>
 
     <div className="md:col-span-2">
-      <div style={labelStyle}>Type</div>
-      <select name="type" defaultValue={type} style={{ ...inputStyle, minWidth: 140 }}>
+      <div className="bd-label text-xs">Type</div>
+      <select name="type" defaultValue={type} className="bd-input">
         <option value="">Any</option>
         <option value="BUY_NOW">Buy now</option>
         <option value="FIXED_PRICE">Fixed price</option>
@@ -226,8 +213,8 @@ export default async function ListingsPage({
     </div>
 
     <div className="md:col-span-2">
-      <div style={labelStyle}>Condition</div>
-      <select name="condition" defaultValue={condition} style={{ ...inputStyle, minWidth: 140 }}>
+      <div className="bd-label text-xs">Condition</div>
+      <select name="condition" defaultValue={condition} className="bd-input">
         <option value="">Any</option>
         <option value="New">New</option>
         <option value="Used - Like New">Used - Like New</option>
@@ -237,8 +224,8 @@ export default async function ListingsPage({
     </div>
 
     <div className="md:col-span-2">
-      <div style={labelStyle}>Sort</div>
-      <select name="sort" defaultValue={sort} style={{ ...inputStyle, minWidth: 140 }}>
+      <div className="bd-label text-xs">Sort</div>
+      <select name="sort" defaultValue={sort} className="bd-input">
         <option value="">Newest</option>
         <option value="ending_soon">Ending soon</option>
         <option value="price_asc">Price: low to high</option>
@@ -249,28 +236,28 @@ export default async function ListingsPage({
 
   <div className="mt-3 grid gap-3 md:grid-cols-12">
     <div className="md:col-span-6">
-      <div style={labelStyle}>Location</div>
-      <input name="location" defaultValue={location} placeholder="Location" style={inputStyle} />
+      <div className="bd-label text-xs">Location</div>
+      <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
     </div>
 
     <div className="md:col-span-3">
-      <div style={labelStyle}>Min ($)</div>
+      <div className="bd-label text-xs">Min ($)</div>
       <input
         name="min"
         defaultValue={(searchParams?.min ?? "").trim()}
         placeholder="Min"
-        style={{ ...inputStyle, minWidth: 120 }}
+        className="bd-input"
         inputMode="decimal"
       />
     </div>
 
     <div className="md:col-span-3">
-      <div style={labelStyle}>Max ($)</div>
+      <div className="bd-label text-xs">Max ($)</div>
       <input
         name="max"
         defaultValue={(searchParams?.max ?? "").trim()}
         placeholder="Max"
-        style={{ ...inputStyle, minWidth: 120 }}
+        className="bd-input"
         inputMode="decimal"
       />
     </div>
@@ -297,13 +284,13 @@ export default async function ListingsPage({
 <form action="/listings" method="get">
   <div className="grid gap-3 md:grid-cols-12">
     <div className="md:col-span-3">
-      <div style={labelStyle}>Search</div>
-      <input name="q" defaultValue={q} placeholder="Search listings" style={inputStyle} />
+      <div className="bd-label text-xs">Search</div>
+      <input name="q" defaultValue={q} placeholder="Search listings" className="bd-input" />
     </div>
 
     <div className="md:col-span-3">
-      <div style={labelStyle}>Category</div>
-      <select name="category" defaultValue={category} style={{ ...inputStyle, minWidth: 160 }}>
+      <div className="bd-label text-xs">Category</div>
+      <select name="category" defaultValue={category} className="bd-input">
         <option value="">All categories</option>
         {FULL_CATEGORIES.map((c: string) => (
           <option key={c} value={c}>{c}</option>
@@ -312,8 +299,8 @@ export default async function ListingsPage({
     </div>
 
     <div className="md:col-span-2">
-      <div style={labelStyle}>Type</div>
-      <select name="type" defaultValue={type} style={{ ...inputStyle, minWidth: 140 }}>
+      <div className="bd-label text-xs">Type</div>
+      <select name="type" defaultValue={type} className="bd-input">
         <option value="">Any</option>
         <option value="BUY_NOW">Buy now</option>
         <option value="FIXED_PRICE">Fixed price</option>
@@ -321,8 +308,8 @@ export default async function ListingsPage({
     </div>
 
     <div className="md:col-span-2">
-      <div style={labelStyle}>Condition</div>
-      <select name="condition" defaultValue={condition} style={{ ...inputStyle, minWidth: 140 }}>
+      <div className="bd-label text-xs">Condition</div>
+      <select name="condition" defaultValue={condition} className="bd-input">
         <option value="">Any</option>
         <option value="New">New</option>
         <option value="Used - Like New">Used - Like New</option>
@@ -332,8 +319,8 @@ export default async function ListingsPage({
     </div>
 
     <div className="md:col-span-2">
-      <div style={labelStyle}>Sort</div>
-      <select name="sort" defaultValue={sort} style={{ ...inputStyle, minWidth: 140 }}>
+      <div className="bd-label text-xs">Sort</div>
+      <select name="sort" defaultValue={sort} className="bd-input">
         <option value="">Newest</option>
         <option value="ending_soon">Ending soon</option>
         <option value="price_asc">Price: low to high</option>
@@ -344,28 +331,28 @@ export default async function ListingsPage({
 
   <div className="mt-3 grid gap-3 md:grid-cols-12">
     <div className="md:col-span-6">
-      <div style={labelStyle}>Location</div>
-      <input name="location" defaultValue={location} placeholder="Location" style={inputStyle} />
+      <div className="bd-label text-xs">Location</div>
+      <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
     </div>
 
     <div className="md:col-span-3">
-      <div style={labelStyle}>Min ($)</div>
+      <div className="bd-label text-xs">Min ($)</div>
       <input
         name="min"
         defaultValue={(searchParams?.min ?? "").trim()}
         placeholder="Min"
-        style={{ ...inputStyle, minWidth: 120 }}
+        className="bd-input"
         inputMode="decimal"
       />
     </div>
 
     <div className="md:col-span-3">
-      <div style={labelStyle}>Max ($)</div>
+      <div className="bd-label text-xs">Max ($)</div>
       <input
         name="max"
         defaultValue={(searchParams?.max ?? "").trim()}
         placeholder="Max"
-        style={{ ...inputStyle, minWidth: 120 }}
+        className="bd-input"
         inputMode="decimal"
       />
     </div>
