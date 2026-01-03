@@ -37,6 +37,24 @@ export default function MessageSellerButton(props: { listingId: string }) {
 
       if (!res.ok) {
         const msg = (data && (data.error || data.message)) || "Could not start a message."
+        const code = String(msg).toUpperCase()
+
+        // If the API returns a restriction-style code, route to restrictions instead of showing raw codes
+        if (
+          code.includes("MISSING") ||
+          code.includes("AGE") ||
+          code.includes("VERIFY") ||
+          code.includes("VERIF") ||
+          code.includes("UNDER") ||
+          code.includes("RESTRICT") ||
+          code.includes("BLOCK") ||
+          code.includes("STRIKE")
+        ) {
+          setBusy(false)
+          router.push("/account/restrictions")
+          return
+        }
+
         setErr(msg)
         setBusy(false)
         return
