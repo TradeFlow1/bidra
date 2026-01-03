@@ -1,6 +1,6 @@
 ﻿import Link from "next/link"
-import { formatAuDateTime } from "@/lib/date"
 import InboxAutoRefresh from "./components/inbox-auto-refresh"
+import DateTimeText from "@/components/date-time-text"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { redirect } from "next/navigation"
@@ -75,7 +75,7 @@ export default async function MessagesInboxPage() {
               <Link key={it.id} href={`/messages/${it.id}`} className={`block rounded-lg border p-4 hover:bg-black/5 ${it.unread ? "bg-blue-50/60 border-blue-200" : ""}`}>
                 <div className="flex items-center justify-between gap-3">
                   <div className="font-medium">{it.listing?.title || "Listing"}</div>
-                  <div className="text-xs text-neutral-500">{formatAuDateTime(it.lastMessageAt)}</div>
+                  <div className="text-xs text-neutral-500"><DateTimeText className="text-xs text-neutral-500" value={it.lastMessageAt} /></div>
                 </div>
                 <div className="mt-1 text-sm text-neutral-700">With: {otherLabel}</div>
                 <div className="mt-2 text-sm text-neutral-600 line-clamp-2">{last}</div>
