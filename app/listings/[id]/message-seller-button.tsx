@@ -40,7 +40,6 @@ export default function MessageSellerButton(props: { listingId: string }) {
         setBusy(false)
         return
       }
-
       router.push(`/messages/${threadId}`)
     } catch {
       setErr("Something went wrong. Please try again.")

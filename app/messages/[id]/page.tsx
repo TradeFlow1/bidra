@@ -28,9 +28,12 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
       id: true,
       buyerId: true,
       sellerId: true,
+      lastMessageAt: true,
+      buyerLastReadAt: true,
+      sellerLastReadAt: true,
       listing: { select: { id: true, title: true } },
-      buyer: { select: { id: true, username: true, name: true, email: true } },
-      seller: { select: { id: true, username: true, name: true, email: true } },
+      buyer: { select: { id: true,username: true, name: true, email: true } },
+      seller: { select: { id: true,username: true, name: true, email: true } },
     },
   })
 
@@ -39,6 +42,23 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
   const isParticipant = thread.buyerId === me || thread.sellerId === me
   if (!isParticipant) redirect("/messages")
 
+
+  // Read receipts: stamp "last read" when a participant opens the thread
+  if (thread.lastMessageAt) {
+    const myLastRead = thread.buyerId === me ? thread.buyerLastReadAt : thread.sellerLastReadAt
+    const needsStamp =
+      !myLastRead || new Date(myLastRead).getTime() < new Date(thread.lastMessageAt).getTime()
+
+    if (needsStamp) {
+      await prisma.messageThread.update({
+        where: { id: thread.id },
+        data:
+          thread.buyerId === me
+            ? { buyerLastReadAt: new Date() }
+            : { sellerLastReadAt: new Date() },
+      })
+    }
+  }
   const other =
     thread.buyerId === me ? thread.seller : thread.buyer
 
@@ -46,7 +66,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
     where: { threadId: thread.id },
     orderBy: { createdAt: "asc" },
     take: 200,
-    select: { id: true, body: true, createdAt: true, userId: true },
+    select: { id: true,body: true, createdAt: true, userId: true },
   })
 
   return (
