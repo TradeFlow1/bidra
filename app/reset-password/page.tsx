@@ -41,7 +41,8 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="max-w-md space-y-4">
+    <main className="bd-container py-6 pb-14">
+      <div className="bd-card p-6 max-w-md mx-auto">
       <h1 className="text-2xl font-bold">Reset password</h1>
 
       <div className="space-y-2">
@@ -77,6 +78,8 @@ export default function ResetPasswordPage() {
       <div className="text-sm">
         <Link className="underline" href="/login">Back to login</Link>
       </div>
-    </div>
+      </div>
+    </main>
   );
 }
+
