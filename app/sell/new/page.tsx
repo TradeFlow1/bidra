@@ -1,4 +1,4 @@
-import SellNewClient from "./sell-new-client";
+﻿import SellNewClient from "./sell-new-client";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -17,10 +17,10 @@ export default async function SellNewPage() {
 
   if (gate.blocked) {
     return (
-      <main className="mx-auto max-w-2xl px-4 py-10">
-        <h1 className="text-2xl font-semibold">Action required</h1>
+      <main className="bd-container" style={{ paddingTop: 32, paddingBottom: 32 }}>
+        <h1 className="h1" style={{ fontSize: 28 }}>Action required</h1>
 
-        <p className="mt-2 text-sm opacity-80">
+        <p className="p" style={{ marginTop: 6 }}>
           You have {gate.pendingCount} pending feedback task(s) older than {gate.graceHours} hours.
           Please submit feedback to continue creating listings.
         </p>
@@ -28,14 +28,14 @@ export default async function SellNewPage() {
         <div className="mt-6 flex flex-wrap gap-3">
           <a
             href={gate.feedbackUrl || "/orders"}
-            className="rounded-md border px-4 py-2 text-sm font-medium hover:opacity-90"
+            className="btnPrimary"
           >
             Complete feedback
           </a>
 
           <a
             href="/orders"
-            className="rounded-md border px-4 py-2 text-sm font-medium hover:opacity-90"
+            className="btnPrimary"
           >
             View orders
           </a>
@@ -45,9 +45,9 @@ export default async function SellNewPage() {
   }
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-10">
-      <h1 className="text-2xl font-semibold">Create a listing</h1>
-      <p className="mt-2 text-sm opacity-80">
+    <main className="bd-container" style={{ paddingTop: 32, paddingBottom: 32 }}>
+      <h1 className="h1" style={{ fontSize: 28 }}>Create a listing</h1>
+      <p className="p" style={{ marginTop: 6 }}>
         Add the basics — title, description, category, condition, location, and pricing.
       </p>
 
