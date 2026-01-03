@@ -13,7 +13,7 @@ export default function SupportPage() {
 
       <div className="mt-8 space-y-6">
         <section className="rounded-xl border border-black/10 bg-slate-50 p-4">
-          <h2 className="text-lg font-semibold text-[#0B0E11]">Safety tips</h2>
+          <h2 className="text-lg font-semibold text-[#0B0E11]" id="safety">Safety tips</h2>
           <ul className="mt-2 list-disc pl-5 text-black/75 space-y-1">
             <li>Meet in a public place or bring someone with you.</li>
             <li>Avoid sharing unnecessary personal information.</li>
@@ -51,7 +51,7 @@ export default function SupportPage() {
             <li><a className="text-[#1DA1F2] hover:underline" href="/legal/privacy">Privacy Policy</a></li>
             <li><a className="text-[#1DA1F2] hover:underline" href="/legal/terms">Terms of Service</a></li>
             <li><a className="text-[#1DA1F2] hover:underline" href="/legal/prohibited-items">Prohibited Items</a></li>
-            <li><a className="text-[#1DA1F2] hover:underline" href="/legal/safety">Safety Tips</a></li>
+            <li><a className="text-[#1DA1F2] hover:underline" href="/support#safety">Safety Tips</a></li>
           </ul>
         </section>
       </div>

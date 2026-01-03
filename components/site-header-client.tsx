@@ -19,7 +19,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
   const [open, setOpen] = useState(false);
   const [acctOpen, setAcctOpen] = useState(false);
 
-  const isAuthed = !!session?.user?.email;
+  const isAuthed = !!session?.user?.id;
   const displayName = useMemo(() => {
     return (
       session?.user?.username ||
