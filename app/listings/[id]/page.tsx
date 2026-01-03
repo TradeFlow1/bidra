@@ -99,7 +99,8 @@ const sellerId = (listing.seller as any)?.id as string;
     (listing.seller as any)?.email ??
     "Seller";
 
-  return (
+  const descriptionText = String(listing.description ?? "").trim();
+return (
     <main className="bd-container py-6 pb-14">
       <div className="bd-card p-5 space-y-4">
       <Link href="/listings" className="bd-link text-sm">
@@ -153,6 +154,14 @@ const sellerId = (listing.seller as any)?.id as string;
     <>Price: {formatMoney(listing.price)}</>
   )}
 </div>
+
+      <div className="pt-3">
+        <div className="text-sm font-extrabold">Description</div>
+        <div className="mt-2 rounded-xl border border-black/10 bg-white p-4 text-sm text-neutral-800 whitespace-pre-wrap">
+          {descriptionText ? descriptionText : "No description provided."}
+        </div>
+      </div>
+
 
       {listing.type === "AUCTION" ? (
         <PlaceBidClient listingId={listing.id} minBidCents={minBidCents} />
