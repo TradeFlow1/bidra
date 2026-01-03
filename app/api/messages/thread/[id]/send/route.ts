@@ -1,44 +1,74 @@
-import { NextResponse } from "next/server"
-import { auth } from "@/lib/auth"
-import { requireAdult } from "@/lib/require-adult"
-import { prisma } from "@/lib/prisma"
+﻿import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
+import { requireAdult } from "@/lib/require-adult";
+import { prisma } from "@/lib/prisma";
 
-export async function POST(req: Request, ctx: { params: { id: string } }) {
-  const session = await auth()
-  if (!session?.user?.id) return NextResponse.json({ error: "Not authenticated" }, { status: 401 })
+export async function POST(req: Request, { params }: { params: { id: string } }) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  }
 
-  const adult = await requireAdult(session)
-  if (!adult.ok) return NextResponse.json({ error: adult.reason || "Restricted" }, { status: 403 })
+  const adult = await requireAdult(session);
+  if (!adult.ok) {
+    return NextResponse.json({ error: adult.reason || "Restricted" }, { status: 403 });
+  }
 
-  const me = session.user.id
-  const id = ctx.params.id
+  const threadId = String(params?.id || "").trim();
+  if (!threadId) {
+    return NextResponse.json({ error: "Thread id is required" }, { status: 400 });
+  }
 
-  const body = await req.json().catch(() => ({}))
-  const text = String(body.body || "").trim()
-  if (text.length < 1) return NextResponse.json({ error: "Message cannot be empty." }, { status: 400 })
-  if (text.length > 2000) return NextResponse.json({ error: "Message too long." }, { status: 400 })
+  const bodyJson = await req.json().catch(() => ({} as any));
+  const text = String((bodyJson as any)?.body || "").trim();
+
+  if (!text) {
+    return NextResponse.json({ error: "Message body is required" }, { status: 400 });
+  }
+  if (text.length > 2000) {
+    return NextResponse.json({ error: "Message too long." }, { status: 400 });
+  }
+
+  const me = session.user.id;
 
   const thread = await prisma.messageThread.findUnique({
-    where: { id },
+    where: { id: threadId },
     select: { id: true, buyerId: true, sellerId: true, listingId: true },
-  })
-  if (!thread) return NextResponse.json({ error: "Thread not found" }, { status: 404 })
-  if (me !== thread.buyerId && me !== thread.sellerId) return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+  });
 
-  const msg = await prisma.message.create({
-    data: {
-      threadId: thread.id,
-      listingId: thread.listingId, // keep legacy link too
-      userId: me,
-      body: text,
-    },
-    select: { id: true, body: true, createdAt: true, userId: true },
-  })
+  if (!thread) {
+    return NextResponse.json({ error: "Thread not found" }, { status: 404 });
+  }
 
-  await prisma.messageThread.update({
-    where: { id: thread.id },
-    data: { lastMessageAt: new Date() },
-  })
+  const isParticipant = thread.buyerId === me || thread.sellerId === me;
+  if (!isParticipant) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
 
-  return NextResponse.json({ message: msg })
+  const now = new Date();
+
+  const msg = await prisma.$transaction(async (tx) => {
+    const created = await tx.message.create({
+      data: {
+        threadId: thread.id,
+        userId: me,
+        body: text,
+        listingId: thread.listingId,
+      },
+      select: { id: true, body: true, createdAt: true, userId: true, threadId: true, listingId: true },
+    });
+
+    const data: any = { lastMessageAt: now, updatedAt: now };
+    if (me === thread.buyerId) data.buyerLastReadAt = now;
+    if (me === thread.sellerId) data.sellerLastReadAt = now;
+
+    await tx.messageThread.update({
+      where: { id: thread.id },
+      data,
+    });
+
+    return created;
+  });
+
+  return NextResponse.json({ ok: true, message: msg });
 }
