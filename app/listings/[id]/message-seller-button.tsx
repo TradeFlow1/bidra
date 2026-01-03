@@ -21,11 +21,22 @@ export default function MessageSellerButton(props: { listingId: string }) {
 
       // If not logged in, NextAuth often returns 401/403 depending on your handler
       if (res.status === 401) {
-        router.push(`/auth/login?callbackUrl=${encodeURIComponent(`/listings/${props.listingId}`)}`)
+        setBusy(false)
+        router.push(`/auth/login?next=${encodeURIComponent(`/listings/${props.listingId}`)}`)
         return
       }
 
-      const data = await res.json().catch(() => null)
+            const data = await res.json().catch(() => null)
+
+      // Under-18 / restricted users: route to restrictions page (server-side gate also exists)
+      if (res.status === 403) {
+        const code = String((data && (data.error || data.message)) || "").toUpperCase()
+        if (code.includes("ADULT") || code.includes("RESTRICT") || code.includes("UNDER") || code.includes("18")) {
+          setBusy(false)
+          router.push("/account/restrictions")
+          return
+        }
+      }
 
       if (!res.ok) {
         const msg = (data && (data.error || data.message)) || "Could not start a message."
