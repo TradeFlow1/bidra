@@ -55,7 +55,13 @@ export default function Login() {
           <label className="text-sm">Password</label>
           <Input name="password" type="password" required />
 
-          <Button type="submit" className="bg-black text-white border-black hover:opacity-90">
+          
+          <div className="mt-2 text-sm">
+            <Link href="/forgot-password" className="text-neutral-700 hover:underline">
+              Forgot password?
+            </Link>
+          </div>
+<Button type="submit" className="bg-black text-white border-black hover:opacity-90">
             Log in
           </Button>
 
@@ -68,11 +74,6 @@ export default function Login() {
             </Link>.
           </div>
         </form>
-
-<div style={{ marginTop: 12, fontSize: 14 }}>
-  <span style={{ opacity: 0.8 }}>Don&apos;t have an account?</span>{" "}
-  <Link href="/register" className="underline underline-offset-4">Register</Link>
-</div>
       </Card>
     </div>
   );

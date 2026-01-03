@@ -1,8 +1,7 @@
 ﻿import Link from "next/link";
+import { headers } from "next/headers";
 
 import ListingCard from "@/components/listing-card";
-import Image from "next/image";
-import { headers } from "next/headers";
 import HomeCategorySelectClient from "@/components/home-category-select-client";
 
 type ListingLite = {
@@ -31,165 +30,75 @@ function getRequestBaseUrl() {
 }
 
 async function getLatestListings(): Promise<ListingLite[]> {
-  const base = getRequestBaseUrl();
-  const res = await fetch(`${base}/api/listings`, { cache: "no-store" });
+  const baseUrl = getRequestBaseUrl();
+  const res = await fetch(`${baseUrl}/api/listings`, { cache: "no-store" });
   if (!res.ok) return [];
   const data = (await res.json()) as { listings?: ListingLite[] };
   return Array.isArray(data?.listings) ? data.listings.slice(0, 12) : [];
 }
 
-const LOGO_SRC = "/brand/logo/bidra-logo_dark.png";
+const LOGO_SRC = "/brand/logo/bidra-logo_light.png";
 
-const S = {
-  page: { maxWidth: 980, margin: "0 auto", padding: "18px 16px 56px" } as const,
-
-  hero: {
-    border: "1px solid rgba(255,255,255,0.10)",
-    background:
-      "radial-gradient(1200px 420px at 15% 10%, rgba(59,130,246,0.22), rgba(0,0,0,0)), linear-gradient(180deg, rgba(8,14,26,0.92), rgba(8,14,26,0.72))",
-    borderRadius: 22,
-    padding: 22,
-    boxShadow: "0 18px 50px rgba(0,0,0,0.32)",
-  } as const,
-
-  heroInner: { display: "flex", flexDirection: "column" as const, gap: 12 } as const,
-
-  logoRow: { display: "flex", alignItems: "center", gap: 12 } as const,
-  logoWrap: {
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "10px 12px",
-  borderRadius: 22,
-  overflow: "hidden",
-  background: "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.86))",
-  border: "1px solid rgba(255,255,255,0.65)",
-  boxShadow: "0 14px 30px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.55)",
-} as const,
-
-  eyebrow: { color: "rgba(255,255,255,0.72)", fontSize: 12, letterSpacing: 1.1 } as const,
-
-  h1: { color: "#0b1220", fontSize: 32, lineHeight: 1.12, margin: "10px 0 0", fontWeight: 750, letterSpacing: "-0.01em" } as const,
-  p: { color: "rgba(255,255,255,0.78)", fontSize: 15, lineHeight: 1.6, margin: "8px 0 0", maxWidth: 560 } as const,
-
-  ctas: { display: "flex", flexWrap: "wrap" as const, gap: 10, marginTop: 14 } as const,
-  btnPrimary: {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "11px 14px",
-    borderRadius: 12,
-    background: "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.86))",
-    color: "#0b1220",
-    fontWeight: 800,
-    fontSize: 14,
-    textDecoration: "none",
-    boxShadow: "0 10px 24px rgba(0,0,0,0.20)",
-  } as const,
-  btnGhost: {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "11px 14px",
-    borderRadius: 12,
-    border: "1px solid rgba(11,18,32,0.14)",
-    background: "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.86))",
-    color: "#0b1220",
-    fontWeight: 700,
-    fontSize: 14,
-    textDecoration: "none",
-  } as const,
-
-  fine: { color: "rgba(255,255,255,0.58)", fontSize: 12, marginTop: 10, lineHeight: 1.5 } as const,
-
-  section: { marginTop: 18 } as const,
-  sectionTitle: {
-    letterSpacing: "-0.2px", color: "rgba(10,18,32,0.88)", fontSize: "22px", fontWeight: 800, margin: "18px 0 10px" } as const,
-
-  card: {
-    borderRadius: 22,
-    border: "1px solid rgba(10,18,32,0.10)",
-    background: "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.86))",
-    padding: 14,
-    boxShadow: "0 10px 26px rgba(0,0,0,0.08)",
-  } as const,
-
-  grid: { display: "grid", gridTemplateColumns: "1fr", gap: 10 } as const,
-
-  listing: {
-    display: "block",
-    borderRadius: 16,
-    border: "1px solid rgba(10,18,32,0.10)",
-    background: "#fff",
-    padding: 12,
-    textDecoration: "none",
-    color: "inherit",
-  } as const,
-
-  listingTitle: { color: "#0b1220", fontSize: 14, fontWeight: 800, margin: 0 } as const,
-  listingMeta: { color: "rgba(11,18,32,0.65)", fontSize: 12, marginTop: 4 } as const,
-  listingRow: { display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 10, gap: 10 } as const,
-  price: { color: "#0b1220", fontSize: 14, fontWeight: 900 } as const,
-  badge: { color: "rgba(11,18,32,0.60)", fontSize: 12 } as const,
-};
 export default async function HomePage() {
   const listings = await getLatestListings();
 
   return (
-    <main style={S.page}>
-      <section style={S.hero}>
-        <div style={S.heroInner}>
-          <div style={S.logoRow}>
-            <div style={S.logoWrap}>
-              <img
-                src={LOGO_SRC}
-                alt="Bidra"
-                width={480}
-                height={140}
-               
-                style={{ height: 82, width: "auto", filter: "drop-shadow(0 8px 16px rgba(0,0,0,0.18))" }} />
+    <main className="bd-container py-6 pb-14">
+      {/* HERO */}
+      <section className="bd-hero">
+        <div className="flex flex-col gap-3">
+          <div className="bd-hero-row">
+            <div className="bd-hero-logoWrap">
+              <img src={LOGO_SRC} alt="Bidra" className="bd-hero-logo" />
             </div>
           </div>
 
-          <div style={S.eyebrow}>AUSTRALIA-WIDE • LIST • BID • SELL</div>
+          <div className="bd-hero-eyebrow">AUSTRALIA-WIDE • LIST • BID • SELL</div>
 
-          <h1 style={S.h1}>Where serious buyers and sellers actually transact.</h1>
-          <p style={S.p}>
+          <h1 className="bd-hero-h1">Where serious buyers and sellers actually transact.</h1>
+          <p className="bd-hero-p">
             Browse listings, place offers with intent, and complete trades without time-wasters.
           </p>
 
-          <div style={S.ctas}>
-            <Link href="/listings" style={S.btnPrimary}>Browse listings</Link>
-            <Link href="/sell/new" style={S.btnGhost}>Create a listing</Link>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link href="/listings" className="bd-btn bd-btn-primary">
+              Browse listings
+            </Link>
+            <Link href="/sell/new" className="bd-btn bd-btn-ghost">
+              Create a listing
+            </Link>
           </div>
 
-          <div style={S.fine}>
-            Bidra is a neutral marketplace platform — buyers and sellers trade directly. We provide tools, rules, and enforcement.
+          <div className="bd-hero-fine">
+            Bidra is a marketplace platform — sellers control the outcome of any offer or bidding.
           </div>
         </div>
       </section>
 
-      <section style={S.section}>
-        <div style={S.sectionTitle}>Categories</div>
-        <div style={S.card}>
-  <HomeCategorySelectClient />
-</div>
-</section>
+      {/* CATEGORIES */}
+      <section className="bd-section">
+        <div className="bd-section-title">Categories</div>
+        <div className="mt-3 bd-card p-4">
+          <HomeCategorySelectClient />
+        </div>
+      </section>
 
-      <section style={S.section}>
-        <div style={S.sectionTitle}>Latest listings</div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      {/* LATEST */}
+      <section className="bd-section">
+        <div className="bd-section-title">Latest listings</div>
+
+        <div className="mt-3">
           {listings.length === 0 ? (
-            <div style={{ color: "rgba(255,255,255,0.75)", fontSize: 14, lineHeight: 1.6 }}>
-              <div>No listings to show yet. Be the first to list an item.</div>
-              <div style={{ marginTop: 10, display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <Link href="/sell/new" style={S.btnPrimary}>Create a listing</Link>
-                <Link href="/listings" style={S.btnGhost}>Browse</Link>
-              </div>
+            <div className="bd-card p-6 bd-ink2">
+              No listings yet. Be the first to{" "}
+              <Link href="/sell/new" className="font-semibold bd-link hover:bd-link">
+                create a listing
+              </Link>
+              .
             </div>
           ) : (
-            <>
-              {listings.map((l: any) => (
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {listings.map((l) => (
                 <ListingCard
                   key={l.id}
                   listing={{
@@ -198,16 +107,15 @@ export default async function HomePage() {
                     description: l.description ?? null,
                     price: l.price,
                     buyNowPrice: l.buyNowPrice ?? null,
-                    type: l.type,
-                    category: l.category,
-                    condition: l.condition ?? null,
-                    location: l.location ?? null,
-                    images: (l as any).images ?? null,
+                    type: l.type ?? undefined,
+                    category: l.category ?? undefined,
+                    condition: l.condition ?? undefined,
+                    location: l.location ?? undefined,
+                    images: l.images ?? undefined,
                   }}
-                  initiallyWatched={false}
-                />
+/>
               ))}
-            </>
+            </div>
           )}
         </div>
       </section>

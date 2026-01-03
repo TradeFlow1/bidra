@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -20,7 +20,9 @@ function cx(...classes: Array<string | false | null | undefined>) {
 
 export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
-  const [ok, setOk] = useState(false);
+  
+  const [agreeTerms, setAgreeTerms] = useState(false);
+const [ok, setOk] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const [form, setForm] = useState<FormState>({
@@ -79,11 +81,11 @@ export default function RegisterPage() {
   const shell =
     "min-h-[calc(100vh-64px)] bg-[var(--bidra-bg)] text-[var(--bidra-fg)] px-4 py-10";
   const card =
-    "mx-auto w-full max-w-[520px] rounded-2xl border border-white/10 bg-white/[0.04] shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur";
+    "mx-auto w-full max-w-[520px] rounded-2xl border border-white/10 bg-white/[0.06] text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur";
   const input =
     "mt-1 w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2.5 text-[15px] text-white placeholder:text-white/35 outline-none transition focus:border-[var(--bidra-blue)] focus:ring-4 focus:ring-[var(--bidra-blue)]/20";
   const label = "text-sm font-semibold text-white/85";
-  const helper = "mt-1 text-xs text-white/50";
+  const helper = "mt-1 text-xs text-white/60";
   const sectionTitle = "text-xs font-bold uppercase tracking-wider text-white/50";
 
   return (
@@ -114,7 +116,7 @@ export default function RegisterPage() {
           {/* Success */}
           {ok ? (
             <div className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-5">
-              <p className="text-lg font-bold">Account created ✅</p>
+              <p className="text-lg font-bold">Account created âœ…</p>
               <p className="mt-1 text-sm text-white/70">
                 For MVP, the email verification link prints in the server console.
               </p>
@@ -278,32 +280,35 @@ export default function RegisterPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div>                <label className="mt-5 flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80">
+                  <input
+                    type="checkbox"
+                    name="agreeTerms"
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                    className="mt-1 h-4 w-4 accent-[var(--bidra-blue)]"
+                    required
+                  />
+                  <span>
+                    I agree to Bidra's{" "}
+                    <Link href="/legal/terms" className="underline underline-offset-4 text-[var(--bidra-blue)]">Terms</Link>{" "}
+                    and{" "}
+                    <Link href="/legal/privacy" className="underline underline-offset-4 text-[var(--bidra-blue)]">Privacy Policy</Link>{" "}
+                    and confirm I am 18+.
+                  </span>
+                </label>
 
-                <button
-                  disabled={loading}
-                  className="w-full rounded-xl bg-[var(--bidra-blue)] px-4 py-3 font-extrabold text-black transition hover:brightness-110 disabled:opacity-60"
-                >
-                  {loading ? "Creating account..." : "Create account"}
-                </button>
+
 
                 <div className="flex flex-col gap-2 text-sm text-white/65 sm:flex-row sm:items-center sm:justify-between">
-                  <p className="text-xs text-white/50">
-                    By creating an account you agree to Bidra's Terms and confirm you are 18+.
-                  </p>
-                  <Link
-                    className="font-semibold text-[var(--bidra-blue)] underline underline-offset-4"
+<Link
+                    className="font-semibold text-[var(--bidra-blue)] underline underline-offset-4 text-[var(--bidra-blue)]"
                     href="/auth/login"
                   >
                     Already have an account? Log in
                   </Link>
                 </div>
               </form>
-
-<div style={{ marginTop: 12, fontSize: 14 }}>
-  <span style={{ opacity: 0.8 }}>Already have an account?</span>{" "}
-  <Link href="/login" className="underline underline-offset-4">Sign in</Link>
-</div>
             </>
           )}
         </div>
