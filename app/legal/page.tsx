@@ -42,7 +42,7 @@ export default function LegalPage() {
 
       <h3>6. Enforcement and Liability</h3>
       <p>
-        Bidra may suspend or terminate accounts, remove listings, pause payouts via our payment partner where applicable, and cooperate with authorities
+        Bidra may suspend or terminate accounts, remove listings, restrict platform access and cooperate with authorities
         where required by law. Nothing limits rights under the Australian Consumer Law.
       </p>
 
