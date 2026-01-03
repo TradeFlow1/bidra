@@ -104,7 +104,7 @@ export default async function DashboardPage() {
   return (
     <main className="mx-auto max-w-5xl p-6">
       <div className="flex items-center justify-between gap-4">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold">Dashboard <span className="ml-2 text-sm font-semibold text-amber-700">(v2)</span></h1>
 
         <div className="flex items-center gap-2">
           {isAdmin ? (
