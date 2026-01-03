@@ -22,7 +22,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   
   const [agreeTerms, setAgreeTerms] = useState(false);
-const [ok, setOk] = useState(false);
+  const [ok, setOk] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const [form, setForm] = useState<FormState>({
@@ -280,7 +280,9 @@ const [ok, setOk] = useState(false);
                       </div>
                     </div>
                   </div>
-                </div>                <label className="mt-5 flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80">
+                </div>
+
+                <label className="mt-5 flex items-start gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white/80">
                   <input
                     type="checkbox"
                     name="agreeTerms"
@@ -300,9 +302,21 @@ const [ok, setOk] = useState(false);
 
 
 
+                <div className="mt-5 flex flex-col gap-3">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className={cx(
+                      "inline-flex items-center justify-center rounded-xl bg-[var(--bidra-blue)] px-4 py-3 font-extrabold text-black transition",
+                      loading && "opacity-70 cursor-not-allowed"
+                    )}
+                  >
+                    {loading ? "Creating..." : "Create account"}
+                  </button>
+                </div>
                 <div className="flex flex-col gap-2 text-sm text-white/65 sm:flex-row sm:items-center sm:justify-between">
 <Link
-                    className="font-semibold text-[var(--bidra-blue)] underline underline-offset-4 text-[var(--bidra-blue)]"
+                    className="font-semibold underline underline-offset-4 text-[var(--bidra-blue)]"
                     href="/auth/login"
                   >
                     Already have an account? Log in
