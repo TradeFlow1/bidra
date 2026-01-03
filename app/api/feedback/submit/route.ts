@@ -1,38 +1,86 @@
 ﻿import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 
-
-import { prisma } from "@/lib/prisma";
-
-
-import { getServerSession } from "next-auth";
-
-
-import { authOptions } from "@/lib/auth";
-
-
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
 export async function POST(req: Request) {
-  
-  const gate = await requireAdult();
-  if (!gate.ok) {
-    return new Response(JSON.stringify({ ok: false, reason: gate.reason }), {
-      status: gate.status,
-      headers: { "content-type": "application/json" },
-    });
-  }
-const session = await getServerSession(authOptions);
-  const userId = (session?.user as any)?.id;
+  const session = await auth();
+  const userId = (session?.user as any)?.id as string | undefined;
 
   if (!userId) {
-    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    return NextResponse.json({ error: "Not signed in." }, { status: 401 });
   }
 
-  const body = await req.json().catch(() => ({}));
+  // Gate: must be 18+. Policy-block normally blocks actions, BUT feedback is allowed to prevent trust deadlocks.
+  const gate = await requireAdult(session as any);
+  const gateReason = (gate as any)?.reason ? String((gate as any).reason) : "";
+
+  if (!(gate as any)?.ok) {
+    const isPolicyBlock =
+      gateReason.toUpperCase().includes("BLOCK") ||
+      gateReason.toUpperCase().includes("RESTRICT") ||
+      gateReason.toUpperCase().includes("POLICY");
+
+    if (!isPolicyBlock) {
+      return NextResponse.json({ error: `Not allowed: ${gateReason || "Restricted"}` }, { status: 403 });
+    }
+  }
+
+  let body: any = null;
+  try {
+    body = await req.json();
+  } catch {
+    body = null;
+  }
+
   const orderId = String(body?.orderId ?? "");
-  // FEEDBACK_SUBMIT_DESPITE_BLOCK
-  // Feedback must remain possible even if the user is policy-blocked (prevents trust deadlocks).
-  // We log this so admins can see trust-repair happening during restrictions.
+  const ratingRaw = Number(body?.rating ?? 0);
+  const rating = Number.isFinite(ratingRaw) ? ratingRaw : 0;
+  const comment = String(body?.comment ?? "").slice(0, 2000);
+
+  if (!orderId) {
+    return NextResponse.json({ error: "Missing orderId." }, { status: 400 });
+  }
+  if (!(rating >= 1 && rating <= 5)) {
+    return NextResponse.json({ error: "Rating must be between 1 and 5." }, { status: 400 });
+  }
+
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+    select: {
+      id: true,
+      buyerId: true,
+      buyerFeedbackAt: true,
+      sellerFeedbackAt: true,
+      listing: { select: { id: true, sellerId: true, title: true } },
+    },
+  });
+
+  if (!order) {
+    return NextResponse.json({ error: "Order not found." }, { status: 404 });
+  }
+
+  const sellerId = order.listing.sellerId;
+  const buyerId = order.buyerId;
+
+  let role: "BUYER" | "SELLER";
+  let toUserId: string;
+
+  if (userId === buyerId) {
+    role = "BUYER";
+    toUserId = sellerId;
+  } else if (userId === sellerId) {
+    role = "SELLER";
+    toUserId = buyerId;
+  } else {
+    return NextResponse.json({ error: "Not authorised for this order." }, { status: 403 });
+  }
+
+  // FEEDBACK_SUBMIT_DESPITE_BLOCK (Admin visibility)
   try {
     const u = await prisma.user.findUnique({
       where: { id: userId },
@@ -40,7 +88,7 @@ const session = await getServerSession(authOptions);
     });
 
     if (u?.policyBlockedUntil && u.policyBlockedUntil.getTime() > Date.now()) {
-            await prisma.adminEvent.create({
+      await prisma.adminEvent.create({
         data: {
           type: "FEEDBACK_SUBMITTED_WHILE_BLOCKED",
           userId,
@@ -50,75 +98,37 @@ const session = await getServerSession(authOptions);
             policyBlockedUntil: u.policyBlockedUntil,
           },
         },
-      });}
+      });
+    }
   } catch (e) {
-          await prisma.adminEvent.create({
-        data: {
-          type: "FEEDBACK_SUBMITTED_WHILE_BLOCKED",
-          userId,
-          orderId,
-          data: {
-            policyStrikes: u.policyStrikes,
-            policyBlockedUntil: u.policyBlockedUntil,
-          },
-        },
-      });}
-
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: { listing: { select: { sellerId: true } } },
-  });
-
-  if (!order) {
-    return NextResponse.json({ error: "Order not found" }, { status: 404 });
+    console.warn("[ADMIN_VISIBILITY] Failed to log feedback-despite-block", e);
   }
-
-  const isBuyer = order.buyerId === userId;
-  const isSeller = order.listing?.sellerId === userId;
-
-  if (!isBuyer && !isSeller) {
-    return NextResponse.json({ error: "Not authorised" }, { status: 403 });
-  }
-
-  // Only auto-complete if order is still PENDING
-  const canAutoComplete = order.outcome === "PENDING";
-
-  const toUserId = isBuyer ? order.listing!.sellerId : order.buyerId;
-  const role = isBuyer ? "BUYER" : "SELLER";
-  const now = new Date();
 
   try {
-    await prisma.$transaction(async (tx: any) => {
-      // 1) Create feedback (unique on [orderId, fromUserId])
-      await tx.feedback.create({
-        data: {
-          orderId: order.id,
-          fromUserId: userId,
-          toUserId,
-          role: role as any,
-          rating: Math.trunc(rating),
-          comment: comment || null,
-        },
-      });
-
-      // 2) Stamp buyer/seller feedback timestamp
-      await tx.order.update({
-        where: { id: order.id },
-        data: isBuyer ? { buyerFeedbackAt: now } : { sellerFeedbackAt: now },
-      });
+    await prisma.feedback.create({
+      data: {
+        orderId,
+        fromUserId: userId,
+        toUserId,
+        role,
+        rating,
+        comment: comment || null,
+      },
     });
   } catch (e: any) {
-    // Log real error so we can diagnose (P2002 vs other)
-    console.error("feedback submit error:", e);
-
-    const code = e?.code || e?.cause?.code;
-
-    // Prisma unique constraint violation (duplicate feedback)
+    // Duplicate feedback (Prisma unique constraint) -> treat as "already submitted"
+    const code = e?.code ? String(e.code) : "";
     if (code === "P2002") {
-      return NextResponse.json({ error: "Feedback already submitted" }, { status: 409 });
+      return NextResponse.json({ error: "Feedback already submitted for this order." }, { status: 409 });
     }
-
-    return NextResponse.json({ error: "Feedback submit failed" }, { status: 500 });
+    console.error("feedback.create failed", e);
+    return NextResponse.json({ error: "Failed to submit feedback." }, { status: 500 });
   }
-return NextResponse.json({ ok: true });
+
+  await prisma.order.update({
+    where: { id: orderId },
+    data: role === "BUYER" ? { buyerFeedbackAt: new Date() } : { sellerFeedbackAt: new Date() },
+  });
+
+  return NextResponse.json({ ok: true });
 }
