@@ -24,8 +24,8 @@ function Pill(props: { tone?: "ok" | "warn"; children: React.ReactNode }) {
 
 function Card(props: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border border-black/10 bg-white p-4">
-      <div className="text-sm font-semibold">{props.title}</div>
+    <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur">
+      <div className="text-xs font-bold uppercase tracking-wider text-white/60">{props.title}</div>
       <div className="mt-3">{props.children}</div>
     </div>
   );
@@ -34,7 +34,7 @@ function Card(props: { title: string; children: React.ReactNode }) {
 function ActionLink(props: { href: string; children: React.ReactNode }) {
   return (
     <Link
-      className="rounded-md border border-black/10 px-3 py-2 text-sm font-semibold hover:bg-black/5"
+      className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10"
       href={props.href}
     >
       {props.children}
@@ -102,18 +102,18 @@ export default async function DashboardPage() {
     !adult.ok || isBlocked || pendingBuyerFeedbackCount > 0 || pendingSellerFeedbackCount > 0 || needsEmail || needsPhone || needsAge;
 
   return (
-    <main className="mx-auto max-w-5xl p-6">
+    <main className="min-h-[calc(100vh-64px)] bg-[var(--bidra-bg)] text-[var(--bidra-fg)] px-4 py-10"><div className="mx-auto w-full max-w-5xl">
       <div className="flex items-center justify-between gap-4">
-        <h1 className="text-3xl font-bold">Dashboard <span className="ml-2 text-sm font-semibold text-amber-700">(v2)</span></h1>
+        <h1 className="text-3xl font-extrabold tracking-tight">Dashboard <span className="ml-2 text-sm font-semibold text-white/50">(v2)</span></h1>
 
         <div className="flex items-center gap-2">
           {isAdmin ? (
-            <Link href="/admin" className="rounded-md border px-3 py-2 text-sm font-semibold hover:bg-black/5">
+            <Link href="/admin" className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10">
               Admin
             </Link>
           ) : null}
 
-          <Link href="/sell/new" className="rounded-md border px-3 py-2 text-sm font-semibold hover:bg-black/5">
+          <Link href="/sell/new" className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10">
             Create listing
           </Link>
         </div>
@@ -128,7 +128,7 @@ export default async function DashboardPage() {
           </div>
 
           {isBlocked ? (
-            <div className="mt-3 text-sm text-amber-900">
+            <div className="mt-3 text-sm text-amber-100/90">
               Temporarily blocked until{" "}
               <span className="font-semibold">
                 {user.policyBlockedUntil ? new Date(user.policyBlockedUntil).toLocaleString() : "—"}
@@ -138,9 +138,9 @@ export default async function DashboardPage() {
           ) : null}
 
           {!adult.ok ? (
-            <div className="mt-3 text-sm text-amber-900">
+            <div className="mt-3 text-sm text-amber-100/90">
               Your account is restricted. Visit{" "}
-              <Link href="/account/restrictions" className="underline">
+              <Link href="/account/restrictions" className="underline underline-offset-4 text-[var(--bidra-blue)]">
                 account restrictions
               </Link>
               .
@@ -150,7 +150,7 @@ export default async function DashboardPage() {
 
         <Card title="Needs attention">
           {!hasAttention ? (
-            <div className="text-sm text-neutral-700">All good. No actions required right now.</div>
+            <div className="text-sm text-white/70">All good. No actions required right now.</div>
           ) : (
             <div className="flex flex-col gap-2">
               {pendingSellerFeedbackCount > 0 ? (
@@ -166,7 +166,7 @@ export default async function DashboardPage() {
               {needsAge ? <ActionLink href="/profile">Complete age verification</ActionLink> : null}
 
               {(!needsEmail && !needsPhone && !needsAge && pendingBuyerFeedbackCount === 0 && pendingSellerFeedbackCount === 0 && adult.ok && !isBlocked) ? (
-                <div className="text-sm text-neutral-700">No actions required.</div>
+                <div className="text-sm text-white/70">No actions required.</div>
               ) : null}
             </div>
           )}
@@ -199,6 +199,6 @@ export default async function DashboardPage() {
           </div>
         </Card>
       </div>
-    </main>
+    </div></main>
   );
 }
