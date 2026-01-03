@@ -17,25 +17,25 @@ export default async function OrdersPage() {
   });
 
   return (
-    <main className="mx-auto max-w-4xl p-6">
+    <main className="min-h-[calc(100vh-64px)] bg-[var(--bidra-bg)] text-[var(--bidra-fg)] px-4 py-10"><div className="mx-auto w-full max-w-4xl">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Orders</h1>
-          <Link href="/listings" className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50">Browse</Link>
+          <h1 className="text-3xl font-extrabold tracking-tight">Orders</h1>
+          <Link href="/listings" className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10">Browse</Link>
         </div>
 
         <div className="grid gap-3">
           {orders.map((o: any) => (
-            <Card key={o.id} className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <Card key={o.id} className="flex flex-col md:flex-row md:items-center justify-between gap-3 border border-white/10 bg-white/[0.06] text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur rounded-2xl">
               <div>
-                <div className="text-sm text-neutral-600">
+                <div className="text-sm text-white/60">
                   <Badge>{o.status}</Badge>{" "}
                   <span className="ml-2">Created {new Date(o.createdAt).toLocaleString("en-AU")}</span>
                 </div>
                 <div className="mt-1 font-semibold">
-                  <Link className="hover:underline" href={`/listings/${o.listingId}`}>{o.listing.title}</Link>
+                  <Link className="text-white font-extrabold hover:underline underline-offset-4" href={`/listings/${o.listingId}`}>{o.listing.title}</Link>
                 </div>
-                <div className="text-sm text-neutral-700 mt-1">
+                <div className="text-sm text-white/70 mt-1">
                   Amount: <b>${(o.amount/100).toFixed(2)}</b> AUD
                 </div>
               </div>
@@ -87,19 +87,19 @@ export default async function OrdersPage() {
                     redirect(sessionStripe.url || "/orders");
                   }}>
                     <input type="hidden" name="orderId" value={o.id} />
-                    <Button type="submit" className="bg-black text-white border-black hover:opacity-90">Pay now</Button>
+                    <Button type="submit" className="bg-[var(--bidra-blue)] text-black font-extrabold hover:opacity-95">Pay now</Button>
                   </form>
                 ) : null}
 
-                <Link href={`/listings/${o.listingId}`} className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50">
+                <Link href={`/listings/${o.listingId}`} className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10">
                   View listing
                 </Link>
               </div>
             </Card>
           ))}
-          {!orders.length ? <div className="text-sm text-neutral-600">No orders yet.</div> : null}
+          {!orders.length ? <div className="text-sm text-white/60">No orders yet.</div> : null}
         </div>
       </div>
-    </main>
+    </div></main>
   );
 }
