@@ -1,15 +1,16 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import { authOptions } from "@/lib/auth";
+﻿import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 
-export default async function SellPage() {
-  const session = await getServerSession(authOptions);
-  const userId = (session as any)?.user?.id;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
 
-  if (!userId) {
-    redirect("/auth/login?next=/sell");
+export default async function SellEntryPage() {
+  const session = await auth();
+
+  if (!session?.user) {
+    redirect("/auth/login?next=/sell/new");
   }
 
-  // If your app's actual create form route is different, we’ll adjust after test.
   redirect("/sell/new");
 }
