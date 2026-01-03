@@ -197,7 +197,7 @@ export default async function ListingsPage({
             </div>
           </div>
 
-          <div className="card" style={{ marginTop: 12 }}>
+          <div className="card" style={{ marginTop: 12, padding: 16 }}>
             <MobileFiltersToggle>
 <form action="/listings" method="get">
   <div className="grid gap-3 md:grid-cols-12">
