@@ -38,7 +38,7 @@ async function getLatestListings(): Promise<ListingLite[]> {
   return Array.isArray(data?.listings) ? data.listings.slice(0, 12) : [];
 }
 
-const LOGO_SRC = "/brand/logo/bidra-logo_light.png";
+const LOGO_SRC = "/brand/logo/bidra-logo_dark.png";
 
 const S = {
   page: { maxWidth: 980, margin: "0 auto", padding: "18px 16px 56px" } as const,
@@ -56,11 +56,15 @@ const S = {
 
   logoRow: { display: "flex", alignItems: "center", gap: 12 } as const,
   logoWrap: {
-    display: "inline-flex",
-    alignItems: "center",
-    padding: 0,
-    background: "transparent",
-    border: "none",
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: "10px 12px",
+  borderRadius: 22,
+  overflow: "hidden",
+  background: "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.86))",
+  border: "1px solid rgba(255,255,255,0.65)",
+  boxShadow: "0 14px 30px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.55)",
 } as const,
 
   eyebrow: { color: "rgba(255,255,255,0.72)", fontSize: 12, letterSpacing: 1.1 } as const,
@@ -75,7 +79,7 @@ const S = {
     justifyContent: "center",
     padding: "11px 14px",
     borderRadius: 12,
-    background: "#ffffff",
+    background: "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.86))",
     color: "#0b1220",
     fontWeight: 800,
     fontSize: 14,
@@ -89,7 +93,7 @@ const S = {
     padding: "11px 14px",
     borderRadius: 12,
     border: "1px solid rgba(11,18,32,0.14)",
-    background: "#ffffff",
+    background: "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.86))",
     color: "#0b1220",
     fontWeight: 700,
     fontSize: 14,
@@ -103,9 +107,9 @@ const S = {
     letterSpacing: "-0.2px", color: "rgba(10,18,32,0.88)", fontSize: "22px", fontWeight: 800, margin: "18px 0 10px" } as const,
 
   card: {
-    borderRadius: 18,
+    borderRadius: 22,
     border: "1px solid rgba(10,18,32,0.10)",
-    background: "rgba(255,255,255,0.92)",
+    background: "linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.86))",
     padding: 14,
     boxShadow: "0 10px 26px rgba(0,0,0,0.08)",
   } as const,
@@ -143,13 +147,13 @@ export default async function HomePage() {
                 width={480}
                 height={140}
                
-                style={{ height: 84, width: "auto", filter: "drop-shadow(0 10px 22px rgba(0,0,0,0.45))" }} />
+                style={{ height: 82, width: "auto", filter: "drop-shadow(0 8px 16px rgba(0,0,0,0.18))" }} />
             </div>
           </div>
 
           <div style={S.eyebrow}>AUSTRALIA-WIDE • LIST • BID • SELL</div>
 
-          <h1 style={S.h1}>A marketplace built for real buyers.</h1>
+          <h1 style={S.h1}>Where serious buyers and sellers actually transact.</h1>
           <p style={S.p}>
             Browse listings, place offers with intent, and complete trades without time-wasters.
           </p>
