@@ -35,7 +35,7 @@ async function getLatestListings(): Promise<ListingLite[]> {
   const res = await fetch(`${base}/api/listings`, { cache: "no-store" });
   if (!res.ok) return [];
   const data = (await res.json()) as { listings?: ListingLite[] };
-  return Array.isArray(data?.listings) ? data.listings.slice(0, 6) : [];
+  return Array.isArray(data?.listings) ? data.listings.slice(0, 12) : [];
 }
 
 const LOGO_SRC = "/brand/logo/bidra-logo_light.png";
@@ -147,7 +147,7 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div style={S.eyebrow}>AUSTRALIA-WIDE â€¢ LIST â€¢ BID â€¢ SELL</div>
+          <div style={S.eyebrow}>AUSTRALIA-WIDE • LIST • BID • SELL</div>
 
           <h1 style={S.h1}>A marketplace built for real buyers.</h1>
           <p style={S.p}>
@@ -157,11 +157,10 @@ export default async function HomePage() {
           <div style={S.ctas}>
             <Link href="/listings" style={S.btnPrimary}>Browse listings</Link>
             <Link href="/sell/new" style={S.btnGhost}>Create a listing</Link>
-            <Link href="/account" style={S.btnGhost}>My account</Link>
           </div>
 
           <div style={S.fine}>
-            Bidra is a neutral marketplace platform â€” buyers and sellers trade directly. We provide tools, rules, and enforcement.
+            Bidra is a neutral marketplace platform — buyers and sellers trade directly. We provide tools, rules, and enforcement.
           </div>
         </div>
       </section>
@@ -169,13 +168,13 @@ export default async function HomePage() {
       <section style={S.section}>
         <div style={S.sectionTitle}>Categories</div>
         <div style={S.card}>
-          <HomeCategorySelectClient />
-        </div>
-      </section>
+  <HomeCategorySelectClient />
+</div>
+</section>
 
       <section style={S.section}>
         <div style={S.sectionTitle}>Latest listings</div>
-        <div style={S.card}>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {listings.length === 0 ? (
             <div style={{ color: "rgba(255,255,255,0.75)", fontSize: 14, lineHeight: 1.6 }}>
               <div>No listings to show yet. Be the first to list an item.</div>
@@ -185,7 +184,7 @@ export default async function HomePage() {
               </div>
             </div>
           ) : (
-            <div style={S.grid}>
+            <>
               {listings.map((l: any) => (
                 <ListingCard
                   key={l.id}
@@ -204,7 +203,7 @@ export default async function HomePage() {
                   initiallyWatched={false}
                 />
               ))}
-            </div>
+            </>
           )}
         </div>
       </section>

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -169,8 +169,7 @@ export default function SellNewClient() {
 
   return (
     <div className="mx-auto max-w-2xl p-6">
-      <h1 className="text-2xl font-bold">Create a listing</h1>
-      <p className="mt-1 text-sm text-gray-600">
+<p className="mt-1 text-sm text-gray-600">
         Add the basics — title, description, category, condition, location, and pricing.
       </p>
 

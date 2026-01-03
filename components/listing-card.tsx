@@ -27,23 +27,28 @@ export default function ListingCard({ listing }: ListingCardProps) {
   return (
     <Link
       href={`/listings/${listing.id}`}
-      className="block border rounded-lg overflow-hidden hover:shadow-md transition"
+      className="block rounded-lg overflow-hidden hover:shadow-md transition border border-white/10 bg-black/20"
     >
-      <div className="aspect-square bg-gray-100 flex items-center justify-center">
-        <img
-          src={image}
-          alt={listing.title}
-          className="object-cover w-full h-full"
-        />
-      </div>
+      <div className="aspect-[3/4] bg-gray-100 relative flex items-center justify-center">
+  <img
+    src={image}
+    alt={listing.title}
+    className="object-cover w-full h-full"
+  />
+  {!listing.images || listing.images.length === 0 ? (
+    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded bg-black/70 px-2 py-0.5 text-[11px] text-white">
+      Photos coming soon
+    </div>
+  ) : null}
+</div>
 
-      <div className="p-3 space-y-1">
+      <div className="p-2 space-y-1">
         <h3 className="text-base font-semibold leading-snug line-clamp-2">
           {listing.title}
         </h3>
 
-        <div className="text-sm font-medium">
-          ${listing.price.toLocaleString()}
+        <div className="text-sm font-bold leading-tight">
+          {"A$" + listing.price.toLocaleString()}
         </div>
 
         {listing.location && (

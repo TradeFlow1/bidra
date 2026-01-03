@@ -161,7 +161,9 @@ const sellerId = (listing.seller as any)?.id as string;
         <ReportListingButton listingId={listing.id} />
         
         <div className="mt-3">
-          <MessageSellerButton listingId={listing.id} />
+          {(session?.user?.id && session.user.id === listing.sellerId) ? null : (
+            <MessageSellerButton listingId={listing.id} />
+          )}
         </div>
 {
         (session?.user?.id && (isAdmin || listing.sellerId === session.user.id)) ? (
