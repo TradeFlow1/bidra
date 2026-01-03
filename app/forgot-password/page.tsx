@@ -31,7 +31,8 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="max-w-md space-y-4">
+    <main className="bd-container py-6 pb-14">
+      <div className="bd-card p-6 max-w-md mx-auto">
       <h1 className="text-2xl font-bold">Forgot password</h1>
 
       <div className="text-sm text-neutral-600">
@@ -70,6 +71,8 @@ export default function ForgotPasswordPage() {
       <div className="text-sm">
         <Link className="underline" href="/login">Back to login</Link>
       </div>
-    </div>
+      </div>
+    </main>
   );
 }
+
