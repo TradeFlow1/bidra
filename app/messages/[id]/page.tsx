@@ -1,82 +1,109 @@
-import Link from "next/link";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
-import { Card, Button, Textarea } from "@/components/ui";
+﻿import Link from "next/link"
+import { redirect } from "next/navigation"
+import { auth } from "@/lib/auth"
+import { requireAdult } from "@/lib/require-adult"
+import { prisma } from "@/lib/prisma"
+import SendBox from "./components/send-box"
 
-export default async function MessagesPage({ params }: { params: { listingId: string } }) {
-  const session = await auth();
-  const user = session?.user as any;
-  if (!user) redirect("/auth/login");
+export const dynamic = "force-dynamic"
 
-  const listing = await prisma.listing.findUnique({
-    where: { id: params.listingId },
-    include: { seller: true }
-  });
-  if (!listing) redirect("/listings");
+function displayName(u: any) {
+  return u?.username || u?.name || u?.email || "User"
+}
+
+export default async function MessagesThreadPage({ params }: { params: { id: string } }) {
+  const session = await auth()
+  if (!session?.user?.id) redirect("/auth/login")
+
+  const gate = await requireAdult(session)
+  if (!gate.ok) redirect("/account/restrictions")
+
+  const me = session.user.id
+  const threadId = String(params?.id || "").trim()
+  if (!threadId) redirect("/messages")
+
+  const thread = await prisma.messageThread.findUnique({
+    where: { id: threadId },
+    select: {
+      id: true,
+      buyerId: true,
+      sellerId: true,
+      listing: { select: { id: true, title: true } },
+      buyer: { select: { id: true, username: true, name: true, email: true } },
+      seller: { select: { id: true, username: true, name: true, email: true } },
+    },
+  })
+
+  if (!thread) redirect("/messages")
+
+  const isParticipant = thread.buyerId === me || thread.sellerId === me
+  if (!isParticipant) redirect("/messages")
+
+  const other =
+    thread.buyerId === me ? thread.seller : thread.buyer
 
   const messages = await prisma.message.findMany({
-    where: { listingId: listing.id },
+    where: { threadId: thread.id },
     orderBy: { createdAt: "asc" },
-    take: 200
-  });
-
-  async function send(formData: FormData) {
-    "use server";
-    const { auth } = await import("@/lib/auth");
-    const { prisma } = await import("@/lib/prisma");
-    const { redirect } = await import("next/navigation");
-
-    const s = await auth();
-    const u = s?.user as any;
-    if (!u) redirect("/auth/login");
-
-    const body = String(formData.get("body") ?? "").trim();
-    if (!body) return;
-
-    await prisma.message.create({
-      data: { body, userId: u.id, listingId: "${listing.id}" }
-    });
-
-    redirect("/messages/${listing.id}");
-  }
+    take: 200,
+    select: { id: true, body: true, createdAt: true, userId: true },
+  })
 
   return (
-    <div className="flex flex-col gap-4">
+    <main className="mx-auto max-w-4xl p-6">
       <div className="flex items-end justify-between gap-3 flex-wrap">
         <div>
           <div className="text-sm text-neutral-600">
-            Listing: <Link className="hover:underline" href={"/listing/" + listing.id}>{listing.title}</Link>
+            Listing:{" "}
+            <Link className="hover:underline" href={`/listings/${thread.listing.id}`}>
+              {thread.listing.title}
+            </Link>
           </div>
           <h1 className="text-2xl font-bold">Messages</h1>
+          <div className="mt-1 text-sm text-neutral-600">
+            Chat with <span className="font-medium text-neutral-900">{displayName(other)}</span>
+          </div>
         </div>
-        <Link href={"/listing/" + listing.id} className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50">Back to listing</Link>
+
+        <div className="flex gap-2">
+          <Link
+            href="/messages"
+            className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50"
+          >
+            Inbox
+          </Link>
+          <Link
+            href={`/listings/${thread.listing.id}`}
+            className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50"
+          >
+            Back to listing
+          </Link>
+        </div>
       </div>
 
-      <Card className="max-h-[55vh] overflow-auto">
+      <div className="mt-6 rounded-2xl border bg-white p-4 max-h-[55vh] overflow-auto">
         {messages.length ? (
           <div className="flex flex-col gap-2">
-            {messages.map((m: any) => (
+            {messages.map((m) => (
               <div key={m.id} className="text-sm">
-                <span className="text-neutral-500">{new Date(m.createdAt).toLocaleString("en-AU")} • </span>
-                <b>{m.userId === user.id ? "You" : "Other user"}</b>: {m.body}
+                <span className="text-neutral-500">
+                  {new Date(m.createdAt).toLocaleString("en-AU")} {" · "}
+                </span>
+                <b>{m.userId === me ? "You" : displayName(other)}</b>: {m.body}
               </div>
             ))}
           </div>
         ) : (
           <div className="text-sm text-neutral-600">No messages yet.</div>
         )}
-      </Card>
+      </div>
 
-      <Card>
-        <form action={send} className="flex flex-col gap-2">
-          <Textarea name="body" placeholder="Write a message..." required />
-          <Button type="submit" className="bg-black text-white border-black hover:opacity-90">Send</Button>
-          <div className="text-xs text-neutral-600">
-            Tip: Keep personal information minimal until you're confident.
-          </div>
-        </form>
-      </Card>
-    </div>
-  );
+      <div className="mt-4 rounded-2xl border bg-white p-4">
+        <SendBox threadId={thread.id} />
+        <div className="mt-3 text-xs text-neutral-600">
+          Tip: Keep personal information minimal until you're confident.
+        </div>
+      </div>
+    </main>
+  )
 }
