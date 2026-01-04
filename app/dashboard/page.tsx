@@ -22,18 +22,34 @@ function Pill(props: { tone?: "ok" | "warn"; children: React.ReactNode }) {
   );
 }
 
-function Card(props: { title: string; children: React.ReactNode }) {
+function Card(props: { title: string; tone?: "default" | "attention"; children: React.ReactNode }) {
+  const tone = props.tone ?? "default";
+  const shell =
+    tone === "attention"
+      ? "bd-card p-5 border border-amber-200 bg-amber-50/40"
+      : "bd-card p-5";
+
   return (
-    <div className="bd-card p-5">
-      <div className="text-xs font-bold uppercase tracking-wider bd-ink3">{props.title}</div>
-      <div className="mt-3 bd-ink">{props.children}</div>
+    <div className={shell}>
+      <div className="bd-section-title">{props.title}</div>
+      <div className="mt-3">{props.children}</div>
     </div>
+  );
+}
+
+function ActionBtn(props: { href: string; kind?: "primary" | "ghost"; children: React.ReactNode }) {
+  const kind = props.kind ?? "ghost";
+  const cls = kind === "primary" ? "bd-btn bd-btn-primary" : "bd-btn bd-btn-ghost";
+  return (
+    <Link href={props.href} className={cls}>
+      {props.children}
+    </Link>
   );
 }
 
 function ActionLink(props: { href: string; children: React.ReactNode }) {
   return (
-    <Link className="bd-btn bd-btn-primary" href={props.href}>
+    <Link href={props.href} className="bd-link font-semibold">
       {props.children}
     </Link>
   );
@@ -93,109 +109,128 @@ export default async function DashboardPage() {
 
   const needsEmail = !user.emailVerified;
   const needsPhone = !user.phoneVerified;
-  const needsAge = !user.ageVerified; // keep only if you still want this surfaced separately
+  const needsAge = !user.ageVerified;
 
   const hasAttention =
-    !adult.ok || isBlocked || pendingBuyerFeedbackCount > 0 || pendingSellerFeedbackCount > 0 || needsEmail || needsPhone || needsAge;
+    !adult.ok ||
+    isBlocked ||
+    pendingBuyerFeedbackCount > 0 ||
+    pendingSellerFeedbackCount > 0 ||
+    needsEmail ||
+    needsPhone ||
+    needsAge;
 
   return (
-    <main className="min-h-[calc(100vh-64px)] bg-[var(--bidra-bg)] text-[var(--bidra-fg)] px-4 py-10"><div className="mx-auto w-full max-w-5xl">
-      <div className="flex items-center justify-between gap-4">
-        <h1 className="text-3xl font-extrabold tracking-tight">Dashboard <span className="ml-2 text-sm font-semibold bd-ink2">(v2)</span></h1>
+    <main className="bd-container py-10">
+      <div className="container max-w-5xl">
+        {/* Header */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-extrabold tracking-tight bd-ink">
+              Dashboard <span className="ml-2 text-sm font-semibold bd-ink3">(v3)</span>
+            </h1>
+            <div className="mt-1 text-sm bd-ink2">
+              Your shortcuts, status, and anything that needs action.
+            </div>
+          </div>
 
-        <div className="flex items-center gap-2">
-          {isAdmin ? (
-            <Link href="/admin" className="bd-btn bd-btn-primary">
-              Admin
-            </Link>
-          ) : null}
+          {/* Primary actions bar */}
+          <div className="flex flex-wrap gap-2">
+            <ActionBtn href="/sell/new" kind="primary">Create a listing</ActionBtn>
+            <ActionBtn href="/dashboard/listings">Manage listings</ActionBtn>
+            <ActionBtn href="/messages">Messages</ActionBtn>
+            <ActionBtn href="/orders">Orders</ActionBtn>
+            {isAdmin ? <ActionBtn href="/admin">Admin</ActionBtn> : null}
+          </div>
+        </div>
 
-          <Link href="/sell/new" className="bd-btn bd-btn-primary">
-            Create listing
-          </Link>
+        {/* Attention (only render if needed) */}
+        {hasAttention ? (
+          <div className="mt-6">
+            <Card title="Needs attention" tone="attention">
+              <div className="flex flex-col gap-2 text-sm">
+                {!adult.ok ? (
+                  <div className="bd-ink2">
+                    Your account is restricted. Visit{" "}
+                    <Link href="/account/restrictions" className="bd-link font-semibold">
+                      account restrictions
+                    </Link>
+                    .
+                  </div>
+                ) : null}
+
+                {isBlocked ? (
+                  <div className="bd-ink2">
+                    Temporarily blocked until{" "}
+                    <span className="font-semibold bd-ink">
+                      {user.policyBlockedUntil ? new Date(user.policyBlockedUntil).toLocaleString() : "—"}
+                    </span>
+                    .
+                  </div>
+                ) : null}
+
+                {pendingSellerFeedbackCount > 0 ? (
+                  <div>
+                    <ActionLink href="/orders">Leave seller feedback ({pendingSellerFeedbackCount})</ActionLink>
+                  </div>
+                ) : null}
+
+                {pendingBuyerFeedbackCount > 0 ? (
+                  <div>
+                    <ActionLink href="/orders">Leave buyer feedback ({pendingBuyerFeedbackCount})</ActionLink>
+                  </div>
+                ) : null}
+
+                {needsEmail ? <div><ActionLink href="/profile">Verify your email</ActionLink></div> : null}
+                {needsPhone ? <div><ActionLink href="/profile">Verify your phone</ActionLink></div> : null}
+                {needsAge ? <div><ActionLink href="/profile">Complete age verification</ActionLink></div> : null}
+              </div>
+            </Card>
+          </div>
+        ) : null}
+
+        {/* Snapshot + Seller/Buyer */}
+        <div className="mt-6 grid gap-4">
+          <Card title="Account snapshot">
+            <div className="flex flex-wrap gap-2">
+              <Pill tone={adult.ok ? "ok" : "warn"}>18+ gate: {adult.ok ? "OK" : "Restricted"}</Pill>
+              <Pill tone={!isBlocked ? "ok" : "warn"}>Blocked: {isBlocked ? "Yes" : "No"}</Pill>
+              <Pill tone={user.policyStrikes < 3 ? "ok" : "warn"}>Strikes: {user.policyStrikes}</Pill>
+            </div>
+          </Card>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card title="Seller">
+              <div className="flex flex-wrap gap-2">
+                <Pill>Listings: {myListingsCount}</Pill>
+                <Pill>Active: {activeListingsCount}</Pill>
+                <Pill>Sold: {soldListingsCount}</Pill>
+              </div>
+
+              <div className="mt-4 flex flex-col gap-2 text-sm">
+                <ActionLink href="/dashboard/listings">Manage my listings</ActionLink>
+                <ActionLink href="/sell/new">Create a listing</ActionLink>
+                <ActionLink href="/messages">Go to messages</ActionLink>
+              </div>
+            </Card>
+
+            <Card title="Buyer">
+              <div className="flex flex-wrap gap-2">
+                <Pill>Orders: {ordersAsBuyerCount}</Pill>
+                <Pill tone={pendingBuyerFeedbackCount === 0 ? "ok" : "warn"}>
+                  Feedback due: {pendingBuyerFeedbackCount}
+                </Pill>
+              </div>
+
+              <div className="mt-4 flex flex-col gap-2 text-sm">
+                <ActionLink href="/orders">View orders</ActionLink>
+                <ActionLink href="/watchlist">Watchlist</ActionLink>
+                <ActionLink href="/messages">Continue chats</ActionLink>
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
-
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
-        <Card title="Your status">
-          <div className="flex flex-wrap gap-2">
-            <Pill tone={adult.ok ? "ok" : "warn"}>18+ gate: {adult.ok ? "OK" : "Restricted"}</Pill>
-            <Pill tone={!isBlocked ? "ok" : "warn"}>Blocked: {isBlocked ? "Yes" : "No"}</Pill>
-            <Pill tone={user.policyStrikes < 3 ? "ok" : "warn"}>Strikes: {user.policyStrikes}</Pill>
-          </div>
-
-          {isBlocked ? (
-            <div className="mt-3 text-sm text-amber-700">
-              Temporarily blocked until{" "}
-              <span className="font-semibold">
-                {user.policyBlockedUntil ? new Date(user.policyBlockedUntil).toLocaleString() : "—"}
-              </span>
-              .
-            </div>
-          ) : null}
-
-          {!adult.ok ? (
-            <div className="mt-3 text-sm text-amber-700">
-              Your account is restricted. Visit{" "}
-              <Link href="/account/restrictions" className="bd-link font-semibold underline underline-offset-4">
-                account restrictions
-              </Link>
-              .
-            </div>
-          ) : null}
-        </Card>
-
-        <Card title="Needs attention">
-          {!hasAttention ? (
-            <div className="text-sm bd-ink2">All good. No actions required right now.</div>
-          ) : (
-            <div className="flex flex-col gap-2">
-              {pendingSellerFeedbackCount > 0 ? (
-                <ActionLink href="/orders">Leave seller feedback ({pendingSellerFeedbackCount})</ActionLink>
-              ) : null}
-
-              {pendingBuyerFeedbackCount > 0 ? (
-                <ActionLink href="/orders">Leave buyer feedback ({pendingBuyerFeedbackCount})</ActionLink>
-              ) : null}
-
-              {needsEmail ? <ActionLink href="/profile">Verify your email</ActionLink> : null}
-              {needsPhone ? <ActionLink href="/profile">Verify your phone</ActionLink> : null}
-              {needsAge ? <ActionLink href="/profile">Complete age verification</ActionLink> : null}
-
-              {(!needsEmail && !needsPhone && !needsAge && pendingBuyerFeedbackCount === 0 && pendingSellerFeedbackCount === 0 && adult.ok && !isBlocked) ? (
-                <div className="text-sm bd-ink2">No actions required.</div>
-              ) : null}
-            </div>
-          )}
-        </Card>
-
-        <Card title="Seller actions">
-          <div className="flex flex-wrap gap-2">
-            <Pill>Listings: {myListingsCount}</Pill>
-            <Pill>Active: {activeListingsCount}</Pill>
-            <Pill>Sold: {soldListingsCount}</Pill>
-          </div>
-
-          <div className="mt-3 flex flex-col gap-2">
-            <ActionLink href="/dashboard/listings">Manage my listings</ActionLink>
-            <ActionLink href="/sell/new">Create a listing</ActionLink>
-            <ActionLink href="/messages">Go to messages</ActionLink>
-          </div>
-        </Card>
-
-        <Card title="Buyer actions">
-          <div className="flex flex-wrap gap-2">
-            <Pill>Orders: {ordersAsBuyerCount}</Pill>
-            <Pill tone={(pendingBuyerFeedbackCount === 0) ? "ok" : "warn"}>Feedback due: {pendingBuyerFeedbackCount}</Pill>
-          </div>
-
-          <div className="mt-3 flex flex-col gap-2">
-            <ActionLink href="/orders">View orders</ActionLink>
-            <ActionLink href="/watchlist">Watchlist</ActionLink>
-            <ActionLink href="/messages">Continue chats</ActionLink>
-          </div>
-        </Card>
-      </div>
-    </div></main>
+    </main>
   );
 }
