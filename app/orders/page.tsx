@@ -40,7 +40,7 @@ export default async function OrdersPage() {
                 </div>
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap justify-end">
                 {o.status === "PENDING" ? (
                   <form action={async (formData: FormData) => {
                     "use server";
@@ -90,6 +90,10 @@ export default async function OrdersPage() {
                     <Button type="submit" className="bd-btn bd-btn-primary text-center">Pay now</Button>
                   </form>
                 ) : null}
+
+                <Link href={`/orders/${o.id}`} className="bd-btn bd-btn-primary text-center">
+                  View order
+                </Link>
 
                 <Link href={`/listings/${o.listingId}`} className="bd-btn bd-btn-primary text-center">
                   View listing
