@@ -1,13 +1,12 @@
 ﻿import SellNewClient from "./sell-new-client";
 import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 
 export const dynamic = "force-dynamic";
 
 export default async function SellNewPage() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   if (!session?.user?.id) {
     redirect("/auth/login?next=/sell/new");
@@ -17,42 +16,46 @@ export default async function SellNewPage() {
 
   if (gate.blocked) {
     return (
-      <main className="bd-container" style={{ paddingTop: 32, paddingBottom: 32 }}>
-        <h1 className="h1" style={{ fontSize: 28 }}>Action required</h1>
+      <main className="bd-container py-10">
+        <div className="container max-w-5xl">
+          <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Action required</h1>
 
-        <p className="p" style={{ marginTop: 6 }}>
-          You have {gate.pendingCount} pending feedback task(s) older than {gate.graceHours} hours.
-          Please submit feedback to continue creating listings.
-        </p>
+          <p className="mt-2 text-sm bd-ink2">
+            You have {gate.pendingCount} pending feedback task(s) older than {gate.graceHours} hours.
+            Please submit feedback to continue creating listings.
+          </p>
 
-        <div className="mt-6 flex flex-wrap gap-3">
-          <a
-            href={gate.feedbackUrl || "/orders"}
-            className="btnPrimary"
-          >
-            Complete feedback
-          </a>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a
+              href={gate.feedbackUrl || "/orders"}
+              className="bd-btn bd-btn-primary"
+            >
+              Complete feedback
+            </a>
 
-          <a
-            href="/orders"
-            className="btnPrimary"
-          >
-            View orders
-          </a>
+            <a
+              href="/orders"
+              className="bd-btn bd-btn-ghost"
+            >
+              View orders
+            </a>
+          </div>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="bd-container" style={{ paddingTop: 32, paddingBottom: 32 }}>
-      <h1 className="h1" style={{ fontSize: 28 }}>Create a listing</h1>
-      <p className="p" style={{ marginTop: 6 }}>
-        Add the basics — title, description, category, condition, location, and pricing.
-      </p>
+    <main className="bd-container py-10">
+      <div className="container max-w-5xl">
+        <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Create a listing</h1>
+        <p className="mt-2 text-sm bd-ink2">
+          Add the basics — title, description, category, condition, location, and pricing.
+        </p>
 
-      <div className="mt-6">
-        <SellNewClient />
+        <div className="mt-6">
+          <SellNewClient />
+        </div>
       </div>
     </main>
   );

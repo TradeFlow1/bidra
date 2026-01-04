@@ -187,29 +187,29 @@ export default function SellNewClient() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl p-6">
-<p className="mt-1 text-sm text-gray-600">
+    <div className="bd-card p-5">
+<p className="mt-2 text-sm bd-ink2">
         Add the basics — title, description, category, condition, location, and pricing.
       </p>
 
       {err && (
-        <div className="mt-4 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{err}</div>
+        <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div>
       )}
       {feedbackGate && (
-        <div className="mb-4 rounded-xl border border-black/10 bg-white p-4">
-          <div className="text-base font-semibold text-black">Feedback required</div>
-          <div className="mt-1 text-sm text-black/70">{feedbackGate.message}</div>
+        <div className="mb-4 bd-card p-5">
+          <div className="text-base font-extrabold bd-ink">Feedback required</div>
+          <div className="mt-1 text-sm bd-ink2">{feedbackGate.message}</div>
           {feedbackGate.feedbackUrl && (
             <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
               <Link
                 href={feedbackGate.feedbackUrl}
-                className="inline-flex items-center justify-center rounded-lg bg-black px-4 py-2 text-sm font-semibold text-white"
+                className="bd-btn bd-btn-primary text-center"
               >
                 Leave feedback to continue
               </Link>
               <Link
                 href="/orders"
-                className="inline-flex items-center justify-center rounded-lg border border-black/10 bg-white px-4 py-2 text-sm font-semibold text-black"
+                className="bd-btn bd-btn-ghost text-center"
               >
                 Go to Orders
               </Link>
@@ -222,32 +222,32 @@ export default function SellNewClient() {
         <div>
           <label className="text-sm font-medium">Sale type</label>
           <select
-            className="mt-1 w-full rounded-md border p-2"
+            className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
             value={type}
             onChange={(e) => setType(e.target.value as ListingTypeUI)}
           >
             <option value="FIXED_PRICE">Fixed price</option>
             <option value="AUCTION">Timed bidding</option>
           </select>
-          <div className="mt-1 text-xs text-gray-600">
+          <div className="mt-1 text-xs bd-ink2">
             Timed bidding collects offers. When bidding ends, the seller chooses whether to proceed with the highest offer.
           </div>
         </div>
 
         <div>
           <label className="text-sm font-medium">Title</label>
-          <input className="mt-1 w-full rounded-md border p-2" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
 
         <div>
           <label className="text-sm font-medium">Description</label>
-          <textarea className="mt-1 w-full rounded-md border p-2" rows={5} value={description} onChange={(e) => setDescription(e.target.value)} />
+          <textarea className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" rows={5} value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
 
         <div>
           <label className="text-sm font-medium">Category</label>
           <select
-            className="mt-1 w-full rounded-md border p-2"
+            className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
             value={category}
             onChange={(e) => setCategory(e.target.value as any)}
           >
@@ -260,7 +260,7 @@ export default function SellNewClient() {
 
         <div>
           <label className="text-sm font-medium">Condition</label>
-          <select className="mt-1 w-full rounded-md border p-2" value={condition} onChange={(e) => setCondition(e.target.value)}>
+          <select className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={condition} onChange={(e) => setCondition(e.target.value)}>
             <option value="NEW">New</option>
             <option value="LIKE_NEW">Like new</option>
             <option value="USED">Used</option>
@@ -270,13 +270,13 @@ export default function SellNewClient() {
 
         <div>
           <label className="text-sm font-medium">Location</label>
-          <input className="mt-1 w-full rounded-md border p-2" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Suburb, State" />
+          <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Suburb, State" />
         </div>
 
         {!isAuction && (
           <div>
             <label className="text-sm font-medium">Price (AUD)</label>
-            <input className="mt-1 w-full rounded-md border p-2" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="e.g. 60" />
+            <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="e.g. 60" />
           </div>
         )}
 
@@ -284,24 +284,24 @@ export default function SellNewClient() {
           <>
             <div>
               <label className="text-sm font-medium">Starting offer (AUD)</label>
-              <input className="mt-1 w-full rounded-md border p-2" value={startingBid} onChange={(e) => setStartingBid(e.target.value)} placeholder="e.g. 60" />
+              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={startingBid} onChange={(e) => setStartingBid(e.target.value)} placeholder="e.g. 60" />
             </div>
 
             <div>
               <label className="text-sm font-medium">Reserve price (AUD) (optional)</label>
-              <input className="mt-1 w-full rounded-md border p-2" value={reservePrice} onChange={(e) => setReservePrice(e.target.value)} placeholder="e.g. 120" />
-              <div className="mt-1 text-xs text-gray-600">Must be ≥ starting offer. Leave blank for no reserve.</div>
+              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={reservePrice} onChange={(e) => setReservePrice(e.target.value)} placeholder="e.g. 120" />
+              <div className="mt-1 text-xs bd-ink2">Must be ≥ starting offer. Leave blank for no reserve.</div>
             </div>
 
             <div>
               <label className="text-sm font-medium">Buy Now price (AUD) (optional)</label>
-              <input className="mt-1 w-full rounded-md border p-2" value={buyNowPrice} onChange={(e) => setBuyNowPrice(e.target.value)} placeholder="e.g. 200" />
-              <div className="mt-1 text-xs text-gray-600">Only shown until met/exceeded.</div>
+              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={buyNowPrice} onChange={(e) => setBuyNowPrice(e.target.value)} placeholder="e.g. 200" />
+              <div className="mt-1 text-xs bd-ink2">Only shown until met/exceeded.</div>
             </div>
 
             <div>
               <label className="text-sm font-medium">Duration</label>
-              <select className="mt-1 w-full rounded-md border p-2" value={durationDays} onChange={(e) => setDurationDays(e.target.value)}>
+              <select className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={durationDays} onChange={(e) => setDurationDays(e.target.value)}>
                 <option value="3">3 days</option>
                 <option value="5">5 days</option>
                 <option value="7">7 days</option>
@@ -318,10 +318,10 @@ export default function SellNewClient() {
             type="file"
             accept="image/*"
             multiple
-            className="mt-1 w-full rounded-md border p-2"
+            className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
             onChange={(e) => setFiles(Array.from(e.target.files || []).slice(0, 10))}
           />
-          <div className="mt-1 text-xs text-gray-600">Choose up to 10 images (max 8MB each).</div>
+          <div className="mt-1 text-xs bd-ink2">Choose up to 10 images (max 8MB each).</div>
 
           {previews.length > 0 && (
             <div className="mt-3 grid grid-cols-3 gap-2">
@@ -337,7 +337,7 @@ export default function SellNewClient() {
           <div className="mt-4">
             <label className="text-sm font-medium">Image URLs (optional fallback)</label>
             <textarea
-              className="mt-1 w-full rounded-md border p-2"
+              className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
               rows={3}
               value={imageUrls}
               onChange={(e) => setImageUrls(e.target.value)}
@@ -346,7 +346,7 @@ export default function SellNewClient() {
           </div>
         </div>
 
-        <button type="submit" disabled={busy} className="rounded-md border px-4 py-2 text-sm font-medium disabled:opacity-60">
+        <button type="submit" disabled={busy} className="bd-btn bd-btn-primary text-center disabled:opacity-60">
           {busy ? "Creating..." : "Create listing"}
         </button>
       </form>
