@@ -52,8 +52,8 @@ export default function ListingCard({ listing }: ListingCardProps) {
             />
 
             {!imgs || imgs.length === 0 ? (
-              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-md bg-black/70 px-2 py-1 text-[11px] font-semibold text-white">
-                Photos coming soon
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/55 px-2 py-1 text-[10px] font-semibold tracking-tight text-white shadow-sm">
+                No photos yet
               </div>
             ) : null}
           </>
