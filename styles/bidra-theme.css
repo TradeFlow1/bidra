@@ -22,7 +22,14 @@
   --bidra-blue-soft:#EAF1FF;
 
   /* Header / footer dark */
-  --bidra-dark:#0F172A;
+  
+/* Header matches hero */
+.bd-header{
+  background:
+    radial-gradient(1200px 420px at 15% 10%, rgba(59,130,246,0.22), rgba(0,0,0,0)),
+    linear-gradient(180deg, rgba(15,23,42,0.96), rgba(15,23,42,0.78));
+}
+--bidra-dark:#0F172A;
   --bidra-dark-2:#111C33;
 
   /* Radii */
