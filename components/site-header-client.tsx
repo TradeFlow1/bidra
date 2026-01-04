@@ -58,16 +58,16 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
 
         {/* Right: Desktop nav */}
         <nav className="relative hidden items-center gap-4 text-sm md:flex">
-          <Link href="/listings" className="hover:opacity-80" onClick={closeAll}>
+          <Link href="/listings" className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5" onClick={closeAll}>
             Browse
           </Link>
-          <Link href="/sell" className="hover:opacity-80" onClick={closeAll}>
+          <Link href="/sell" className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5" onClick={closeAll}>
             Sell
           </Link>
 
           {isAuthed ? (
             <>
-              <Link href="/messages" className="hover:opacity-80" onClick={closeAll}>
+              <Link href="/messages" className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5" onClick={closeAll}>
                 Messages
               </Link>
 
@@ -99,10 +99,10 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
             </>
           ) : (
             <>
-              <Link href="/auth/login" className="hover:opacity-80" onClick={closeAll}>
+              <Link href="/auth/login" className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5" onClick={closeAll}>
                 Sign in
               </Link>
-              <Link href="/auth/register" className="hover:opacity-80" onClick={closeAll}>
+              <Link href="/auth/register" className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5" onClick={closeAll}>
                 Create account
               </Link>
             </>
