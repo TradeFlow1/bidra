@@ -4,13 +4,26 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Card, Button, Badge } from "@/components/ui";
 
-export default async function MyListingsPage() {
+type PageProps = {
+  searchParams?: { err?: string };
+};
+
+const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
+
+function safeErr(s: unknown): string {
+  const v = String(s ?? "").slice(0, 180);
+  return encodeURIComponent(v);
+}
+
+export default async function MyListingsPage({ searchParams }: PageProps) {
   const session = await auth();
-  const user = session?.user as any;
-  if (!user) redirect("/auth/login");
+  const userId = (session?.user as any)?.id ? String((session?.user as any).id) : "";
+  if (!userId) redirect("/auth/login");
+
+  const err = searchParams?.err ? decodeURIComponent(String(searchParams.err)) : "";
 
   const listings = await prisma.listing.findMany({
-    where: { sellerId: user.id, status: { not: "DELETED" } },
+    where: { sellerId: userId, status: { not: "DELETED" } },
     orderBy: { createdAt: "desc" },
     take: 100,
   });
@@ -21,25 +34,44 @@ export default async function MyListingsPage() {
     const { prisma } = await import("@/lib/prisma");
     const { redirect } = await import("next/navigation");
 
-    const s = await auth();
-    const u = s?.user as any;
-    if (!u) redirect("/auth/login");
+    try {
+      const s = await auth();
+      const uid = (s?.user as any)?.id ? String((s?.user as any).id) : "";
+      if (!uid) redirect("/auth/login");
 
-    const id = String(formData.get("id") ?? "");
-    const status = String(formData.get("status") ?? "");
+      const id = String(formData.get("id") ?? "").trim();
+      const status = String(formData.get("status") ?? "").trim();
 
-    const listing = await prisma.listing.findUnique({ where: { id } });
-    if (!listing || listing.sellerId !== u.id) throw new Error("Not allowed");
+      if (!id) redirect("/dashboard/listings?err=" + safeErr("Missing listing id"));
 
-    const allowed = ["DRAFT", "ACTIVE", "ENDED"];
-    if (!allowed.includes(status)) throw new Error("Invalid status");
+      const listing = await prisma.listing.findUnique({
+        where: { id },
+        select: { id: true, sellerId: true, status: true },
+      });
 
-    await prisma.listing.update({
-      where: { id },
-      data: { status: status as any },
-    });
+      if (!listing) {
+        redirect("/dashboard/listings?err=" + safeErr("Listing not found"));
+        return;
+      }
+      if (listing.sellerId !== uid) {
+        redirect("/dashboard/listings?err=" + safeErr("Not allowed"));
+        return;
+      }
 
-    redirect("/dashboard/listings");
+      // Seller cannot set admin-only statuses
+      if (!SELLER_ALLOWED_STATUSES.includes(status as any)) {
+        redirect("/dashboard/listings?err=" + safeErr("Invalid status"));
+      }
+
+      await prisma.listing.update({
+        where: { id },
+        data: { status: status as any },
+      });
+
+      redirect("/dashboard/listings");
+    } catch (e: any) {
+      redirect("/dashboard/listings?err=" + safeErr(e?.message || "Update failed"));
+    }
   }
 
   return (
@@ -55,6 +87,13 @@ export default async function MyListingsPage() {
               Create new
             </Link>
           </div>
+
+          {err ? (
+            <div className="bd-card p-4 border border-red-200 bg-red-50/50">
+              <div className="text-sm font-extrabold bd-ink">Couldn’t update</div>
+              <div className="mt-1 text-sm bd-ink2">{err}</div>
+            </div>
+          ) : null}
 
           <div className="grid gap-3">
             {listings.map((l: any) => (
@@ -93,11 +132,15 @@ export default async function MyListingsPage() {
                     disabled={l.status === "SUSPENDED" || l.status === "DELETED"}
                     className="rounded-md border px-3 py-2 text-sm"
                   >
-                    {["DRAFT", "ACTIVE", "SUSPENDED", "ENDED", "SOLD"].map((s) => (
+                    {SELLER_ALLOWED_STATUSES.map((s) => (
                       <option key={s} value={s}>
                         {s}
                       </option>
                     ))}
+                    {/* Show locked statuses only as info (not selectable) */}
+                    {["SUSPENDED", "SOLD", "DELETED"].includes(String(l.status)) ? (
+                      <option value={l.status}>{l.status}</option>
+                    ) : null}
                   </select>
 
                   <Button type="submit" className="bd-btn bd-btn-primary text-center">
