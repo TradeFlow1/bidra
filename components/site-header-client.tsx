@@ -29,7 +29,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
   }, [session]);
 
   // White pill (desktop + mobile)
-  const pill = "inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5 focus:outline-none focus:ring-0 focus-visible:outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20";
+  const pill = "inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5 focus:outline-none focus:ring-0 focus-visible:outline-none";
 
   const linkPlain =
     "focus:outline-none focus:ring-0 focus-visible:outline-none";
@@ -52,7 +52,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
       if (!target) return;
 
       // clicks inside header do nothing
-      if (target.closest("header.bd-header")) return;
+      if (target.closest("nav") || target.closest("button") || target.closest("a")) return;
 
       setOpen(false);
       setAcctOpen(false);
