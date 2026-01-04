@@ -115,12 +115,13 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
                 type="button"
                 onClick={() => setAcctOpen((v) => !v)}
                 className={pill}
+                style={{ backgroundColor: "#ffffff", color: "#000000" }}
               >
                 {displayName}
               </button>
 
               {acctOpen ? (
-                <div className="absolute right-0 top-12 z-50 w-56 rounded-xl border border-black/10 bg-white text-black shadow-lg p-2">
+                <div className="absolute right-0 top-12 z-50 w-56 rounded-xl border border-black/10 bg-white text-black shadow-lg p-2" style={{ backgroundColor: "#ffffff", color: "#000000" }}>
                   <div className="flex flex-col text-sm">
                     <Link href="/profile" className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain} onClick={closeAll}>
                       Account settings
