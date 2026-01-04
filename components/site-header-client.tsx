@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+
 type SessionLike =
   | {
       user?: {
@@ -9,6 +10,7 @@ type SessionLike =
         email?: string | null;
         username?: string | null;
         name?: string | null;
+        role?: string | null;
       } | null;
     }
   | null
@@ -28,18 +30,25 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
     );
   }, [session]);
 
+  const pill =
+    "inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5";
+
   function closeAll() {
     setOpen(false);
     setAcctOpen(false);
   }
 
   return (
-    <header className="border-b border-black/10 bd-header">
+    <header className="bd-header border-b border-black/10">
       {/* Top bar */}
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Left: Home */}
         <div className="flex items-center gap-3">
-          <Link href="/" className="text-lg font-semibold tracking-tight" onClick={closeAll}>
+          <Link
+            href="/"
+            className="text-lg font-semibold tracking-tight bd-ink hover:opacity-80"
+            onClick={closeAll}
+          >
             Home
           </Link>
         </div>
@@ -57,52 +66,82 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
         </div>
 
         {/* Right: Desktop nav */}
-        <nav className="relative hidden items-center gap-4 text-sm md:flex">
-          <Link href="/listings" className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5" onClick={closeAll}>
+        <nav className="relative hidden items-center gap-3 text-sm md:flex">
+          <Link href="/listings" className={pill} onClick={closeAll}>
             Browse
           </Link>
-          <Link href="/sell" className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5" onClick={closeAll}>
+          <Link href="/sell" className={pill} onClick={closeAll}>
             Sell
           </Link>
 
           {isAuthed ? (
             <>
-              <Link href="/messages" className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5" onClick={closeAll}>
+              <Link href="/messages" className={pill} onClick={closeAll}>
                 Messages
               </Link>
 
               <button
                 type="button"
                 onClick={() => setAcctOpen((v) => !v)}
-                className="inline-flex items-center justify-center rounded-md border border-black/10 px-3 py-2 hover:bg-black/5"
+                className={pill}
               >
                 {displayName}
               </button>
 
               {acctOpen ? (
-                <div className="absolute right-0 top-12 z-50 w-56 rounded-md border border-black/10 bg-[#080E1A] shadow-lg">
-                  <div className="flex flex-col p-2 text-sm">
-                    <Link href="/profile" className="rounded px-3 py-2 hover:bg-black/5" onClick={closeAll}>
+                <div className="absolute right-0 top-12 z-50 w-56 bd-card p-2">
+                  <div className="flex flex-col text-sm">
+                    <Link
+                      href="/profile"
+                      className="rounded-md px-3 py-2 bd-ink hover:bg-black/5"
+                      onClick={closeAll}
+                    >
                       Account settings
                     </Link>
-                    <Link href="/dashboard" className="rounded px-3 py-2 hover:bg-black/5" onClick={closeAll}>
+                    <Link
+                      href="/dashboard"
+                      className="rounded-md px-3 py-2 bd-ink hover:bg-black/5"
+                      onClick={closeAll}
+                    >
                       Dashboard
                     </Link>
-                    <Link href="/orders" className="rounded px-3 py-2 hover:bg-black/5" onClick={closeAll}>
+                    <Link
+                      href="/orders"
+                      className="rounded-md px-3 py-2 bd-ink hover:bg-black/5"
+                      onClick={closeAll}
+                    >
                       Orders
                     </Link>
-                    <div className="my-1 border-t border-black/10" />
-                    <Link href="/logout" className="rounded px-3 py-2 hover:bg-black/5 text-left" onClick={closeAll}>Sign out</Link>
+
+                    {(session?.user as any)?.role === "ADMIN" ? (
+                      <Link
+                        href="/admin"
+                        className="rounded-md px-3 py-2 bd-ink hover:bg-black/5"
+                        onClick={closeAll}
+                      >
+                        Admin
+                      </Link>
+                    ) : null}
+
+                    <div className="my-2 border-t border-black/10" />
+
+                    <Link
+                      href="/logout"
+                      className="rounded-md px-3 py-2 bd-ink hover:bg-black/5 text-left"
+                      onClick={closeAll}
+                    >
+                      Sign out
+                    </Link>
                   </div>
                 </div>
               ) : null}
             </>
           ) : (
             <>
-              <Link href="/auth/login" className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5" onClick={closeAll}>
+              <Link href="/auth/login" className={pill} onClick={closeAll}>
                 Sign in
               </Link>
-              <Link href="/auth/register" className="inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5" onClick={closeAll}>
+              <Link href="/auth/register" className={pill} onClick={closeAll}>
                 Create account
               </Link>
             </>
@@ -117,7 +156,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
               setOpen((v) => !v);
               setAcctOpen(false);
             }}
-            className="inline-flex items-center justify-center rounded-md border border-white/15 px-3 py-2 text-sm hover:bg-black/5"
+            className={pill}
           >
             Menu
           </button>
@@ -141,21 +180,54 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
         <div className="md:hidden border-t border-black/10 bd-header">
           <div className="mx-auto max-w-6xl px-4 py-3">
             <div className="flex flex-col gap-3 text-sm">
-              <Link href="/listings" onClick={closeAll}>Browse</Link>
-              <Link href="/sell" onClick={closeAll}>Sell</Link>
+              <Link href="/listings" onClick={closeAll} className="bd-ink">
+                Browse
+              </Link>
+              <Link href="/sell" onClick={closeAll} className="bd-ink">
+                Sell
+              </Link>
 
               {isAuthed ? (
                 <>
-                  <Link href="/messages" onClick={closeAll}>Messages</Link>
-                  <Link href="/profile" onClick={closeAll}>Account settings</Link>
-                  <Link href="/dashboard" onClick={closeAll}>Dashboard</Link>
-                  <Link href="/orders" onClick={closeAll}>Orders</Link>
-                  <Link href="/logout" className="rounded px-3 py-2 hover:bg-black/5 text-left" onClick={closeAll}>Sign out</Link>
+                  <Link href="/messages" onClick={closeAll} className="bd-ink">
+                    Messages
+                  </Link>
+                  <Link href="/profile" onClick={closeAll} className="bd-ink">
+                    Account settings
+                  </Link>
+                  <Link href="/dashboard" onClick={closeAll} className="bd-ink">
+                    Dashboard
+                  </Link>
+                  <Link href="/orders" onClick={closeAll} className="bd-ink">
+                    Orders
+                  </Link>
+
+                  {(session?.user as any)?.role === "ADMIN" ? (
+                    <Link href="/admin" onClick={closeAll} className="bd-ink">
+                      Admin
+                    </Link>
+                  ) : null}
+
+                  <Link
+                    href="/logout"
+                    className="bd-ink"
+                    onClick={closeAll}
+                  >
+                    Sign out
+                  </Link>
                 </>
               ) : (
                 <>
-                  <Link href="/auth/login" onClick={closeAll}>Sign in</Link>
-                  <Link href="/auth/register" onClick={closeAll}>Create account</Link>
+                  <Link href="/auth/login" onClick={closeAll} className="bd-ink">
+                    Sign in
+                  </Link>
+                  <Link
+                    href="/auth/register"
+                    onClick={closeAll}
+                    className="bd-ink"
+                  >
+                    Create account
+                  </Link>
                 </>
               )}
             </div>
