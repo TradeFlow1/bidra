@@ -2,7 +2,7 @@
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t bg-white mt-12">
+    <footer className="border-t bg-white mt-12 bd-ink2">
       <div className="mx-auto max-w-7xl px-4 py-8 grid gap-6 md:grid-cols-3 text-sm text-gray-600">
         <div>
           <div className="font-semibold text-gray-900 mb-2">Bidra</div>
@@ -17,16 +17,16 @@ export default function SiteFooter() {
           <div className="font-semibold text-gray-900 mb-2">Trust & Safety</div>
           <ul className="space-y-1">
             <li>
-              <Link href="/legal/privacy">Privacy Policy</Link>
+              <Link href="/legal/privacy" className="bd-link font-semibold">Privacy Policy</Link>
             </li>
             <li>
-              <Link href="/legal/terms">Terms of Service</Link>
+              <Link href="/legal/terms" className="bd-link font-semibold">Terms of Service</Link>
             </li>
             <li>
-              <Link href="/legal/prohibited-items">Prohibited Items</Link>
+              <Link href="/legal/prohibited-items" className="bd-link font-semibold">Prohibited Items</Link>
             </li>
             <li>
-              <Link href="/support">Support & Safety</Link>
+              <Link href="/support" className="bd-link font-semibold">Support & Safety</Link>
             </li>
           </ul>
         </div>
