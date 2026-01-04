@@ -69,7 +69,7 @@ export default function ForgotPasswordPage() {
       ) : null}
 
       <div className="text-sm">
-        <Link className="underline" href="/login">Back to login</Link>
+        <Link className="underline" href="/auth/login">Back to login</Link>
       </div>
       </div>
     </main>

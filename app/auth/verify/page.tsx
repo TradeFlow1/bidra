@@ -1,26 +1,62 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+
+export const metadata = {
+  title: "Verify your email — Bidra",
+};
+
+function Wrap(props: { title: string; children: React.ReactNode }) {
+  return (
+    <main className="bd-container py-10">
+      <div className="container max-w-xl">
+        <h1 className="text-3xl font-extrabold tracking-tight bd-ink">{props.title}</h1>
+        <div className="mt-6 bd-card p-6">{props.children}</div>
+      </div>
+    </main>
+  );
+}
 
 export default async function VerifyPage({ searchParams }: { searchParams: { token?: string } }) {
   const token = String(searchParams?.token ?? "").trim();
+
   if (!token) {
     return (
-      <div className="max-w-xl">
-        <h1 className="text-2xl font-bold">Verify your email</h1>
-        <p className="mt-2 text-neutral-700">Missing token. Please use the link from the verification email/log.</p>
-        <Link className="mt-4 inline-block rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50" href="/auth/login">Log in</Link>
-      </div>
+      <Wrap title="Verify your email">
+        <p className="text-sm bd-ink2">
+          Missing token. Please use the link from the verification email.
+        </p>
+        <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+          <Link href="/auth/login" className="bd-btn bd-btn-primary text-center">
+            Log in
+          </Link>
+          <Link href="/support" className="bd-btn text-center">
+            Contact support
+          </Link>
+        </div>
+      </Wrap>
     );
   }
 
-  const vt = await prisma.verificationToken.findUnique({ where: { token }, include: { user: true } });
+  const vt = await prisma.verificationToken.findUnique({
+    where: { token },
+    include: { user: true },
+  });
+
   if (!vt || vt.expiresAt.getTime() < Date.now()) {
     return (
-      <div className="max-w-xl">
-        <h1 className="text-2xl font-bold">Verification link expired</h1>
-        <p className="mt-2 text-neutral-700">Please register again or request a new verification link.</p>
-        <Link className="mt-4 inline-block rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50" href="/auth/register">Create account</Link>
-      </div>
+      <Wrap title="Verification link expired">
+        <p className="text-sm bd-ink2">
+          Please register again or request a new verification link.
+        </p>
+        <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+          <Link href="/auth/register" className="bd-btn bd-btn-primary text-center">
+            Create account
+          </Link>
+          <Link href="/auth/login" className="bd-btn text-center">
+            Log in
+          </Link>
+        </div>
+      </Wrap>
     );
   }
 
@@ -28,10 +64,16 @@ export default async function VerifyPage({ searchParams }: { searchParams: { tok
   await prisma.verificationToken.delete({ where: { id: vt.id } });
 
   return (
-    <div className="max-w-xl">
-      <h1 className="text-2xl font-bold">Email verified</h1>
-      <p className="mt-2 text-neutral-700">Your email is verified. You can now log in.</p>
-      <Link className="mt-4 inline-block rounded-md bg-black text-white px-4 py-2 text-sm font-medium" href="/auth/login">Log in</Link>
-    </div>
+    <Wrap title="Email verified">
+      <p className="text-sm bd-ink2">Your email is verified. You can now log in.</p>
+      <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+        <Link href="/auth/login" className="bd-btn bd-btn-primary text-center">
+          Log in
+        </Link>
+        <Link href="/" className="bd-btn text-center">
+          Go home
+        </Link>
+      </div>
+    </Wrap>
   );
 }

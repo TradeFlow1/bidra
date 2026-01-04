@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { signOut } from "next-auth/react";
-
 type SessionLike =
   | {
       user?: {
@@ -94,7 +92,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
                       Orders
                     </Link>
                     <div className="my-1 border-t border-white/10" />
-                    <button type="button" className="rounded px-3 py-2 hover:bg-white/5 text-left" onClick={async () => { closeAll(); await signOut({ callbackUrl: "/" }); }}>Sign out</button>
+                    <Link href="/logout" className="rounded px-3 py-2 hover:bg-white/5 text-left" onClick={closeAll}>Sign out</Link>
                   </div>
                 </div>
               ) : null}
@@ -152,7 +150,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
                   <Link href="/profile" onClick={closeAll}>Account settings</Link>
                   <Link href="/dashboard" onClick={closeAll}>Dashboard</Link>
                   <Link href="/orders" onClick={closeAll}>Orders</Link>
-                  <button type="button" className="rounded px-3 py-2 hover:bg-white/5 text-left" onClick={async () => { closeAll(); await signOut({ callbackUrl: "/" }); }}>Sign out</button>
+                  <Link href="/logout" className="rounded px-3 py-2 hover:bg-white/5 text-left" onClick={closeAll}>Sign out</Link>
                 </>
               ) : (
                 <>

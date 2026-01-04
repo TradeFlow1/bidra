@@ -76,7 +76,7 @@ export default function ResetPasswordPage() {
       {msg ? <div className="text-sm">{msg}</div> : null}
 
       <div className="text-sm">
-        <Link className="underline" href="/login">Back to login</Link>
+        <Link className="underline" href="/auth/login">Back to login</Link>
       </div>
       </div>
     </main>
