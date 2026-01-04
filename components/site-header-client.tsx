@@ -46,7 +46,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
         <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="text-lg font-semibold tracking-tight bd-ink hover:opacity-80"
+            className={pill}
             onClick={closeAll}
           >
             Home
