@@ -69,7 +69,6 @@ model VerificationToken {
 
 model Listing {
   photos String[] @default([])
-  photos String[] @default([])
   threads        MessageThread[]
   id             String            @id @default(cuid())
   title          String

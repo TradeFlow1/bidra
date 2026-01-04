@@ -45,7 +45,7 @@ export default function Login() {
             }
 
             // FORCE LOCAL RELATIVE REDIRECT (prevents jumping to vercel in dev)
-            const next = sp.get("next");
+            const next = sp?.get("next");
             router.push(next && next.startsWith("/") ? next : "/");
             router.refresh();
           }}
