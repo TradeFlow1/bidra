@@ -64,7 +64,7 @@ export default async function HomePage() {
             <Link href="/listings" className="bd-btn bd-btn-primary">
               Browse listings
             </Link>
-            <Link href="/sell/new" className="bd-btn bd-btn-ghost">
+            <Link href="/sell/new" className="bd-btn bd-btn-primary">
               Create a listing
             </Link>
           </div>
