@@ -1,11 +1,10 @@
-import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+﻿import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import EditListingClient from "./edit-listing-client";
 
 export default async function EditListingPage({ params }: { params: { id: string } }) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session?.user?.id) redirect("/auth/login");
 
   const listing = await prisma.listing.findUnique({ where: { id: params.id } });
