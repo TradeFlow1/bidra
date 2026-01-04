@@ -148,7 +148,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
               style={{ backgroundColor: "#ffffff", opacity: 1 } as any }
               aria-label="Previous photo"
             >
-              <span className="text-[26px] leading-none">‹</span>
+              <span className="text-[20px] leading-none">‹</span>
             </button>
             <button
               type="button"
@@ -157,7 +157,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
               style={{ backgroundColor: "#ffffff", opacity: 1 } as any }
               aria-label="Next photo"
             >
-              <span className="text-[26px] leading-none">›</span>
+              <span className="text-[20px] leading-none">›</span>
             </button>
           </>
         )}
