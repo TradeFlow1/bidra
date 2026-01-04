@@ -144,20 +144,20 @@ export default function ListingImageGallery(props: { images: any; title?: string
             <button
               type="button"
               onClick={prev}
-              className="absolute left-2 top-1/2 z-50 -translate-y-1/2 flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/20"
+              className="absolute left-2 top-1/2 z-50 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/20"
               style={{ backgroundColor: "#ffffff", opacity: 1 } as any }
               aria-label="Previous photo"
             >
-              <span className="text-[34px] leading-none">‹</span>
+              <span className="text-[26px] leading-none">‹</span>
             </button>
             <button
               type="button"
               onClick={next}
-              className="absolute right-2 top-1/2 z-50 -translate-y-1/2 flex h-9 w-9 md:h-10 md:w-10 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/20"
+              className="absolute right-2 top-1/2 z-50 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/20"
               style={{ backgroundColor: "#ffffff", opacity: 1 } as any }
               aria-label="Next photo"
             >
-              <span className="text-[34px] leading-none">›</span>
+              <span className="text-[26px] leading-none">›</span>
             </button>
           </>
         )}
@@ -178,7 +178,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
                 style={{
                   width: active ? 12 : 10,
                   height: active ? 12 : 10,
-                  backgroundColor: active ? "#111827" : "#D1D5DB",
+                  backgroundColor: active ? "#1DA1F2" : "#9CA3AF",
                   boxShadow: active ? "0 0 0 2px rgba(209,213,219,0.95)" : "none",
                   transition: "all 120ms ease",
                 }}
