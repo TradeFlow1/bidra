@@ -139,12 +139,17 @@ function scrollTo(i: number) {
   }, [imgs.length]);
 
   if (!imgs.length) {
-    return (
-      <div className="flex h-full w-full items-center justify-center text-xs text-neutral-500">
-        No image
-      </div>
-    );
-  }
+  return (
+    <div className="flex h-full w-full items-center justify-center bg-neutral-100">
+      <img
+        src="/brand/icon/bidra-icon_dark.png"
+        alt="No image"
+        className="h-16 w-16 object-contain opacity-70"
+        draggable={false}
+      />
+    </div>
+  );
+}
 
   return (
     <div
