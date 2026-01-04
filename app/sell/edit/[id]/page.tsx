@@ -12,6 +12,8 @@ export default async function EditListingPage({ params }: { params: { id: string
 
   if (listing.sellerId !== session.user.id) redirect(`/listings/${listing.id}`);
 
+  const images = Array.isArray((listing as any).images) ? ((listing as any).images as string[]) : [];
+
   return (
     <EditListingClient
       listing={{
@@ -22,7 +24,7 @@ export default async function EditListingPage({ params }: { params: { id: string
         condition: listing.condition || "Used",
         location: listing.location || "",
         priceDollars: Number(listing.price || 0) / 100,
-        imageUrls: Array.isArray(listing.images) ? listing.images.join(", ") : "",
+        images,
       }}
     />
   );

@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 
 type ListingSeed = {
@@ -12,7 +12,7 @@ type ListingSeed = {
   condition: string;
   location: string;
   priceDollars: number;
-  imageUrls: string;
+  images: string[];
 };
 
 export default function EditListingClient({ listing }: { listing: ListingSeed }) {
@@ -24,17 +24,66 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const [condition, setCondition] = useState(listing.condition);
   const [location, setLocation] = useState(listing.location);
   const [price, setPrice] = useState(String(listing.priceDollars || ""));
-  const [imageUrls, setImageUrls] = useState(listing.imageUrls);
+  const [images, setImages] = useState<string[]>(Array.isArray(listing.images) ? listing.images : []);
 
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const fileRef = useRef<HTMLInputElement | null>(null);
 
   function validate(): string | null {
     if (title.trim().length < 3) return "Title must be at least 3 characters.";
     const p = Number(price);
     if (!Number.isFinite(p)) return "Price must be a number.";
     if (p <= 0) return "Price must be greater than $0.";
+    if (images.length > 10) return "Too many photos (max 10).";
     return null;
+  }
+
+  async function uploadFiles(files: FileList | null) {
+    if (!files || files.length === 0) return;
+
+    const current = images.slice();
+    if (current.length >= 10) {
+      setError("You already have 10 photos (max). Remove one to add more.");
+      return;
+    }
+
+    const room = 10 - current.length;
+    const picked = Array.from(files).slice(0, room);
+
+    setIsUploading(true);
+    setError(null);
+    try {
+      const form = new FormData();
+      for (const f of picked) form.append("files", f);
+
+      const res = await fetch("/api/uploads/images", { method: "POST", body: form });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(String((data as any)?.error || `Upload failed (HTTP ${res.status})`));
+        return;
+      }
+
+      const urls: string[] = Array.isArray((data as any)?.urls) ? (data as any).urls : [];
+      if (urls.length === 0) {
+        setError("Upload failed: no URLs returned.");
+        return;
+      }
+
+      const next = [...current, ...urls].slice(0, 10);
+      setImages(next);
+    } catch (err: any) {
+      setError(String(err?.message || err));
+    } finally {
+      setIsUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  }
+
+  function removeImage(url: string) {
+    setImages((prev) => prev.filter((x) => x !== url));
   }
 
   return (
@@ -75,11 +124,6 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
 
                 setIsSaving(true);
                 try {
-                  const images = imageUrls
-                    .split(",")
-                    .map((s) => s.trim())
-                    .filter(Boolean);
-
                   const body = {
                     title: title.trim(),
                     description: description.trim(),
@@ -87,7 +131,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                     condition: condition.trim(),
                     location: location.trim(),
                     price: Math.round(Number(price) * 100),
-                    images,
+                    images: images.slice(0, 10),
                   };
 
                   const res = await fetch(`/api/listings/${listing.id}/update`, {
@@ -172,16 +216,63 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
               </div>
 
               <div>
-                <label className="text-sm font-extrabold bd-ink">Image URLs (comma separated)</label>
-                <input
-                  className="bd-input mt-1 w-full"
-                  value={imageUrls}
-                  onChange={(e) => setImageUrls(e.target.value)}
-                />
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <label className="text-sm font-extrabold bd-ink">Photos</label>
+                    <div className="mt-1 text-xs bd-ink2">Up to 10 photos. Add/remove without deleting the ad.</div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      ref={fileRef}
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      className="hidden"
+                      onChange={(e) => uploadFiles(e.target.files)}
+                      disabled={isSaving || isUploading}
+                    />
+                    <button
+                      type="button"
+                      className="bd-btn bd-btn-ghost"
+                      disabled={isSaving || isUploading || images.length >= 10}
+                      onClick={() => fileRef.current?.click()}
+                    >
+                      {isUploading ? "Uploading..." : "Add photos"}
+                    </button>
+                  </div>
+                </div>
+
+                {images.length === 0 ? (
+                  <div className="mt-3 rounded-xl border border-black/10 bg-white p-4 text-sm bd-ink2">
+                    No photos yet.
+                  </div>
+                ) : (
+                  <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    {images.map((url) => (
+                      <div key={url} className="relative overflow-hidden rounded-xl border border-black/10 bg-white">
+                        <img
+                          src={url}
+                          alt="Listing photo"
+                          className="block h-28 w-full object-cover"
+                          loading="lazy"
+                        />
+                        <button
+                          type="button"
+                          className="absolute right-2 top-2 rounded-lg border border-black/10 bg-white px-2 py-1 text-xs font-extrabold bd-ink hover:bg-neutral-50"
+                          onClick={() => removeImage(url)}
+                          disabled={isSaving || isUploading}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="flex flex-wrap gap-2 pt-2">
-                <button type="submit" disabled={isSaving} className="bd-btn bd-btn-primary text-center">
+                <button type="submit" disabled={isSaving || isUploading} className="bd-btn bd-btn-primary text-center">
                   {isSaving ? "Saving..." : "Save changes"}
                 </button>
                 <Link href={`/listings/${listing.id}`} className="bd-btn bd-btn-ghost text-center">
