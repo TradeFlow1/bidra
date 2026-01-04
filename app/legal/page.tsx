@@ -1,68 +1,53 @@
-﻿export const dynamic = "force-dynamic";
+﻿import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default function LegalPage() {
+export const metadata = {
+  title: "Bidra | Legal",
+};
+
+export default function LegalHubPage() {
   return (
-    <main style={{ maxWidth: 960, margin: "0 auto", padding: 24, fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial" }}>
-      <h1>Legal</h1>
-      <p style={{ opacity: 0.8 }}>Last updated: Australia only · 18+ platform</p>
+    <main className="bd-container py-6 pb-14">
+      <div className="bd-card p-6 space-y-4">
+        <h1 className="text-2xl font-extrabold tracking-tight">Legal</h1>
 
-      <h2>Terms of Service (Australia)</h2>
+        <p className="text-sm text-black/70">
+          Bidra is an Australian marketplace platform. Bidra is not the seller of items listed by users.
+        </p>
 
-      <h3>1. Eligibility and Age Requirement</h3>
-      <p>
-        Bidra is a strictly <strong>18+ platform</strong>. By creating an account, users legally declare that they are
-        18 years of age or older. Users under 18 may browse publicly available listings only and must not create
-        accounts, list items, make offers, message other users, or transact in any way.
-      </p>
+        <div className="rounded-2xl border border-black/10 bg-white p-5 space-y-3">
+          <div className="text-sm font-extrabold text-[#0b1220]">Policies</div>
 
-      <h3>2. Acceptance of Terms (Single Consent Model)</h3>
-      <p>
-        At sign-up, users must accept one combined consent only:
-        <br />
-        <strong>"I agree to the Terms and Conditions and declare that I am 18 years of age or older."</strong>
-      </p>
+          <ul className="list-disc pl-5 text-sm text-black/75 space-y-2">
+            <li>
+              <Link href="/legal/terms" className="bd-link font-semibold">
+                Terms of Use
+              </Link>
+            </li>
+            <li>
+              <Link href="/legal/privacy" className="bd-link font-semibold">
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link href="/legal/prohibited-items" className="bd-link font-semibold">
+                Prohibited Items
+              </Link>
+            </li>
+            <li>
+              <Link href="/support" className="bd-link font-semibold">
+                Support & Safety
+              </Link>
+            </li>
+          </ul>
+        </div>
 
-      <h3>3. Platform Role</h3>
-      <p>
-        Bidra operates solely as a technology platform facilitating listings, offers, and communications.
-        Bidra does not sell, purchase, store, inspect, or take ownership of any items.
-      </p>
-
-      <h3>4. Listings and Offers</h3>
-      <p>
-        Sellers are responsible for lawful and accurate listings. Offers and fixed-price commitments are
-        legally binding under Australian law.
-      </p>
-
-      <h3>5. Fees, Payments, and GST</h3>
-      <p>
-        All prices are displayed in AUD. Bidra charges platform service fees. GST applies only to Bidra’s fees.
-      </p>
-
-      <h3>6. Enforcement and Liability</h3>
-      <p>
-        Bidra may suspend or terminate accounts, remove listings, restrict platform access and cooperate with authorities
-        where required by law. Nothing limits rights under the Australian Consumer Law.
-      </p>
-
-      <h2>Privacy Policy (Australia)</h2>
-      <p>
-        Bidra collects only information necessary to operate a lawful marketplace and stores data securely in
-        accordance with the Privacy Act 1988.
-      </p>
-
-      <h2>Prohibited Items</h2>
-      <p>
-        Illegal, unsafe, or restricted items are prohibited. <strong>All live animals are strictly prohibited</strong>
-        under all circumstances.
-      </p>
-
-      <h2>Platform Declaration</h2>
-      <p>
-        Bidra is a trading name of <strong>Flowmark Group Pty Ltd (Australia)</strong> and operates exclusively
-        within Australia.
-      </p>
+        <p className="text-xs text-black/50">
+          Plain-language pages for beta. We’ll expand details before a broader public launch.
+        </p>
+      </div>
     </main>
   );
 }
