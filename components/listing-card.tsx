@@ -26,7 +26,9 @@ export default function ListingCard({ listing }: ListingCardProps) {
   const imgs = Array.isArray(listing.images) ? listing.images : null;
   const hasMulti = !!(imgs && imgs.length > 1);
 
-  const fallback =
+  
+  const isNoPhotos = !imgs || imgs.length === 0;
+const fallback =
     (imgs && imgs.length > 0 && (imgs[0]?.url || imgs[0]?.src || imgs[0])) ||
     "/brand/icon/bidra-icon_dark.png";
 
@@ -44,7 +46,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
             <img
               src={fallback}
               alt={listing.title}
-              className="h-full w-full select-none object-cover"
+              className={isNoPhotos ? "h-full w-full select-none object-contain p-10 opacity-90" : "h-full w-full select-none object-cover"}
               draggable={false}
               onDragStart={(e) => e.preventDefault()}
               onContextMenu={(e) => e.preventDefault()}
