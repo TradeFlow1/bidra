@@ -29,8 +29,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
   }, [session]);
 
   // White pill (desktop + mobile)
-  const pill =
-    "inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5 focus:outline-none focus:ring-0 focus-visible:outline-none";
+  const pill = "inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5 focus:outline-none focus:ring-0 focus-visible:outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-black/20";
 
   const linkPlain =
     "focus:outline-none focus:ring-0 focus-visible:outline-none";
@@ -121,27 +120,27 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
               </button>
 
               {acctOpen ? (
-                <div className="absolute right-0 top-12 z-50 w-56 bd-card p-2">
+                <div className="absolute right-0 top-12 z-50 w-56 rounded-xl border border-black/10 bg-white shadow-lg p-2">
                   <div className="flex flex-col text-sm">
-                    <Link href="/profile" className={"rounded-md px-3 py-2 bd-ink hover:bg-black/5 " + linkPlain} onClick={closeAll}>
+                    <Link href="/profile" className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain} onClick={closeAll}>
                       Account settings
                     </Link>
-                    <Link href="/dashboard" className={"rounded-md px-3 py-2 bd-ink hover:bg-black/5 " + linkPlain} onClick={closeAll}>
+                    <Link href="/dashboard" className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain} onClick={closeAll}>
                       Dashboard
                     </Link>
-                    <Link href="/orders" className={"rounded-md px-3 py-2 bd-ink hover:bg-black/5 " + linkPlain} onClick={closeAll}>
+                    <Link href="/orders" className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain} onClick={closeAll}>
                       Orders
                     </Link>
 
                     {(session?.user as any)?.role === "ADMIN" ? (
-                      <Link href="/admin" className={"rounded-md px-3 py-2 bd-ink hover:bg-black/5 " + linkPlain} onClick={closeAll}>
+                      <Link href="/admin" className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain} onClick={closeAll}>
                         Admin
                       </Link>
                     ) : null}
 
                     <div className="my-2 border-t border-black/10" />
 
-                    <Link href="/logout" className={"rounded-md px-3 py-2 bd-ink hover:bg-black/5 text-left " + linkPlain} onClick={closeAll}>
+                    <Link href="/logout" className={"rounded-md px-3 py-2 text-black hover:bg-black/5 text-left " + linkPlain} onClick={closeAll}>
                       Sign out
                     </Link>
                   </div>
