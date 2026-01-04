@@ -181,147 +181,39 @@ export default async function ListingsPage({
               <p className="p" style={{ marginTop: 6 }}>
                 {hasAnyFilter ? <>Showing results ({listings.length})</> : <>Showing latest listings ({listings.length})</>}
               </p>
-              <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-            <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+            </div>
+          </div>
 
           <div className="bd-card p-4 mt-3">
             <MobileFiltersToggle>
 <form action="/listings" method="get">
   <div className="grid gap-3 md:grid-cols-12">
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Search  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Search</div>
       <input name="q" defaultValue={q} placeholder="Search listings" className="bd-input" />
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Category  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Category</div>
       <select name="category" defaultValue={category} className="bd-input">
         <option value="">All categories</option>
         {FULL_CATEGORIES.map((c: string) => (
           <option key={c} value={c}>{c}</option>
         ))}
       </select>
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-2">
-      <div className="bd-label text-xs">Type  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Type</div>
       <select name="type" defaultValue={type} className="bd-input">
         <option value="">Any</option>
         <option value="BUY_NOW">Buy now</option>
         <option value="FIXED_PRICE">Fixed price</option>
       </select>
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-2">
-      <div className="bd-label text-xs">Condition  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Condition</div>
       <select name="condition" defaultValue={condition} className="bd-input">
         <option value="">Any</option>
         <option value="New">New</option>
@@ -329,111 +221,27 @@ export default async function ListingsPage({
         <option value="Used - Good">Used - Good</option>
         <option value="Used - Fair">Used - Fair</option>
       </select>
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-2">
-      <div className="bd-label text-xs">Sort  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Sort</div>
       <select name="sort" defaultValue={sort} className="bd-input">
         <option value="">Newest</option>
         <option value="ending_soon">Ending soon</option>
         <option value="price_asc">Price: low to high</option>
         <option value="price_desc">Price: high to low</option>
       </select>
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
+    </div>
   </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
 
   <div className="mt-3 grid gap-3 md:grid-cols-12">
     <div className="md:col-span-6">
-      <div className="bd-label text-xs">Location  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Location</div>
       <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Min ($)  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Min ($)</div>
       <input
         name="min"
         defaultValue={(searchParams?.min ?? "").trim()}
@@ -441,34 +249,10 @@ export default async function ListingsPage({
         className="bd-input"
         inputMode="decimal"
       />
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Max ($)  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Max ($)</div>
       <input
         name="max"
         defaultValue={(searchParams?.max ?? "").trim()}
@@ -476,49 +260,13 @@ export default async function ListingsPage({
         className="bd-input"
         inputMode="decimal"
       />
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
+    </div>
   </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
 
   {moneyErr ? (
     <div style={{ color: "#b91c1c", fontWeight: 900, fontSize: 13, marginTop: 10 }}>
       Price filters must be numbers (example: 10 or 10.50).
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
   ) : null}
 
   <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -528,19 +276,7 @@ export default async function ListingsPage({
     {hasAnyFilter ? (
       <Link href="/listings" className="btnSecondary">Clear</Link>
     ) : null}
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
   </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
 </form>
 </MobileFiltersToggle>
 
@@ -548,115 +284,31 @@ export default async function ListingsPage({
 <form action="/listings" method="get">
   <div className="grid gap-3 md:grid-cols-12">
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Search  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Search</div>
       <input name="q" defaultValue={q} placeholder="Search listings" className="bd-input" />
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Category  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Category</div>
       <select name="category" defaultValue={category} className="bd-input">
         <option value="">All categories</option>
         {FULL_CATEGORIES.map((c: string) => (
           <option key={c} value={c}>{c}</option>
         ))}
       </select>
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-2">
-      <div className="bd-label text-xs">Type  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Type</div>
       <select name="type" defaultValue={type} className="bd-input">
         <option value="">Any</option>
         <option value="BUY_NOW">Buy now</option>
         <option value="FIXED_PRICE">Fixed price</option>
       </select>
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-2">
-      <div className="bd-label text-xs">Condition  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Condition</div>
       <select name="condition" defaultValue={condition} className="bd-input">
         <option value="">Any</option>
         <option value="New">New</option>
@@ -664,111 +316,27 @@ export default async function ListingsPage({
         <option value="Used - Good">Used - Good</option>
         <option value="Used - Fair">Used - Fair</option>
       </select>
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-2">
-      <div className="bd-label text-xs">Sort  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Sort</div>
       <select name="sort" defaultValue={sort} className="bd-input">
         <option value="">Newest</option>
         <option value="ending_soon">Ending soon</option>
         <option value="price_asc">Price: low to high</option>
         <option value="price_desc">Price: high to low</option>
       </select>
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
+    </div>
   </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
 
   <div className="mt-3 grid gap-3 md:grid-cols-12">
     <div className="md:col-span-6">
-      <div className="bd-label text-xs">Location  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Location</div>
       <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Min ($)  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Min ($)</div>
       <input
         name="min"
         defaultValue={(searchParams?.min ?? "").trim()}
@@ -776,34 +344,10 @@ export default async function ListingsPage({
         className="bd-input"
         inputMode="decimal"
       />
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
 
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Max ($)  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      <div className="bd-label text-xs">Max ($)</div>
       <input
         name="max"
         defaultValue={(searchParams?.max ?? "").trim()}
@@ -811,49 +355,13 @@ export default async function ListingsPage({
         className="bd-input"
         inputMode="decimal"
       />
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
+    </div>
   </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
 
   {moneyErr ? (
     <div style={{ color: "#b91c1c", fontWeight: 900, fontSize: 13, marginTop: 10 }}>
       Price filters must be numbers (example: 10 or 10.50).
-      <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+    </div>
   ) : null}
 
   <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -863,64 +371,16 @@ export default async function ListingsPage({
     {hasAnyFilter ? (
       <Link href="/listings" className="btnSecondary">Clear</Link>
     ) : null}
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
   </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
 </form>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
 </div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-            <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+          </div>
 
           <div className="browseList w-full grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {listings.length === 0 ? (
               <div className="card" style={{ opacity: 0.9 }}>
                 <p className="cardBody" style={{ margin: 0 }}>No listings found.</p>
-                <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+              </div>
             ) : (
               listings.map((l) => (
                 <ListingCard
@@ -942,33 +402,9 @@ export default async function ListingsPage({
                   initiallyWatched={typeof watchedSet !== "undefined" ? watchedSet.has(l.id) : false}
                 />
               )))}
-            <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+          </div>
         </section>
-        <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-    <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
-  <div className="photo-management">
-    <button onClick={handleAddPhoto}>Add Photo</button>
-    <button onClick={handleDeletePhoto}>Delete Photo</button>
-  </div>
-</div>
+      </div>
     </main>
   );
 }
