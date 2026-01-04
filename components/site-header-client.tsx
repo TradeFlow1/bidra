@@ -39,7 +39,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
   }
 
   return (
-    <header className="bd-header border-b border-black/10">
+    <header className="bd-header border-b border-black/10" style={{ WebkitTapHighlightColor: "transparent" }}>
       {/* Top bar */}
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Left: Home */}
