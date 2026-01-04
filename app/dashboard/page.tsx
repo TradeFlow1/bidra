@@ -127,7 +127,7 @@ export default async function DashboardPage() {
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight bd-ink">
-              Dashboard <span className="ml-2 text-sm font-semibold bd-ink3">(v3)</span>
+              Dashboard
             </h1>
             <div className="mt-1 text-sm bd-ink2">
               Your shortcuts, status, and anything that needs action.
