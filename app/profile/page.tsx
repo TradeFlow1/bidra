@@ -68,29 +68,29 @@ export default async function ProfilePage({
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[var(--bidra-bg)] text-[var(--bidra-fg)] px-4 py-10 mx-auto w-full max-w-2xl">
-      <h1 className="text-3xl font-extrabold tracking-tight text-center text-white">Account settings</h1>
+    <main className="bd-container py-10"><div className="container max-w-3xl">
+      <h1 className="text-3xl font-extrabold tracking-tight text-center bd-ink">Account settings</h1>
 
       <div className="mt-5 flex justify-center gap-3">
         <a
           href="/forgot-password"
-          className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10"
+          className="bd-btn bd-btn-ghost"
         >
           Reset password
         </a>
         <a
           href="/logout"
-          className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10"
+          className="bd-btn bd-btn-ghost"
         >
           Log out
         </a>
       </div>
 
       {saved ? (
-        <div className="mt-5 rounded-2xl border border-emerald-400/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-100">
+        <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
           <div className="font-semibold">Profile updated successfully.</div>
           <div className="mt-1">
-            <a href="/profile" className="underline underline-offset-4 font-semibold text-[var(--bidra-blue)] hover:opacity-90">
+            <a href="/profile" className="underline underline-offset-4 font-semibold bd-ink hover:opacity-90">
               Dismiss
             </a>
           </div>
@@ -99,14 +99,14 @@ export default async function ProfilePage({
 
       <div className="mt-6 space-y-4">
         <Card>
-          <div className="text-sm text-white/70">Email</div>
+          <div className="text-sm bd-ink2">Email</div>
           <div className="font-semibold">{dbUser.email}</div>
           <div className="mt-2 text-sm">
             Verification:{" "}
             {dbUser.emailVerified ? (
-              <span className="text-emerald-300 font-medium">Verified</span>
+              <span className="text-emerald-700 font-semibold">Verified</span>
             ) : (
-              <span className="text-amber-300 font-medium">Not verified</span>
+              <span className="text-amber-700 font-semibold">Not verified</span>
             )}
           </div>
         </Card>
@@ -123,10 +123,10 @@ export default async function ProfilePage({
               <Input name="bio" defaultValue={(dbUser as any).bio ?? ""} placeholder="A short intro (optional)" />
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4 text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur">
+            <div className="bd-card p-5">
               <div className="text-sm font-semibold">Location</div>
-<div className="mt-1 text-xs text-white/60">Provide either your <strong>postcode</strong> OR your <strong>suburb</strong>, and always select a <strong>state</strong>.</div>
-              <div className="mt-1 text-sm text-white/70">
+<div className="mt-1 text-xs bd-ink2">Provide either your <strong>postcode</strong> OR your <strong>suburb</strong>, and always select a <strong>state</strong>.</div>
+              <div className="mt-1 text-sm bd-ink2">
                 Use <span className="font-semibold">postcode</span> OR <span className="font-semibold">suburb + state</span>. (No street address)
               </div>
 
@@ -136,7 +136,7 @@ export default async function ProfilePage({
                   <Input name="postcode" defaultValue={(dbUser as any).postcode ?? ""} placeholder="e.g. 4301" />
                 </div>
 
-                <div className="hidden sm:flex items-center justify-center text-xs text-white/50">
+                <div className="hidden sm:flex items-center justify-center text-xs bd-ink2">
                   OR
                 </div>
 
@@ -151,7 +151,7 @@ export default async function ProfilePage({
                     <select
                       name="state"
                       defaultValue={(dbUser as any).state ?? ""}
-                      className="mt-1 w-full rounded-xl border border-white/10 bg-black/30 px-3 py-2 text-sm text-white outline-none focus:border-[var(--bidra-blue)] focus:ring-4 focus:ring-[var(--bidra-blue)]/20"
+                      className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm bd-ink"
                     >
                       <option value="">Select state</option>
                       {STATES.map((s) => (
@@ -170,28 +170,29 @@ export default async function ProfilePage({
               <Input name="avatarUrl" defaultValue={(dbUser as any).avatarUrl ?? ""} placeholder="https://..." />
             </div>
 
-            <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4 text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur">
+            <div className="bd-card p-5">
   <div className="text-sm font-semibold">Security</div>
   <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-    <a className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10" href="/forgot-password">
+    <a className="bd-btn bd-btn-ghost" href="/forgot-password">
       Reset password
     </a>
-    <a className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-white/90 hover:bg-white/10" href="/logout">
+    <a className="bd-btn bd-btn-ghost" href="/logout">
       Log out
     </a>
   </div>
 </div>
 
-<Button type="submit" className="w-full bg-[var(--bidra-blue)] text-black font-extrabold hover:opacity-95">
+<Button type="submit" className="bd-btn bd-btn-primary w-full text-center">
               Save changes
             </Button>
 
-            <div className="text-xs text-white/70 text-center">
+            <div className="text-xs bd-ink2 text-center">
               Privacy-first: we only store general area (suburb/state/postcode). No street addresses.
             </div>
           </form>
         </Card>
       </div>
-    </div>
+    </div></main>
   );
 }
+
