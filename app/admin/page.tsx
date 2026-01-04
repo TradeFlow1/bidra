@@ -31,8 +31,8 @@ export default async function AdminHome() {
           <div className={title}>Reports</div>
           <div className={sub}>Review open and resolved reports.</div>
           <div className="mt-3 flex gap-2">
-            <Link href="/admin/reports" className="rounded-md border border-black/10 px-3 py-1 text-sm hover:bg-black/5">Open reports</Link>
-            <Link href="/admin/reports?status=RESOLVED" className="rounded-md border border-black/10 px-3 py-1 text-sm hover:bg-black/5">Resolved</Link>
+            <Link href="/admin/reports" className="bd-btn bd-btn-primary">Open reports</Link>
+            <Link href="/admin/reports?status=RESOLVED" className="bd-btn bd-btn-ghost">Resolved</Link>
           </div>
         </div>
 
@@ -40,7 +40,7 @@ export default async function AdminHome() {
           <div className={title}>Users</div>
           <div className={sub}>Strikes, blocks, and user status.</div>
           <div className="mt-3">
-            <Link href="/admin/users" className="rounded-md border border-black/10 px-3 py-1 text-sm hover:bg-black/5">Manage users</Link>
+            <Link href="/admin/users" className="bd-btn bd-btn-primary">Manage users</Link>
           </div>
         </div>
 
@@ -48,7 +48,7 @@ export default async function AdminHome() {
           <div className={title}>Listings</div>
           <div className={sub}>Inspect, suspend, delete, and review listing states.</div>
           <div className="mt-3">
-            <Link href="/admin/listings" className="rounded-md border border-black/10 px-3 py-1 text-sm hover:bg-black/5">Manage listings</Link>
+            <Link href="/admin/listings" className="bd-btn bd-btn-primary">Manage listings</Link>
           </div>
         </div>
 
@@ -56,8 +56,8 @@ export default async function AdminHome() {
           <div className={title}>Audit log</div>
           <div className={sub}>See what moderation actions occurred and when.</div>
           <div className="mt-3">
-            <Link href="/admin/audit" className="rounded-md border border-black/10 px-3 py-1 text-sm hover:bg-black/5">View audit</Link>
-            <Link href="/admin/events" className="rounded-md border border-black/10 px-3 py-1 text-sm hover:bg-black/5">Events</Link>
+            <Link href="/admin/audit" className="bd-btn bd-btn-primary">View audit</Link>
+            <Link href="/admin/events" className="bd-btn bd-btn-ghost">Events</Link>
           </div>
         </div>
       </div>
