@@ -27,6 +27,13 @@ export default function ForgotPasswordPage() {
               Send reset link
             </button>
           </form>
+          <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
+            <a className="bd-link" href="/auth/login">Back to login</a>
+            <span className="text-black/20">•</span>
+            <a className="bd-link" href="/legal/privacy">Privacy</a>
+            <span className="text-black/20">•</span>
+            <a className="bd-link" href="/legal/terms">Terms</a>
+          </div>
         </div>
       </div>
     </main>
