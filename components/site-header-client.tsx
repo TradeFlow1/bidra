@@ -1,7 +1,8 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 
 type SessionLike =
   | {
@@ -20,35 +21,66 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
   const [open, setOpen] = useState(false);
   const [acctOpen, setAcctOpen] = useState(false);
 
+  const pathname = usePathname();
+
   const isAuthed = !!session?.user?.id;
   const displayName = useMemo(() => {
-    return (
-      session?.user?.username ||
-      session?.user?.name ||
-      session?.user?.email ||
-      "My account"
-    );
+    return session?.user?.username || session?.user?.name || session?.user?.email || "My account";
   }, [session]);
 
+  // White pill (desktop + mobile)
   const pill =
-    "inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5";
+    "inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5 focus:outline-none focus:ring-0 focus-visible:outline-none";
+
+  const linkPlain =
+    "focus:outline-none focus:ring-0 focus-visible:outline-none";
 
   function closeAll() {
     setOpen(false);
     setAcctOpen(false);
   }
 
+  // Close when navigating (route change)
+  useEffect(() => {
+    setOpen(false);
+    setAcctOpen(false);
+  }, [pathname]);
+
+  // Close on click-outside + Esc
+  useEffect(() => {
+    function onDocDown(e: MouseEvent) {
+      const target = e.target as HTMLElement | null;
+      if (!target) return;
+
+      // clicks inside header do nothing
+      if (target.closest("header.bd-header")) return;
+
+      setOpen(false);
+      setAcctOpen(false);
+    }
+
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false);
+        setAcctOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", onDocDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDocDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
   return (
-    <header className="bd-header border-b border-black/10" style={{ WebkitTapHighlightColor: "transparent" }}>
+    <header className="bd-header border-b border-black/10">
       {/* Top bar */}
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Left: Home */}
         <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className={pill}
-            onClick={closeAll}
-          >
+          <Link href="/" className={pill} onClick={closeAll}>
             Home
           </Link>
         </div>
@@ -91,45 +123,25 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
               {acctOpen ? (
                 <div className="absolute right-0 top-12 z-50 w-56 bd-card p-2">
                   <div className="flex flex-col text-sm">
-                    <Link
-                      href="/profile"
-                      className="rounded-md px-3 py-2 bd-ink hover:bg-black/5"
-                      onClick={closeAll}
-                    >
+                    <Link href="/profile" className={"rounded-md px-3 py-2 bd-ink hover:bg-black/5 " + linkPlain} onClick={closeAll}>
                       Account settings
                     </Link>
-                    <Link
-                      href="/dashboard"
-                      className="rounded-md px-3 py-2 bd-ink hover:bg-black/5"
-                      onClick={closeAll}
-                    >
+                    <Link href="/dashboard" className={"rounded-md px-3 py-2 bd-ink hover:bg-black/5 " + linkPlain} onClick={closeAll}>
                       Dashboard
                     </Link>
-                    <Link
-                      href="/orders"
-                      className="rounded-md px-3 py-2 bd-ink hover:bg-black/5"
-                      onClick={closeAll}
-                    >
+                    <Link href="/orders" className={"rounded-md px-3 py-2 bd-ink hover:bg-black/5 " + linkPlain} onClick={closeAll}>
                       Orders
                     </Link>
 
                     {(session?.user as any)?.role === "ADMIN" ? (
-                      <Link
-                        href="/admin"
-                        className="rounded-md px-3 py-2 bd-ink hover:bg-black/5"
-                        onClick={closeAll}
-                      >
+                      <Link href="/admin" className={"rounded-md px-3 py-2 bd-ink hover:bg-black/5 " + linkPlain} onClick={closeAll}>
                         Admin
                       </Link>
                     ) : null}
 
                     <div className="my-2 border-t border-black/10" />
 
-                    <Link
-                      href="/logout"
-                      className="rounded-md px-3 py-2 bd-ink hover:bg-black/5 text-left"
-                      onClick={closeAll}
-                    >
+                    <Link href="/logout" className={"rounded-md px-3 py-2 bd-ink hover:bg-black/5 text-left " + linkPlain} onClick={closeAll}>
                       Sign out
                     </Link>
                   </div>
@@ -180,52 +192,44 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
         <div className="md:hidden border-t border-black/10 bd-header">
           <div className="mx-auto max-w-6xl px-4 py-3">
             <div className="flex flex-col gap-3 text-sm">
-              <Link href="/listings" onClick={closeAll} className="bd-ink">
+              <Link href="/listings" onClick={closeAll} className={pill}>
                 Browse
               </Link>
-              <Link href="/sell" onClick={closeAll} className="bd-ink">
+              <Link href="/sell" onClick={closeAll} className={pill}>
                 Sell
               </Link>
 
               {isAuthed ? (
                 <>
-                  <Link href="/messages" onClick={closeAll} className="bd-ink">
+                  <Link href="/messages" onClick={closeAll} className={pill}>
                     Messages
                   </Link>
-                  <Link href="/profile" onClick={closeAll} className="bd-ink">
+                  <Link href="/profile" onClick={closeAll} className={pill}>
                     Account settings
                   </Link>
-                  <Link href="/dashboard" onClick={closeAll} className="bd-ink">
+                  <Link href="/dashboard" onClick={closeAll} className={pill}>
                     Dashboard
                   </Link>
-                  <Link href="/orders" onClick={closeAll} className="bd-ink">
+                  <Link href="/orders" onClick={closeAll} className={pill}>
                     Orders
                   </Link>
 
                   {(session?.user as any)?.role === "ADMIN" ? (
-                    <Link href="/admin" onClick={closeAll} className="bd-ink">
+                    <Link href="/admin" onClick={closeAll} className={pill}>
                       Admin
                     </Link>
                   ) : null}
 
-                  <Link
-                    href="/logout"
-                    className="bd-ink"
-                    onClick={closeAll}
-                  >
+                  <Link href="/logout" onClick={closeAll} className={pill}>
                     Sign out
                   </Link>
                 </>
               ) : (
                 <>
-                  <Link href="/auth/login" onClick={closeAll} className="bd-ink">
+                  <Link href="/auth/login" onClick={closeAll} className={pill}>
                     Sign in
                   </Link>
-                  <Link
-                    href="/auth/register"
-                    onClick={closeAll}
-                    className="bd-ink"
-                  >
+                  <Link href="/auth/register" onClick={closeAll} className={pill}>
                     Create account
                   </Link>
                 </>
