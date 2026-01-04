@@ -34,43 +34,40 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
     const { prisma } = await import("@/lib/prisma");
     const { redirect } = await import("next/navigation");
 
+    const s = await auth();
+    const uid = (s?.user as any)?.id ? String((s?.user as any).id) : "";
+    if (!uid) redirect("/auth/login");
+
+    const safe = (m: string) => encodeURIComponent(String(m || "").slice(0, 180));
+
+    const id = String(formData.get("id") ?? "").trim();
+    const status = String(formData.get("status") ?? "").trim();
+
+    if (!id) redirect("/dashboard/listings?err=" + safe("Missing listing id"));
+    if (!status) redirect("/dashboard/listings?err=" + safe("Missing status"));
+
+    const SELLER_ALLOWED = ["DRAFT", "ACTIVE", "ENDED"];
+
     try {
-      const s = await auth();
-      const uid = (s?.user as any)?.id ? String((s?.user as any).id) : "";
-      if (!uid) redirect("/auth/login");
-
-      const id = String(formData.get("id") ?? "").trim();
-      const status = String(formData.get("status") ?? "").trim();
-
-      if (!id) redirect("/dashboard/listings?err=" + safeErr("Missing listing id"));
-
       const listing = await prisma.listing.findUnique({
         where: { id },
-        select: { id: true, sellerId: true, status: true },
+        select: { id: true, sellerId: true },
       });
 
-      if (!listing) {
-        redirect("/dashboard/listings?err=" + safeErr("Listing not found"));
-        return;
-      }
-      if (listing.sellerId !== uid) {
-        redirect("/dashboard/listings?err=" + safeErr("Not allowed"));
-        return;
-      }
+      if (!listing) { redirect("/dashboard/listings?err=" + safe("Listing not found")); return; }
+      if (listing.sellerId !== uid) { redirect("/dashboard/listings?err=" + safe("Not allowed")); return; }
 
-      // Seller cannot set admin-only statuses
-      if (!SELLER_ALLOWED_STATUSES.includes(status as any)) {
-        redirect("/dashboard/listings?err=" + safeErr("Invalid status"));
-      }
+      if (!SELLER_ALLOWED.includes(status)) { redirect("/dashboard/listings?err=" + safe("Invalid status")); return; }
 
       await prisma.listing.update({
         where: { id },
         data: { status: status as any },
       });
 
-      redirect("/dashboard/listings");
+      redirect("/dashboard/listings?ok=1");
     } catch (e: any) {
-      redirect("/dashboard/listings?err=" + safeErr(e?.message || "Update failed"));
+      console.error("dashboard/listings updateStatus failed:", e);
+      redirect("/dashboard/listings?err=" + safe("Couldn't update"));
     }
   }
 
