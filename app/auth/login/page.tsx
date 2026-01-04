@@ -74,7 +74,13 @@ export default function Login() {
               Create one
             </Link>.
           </div>
-        </form>
+                  <div className="pt-2 text-xs text-black/60">
+            By continuing, you agree to our{" "}
+            <Link href="/legal/terms" className="bd-link">Terms</Link>
+            {" "}and{" "}
+            <Link href="/legal/privacy" className="bd-link">Privacy Policy</Link>.
+          </div>
+</form>
       </Card>
       </div>
     </main>
