@@ -1,85 +1,34 @@
-﻿"use client";
-
-import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+﻿export const metadata = {
+  title: "Bidra | Reset password",
+};
 
 export default function ResetPasswordPage() {
-  const sp = useSearchParams();
-  const token = useMemo(() => sp.get("token") || "", [sp]);
-
-  const [pw, setPw] = useState("");
-  const [pw2, setPw2] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [msg, setMsg] = useState<string | null>(null);
-
-  async function submit() {
-    setMsg(null);
-
-    if (!token) return setMsg("Missing token.");
-    if (pw.length < 8) return setMsg("Password must be at least 8 characters.");
-    if (pw !== pw2) return setMsg("Passwords do not match.");
-
-    setBusy(true);
-    try {
-      const r = await fetch("/api/auth/password-reset/confirm", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ token, newPassword: pw }),
-      });
-      const j = await r.json().catch(() => ({}));
-      if (!r.ok || j?.ok === false) {
-        setMsg(j?.error || "Reset failed.");
-      } else {
-        setMsg("Password updated. You can now log in.");
-      }
-    } catch {
-      setMsg("Reset failed.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
   return (
-    <main className="bd-container py-6 pb-14">
-      <div className="bd-card p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold">Reset password</h1>
+    <main className="bd-container py-10">
+      <div className="container max-w-5xl">
+        <div className="bd-card p-5 max-w-md">
+          <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Reset password</h1>
+          <p className="mt-2 text-sm bd-ink2">
+            Enter your email address and we’ll send you a reset link.
+          </p>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium">New password</label>
-        <input
-          type="password"
-          className="w-full rounded-md border p-2"
-          value={pw}
-          onChange={(e) => setPw(e.target.value)}
-        />
-      </div>
+          <form method="post" action="/api/auth/reset-password" className="mt-6 space-y-4">
+            <div>
+              <label className="text-sm font-medium">Email</label>
+              <input
+                type="email"
+                name="email"
+                required
+                className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
+              />
+            </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Confirm new password</label>
-        <input
-          type="password"
-          className="w-full rounded-md border p-2"
-          value={pw2}
-          onChange={(e) => setPw2(e.target.value)}
-        />
-      </div>
-
-      <button
-        className="rounded-md border px-3 py-2 font-semibold"
-        disabled={busy}
-        onClick={submit}
-      >
-        {busy ? "Updating..." : "Update password"}
-      </button>
-
-      {msg ? <div className="text-sm">{msg}</div> : null}
-
-      <div className="text-sm">
-        <Link className="underline" href="/auth/login">Back to login</Link>
-      </div>
+            <button type="submit" className="bd-btn bd-btn-primary w-full">
+              Send reset link
+            </button>
+          </form>
+        </div>
       </div>
     </main>
   );
 }
-
