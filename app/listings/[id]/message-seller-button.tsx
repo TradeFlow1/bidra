@@ -80,14 +80,14 @@ export default function MessageSellerButton(props: { listingId: string }) {
         type="button"
         onClick={onClick}
         disabled={busy}
-        className="w-full rounded-md border border-black/15 bg-white px-4 py-2 text-sm font-semibold text-black hover:bg-black/5 disabled:opacity-60"
+        className="w-full rounded-xl border border-black/20 bg-white px-4 py-3 text-[15px] font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
       >
         {busy ? "Opening chat…" : "Message seller"}
       </button>
 
       {err ? <div className="text-sm text-red-700">{err}</div> : null}
 
-      <div className="text-xs text-neutral-600">
+      <div className="text-xs text-black/60">
         Tip: keep personal info minimal until you&apos;re confident.
       </div>
     </div>
