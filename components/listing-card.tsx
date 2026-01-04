@@ -63,7 +63,7 @@ const fallback =
       </div>
 
       <div className="space-y-1.5 p-3">
-        <div className="/* STEP3_TITLE_BUMP */ text-[17px] font-extrabold leading-snug text-[#0b1220] line-clamp-2">
+        <div className="/* STEP3_TITLE_BUMP */ text-[20px] font-extrabold leading-snug text-[#0b1220] line-clamp-2">
           {listing.title}
         </div>
 
