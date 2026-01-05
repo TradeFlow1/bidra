@@ -121,39 +121,9 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                 </div>
 
                 <div className="flex items-center gap-2 flex-wrap">
-  <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-ghost text-center">Edit</Link>
-  <form action={updateStatus} className="flex items-center gap-2 flex-wrap">
-                  <input type="hidden" name="id" value={l.id} />
-
-                  <select
-                    name="status"
-                    defaultValue={l.status}
-                    disabled={l.status === "SUSPENDED" || l.status === "DELETED"}
-                    className="rounded-md border px-3 py-2 text-sm"
-                  >
-                    {SELLER_ALLOWED_STATUSES.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                    {/* Show locked statuses only as info (not selectable) */}
-                    {["SUSPENDED", "SOLD", "DELETED"].includes(String(l.status)) ? (
-                      <option value={l.status}>{l.status}</option>
-                    ) : null}
-                  </select>
-
-                  <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-ghost text-center">
-  Edit
-</Link>
-
-<Button type="submit" className="bd-btn bd-btn-primary text-center">
-  Update
-</Button>
-
-                  {l.status === "SUSPENDED" || l.status === "DELETED" ? (
-                    <div className="text-xs bd-ink2">Policy-locked (admin action)</div>
-                  ) : null}
-                </form>
+  <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-primary text-center">
+    Edit listing
+  </Link>
 </div>
               </Card>
             ))}

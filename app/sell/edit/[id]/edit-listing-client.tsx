@@ -1,8 +1,11 @@
 ﻿"use client";
 
 import { useRouter } from "next/navigation";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import Link from "next/link";
+
+const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
+type SellerStatus = (typeof SELLER_ALLOWED_STATUSES)[number];
 
 type ListingSeed = {
   id: string;
@@ -13,11 +16,18 @@ type ListingSeed = {
   location: string;
   priceDollars: number;
   images: string[];
+  status: string;
 };
 
 function dollarsToCents(v: string): number {
   const n = Number((v ?? "").trim());
   return Math.round(n * 100);
+}
+
+function normalizeStatus(v: string): SellerStatus {
+  const up = String(v || "").toUpperCase().trim();
+  if ((SELLER_ALLOWED_STATUSES as readonly string[]).includes(up)) return up as SellerStatus;
+  return "DRAFT";
 }
 
 export default function EditListingClient({ listing }: { listing: ListingSeed }) {
@@ -29,6 +39,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const [condition, setCondition] = useState(listing.condition);
   const [location, setLocation] = useState(listing.location);
   const [price, setPrice] = useState(String(listing.priceDollars || ""));
+  const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
 
   // Existing saved URLs
   const [existingImages, setExistingImages] = useState<string[]>(
@@ -37,6 +48,17 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
 
   // New uploads (files)
   const [files, setFiles] = useState<File[]>([]);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  function moveImage(from: number, to: number) {
+    setExistingImages((cur) => {
+      if (from < 0 || to < 0 || from >= cur.length || to >= cur.length) return cur;
+      const next = cur.slice();
+      const [item] = next.splice(from, 1);
+      next.splice(to, 0, item);
+      return next;
+    });
+  }
 
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,6 +66,54 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const previews = useMemo(() => {
     return files.slice(0, 10).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
   }, [files]);
+
+  async function uploadAndAppend(nextFiles: File[]) {
+    const remaining = 10 - (existingImages?.length || 0);
+    if (remaining <= 0) {
+      setError("Too many images (max 10 total).");
+      return;
+    }
+
+    const picked = (nextFiles || []).slice(0, remaining);
+    if (!picked.length) return;
+
+    setError(null);
+    setIsSaving(true);
+    try {
+      const fd = new FormData();
+      for (const f of picked) fd.append("files", f);
+
+      const up = await fetch("/api/uploads/images", { method: "POST", body: fd });
+      const upText = await up.text();
+      let upData: any = null;
+      try {
+        upData = JSON.parse(upText);
+      } catch {
+        upData = null;
+      }
+
+      if (!up.ok) {
+        const msg = upData?.error ? String(upData.error) : upText || "Image upload failed.";
+        setError(msg);
+        return;
+      }
+
+      const urls = (Array.isArray(upData?.urls) ? upData.urls : []).filter(Boolean);
+      if (!urls.length) {
+        setError("Upload failed: no URLs returned.");
+        return;
+      }
+
+      setExistingImages((cur) => [...cur, ...urls].filter(Boolean).slice(0, 10));
+    } catch (e: any) {
+      setError(String(e?.message || e || "Upload failed."));
+    } finally {
+      previews.forEach((p) => URL.revokeObjectURL(p.url));
+      setFiles([]);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      setIsSaving(false);
+    }
+  }
 
   function validate(): string | null {
     if (title.trim().length < 3) return "Title must be at least 3 characters.";
@@ -57,29 +127,6 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
     return null;
   }
 
-  async function uploadFilesIfAny(): Promise<string[]> {
-    if (!files.length) return [];
-    const fd = new FormData();
-    for (const f of files.slice(0, 10)) fd.append("files", f);
-
-    const up = await fetch("/api/uploads/images", { method: "POST", body: fd });
-    const upText = await up.text();
-    let upData: any = null;
-    try {
-      upData = JSON.parse(upText);
-    } catch {
-      upData = null;
-    }
-
-    if (!up.ok) {
-      const msg = upData?.error ? String(upData.error) : (upText || "Image upload failed.");
-      throw new Error(msg);
-    }
-
-    const urls = Array.isArray(upData?.urls) ? upData.urls : [];
-    return urls.filter(Boolean);
-  }
-
   return (
     <main className="bd-container py-10">
       <div className="container max-w-2xl">
@@ -87,7 +134,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Edit listing</h1>
-              <div className="mt-1 text-sm bd-ink2">Update your listing details and photos.</div>
+              <div className="mt-1 text-sm bd-ink2">Update your listing details, status and photos.</div>
             </div>
 
             <div className="flex flex-wrap gap-2">
@@ -122,9 +169,6 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
 
                 setIsSaving(true);
                 try {
-                  const uploadedUrls = await uploadFilesIfAny();
-                  const finalImages = [...existingImages, ...uploadedUrls].filter(Boolean).slice(0, 10);
-
                   const body = {
                     title: title.trim(),
                     description: description.trim(),
@@ -132,7 +176,8 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                     condition: condition.trim(),
                     location: location.trim(),
                     price: dollarsToCents(price),
-                    images: finalImages,
+                    images: (existingImages || []).filter(Boolean).slice(0, 10),
+                    status,
                   };
 
                   const res = await fetch(`/api/listings/${listing.id}/update`, {
@@ -152,20 +197,13 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                 } catch (err: any) {
                   setError(String(err?.message || err));
                 } finally {
-                  previews.forEach((p) => URL.revokeObjectURL(p.url));
-                  setFiles([]);
                   setIsSaving(false);
                 }
               }}
             >
               <div>
                 <label className="text-sm font-extrabold bd-ink">Title *</label>
-                <input
-                  className="bd-input mt-1 w-full"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                />
+                <input className="bd-input mt-1 w-full" value={title} onChange={(e) => setTitle(e.target.value)} required />
               </div>
 
               <div>
@@ -181,29 +219,17 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <label className="text-sm font-extrabold bd-ink">Category</label>
-                  <input
-                    className="bd-input mt-1 w-full"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                  />
+                  <input className="bd-input mt-1 w-full" value={category} onChange={(e) => setCategory(e.target.value)} />
                 </div>
 
                 <div>
                   <label className="text-sm font-extrabold bd-ink">Condition</label>
-                  <input
-                    className="bd-input mt-1 w-full"
-                    value={condition}
-                    onChange={(e) => setCondition(e.target.value)}
-                  />
+                  <input className="bd-input mt-1 w-full" value={condition} onChange={(e) => setCondition(e.target.value)} />
                 </div>
 
                 <div>
                   <label className="text-sm font-extrabold bd-ink">Location</label>
-                  <input
-                    className="bd-input mt-1 w-full"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                  />
+                  <input className="bd-input mt-1 w-full" value={location} onChange={(e) => setLocation(e.target.value)} />
                 </div>
 
                 <div>
@@ -216,14 +242,29 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                     required
                   />
                 </div>
+
+                <div className="md:col-span-2">
+                  <label className="text-sm font-extrabold bd-ink">Status</label>
+                  <select
+                    className="bd-input mt-1 w-full"
+                    value={status}
+                    onChange={(e) => setStatus(normalizeStatus(e.target.value))}
+                    disabled={isSaving}
+                  >
+                    {SELLER_ALLOWED_STATUSES.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="mt-1 text-xs bd-ink2">Only DRAFT, ACTIVE, or ENDED are allowed for sellers.</div>
+                </div>
               </div>
 
               {/* Photos */}
               <div className="grid gap-2">
                 <div className="text-sm font-extrabold bd-ink">Photos</div>
-                <div className="text-xs bd-ink2">
-                  Add or remove photos. Max 10 total.
-                </div>
+                <div className="text-xs bd-ink2">Add, remove, or reorder photos. Max 10 total.</div>
 
                 {existingImages.length ? (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -231,12 +272,34 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                       <div key={url + idx} className="relative overflow-hidden rounded-xl border border-black/10 bg-white">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={url} alt="Listing photo" className="h-28 w-full object-cover" />
+
+                        <div className="absolute left-2 top-2 flex gap-1">
+                          <button
+                            type="button"
+                            className="bd-btn bd-btn-ghost bg-white/95 text-black font-extrabold border border-black/20 shadow-sm"
+                            onClick={() => moveImage(idx, idx - 1)}
+                            disabled={idx === 0}
+                            aria-label="Move photo left"
+                            title="Move left"
+                          >
+                            ←
+                          </button>
+                          <button
+                            type="button"
+                            className="bd-btn bd-btn-ghost bg-white/95 text-black font-extrabold border border-black/20 shadow-sm"
+                            onClick={() => moveImage(idx, idx + 1)}
+                            disabled={idx === existingImages.length - 1}
+                            aria-label="Move photo right"
+                            title="Move right"
+                          >
+                            →
+                          </button>
+                        </div>
+
                         <button
                           type="button"
                           className="absolute right-2 top-2 bd-btn bd-btn-ghost"
-                          onClick={() => {
-                            setExistingImages((cur) => cur.filter((_, i) => i !== idx));
-                          }}
+                          onClick={() => setExistingImages((cur) => cur.filter((_, i) => i !== idx))}
                           aria-label="Remove photo"
                         >
                           Remove
@@ -249,15 +312,29 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                 )}
 
                 <div className="grid gap-2 pt-1">
-                  <label className="text-sm font-extrabold bd-ink">Add photos</label>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <button
+                      type="button"
+                      className="bd-btn bd-btn-primary"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={isSaving || (existingImages?.length || 0) >= 10}
+                    >
+                      Add photos
+                    </button>
+                    <div className="text-xs bd-ink2">{(existingImages?.length || 0)}/10 used</div>
+                  </div>
+
+                  {/* Hidden real input (no ugly "no file chosen") */}
                   <input
-                    className="bd-input"
+                    ref={fileInputRef}
+                    className="hidden"
                     type="file"
                     accept="image/*"
                     multiple
                     onChange={(e) => {
                       const next = Array.from(e.target.files || []);
                       setFiles(next.slice(0, 10));
+                      uploadAndAppend(next);
                     }}
                   />
 

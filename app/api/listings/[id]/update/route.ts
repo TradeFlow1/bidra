@@ -4,6 +4,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 
+const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
+
 export async function POST(req: Request, ctx: { params: { id: string } }) {
   try {
     const session = await getServerSession(authOptions);
@@ -21,7 +23,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
 
     const existing = await prisma.listing.findUnique({
       where: { id },
-      select: { id: true, sellerId: true },
+      select: { id: true, sellerId: true, status: true },
     });
 
     if (!existing) {
@@ -42,6 +44,9 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     const price = Number(body.price);
     const images = Array.isArray(body.images) ? body.images : [];
 
+    const statusRaw = body?.status == null ? "" : String(body.status).trim();
+    const status = statusRaw ? statusRaw.toUpperCase() : "";
+
     if (title.length < 3) {
       return NextResponse.json({ error: "Title must be at least 3 characters." }, { status: 400 });
     }
@@ -52,9 +57,16 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
       return NextResponse.json({ error: "Too many images (max 10)." }, { status: 400 });
     }
 
+    if (status && !(SELLER_ALLOWED_STATUSES as readonly string[]).includes(status)) {
+      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+    }
+
+    const data: any = { title, description, category, condition, location, price, images };
+    if (status) data.status = status;
+
     const listing = await prisma.listing.update({
       where: { id },
-      data: { title, description, category, condition, location, price, images },
+      data,
     });
 
     return NextResponse.json({ listing });

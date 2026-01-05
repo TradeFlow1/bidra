@@ -25,6 +25,7 @@ export default async function EditListingPage({ params }: { params: { id: string
         location: listing.location || "",
         priceDollars: Number(listing.price || 0) / 100,
         images,
+        status: String((listing as any).status || "DRAFT"),
       }}
     />
   );
