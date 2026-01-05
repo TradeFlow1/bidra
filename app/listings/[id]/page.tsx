@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import TrustPanel from "@/components/trust/trust-panel";
 import PlaceBidClient from "./place-bid-client";
+import BuyNowButton from "./buy-now-button";
 import DeleteListingButton from "./delete-listing-button";
 import ReportListingButton from "./report-listing-button";
 import MessageSellerButton from "./message-seller-button";
@@ -138,6 +139,11 @@ return (
   {listing.type === "AUCTION" ? (
     <>
       Top offer: {formatMoney(currentOfferCents)}
+       {buyNowAvailable ? (
+         <div className="mt-3">
+           <BuyNowButton listingId={listing.id} />
+         </div>
+       ) : null}
             {typeof (listing as any).buyNowPrice === "number" ? (
         buyNowAvailable ? (
           <span className="ml-2 text-sm text-neutral-600">
