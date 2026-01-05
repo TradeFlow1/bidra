@@ -54,7 +54,7 @@ export async function POST(req: Request) {
       }
 
       // 85% rule: disable buy now when current top offer reaches threshold
-      if (listing.type === "AUCTION") {
+    if (listing.type !== "AUCTION" && listing.type !== "FIXED_PRICE") {
         const top = await tx.bid.findFirst({
           where: { listingId },
           orderBy: { amount: "desc" },
