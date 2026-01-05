@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import TrustPanel from "@/components/trust/trust-panel";
 import PlaceBidClient from "./place-bid-client";
 import BuyNowButton from "./buy-now-button";
+import RelistButton from "./relist-button";
 import DeleteListingButton from "./delete-listing-button";
 import ReportListingButton from "./report-listing-button";
 import MessageSellerButton from "./message-seller-button";
@@ -28,6 +29,9 @@ export default async function ListingPage({ params }: { params: { id: string } }
       buyNowPrice: true,
       reservePrice: true,
       type: true,
+      status: true,
+      previousStatus: true,
+      endsAt: true,
       category: true,
       condition: true,
       location: true,

@@ -68,7 +68,7 @@ const fallback =
         </div>
 
         <div className="text-[14px] font-black text-[#0b1220]">
-          {"A$" + listing.price.toLocaleString()}
+          {"$" + (Number(listing.price) / 100).toFixed(2) + " AUD"}
         </div>
 
         {listing.location ? (
