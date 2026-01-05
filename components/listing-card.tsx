@@ -68,6 +68,11 @@ const fallback =
         </div>
 
         <div className="text-[14px] font-black text-[#0b1220]">
+        <div className="mb-1">
+          <span className="inline-flex items-center gap-1 rounded-full border border-black/10 bg-white px-2 py-0.5 text-[11px] font-semibold text-neutral-700">
+            {(String(listing.type ?? "") === "AUCTION") ? "⏳ Timed offers" : "⚡ Buy now"}
+          </span>
+        </div>
           {"$" + (Number(listing.price) / 100).toFixed(2) + " AUD"}
         </div>
 
