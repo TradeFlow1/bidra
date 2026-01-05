@@ -8,8 +8,8 @@ type ListingCardListing = {
   id: string;
   title: string;
   description?: string | null;
-  price: number;
-  buyNowPrice?: number | null;
+  price: number; // cents (for fixed) OR current top offer cents (for timed offers) based on caller mapping
+  buyNowPrice?: number | null; // cents
   type?: string;
   category?: string;
   condition?: string | null;
@@ -22,15 +22,29 @@ type ListingCardProps = {
   initiallyWatched?: boolean;
 };
 
+function money(cents: number | null | undefined) {
+  const v = typeof cents === "number" ? cents : 0;
+  return (v / 100).toLocaleString("en-AU", { style: "currency", currency: "AUD" });
+}
+
 export default function ListingCard({ listing }: ListingCardProps) {
   const imgs = Array.isArray(listing.images) ? listing.images : null;
   const hasMulti = !!(imgs && imgs.length > 1);
 
-  
   const isNoPhotos = !imgs || imgs.length === 0;
-const fallback =
+  const fallback =
     (imgs && imgs.length > 0 && (imgs[0]?.url || imgs[0]?.src || imgs[0])) ||
     "/brand/icon/bidra-icon_dark.png";
+
+  const isTimedOffers = String(listing.type ?? "") === "AUCTION";
+  const hasBuyNow = typeof listing.buyNowPrice === "number";
+
+  const badge = isTimedOffers ? "⏳ Timed offers" : hasBuyNow ? "⚡ Buy now" : "🏷️ Fixed price";
+
+  // Primary price:
+  // - Timed offers: listing.price is already mapped as current top offer cents (see app/listings/page.tsx mapping)
+  // - Fixed: show buyNowPrice if present else listing.price
+  const primaryCents = isTimedOffers ? Number(listing.price) : (hasBuyNow ? (listing.buyNowPrice as number) : Number(listing.price));
 
   return (
     <Link
@@ -50,10 +64,10 @@ const fallback =
               draggable={false}
               onDragStart={(e) => e.preventDefault()}
               onContextMenu={(e) => e.preventDefault()}
-              style={{ userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none" } as any }
+              style={{ userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none" } as any}
             />
 
-            {!imgs || imgs.length === 0 ? (
+            {isNoPhotos ? (
               <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/55 px-2 py-1 text-[10px] font-semibold tracking-tight text-white shadow-sm">
                 No photos yet
               </div>
@@ -67,14 +81,25 @@ const fallback =
           {listing.title}
         </div>
 
-        <div className="text-[14px] font-black text-[#0b1220]">
         <div className="mb-1">
           <span className="inline-flex items-center gap-1 rounded-full border border-black/10 bg-white px-2 py-0.5 text-[11px] font-semibold text-neutral-700">
-            {(String(listing.type ?? "") === "AUCTION") ? "⏳ Timed offers" : "⚡ Buy now"}
+            {badge}
           </span>
         </div>
-          {"$" + (Number(listing.price) / 100).toFixed(2) + " AUD"}
+
+        <div className="text-[14px] font-black text-[#0b1220]">
+          {isTimedOffers ? (
+            <span>Top offer: {money(primaryCents)}</span>
+          ) : (
+            <span>{money(primaryCents)}</span>
+          )}
         </div>
+
+        {isTimedOffers && hasBuyNow ? (
+          <div className="text-[12px] font-semibold text-black/60">
+            Buy now: {money(listing.buyNowPrice as number)}
+          </div>
+        ) : null}
 
         {listing.location ? (
           <div className="text-xs font-medium text-black/55">{listing.location}</div>

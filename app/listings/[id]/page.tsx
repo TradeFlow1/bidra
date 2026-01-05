@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import TrustPanel from "@/components/trust/trust-panel";
-import PlaceBidClient from "./place-bid-client";
+import PlaceOfferClient from "./place-offer-client";
 import BuyNowClient from "./buy-now-client";
 import BuyNowButton from "./buy-now-button";
 import RelistButton from "./relist-button";
@@ -92,10 +92,16 @@ const sellerId = (listing.seller as any)?.id as string;
       ? currentOfferCents >= (listing as any).reservePrice
       : true;
 
-    const buyNowAvailable =
-    isAuction && typeof (listing as any).buyNowPrice === "number"
-      ? currentOfferCents < Math.floor(((listing as any).buyNowPrice as number) * 0.85)
-      : false;
+  const buyNowHasPrice = typeof (listing as any).buyNowPrice === "number";
+
+  // Buy now is valid on FIXED_PRICE always (ACTIVE listing), and on AUCTION only until 85% threshold.
+  const buyNowAvailable = buyNowHasPrice
+    ? (isAuction
+        ? currentOfferCents < Math.floor(((listing as any).buyNowPrice as number) * 0.85)
+        : true)
+    : false;
+
+
 
   const minBidCents = Math.max(startOfferCents, highestBidCents + 100);
 
@@ -162,7 +168,7 @@ return (
       ) : null}
     </>
   ) : (
-    <>Price: {formatMoney(listing.price)}</>
+    <>Price: {formatMoney(listing.price)}{buyNowAvailable ? (<div className="mt-3"><BuyNowButton listingId={listing.id} /></div>) : null}</>
   )}
 </div>
 
@@ -175,7 +181,7 @@ return (
 
 
       {listing.type === "AUCTION" ? (
-        <PlaceBidClient listingId={listing.id} minBidCents={minBidCents} />
+        <PlaceOfferClient listingId={listing.id} minOfferCents={minBidCents} />
       ) : (
         <div className="text-sm text-neutral-600">
           <div className="space-y-3">
