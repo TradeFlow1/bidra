@@ -274,31 +274,31 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                         <img src={url} alt="Listing photo" className="h-28 w-full object-cover" />
 
                         <div className="absolute left-2 top-2 flex gap-1">
-                          <button
-                            type="button"
-                            className="h-7 w-7 rounded-full bg-white opacity-100 text-black font-extrabold border border-black/20 shadow-sm grid place-items-center p-0 leading-none"
-                            onClick={() => moveImage(idx, idx - 1)}
-                            disabled={idx === 0}
-                            aria-label="Move photo left"
-                            title="Move left"
-                          >
-                            ←
-                          </button>
-                          <button
-                            type="button"
-                            className="bd-btn bd-btn-ghost bg-white h-7 w-7 p-0 text-xs leading-none rounded-full grid place-items-center h-7 w-7 p-0 text-xs leading-none rounded-full grid place-items-center text-black font-extrabold border border-black/20 shadow-sm"
-                            onClick={() => moveImage(idx, idx + 1)}
-                            disabled={idx === existingImages.length - 1}
-                            aria-label="Move photo right"
-                            title="Move right"
-                          >
-                            →
-                          </button>
-                        </div>
+  <button
+    type="button"
+    className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40"
+    onClick={() => moveImage(idx, idx - 1)}
+    disabled={idx === 0}
+    aria-label="Move photo left"
+    title="Move left"
+  >
+    ←
+  </button>
+  <button
+    type="button"
+    className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40"
+    onClick={() => moveImage(idx, idx + 1)}
+    disabled={idx === existingImages.length - 1}
+    aria-label="Move photo right"
+    title="Move right"
+  >
+    →
+  </button>
+</div>
 
                         <button
                           type="button"
-                          className="absolute right-2 top-2 bd-btn bd-btn-ghost"
+                          className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none"
                           onClick={() => setExistingImages((cur) => cur.filter((_, i) => i !== idx))}
                           aria-label="Remove photo"
                         >
