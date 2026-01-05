@@ -308,7 +308,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                     ))}
                   </div>
                 ) : (
-                  <div className="text-sm bd-ink2">No photos yet.</div>
+                  <div className="absolute right-2 top-2 h-7 px-3 rounded-full bg-white text-black text-xs font-extrabold border border-black/20 shadow-sm leading-none grid place-items-center p-0">No photos yet.</div>
                 )}
 
                 <div className="grid gap-2 pt-1">
