@@ -27,13 +27,13 @@ export default function PlaceBidClient({
 
     const cents = Math.round(value * 100);
     if (cents < safeMinCents) {
-      setMsg(`Max offer must be at least $${(safeMinCents / 100).toFixed(2)}.`);
+      setMsg(`Offer must be at least $${(safeMinCents / 100).toFixed(2)}.`);
       return;
     }
 
     try {
       setLoading(true);
-      const res = await fetch(`/api/bids/place`, {
+      const res = await fetch(`/api/offers/place`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // IMPORTANT: send dollars, server converts -> cents
@@ -46,8 +46,10 @@ export default function PlaceBidClient({
         return;
       }
 
-      const status = data?.status === "WINNING" ? "You have the top offer" : "Your offer has been surpassed";
-      const current = typeof data?.currentBidCents === "number" ? (data.currentBidCents / 100).toFixed(2) : null;
+      const status =
+        data?.status === "WINNING" ? "You have the top offer" : "Your offer has been surpassed";
+      const current =
+        typeof data?.currentOfferCents === "number" ? (data.currentOfferCents / 100).toFixed(2) : null;
 
       setMsg(current ? `${status}. Current: $${current}` : `${status}.`);
       window.location.reload();
@@ -62,13 +64,12 @@ export default function PlaceBidClient({
     <div className="space-y-3">
       <div className="text-xs text-[var(--bidra-muted)]">
         Minimum offer:{" "}
-        <span className="font-semibold text-[var(--bidra-fg)]">
-          ${minDollars.toFixed(2)}
-        </span>
+        <span className="font-semibold text-[var(--bidra-fg)]">${minDollars.toFixed(2)}</span>
       </div>
 
       <div className="text-xs text-[var(--bidra-muted)]">
-        Enter your <span className="font-semibold text-[var(--bidra-fg)]">max offer</span>. We’ll submit your offer up to that amount.
+        Enter your <span className="font-semibold text-[var(--bidra-fg)]">max offer</span>. We’ll submit your offer up to
+        that amount.
       </div>
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">

@@ -88,7 +88,7 @@ const sellerId = (listing.seller as any)?.id as string;
 
     const buyNowAvailable =
     isAuction && typeof (listing as any).buyNowPrice === "number"
-      ? currentOfferCents < (listing as any).buyNowPrice
+      ? currentOfferCents < Math.floor(((listing as any).buyNowPrice as number) * 0.85)
       : false;
 
   const minBidCents = Math.max(startOfferCents, highestBidCents + 100);
@@ -129,7 +129,7 @@ return (
       />
 
       <div className="flex gap-2 flex-wrap">
-        <Badge>{listing.type === "AUCTION" ? "Timed bidding" : "Fixed price"}</Badge>
+        <Badge>{listing.type === "AUCTION" ? "Timed offers" : "Fixed price"}</Badge>
         <Badge>{listing.category}</Badge>
         <Badge>{listing.condition}</Badge>
       </div>
