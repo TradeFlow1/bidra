@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import TrustPanel from "@/components/trust/trust-panel";
 import PlaceBidClient from "./place-bid-client";
+import BuyNowClient from "./buy-now-client";
 import BuyNowButton from "./buy-now-button";
 import RelistButton from "./relist-button";
 import DeleteListingButton from "./delete-listing-button";
@@ -177,7 +178,12 @@ return (
         <PlaceBidClient listingId={listing.id} minBidCents={minBidCents} />
       ) : (
         <div className="text-sm text-neutral-600">
-          Offers are only available on eligible listings.
+          <div className="space-y-3">
+            <BuyNowClient listingId={listing.id} />
+            <div className="text-sm text-neutral-600">
+              Offers are only available on eligible listings.
+            </div>
+          </div>
         </div>
       )}
 
