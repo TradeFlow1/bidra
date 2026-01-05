@@ -120,7 +120,9 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                   </div>
                 </div>
 
-                <form action={updateStatus} className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-2 flex-wrap">
+  <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-ghost text-center">Edit</Link>
+  <form action={updateStatus} className="flex items-center gap-2 flex-wrap">
                   <input type="hidden" name="id" value={l.id} />
 
                   <select
@@ -140,14 +142,19 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                     ) : null}
                   </select>
 
-                  <Button type="submit" className="bd-btn bd-btn-primary text-center">
-                    Update
-                  </Button>
+                  <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-ghost text-center">
+  Edit
+</Link>
+
+<Button type="submit" className="bd-btn bd-btn-primary text-center">
+  Update
+</Button>
 
                   {l.status === "SUSPENDED" || l.status === "DELETED" ? (
                     <div className="text-xs bd-ink2">Policy-locked (admin action)</div>
                   ) : null}
                 </form>
+</div>
               </Card>
             ))}
 
