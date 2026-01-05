@@ -276,7 +276,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                         <div className="absolute left-2 top-2 flex gap-1">
                           <button
                             type="button"
-                            className="bd-btn bd-btn-ghost bg-white/95 text-black font-extrabold border border-black/20 shadow-sm"
+                            className="h-7 w-7 rounded-full bg-white opacity-100 text-black font-extrabold border border-black/20 shadow-sm grid place-items-center p-0 leading-none"
                             onClick={() => moveImage(idx, idx - 1)}
                             disabled={idx === 0}
                             aria-label="Move photo left"
@@ -286,7 +286,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                           </button>
                           <button
                             type="button"
-                            className="bd-btn bd-btn-ghost bg-white/95 text-black font-extrabold border border-black/20 shadow-sm"
+                            className="bd-btn bd-btn-ghost bg-white h-7 w-7 p-0 text-xs leading-none rounded-full grid place-items-center h-7 w-7 p-0 text-xs leading-none rounded-full grid place-items-center text-black font-extrabold border border-black/20 shadow-sm"
                             onClick={() => moveImage(idx, idx + 1)}
                             disabled={idx === existingImages.length - 1}
                             aria-label="Move photo right"
