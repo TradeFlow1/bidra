@@ -4,7 +4,6 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import TrustPanel from "@/components/trust/trust-panel";
 import PlaceOfferClient from "./place-offer-client";
-import BuyNowClient from "./buy-now-client";
 import BuyNowButton from "./buy-now-button";
 import RelistButton from "./relist-button";
 import DeleteListingButton from "./delete-listing-button";
@@ -185,7 +184,7 @@ return (
       ) : (
         <div className="text-sm text-neutral-600">
           <div className="space-y-3">
-            <BuyNowClient listingId={listing.id} />
+            <BuyNowButton listingId={listing.id} />
             <div className="text-sm text-neutral-600">
               Offers are only available on eligible listings.
             </div>
