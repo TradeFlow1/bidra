@@ -23,7 +23,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
 
     const existing = await prisma.listing.findUnique({
       where: { id },
-      select: { id: true, sellerId: true, status: true, type: true, buyNowPrice: true, endsAt: true },
+      select: { id: true, sellerId: true, status: true, type: true, buyNowPrice: true },
     });
 
     if (!existing) {
@@ -74,35 +74,13 @@ if (hasBuyNowField) {
   if (!isTimedOffers) {
     // ignore silently (do not error) to avoid breaking older clients
   } else {
-    // Server guard: only allow setting Buy Now in the final 24h window of a timed-offers listing.
-    const endsAt = (existing as any)?.endsAt ? new Date((existing as any).endsAt).getTime() : null;
-    const hoursLeft = endsAt == null ? null : (endsAt - Date.now()) / (1000 * 60 * 60);
-    const inFinalWindow = typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24;
-
     if (buyNowPriceIn === null) {
-      data.buyNowPrice = null; // clear (allowed any time)
+      data.buyNowPrice = null; // clear
     } else if (typeof buyNowPriceIn === "number") {
-      if (!inFinalWindow) {
-        return NextResponse.json({ error: "Buy Now can only be enabled in the final 24 hours." }, { status: 400 });
-      }
       if (!Number.isFinite(buyNowPriceIn) || buyNowPriceIn <= 0) {
         return NextResponse.json({ error: "Buy Now must be greater than 0." }, { status: 400 });
       }
-
-      // Must be above current highest offer at time of save.
-      const highest = await prisma.bid.findFirst({
-        where: { listingId: id },
-        orderBy: { amount: "desc" },
-        select: { amount: true },
-      });
-      const highestCents = highest?.amount ?? 0;
-
-      const nextBuyNow = Math.round(buyNowPriceIn);
-      if (nextBuyNow <= highestCents) {
-        return NextResponse.json({ error: "Buy Now must be above the current highest offer." }, { status: 400 });
-      }
-
-      data.buyNowPrice = nextBuyNow;
+      data.buyNowPrice = Math.round(buyNowPriceIn);
     } else {
       return NextResponse.json({ error: "Invalid buyNowPrice" }, { status: 400 });
     }
