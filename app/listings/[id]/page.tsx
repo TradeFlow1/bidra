@@ -67,30 +67,25 @@ export default async function ListingPage({ params }: { params: { id: string } }
     );
   }
 
+  // Item 2: hide non-active listings from public direct view
   const session = await getServerSession(authOptions);
   const role = (session?.user as any)?.role;
   const isAdmin = role === "ADMIN";
+  const isSeller = !!(session?.user?.id && session.user.id === listing.sellerId);
 
-// Public visibility gate: only ACTIVE is publicly viewable.
-// Seller + Admin may view non-ACTIVE (SOLD/ENDED/etc) for relist/admin.
-if (listing.status !== "ACTIVE") {
-  const viewerId = session?.user?.id ?? null;
-  const canView = !!viewerId && (isAdmin || viewerId === listing.sellerId);
-
-  if (!canView) {
+  if (!isSeller && !isAdmin && listing.status !== "ACTIVE") {
     return (
-      <main className="bd-container py-10">
+      <main className="bd-container py-6 pb-14">
         <div className="bd-card p-6 space-y-3">
-          <div className="text-lg font-semibold">Listing unavailable</div>
-          <div className="text-sm text-neutral-600">
-            This listing is no longer available.
-          </div>
-          <Link href="/listings" className="bd-link text-sm">← Back to listings</Link>
+          <div className="text-lg font-semibold">This listing is not available.</div>
+          <Link href="/listings" className="bd-link text-sm">
+            ← Back to listings
+          </Link>
         </div>
       </main>
     );
   }
-}
+
   const sellerId = (listing.seller as any)?.id as string;
 
   const soldCount = await prisma.listing.count({
@@ -105,7 +100,7 @@ if (listing.status !== "ACTIVE") {
 
   const isTimedOffers = listing.type === "AUCTION";
 
-  // Kevin model: listing.price is the guide/anchor for timed offers (cents).
+  // Guide price is stored in listing.price (cents). For timed offers, this is the "expected around" anchor.
   const guidePriceCents = Number.isFinite(Number(listing.price)) ? Number(listing.price) : 0;
 
   const currentOfferCents = isTimedOffers ? Math.max(guidePriceCents, highestOfferCents) : guidePriceCents;
@@ -113,19 +108,17 @@ if (listing.status !== "ACTIVE") {
   const minOfferCents = Math.max(guidePriceCents, highestOfferCents + 100);
 
   const sellerName =
-    (listing.seller as any)?.username ??
-    (listing.seller as any)?.name ??
-    (listing.seller as any)?.email ??
-    "Seller";
+    (listing.seller as any)?.username ?? (listing.seller as any)?.name ?? (listing.seller as any)?.email ?? "Seller";
 
   const descriptionText = String(listing.description ?? "").trim();
 
   const buyNowHasPrice = typeof (listing as any).buyNowPrice === "number";
   const buyNowPriceCents = buyNowHasPrice ? ((listing as any).buyNowPrice as number) : null;
 
-  // Buy Now visibility:
-  // - FIXED_PRICE: Buy Now primary (if set)
-  // - Timed offers (AUCTION): Buy Now hidden initially; only visible in final 24h AND only if seller set buyNowPrice.
+  // Kevin model:
+  // - No Buy Now shown initially on timed offers.
+  // - Buy Now may be revealed late-stage (final 24h), seller-controlled by setting buyNowPrice.
+  // For FIXED_PRICE, Buy Now remains the primary path.
   const hoursLeft = hoursUntil((listing as any).endsAt);
   const isFinalWindow = typeof hoursLeft === "number" ? hoursLeft <= 24 : false;
 
@@ -189,9 +182,7 @@ if (listing.status !== "ACTIVE") {
                 buyNowVisible ? (
                   <div className="mt-3 space-y-1">
                     <BuyNowButton listingId={listing.id} />
-                    <div className="text-xs text-neutral-600">
-                      Buy Now (late-stage): {formatMoney(buyNowPriceCents as number)}
-                    </div>
+                    <div className="text-xs text-neutral-600">Buy Now (late-stage): {formatMoney(buyNowPriceCents as number)}</div>
                   </div>
                 ) : (
                   <div className="text-sm text-neutral-600">Buy Now may be enabled late-stage by the seller.</div>
@@ -221,21 +212,19 @@ if (listing.status !== "ACTIVE") {
           </div>
         </div>
 
-        <div className="pt-4">
+        <div className="pt-4 space-y-3">
           <ReportListingButton listingId={listing.id} />
 
-          <div className="mt-3">
-            {session?.user?.id && session.user.id === listing.sellerId ? null : (
-              <MessageSellerButton listingId={listing.id} />
-            )}
+          {isSeller ? <PhotosManager listingId={listing.id} initialImages={(listing as any).images ?? []} /> : null}
+
+          <div>
+            {session?.user?.id && session.user.id === listing.sellerId ? null : <MessageSellerButton listingId={listing.id} />}
           </div>
 
-          {session?.user?.id && (isAdmin || listing.sellerId === session.user.id) ? (
-            <DeleteListingButton id={listing.id} />
-          ) : null}
+          {session?.user?.id && (isAdmin || listing.sellerId === session.user.id) ? <DeleteListingButton id={listing.id} /> : null}
 
-          {session?.user?.id && session.user.id === listing.sellerId ? (
-            <div className="mt-3">
+          {isSeller ? (
+            <div>
               <RelistButton listingId={listing.id} />
             </div>
           ) : null}
