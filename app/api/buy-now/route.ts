@@ -4,6 +4,16 @@ import { requireAdult } from "@/lib/require-adult";
 
 export const dynamic = "force-dynamic";
 
+function jsonError(message: string, status = 400) {
+  return NextResponse.json({ ok: false, error: message }, { status });
+}
+
+function hoursUntil(date: Date | null | undefined) {
+  if (!date) return null;
+  const ms = new Date(date).getTime() - Date.now();
+  return ms / (1000 * 60 * 60);
+}
+
 export async function POST(req: Request) {
   const gate = await requireAdult();
   if (!gate.ok) {
@@ -14,21 +24,11 @@ export async function POST(req: Request) {
   }
 
   const userId = (gate as any)?.session?.user?.id as string | undefined;
-  if (!userId) {
-    return NextResponse.json({ ok: false, error: "Not signed in" }, { status: 401 });
-  }
+  if (!userId) return jsonError("Not signed in", 401);
 
-  let body: any = null;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ ok: false, error: "Invalid JSON body" }, { status: 400 });
-  }
-
+  const body = await req.json().catch(() => ({}));
   const listingId = String(body?.listingId ?? "").trim();
-  if (!listingId) {
-    return NextResponse.json({ ok: false, error: "Missing listingId" }, { status: 400 });
-  }
+  if (!listingId) return jsonError("Missing listingId", 400);
 
   const result = await prisma.$transaction(async (tx) => {
     const listing = await tx.listing.findUnique({
@@ -52,15 +52,25 @@ export async function POST(req: Request) {
       return { ok: false, status: 400 as const, error: "Listing has ended." };
     }
 
-    // Buy now is allowed on FIXED_PRICE and timed offers listings (AUCTION).
+    // Buy Now rules (Kevin model):
+    // - FIXED_PRICE: Buy Now allowed (primary).
+    // - Timed offers (AUCTION): Buy Now is NOT available initially; only valid in the final 24h window
+    //   AND only if seller has set buyNowPrice.
     if (listing.type !== "FIXED_PRICE" && listing.type !== "AUCTION") {
       return { ok: false, status: 400 as const, error: "Buy now is not available on this listing type." };
     }
 
-    // 85% rule ONLY applies to timed offers listings (AUCTION).
+    const guidePriceCents = Number.isFinite(Number(listing.price)) ? Number(listing.price) : 0;
+
     if (listing.type === "AUCTION") {
       if (typeof listing.buyNowPrice !== "number") {
         return { ok: false, status: 400 as const, error: "Buy now is not available on this listing." };
+      }
+
+      const hrs = hoursUntil(listing.endsAt as any);
+      const inFinalWindow = typeof hrs === "number" ? hrs <= 24 : false;
+      if (!inFinalWindow) {
+        return { ok: false, status: 400 as const, error: "Buy now is not available yet." };
       }
 
       const top = await tx.bid.findFirst({
@@ -70,19 +80,17 @@ export async function POST(req: Request) {
       });
 
       const highestOfferCents = top?.amount ?? 0;
-      const startOfferCents = Number.isFinite(Number(listing.price)) ? Number(listing.price) : 0;
-      const currentOfferCents = Math.max(startOfferCents, highestOfferCents);
+      const currentOfferCents = Math.max(guidePriceCents, highestOfferCents);
 
-      const threshold = Math.floor(listing.buyNowPrice * 0.85);
-      if (currentOfferCents >= threshold) {
+      if (currentOfferCents >= listing.buyNowPrice) {
         return { ok: false, status: 400 as const, error: "Buy now is no longer available." };
       }
     }
 
-    const amount = (listing.type === "AUCTION"
-      ? (listing.buyNowPrice as number)
-      : ((listing.buyNowPrice ?? listing.price) as number)
-    ) as number;
+    const amount =
+      listing.type === "AUCTION"
+        ? (listing.buyNowPrice as number)
+        : ((listing.buyNowPrice ?? listing.price) as number);
 
     const order = await tx.order.create({
       data: {

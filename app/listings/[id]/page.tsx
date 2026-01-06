@@ -18,8 +18,14 @@ function formatMoney(cents: number) {
   return `$${(cents / 100).toFixed(2)} AUD`;
 }
 
+function hoursUntil(date: Date | null | undefined) {
+  if (!date) return null;
+  const ms = new Date(date).getTime() - Date.now();
+  return ms / (1000 * 60 * 60);
+}
+
 export default async function ListingPage({ params }: { params: { id: string } }) {
-    const listing = await prisma.listing.findUnique({
+  const listing = await prisma.listing.findUnique({
     where: { id: params.id },
     select: {
       id: true,
@@ -54,17 +60,16 @@ export default async function ListingPage({ params }: { params: { id: string } }
 
   if (!listing) {
     return (
-    <main className="bd-container py-6 pb-14">
-      <div className="bd-card p-6">Listing not found.</div>
-    </main>
-  );
+      <main className="bd-container py-6 pb-14">
+        <div className="bd-card p-6">Listing not found.</div>
+      </main>
+    );
   }
 
-  
   const session = await getServerSession(authOptions);
   const role = (session?.user as any)?.role;
   const isAdmin = role === "ADMIN";
-const sellerId = (listing.seller as any)?.id as string;
+  const sellerId = (listing.seller as any)?.id as string;
 
   const soldCount = await prisma.listing.count({
     where: { sellerId, status: "SOLD" },
@@ -74,35 +79,16 @@ const sellerId = (listing.seller as any)?.id as string;
     where: { sellerId, status: "ACTIVE" },
   });
 
-    const highestBidCents =
-    listing.bids && listing.bids.length ? (listing.bids[0] as any).amount : 0;
+  const highestOfferCents = listing.bids && listing.bids.length ? (listing.bids[0] as any).amount : 0;
 
-  const isAuction = listing.type === "AUCTION";
+  const isTimedOffers = listing.type === "AUCTION";
 
-  // For AUCTION: listing.price is the starting offer (cents). For FIXED_PRICE: listing.price is the fixed price.
-  const startOfferCents = isAuction ? listing.price : 0;
+  // Kevin model: listing.price is the guide/anchor for timed offers (cents).
+  const guidePriceCents = Number.isFinite(Number(listing.price)) ? Number(listing.price) : 0;
 
-  const currentOfferCents = isAuction
-    ? Math.max(startOfferCents, highestBidCents)
-    : listing.price;
+  const currentOfferCents = isTimedOffers ? Math.max(guidePriceCents, highestOfferCents) : guidePriceCents;
 
-  const reserveMet =
-    typeof (listing as any).reservePrice === "number"
-      ? currentOfferCents >= (listing as any).reservePrice
-      : true;
-
-  const buyNowHasPrice = typeof (listing as any).buyNowPrice === "number";
-
-  // Buy now is valid on FIXED_PRICE always (ACTIVE listing), and on AUCTION only until 85% threshold.
-  const buyNowAvailable = buyNowHasPrice
-    ? (isAuction
-        ? currentOfferCents < Math.floor(((listing as any).buyNowPrice as number) * 0.85)
-        : true)
-    : false;
-
-
-
-  const minBidCents = Math.max(startOfferCents, highestBidCents + 100);
+  const minOfferCents = Math.max(guidePriceCents, highestOfferCents + 100);
 
   const sellerName =
     (listing.seller as any)?.username ??
@@ -111,101 +97,127 @@ const sellerId = (listing.seller as any)?.id as string;
     "Seller";
 
   const descriptionText = String(listing.description ?? "").trim();
-return (
+
+  const buyNowHasPrice = typeof (listing as any).buyNowPrice === "number";
+  const buyNowPriceCents = buyNowHasPrice ? ((listing as any).buyNowPrice as number) : null;
+
+  // Buy Now visibility:
+  // - FIXED_PRICE: Buy Now primary (if set)
+  // - Timed offers (AUCTION): Buy Now hidden initially; only visible in final 24h AND only if seller set buyNowPrice.
+  const hoursLeft = hoursUntil((listing as any).endsAt);
+  const isFinalWindow = typeof hoursLeft === "number" ? hoursLeft <= 24 : false;
+
+  const buyNowVisible =
+    listing.status === "ACTIVE" &&
+    buyNowHasPrice &&
+    (listing.type === "FIXED_PRICE" || (isTimedOffers && isFinalWindow)) &&
+    (buyNowPriceCents == null ? true : currentOfferCents < buyNowPriceCents);
+
+  const pressure =
+    isTimedOffers && buyNowHasPrice && buyNowPriceCents
+      ? currentOfferCents >= Math.floor(buyNowPriceCents * 0.7)
+      : false;
+
+  return (
     <main className="bd-container py-6 pb-14">
       <div className="bd-card p-5 space-y-4">
-      <Link href="/listings" className="bd-link text-sm">
-        ← Back
-      </Link>
-
-      <h1 className="text-2xl font-bold">{listing.title}</h1>
-
-      <ListingImageGallery images={(listing as any).images ?? (listing as any).imageUrls ?? (listing as any).photos ?? []} title={listing.title} />
-
-      <div className="text-sm text-neutral-600">
-        Seller:{" "}
-        <Link href={`/seller/${sellerId}`} className="underline">
-          {sellerName}
+        <Link href="/listings" className="bd-link text-sm">
+          ← Back
         </Link>
-      </div>
 
-      {/* Trust signals (honest + verifiable) */}
-      <TrustPanel
-        username={sellerName}
-        suburb={(listing.seller as any)?.suburb}
-        state={(listing.seller as any)?.state}
-        joinedAt={(listing.seller as any)?.createdAt}
-        activeCount={activeCount}
-        soldCount={soldCount}
-      />
+        <h1 className="text-2xl font-bold">{listing.title}</h1>
 
-      <div className="flex gap-2 flex-wrap">
-        <Badge>{listing.type === "AUCTION" ? "Timed offers" : "Fixed price"}</Badge>
-        <Badge>{listing.category}</Badge>
-        <Badge>{listing.condition}</Badge>
-      </div>
+        <ListingImageGallery images={(listing as any).images ?? []} title={listing.title} />
 
-      <div className="text-lg font-semibold">
-  {listing.type === "AUCTION" ? (
-    <>
-      Top offer: {formatMoney(currentOfferCents)}
-       {buyNowAvailable ? (
-         <div className="mt-3">
-           <BuyNowButton listingId={listing.id} />
-         </div>
-       ) : null}
-            {typeof (listing as any).buyNowPrice === "number" ? (
-        buyNowAvailable ? (
-          <span className="ml-2 text-sm text-neutral-600">
-            • Buy now {formatMoney((listing as any).buyNowPrice)}
-          </span>
-        ) : (
-          <span className="ml-2 text-sm text-neutral-500">
-            • Buy now reached
-          </span>
-        )
-      ) : null}
-    </>
-  ) : (
-    <>Price: {formatMoney(listing.price)}{buyNowAvailable ? (<div className="mt-3"><BuyNowButton listingId={listing.id} /></div>) : null}</>
-  )}
-</div>
-
-      <div className="pt-3">
-        <div className="text-sm font-extrabold">Description</div>
-        <div className="mt-2 rounded-xl border border-black/10 bg-white p-4 text-sm text-neutral-800 whitespace-pre-wrap">
-          {descriptionText ? descriptionText : "No description provided."}
-        </div>
-      </div>
-
-
-      {listing.type === "AUCTION" ? (
-        <PlaceOfferClient listingId={listing.id} minOfferCents={minBidCents} />
-      ) : (
         <div className="text-sm text-neutral-600">
-          <div className="space-y-3">
-            <BuyNowButton listingId={listing.id} />
-            <div className="text-sm text-neutral-600">
-              Offers are only available on eligible listings.
-            </div>
-          </div>
+          Seller:{" "}
+          <Link href={`/seller/${sellerId}`} className="underline">
+            {sellerName}
+          </Link>
         </div>
-      )}
 
-      <div className="pt-4">
-        <ReportListingButton listingId={listing.id} />
-        
-        <div className="mt-3">
-          {(session?.user?.id && session.user.id === listing.sellerId) ? null : (
-            <MessageSellerButton listingId={listing.id} />
+        <TrustPanel
+          username={sellerName}
+          suburb={(listing.seller as any)?.suburb}
+          state={(listing.seller as any)?.state}
+          joinedAt={(listing.seller as any)?.createdAt}
+          activeCount={activeCount}
+          soldCount={soldCount}
+        />
+
+        <div className="flex gap-2 flex-wrap">
+          <Badge>{listing.type === "AUCTION" ? "Timed offers" : "Fixed price"}</Badge>
+          <Badge>{listing.category}</Badge>
+          <Badge>{listing.condition}</Badge>
+        </div>
+
+        <div className="space-y-2">
+          {isTimedOffers ? (
+            <>
+              <div className="text-sm text-neutral-700">
+                Guide price: <span className="font-semibold">{formatMoney(guidePriceCents)}</span>
+              </div>
+
+              <div className="text-lg font-semibold">
+                Highest offer: {formatMoney(currentOfferCents)}
+                {pressure ? <span className="ml-2 text-sm text-neutral-600">• Strong interest</span> : null}
+              </div>
+
+              {buyNowHasPrice ? (
+                buyNowVisible ? (
+                  <div className="mt-3 space-y-1">
+                    <BuyNowButton listingId={listing.id} />
+                    <div className="text-xs text-neutral-600">
+                      Buy Now (late-stage): {formatMoney(buyNowPriceCents as number)}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-sm text-neutral-600">Buy Now may be enabled late-stage by the seller.</div>
+                )
+              ) : null}
+
+              <div className="pt-2">
+                <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="text-lg font-semibold">Price: {formatMoney(guidePriceCents)}</div>
+              {buyNowVisible ? (
+                <div className="mt-3">
+                  <BuyNowButton listingId={listing.id} />
+                </div>
+              ) : null}
+            </>
           )}
         </div>
-{
-        (session?.user?.id && (isAdmin || listing.sellerId === session.user.id)) ? (
-          <DeleteListingButton id={listing.id} />
-        ) : null
-      }
-      </div>
+
+        <div className="pt-3">
+          <div className="text-sm font-extrabold">Description</div>
+          <div className="mt-2 rounded-xl border border-black/10 bg-white p-4 text-sm text-neutral-800 whitespace-pre-wrap">
+            {descriptionText ? descriptionText : "No description provided."}
+          </div>
+        </div>
+
+        <div className="pt-4">
+          <ReportListingButton listingId={listing.id} />
+
+          <div className="mt-3">
+            {session?.user?.id && session.user.id === listing.sellerId ? null : (
+              <MessageSellerButton listingId={listing.id} />
+            )}
+          </div>
+
+          {session?.user?.id && (isAdmin || listing.sellerId === session.user.id) ? (
+            <DeleteListingButton id={listing.id} />
+          ) : null}
+
+          {session?.user?.id && session.user.id === listing.sellerId ? (
+            <div className="mt-3">
+              <RelistButton listingId={listing.id} />
+            </div>
+          ) : null}
+        </div>
       </div>
     </main>
   );
