@@ -321,7 +321,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                     {isTimedOffers ? (
                       <div className="text-xs bd-ink2">
                         Current highest offer:{" "}
-                        <span className="font-semibold bd-ink">{formatMoney(Number((listing as any).highestOfferCents ?? 0))}</span>
+                        <span className="font-semibold bd-ink">{new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD" }).format(Number((listing as any).highestOfferCents ?? 0) / 100)}</span>
                       </div>
                     ) : null}
                     {!inFinal24h ? (
