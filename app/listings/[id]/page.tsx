@@ -112,9 +112,11 @@ export default async function ListingPage({ params }: { params: { id: string } }
     return Math.ceil(n / i) * i;
   }
 
-  // Minimum offer is guide OR +$10 above highest offer, whichever is higher.
-  const minOfferCents = roundUpToInc(Math.max(guidePriceCents, highestOfferCents + 1000), 1000);
-
+    // Minimum offer is ladder-based (visible offers model):
+  // - If no offers yet: allow a low opening offer (not forced up to guide)
+  // - Otherwise: +$10 above highest offer (rounded to $10)
+  const minOfferBase = highestOfferCents > 0 ? (highestOfferCents + 1000) : 1000;
+  const minOfferCents = roundUpToInc(minOfferBase, 1000);
 const hasAnyOffer = highestOfferCents > 0;
 
   const sellerName =
