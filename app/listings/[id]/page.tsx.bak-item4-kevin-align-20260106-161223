@@ -103,13 +103,9 @@ export default async function ListingPage({ params }: { params: { id: string } }
   // Guide price is stored in listing.price (cents). For timed offers, this is the "expected around" anchor.
   const guidePriceCents = Number.isFinite(Number(listing.price)) ? Number(listing.price) : 0;
 
-  // IMPORTANT: Highest offer should reflect the real ladder, not be forced up to guide price.
-  const currentOfferCents = highestOfferCents;
+  const currentOfferCents = isTimedOffers ? Math.max(guidePriceCents, highestOfferCents) : guidePriceCents;
 
-  // Minimum offer is guide OR +$1 above highest offer, whichever is higher.
   const minOfferCents = Math.max(guidePriceCents, highestOfferCents + 100);
-
-  const hasAnyOffer = highestOfferCents > 0;
 
   const sellerName =
     (listing.seller as any)?.username ?? (listing.seller as any)?.name ?? (listing.seller as any)?.email ?? "Seller";
@@ -129,12 +125,13 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const buyNowVisible =
     listing.status === "ACTIVE" &&
     buyNowHasPrice &&
-    (listing.type === "FIXED_PRICE" ||
-      // Timed offers: Buy Now is ONLY late-stage AND must be ABOVE current highest offer.
-      (isTimedOffers && isFinalWindow && buyNowPriceCents != null && buyNowPriceCents > highestOfferCents));
+    (listing.type === "FIXED_PRICE" || (isTimedOffers && isFinalWindow)) &&
+    (buyNowPriceCents == null ? true : currentOfferCents < buyNowPriceCents);
 
-  // Pressure ramp is based on GUIDE price (Kevin model: ~70–80%).
-  const pressure = isTimedOffers && guidePriceCents > 0 ? highestOfferCents >= Math.floor(guidePriceCents * 0.75) : false;
+  const pressure =
+    isTimedOffers && buyNowHasPrice && buyNowPriceCents
+      ? currentOfferCents >= Math.floor(buyNowPriceCents * 0.7)
+      : false;
 
   return (
     <main className="bd-container py-6 pb-14">
@@ -177,7 +174,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
               </div>
 
               <div className="text-lg font-semibold">
-                Highest offer: {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet"}
+                Highest offer: {formatMoney(currentOfferCents)}
                 {pressure ? <span className="ml-2 text-sm text-neutral-600">• Strong interest</span> : null}
               </div>
 
