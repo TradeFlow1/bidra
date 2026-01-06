@@ -8,6 +8,8 @@ datasource db {
 }
 
 model User {
+  offerDecisionsAsBuyer  OfferDecision[] @relation("OfferDecisionBuyer")
+  offerDecisionsAsSeller OfferDecision[] @relation("OfferDecisionSeller")
   sellerThreads         MessageThread[]      @relation("SellerThreads")
   buyerThreads          MessageThread[]      @relation("BuyerThreads")
   id                    String               @id @default(cuid())
@@ -69,6 +71,7 @@ model VerificationToken {
 }
 
 model Listing {
+  offerDecisions OfferDecision[]
   photos String[] @default([])
   threads        MessageThread[]
   id             String            @id @default(cuid())
@@ -100,6 +103,7 @@ model Listing {
 }
 
 model Bid {
+  offerDecision OfferDecision?
   id        String   @id @default(cuid())
   amount    Int
   createdAt DateTime @default(now())
@@ -180,6 +184,7 @@ model Report {
 }
 
 model Order {
+  offerDecision OfferDecision?
   id               String      @id @default(cuid())
   amount           Int
   status           OrderStatus @default(PENDING)
@@ -396,3 +401,38 @@ model OfferMax {
   @@index([bidderId])
 }
 
+
+enum OfferDecisionKind {
+  ACCEPTED
+  REJECTED
+}
+
+model OfferDecision {
+  id        String            @id @default(cuid())
+  createdAt DateTime          @default(now())
+
+  listingId String
+  bidId     String @unique
+
+  sellerId  String
+  buyerId   String
+
+  amount    Int
+  decision  OfferDecisionKind
+
+  orderId   String? @unique
+
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bid     Bid     @relation(fields: [bidId], references: [id], onDelete: Cascade)
+
+  seller  User   @relation("OfferDecisionSeller", fields: [sellerId], references: [id], onDelete: Cascade)
+  buyer   User   @relation("OfferDecisionBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
+
+  order   Order? @relation(fields: [orderId], references: [id])
+
+  @@unique([listingId, bidId])
+  @@index([listingId])
+  @@index([buyerId])
+  @@index([sellerId])
+  @@index([decision])
+}

@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
 
@@ -129,6 +129,27 @@ export async function POST(req: Request) {
           listingId: listing.id,
         },
       });
+
+      // Admin visibility: seller has a new top offer (drives "Needs attention" later)
+      try {
+        await tx.adminEvent.create({
+          data: {
+            type: "OFFER_NEW_TOP",
+            userId: listing.sellerId,
+            data: {
+              listingId: listing.id,
+              sellerId: listing.sellerId,
+              bidderId: winner.bidderId,
+              amount: newVisible,
+              previousTop: highestAmt,
+            },
+          },
+        });
+      } catch (e) {
+        // never block offer placement on admin logging
+        console.warn("[ADMIN_VISIBILITY] Failed to log OFFER_NEW_TOP", e);
+      }
+
       return { highestAmt: newVisible, highestBidder: winner.bidderId, placed: true };
     }
 
