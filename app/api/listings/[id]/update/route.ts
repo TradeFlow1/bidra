@@ -23,7 +23,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
 
     const existing = await prisma.listing.findUnique({
       where: { id },
-      select: { id: true, sellerId: true, status: true },
+      select: { id: true, sellerId: true, status: true, type: true, buyNowPrice: true },
     });
 
     if (!existing) {
@@ -44,6 +44,10 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     const price = Number(body.price);
     const images = Array.isArray(body.images) ? body.images : [];
 
+// Optional: timed-offers late-stage Buy Now (cents). Allow null to clear.
+    const buyNowPriceIn = body?.buyNowPrice;
+    const hasBuyNowField = Object.prototype.hasOwnProperty.call(body ?? {}, "buyNowPrice");
+
     const statusRaw = body?.status == null ? "" : String(body.status).trim();
     const status = statusRaw ? statusRaw.toUpperCase() : "";
 
@@ -62,6 +66,26 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     }
 
     const data: any = { title, description, category, condition, location, price, images };
+
+// Timed-offers Buy Now: only allow for AUCTION listings. Ignore for other types.
+if (hasBuyNowField) {
+  const isTimedOffers = String((existing as any).type || "").toUpperCase() === "AUCTION";
+
+  if (!isTimedOffers) {
+    // ignore silently (do not error) to avoid breaking older clients
+  } else {
+    if (buyNowPriceIn === null) {
+      data.buyNowPrice = null; // clear
+    } else if (typeof buyNowPriceIn === "number") {
+      if (!Number.isFinite(buyNowPriceIn) || buyNowPriceIn <= 0) {
+        return NextResponse.json({ error: "Buy Now must be greater than 0." }, { status: 400 });
+      }
+      data.buyNowPrice = Math.round(buyNowPriceIn);
+    } else {
+      return NextResponse.json({ error: "Invalid buyNowPrice" }, { status: 400 });
+    }
+  }
+}
     if (status) data.status = status;
 
     const listing = await prisma.listing.update({

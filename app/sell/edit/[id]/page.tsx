@@ -26,6 +26,11 @@ export default async function EditListingPage({ params }: { params: { id: string
         priceDollars: Number(listing.price || 0) / 100,
         images,
         status: String((listing as any).status || "DRAFT"),
+
+        // Kevin timed-offers support (seller-controlled, late-stage only)
+        type: String((listing as any).type || "FIXED_PRICE"),
+        endsAt: (listing as any).endsAt ? new Date((listing as any).endsAt).toISOString() : null,
+        buyNowPriceDollars: (listing as any).buyNowPrice != null ? Number((listing as any).buyNowPrice) / 100 : null,
       }}
     />
   );

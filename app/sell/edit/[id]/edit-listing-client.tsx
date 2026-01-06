@@ -17,11 +17,23 @@ type ListingSeed = {
   priceDollars: number;
   images: string[];
   status: string;
+
+  // Kevin timed-offers support
+  type: string;
+  endsAt: string | null;
+  buyNowPriceDollars: number | null;
 };
 
 function dollarsToCents(v: string): number {
   const n = Number((v ?? "").trim());
   return Math.round(n * 100);
+}
+
+function hoursUntilIso(iso: string | null): number | null {
+  if (!iso) return null;
+  const ms = new Date(iso).getTime() - Date.now();
+  if (!Number.isFinite(ms)) return null;
+  return ms / (1000 * 60 * 60);
 }
 
 function normalizeStatus(v: string): SellerStatus {
@@ -40,6 +52,15 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const [location, setLocation] = useState(listing.location);
   const [price, setPrice] = useState(String(listing.priceDollars || ""));
   const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+
+  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  const isTimedOffers = String((listing as any).type || "").toUpperCase() === "AUCTION";
+  const hoursLeft = useMemo(() => hoursUntilIso((listing as any).endsAt ?? null), [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+    (listing as any).buyNowPriceDollars != null ? String((listing as any).buyNowPriceDollars) : ""
+  );
 
   // Existing saved URLs
   const [existingImages, setExistingImages] = useState<string[]>(
@@ -124,6 +145,16 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
     const total = (existingImages?.length || 0) + (files?.length || 0);
     if (total > 10) return "Too many images (max 10 total).";
 
+    // Late-stage Buy Now (timed offers only) — allow blank to clear, but validate if provided
+    if (isTimedOffers) {
+      const s = String(buyNow ?? "").trim();
+      if (s) {
+        const n = Number(s);
+        if (!Number.isFinite(n)) return "Buy Now must be a number.";
+        if (n <= 0) return "Buy Now must be greater than $0.";
+      }
+    }
+
     return null;
   }
 
@@ -178,6 +209,14 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                     price: dollarsToCents(price),
                     images: (existingImages || []).filter(Boolean).slice(0, 10),
                     status,
+
+                    // Kevin timed-offers: seller-controlled late Buy Now reveal
+                    buyNowPrice:
+                      isTimedOffers
+                        ? (String(buyNow ?? "").trim()
+                            ? dollarsToCents(String(buyNow ?? "").trim())
+                            : null)
+                        : undefined,
                   };
 
                   const res = await fetch(`/api/listings/${listing.id}/update`, {
@@ -260,6 +299,32 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                   <div className="mt-1 text-xs bd-ink2">Only DRAFT, ACTIVE, or ENDED are allowed for sellers.</div>
                 </div>
               </div>
+
+              {isTimedOffers ? (
+                <div className="bd-card p-4">
+                  <div className="text-sm font-extrabold bd-ink">Late-stage Buy Now (seller-controlled)</div>
+                  <div className="mt-1 text-xs bd-ink2">
+                    This is only available in the final 24 hours of a timed-offers listing, and must be above the current highest offer.
+                  </div>
+
+                  <div className="mt-3 grid gap-2">
+                    <label className="text-sm font-extrabold bd-ink">Buy Now price (AUD)</label>
+                    <input
+                      className="bd-input mt-1 w-full"
+                      value={buyNow}
+                      onChange={(e) => setBuyNow(e.target.value)}
+                      inputMode="decimal"
+                      placeholder={inFinal24h ? "e.g. 250" : "Available in final 24h"}
+                      disabled={isSaving || !inFinal24h}
+                    />
+                    {!inFinal24h ? (
+                      <div className="text-xs bd-ink2">Not in the final 24h window yet.</div>
+                    ) : (
+                      <div className="text-xs bd-ink2">Leave blank to remove Buy Now again.</div>
+                    )}
+                  </div>
+                </div>
+              ) : null}
 
               {/* Photos */}
               <div className="grid gap-2">
