@@ -9,7 +9,14 @@ function jsonError(message: string, status = 400) {
   return NextResponse.json({ error: message }, { status })
 }
 
-export async function POST(req: Request, ctx: { params: { id: string } }) {
+function hoursUntil(dt: any) {
+  if (!dt) return null
+  const d = new Date(dt)
+  if (Number.isNaN(d.getTime())) return null
+  return (d.getTime() - Date.now()) / (1000 * 60 * 60)
+}
+
+export async function POST(_req: Request, ctx: { params: { id: string } }) {
   try {
     const session = await auth()
     if (!session?.user?.id) return jsonError("Not authenticated", 401)
@@ -28,18 +35,27 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     })
     if (!listing) return jsonError("Listing not found", 404)
 
-    // Only timed bidding listings support Buy Now in our model
-    if (listing.type !== "AUCTION") return jsonError("Buy Now is only available on timed bidding listings.", 400)
-
     if (listing.status !== "ACTIVE") return jsonError("Listing is not active.", 400)
 
+    // Buy Now price is stored in cents as listing.buyNowPrice
     if (typeof listing.buyNowPrice !== "number") return jsonError("Buy Now is not set for this listing.", 400)
 
-    const highestBid = listing.bids?.length ? listing.bids[0].amount : 0
-    const currentOffer = Math.max(listing.price, highestBid)
+    const highestOffer = listing.bids?.length ? listing.bids[0].amount : 0
 
-    // Buy Now disappears once met/exceeded
-    if (currentOffer >= listing.buyNowPrice) {
+    // Timed offers (AUCTION): Kevin model
+    if (listing.type === "AUCTION") {
+      const h = hoursUntil(listing.endsAt)
+      const isFinalWindow = typeof h === "number" ? h <= 24 : false
+      if (!isFinalWindow) return jsonError("Buy Now may be enabled late-stage on timed offers.", 400)
+
+      // Must be above current highest offer
+      if (listing.buyNowPrice <= highestOffer) {
+        return jsonError("Buy Now must be above the current highest offer.", 400)
+      }
+    }
+
+    // Fixed price: primary path (allowed). Still prevent Buy Now if already met/exceeded by offers.
+    if (highestOffer >= listing.buyNowPrice) {
       return jsonError("Buy Now is no longer available.", 400)
     }
 
@@ -48,9 +64,8 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
 
     const amount = listing.buyNowPrice
 
-    // Create an order + mark listing SOLD atomically
     const result = await prisma.$transaction(async (tx) => {
-      const updated = await tx.listing.update({
+      await tx.listing.update({
         where: { id: listing.id },
         data: { status: "SOLD" },
       })
@@ -65,7 +80,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
         },
       })
 
-      return { updated, order }
+      return { order }
     })
 
     return NextResponse.json({ ok: true, orderId: result.order.id })
