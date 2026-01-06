@@ -61,7 +61,7 @@ export async function POST(req: Request) {
   }
 
   if (listing.sellerId === userId) {
-    return NextResponse.json({ ok: false, error: "You canâ€™t make an offer on your own listing." }, { status: 400 });
+    return NextResponse.json({ ok: false, error: "You can’t make an offer on your own listing." }, { status: 400 });
   }
 
   const currentHighest = listing.bids && listing.bids.length ? listing.bids[0].amount : 0;
