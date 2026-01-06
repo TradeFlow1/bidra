@@ -106,10 +106,16 @@ export default async function ListingPage({ params }: { params: { id: string } }
   // IMPORTANT: Highest offer should reflect the real ladder, not be forced up to guide price.
   const currentOfferCents = highestOfferCents;
 
-  // Minimum offer is guide OR +$1 above highest offer, whichever is higher.
-  const minOfferCents = Math.max(guidePriceCents, highestOfferCents + 100);
+  function roundUpToInc(cents: number, inc: number) {
+    const n = Number.isFinite(Number(cents)) ? Number(cents) : 0;
+    const i = Number.isFinite(Number(inc)) && inc > 0 ? Number(inc) : 1;
+    return Math.ceil(n / i) * i;
+  }
 
-  const hasAnyOffer = highestOfferCents > 0;
+  // Minimum offer is guide OR +$10 above highest offer, whichever is higher.
+  const minOfferCents = roundUpToInc(Math.max(guidePriceCents, highestOfferCents + 1000), 1000);
+
+const hasAnyOffer = highestOfferCents > 0;
 
   const sellerName =
     (listing.seller as any)?.username ?? (listing.seller as any)?.name ?? (listing.seller as any)?.email ?? "Seller";
