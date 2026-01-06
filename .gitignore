@@ -71,3 +71,7 @@ tmp-*.js
 # Binaries / packs (do not commit)
 *.zip
 
+
+# Bidra safety backups (Kevin)
+*.bak-kevin-*
+*.bak-buy-now-*
