@@ -318,6 +318,12 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                       placeholder={inFinal24h ? "e.g. 250" : "Available in final 24h"}
                       disabled={isSaving || !inFinal24h}
                     />
+                    {isTimedOffers ? (
+                      <div className="text-xs bd-ink2">
+                        Current highest offer:{" "}
+                        <span className="font-semibold bd-ink">{formatMoney(Number((listing as any).highestOfferCents ?? 0))}</span>
+                      </div>
+                    ) : null}
                     {!inFinal24h ? (
                       <div className="text-xs bd-ink2">Not in the final 24h window yet.</div>
                     ) : (
