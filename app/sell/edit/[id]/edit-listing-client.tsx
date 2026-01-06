@@ -60,10 +60,10 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
 
   const [buyNow, setBuyNow] = useState<string>(
-    (listing as any).buyNowPriceDollars != null ? String((listing as any).buyNowPriceDollars) : ""
-  );
-
-  // Existing saved URLs
+  (listing as any).buyNowPriceDollars != null ? String((listing as any).buyNowPriceDollars) : ""
+);
+const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>((listing as any).buyNowPriceDollars != null);
+// Existing saved URLs
   const [existingImages, setExistingImages] = useState<string[]>(
     Array.isArray(listing.images) ? listing.images.filter(Boolean).slice(0, 10) : []
   );
@@ -212,13 +212,15 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                     status,
 
                     // Kevin timed-offers: seller-controlled late Buy Now reveal
-                    buyNowPrice:
-                      isTimedOffers
-                        ? (String(buyNow ?? "").trim()
-                            ? dollarsToCents(String(buyNow ?? "").trim())
-                            : null)
-                        : undefined,
-                  };
+buyNowPrice:
+  isTimedOffers
+    ? (!buyNowEnabled
+        ? null // clear (allowed any time)
+        : (inFinal24h && String(buyNow ?? "").trim()
+            ? dollarsToCents(String(buyNow ?? "").trim())
+            : null)) // not in final 24h -> do not set (avoid server rejection)
+    : undefined,
+};
 
                   const res = await fetch(`/api/listings/${listing.id}/update`, {
                     method: "POST",
@@ -308,7 +310,21 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                     This is only available in the final 24 hours of a timed-offers listing, and must be above the current highest offer.
                   </div>
 
-                  <div className="mt-3 grid gap-2">
+                  
+  <div className="mt-3 flex items-center gap-2">
+    <input
+      id="buyNowEnabled"
+      type="checkbox"
+      className="h-4 w-4"
+      checked={buyNowEnabled}
+      onChange={(e) => setBuyNowEnabled(!!e.target.checked)}
+      disabled={isSaving}
+    />
+    <label htmlFor="buyNowEnabled" className="text-sm font-extrabold bd-ink">
+      Enable Buy Now (final 24h)
+    </label>
+  </div>
+<div className="mt-3 grid gap-2">
                     <label className="text-sm font-extrabold bd-ink">Buy Now price (AUD)</label>
                     <input
                       className="bd-input mt-1 w-full"
@@ -316,7 +332,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
                       onChange={(e) => setBuyNow(e.target.value)}
                       inputMode="decimal"
                       placeholder={inFinal24h ? "e.g. 250" : "Available in final 24h"}
-                      disabled={isSaving || !inFinal24h}
+                      disabled={isSaving || !buyNowEnabled || !inFinal24h}
                     />
                     {isTimedOffers ? (
                       <div className="text-xs bd-ink2">
