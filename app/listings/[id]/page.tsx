@@ -70,6 +70,27 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const session = await getServerSession(authOptions);
   const role = (session?.user as any)?.role;
   const isAdmin = role === "ADMIN";
+
+// Public visibility gate: only ACTIVE is publicly viewable.
+// Seller + Admin may view non-ACTIVE (SOLD/ENDED/etc) for relist/admin.
+if (listing.status !== "ACTIVE") {
+  const viewerId = session?.user?.id ?? null;
+  const canView = !!viewerId && (isAdmin || viewerId === listing.sellerId);
+
+  if (!canView) {
+    return (
+      <main className="bd-container py-10">
+        <div className="bd-card p-6 space-y-3">
+          <div className="text-lg font-semibold">Listing unavailable</div>
+          <div className="text-sm text-neutral-600">
+            This listing is no longer available.
+          </div>
+          <Link href="/listings" className="bd-link text-sm">← Back to listings</Link>
+        </div>
+      </main>
+    );
+  }
+}
   const sellerId = (listing.seller as any)?.id as string;
 
   const soldCount = await prisma.listing.count({
