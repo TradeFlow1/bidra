@@ -12,7 +12,7 @@ export default function PlaceBidClient({
   const safeMinCents = Number.isFinite(Number(minBidCents)) ? Number(minBidCents) : 0;
   const minDollars = safeMinCents / 100;
 
-  const [amount, setAmount] = useState<string>(minDollars ? (minDollars + 0.5).toFixed(2) : "");
+  const [amount, setAmount] = useState<string>(minDollars ? minDollars.toFixed(2) : "");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string>("");
 

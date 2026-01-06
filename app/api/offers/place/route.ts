@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
 
 export const dynamic = "force-dynamic";
 
-const INC_CENTS = 100; // $1.00 increment for visible offer ladder
+const INC_CENTS = 1000; // $10.00 increment for visible offer ladder
 
 export async function POST(req: Request) {
   const gate = await requireAdult();
@@ -29,6 +29,11 @@ export async function POST(req: Request) {
   }
 
   const maxCents = Math.round(amountDollars * 100);
+
+  // Enforce $10 increments to prevent spammy micro-offers
+  if (maxCents % INC_CENTS !== 0) {
+    return NextResponse.json({ ok: false, error: "Offers must be in $10 increments." }, { status: 400 });
+  }
 
   const listing = await prisma.listing.findUnique({
     where: { id: listingId },
@@ -56,7 +61,7 @@ export async function POST(req: Request) {
   }
 
   if (listing.sellerId === userId) {
-    return NextResponse.json({ ok: false, error: "You can’t make an offer on your own listing." }, { status: 400 });
+    return NextResponse.json({ ok: false, error: "You canâ€™t make an offer on your own listing." }, { status: 400 });
   }
 
   const currentHighest = listing.bids && listing.bids.length ? listing.bids[0].amount : 0;

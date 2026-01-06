@@ -12,7 +12,7 @@ export default function PlaceOfferClient({
   const safeMinCents = Number.isFinite(Number(minOfferCents)) ? Number(minOfferCents) : 0;
   const minDollars = safeMinCents / 100;
 
-  const [amount, setAmount] = useState<string>(minDollars ? (minDollars + 0.5).toFixed(2) : "");
+  const [amount, setAmount] = useState<string>(minDollars ? minDollars.toFixed(2) : "");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string>("");
 
@@ -27,7 +27,7 @@ export default function PlaceOfferClient({
 
     const cents = Math.round(value * 100);
     if (cents < safeMinCents) {
-      setMsg(`Max offer must be at least $${(safeMinCents / 100).toFixed(2)}.`);
+      setMsg(`Offer must be at least $${(safeMinCents / 100).toFixed(2)}.`);
       return;
     }
 
