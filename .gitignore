@@ -75,3 +75,7 @@ tmp-*.js
 # Bidra safety backups (Kevin)
 *.bak-kevin-*
 *.bak-buy-now-*
+
+# Prevent accidental build marker files
+t === STEP *
+
