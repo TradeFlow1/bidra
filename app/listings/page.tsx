@@ -207,7 +207,7 @@ export default async function ListingsPage({
       <div className="bd-label text-xs">Type</div>
       <select name="type" defaultValue={type} className="bd-input">
         <option value="">Any</option>
-        <option value="BUY_NOW">Buy now</option>
+        <option value="BUY_NOW">Buy Now</option>
         <option value="FIXED_PRICE">Fixed price</option>
       </select>
     </div>
@@ -302,7 +302,7 @@ export default async function ListingsPage({
       <div className="bd-label text-xs">Type</div>
       <select name="type" defaultValue={type} className="bd-input">
         <option value="">Any</option>
-        <option value="BUY_NOW">Buy now</option>
+        <option value="BUY_NOW">Buy Now</option>
         <option value="FIXED_PRICE">Fixed price</option>
       </select>
     </div>

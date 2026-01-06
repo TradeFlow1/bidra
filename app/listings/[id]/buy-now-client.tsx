@@ -47,7 +47,7 @@ export default function BuyNowClient({ listingId }: { listingId: string }) {
         className="rounded-md border border-black/10 bg-bidra-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-bidra-blue/90 focus:outline-none focus:ring-2 focus:ring-bidra-blue/40 disabled:opacity-60"
         onClick={onBuyNow}
       >
-        {busy ? "Processing..." : "Buy now"}
+        {busy ? "Processing..." : "Buy Now"}
       </button>
 
       {err ? <div className="mt-2 text-sm text-red-600">{err}</div> : null}
