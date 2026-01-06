@@ -57,20 +57,20 @@ export async function POST(req: Request) {
     // - Timed offers (AUCTION): Buy Now is NOT available initially; only valid in the final 24h window
     //   AND only if seller has set buyNowPrice.
     if (listing.type !== "FIXED_PRICE" && listing.type !== "AUCTION") {
-      return { ok: false, status: 400 as const, error: "Buy now is not available on this listing type." };
+      return { ok: false, status: 400 as const, error: "Buy Now is not available on this listing type." };
     }
 
     const guidePriceCents = Number.isFinite(Number(listing.price)) ? Number(listing.price) : 0;
 
     if (listing.type === "AUCTION") {
       if (typeof listing.buyNowPrice !== "number") {
-        return { ok: false, status: 400 as const, error: "Buy now is not available on this listing." };
+        return { ok: false, status: 400 as const, error: "Buy Now is not available on this listing." };
       }
 
       const hrs = hoursUntil(listing.endsAt as any);
       const inFinalWindow = typeof hrs === "number" ? hrs <= 24 : false;
       if (!inFinalWindow) {
-        return { ok: false, status: 400 as const, error: "Buy now is not available yet." };
+        return { ok: false, status: 400 as const, error: "Buy Now is not available yet." };
       }
 
       const top = await tx.bid.findFirst({
@@ -83,7 +83,7 @@ export async function POST(req: Request) {
       const currentOfferCents = Math.max(guidePriceCents, highestOfferCents);
 
       if (currentOfferCents >= listing.buyNowPrice) {
-        return { ok: false, status: 400 as const, error: "Buy now is no longer available." };
+        return { ok: false, status: 400 as const, error: "Buy Now is no longer available." };
       }
     }
 
