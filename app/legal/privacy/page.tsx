@@ -21,7 +21,7 @@ export default function PrivacyPage() {
             <li>Account info: email, password (stored securely), username/display name.</li>
             <li>18+ enforcement: date of birth (used to enforce adult-only accounts).</li>
             <li>General location: postcode or suburb + state (no street address required).</li>
-            <li>Platform activity: listings, bids/offers, messages, reports, and safety logs.</li>
+            <li>Platform activity: listings, offers, messages, reports, and safety logs.</li>
           </ul>
         </section>
 

@@ -227,10 +227,10 @@ export default function SellNewClient() {
             onChange={(e) => setType(e.target.value as ListingTypeUI)}
           >
             <option value="FIXED_PRICE">Fixed price</option>
-            <option value="AUCTION">Timed bidding</option>
+            <option value="AUCTION">Timed offers</option>
           </select>
           <div className="mt-1 text-xs bd-ink2">
-            Timed bidding collects offers. When bidding ends, the seller chooses whether to proceed with the highest offer.
+            Timed offers collects offers. When offers ends, the seller chooses whether to proceed with the highest offer.
           </div>
         </div>
 

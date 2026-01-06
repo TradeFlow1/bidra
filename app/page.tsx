@@ -70,7 +70,7 @@ export default async function HomePage() {
           </div>
 
           <div className="bd-hero-fine">
-            Bidra is a marketplace platform — sellers control the outcome of any offer or bidding.
+            Bidra is a marketplace platform — sellers control the outcome of any offer or offers.
           </div>
         </div>
       </section>
