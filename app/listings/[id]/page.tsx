@@ -122,9 +122,12 @@ const hasAnyOffer = highestOfferCents > 0;
 
   const descriptionText = String(listing.description ?? "").trim();
 
-  const buyNowHasPrice = typeof (listing as any).buyNowPrice === "number";
-  const buyNowPriceCents = buyNowHasPrice ? ((listing as any).buyNowPrice as number) : null;
-
+  const rawBuyNow = (listing as any).buyNowPrice;
+  const buyNowHasPrice = typeof rawBuyNow === "number";
+  const buyNowPriceCents =
+    listing.type === "FIXED_PRICE"
+      ? (buyNowHasPrice ? (rawBuyNow as number) : guidePriceCents)
+      : (buyNowHasPrice ? (rawBuyNow as number) : null);
   // Kevin model:
   // - No Buy Now shown initially on timed offers.
   // - Buy Now may be revealed late-stage (final 24h), seller-controlled by setting buyNowPrice.
@@ -134,11 +137,13 @@ const hasAnyOffer = highestOfferCents > 0;
 
   const buyNowVisible =
     listing.status === "ACTIVE" &&
-    buyNowHasPrice &&
-    (listing.type === "FIXED_PRICE" ||
+    !isSeller &&
+    (
+      // FIXED_PRICE: primary path (fallback to price when buyNowPrice not set)
+      (listing.type === "FIXED_PRICE" && guidePriceCents > 0) ||
       // Timed offers: Buy Now is ONLY late-stage AND must be ABOVE current highest offer.
-      (isTimedOffers && isFinalWindow && buyNowPriceCents != null && buyNowPriceCents > highestOfferCents));
-
+      (isTimedOffers && isFinalWindow && buyNowPriceCents != null && buyNowPriceCents > highestOfferCents)
+    );
   // Pressure ramp is based on GUIDE price (Kevin model: ~70–80%).
   const pressure = isTimedOffers && guidePriceCents > 0 ? highestOfferCents >= Math.floor(guidePriceCents * 0.75) : false;
 
@@ -187,16 +192,20 @@ const hasAnyOffer = highestOfferCents > 0;
                 {pressure ? <span className="ml-2 text-sm text-neutral-600">• Strong interest</span> : null}
               </div>
 
-              {buyNowHasPrice ? (
-                buyNowVisible ? (
-                  <div className="mt-3 space-y-1">
-                    <BuyNowButton listingId={listing.id} />
-                    <div className="text-xs text-neutral-600">Buy Now (late-stage): {formatMoney(buyNowPriceCents as number)}</div>
-                  </div>
-                ) : (
-                  <div className="text-sm text-neutral-600">Buy Now may be enabled late-stage by the seller.</div>
-                )
-              ) : null}
+              {buyNowVisible ? (
+  <div className="mt-3 space-y-1">
+    <BuyNowButton listingId={listing.id} />
+    <div className="text-xs text-neutral-600">
+      {listing.type === "FIXED_PRICE"
+        ? `Buy Now: ${formatMoney(guidePriceCents)}`
+        : `Buy Now (late-stage): ${formatMoney(buyNowPriceCents as number)}`}
+    </div>
+  </div>
+) : (
+  isTimedOffers ? (
+    <div className="text-sm text-neutral-600">Buy Now may be enabled late-stage by the seller.</div>
+  ) : null
+)}
 
               <div className="pt-2">
                 <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} />
@@ -205,12 +214,7 @@ const hasAnyOffer = highestOfferCents > 0;
           ) : (
             <>
               <div className="text-lg font-semibold">Price: {formatMoney(guidePriceCents)}</div>
-              {buyNowVisible ? (
-                <div className="mt-3">
-                  <BuyNowButton listingId={listing.id} />
-                </div>
-              ) : null}
-            </>
+              </>
           )}
         </div>
 
