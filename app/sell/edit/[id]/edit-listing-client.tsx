@@ -22,6 +22,7 @@ type ListingSeed = {
   type: string;
   endsAt: string | null;
   buyNowPriceDollars: number | null;
+  highestOfferCents: number;
 };
 
 function dollarsToCents(v: string): number {

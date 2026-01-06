@@ -14,6 +14,13 @@ export default async function EditListingPage({ params }: { params: { id: string
 
   const images = Array.isArray((listing as any).images) ? ((listing as any).images as string[]) : [];
 
+
+  const highest = await prisma.bid.findFirst({
+    where: { listingId: listing.id },
+    orderBy: { amount: "desc" },
+    select: { amount: true },
+  });
+  const highestOfferCents = highest?.amount ?? 0;
   return (
     <EditListingClient
       listing={{
@@ -31,6 +38,7 @@ export default async function EditListingPage({ params }: { params: { id: string
         type: String((listing as any).type || "FIXED_PRICE"),
         endsAt: (listing as any).endsAt ? new Date((listing as any).endsAt).toISOString() : null,
         buyNowPriceDollars: (listing as any).buyNowPrice != null ? Number((listing as any).buyNowPrice) / 100 : null,
+        highestOfferCents,
       }}
     />
   );
