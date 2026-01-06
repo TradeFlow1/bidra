@@ -39,7 +39,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
   const isTimedOffers = String(listing.type ?? "") === "AUCTION";
   const hasBuyNow = typeof listing.buyNowPrice === "number";
 
-  const badge = isTimedOffers ? "⏳ Timed offers" : hasBuyNow ? "⚡ Buy now" : "🏷️ Fixed price";
+  const badge = isTimedOffers ? "⏳ Timed offers" : hasBuyNow ? "⚡ Buy Now" : "🏷️ Fixed price";
 
   // Primary price:
   // - Timed offers: listing.price is already mapped as current top offer cents (see app/listings/page.tsx mapping)
@@ -97,7 +97,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
 
         {isTimedOffers && hasBuyNow ? (
           <div className="text-[12px] font-semibold text-black/60">
-            Buy now: {money(listing.buyNowPrice as number)}
+            Buy Now: {money(listing.buyNowPrice as number)}
           </div>
         ) : null}
 
