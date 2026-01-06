@@ -107,6 +107,16 @@ export default async function DashboardPage() {
     where: { listing: { sellerId: me }, completedAt: { not: null }, sellerFeedbackAt: null },
   });
 
+  const sinceTopOffers = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const newTopOfferCount = await prisma.adminEvent.count({
+    where: {
+      type: "OFFER_NEW_TOP",
+      userId: me,
+      createdAt: { gte: sinceTopOffers },
+    },
+  });
+
+
   const needsEmail = !user.emailVerified;
   const needsPhone = !user.phoneVerified;
   const needsAge = !user.ageVerified;
@@ -116,6 +126,7 @@ export default async function DashboardPage() {
     isBlocked ||
     pendingBuyerFeedbackCount > 0 ||
     pendingSellerFeedbackCount > 0 ||
+    newTopOfferCount > 0 ||
     needsEmail ||
     needsPhone ||
     needsAge;
@@ -172,6 +183,12 @@ export default async function DashboardPage() {
                 {pendingSellerFeedbackCount > 0 ? (
                   <div>
                     <ActionLink href="/orders">Leave seller feedback ({pendingSellerFeedbackCount})</ActionLink>
+                  </div>
+                ) : null}
+
+                {newTopOfferCount > 0 ? (
+                  <div>
+                    <ActionLink href="/dashboard/listings">New top offers received ({newTopOfferCount})</ActionLink>
                   </div>
                 ) : null}
 
