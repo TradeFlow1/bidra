@@ -41,6 +41,7 @@ model User {
   activitySessions      ActivitySession[]
   adminActionLogs       AdminActionLog[]
   bids                  Bid[]
+  offerMaxes OfferMax[]
   feedbackGiven         Feedback[]           @relation("FeedbackFrom")
   feedbackReceived      Feedback[]           @relation("FeedbackTo")
   listings              Listing[]            @relation("SellerListings")
@@ -88,6 +89,7 @@ model Listing {
   reservePrice   Int?
   previousStatus ListingStatus?
   bids           Bid[]
+  offerMaxes OfferMax[]
   seller         User              @relation("SellerListings", fields: [sellerId], references: [id])
   questions      ListingQuestion[]
   messages       Message[]
@@ -375,5 +377,22 @@ model AdminEvent {
 
   // structured payload
   data      Json?
+}
+
+
+model OfferMax {
+  id        String   @id @default(cuid())
+  listingId String
+  bidderId  String
+  maxAmount Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  bidder  User    @relation(fields: [bidderId], references: [id], onDelete: Cascade)
+
+  @@unique([listingId, bidderId])
+  @@index([listingId])
+  @@index([bidderId])
 }
 
