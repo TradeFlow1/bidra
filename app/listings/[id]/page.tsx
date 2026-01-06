@@ -11,6 +11,7 @@ import ReportListingButton from "./report-listing-button";
 import MessageSellerButton from "./message-seller-button";
 import { Badge } from "@/components/ui";
 import ListingImageGallery from "@/components/listing-image-gallery";
+import PhotosManager from "./photos-manager";
 
 export const dynamic = "force-dynamic";
 
