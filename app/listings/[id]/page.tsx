@@ -184,12 +184,12 @@ const hasAnyOffer = highestOfferCents > 0;
           {isTimedOffers ? (
             <>
               <div className="text-sm text-neutral-700">
-                Guide price: <span className="font-semibold">{formatMoney(guidePriceCents)}</span>
+                Seller expects around: <span className="font-semibold">{formatMoney(guidePriceCents)}</span>
               </div>
 
               <div className="text-lg font-semibold">
                 Highest offer: {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet"}
-                {pressure ? <span className="ml-2 text-sm text-neutral-600">• Strong interest</span> : null}
+                {pressure ? <span className="ml-2 text-sm text-neutral-600">• Strong interest — offers approaching guide</span> : null}
               </div>
 
               {buyNowVisible ? (
