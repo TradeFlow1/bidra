@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 type SessionLike =
@@ -20,6 +20,7 @@ type SessionLike =
 export default function SiteHeaderClient({ session }: { session?: SessionLike }) {
   const [open, setOpen] = useState(false);
   const [acctOpen, setAcctOpen] = useState(false);
+  const headerRef = useRef<HTMLElement | null>(null);
 
   const pathname = usePathname();
 
@@ -51,8 +52,8 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
-      // clicks inside header do nothing
-      if (target.closest("nav") || target.closest("button") || target.closest("a")) return;
+      const headerEl = headerRef.current;
+      if (headerEl && headerEl.contains(target)) return; // click inside header => ignore
 
       setOpen(false);
       setAcctOpen(false);
@@ -74,7 +75,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
   }, []);
 
   return (
-    <header className="bd-header border-b border-black/10">
+    <header ref={headerRef as any} className="bd-header border-b border-black/10">
       {/* Top bar */}
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Left: Home */}
