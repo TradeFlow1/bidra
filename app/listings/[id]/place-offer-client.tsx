@@ -46,7 +46,7 @@ export default function PlaceOfferClient({
         return;
       }
 
-      const status = data?.status === "WINNING" ? "You have the top offer" : "Your offer has been surpassed";
+      const status = data?.status === "WINNING" ? "You have the top offer" : "You are no longer the top offer";
       const current = typeof data?.currentOfferCents === "number" ? (data.currentOfferCents / 100).toFixed(2) : null;
 
       setMsg(current ? `${status}. Current: $${current}` : `${status}.`);
@@ -68,7 +68,7 @@ export default function PlaceOfferClient({
       </div>
 
       <div className="text-xs text-[var(--bidra-muted)]">
-        Enter your <span className="font-semibold text-[var(--bidra-fg)]">max offer</span>. We’ll submit your offer up to that amount.
+        Enter the most you are willing to offer. We will keep you on top automatically up to that amount.
       </div>
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
@@ -86,7 +86,7 @@ export default function PlaceOfferClient({
           disabled={loading}
           className="rounded-xl bg-[var(--bidra-link)] px-4 py-2 text-sm font-semibold text-[#0B0E11] transition hover:opacity-90 disabled:opacity-60"
         >
-          {loading ? "Submitting..." : "Set max offer"}
+          {loading ? "Submitting..." : "Place offer"}
         </button>
       </div>
 
