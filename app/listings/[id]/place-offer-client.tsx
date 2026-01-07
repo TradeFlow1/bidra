@@ -1,13 +1,16 @@
 ﻿"use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function PlaceOfferClient({
   listingId,
   minOfferCents,
+  offerState = "NONE",
 }: {
   listingId: string;
   minOfferCents: number;
+  offerState?: "NONE" | "TOP" | "OUTBID";
 }) {
   const safeMinCents = Number.isFinite(Number(minOfferCents)) ? Number(minOfferCents) : 0;
   const minDollars = safeMinCents / 100;
@@ -15,6 +18,7 @@ export default function PlaceOfferClient({
   const [amount, setAmount] = useState<string>(minDollars ? minDollars.toFixed(2) : "");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string>("");
+  const router = useRouter();
 
   async function submit() {
     setMsg("");
@@ -50,7 +54,7 @@ export default function PlaceOfferClient({
       const current = typeof data?.currentOfferCents === "number" ? (data.currentOfferCents / 100).toFixed(2) : null;
 
       setMsg(current ? `${status}. Current: $${current}` : `${status}.`);
-      window.location.reload();
+      router.refresh();
     } catch {
       setMsg("Offer failed.");
     } finally {
@@ -60,6 +64,15 @@ export default function PlaceOfferClient({
 
   return (
     <div className="space-y-3">
+      {offerState === "TOP" ? (
+        <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900">
+          You are currently the highest offer.
+        </div>
+      ) : offerState === "OUTBID" ? (
+        <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900">
+          You have been out-offered. Increase your offer to stay on top.
+        </div>
+      ) : null}
       <div className="text-xs text-[var(--bidra-muted)]">
         Minimum offer:{" "}
         <span className="font-semibold text-[var(--bidra-fg)]">
