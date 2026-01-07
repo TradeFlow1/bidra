@@ -118,6 +118,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const minOfferBase = highestOfferCents > 0 ? (highestOfferCents + 1000) : 1000;
   const minOfferCents = roundUpToInc(minOfferBase, 1000);
 const hasAnyOffer = highestOfferCents > 0;
+  const guideExceeded = hasAnyOffer && guidePriceCents > 0 && highestOfferCents >= guidePriceCents;
 
   const sellerName =
     (listing.seller as any)?.username ?? (listing.seller as any)?.name ?? (listing.seller as any)?.email ?? "Seller";
@@ -186,7 +187,10 @@ const hasAnyOffer = highestOfferCents > 0;
           {isTimedOffers ? (
             <>
               <div className="text-sm text-neutral-700">
-                Seller expects around: <span className="font-semibold">{formatMoney(guidePriceCents)}</span>
+              <div className={`text-sm ${guideExceeded ? "text-neutral-500" : "text-neutral-700"}`}>
+                {guideExceeded ? "Early guide:" : "Guide price:"}{" "}
+                <span className="font-semibold">{formatMoney(guidePriceCents)}</span>
+              </div>
               </div>
 
               <div className="text-lg font-semibold">
