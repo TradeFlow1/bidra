@@ -95,7 +95,7 @@ export async function POST(req: Request) {
       select: { bidderId: true, maxAmount: true },
     });
 
-    const winner = top[0];
+    const leader = top[0];
     const runner = top.length > 1 ? top[1] : null;
 
     // Re-check highest inside txn
@@ -110,11 +110,11 @@ export async function POST(req: Request) {
     // Visible offer ladder: do NOT force offers up to guide price.
     const minNextTxn = highestAmt > 0 ? (highestAmt + INC_CENTS) : INC_CENTS;
 
-    if (!winner) {
+    if (!leader) {
       return { highestAmt, highestBidder, placed: false };
     }
 
-    if (winner.maxAmount < minNextTxn) {
+    if (leader.maxAmount < minNextTxn) {
       // This should be impossible given earlier check, but keep safe.
       return { highestAmt, highestBidder, placed: false };
     }
@@ -123,9 +123,9 @@ export async function POST(req: Request) {
 
     if (runner) {
       const target = runner.maxAmount + INC_CENTS;
-      newVisible = Math.min(winner.maxAmount, Math.max(minNextTxn, target));
+      newVisible = Math.min(leader.maxAmount, Math.max(minNextTxn, target));
     } else {
-      newVisible = Math.min(winner.maxAmount, minNextTxn);
+      newVisible = Math.min(leader.maxAmount, minNextTxn);
     }
 
     // Only write a new ladder row if it actually increases the visible highest
@@ -133,7 +133,7 @@ export async function POST(req: Request) {
       await tx.bid.create({
         data: {
           amount: newVisible,
-          bidderId: winner.bidderId,
+          bidderId: leader.bidderId,
           listingId: listing.id,
         },
       });
@@ -147,7 +147,7 @@ export async function POST(req: Request) {
             data: {
               listingId: listing.id,
               sellerId: listing.sellerId,
-              bidderId: winner.bidderId,
+              bidderId: leader.bidderId,
               amount: newVisible,
               previousTop: highestAmt,
             },
@@ -158,7 +158,7 @@ export async function POST(req: Request) {
         console.warn("[ADMIN_VISIBILITY] Failed to log OFFER_NEW_TOP", e);
       }
 
-      return { highestAmt: newVisible, highestBidder: winner.bidderId, placed: true };
+      return { highestAmt: newVisible, highestBidder: leader.bidderId, placed: true };
     }
 
     return { highestAmt, highestBidder, placed: false };

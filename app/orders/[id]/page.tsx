@@ -145,7 +145,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               <div className="pt-2">
                 <p className="text-xs bd-ink2">
-                  Bidra does not decide a “winner” or force a sale — outcomes are seller-controlled. Payments shown here apply only if your order is marked payable.
+                  Bidra does not decide a “highest offer” or force a sale — outcomes are seller-controlled. Payments shown here apply only if your order is marked payable.
                 </p>
               </div>
             </div>

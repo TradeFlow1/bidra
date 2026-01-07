@@ -52,7 +52,7 @@ export default function TermsPage() {
           <h2 className="text-lg font-extrabold">4) Offers and “Buy Now” language</h2>
           <p className="text-sm text-black/70">
             Bidra may show “top offer” and timed offers mechanics. Bidra does not automatically
-            determine a winner or bind a sale. At the end of an offer period, the seller decides
+            select a buyer or bind a sale. At the end of an offer period, the seller decides
             whether to proceed with the highest offer.
           </p>
         </section>
