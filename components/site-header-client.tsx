@@ -115,7 +115,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
               <button
                 type="button"
                 onClick={() => setAcctOpen((v) => !v)}
-                className={pill}
+                className={pill + " text-white"}
                 style={{ backgroundColor: "#ffffff", color: "#000000" }}
               >
                 {displayName}
@@ -169,7 +169,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
               setOpen((v) => !v);
               setAcctOpen(false);
             }}
-            className={pill}
+            className={pill + " text-white"}
           >
             Menu
           </button>
