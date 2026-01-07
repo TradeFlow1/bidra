@@ -66,7 +66,9 @@ export async function POST(req: Request) {
 
   const currentHighest = listing.bids && listing.bids.length ? listing.bids[0].amount : 0;
   const startOffer = listing.price || 0;
-  const minNext = Math.max(startOffer, currentHighest + INC_CENTS);
+  // Visible offer ladder: do NOT force offers up to guide price.
+  // If no offers yet: allow opening at $10. Otherwise: +$10 above highest.
+  const minNext = currentHighest > 0 ? (currentHighest + INC_CENTS) : INC_CENTS;
 
   if (maxCents < minNext) {
     return NextResponse.json(
@@ -105,7 +107,8 @@ export async function POST(req: Request) {
 
     const highestAmt = nowHighest?.amount ?? 0;
     const highestBidder = nowHighest?.bidderId ?? null;
-    const minNextTxn = Math.max(startOffer, highestAmt + INC_CENTS);
+    // Visible offer ladder: do NOT force offers up to guide price.
+    const minNextTxn = highestAmt > 0 ? (highestAmt + INC_CENTS) : INC_CENTS;
 
     if (!winner) {
       return { highestAmt, highestBidder, placed: false };
