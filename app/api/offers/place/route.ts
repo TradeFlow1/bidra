@@ -72,12 +72,12 @@ export async function POST(req: Request) {
 
   if (maxCents < minNext) {
     return NextResponse.json(
-      { ok: false, error: `Max offer must be at least $${(minNext / 100).toFixed(2)}.` },
+      { ok: false, error: `Offer must be at least $${(minNext / 100).toFixed(2)}.` },
       { status: 400 }
     );
   }
 
-  // Proxy offers:
+  // Auto-offers (keeps you on top up to your limit):
   // - store max in OfferMax
   // - compute visible offer based on top-2 maxes
   // - write visible offer to Bid ladder if it increases
