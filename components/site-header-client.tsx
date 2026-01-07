@@ -75,7 +75,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
   }, []);
 
   return (
-    <header ref={headerRef as any} className="bd-header border-b border-black/10">
+    <header ref={headerRef as any} className="border-b border-black/10">
       {/* Top bar */}
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Left: Home */}
@@ -190,7 +190,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
 
       {/* Mobile menu */}
       {open ? (
-        <div className="md:hidden border-t border-black/10 bd-header">
+        <div className="md:hidden border-t border-black/10">
           <div className="mx-auto max-w-6xl px-4 py-3">
             <div className="flex flex-col gap-3 text-sm">
               <Link href="/listings" onClick={closeAll} className={pill}>
