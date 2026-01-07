@@ -55,7 +55,8 @@ export default async function ListingPage({ params }: { params: { id: string } }
           createdAt: true,
         },
       },
-      bids: { orderBy: { amount: "desc" }, take: 1, select: { amount: true } },
+      bids: { orderBy: { amount: "desc" }, take: 1, select: { amount: true, bidderId: true } },
+      _count: { select: { bids: true } },
     },
   });
 
@@ -118,6 +119,10 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const minOfferBase = highestOfferCents > 0 ? (highestOfferCents + 1000) : 1000;
   const minOfferCents = roundUpToInc(minOfferBase, 1000);
 const hasAnyOffer = highestOfferCents > 0;
+  const offersCount = (listing as any)?._count?.bids ?? 0;
+  const topBidderId = listing.bids && listing.bids.length ? (listing.bids[0] as any).bidderId : null;
+  const viewerId = session?.user?.id ?? null;
+  const offerState: "NONE" | "TOP" | "OUTBID" = !viewerId || !hasAnyOffer ? "NONE" : (topBidderId === viewerId ? "TOP" : "OUTBID");
   const guideExceeded = hasAnyOffer && guidePriceCents > 0 && highestOfferCents >= guidePriceCents;
 
   const sellerName =
@@ -195,6 +200,7 @@ const hasAnyOffer = highestOfferCents > 0;
 
               <div className="text-lg font-semibold">
                 Highest offer: {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet"}
+              <div className="text-xs text-neutral-600">{offersCount} offer{offersCount === 1 ? "" : "s"} so far</div>
                 {pressure ? <span className="ml-2 text-sm text-neutral-600">• Strong interest — offers approaching guide</span> : null}
               </div>
 
@@ -214,7 +220,7 @@ const hasAnyOffer = highestOfferCents > 0;
 )}
 
               <div className="pt-2">
-                <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} />
+                <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} offerState={offerState} />
               </div>
             </>
           ) : (
