@@ -63,16 +63,25 @@ export default async function ListingPage({ params }: { params: { id: string } }
   if (!listing) {
     return (
       <main className="bd-container py-6 pb-14">
-        <div className="bd-card p-6">Listing not found.</div>
+        <div className="bd-card p-6 space-y-3">
+          <div className="text-lg font-semibold">Listing not found.</div>
+          <Link href="/listings" className="bd-link text-sm">
+            ← Back to listings
+          </Link>
+        </div>
       </main>
     );
   }
+
+  const sellerId = (listing.seller as any)?.id as string;
+
+
 
   // Item 2: hide non-active listings from public direct view
   const session = await getServerSession(authOptions);
   const role = (session?.user as any)?.role;
   const isAdmin = role === "ADMIN";
-  const isSeller = !!(session?.user?.id && session.user.id === listing.sellerId);
+  const isSeller = !!(session?.user?.id && session.user.id === (listing as any).sellerId);
 
   if (!isSeller && !isAdmin && listing.status !== "ACTIVE") {
     return (
@@ -87,7 +96,6 @@ export default async function ListingPage({ params }: { params: { id: string } }
     );
   }
 
-  const sellerId = (listing.seller as any)?.id as string;
 
   const soldCount = await prisma.listing.count({
     where: { sellerId, status: "SOLD" },
@@ -168,6 +176,7 @@ const hasAnyOffer = highestOfferCents > 0;
   const pressure = isTimedOffers && guidePriceCents > 0 ? highestOfferCents >= Math.floor(guidePriceCents * 0.75) : false;
   const showSocialProof = offersCount >= 3 && (pressure || guideExceeded);
 
+
   return (
     <main className="bd-container py-6 pb-14">
       <div className="bd-card p-5 space-y-4">
@@ -175,9 +184,9 @@ const hasAnyOffer = highestOfferCents > 0;
           ← Back
         </Link>
 
-        <h1 className="text-2xl font-bold">{listing.title}</h1>
+        <h1 className="text-2xl font-bold">{String((listing as any)?.title ?? "")}</h1>
 
-        <ListingImageGallery images={(listing as any).images ?? []} title={listing.title} />
+        <ListingImageGallery images={(listing as any).images ?? []} title={String((listing as any)?.title ?? "")} />
 
         <div className="text-sm text-neutral-600">
           Seller:{" "}
@@ -224,7 +233,7 @@ const hasAnyOffer = highestOfferCents > 0;
               </div>
               {buyNowVisible ? (
   <div className="mt-3 space-y-1">
-    <BuyNowButton listingId={listing.id} />
+    <BuyNowButton listingId={(listing as any).id} />
     <div className="text-xs text-neutral-600">
       {listing.type === "FIXED_PRICE"
         ? `Buy Now: ${formatMoney(guidePriceCents)}`
@@ -238,7 +247,7 @@ const hasAnyOffer = highestOfferCents > 0;
 )}
 
               <div className="pt-2">
-                <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} offerState={offerState} />
+                <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={offerState} />
               </div>
             </>
           ) : (
@@ -256,19 +265,19 @@ const hasAnyOffer = highestOfferCents > 0;
         </div>
 
         <div className="pt-4 space-y-3">
-          <ReportListingButton listingId={listing.id} />
+          <ReportListingButton listingId={(listing as any).id} />
 
-          {isSeller ? <PhotosManager listingId={listing.id} initialImages={(listing as any).images ?? []} /> : null}
+          {isSeller ? <PhotosManager listingId={(listing as any).id} initialImages={(listing as any).images ?? []} /> : null}
 
           <div>
-            {session?.user?.id && session.user.id === listing.sellerId ? null : <MessageSellerButton listingId={listing.id} />}
+            {session?.user?.id && session.user.id === (listing as any).sellerId ? null : <MessageSellerButton listingId={(listing as any).id} />}
           </div>
 
-          {session?.user?.id && (isAdmin || listing.sellerId === session.user.id) ? <DeleteListingButton id={listing.id} /> : null}
+          {session?.user?.id && (isAdmin || (listing as any).sellerId === session.user.id) ? <DeleteListingButton id={(listing as any).id} /> : null}
 
           {isSeller ? (
             <div>
-              <RelistButton listingId={listing.id} />
+              <RelistButton listingId={(listing as any).id} />
             </div>
           ) : null}
         </div>
