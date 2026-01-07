@@ -75,7 +75,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
   }, []);
 
   return (
-    <header ref={headerRef as any} className="border-b border-black/10">
+    <header ref={headerRef as any} className="bd-header border-b border-black/10">
       {/* Top bar */}
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Left: Home */}
@@ -91,7 +91,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
             <input
               name="q"
               placeholder="Search listings"
-              className="w-full rounded-md border border-black/10 px-3 py-2 text-sm outline-none focus:border-black/20"
+              className="w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm text-black placeholder:text-black/50 outline-none focus:border-black/20"
               style={{ backgroundColor: "#ffffff", color: "#000000" }}
             />
           </form>
@@ -182,7 +182,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
           <input
             name="q"
             placeholder="Search listings"
-            className="w-full rounded-md border border-black/10 px-3 py-2 text-sm outline-none focus:border-black/20"
+            className="w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm text-black placeholder:text-black/50 outline-none focus:border-black/20"
             style={{ backgroundColor: "#ffffff", color: "#000000" }}
           />
         </form>
@@ -190,7 +190,7 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
 
       {/* Mobile menu */}
       {open ? (
-        <div className="md:hidden border-t border-black/10">
+        <div className="md:hidden border-t border-black/10 bd-header">
           <div className="mx-auto max-w-6xl px-4 py-3">
             <div className="flex flex-col gap-3 text-sm">
               <Link href="/listings" onClick={closeAll} className={pill}>
