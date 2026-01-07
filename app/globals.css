@@ -220,7 +220,7 @@ a:hover{ text-decoration: none; }
 }
 
 /* Buttons: make common buttons feel premium */
-:where(button){
+main :where(button){
   border: 0;
   border-radius: 14px;
   padding: 12px 14px;
@@ -231,7 +231,7 @@ a:hover{ text-decoration: none; }
   cursor: pointer;
 }
 
-:where(button:hover){
+main :where(button:hover){
   box-shadow: var(--shadow-md);
   transform: translateY(-1px);
 }
@@ -312,7 +312,7 @@ a:hover{ text-decoration: none; }
 }
 
 /* Buttons: calm + premium defaults */
-:where(button){
+main :where(button){
   border: 0;
   border-radius: 14px;
   padding: 12px 14px;
@@ -322,7 +322,7 @@ a:hover{ text-decoration: none; }
   box-shadow: var(--shadow-sm);
   cursor: pointer;
 }
-:where(button:hover){
+main :where(button:hover){
   box-shadow: var(--shadow-md);
   transform: translateY(-1px);
 }
