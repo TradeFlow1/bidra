@@ -119,7 +119,9 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const minOfferBase = highestOfferCents > 0 ? (highestOfferCents + 1000) : 1000;
   const minOfferCents = roundUpToInc(minOfferBase, 1000);
 const hasAnyOffer = highestOfferCents > 0;
+
   const offersCount = (listing as any)?._count?.bids ?? 0;
+
   const topBidderId = listing.bids && listing.bids.length ? (listing.bids[0] as any).bidderId : null;
   const viewerId = session?.user?.id ?? null;
   const offerState: "NONE" | "TOP" | "OUTBID" = !viewerId || !hasAnyOffer ? "NONE" : (topBidderId === viewerId ? "TOP" : "OUTBID");
@@ -164,6 +166,7 @@ const hasAnyOffer = highestOfferCents > 0;
     );
   // Pressure ramp is based on GUIDE price (Kevin model: ~70–80%).
   const pressure = isTimedOffers && guidePriceCents > 0 ? highestOfferCents >= Math.floor(guidePriceCents * 0.75) : false;
+  const showSocialProof = offersCount >= 3 && (pressure || guideExceeded);
 
   return (
     <main className="bd-container py-6 pb-14">
@@ -211,6 +214,10 @@ const hasAnyOffer = highestOfferCents > 0;
               <div className="text-lg font-semibold">
                 Highest offer: {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet"}
               <div className="text-xs text-neutral-600">{offersCount} offer{offersCount === 1 ? "" : "s"} so far</div>
+              <div className="text-xs text-neutral-600">
+                {offersCount > 0 ? `${offersCount} offer${offersCount === 1 ? "" : "s"} so far` : null}
+                {showSocialProof ? <span> • Multiple buyers competing</span> : null}
+              </div>
               {urgencyText ? <div className="text-xs text-neutral-600">{urgencyText}</div> : null}
                 {pressure ? <span className="ml-2 text-sm text-neutral-600">• Strong interest — offers approaching guide</span> : null}
               </div>
