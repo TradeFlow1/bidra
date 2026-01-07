@@ -142,6 +142,16 @@ const hasAnyOffer = highestOfferCents > 0;
   // For FIXED_PRICE, Buy Now remains the primary path.
   const hoursLeft = hoursUntil((listing as any).endsAt);
   const isFinalWindow = typeof hoursLeft === "number" ? hoursLeft <= 24 : false;
+  const urgencyText =
+    typeof hoursLeft !== "number"
+      ? null
+      : hoursLeft <= 1
+      ? "Ending shortly — seller decision pending"
+      : hoursLeft <= 6
+      ? "Final hours — strong interest"
+      : hoursLeft <= 24
+      ? "Ending soon — seller reviewing offers"
+      : null;
 
   const buyNowVisible =
     listing.status === "ACTIVE" &&
@@ -201,6 +211,7 @@ const hasAnyOffer = highestOfferCents > 0;
               <div className="text-lg font-semibold">
                 Highest offer: {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet"}
               <div className="text-xs text-neutral-600">{offersCount} offer{offersCount === 1 ? "" : "s"} so far</div>
+              {urgencyText ? <div className="text-xs text-neutral-600">{urgencyText}</div> : null}
                 {pressure ? <span className="ml-2 text-sm text-neutral-600">• Strong interest — offers approaching guide</span> : null}
               </div>
 
