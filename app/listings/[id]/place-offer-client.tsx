@@ -50,7 +50,7 @@ export default function PlaceOfferClient({
         return;
       }
 
-      const status = data?.status === "WINNING" ? "You have the top offer" : "You are no longer the top offer";
+      const status = data?.status === "WINNING" ? "You are the highest offer" : "You have been out-offered";
       const current = typeof data?.currentOfferCents === "number" ? (data.currentOfferCents / 100).toFixed(2) : null;
 
       setMsg(current ? `${status}. Current: $${current}` : `${status}.`);
@@ -66,11 +66,12 @@ export default function PlaceOfferClient({
     <div className="space-y-3">
       {offerState === "TOP" ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900">
-          You are currently the highest offer.
+          You are the highest offer.
         </div>
       ) : offerState === "OUTBID" ? (
-        <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900">
-          You have been out-offered. Increase your offer to stay on top.
+        <div className="rounded-xl border border-black/10 bg-white px-3 py-2">
+          <div className="text-sm font-extrabold text-neutral-900">You have been out-offered.</div>
+          <div className="mt-0.5 text-xs text-neutral-700">Increase your offer to stay on top.</div>
         </div>
       ) : null}
       <div className="text-xs text-[var(--bidra-muted)]">
