@@ -205,7 +205,7 @@ const hasAnyOffer = highestOfferCents > 0;
   </div>
 ) : (
   isTimedOffers ? (
-    <div className="text-sm text-neutral-600">Buy Now may be enabled late-stage by the seller.</div>
+    <div className="text-sm text-neutral-600">Buy Now is not shown early. The seller may enable it in the final 24 hours.</div>
   ) : null
 )}
 
