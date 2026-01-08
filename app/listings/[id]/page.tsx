@@ -34,6 +34,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
       description: true,
       price: true,
       buyNowPrice: true,
+      buyNowEnabled: true,
       reservePrice: true,
       type: true,
       status: true,
@@ -141,6 +142,7 @@ const hasAnyOffer = highestOfferCents > 0;
   const descriptionText = String(listing.description ?? "").trim();
 
   const rawBuyNow = (listing as any).buyNowPrice;
+  const buyNowEnabled = Boolean((listing as any).buyNowEnabled);
   const buyNowHasPrice = typeof rawBuyNow === "number";
   const buyNowPriceCents =
     listing.type === "FIXED_PRICE"
@@ -171,7 +173,7 @@ const hasAnyOffer = highestOfferCents > 0;
       // FIXED_PRICE: primary path (fallback to price when buyNowPrice not set)
       (listing.type === "FIXED_PRICE" && guidePriceCents > 0) ||
       // Timed offers: Buy Now is ONLY late-stage AND must be ABOVE current highest offer.
-      (isTimedOffers && isFinalWindow && buyNowPriceCents != null && buyNowPriceCents > highestOfferCents)
+      (isTimedOffers && isFinalWindow && buyNowEnabled && buyNowPriceCents != null && buyNowPriceCents > highestOfferCents)
     );
   // Pressure ramp is based on GUIDE price (Kevin model: ~70–80%).
   const pressure = isTimedOffers && guidePriceCents > 0 ? highestOfferCents >= Math.floor(guidePriceCents * 0.75) : false;

@@ -89,6 +89,7 @@ model Listing {
   updatedAt      DateTime          @updatedAt
   sellerId       String
   buyNowPrice    Int?
+  buyNowEnabled Boolean @default(false)
   reservePrice   Int?
   previousStatus ListingStatus?
   bids           Bid[]

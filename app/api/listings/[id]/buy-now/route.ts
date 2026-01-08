@@ -44,6 +44,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
 
     // Timed offers (schema type: AUCTION): Kevin model
     if (listing.type === "AUCTION") {
+      if (!(listing as any).buyNowEnabled) return jsonError("Buy Now is not enabled for this timed-offers listing.", 400)
       const h = hoursUntil(listing.endsAt)
       const isFinalWindow = typeof h === "number" ? h <= 24 : false
       if (!isFinalWindow) return jsonError("Buy Now may be enabled late-stage on timed offers.", 400)
