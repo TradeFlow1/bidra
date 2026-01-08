@@ -272,8 +272,8 @@ const hasAnyOffer = highestOfferCents > 0;
                         <div className="text-xs text-neutral-600">Offer ladder (top visible)</div>
                         <div className="mt-2 space-y-1">
                           {((listing as any).bids as any[]).slice(0, 6).map((b, idx) => (
-                            <div key={`${b.bidderId}-${b.amount}-${idx}`} className="flex items-center justify-between text-xs">
-                              <div className="text-neutral-600">#{idx + 1}</div>
+                            <div key={`${b.bidderId}-${b.amount}-${idx}`} className={`flex items-center justify-between text-xs rounded-lg px-2 py-1 ${viewerId && b.bidderId === viewerId ? "bg-[var(--bidra-link)]/10" : ""}`}>
+                              <div className="text-neutral-600">{viewerId && b.bidderId === viewerId ? "You" : `#${idx + 1}`}</div>
                               <div className="font-semibold text-neutral-900">{formatMoney(b.amount)}</div>
                             </div>
                           ))}
