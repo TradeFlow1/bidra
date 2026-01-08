@@ -169,7 +169,7 @@ export async function POST(req: Request) {
 
   return NextResponse.json({
     ok: true,
-    status: isWinning ? "WINNING" : "OUTBID",
+    status: isWinning ? "TOP" : "OUTBID",
     currentOfferCents: result.highestAmt,
   });
 }
