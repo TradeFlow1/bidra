@@ -10,7 +10,7 @@ export default function BuyNowButton({ listingId }: { listingId: string }) {
     setMsg("");
     try {
       setLoading(true);
-      const res = await fetch("/api/buy-now", {
+      const res = await fetch(`/api/listings/${listingId}/buy-now`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ listingId }),
