@@ -290,7 +290,7 @@ const hasAnyOffer = highestOfferCents > 0;
                 <div className="bd-card p-4">
                   <div className="text-sm font-semibold">Place an offer</div>
                   <div className="mt-2">
-                    <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={offerState} disabled={isEnded} disabledText="Waiting for seller decision." />
+                    <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={offerState} disabled={isEnded || isSeller} disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."} />
                   </div>
                 </div>
               </>
