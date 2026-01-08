@@ -299,7 +299,7 @@ const hasAnyOffer = highestOfferCents > 0;
                 {buyNowVisible ? (
                   <div className="space-y-1">
                     <BuyNowButton listingId={(listing as any).id} />
-                    <div className="text-xs text-neutral-600">Buy Now: {formatMoney(guidePriceCents)}</div>
+                    <div className="text-xs text-neutral-600">Buy Now: {formatMoney((buyNowPriceCents ?? guidePriceCents) as number)}</div>
                   </div>
                 ) : null}
               </div>
