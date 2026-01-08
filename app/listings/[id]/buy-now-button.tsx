@@ -42,7 +42,7 @@ export default function BuyNowButton({ listingId }: { listingId: string }) {
         type="button"
         onClick={buyNow}
         disabled={loading}
-        className="w-full rounded-xl border border-black/10 bg-bidra-blue px-4 py-2 text-sm font-semibold text-white transition hover:bg-bidra-blue/90 focus:outline-none focus:ring-2 focus:ring-bidra-blue/40 disabled:opacity-60"
+        className="w-full rounded-xl bg-[var(--bidra-link)] px-4 py-2.5 text-sm font-semibold text-[#0B0E11] transition hover:opacity-90 disabled:opacity-60"
       >
         {loading ? "Processing..." : "Buy Now"}
       </button>
