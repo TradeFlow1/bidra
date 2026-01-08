@@ -95,11 +95,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
           )}
         </div>
 
-        {isTimedOffers && hasBuyNow ? (
-          <div className="text-[12px] font-semibold text-black/60">
-            Buy Now: {money(listing.buyNowPrice as number)}
-          </div>
-        ) : null}
+        {null}
 
         {listing.location ? (
           <div className="text-xs font-medium text-black/55">{listing.location}</div>
