@@ -133,7 +133,16 @@ const hasAnyOffer = highestOfferCents > 0;
 
   const topBidderId = listing.bids && listing.bids.length ? (listing.bids[0] as any).bidderId : null;
   const viewerId = session?.user?.id ?? null;
-  const offerState: "NONE" | "TOP" | "OUTBID" = !viewerId || !hasAnyOffer ? "NONE" : (topBidderId === viewerId ? "TOP" : "OUTBID");
+  const viewerHasMax = viewerId
+    ? !!(await prisma.offerMax.findUnique({
+        where: { listingId_bidderId: { listingId: (listing as any).id, bidderId: viewerId } },
+        select: { id: true },
+      }))
+    : false;
+  const offerState: "NONE" | "TOP" | "OUTBID" =
+    !viewerId || !hasAnyOffer
+      ? "NONE"
+      : (topBidderId === viewerId ? "TOP" : (viewerHasMax ? "OUTBID" : "NONE"));
   const guideExceeded = hasAnyOffer && guidePriceCents > 0 && highestOfferCents >= guidePriceCents;
 
   const sellerName =
