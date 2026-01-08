@@ -87,13 +87,14 @@ export default function PlaceOfferClient({
       </div>
 
       <div className="text-xs text-[var(--bidra-muted)]">
-        Enter the most you are willing to offer. We will keep you on top automatically up to that amount.
+        Enter your MAX offer. We will automatically increase your visible offer (in $10 steps) to keep you on top, up to this limit.
       </div>
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <input
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
+          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } }}
           inputMode="decimal"
           placeholder="e.g. 25.50"
           disabled={disabled}
