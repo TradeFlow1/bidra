@@ -179,107 +179,128 @@ const hasAnyOffer = highestOfferCents > 0;
 
   return (
     <main className="bd-container py-6 pb-14">
-      <div className="bd-card p-5 space-y-4">
-        <Link href="/listings" className="bd-link text-sm">
-          ← Back
-        </Link>
-
-        <h1 className="text-2xl font-bold">{String((listing as any)?.title ?? "")}</h1>
-
-        <ListingImageGallery images={(listing as any).images ?? []} title={String((listing as any)?.title ?? "")} />
-
-        <div className="text-sm text-neutral-600">
-          Seller:{" "}
-          <Link href={`/seller/${sellerId}`} className="underline">
-            {sellerName}
+      <div className="bd-card p-5 max-w-6xl mx-auto">
+        <div className="space-y-3">
+          <Link href="/listings" className="bd-link text-sm">
+            ← Back
           </Link>
+          <h1 className="text-2xl font-bold">{String((listing as any)?.title ?? "")}</h1>
         </div>
 
-        <TrustPanel
-          username={sellerName}
-          suburb={(listing.seller as any)?.suburb}
-          state={(listing.seller as any)?.state}
-          joinedAt={(listing.seller as any)?.createdAt}
-          activeCount={activeCount}
-          soldCount={soldCount}
-        />
+        <div className="mt-4 sm:grid sm:grid-cols-3 sm:gap-6">
+          {/* Left column */}
+          <div className="sm:col-span-2 space-y-4">
+            <ListingImageGallery images={(listing as any).images ?? []} title={String((listing as any)?.title ?? "")} />
 
-        <div className="flex gap-2 flex-wrap">
-          <Badge>{listing.type === "AUCTION" ? "Timed offers" : "Fixed price"}</Badge>
-          <Badge>{listing.category}</Badge>
-          <Badge>{listing.condition}</Badge>
-        </div>
-
-        <div className="space-y-2">
-          {isTimedOffers ? (
-            <>
-              <div className={`text-sm ${guideExceeded ? "text-neutral-500" : "text-neutral-700"}`}>
-                {guideExceeded ? "Early guide:" : "Guide price:"}{" "}
-                <span className="font-semibold">{formatMoney(guidePriceCents)}</span>
-              </div>
-
-              <div className="space-y-1">
-                <div className="text-xl font-extrabold">
-                  Highest offer: {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet"}
-                </div>
-
-                <div className="text-xs text-neutral-600">
-                  {offersCount > 0 ? `${offersCount} offer${offersCount === 1 ? "" : "s"} so far` : null}
-                  {showSocialProof ? <span> • Multiple buyers competing</span> : null}
-                </div>
-
-                {urgencyText ? <div className="text-xs text-neutral-600">{urgencyText}</div> : null}
-                {pressure ? <div className="text-xs text-neutral-700">Strong interest — offers approaching guide</div> : null}
-              </div>
-              {buyNowVisible ? (
-  <div className="mt-3 space-y-1">
-    <BuyNowButton listingId={(listing as any).id} />
-    <div className="text-xs text-neutral-600">
-      {listing.type === "FIXED_PRICE"
-        ? `Buy Now: ${formatMoney(guidePriceCents)}`
-        : `Buy Now (late-stage): ${formatMoney(buyNowPriceCents as number)}`}
-    </div>
-  </div>
-) : (
-  isTimedOffers ? (
-    <div className="text-sm text-neutral-600">Buy Now is not shown early. The seller may enable it in the final 24 hours.</div>
-  ) : null
-)}
-
-              <div className="pt-2">
-                <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={offerState} />
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="text-lg font-semibold">Price: {formatMoney(guidePriceCents)}</div>
-              </>
-          )}
-        </div>
-
-        <div className="pt-3">
-          <div className="text-sm font-extrabold">Description</div>
-          <div className="mt-2 rounded-xl border border-black/10 bg-white p-4 text-sm text-neutral-800 whitespace-pre-wrap">
-            {descriptionText ? descriptionText : "No description provided."}
-          </div>
-        </div>
-
-        <div className="pt-4 space-y-3">
-          <ReportListingButton listingId={(listing as any).id} />
-
-          {isSeller ? <PhotosManager listingId={(listing as any).id} initialImages={(listing as any).images ?? []} /> : null}
-
-          <div>
-            {session?.user?.id && session.user.id === (listing as any).sellerId ? null : <MessageSellerButton listingId={(listing as any).id} />}
-          </div>
-
-          {session?.user?.id && (isAdmin || (listing as any).sellerId === session.user.id) ? <DeleteListingButton id={(listing as any).id} /> : null}
-
-          {isSeller ? (
-            <div>
-              <RelistButton listingId={(listing as any).id} />
+            <div className="text-sm text-neutral-600">
+              Seller:{" "}
+              <Link href={`/seller/${sellerId}`} className="underline">
+                {sellerName}
+              </Link>
             </div>
-          ) : null}
+
+            <TrustPanel
+              username={sellerName}
+              suburb={(listing.seller as any)?.suburb}
+              state={(listing.seller as any)?.state}
+              joinedAt={(listing.seller as any)?.createdAt}
+              activeCount={activeCount}
+              soldCount={soldCount}
+            />
+
+            <div className="flex gap-2 flex-wrap">
+              <Badge>{listing.type === "AUCTION" ? "Timed offers" : "Fixed price"}</Badge>
+              <Badge>{listing.category}</Badge>
+              <Badge>{listing.condition}</Badge>
+            </div>
+
+            <div className="pt-1">
+              <div className="text-sm font-extrabold">Description</div>
+              <div className="mt-2 rounded-xl border border-black/10 bg-white p-4 text-sm text-neutral-800 whitespace-pre-wrap">
+                {descriptionText ? descriptionText : "No description provided."}
+              </div>
+            </div>
+
+            <div className="pt-2 space-y-3">
+              <ReportListingButton listingId={(listing as any).id} />
+
+              {isSeller ? <PhotosManager listingId={(listing as any).id} initialImages={(listing as any).images ?? []} /> : null}
+
+              <div>
+                {session?.user?.id && session.user.id === (listing as any).sellerId ? null : <MessageSellerButton listingId={(listing as any).id} />}
+              </div>
+
+              {session?.user?.id && (isAdmin || (listing as any).sellerId === session.user.id) ? <DeleteListingButton id={(listing as any).id} /> : null}
+
+              {isSeller ? (
+                <div>
+                  <RelistButton listingId={(listing as any).id} />
+                </div>
+              ) : null}
+            </div>
+          </div>
+
+          {/* Right column */}
+          <div className="mt-5 sm:mt-0 sm:col-span-1 space-y-4 sm:sticky sm:top-24 self-start">
+            {isTimedOffers ? (
+              <>
+                <div className="bd-card p-4">
+                  <div className="space-y-2">
+                    <div className={`text-sm ${guideExceeded ? "text-neutral-500" : "text-neutral-700"}`}>
+                      {guideExceeded ? "Early guide:" : "Guide price:"}{" "}
+                      <span className="font-semibold">{formatMoney(guidePriceCents)}</span>
+                    </div>
+
+                    <div className="text-2xl font-extrabold">
+                      {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet"}
+                    </div>
+                    <div className="text-xs text-neutral-600">Highest offer</div>
+
+                    <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
+                      <div className="text-neutral-600">Offers</div>
+                      <div className="text-neutral-900 text-right">{offersCount > 0 ? `${offersCount}` : "0"}</div>
+
+                      <div className="text-neutral-600">Activity</div>
+                      <div className="text-neutral-900 text-right">{showSocialProof ? "Multiple buyers" : (offersCount > 0 ? "Active" : "Quiet")}</div>
+
+                      <div className="text-neutral-600">Timing</div>
+                      <div className="text-neutral-900 text-right">{urgencyText ? urgencyText : (isFinalWindow ? "Final 24h" : "In progress")}</div>
+
+                      <div className="text-neutral-600">Interest</div>
+                      <div className="text-neutral-900 text-right">{pressure ? "Strong" : (guideExceeded ? "Above guide" : "Normal")}</div>
+                    </div>
+
+                    {buyNowVisible ? (
+                      <div className="pt-3">
+                        <BuyNowButton listingId={(listing as any).id} />
+                        <div className="mt-1 text-xs text-neutral-600">Buy Now (late-stage): {formatMoney(buyNowPriceCents as number)}</div>
+                      </div>
+                    ) : (
+                      <div className="pt-3 text-xs text-neutral-600">Buy Now may appear in the final 24 hours (seller-controlled).</div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="bd-card p-4">
+                  <div className="text-sm font-semibold">Place an offer</div>
+                  <div className="mt-2">
+                    <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={offerState} />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="bd-card p-4 space-y-3">
+                <div className="text-sm font-semibold">Price</div>
+                <div className="text-2xl font-extrabold">{formatMoney(guidePriceCents)}</div>
+                {buyNowVisible ? (
+                  <div className="space-y-1">
+                    <BuyNowButton listingId={(listing as any).id} />
+                    <div className="text-xs text-neutral-600">Buy Now: {formatMoney(guidePriceCents)}</div>
+                  </div>
+                ) : null}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </main>
