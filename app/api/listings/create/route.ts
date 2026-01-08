@@ -194,7 +194,8 @@ if (images.length > 10) return NextResponse.json({ error: "Too many images (max 
       }
     } else if (isFixedNow) {
       reserveToSave = null;
-      buyNowToSave = null;
+      // Fixed price means Buy Now is the price
+      buyNowToSave = priceForRules;
     }
 
     // Normalize legacy BUY_NOW to FIXED_PRICE
@@ -215,6 +216,7 @@ if (images.length > 10) return NextResponse.json({ error: "Too many images (max 
         price: priceForRules,images,
         reservePrice: reserveToSave,
         buyNowPrice: buyNowToSave,
+        buyNowEnabled: isFixedNow ? true : false,
         endsAt: endsAtToSave,
         sellerId: session.user.id,
         status: "ACTIVE",
