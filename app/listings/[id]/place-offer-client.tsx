@@ -56,7 +56,8 @@ export default function PlaceOfferClient({
         return;
       }
 
-      const status = data?.status === "WINNING" ? "You are the highest offer" : "You have been out-offered";
+      const isTop = data?.status === "TOP" || data?.status === "HIGHEST" || data?.status === "WINNING"; // backward compat
+      const status = isTop ? "You are the highest offer" : "You have been out-offered";
       const current = typeof data?.currentOfferCents === "number" ? (data.currentOfferCents / 100).toFixed(2) : null;
 
       setMsg(current ? `${status}. Current: $${current}` : `${status}.`);
