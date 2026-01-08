@@ -56,7 +56,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
           createdAt: true,
         },
       },
-      bids: { orderBy: { amount: "desc" }, take: 1, select: { amount: true, bidderId: true } },
+      bids: { orderBy: [{ amount: "desc" }, { createdAt: "desc" }], take: 10, select: { amount: true, bidderId: true, createdAt: true } },
       _count: { select: { bids: true } },
     },
   });
@@ -258,6 +258,19 @@ const hasAnyOffer = highestOfferCents > 0;
                       {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet"}
                     </div>
                     <div className="text-xs text-neutral-600">Highest offer</div>
+                    {(listing as any).bids && (listing as any).bids.length ? (
+                      <div className="pt-3">
+                        <div className="text-xs text-neutral-600">Offer ladder (top visible)</div>
+                        <div className="mt-2 space-y-1">
+                          {((listing as any).bids as any[]).slice(0, 6).map((b, idx) => (
+                            <div key={`${b.bidderId}-${b.amount}-${idx}`} className="flex items-center justify-between text-xs">
+                              <div className="text-neutral-600">#{idx + 1}</div>
+                              <div className="font-semibold text-neutral-900">{formatMoney(b.amount)}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ) : null}
 
                     <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
                       <div className="text-neutral-600">Offers</div>
