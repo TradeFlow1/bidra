@@ -66,10 +66,23 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     const amount = listing.buyNowPrice
 
     const result = await prisma.$transaction(async (tx) => {
-      await tx.listing.update({
-        where: { id: listing.id },
+      // Race-safe: only the first request that flips ACTIVE->SOLD may create an order
+      const updated = await tx.listing.updateMany({
+        where: { id: listing.id, status: "ACTIVE" },
         data: { status: "SOLD" },
       })
+
+      if (updated.count !== 1) {
+        // Idempotency: if this buyer already created an order for this listing, return it
+        const existing = await tx.order.findFirst({
+          where: { listingId: listing.id, buyerId: session.user.id, status: "PENDING" },
+          orderBy: { createdAt: "desc" },
+          select: { id: true },
+        })
+        if (existing) return { order: { id: existing.id } }
+
+        throw new Error("LISTING_NOT_ACTIVE")
+      }
 
       const order = await tx.order.create({
         data: {
@@ -85,8 +98,13 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     })
 
     return NextResponse.json({ ok: true, orderId: result.order.id })
-  } catch (e) {
+  } catch (e: any) {
     console.error("Buy Now error:", e)
+
+    if (e?.message === "LISTING_NOT_ACTIVE") {
+      return jsonError("Listing is not active.", 400)
+    }
+
     return jsonError("Server error", 500)
   }
 }
