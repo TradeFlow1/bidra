@@ -7,10 +7,14 @@ export default function PlaceOfferClient({
   listingId,
   minOfferCents,
   offerState = "NONE",
+  disabled = false,
+  disabledText = "Waiting for seller decision.",
 }: {
   listingId: string;
   minOfferCents: number;
   offerState?: "NONE" | "TOP" | "OUTBID";
+  disabled?: boolean;
+  disabledText?: string;
 }) {
   const safeMinCents = Number.isFinite(Number(minOfferCents)) ? Number(minOfferCents) : 0;
   const minDollars = safeMinCents / 100;
@@ -21,6 +25,7 @@ export default function PlaceOfferClient({
   const router = useRouter();
 
   async function submit() {
+    if (disabled) { setMsg(disabledText || "Waiting for seller decision."); return; }
     setMsg("");
 
     const value = Number(amount);
@@ -91,19 +96,21 @@ export default function PlaceOfferClient({
           onChange={(e) => setAmount(e.target.value)}
           inputMode="decimal"
           placeholder="e.g. 25.50"
-          className="w-full rounded-xl border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-3 py-2 text-sm text-[var(--bidra-fg)] placeholder:text-[var(--bidra-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--bidra-link)]"
+          disabled={disabled}
+          className="w-full h-11 rounded-xl border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-3 py-2 text-sm text-[var(--bidra-fg)] placeholder:text-[var(--bidra-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--bidra-link)] disabled:opacity-60"
         />
 
         <button
           type="button"
           onClick={submit}
-          disabled={loading}
-          className="rounded-xl bg-[var(--bidra-link)] px-4 py-2 text-sm font-semibold text-[#0B0E11] transition hover:opacity-90 disabled:opacity-60"
+          disabled={loading || disabled}
+          className="w-full sm:w-auto rounded-xl bg-[var(--bidra-link)] px-4 py-2.5 text-sm font-semibold text-[#0B0E11] transition hover:opacity-90 disabled:opacity-60"
         >
           {loading ? "Submitting..." : "Place offer"}
         </button>
       </div>
 
+      {(disabled && !msg) ? <div className="text-xs text-[var(--bidra-muted)]">{disabledText || "Waiting for seller decision."}</div> : null}
       {msg ? <div className="text-xs text-[var(--bidra-muted)]">{msg}</div> : null}
     </div>
   );

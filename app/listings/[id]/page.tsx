@@ -152,6 +152,7 @@ const hasAnyOffer = highestOfferCents > 0;
   // For FIXED_PRICE, Buy Now remains the primary path.
   const hoursLeft = hoursUntil((listing as any).endsAt);
   const isFinalWindow = typeof hoursLeft === "number" ? hoursLeft <= 24 : false;
+  const isEnded = listing.status !== "ACTIVE" || (typeof hoursLeft === "number" && hoursLeft <= 0);
   const urgencyText =
     typeof hoursLeft !== "number"
       ? null
@@ -276,7 +277,10 @@ const hasAnyOffer = highestOfferCents > 0;
                         <div className="mt-1 text-xs text-neutral-600">Buy Now (late-stage): {formatMoney(buyNowPriceCents as number)}</div>
                       </div>
                     ) : (
+                      <>
                       <div className="pt-3 text-xs text-neutral-600">Buy Now may appear in the final 24 hours (seller-controlled).</div>
+                      <div className="mt-2 text-xs text-neutral-600">Seller chooses whether to accept the highest offer.</div>
+                      </>
                     )}
                   </div>
                 </div>
@@ -284,7 +288,7 @@ const hasAnyOffer = highestOfferCents > 0;
                 <div className="bd-card p-4">
                   <div className="text-sm font-semibold">Place an offer</div>
                   <div className="mt-2">
-                    <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={offerState} />
+                    <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={offerState} disabled={isEnded} disabledText="Waiting for seller decision." />
                   </div>
                 </div>
               </>
