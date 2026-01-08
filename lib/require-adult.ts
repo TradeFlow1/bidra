@@ -1,7 +1,7 @@
 ﻿import { auth } from "@/lib/auth";
 
 /**
- * Enforces 18+ policy for actions: list, bid, message, feedback, reports.
+ * Enforces 18+ policy for actions: list, offer, message, feedback, reports.
  * Assumes user DOB is stored on the user record as dateOfBirth or dob.
  * If your schema uses a different field name, update getDob().
  */
