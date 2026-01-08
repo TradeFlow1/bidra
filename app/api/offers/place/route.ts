@@ -30,10 +30,7 @@ export async function POST(req: Request) {
 
   const maxCents = Math.round(amountDollars * 100);
 
-  // Enforce $10 increments to prevent spammy micro-offers
-  if (maxCents % INC_CENTS !== 0) {
-    return NextResponse.json({ ok: false, error: "Offers must be in $10 increments." }, { status: 400 });
-  }
+  // MAX offer can be any amount. Only the VISIBLE ladder moves in $10 steps.
 
   const listing = await prisma.listing.findUnique({
     where: { id: listingId },
@@ -98,6 +95,10 @@ export async function POST(req: Request) {
     const leader = top[0];
     const runner = top.length > 1 ? top[1] : null;
 
+    // VISIBLE ladder is $10 steps. Cap max amounts down to nearest $10 for ladder math.
+    const leaderCap = leader ? Math.floor(leader.maxAmount / INC_CENTS) * INC_CENTS : 0;
+    const runnerCap = runner ? Math.floor(runner.maxAmount / INC_CENTS) * INC_CENTS : 0;
+
     // Re-check highest inside txn
     const nowHighest = await tx.bid.findFirst({
       where: { listingId: listing.id },
@@ -114,7 +115,7 @@ export async function POST(req: Request) {
       return { highestAmt, highestBidder, placed: false };
     }
 
-    if (leader.maxAmount < minNextTxn) {
+    if (leaderCap < minNextTxn) {
       // This should be impossible given earlier check, but keep safe.
       return { highestAmt, highestBidder, placed: false };
     }
@@ -122,10 +123,10 @@ export async function POST(req: Request) {
     let newVisible = 0;
 
     if (runner) {
-      const target = runner.maxAmount + INC_CENTS;
-      newVisible = Math.min(leader.maxAmount, Math.max(minNextTxn, target));
+      const target = runnerCap + INC_CENTS;
+      newVisible = Math.min(leaderCap, Math.max(minNextTxn, target));
     } else {
-      newVisible = Math.min(leader.maxAmount, minNextTxn);
+      newVisible = Math.min(leaderCap, minNextTxn);
     }
 
     // Only write a new ladder row if it actually increases the visible highest
