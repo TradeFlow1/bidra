@@ -1,6 +1,6 @@
 ﻿export const PLATFORM_LANGUAGE = {
-  timedBidding: "timed bidding",
-  bidHistory: "bid history",
+  timedBidding: "timed offers",
+  bidHistory: "offer history",
   listingRules: "listing rules",
   enforcement: "platform enforcement",
   outcome: "outcome",

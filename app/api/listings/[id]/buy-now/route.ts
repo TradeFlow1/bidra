@@ -42,7 +42,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
 
     const highestOffer = listing.bids?.length ? listing.bids[0].amount : 0
 
-    // Timed offers (AUCTION): Kevin model
+    // Timed offers (schema type: AUCTION): Kevin model
     if (listing.type === "AUCTION") {
       const h = hoursUntil(listing.endsAt)
       const isFinalWindow = typeof h === "number" ? h <= 24 : false

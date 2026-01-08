@@ -221,7 +221,7 @@ export default async function DashboardPage() {
               <div className="flex flex-wrap gap-2">
                 <Pill>Listings: {myListingsCount}</Pill>
                 <Pill>Active: {activeListingsCount}</Pill>
-                <Pill>Sold: {soldListingsCount}</Pill>
+                <Pill>Completed: {soldListingsCount}</Pill>
               </div>
 
               <div className="mt-4 flex flex-col gap-2 text-sm">

@@ -67,7 +67,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
 
     const data: any = { title, description, category, condition, location, price, images };
 
-// Timed-offers Buy Now: only allow for AUCTION listings. Ignore for other types.
+// Timed-offers Buy Now: only allow for schema type AUCTION listings. Ignore for other types.
 if (hasBuyNowField) {
   const isTimedOffers = String((existing as any).type || "").toUpperCase() === "AUCTION";
 

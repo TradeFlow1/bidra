@@ -200,7 +200,7 @@ if (images.length > 10) return NextResponse.json({ error: "Too many images (max 
     // Normalize legacy BUY_NOW to FIXED_PRICE
     const typeToSave = type === "BUY_NOW" ? "FIXED_PRICE" : type;
 
-    // Default auction duration: 7 days
+    // Default timed-offers duration: 7 days
     const now = new Date();
     const endsAtToSave = isAuctionNow ? new Date(now.getTime() + durationDays * 24 * 60 * 60 * 1000) : null;
 

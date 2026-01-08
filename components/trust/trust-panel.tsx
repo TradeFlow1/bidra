@@ -54,7 +54,7 @@ export default function TrustPanel({
 
         <div style={{ fontSize: 13, textAlign: "right" }}>
           <div><strong>{activeCount}</strong> active</div>
-          <div><strong>{soldCount}</strong> sold</div>
+          <div><strong>{soldCount}</strong> completed sales</div>
         </div>
       </div>
 

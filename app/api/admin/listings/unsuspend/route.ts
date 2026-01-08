@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
   if (!listingId) return NextResponse.redirect(new URL(backTo, req.url));
 
-  // If you prefer restoring to ENDED/SOLD based on auction end state later, we can improve this.
+  // If you prefer restoring to ENDED/COMPLETED based on auction end state later, we can improve this.
   // For now, unsuspend returns listing to ACTIVE.
   await prisma.listing.update({
     where: { id: listingId },
