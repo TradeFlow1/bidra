@@ -274,12 +274,12 @@ const hasAnyOffer = highestOfferCents > 0;
                     {buyNowVisible ? (
                       <div className="pt-3">
                         <BuyNowButton listingId={(listing as any).id} />
-                        <div className="mt-1 text-xs text-neutral-600">Buy Now (late-stage): {formatMoney(buyNowPriceCents as number)}</div>
+                        <div className="mt-1 text-xs text-neutral-600">Buy Now: {formatMoney(buyNowPriceCents as number)}</div>
                       </div>
                     ) : (
                       <>
-                      <div className="pt-3 text-xs text-neutral-600">Buy Now may appear in the final 24 hours (seller-controlled).</div>
-                      <div className="mt-2 text-xs text-neutral-600">Seller chooses whether to accept the highest offer.</div>
+                      <div className="pt-3 text-xs text-neutral-600">Buy Now may appear in the final 24 hours.</div>
+                      <div className="mt-2 text-xs text-neutral-600">Seller decides whether to accept the highest offer.</div>
                       </>
                     )}
                   </div>
