@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import TrustPanel from "@/components/trust/trust-panel";
 import PlaceOfferClient from "./place-offer-client";
+import AcceptHighestOfferButton from "./accept-highest-offer-button";
 import BuyNowButton from "./buy-now-button";
 import RelistButton from "./relist-button";
 import DeleteListingButton from "./delete-listing-button";
@@ -309,12 +310,27 @@ const hasAnyOffer = highestOfferCents > 0;
                   </div>
                 </div>
 
-                <div className="bd-card p-4">
-                  <div className="text-sm font-semibold">Place an offer</div>
-                  <div className="mt-2">
-                    <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={offerState} disabled={isEnded || isSeller} disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."} />
+                {isSeller ? (
+                  <div className="bd-card p-4">
+                    <div className="text-sm font-semibold">Seller action</div>
+                    <div className="mt-2">
+                      {isEnded && hasAnyOffer ? (
+                        <AcceptHighestOfferButton listingId={(listing as any).id} />
+                      ) : (
+                        <div className="text-xs text-neutral-600">
+                          You can proceed with the highest offer after the listing ends and at least one offer exists.
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="bd-card p-4">
+                    <div className="text-sm font-semibold">Place an offer</div>
+                    <div className="mt-2">
+                      <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={offerState} disabled={isEnded || isSeller} disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."} />
+                    </div>
+                  </div>
+                )}
               </>
             ) : (
               <div className="bd-card p-4 space-y-3">
