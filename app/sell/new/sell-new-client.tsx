@@ -1,7 +1,7 @@
 ﻿"use client";
 import Link from "next/link";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FULL_CATEGORIES } from "@/lib/categories";
 
@@ -22,6 +22,7 @@ export default function SellNewClient() {
     feedbackUrl: string | null;
   }>(null);
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [type, setType] = useState<ListingTypeUI>("FIXED_PRICE");
 
@@ -307,14 +308,26 @@ export default function SellNewClient() {
 
         <div>
           <label className="text-sm font-medium">Photos</label>
+          <div className="mt-2 flex items-center gap-2 flex-wrap">
+            <button
+              type="button"
+              className="bd-btn bd-btn-primary"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              Add photos
+            </button>
+            <div className="text-xs bd-ink2">{files.length}/10 selected (max 8MB each)</div>
+          </div>
+
+          {/* Hidden real input (no ugly "no file chosen") */}
           <input
+            ref={fileInputRef}
+            className="hidden"
             type="file"
             accept="image/*"
             multiple
-            className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
             onChange={(e) => setFiles(Array.from(e.target.files || []).slice(0, 10))}
           />
-          <div className="mt-1 text-xs bd-ink2">Choose up to 10 images (max 8MB each).</div>
 
           {previews.length > 0 && (
             <div className="mt-3 grid grid-cols-3 gap-2">
