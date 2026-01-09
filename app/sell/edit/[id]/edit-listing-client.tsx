@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { FULL_CATEGORIES } from "@/lib/categories";
+import { FULL_CATEGORIES, CATEGORY_GROUPS } from "@/lib/categories";
 
 const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
 type SellerStatus = (typeof SELLER_ALLOWED_STATUSES)[number];
@@ -268,10 +268,15 @@ buyNowPrice:
   onChange={(e) => setCategory(e.target.value)}
 >
   <option value="">Select a category…</option>
-  {FULL_CATEGORIES.map((c) => (
-    <option key={c} value={c}>
-      {c}
-    </option>
+  {CATEGORY_GROUPS.map((g) => (
+    <optgroup key={g.parent} label={g.parent}>
+      <option value={g.parent}>{g.parent}</option>
+      {g.children.map((c) => (
+        <option key={c} value={c}>
+          {c}
+        </option>
+      ))}
+    </optgroup>
   ))}
 </select>
                 </div>
