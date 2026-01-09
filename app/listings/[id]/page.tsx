@@ -172,7 +172,7 @@ const ladderTop = Object.values(ladderRows)
       }))
     : false;
   const offerState: "NONE" | "TOP" | "OUTBID" =
-    !viewerId || !hasAnyOffer
+    !viewerId
       ? "NONE"
       : (topBidderId === viewerId ? "TOP" : (viewerHasMax ? "OUTBID" : "NONE"));
   const guideExceeded = hasAnyOffer && guidePriceCents > 0 && highestOfferCents >= guidePriceCents;
