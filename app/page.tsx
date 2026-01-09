@@ -10,7 +10,7 @@ type ListingLite = {
   description?: string | null;
   price: number;
   buyNowPrice?: number | null;
-  type?: "FIXED_PRICE" | "AUCTION" | "BUY_NOW" | string;
+  type?: "FIXED_PRICE" | "BUY_NOW" | string;
   category?: string | null;
   condition?: string | null;
   location?: string | null;
@@ -53,24 +53,24 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="bd-hero-eyebrow">AUSTRALIA-WIDE • LIST • OFFER • SELL</div>
+          <div className="bd-hero-eyebrow">AUSTRALIA-WIDE • LIST • OFFER • SELLER DECIDES</div>
 
-          <h1 className="bd-hero-h1">Where serious buyers and sellers actually transact.</h1>
+          <h1 className="bd-hero-h1">Australia&#39;s marketplace for seller-accepted offers.</h1>
           <p className="bd-hero-p">
-            Browse listings, place offers with intent, and complete trades without time-wasters.
+            Browse items, send an offer, and let the seller accept or decline — no auctions, no confusion.
           </p>
 
           <div className="mt-4 flex flex-wrap gap-3">
             <Link href="/listings" className="bd-btn bd-btn-primary">
-              Browse listings
+              Browse items
             </Link>
             <Link href="/auth/login?next=%2Fsell%2Fnew" className="bd-btn bd-btn-primary">
-              Create a listing
+              List an item
             </Link>
           </div>
 
           <div className="bd-hero-fine">
-            Bidra is a marketplace platform — sellers control the outcome of any offer or offers.
+            Bidra is a marketplace platform — sellers choose whether to accept, decline, or counter an offer. Not an auction site.
           </div>
         </div>
       </section>
