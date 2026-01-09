@@ -271,7 +271,7 @@ const ladderTop = Object.values(ladderRows)
               {isSeller ? <PhotosManager listingId={(listing as any).id} initialImages={(listing as any).images ?? []} /> : null}
 
               <div>
-                {session?.user?.id && session.user.id === (listing as any).sellerId ? null : <MessageSellerButton listingId={(listing as any).id} />}
+                {session?.user?.id === (listing as any).sellerId ? null : <MessageSellerButton listingId={(listing as any).id} />}
               </div>
 
               {session?.user?.id && (isAdmin || (listing as any).sellerId === session.user.id) ? <DeleteListingButton id={(listing as any).id} /> : null}
