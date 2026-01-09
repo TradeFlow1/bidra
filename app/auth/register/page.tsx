@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 type FormState = {
   email: string;
   password: string;
+  confirmPassword: string;
   username: string;
   dob: string; // yyyy-mm-dd
   postcode: string;
@@ -26,6 +27,7 @@ export default function RegisterPage() {
   const [form, setForm] = useState<FormState>({
     email: "",
     password: "",
+    confirmPassword: "",
     username: "",
     dob: "",
     postcode: "",
@@ -34,6 +36,23 @@ export default function RegisterPage() {
   });
 
   const hasPostcode = useMemo(() => form.postcode.trim().length > 0, [form.postcode]);
+  const pwTooShort = useMemo(() => form.password.length > 0 && form.password.length < 8, [form.password]);
+  const pwMismatch = useMemo(
+    () => form.confirmPassword.length > 0 && form.password !== form.confirmPassword,
+    [form.password, form.confirmPassword]
+  );
+
+  const canSubmit = useMemo(() => {
+    const emailOk = form.email.trim().length > 0;
+    const userOk = form.username.trim().length >= 3;
+    const dobOk = form.dob.trim().length > 0;
+    const pwOk = form.password.length >= 8;
+    const confirmOk = form.confirmPassword.length >= 8 && form.password === form.confirmPassword;
+    // keep existing location rule: postcode OR suburb+state
+    const locationOk = (form.postcode.trim().length > 0) || (form.suburb.trim().length > 0 && form.state.trim().length > 0);
+    return emailOk && userOk && dobOk && pwOk && confirmOk && locationOk && agreeTerms && !loading;
+  }, [form, agreeTerms, loading]);
+
   const hasSuburbState = useMemo(
     () => form.suburb.trim().length > 0 || form.state.trim().length > 0,
     [form.suburb, form.state]
@@ -46,6 +65,28 @@ export default function RegisterPage() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
+
+    // STEP 1A: client-side guard (still validate server-side too)
+    if (pwTooShort) {
+      setError("Password must be at least 8 characters.");
+      setLoading(false);
+      return;
+    }
+    if (pwMismatch) {
+      setError("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+    if (!form.confirmPassword) {
+      setError("Please confirm your password.");
+      setLoading(false);
+      return;
+    }
+    if (!canSubmit) {
+      setError("Please complete all required fields.");
+      setLoading(false);
+      return;
+    }
     setLoading(true);
 
     const payload = {
@@ -138,27 +179,51 @@ export default function RegisterPage() {
                     required
                     minLength={8}
                     value={form.password}
-                    onChange={(e) => set("password", e.target.value)}
+                    onChange={(e) => {
+                      set("password", e.target.value);
+                      // keep confirm in sync UX: if user edits password after confirming, mismatch will show
+                    }}
                     placeholder="At least 8 characters"
                     autoComplete="new-password"
                   />
                   <p className={helper}>Use 8+ characters.</p>
+                  {pwTooShort ? (
+                    <p className="mt-1 text-xs font-semibold text-red-700">Must be at least 8 characters.</p>
+                  ) : null}
                 </div>
 
                 <div>
-                  <label className={label}>Username (unique)</label>
+                  <label className={label}>Confirm password</label>
                   <input
                     className={input}
+                    type="password"
                     required
-                    minLength={3}
-                    maxLength={24}
-                    value={form.username}
-                    onChange={(e) => set("username", e.target.value)}
-                    placeholder="Choose a username"
-                    autoComplete="username"
+                    minLength={8}
+                    value={form.confirmPassword}
+                    onChange={(e) => set("confirmPassword", e.target.value)}
+                    placeholder="Re-enter password"
+                    autoComplete="new-password"
                   />
-                  <p className={helper}>Letters, numbers, underscore, dot.</p>
+                  <p className={helper}>Must match your password.</p>
+                  {pwMismatch ? (
+                    <p className="mt-1 text-xs font-semibold text-red-700">Passwords do not match.</p>
+                  ) : null}
                 </div>
+              </div>
+
+              <div>
+                <label className={label}>Username (unique)</label>
+                <input
+                  className={input}
+                  required
+                  minLength={3}
+                  maxLength={24}
+                  value={form.username}
+                  onChange={(e) => set("username", e.target.value)}
+                  placeholder="Choose a username"
+                  autoComplete="username"
+                />
+                <p className={helper}>Letters, numbers, underscore, dot.</p>
               </div>
 
               <div>
@@ -264,7 +329,7 @@ export default function RegisterPage() {
 
               <button
                 type="submit"
-                disabled={loading}
+                disabled={!canSubmit}
                 className={cx("bd-btn bd-btn-primary w-full", loading && "opacity-70 cursor-not-allowed")}
               >
                 {loading ? "Creating..." : "Create account"}
