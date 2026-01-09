@@ -42,7 +42,6 @@ export default function SellNewClient() {
 
   // Images
   const [files, setFiles] = useState<File[]>([]);
-  const [imageUrls, setImageUrls] = useState(""); // optional fallback
 
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -69,7 +68,7 @@ export default function SellNewClient() {
     if (!loc) return setErr("Location is required.");
 
     // fallback urls (optional)
-    const urlsFromText = imageUrls
+    const urlsFromText = ""
       .split(/\r?\n/)
       .map((x) => x.trim())
       .filter(Boolean)

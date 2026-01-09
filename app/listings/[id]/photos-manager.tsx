@@ -58,34 +58,16 @@ export default function PhotosManager({
     <div className="bd-card p-4">
       <div className="flex items-baseline justify-between gap-3 flex-wrap">
         <div className="font-extrabold">Photos</div>
-        <div className="text-xs text-neutral-600">{images.length}/10</div>
+        <div className="text-xs text-neutral-600">{count}/10</div>
+      </div>
+
+      <div className="mt-3 text-sm text-neutral-700">
+        Photos are uploaded (no URL pasting).
       </div>
 
       <div className="mt-2 text-xs text-neutral-600">
-        Photos are uploaded using Bidra&apos;s uploader. Paste-a-URL is not supported.
+        Tip: use the listing create/edit flow to upload images. This keeps Bidra clean and consistent.
       </div>
-
-      {msg ? <div className="mt-2 text-xs text-neutral-600">{msg}</div> : null}
-
-      {images.length ? (
-        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {images.map((img) => (
-            <div key={img} className="rounded-xl border border-black/10 bg-white p-2">
-              <div className="text-[11px] break-words text-neutral-700">{img}</div>
-              <button
-                type="button"
-                onClick={() => remove(img)}
-                disabled={busy}
-                className="mt-2 w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-xs font-semibold text-black transition hover:bg-neutral-50 disabled:opacity-60"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="mt-4 text-sm text-neutral-600">No photos yet.</div>
-      )}
     </div>
   );
 }
