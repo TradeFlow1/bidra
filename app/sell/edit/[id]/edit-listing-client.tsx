@@ -63,7 +63,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   (listing as any).buyNowPriceDollars != null ? String((listing as any).buyNowPriceDollars) : ""
 );
 const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>((listing as any).buyNowPriceDollars != null);
-// Existing saved URLs
+// Existing saved images
   const [existingImages, setExistingImages] = useState<string[]>(
     Array.isArray(listing.images) ? listing.images.filter(Boolean).slice(0, 10) : []
   );
@@ -120,13 +120,13 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>((listing as any).buy
         return;
       }
 
-      const urls = (Array.isArray(upData?.urls) ? upData.urls : []).filter(Boolean);
-      if (!urls.length) {
-        setError("Upload failed: no URLs returned.");
+      const uploaded = (Array.isArray(upData?.urls) ? upData.urls : []).filter(Boolean);
+      if (!uploaded.length) {
+        setError("Upload failed: no image locations returned.");
         return;
       }
 
-      setExistingImages((cur) => [...cur, ...urls].filter(Boolean).slice(0, 10));
+      setExistingImages((cur) => [...cur, ...uploaded].filter(Boolean).slice(0, 10));
     } catch (e: any) {
       setError(String(e?.message || e || "Upload failed."));
     } finally {
