@@ -31,7 +31,6 @@ export default async function ProfilePage({
 
     const name = String(formData.get("name") ?? "").trim().slice(0, 60);
     const bio = String(formData.get("bio") ?? "").trim().slice(0, 280);
-    const avatarUrl = String(formData.get("avatarUrl") ?? "").trim().slice(0, 500);
 
     const postcode = String(formData.get("postcode") ?? "").trim().slice(0, 10);
     const suburb = String(formData.get("suburb") ?? "").trim().slice(0, 60);
@@ -56,7 +55,6 @@ export default async function ProfilePage({
       data: {
         name: name || null,
         bio: bio || null,
-        avatarUrl: avatarUrl || null,
         postcode: hasPostcode ? postcode : null,
         suburb: hasSuburb ? suburb : null,
         state: hasState ? state : null,
@@ -167,7 +165,6 @@ export default async function ProfilePage({
 
             <div>
               <label className="text-sm font-medium">Avatar URL (optional)</label>
-              <Input name="avatarUrl" defaultValue={(dbUser as any).avatarUrl ?? ""} placeholder="https://..." />
             </div>
 
             <div className="bd-card p-5">
