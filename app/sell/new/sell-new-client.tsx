@@ -67,13 +67,7 @@ export default function SellNewClient() {
     if (!category) return setErr("Category is required.");
     if (!loc) return setErr("Location is required.");
 
-    // fallback urls (optional)
-    const urlsFromText = ""
-      .split(/\r?\n/)
-      .map((x) => x.trim())
-      .filter(Boolean)
-      .slice(0, 10);
-
+    
     const fixedPriceCents = dollarsToCentsOrNull(price);
     const startBidCents = dollarsToCentsOrNull(startingBid);
     const reserveCents = dollarsToCentsOrNull(reservePrice);
@@ -126,7 +120,7 @@ export default function SellNewClient() {
         uploadedUrls = Array.isArray(upData?.urls) ? upData.urls : [];
       }
 
-      const imagesToSend = uploadedUrls.length > 0 ? uploadedUrls : urlsFromText;
+      const imagesToSend = uploadedUrls;
 
       // 2) Create listing
       const res = await fetch("/api/listings/create", {

@@ -12,7 +12,6 @@ import ReportListingButton from "./report-listing-button";
 import MessageSellerButton from "./message-seller-button";
 import { Badge } from "@/components/ui";
 import ListingImageGallery from "@/components/listing-image-gallery";
-import PhotosManager from "./photos-manager";
 
 export const dynamic = "force-dynamic";
 
@@ -268,8 +267,7 @@ const ladderTop = Object.values(ladderRows)
             <div className="pt-2 space-y-3">
               <ReportListingButton listingId={(listing as any).id} />
 
-              {isSeller ? <PhotosManager listingId={(listing as any).id} initialImages={(listing as any).images ?? []} /> : null}
-
+              
               <div>
                 {session?.user?.id === (listing as any).sellerId ? null : <MessageSellerButton listingId={(listing as any).id} />}
               </div>
