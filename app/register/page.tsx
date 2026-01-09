@@ -1,16 +1,22 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+
+function cx(...classes: Array<string | false | null | undefined>) {
+  return classes.filter(Boolean).join(" ");
+}
 
 export default function RegisterPage() {
   const router = useRouter();
+
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [username, setUsername] = useState("");
   const [dob, setDob] = useState(""); // YYYY-MM-DD
   const [country, setCountry] = useState("AU");
@@ -20,11 +26,29 @@ export default function RegisterPage() {
 
   const [termsAccepted, setTermsAccepted] = useState(false);
 
+  const pwTooShort = useMemo(() => password.length > 0 && password.length < 8, [password]);
+  const pwMismatch = useMemo(
+    () => confirmPassword.length > 0 && password !== confirmPassword,
+    [password, confirmPassword]
+  );
+
+  const canSubmit = useMemo(() => {
+    const emailOk = email.trim().length > 0;
+    const userOk = username.trim().length >= 3;
+    const dobOk = dob.trim().length > 0;
+    const pwOk = password.length >= 8;
+    const confirmOk = confirmPassword.length >= 8 && password === confirmPassword;
+    const locationOk =
+      postcode.trim().length > 0 || (suburb.trim().length > 0 && state.trim().length > 0);
+
+    return emailOk && userOk && dobOk && pwOk && confirmOk && locationOk && termsAccepted && !busy;
+  }, [email, username, dob, password, confirmPassword, postcode, suburb, state, termsAccepted, busy]);
+
   return (
     <main className="mx-auto max-w-xl p-6">
       <h1 className="text-3xl font-extrabold text-[var(--bidra-fg)]">Create account</h1>
       <p className="mt-2 text-sm text-[var(--bidra-muted)]">
-        Accounts are 18+ only. Youâ€™ll need to verify your email before becoming active.
+        Accounts are 18+ only. You'll need to verify your email before becoming active.
       </p>
 
       {error ? (
@@ -45,20 +69,37 @@ export default function RegisterPage() {
             return;
           }
 
+          if (pwTooShort) {
+            setError("Password must be at least 8 characters.");
+            return;
+          }
+          if (!confirmPassword) {
+            setError("Please confirm your password.");
+            return;
+          }
+          if (pwMismatch) {
+            setError("Passwords do not match.");
+            return;
+          }
+          if (!canSubmit) {
+            setError("Please complete all required fields.");
+            return;
+          }
+
           setBusy(true);
           try {
             const res = await fetch("/api/auth/register", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                email,
+                email: email.trim(),
                 password,
-                username,
+                username: username.trim(),
                 dob,
                 country,
-                postcode,
-                suburb,
-                state,
+                postcode: postcode.trim(),
+                suburb: suburb.trim(),
+                state: state.trim(),
                 termsAccepted: true,
               }),
             });
@@ -69,7 +110,6 @@ export default function RegisterPage() {
               return;
             }
 
-            // After register, send them to sign-in (or home)
             router.push("/signin");
             router.refresh();
           } catch (err: any) {
@@ -81,23 +121,75 @@ export default function RegisterPage() {
       >
         <div>
           <label className="text-sm font-medium">Email *</label>
-          <input className="mt-1 w-full rounded-md border p-2" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input
+            className="mt-1 w-full rounded-md border p-2"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            type="email"
+            autoComplete="email"
+          />
         </div>
 
         <div>
           <label className="text-sm font-medium">Password (min 8 chars) *</label>
-          <input type="password" className="mt-1 w-full rounded-md border p-2" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input
+            type="password"
+            className="mt-1 w-full rounded-md border p-2"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            minLength={8}
+            autoComplete="new-password"
+          />
+          {pwTooShort ? (
+            <p className="mt-1 text-xs font-semibold text-red-700">Must be at least 8 characters.</p>
+          ) : (
+            <p className="mt-1 text-xs text-[var(--bidra-muted)]">Use 8+ characters.</p>
+          )}
+        </div>
+
+        <div>
+          <label className="text-sm font-medium">Confirm password *</label>
+          <input
+            type="password"
+            className="mt-1 w-full rounded-md border p-2"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            minLength={8}
+            autoComplete="new-password"
+          />
+          {pwMismatch ? (
+            <p className="mt-1 text-xs font-semibold text-red-700">Passwords do not match.</p>
+          ) : (
+            <p className="mt-1 text-xs text-[var(--bidra-muted)]">Must match your password.</p>
+          )}
         </div>
 
         <div>
           <label className="text-sm font-medium">Username (3-24) *</label>
-          <input className="mt-1 w-full rounded-md border p-2" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <input
+            className="mt-1 w-full rounded-md border p-2"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            minLength={3}
+            maxLength={24}
+            autoComplete="username"
+          />
           <p className="mt-1 text-xs text-[var(--bidra-muted)]">Letters, numbers, underscore, dot.</p>
         </div>
 
         <div>
           <label className="text-sm font-medium">Date of birth *</label>
-          <input type="date" className="mt-1 w-full rounded-md border p-2" value={dob} onChange={(e) => setDob(e.target.value)} required />
+          <input
+            type="date"
+            className="mt-1 w-full rounded-md border p-2"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+            required
+          />
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -108,6 +200,7 @@ export default function RegisterPage() {
           <div>
             <label className="text-sm font-medium">Postcode</label>
             <input className="mt-1 w-full rounded-md border p-2" value={postcode} onChange={(e) => setPostcode(e.target.value)} placeholder="e.g. 4000" />
+            <p className="mt-1 text-xs text-[var(--bidra-muted)]">Use postcode OR suburb + state.</p>
           </div>
           <div>
             <label className="text-sm font-medium">Suburb</label>
@@ -128,8 +221,7 @@ export default function RegisterPage() {
               onChange={(e) => setTermsAccepted(e.target.checked)}
             />
             <span>
-              I agree to the Terms and Conditions and confirm I am 18+.
-              {" "}
+              I agree to the Terms and Conditions and confirm I am 18+{" "}
               <Link href="/legal" className="text-[var(--bidra-link)] underline">
                 View Legal Pack
               </Link>
@@ -139,8 +231,11 @@ export default function RegisterPage() {
 
         <button
           type="submit"
-          disabled={busy}
-          className="rounded-md border px-4 py-2 text-sm font-medium disabled:opacity-60"
+          disabled={!canSubmit}
+          className={cx(
+            "rounded-md border px-4 py-2 text-sm font-medium disabled:opacity-60",
+            !canSubmit && "cursor-not-allowed"
+          )}
         >
           {busy ? "Creating..." : "Create account"}
         </button>
