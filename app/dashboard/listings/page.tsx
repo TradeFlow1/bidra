@@ -111,7 +111,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                   </Link>
 
                   <div className="mt-2 flex gap-2 flex-wrap">
-                    <Badge>{l.type === "AUCTION" ? "Offers" : "Buy Now"}</Badge>
+                    <Badge>{l.type === "AUCTION" ? "Timed offers" : "Buy Now"}</Badge>
                     <Badge>Status: {l.status}</Badge>
                   </div>
 
