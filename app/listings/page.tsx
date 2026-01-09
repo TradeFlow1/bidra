@@ -6,7 +6,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { FULL_CATEGORIES } from "@/lib/categories";
+import { FULL_CATEGORIES, CATEGORY_GROUPS } from "@/lib/categories";
 import WatchButton from "@/components/watch-button";
 import ListingCard from "@/components/listing-card";
 import MobileFiltersToggle from "@/components/mobile-filters-toggle";
@@ -197,8 +197,15 @@ export default async function ListingsPage({
       <div className="bd-label text-xs">Category</div>
       <select name="category" defaultValue={category} className="bd-input">
         <option value="">All categories</option>
-        {FULL_CATEGORIES.map((c: string) => (
-          <option key={c} value={c}>{c}</option>
+        {CATEGORY_GROUPS.map((g) => (
+          <optgroup key={g.parent} label={g.parent}>
+            <option value={g.parent}>{g.parent}</option>
+            {g.children.map((c) => (
+              <option key={`${g.parent}:${c}`} value={c}>
+                {c}
+              </option>
+            ))}
+          </optgroup>
         ))}
       </select>
     </div>
@@ -292,8 +299,15 @@ export default async function ListingsPage({
       <div className="bd-label text-xs">Category</div>
       <select name="category" defaultValue={category} className="bd-input">
         <option value="">All categories</option>
-        {FULL_CATEGORIES.map((c: string) => (
-          <option key={c} value={c}>{c}</option>
+        {CATEGORY_GROUPS.map((g) => (
+          <optgroup key={g.parent} label={g.parent}>
+            <option value={g.parent}>{g.parent}</option>
+            {g.children.map((c) => (
+              <option key={`${g.parent}:${c}`} value={c}>
+                {c}
+              </option>
+            ))}
+          </optgroup>
         ))}
       </select>
     </div>
