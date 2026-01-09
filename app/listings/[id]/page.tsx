@@ -107,7 +107,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
     where: { sellerId, status: "ACTIVE" },
   });
 
-  const highestOfferCents = listing.bids && listing.bids.length ? (listing.bids[0] as any).amount : 0;
+  const highestOfferCents = listing.bids && listing.bids.length ? Number((listing.bids[0] as any).amount ?? 0) : 0;
 
   const isTimedOffers = listing.type === "AUCTION";
 
@@ -160,7 +160,10 @@ const ladderTop = Object.values(ladderRows)
   })
   .slice(0, 6);
 
-  const topBidderId = listing.bids && listing.bids.length ? (listing.bids[0] as any).bidderId : null;
+
+
+
+  const topBidderId = (ladderTop && (ladderTop as any[]).length) ? String(((ladderTop as any[])[0] as any).bidderId ?? "") : null;
   const viewerId = session?.user?.id ?? null;
   const viewerHasMax = viewerId
     ? !!(await prisma.offerMax.findUnique({
