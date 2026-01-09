@@ -7,6 +7,11 @@ export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
 export async function POST(req: Request) {
+  // FT routes must never run in production.
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "not_found" }, { status: 404 });
+  }
+
   const session = await auth();
   const userId = (session?.user as any)?.id as string | undefined;
 
