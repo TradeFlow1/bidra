@@ -17,8 +17,8 @@ export default function PhotosManager({
 
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string>("");
-
   const count = images.length;
+
 
   async function remove(u: string) {
     setMsg("");
@@ -63,13 +63,35 @@ export default function PhotosManager({
         <div className="text-xs text-neutral-600">{count}/10</div>
       </div>
 
-      <div className="mt-3 text-sm text-neutral-700">
-        Photos are uploaded (no URL pasting).
+      <div className="mt-2 text-sm text-neutral-700">
+        Uploads only — no URL pasting.
       </div>
 
-      <div className="mt-2 text-xs text-neutral-600">
-        Tip: use the listing create/edit flow to upload images. This keeps Bidra clean and consistent.
-      </div>
+      {msg ? <div className="mt-2 text-xs text-neutral-600">{msg}</div> : null}
+
+      {images.length ? (
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {images.map((img) => (
+            <div key={img} className="rounded-xl border border-black/10 bg-white p-2">
+              <div className="overflow-hidden rounded-lg border border-black/10">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={img} alt="Listing photo" className="h-28 w-full object-cover" />
+              </div>
+
+              <button
+                type="button"
+                onClick={() => remove(img)}
+                disabled={busy}
+                className="mt-2 w-full rounded-xl border border-black/10 bg-white px-3 py-2 text-xs font-semibold text-black transition hover:bg-neutral-50 disabled:opacity-60"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-4 text-sm text-neutral-600">No photos yet.</div>
+      )}
     </div>
   );
 }
