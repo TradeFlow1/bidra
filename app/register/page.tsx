@@ -221,10 +221,15 @@ export default function RegisterPage() {
               onChange={(e) => setTermsAccepted(e.target.checked)}
             />
             <span>
-              I agree to the Terms and Conditions and confirm I am 18+{" "}
-              <Link href="/legal" className="text-[var(--bidra-link)] underline">
-                View Legal Pack
-              </Link>
+              I agree to Bidra&apos;s{" "}
+              <Link href="/legal/terms" className="text-[var(--bidra-link)] underline">
+                Terms
+              </Link>{" "}
+              and{" "}
+              <Link href="/legal/privacy" className="text-[var(--bidra-link)] underline">
+                Privacy Policy
+              </Link>{" "}
+              and confirm I am 18+.
             </span>
           </label>
         </div>
