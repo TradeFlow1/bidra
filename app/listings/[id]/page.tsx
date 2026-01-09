@@ -275,6 +275,13 @@ const ladderTop = Object.values(ladderRows)
               {session?.user?.id && (isAdmin || (listing as any).sellerId === session.user.id) ? <DeleteListingButton id={(listing as any).id} /> : null}
 
               {isSeller ? (
+  <div className="mt-3 flex flex-wrap gap-2">
+    <Link href={`/sell/edit/${(listing as any).id}`} className="bd-btn bd-btn-primary" prefetch={false}>
+      Manage photos
+    </Link>
+  </div>
+) : null}
+{isSeller ? (
                 <div>
                   <RelistButton listingId={(listing as any).id} />
                 </div>
