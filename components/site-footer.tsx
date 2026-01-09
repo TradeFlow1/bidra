@@ -28,6 +28,9 @@ export default function SiteFooter() {
             <li>
               <Link href="/support" className="bd-link font-semibold">Support & Safety</Link>
             </li>
+            <li>
+              <Link href="/feedback" className="bd-link font-semibold">Feedback</Link>
+            </li>
           </ul>
         </div>
 
