@@ -74,7 +74,7 @@ export default function TermsPage() {
         </section>
 
         <p className="text-xs text-black/50">
-          This is a plain-language summary for beta. We’ll expand these Terms before a broader
+          This is a plain-language summary. We’ll expand these Terms before a broader
           public launch.
         </p>
       </div>

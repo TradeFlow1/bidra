@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { Card, Input, Textarea, Button } from "@/components/ui";
@@ -10,7 +10,7 @@ export default function ContactPage() {
     <div className="max-w-2xl flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Contact</h1>
       <p className="text-neutral-700">
-        For MVP, this form logs messages to the browser console.
+        Messages are sent to Bidra support. If you don’t hear back, please email support from the Support page.
       </p>
 
       <Card>

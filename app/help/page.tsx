@@ -26,7 +26,7 @@ export default function HelpPage() {
       </section>
 
       <section style={{ marginTop: 18 }}>
-        <h2>FAQ (coming soon)</h2>
+        <h2>FAQ</h2>
         <ul style={{ lineHeight: 1.7, opacity: 0.85 }}>
           <li>How do offers work?</li>
           <li>What items are prohibited?</li>

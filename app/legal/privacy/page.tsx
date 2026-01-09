@@ -60,7 +60,7 @@ export default function PrivacyPage() {
         </section>
 
         <p className="text-xs text-black/50">
-          This is a plain-language policy for beta. We’ll expand details (cookies, retention, and
+          This is a plain-language policy. We’ll expand details (cookies, retention, and
           subprocessors) before a broader public launch.
         </p>
       </div>

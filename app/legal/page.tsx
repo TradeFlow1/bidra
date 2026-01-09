@@ -45,7 +45,7 @@ export default function LegalHubPage() {
         </div>
 
         <p className="text-xs text-black/50">
-          Plain-language pages for beta. We’ll expand details before a broader public launch.
+          Plain-language legal pages. We’ll keep these updated as Bidra evolves.
         </p>
       </div>
     </main>
