@@ -27,13 +27,11 @@ export async function POST(req: Request) {
     const base = process.env.NEXTAUTH_URL || "http://localhost:3000";
     const resetUrl = `${base}/reset-password?token=${token}`;
 
-    // DEV visibility: return link so you can test instantly.
-    if (process.env.NODE_ENV !== "production") {
-      return NextResponse.json({ ok: true, resetUrl });
-    }
-
     // Production: do not reveal link in response.
     // Phase 4: wire email provider here (Resend/Postmark/etc).
+    // For now, we only store the token server-side and return ok.
+    void resetUrl;
+
     return NextResponse.json({ ok: true });
   } catch {
     // Still return ok to avoid leaking info

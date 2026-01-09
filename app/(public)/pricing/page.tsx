@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Card } from "@/components/ui";
 
 export default function PricingPage() {
@@ -21,7 +21,7 @@ export default function PricingPage() {
         </Card>
         <Card>
           <div className="font-semibold">Buy</div>
-          <div className="mt-2 text-sm text-neutral-700">Secure checkout via Stripe (test mode in MVP).</div>
+          <div className="mt-2 text-sm text-neutral-700">Secure checkout where available.</div>
         </Card>
       </div>
 
