@@ -108,7 +108,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
                     const orderId = String(formData.get("orderId") ?? "");
                     const order = await prisma.order.findUnique({ where: { id: orderId }, include: { listing: true } });
-                    if (!order || order.buyerId !== user.id) throw new Error("Not allowed");
+                    if (!order || (order.buyerId !== user.id && (order.listing as any)?.sellerId !== user.id)) throw new Error("Not allowed");
                     if (order.status !== "PENDING") redirect("/orders");
 
                     const baseUrl = getBaseUrl();
