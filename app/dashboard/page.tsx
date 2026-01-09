@@ -118,7 +118,7 @@ export default async function DashboardPage() {
 
 
   const needsEmail = false; // STEP 1D: email verification disabled (no fake UX)
-  const needsPhone = !user.phoneVerified;
+  const needsPhone = false; // STEP 1E: phone verification disabled (no fake OTP UX)
   const needsAge = !user.ageVerified;
 
   const hasAttention =
@@ -199,7 +199,7 @@ export default async function DashboardPage() {
                 ) : null}
 
                 {false ? <div><ActionLink href="/profile">Verify your email</ActionLink></div> : null}
-                {needsPhone ? <div><ActionLink href="/profile">Verify your phone</ActionLink></div> : null}
+                {false ? <div><ActionLink href="/profile">Verify your phone</ActionLink></div> : null}
                 {needsAge ? <div><ActionLink href="/profile">Complete age verification</ActionLink></div> : null}
               </div>
             </Card>
