@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { FULL_CATEGORIES } from "@/lib/categories";
 
 const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
 type SellerStatus = (typeof SELLER_ALLOWED_STATUSES)[number];
@@ -261,7 +262,18 @@ buyNowPrice:
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <label className="text-sm font-extrabold bd-ink">Category</label>
-                  <input className="bd-input mt-1 w-full" value={category} onChange={(e) => setCategory(e.target.value)} />
+                  <select
+  className="bd-input mt-1 w-full"
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+>
+  <option value="">Select a category…</option>
+  {FULL_CATEGORIES.map((c) => (
+    <option key={c} value={c}>
+      {c}
+    </option>
+  ))}
+</select>
                 </div>
 
                 <div>
