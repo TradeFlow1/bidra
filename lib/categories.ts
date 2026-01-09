@@ -134,6 +134,13 @@
   "Other": [],
 } as const;
 
+export const PARENT_CATEGORIES = Object.keys(CATEGORY_TREE) as readonly string[];
+
+export const CATEGORY_GROUPS = Object.entries(CATEGORY_TREE).map(([parent, children]) => ({
+  parent,
+  children: Array.from(children),
+})) as readonly { parent: string; children: readonly string[] }[];
+
 // Flattened list for legacy UI compatibility
 export const FULL_CATEGORIES = Object.entries(CATEGORY_TREE).flatMap(
   ([parent, children]) => children.length ? [parent, ...children] : [parent]

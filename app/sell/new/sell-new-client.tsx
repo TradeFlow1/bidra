@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import React, { useMemo, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { FULL_CATEGORIES } from "@/lib/categories";
+import { FULL_CATEGORIES, CATEGORY_GROUPS } from "@/lib/categories";
 
 type ListingTypeUI = "FIXED_PRICE" | "AUCTION";
 
@@ -246,8 +246,15 @@ export default function SellNewClient() {
             onChange={(e) => setCategory(e.target.value as any)}
           >
             <option value="">Select a category…</option>
-            {categoryOptions.map((c) => (
-              <option key={c} value={c}>{c}</option>
+            {CATEGORY_GROUPS.map((g) => (
+              <optgroup key={g.parent} label={g.parent}>
+                <option value={g.parent}>{g.parent}</option>
+                {g.children.map((c) => (
+                  <option key={`${g.parent}:${c}`} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </optgroup>
             ))}
           </select>
         </div>
