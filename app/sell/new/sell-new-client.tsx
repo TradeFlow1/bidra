@@ -334,16 +334,7 @@ export default function SellNewClient() {
             </div>
           )}
 
-          <div className="mt-4">
-            <label className="text-sm font-medium">Image URLs (optional fallback)</label>
-            <textarea
-              className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
-              rows={3}
-              value={imageUrls}
-              onChange={(e) => setImageUrls(e.target.value)}
-              placeholder="One URL per line (optional)"
-            />
-          </div>
+
         </div>
 
         <button type="submit" disabled={busy} className="bd-btn bd-btn-primary text-center disabled:opacity-60">
