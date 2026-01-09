@@ -77,8 +77,47 @@ export default async function HomePage() {
 
       {/* CATEGORIES */}
       <section className="bd-section">
-        <div className="bd-section-title">Categories</div>
-        <div className="mt-3 bd-card p-4">
+        <div className="flex items-center justify-between gap-3">
+          <div className="bd-section-title">Categories</div>
+          <Link href="/listings" className="text-sm bd-link">
+            View all
+          </Link>
+        </div>
+
+        <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
+          <Link href="/listings?category=Home%20%26%20Furniture" className="bd-card px-3 py-3 hover:shadow-sm">
+            <div className="text-sm font-semibold">Home &amp; Furniture</div>
+          </Link>
+          <Link href="/listings?category=Tech%20%26%20Electronics" className="bd-card px-3 py-3 hover:shadow-sm">
+            <div className="text-sm font-semibold">Tech &amp; Electronics</div>
+          </Link>
+          <Link href="/listings?category=Fashion%20%26%20Wearables" className="bd-card px-3 py-3 hover:shadow-sm">
+            <div className="text-sm font-semibold">Fashion &amp; Wearables</div>
+          </Link>
+          <Link href="/listings?category=Sports%20%26%20Outdoors" className="bd-card px-3 py-3 hover:shadow-sm">
+            <div className="text-sm font-semibold">Sports &amp; Outdoors</div>
+          </Link>
+          <Link href="/listings?category=Kids%20%26%20Toys" className="bd-card px-3 py-3 hover:shadow-sm">
+            <div className="text-sm font-semibold">Kids &amp; Toys</div>
+          </Link>
+          <Link href="/listings?category=Appliances" className="bd-card px-3 py-3 hover:shadow-sm">
+            <div className="text-sm font-semibold">Appliances</div>
+          </Link>
+          <Link href="/listings?category=Tools%20%26%20DIY" className="bd-card px-3 py-3 hover:shadow-sm">
+            <div className="text-sm font-semibold">Tools &amp; DIY</div>
+          </Link>
+          <Link href="/listings?category=Books%20%26%20Media" className="bd-card px-3 py-3 hover:shadow-sm">
+            <div className="text-sm font-semibold">Books &amp; Media</div>
+          </Link>
+          <Link href="/listings?category=Collectibles%20%26%20Vintage" className="bd-card px-3 py-3 hover:shadow-sm">
+            <div className="text-sm font-semibold">Collectibles &amp; Vintage</div>
+          </Link>
+          <Link href="/listings?category=Seasonal%20Goods" className="bd-card px-3 py-3 hover:shadow-sm">
+            <div className="text-sm font-semibold">Seasonal Goods</div>
+          </Link>
+        </div>
+
+        <div className="mt-3">
           <HomeCategorySelectClient />
         </div>
       </section>
