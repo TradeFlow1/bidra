@@ -5,7 +5,7 @@ import React, { useMemo, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FULL_CATEGORIES, CATEGORY_GROUPS } from "@/lib/categories";
 
-type ListingTypeUI = "FIXED_PRICE" | "AUCTION";
+type ListingTypeUI = "FIXED_PRICE" | "TIMED_OFFERS";
 
 function dollarsToCentsOrNull(v: string): number | null {
   const t = (v ?? "").trim();
@@ -35,7 +35,7 @@ export default function SellNewClient() {
   // FIXED_PRICE dollars
   const [price, setPrice] = useState("");
 
-  // AUCTION dollars
+  // Timed offers dollars
   const [startingBid, setStartingBid] = useState("");
   const [reservePrice, setReservePrice] = useState(""); // optional
   const [buyNowPrice, setBuyNowPrice] = useState(""); // optional
@@ -47,7 +47,7 @@ export default function SellNewClient() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
-  const isAuction = type === "AUCTION";
+  const isTimedOffers = type === "TIMED_OFFERS";
   const categoryOptions = useMemo(() => FULL_CATEGORIES, []);
 
   const previews = useMemo(() => {
@@ -76,7 +76,7 @@ export default function SellNewClient() {
 
     if (!Number.isFinite(Number(durationDays))) return setErr("Duration is invalid.");
 
-    if (!isAuction) {
+    if (!isTimedOffers) {
       if (fixedPriceCents === null || Number.isNaN(fixedPriceCents) || fixedPriceCents <= 0) {
         return setErr("Price must be greater than 0.");
       }
@@ -128,7 +128,7 @@ export default function SellNewClient() {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          type,
+          type: isTimedOffers ? "AUCTION" : "FIXED_PRICE",
           title: t,
           description: d,
           category,
@@ -136,13 +136,13 @@ export default function SellNewClient() {
           location: loc,
 
           // cents
-          price: isAuction ? null : fixedPriceCents,
-          startingBid: isAuction ? startBidCents : null,
+          price: isTimedOffers ? null : fixedPriceCents,
+          startingBid: isTimedOffers ? startBidCents : null,
 
-          reservePrice: isAuction ? reserveCents : null,
-          buyNowPrice: isAuction ? buyNowCents : null,
+          reservePrice: isTimedOffers ? reserveCents : null,
+          buyNowPrice: isTimedOffers ? buyNowCents : null,
 
-          durationDays: isAuction ? Number(durationDays) : null,
+          durationDays: isTimedOffers ? Number(durationDays) : null,
 
           images: imagesToSend,
         }),
@@ -221,10 +221,10 @@ export default function SellNewClient() {
             onChange={(e) => setType(e.target.value as ListingTypeUI)}
           >
             <option value="FIXED_PRICE">Fixed price</option>
-            <option value="AUCTION">Timed offers</option>
+            <option value="TIMED_OFFERS">Timed offers</option>
           </select>
           <div className="mt-1 text-xs bd-ink2">
-            Timed offers collects offers. When offers ends, the seller chooses whether to proceed with the highest offer.
+            Timed offers collect offers. When the offer period ends, the seller chooses whether to proceed with the highest offer.
           </div>
         </div>
 
@@ -274,14 +274,14 @@ export default function SellNewClient() {
           <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Suburb, State" />
         </div>
 
-        {!isAuction && (
+        {!isTimedOffers && (
           <div>
             <label className="text-sm font-medium">Price (AUD)</label>
             <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="e.g. 60" />
           </div>
         )}
 
-        {isAuction && (
+        {isTimedOffers && (
           <>
             <div>
               <label className="text-sm font-medium">Starting offer (AUD)</label>
