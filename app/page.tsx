@@ -64,7 +64,7 @@ export default async function HomePage() {
             <Link href="/listings" className="bd-btn bd-btn-primary">
               Browse listings
             </Link>
-            <Link href="/sell/new" className="bd-btn bd-btn-primary">
+            <Link href="/auth/login?next=%2Fsell%2Fnew" className="bd-btn bd-btn-primary">
               Create a listing
             </Link>
           </div>
@@ -91,7 +91,7 @@ export default async function HomePage() {
           {listings.length === 0 ? (
             <div className="bd-card p-6 bd-ink2">
               No listings yet. Be the first to{" "}
-              <Link href="/sell/new" className="font-semibold bd-link hover:bd-link">
+              <Link href="/auth/login?next=%2Fsell%2Fnew" className="font-semibold bd-link hover:bd-link">
                 create a listing
               </Link>
               .
