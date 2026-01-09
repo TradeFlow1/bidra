@@ -363,7 +363,7 @@ main :where(button:hover){
 
 /* BIDRA_BADGES_V1 */
 .badgeAuction{ background: var(--accent-2); color: #0b1a2a; border-color: rgba(29,161,242,0.25); }
-.badgeAuction:before{ content:'🔨'; margin-right:6px; }
+.badgeAuction:before{ content:'⏱️'; margin-right:6px; }
 
 .badgeTimed{ background: var(--accent-2); color: #0b1a2a; border-color: rgba(29,161,242,0.25); }
 .badgeTimed:before{ content:'⏱️'; margin-right:6px; }
