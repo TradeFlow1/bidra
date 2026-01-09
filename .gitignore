@@ -79,3 +79,7 @@ tmp-*.js
 # Prevent accidental build marker files
 t === STEP *
 
+
+tmp-create-*.js
+
+tools/_*.js
