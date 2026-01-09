@@ -18,6 +18,8 @@ export default function PhotosManager({
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<string>("");
 
+  const count = images.length;
+
   async function remove(u: string) {
     setMsg("");
     const clean = String(u ?? "").trim();
