@@ -132,6 +132,34 @@ const hasAnyOffer = highestOfferCents > 0;
 
   const offersCount = (listing as any)?._count?.bids ?? 0;
 
+// Ladder display should show unique buyers (proxy offers may create multiple bid rows per buyer)
+const ladderRows = (((listing as any).bids as any[]) ?? [])
+  .reduce((acc: Record<string, any>, b: any) => {
+    const id = String(b?.bidderId ?? "");
+    if (!id) return acc;
+    const cur = acc[id];
+    if (!cur) acc[id] = b;
+    else {
+      const curAmt = Number(cur.amount ?? 0);
+      const bAmt = Number(b.amount ?? 0);
+      const curT = new Date(cur.createdAt ?? 0).getTime();
+      const bT = new Date(b.createdAt ?? 0).getTime();
+      if (bAmt > curAmt || (bAmt === curAmt && bT > curT)) acc[id] = b;
+    }
+    return acc;
+  }, {} as Record<string, any>);
+
+const ladderTop = Object.values(ladderRows)
+  .sort((a: any, b: any) => {
+    const da = Number(a?.amount ?? 0);
+    const db = Number(b?.amount ?? 0);
+    if (db !== da) return db - da;
+    const ta = new Date(a?.createdAt ?? 0).getTime();
+    const tb = new Date(b?.createdAt ?? 0).getTime();
+    return tb - ta;
+  })
+  .slice(0, 6);
+
   const topBidderId = listing.bids && listing.bids.length ? (listing.bids[0] as any).bidderId : null;
   const viewerId = session?.user?.id ?? null;
   const viewerHasMax = viewerId
@@ -270,9 +298,9 @@ const hasAnyOffer = highestOfferCents > 0;
                     <div className="text-xs text-neutral-600">Highest offer</div>
                     {(listing as any).bids && (listing as any).bids.length ? (
                       <div className="pt-3">
-                        <div className="text-xs text-neutral-600">Offer ladder (top visible)</div>
+                        <div className="text-xs text-neutral-600">Offer ladder (top buyers)</div>
                         <div className="mt-2 space-y-1">
-                          {((listing as any).bids as any[]).slice(0, 6).map((b, idx) => (
+                          {(ladderTop as any[]).map((b, idx) => (
                             <div key={`${b.bidderId}-${b.amount}-${idx}`} className={`flex items-center justify-between text-xs rounded-lg px-2 py-1 ${viewerId && b.bidderId === viewerId ? "bg-[var(--bidra-link)]/10" : ""}`}>
                               <div className="text-neutral-600">{viewerId && b.bidderId === viewerId ? "You" : `#${idx + 1}`}</div>
                               <div className="font-semibold text-neutral-900">{formatMoney(b.amount)}</div>
