@@ -122,7 +122,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>((listing as any).buy
 
       const uploaded = (Array.isArray(upData?.urls) ? upData.urls : []).filter(Boolean);
       if (!uploaded.length) {
-        setError("Upload failed: no image locations returned.");
+        setError("Upload failed: no images returned.");
         return;
       }
 
