@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Card, Button, Badge } from "@/components/ui";
+import { isTimedOffersType } from "@/lib/listing-type";
 
 type PageProps = {
   searchParams?: { err?: string };
@@ -111,7 +112,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                   </Link>
 
                   <div className="mt-2 flex gap-2 flex-wrap">
-                    <Badge>{l.type === "AUCTION" ? "Timed offers" : "Buy Now"}</Badge>
+                    <Badge>{isTimedOffersType(l.type) ? "Timed offers" : "Buy Now"}</Badge>
                     <Badge>Status: {l.status}</Badge>
                   </div>
 

@@ -12,6 +12,7 @@ import ReportListingButton from "./report-listing-button";
 import MessageSellerButton from "./message-seller-button";
 import { Badge } from "@/components/ui";
 import ListingImageGallery from "@/components/listing-image-gallery";
+import { isTimedOffersType } from "@/lib/listing-type";
 
 export const dynamic = "force-dynamic";
 
@@ -108,7 +109,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
 
   const highestOfferCents = listing.bids && listing.bids.length ? Number((listing.bids[0] as any).amount ?? 0) : 0;
 
-  const isTimedOffers = listing.type === "AUCTION";
+  const isTimedOffers = isTimedOffersType(listing.type);
 
   // Guide price is stored in listing.price (cents). For timed offers, this is the "expected around" anchor.
   const guidePriceCents = Number.isFinite(Number(listing.price)) ? Number(listing.price) : 0;
@@ -131,7 +132,7 @@ const hasAnyOffer = highestOfferCents > 0;
 
   const offersCount = (listing as any)?._count?.bids ?? 0;
 
-// Ladder display should show unique buyers (proxy offers may create multiple bid rows per buyer)
+// Ladder display should show unique buyers (proxy offers may create multiple offer rows per buyer)
 const ladderRows = (((listing as any).bids as any[]) ?? [])
   .reduce((acc: Record<string, any>, b: any) => {
     const id = String(b?.bidderId ?? "");
@@ -170,10 +171,10 @@ const ladderTop = Object.values(ladderRows)
         select: { id: true },
       }))
     : false;
-  const offerState: "NONE" | "TOP" | "OUTBID" =
+  const offerState: "NONE" | "TOP" | "OUTOFFERED" =
     !viewerId
       ? "NONE"
-      : (topBidderId === viewerId ? "TOP" : (viewerHasMax ? "OUTBID" : "NONE"));
+      : (topBidderId === viewerId ? "TOP" : (viewerHasMax ? "OUTOFFERED" : "NONE"));
   const guideExceeded = hasAnyOffer && guidePriceCents > 0 && highestOfferCents >= guidePriceCents;
 
   const sellerName =
@@ -362,7 +363,7 @@ const ladderTop = Object.values(ladderRows)
                   <div className="bd-card p-4">
                     <div className="text-sm font-semibold">Place an offer</div>
                     <div className="mt-2">
-                      <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={offerState} disabled={isEnded || isSeller} disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."} />
+                      <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={(offerState === "OUTOFFERED" ? "OUTBID" : offerState)} disabled={isEnded || isSeller} disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."} />
                     </div>
                   </div>
                 )}

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { FULL_CATEGORIES, CATEGORY_GROUPS } from "@/lib/categories";
+import { isTimedOffersType } from "@/lib/listing-type";
 
 const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
 type SellerStatus = (typeof SELLER_ALLOWED_STATUSES)[number];
@@ -56,7 +57,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
 
   // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
-  const isTimedOffers = String((listing as any).type || "").toUpperCase() === "AUCTION";
+  const isTimedOffers = isTimedOffersType((listing as any).type);
   const hoursLeft = useMemo(() => hoursUntilIso((listing as any).endsAt ?? null), [listing]);
   const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
 

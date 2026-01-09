@@ -3,6 +3,7 @@
 import Link from "next/link";
 import React from "react";
 import ListingThumbCarousel from "@/components/listing-thumb-carousel";
+import { isTimedOffersType } from "@/lib/listing-type";
 
 type ListingCardListing = {
   id: string;
@@ -36,7 +37,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
     (imgs && imgs.length > 0 && (imgs[0]?.url || imgs[0]?.src || imgs[0])) ||
     "/brand/icon/bidra-icon_dark.png";
 
-  const isTimedOffers = String(listing.type ?? "") === "AUCTION";
+  const isTimedOffers = isTimedOffersType(listing.type);
   const hasBuyNow = typeof listing.buyNowPrice === "number";
 
   const badge = isTimedOffers ? "⏳ Timed offers" : hasBuyNow ? "⚡ Buy Now" : "🏷️ Fixed price";
