@@ -117,7 +117,7 @@ export default async function DashboardPage() {
   });
 
 
-  const needsEmail = !user.emailVerified;
+  const needsEmail = false; // STEP 1D: email verification disabled (no fake UX)
   const needsPhone = !user.phoneVerified;
   const needsAge = !user.ageVerified;
 
@@ -198,7 +198,7 @@ export default async function DashboardPage() {
                   </div>
                 ) : null}
 
-                {needsEmail ? <div><ActionLink href="/profile">Verify your email</ActionLink></div> : null}
+                {false ? <div><ActionLink href="/profile">Verify your email</ActionLink></div> : null}
                 {needsPhone ? <div><ActionLink href="/profile">Verify your phone</ActionLink></div> : null}
                 {needsAge ? <div><ActionLink href="/profile">Complete age verification</ActionLink></div> : null}
               </div>

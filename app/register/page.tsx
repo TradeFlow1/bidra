@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -24,7 +24,7 @@ export default function RegisterPage() {
     <main className="mx-auto max-w-xl p-6">
       <h1 className="text-3xl font-extrabold text-[var(--bidra-fg)]">Create account</h1>
       <p className="mt-2 text-sm text-[var(--bidra-muted)]">
-        Accounts are 18+ only. You’ll need to verify your email before becoming active.
+        Accounts are 18+ only. Youâ€™ll need to verify your email before becoming active.
       </p>
 
       {error ? (

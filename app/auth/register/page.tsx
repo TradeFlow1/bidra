@@ -146,7 +146,7 @@ export default function RegisterPage() {
           <div className="mt-6 rounded-2xl border border-black/10 bg-white p-5">
             <p className="text-lg font-extrabold text-[#0b1220]">Account created ✅</p>
             <p className="mt-1 text-sm text-black/60">
-              Please verify your email to activate your account.
+              Your account is ready. Log in to start using Bidra.
             </p>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
               <Link href="/auth/login" className="bd-btn bd-btn-primary text-center">
