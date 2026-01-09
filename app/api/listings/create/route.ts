@@ -131,7 +131,16 @@ try {
 
         const priceIn = toIntOrNull(body.price); // cents or null
     const startingOfferIn = toIntOrNull((body as any).startingOffer ?? (body as any).startingBid ?? (body as any).startingPrice); // cents or null
-    const images = Array.isArray(body.images) ? body.images : [];
+    const imagesRaw = Array.isArray(body.images) ? body.images : [];
+const images = imagesRaw
+  .map((v: any) => String(v ?? "").trim())
+  .filter(Boolean)
+  .slice(0, 10);
+
+// Hard guard: we only accept upload-style URLs. Block insecure http://.
+if (images.some((u: string) => u.toLowerCase().startsWith("http://"))) {
+  return NextResponse.json({ error: "Images must be uploaded via Bidra (invalid image URL)." }, { status: 400 });
+}
 
     const reservePrice = toIntOrNull(body.reservePrice); // cents or null
     const buyNowPrice = toIntOrNull(body.buyNowPrice);   // cents or null

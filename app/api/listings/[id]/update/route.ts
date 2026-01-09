@@ -43,7 +43,16 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     const condition = String(body.condition || "Used").trim();
     const location = String(body.location || "").trim();
     const price = Number(body.price);
-    const images = Array.isArray(body.images) ? body.images : [];
+    const imagesRaw = Array.isArray(body.images) ? body.images : [];
+const images = imagesRaw
+  .map((v: any) => String(v ?? "").trim())
+  .filter(Boolean)
+  .slice(0, 10);
+
+// Hard guard: we only accept upload-style URLs. Block insecure http://.
+if (images.some((u: string) => u.toLowerCase().startsWith("http://"))) {
+  return NextResponse.json({ error: "Images must be uploaded via Bidra (invalid image URL)." }, { status: 400 });
+}
 
 // Optional: timed-offers late-stage Buy Now (cents). Allow null to clear.
     const buyNowPriceIn = body?.buyNowPrice;
