@@ -120,8 +120,10 @@ export default function RegisterPage() {
       return;
     }
 
+    // STEP 1C: redirect to success page
     setOk(true);
     setLoading(false);
+    window.location.href = "/auth/register/success";
   }
 
   const shell = "bd-container py-6 pb-14";
