@@ -130,7 +130,7 @@ try {
 
         const priceIn = toIntOrNull(body.price); // cents or null
     const startingOfferIn = toIntOrNull((body as any).startingOffer ?? (body as any).startingBid ?? (body as any).startingPrice); // cents or null
-    const images = Array.isArray(body.images) ? body.images : (Array.isArray((body as any).imageUrls) ? (body as any).imageUrls : []);
+    const images = Array.isArray(body.images) ? body.images : [];
 
     const reservePrice = toIntOrNull(body.reservePrice); // cents or null
     const buyNowPrice = toIntOrNull(body.buyNowPrice);   // cents or null
