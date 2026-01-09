@@ -27,35 +27,26 @@ function looksLikeImageUrl(u: string): boolean {
 
 function normalizeImages(images: any): Img[] {
   if (!images) return [];
-  const arr = Array.isArray(images)
-    ? images
-    : Array.isArray(images?.images)
-      ? images.images
-      : [];
-
-  const out: Img[] = [];
-  for (const it of arr) {
-    if (!it) continue;
-    let url = "";
-    if (typeof it === "string") url = it;
-    else if (typeof it?.url === "string") url = it.url;
-    else if (typeof it?.src === "string") url = it.src;
-    else if (typeof it?.path === "string") url = it.path;
-
-    if (!url) continue;
-    if (!looksLikeImageUrl(url)) continue;
-    out.push({ url });
+  if (Array.isArray(images)) {
+    return images
+      .map((x) => (typeof x === "string" ? x : ""))
+      .filter(Boolean)
+      .map((url) => ({ url }));
   }
+  if (typeof images === "string") return [{ url: images }];
 
-  const seen = new Set<string>();
-  return out.filter((x) => {
-    if (!x.url) return false;
-    if (seen.has(x.url)) return false;
-    seen.add(x.url);
-    return true;
-  });
+  try {
+    const parsed = typeof images === "string" ? JSON.parse(images) : images;
+    if (Array.isArray(parsed)) {
+      return parsed
+        .map((x) => (typeof x === "string" ? x : ""))
+        .filter(Boolean)
+        .map((url) => ({ url }));
+    }
+  } catch {}
+
+  return [];
 }
-
 export default function ListingThumbCarousel(props: { images: any; title: string }) {
   const imgs = useMemo(() => normalizeImages(props.images), [props.images]);
   const scroller = useRef<HTMLDivElement | null>(null);

@@ -6,7 +6,7 @@ function normalizeImages(images: any): string[] {
   if (!images) return [];
   if (Array.isArray(images)) {
     return images
-      .map((x) => (typeof x === "string" ? x : x?.url || x?.src))
+      .map((x) => (typeof x === "string" ? x : ""))
       .filter(Boolean);
   }
   if (typeof images === "string") return [images];
