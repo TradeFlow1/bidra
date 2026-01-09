@@ -1,5 +1,6 @@
 ﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { FULL_CATEGORIES } from "@/lib/categories";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -38,7 +39,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
 
     const title = String(body.title || "").trim();
     const description = String(body.description || "").trim();
-    const category = String(body.category || "General").trim();
+    const category = String(body.category || "").trim();
     const condition = String(body.condition || "Used").trim();
     const location = String(body.location || "").trim();
     const price = Number(body.price);
@@ -53,6 +54,13 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
 
     if (title.length < 3) {
       return NextResponse.json({ error: "Title must be at least 3 characters." }, { status: 400 });
+    }
+
+    if (!category) {
+      return NextResponse.json({ error: "Category is required." }, { status: 400 });
+    }
+    if (!(FULL_CATEGORIES as readonly string[]).includes(category)) {
+      return NextResponse.json({ error: "Invalid category." }, { status: 400 });
     }
     if (!Number.isFinite(price) || price <= 0) {
       return NextResponse.json({ error: "Price must be greater than 0." }, { status: 400 });

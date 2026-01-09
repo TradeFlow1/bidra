@@ -3,6 +3,7 @@ import { requireAdult } from "@/lib/require-adult";
 
 
 import { prisma } from "@/lib/prisma";
+import { FULL_CATEGORIES } from "@/lib/categories";
 
 
 import { getFeedbackGate } from "@/lib/feedback-gate";
@@ -116,7 +117,7 @@ try {
 
     const title = String(body.title || "").trim();
     const description = String(body.description || "").trim();
-    const category = String(body.category || "General").trim();
+    const category = String(body.category || "").trim();
     const condition = String(body.condition || "Used").trim();
     const location = String(body.location || "").trim();
 
@@ -137,6 +138,13 @@ try {
 
     // ---- VALIDATION ----
     if (title.length < 3) return NextResponse.json({ error: "Title must be at least 3 characters." }, { status: 400 });
+
+    if (!category) {
+      return NextResponse.json({ error: "Category is required." }, { status: 400 });
+    }
+    if (!(FULL_CATEGORIES as readonly string[]).includes(category)) {
+      return NextResponse.json({ error: "Invalid category." }, { status: 400 });
+    }
     
     // Type-based price validation
     
