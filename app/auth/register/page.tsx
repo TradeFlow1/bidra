@@ -21,6 +21,7 @@ function cx(...classes: Array<string | false | null | undefined>) {
 export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const [agreeTouched, setAgreeTouched] = useState(false);
   const [ok, setOk] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -65,6 +66,12 @@ export default function RegisterPage() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
+    setAgreeTouched(true);
+    if (!agreeTerms) {
+      setError("Please accept the Terms and Privacy Policy to continue.");
+      setLoading(false);
+      return;
+    }
 
     // STEP 1A: client-side guard (still validate server-side too)
     if (pwTooShort) {
@@ -310,7 +317,7 @@ export default function RegisterPage() {
                   type="checkbox"
                   name="agreeTerms"
                   checked={agreeTerms}
-                  onChange={(e) => setAgreeTerms(e.target.checked)}
+                  onChange={(e) => { setAgreeTerms(e.target.checked); setAgreeTouched(true); }}
                   className="mt-1 h-4 w-4 accent-[var(--bidra-blue)] border border-black/30 bg-white"
                   required
                 />
@@ -326,6 +333,12 @@ export default function RegisterPage() {
                   and confirm I am 18+.
                 </span>
               </label>
+              {!agreeTerms && agreeTouched ? (
+                <p className="mt-2 text-xs font-semibold text-red-700">
+                  You must accept the Terms and Privacy Policy to create an account.
+                </p>
+              ) : null}
+
 
               <button
                 type="submit"
