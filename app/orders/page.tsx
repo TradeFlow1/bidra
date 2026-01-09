@@ -12,7 +12,12 @@ export default async function OrdersPage() {
   if (!user) redirect("/auth/login");
 
   const orders = await prisma.order.findMany({
-    where: { buyerId: user.id },
+    where: {
+      OR: [
+        { buyerId: user.id },
+        { listing: { sellerId: user.id } },
+      ],
+    },
     include: { listing: true },
     orderBy: { createdAt: "desc" },
   });

@@ -37,7 +37,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   }
 
   // Buyer-only access (matches /orders list logic)
-  if (order.buyerId !== user.id) {
+  if (order.buyerId !== user.id && order.listing?.sellerId !== user.id) {
     return (
       <main className="bd-container py-10">
         <div className="container max-w-4xl">
