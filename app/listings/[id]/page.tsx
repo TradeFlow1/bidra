@@ -267,7 +267,6 @@ const ladderTop = Object.values(ladderRows)
             <div className="pt-2 space-y-3">
               <ReportListingButton listingId={(listing as any).id} />
 
-              
               <div>
                 {session?.user?.id === (listing as any).sellerId ? null : <MessageSellerButton listingId={(listing as any).id} />}
               </div>
@@ -275,15 +274,15 @@ const ladderTop = Object.values(ladderRows)
               {session?.user?.id && (isAdmin || (listing as any).sellerId === session.user.id) ? <DeleteListingButton id={(listing as any).id} /> : null}
 
               {isSeller ? (
-  <div className="mt-3 flex flex-wrap gap-2">
-    <Link href={`/sell/edit/${(listing as any).id}`} className="bd-btn bd-btn-primary" prefetch={false}>
-      {Array.isArray((listing as any).images) && (listing as any).images.length > 0 ? "Manage photos" : "Add photos"}
-    </Link>
-  </div>
-) : null}
-{isSeller ? (
-                <div>
-                  <RelistButton listingId={(listing as any).id} />
+                <div className="mt-3 space-y-2">
+                  <div className="flex flex-wrap gap-2">
+                    <Link href={`/sell/edit/${(listing as any).id}`} className="bd-btn bd-btn-primary" prefetch={false}>
+                      {Array.isArray((listing as any).images) && (listing as any).images.length > 0 ? "Manage photos" : "Add photos"}
+                    </Link>
+                  </div>
+                  <div>
+                    <RelistButton listingId={(listing as any).id} />
+                  </div>
                 </div>
               ) : null}
             </div>
