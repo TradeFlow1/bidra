@@ -1,6 +1,7 @@
 ﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
+import { sendPasswordResetEmail } from "\@/lib/email";
 
 export async function POST(req: Request) {
   try {
@@ -27,10 +28,8 @@ export async function POST(req: Request) {
     const base = process.env.NEXTAUTH_URL || "http://localhost:3000";
     const resetUrl = `${base}/reset-password?token=${token}`;
 
-    // Production: do not reveal link in response.
-    // Phase 4: wire email provider here (Resend/Postmark/etc).
-    // For now, we only store the token server-side and return ok.
-    void resetUrl;
+    // Send reset email (non-enumerating: always return ok)
+    await sendPasswordResetEmail({ to: email, resetUrl });
 
     return NextResponse.json({ ok: true });
   } catch {

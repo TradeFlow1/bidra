@@ -1,6 +1,6 @@
-import crypto from "crypto";
+﻿import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
-import { sendResetEmail } from "@/lib/email";
+import { sendPasswordResetEmail } from "@/lib/email";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
   const resetUrl = `${base}/reset-password?token=${resetToken}`;
 
-  await sendResetEmail({ to: email, resetUrl });
+  await sendPasswordResetEmail({ to: email, resetUrl });
 
   res.status(200).json({ message: "If an account exists, a reset link has been sent." });
 }
