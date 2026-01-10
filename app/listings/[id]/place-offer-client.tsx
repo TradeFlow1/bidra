@@ -22,12 +22,18 @@ export default function PlaceOfferClient({
   const [amount, setAmount] = useState<string>(minDollars ? minDollars.toFixed(2) : "");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string>("");
+  const [lastResult, setLastResult] = useState<null | {
+    submittedCents: number;
+    currentCents: number | null;
+    isTop: boolean;
+  }>(null);
   const router = useRouter();
 
   async function submit() {
     if (disabled) { setMsg(disabledText || "Waiting for seller decision."); return; }
     if (loading) { return; }
     setMsg("");
+    setLastResult(null);
 
     const value = Number(amount);
     if (!Number.isFinite(value) || value <= 0) {
@@ -60,7 +66,12 @@ export default function PlaceOfferClient({
       const status = isTop ? "You are the highest offer" : "You have been out-offered";
       const current = typeof data?.currentOfferCents === "number" ? (data.currentOfferCents / 100).toFixed(2) : null;
 
-      setMsg(current ? `${status}. Current: $${current}` : `${status}.`);
+      setLastResult({
+        submittedCents: cents,
+        currentCents: (typeof data?.currentOfferCents === "number") ? data.currentOfferCents : null,
+        isTop,
+      });
+      setMsg("");
       router.refresh();
     } catch {
       setMsg("Offer failed.");
@@ -70,7 +81,30 @@ export default function PlaceOfferClient({
   }
 
   return (
-    <div className="space-y-3">
+        <div className="space-y-3">
+      {lastResult ? (
+        <div className="rounded-xl border border-black/10 bg-white px-3 py-2">
+          <div className="text-sm font-extrabold text-neutral-900">
+            Offer submitted ✅
+          </div>
+          <div className="mt-0.5 text-xs text-neutral-700">
+            Max offer: <span className="font-semibold text-neutral-900">${(lastResult.submittedCents / 100).toFixed(2)}</span>
+            {lastResult.currentCents !== null ? (
+              <>
+                {" "}• Current visible top offer:{" "}
+                <span className="font-semibold text-neutral-900">${(lastResult.currentCents / 100).toFixed(2)}</span>
+              </>
+            ) : null}
+          </div>
+          <div className="mt-1 text-xs text-neutral-700">
+            {lastResult.isTop ? (
+              <>You’re currently the highest offer. Waiting for seller decision at the end.</>
+            ) : (
+              <>You’ve been out-offered. Increase your max offer to try stay on top.</>
+            )}
+          </div>
+        </div>
+      ) : null}
       {offerState === "TOP" ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900">
           You are the highest offer.
