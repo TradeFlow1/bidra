@@ -1,5 +1,5 @@
-import type { NextAuthOptions } from "next-auth";
-import { getServerSession } from "next-auth"; // ✅ add this
+﻿import type { NextAuthOptions } from "next-auth";
+import { getServerSession } from "next-auth"; // âœ… add this
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
@@ -25,6 +25,12 @@ export const authOptions: NextAuthOptions = {
         const ok = await bcrypt.compare(credentials.password, user.passwordHash);
         if (!ok) return null;
 
+        // STEP 1D: Email verification gate (no login until verified)
+        if (!user.emailVerified) {
+          throw new Error("Please verify your email to activate your account.");
+        }
+        if (!ok) return null;
+
         return { id: user.id, email: user.email, name: user.name ?? undefined };
       },
     }),
@@ -35,7 +41,7 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// ✅ add this at the bottom
+// âœ… add this at the bottom
 export async function auth() {
   return getServerSession(authOptions);
 }

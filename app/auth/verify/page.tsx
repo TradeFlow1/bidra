@@ -60,7 +60,7 @@ export default async function VerifyPage({ searchParams }: { searchParams: { tok
     );
   }
 
-  await prisma.user.update({ where: { id: vt.userId }, data: { emailVerified: true } });
+  await prisma.user.update({ where: { id: vt.userId }, data: { emailVerified: true, isActive: true } });
   await prisma.verificationToken.delete({ where: { id: vt.id } });
 
   return (

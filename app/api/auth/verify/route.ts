@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid or expired token" }, { status: 400 });
   }
 
-  await prisma.user.update({ where: { id: vt.userId }, data: { emailVerified: true } });
+  await prisma.user.update({ where: { id: vt.userId }, data: { emailVerified: true, isActive: true } });
   await prisma.verificationToken.delete({ where: { id: vt.id } });
 
   return NextResponse.json({ ok: true });

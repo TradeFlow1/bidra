@@ -29,6 +29,12 @@ export const authOptions: NextAuthOptions = {
         const ok = await bcrypt.compare(credentials.password, user.passwordHash);
         if (!ok) return null;
 
+        // STEP 1D: Email verification gate (no login until verified)
+        if (!user.emailVerified) {
+          throw new Error("Please verify your email to activate your account.");
+        }
+        if (!ok) return null;
+
         return {
           id: user.id,
           email: user.email,
