@@ -45,8 +45,11 @@ export async function POST(req: Request) {
   const suburb = String(body?.suburb ?? "").trim();
   const state = String(body?.state ?? "").trim();
 
-  if (!emailNorm.includes("@") || passwordStr.length < 8) {
-    return NextResponse.json({ error: "Invalid email or password" }, { status: 400 });
+  if (!emailNorm.includes("@")) {
+    return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
+  }
+  if (passwordStr.length < 8) {
+    return NextResponse.json({ error: "Password must be at least 8 characters." }, { status: 400 });
   }
 
   // Fix encoding issue: use plain hyphen
