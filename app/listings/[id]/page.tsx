@@ -340,7 +340,7 @@ const ladderTop = Object.values(ladderRows)
                     ) : (
                       <>
                       <div className="pt-3 text-xs text-neutral-600">Buy Now may appear in the final 24 hours.</div>
-                      <div className="mt-2 text-xs text-neutral-600">Seller decides whether to accept the highest offer.</div>
+                      <div className="mt-2 text-xs text-neutral-600">Seller decides at the end. Highest offer is not an automatic sale.</div>
                       </>
                     )}
                   </div>
@@ -363,7 +363,19 @@ const ladderTop = Object.values(ladderRows)
                   <div className="bd-card p-4">
                     <div className="text-sm font-semibold">Place an offer</div>
                     <div className="mt-2">
-                      <PlaceOfferClient listingId={(listing as any).id} minOfferCents={minOfferCents} offerState={(offerState === "OUTOFFERED" ? "OUTBID" : offerState)} disabled={isEnded || isSeller} disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."} />
+                      <PlaceOfferClient
+                        listingId={(listing as any).id}
+                        minOfferCents={minOfferCents}
+                        offerState={(offerState === "OUTOFFERED" ? "OUTBID" : offerState)}
+                        disabled={isEnded || isSeller}
+                        disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."}
+                      />
+                      <div className="mt-2 text-xs text-neutral-600">
+                        Seller decides at the end. Highest offer is not an automatic sale.
+                      </div>
+                      {isEnded ? (
+                        <div className="mt-1 text-xs text-neutral-600">Listing ended — seller reviewing offers.</div>
+                      ) : null}
                     </div>
                   </div>
                 )}
