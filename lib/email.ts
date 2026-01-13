@@ -1,36 +1,76 @@
-﻿import { Resend } from "resend";
+﻿import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 
 function mustEnv(name: string): string {
   const v = process.env[name];
-  return (v && String(v).trim()) ? String(v).trim() : "";
+  return v && String(v).trim() ? String(v).trim() : "";
 }
 
-export async function sendPasswordResetEmail(args: {
-  to: string;
-  resetUrl: string;
-}) {
+function isConfiguredSES(): boolean {
+  return Boolean(mustEnv("AWS_REGION") && mustEnv("AWS_ACCESS_KEY_ID") && mustEnv("AWS_SECRET_ACCESS_KEY") && mustEnv("SES_FROM_EMAIL"));
+}
+
+function sesClient(): SESClient {
+  return new SESClient({
+    region: mustEnv("AWS_REGION"),
+    credentials: {
+      accessKeyId: mustEnv("AWS_ACCESS_KEY_ID"),
+      secretAccessKey: mustEnv("AWS_SECRET_ACCESS_KEY"),
+    },
+  });
+}
+
+async function sendEmail(args: { to: string; subject: string; text: string }) {
+  const to = String(args.to || "").trim().toLowerCase();
+  if (!to) return;
+
+  const from = mustEnv("SES_FROM_EMAIL") || "Bidra <no-reply@bidra.com.au>";
+
+  // Dev-safe fallback: if SES not configured, log only.
+  if (!isConfiguredSES()) {
+    console.log("[Bidra][EMAIL DEV]", { to, subject: args.subject, text: args.text });
+    return;
+  }
+
+  const cmd = new SendEmailCommand({
+    Source: from,
+    Destination: { ToAddresses: [to] },
+    Message: {
+      Subject: { Data: args.subject, Charset: "UTF-8" },
+      Body: {
+        Text: { Data: args.text, Charset: "UTF-8" },
+      },
+    },
+  });
+
+  await sesClient().send(cmd);
+}
+
+export async function sendPasswordResetEmail(args: { to: string; resetUrl: string }) {
   const to = String(args.to || "").trim();
   const resetUrl = String(args.resetUrl || "").trim();
   if (!to || !resetUrl) return;
 
-  const resendKey = mustEnv("RESEND_API_KEY");
-  const from = mustEnv("RESEND_FROM") || "Bidra <no-reply@bidra.com.au>";
-
-  // Dev fallback: if no provider configured, log link only (still "real" for dev),
-  // but production MUST have RESEND_API_KEY set.
-  if (!resendKey) {
-    console.log("[Bidra] Password reset link (DEV):", resetUrl);
-    return;
-  }
-
-  const resend = new Resend(resendKey);
-  await resend.emails.send({
-    from,
+  await sendEmail({
     to,
     subject: "Reset your Bidra password",
     text:
       "Reset your Bidra password:\n\n" +
       resetUrl +
       "\n\nThis link expires in 30 minutes. If you didn’t request this, you can ignore this email.",
+  });
+}
+
+export async function sendVerifyEmail(args: { to: string; verifyUrl: string }) {
+  const to = String(args.to || "").trim();
+  const verifyUrl = String(args.verifyUrl || "").trim();
+  if (!to || !verifyUrl) return;
+
+  await sendEmail({
+    to,
+    subject: "Verify your Bidra email",
+    text:
+      "Verify your Bidra email:\n\n" +
+      verifyUrl +
+      "\n\nIf you didn’t create an account, you can ignore this email.",
   });
 }

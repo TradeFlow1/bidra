@@ -1,5 +1,6 @@
 ﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { sendVerifyEmail } from "@/lib/email";
 import bcrypt from "bcryptjs";
 import { rateLimit } from "@/lib/rate-limit";
 import crypto from "crypto";
@@ -119,6 +120,7 @@ export async function POST(req: Request) {
   });
 
   const verifyUrl = `${baseUrl()}/auth/verify?token=${token}`;
+  await sendVerifyEmail({ to: emailNorm, verifyUrl });
   console.log("[Bidra] Email verification link:", verifyUrl);
 
   return NextResponse.json({ ok: true });
