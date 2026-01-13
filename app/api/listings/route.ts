@@ -7,22 +7,19 @@ export async function GET() {
       where: { status: "ACTIVE" },
       orderBy: { createdAt: "desc" },
       select: {
-        
-      
-      
-      
-      description: true,
-location: true,
-type: true,
-images: true,
-id: true,
+        id: true,
         title: true,
+        description: true,
+        location: true,
+        type: true,
+        images: true,
         price: true,
         buyNowPrice: true,
         category: true,
         condition: true,
         createdAt: true,
       },
+      take: 24,
     });
 
     return NextResponse.json({ listings });
