@@ -83,3 +83,7 @@ t === STEP *
 tmp-create-*.js
 
 tools/_*.js
+
+.vercel
+vercel-bypass-cookie*.txt
+.env.vercel.prod
