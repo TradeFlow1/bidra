@@ -6,7 +6,16 @@ function mustEnv(name: string): string {
 }
 
 function isConfiguredSES(): boolean {
-  return Boolean(mustEnv("AWS_REGION") && mustEnv("AWS_ACCESS_KEY_ID") && mustEnv("AWS_SECRET_ACCESS_KEY") && mustEnv("SES_FROM_EMAIL"));
+  // Only send real emails when explicitly enabled.
+  // Prevents broken AWS keys from crashing auth flows.
+  if (String(process.env.SES_ENABLED ?? "").trim() !== "1") return false;
+
+  return Boolean(
+    mustEnv("AWS_REGION") &&
+    mustEnv("AWS_ACCESS_KEY_ID") &&
+    mustEnv("AWS_SECRET_ACCESS_KEY") &&
+    mustEnv("SES_FROM_EMAIL")
+  );
 }
 
 function sesClient(): SESClient {

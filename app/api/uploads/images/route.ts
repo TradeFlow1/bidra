@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       const safeName = (f.name || "image").replace(/[^a-zA-Z0-9._-]/g, "_");
       const key = `listings/${Date.now()}-${Math.random().toString(16).slice(2)}-${safeName}`;
 
-      const blob = await put(key, f, { token, contentType: f.type });
+      const blob = await put(key, f, { token, contentType: f.type, access: "public" });
       urls.push(blob.url);
     }
 
