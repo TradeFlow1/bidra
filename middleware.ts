@@ -5,7 +5,11 @@ import { getToken } from "next-auth/jwt";
 function isPublic(pathname: string) {
   return (
     pathname.startsWith("/_next") ||
-    pathname.startsWith("/icon.png") ||
+    pathname === "/favicon.ico" ||
+    pathname === "/icon.png" ||
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml" ||
+    pathname.startsWith("/brand") ||
     pathname.startsWith("/api") ||
     pathname.startsWith("/auth/login") ||
     pathname.startsWith("/auth/register") ||
@@ -85,5 +89,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|favicon.ico|icon.png).*)"],
+  matcher: ["/((?!_next|favicon.ico|icon.png|brand|robots.txt|sitemap.xml).*)"],
 };
