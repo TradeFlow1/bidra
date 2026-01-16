@@ -33,6 +33,15 @@ export const authOptions: NextAuthOptions = {
         if (!user.emailVerified) {
           throw new Error("Please verify your email to activate your account.");
         }
+        // Matchbox: legacy-heal activation (older users may be verified but not active)
+        if (user.emailVerified && user.isActive === false) {
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { isActive: true },
+          });
+          // keep local value consistent for this login
+          (user as any).isActive = true;
+        }
         if (!ok) return null;
 
         return {
