@@ -38,7 +38,7 @@ export async function POST(req: Request) {
       data: { token, expiresAt, userId: user.id },
     });
 
-    const verifyUrl = `${baseUrl()}/api/auth/verify?token=${token}`;
+    const verifyUrl = `${baseUrl()}/auth/verify?token=${token}`;
     console.log("DEV_SES_ENABLED:", String(process.env.SES_ENABLED ?? ""));
 
     // Dev helper: if SES not enabled, return the link so you can use it locally.
