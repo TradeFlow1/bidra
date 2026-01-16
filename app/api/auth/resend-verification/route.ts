@@ -4,6 +4,11 @@ import crypto from "crypto";
 import { sendVerifyEmail } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
+export async function GET(req: Request) {
+  const url = new URL(req.url);
+  return NextResponse.redirect(new URL("/auth/login?resend=1", url));
+}
+
 
 function baseUrl() {
   return process.env.NEXTAUTH_URL || "http://localhost:3000";
@@ -36,10 +41,10 @@ export async function POST(req: Request) {
     const verifyUrl = `${baseUrl()}/api/auth/verify?token=${token}`;
     console.log("DEV_SES_ENABLED:", String(process.env.SES_ENABLED ?? ""));
 
-    // Dev helper: if SES not enabled, print the link so you can click it locally.
+    // Dev helper: if SES not enabled, return the link so you can use it locally.
     if (String(process.env.SES_ENABLED ?? "").trim() !== "1") {
       console.log("DEV_VERIFY_URL:", verifyUrl);
-      return NextResponse.json({ ok: true });
+      return NextResponse.json({ ok: true, devVerifyUrl: verifyUrl });
     }
 
     await sendVerifyEmail({ to: email, verifyUrl });
