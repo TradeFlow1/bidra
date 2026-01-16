@@ -1,9 +1,12 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  if (!token) return NextResponse.json({ error: "Blob token missing" }, { status: 500 });
+
   try {
     const form = await req.formData();
     const files = form.getAll("files") as File[];
@@ -31,7 +34,7 @@ export async function POST(req: Request) {
       const safeName = (f.name || "image").replace(/[^a-zA-Z0-9._-]/g, "_");
       const key = `listings/${Date.now()}-${Math.random().toString(16).slice(2)}-${safeName}`;
 
-      const blob = await put(key, f, { access: "public", contentType: f.type, addRandomSuffix: false });
+      const blob = await put(key, f, { token, contentType: f.type });
       urls.push(blob.url);
     }
 
