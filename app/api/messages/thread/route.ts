@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+﻿import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
   const thread = await prisma.messageThread.upsert({
     where: { listingId_buyerId: { listingId, buyerId: me } },
-    update: { updatedAt: new Date() },
+    update: { updatedAt: new Date(), buyerDeletedAt: null },
     create: {
       listingId,
       buyerId: me,

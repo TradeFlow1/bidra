@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+﻿import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
@@ -13,7 +13,7 @@ export async function GET() {
   const me = session.user.id
 
   const threads = await prisma.messageThread.findMany({
-    where: { OR: [{ buyerId: me }, { sellerId: me }] },
+    where: { OR: [{ buyerId: me, buyerDeletedAt: null }, { sellerId: me, sellerDeletedAt: null }] },
     orderBy: { lastMessageAt: "desc" },
     take: 100,
     select: {

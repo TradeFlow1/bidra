@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+﻿import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
@@ -19,7 +19,9 @@ export async function GET(_req: Request, ctx: { params: { id: string } }) {
       id: true,
       listingId: true,
       buyerId: true,
+      buyerDeletedAt: true,
       sellerId: true,
+      sellerDeletedAt: true,
       lastMessageAt: true,
       listing: { select: { id: true, title: true } },
     },
@@ -27,6 +29,9 @@ export async function GET(_req: Request, ctx: { params: { id: string } }) {
 
   if (!thread) return NextResponse.json({ error: "Thread not found" }, { status: 404 })
   if (me !== thread.buyerId && me !== thread.sellerId) return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+
+  const iDeleted = (me === thread.buyerId && thread.buyerDeletedAt) || (me === thread.sellerId && thread.sellerDeletedAt)
+  if (iDeleted) return NextResponse.json({ error: "Thread not found" }, { status: 404 })
 
   const messages = await prisma.message.findMany({
     where: { threadId: id },

@@ -1,0 +1,66 @@
+﻿import { NextResponse } from "next/server"
+import { auth } from "@/lib/auth"
+import { requireAdult } from "@/lib/require-adult"
+import { prisma } from "@/lib/prisma"
+
+export async function POST(req: Request, ctx: { params: { id: string } }) {
+  const session = await auth()
+  if (!session?.user?.id) return NextResponse.json({ error: "Not authenticated" }, { status: 401 })
+
+  const adult = await requireAdult(session)
+  if (!adult.ok) return NextResponse.json({ error: adult.reason || "Restricted" }, { status: 403 })
+
+  const me = session.user.id
+  const id = String(ctx?.params?.id || "").trim()
+  if (!id) return NextResponse.json({ error: "Thread id is required" }, { status: 400 })
+
+  const body = await req.json().catch(() => ({} as any))
+  const userDetails = String((body as any)?.details || "").trim()
+  if (!userDetails) return NextResponse.json({ error: "Details are required" }, { status: 400 })
+  if (userDetails.length > 2000) return NextResponse.json({ error: "Details too long" }, { status: 400 })
+
+  const thread = await prisma.messageThread.findUnique({
+    where: { id },
+    select: { id: true, buyerId: true, sellerId: true, listingId: true },
+  })
+
+  if (!thread) return NextResponse.json({ error: "Thread not found" }, { status: 404 })
+  if (me !== thread.buyerId && me !== thread.sellerId) return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+
+  const recent = await prisma.message.findMany({
+    where: { threadId: thread.id },
+    orderBy: { createdAt: "desc" },
+    take: 10,
+    select: { createdAt: true, userId: true, body: true },
+  })
+
+  const recentText = recent
+    .reverse()
+    .map((m) => `${new Date(m.createdAt as any).toISOString()} ${m.userId}: ${String(m.body || "").slice(0, 240)}`)
+    .join("\n")
+
+  const details = [
+    "MESSAGE_REPORT",
+    `ThreadId: ${thread.id}`,
+    `ListingId: ${thread.listingId}`,
+    `ReporterId: ${me}`,
+    "",
+    "User details:",
+    userDetails,
+    "",
+    "Recent messages (last 10):",
+    recentText || "(none)",
+  ].join("\n")
+
+  const report = await prisma.report.create({
+    data: {
+      listingId: thread.listingId,
+      reporterId: me,
+      reason: "MESSAGE",
+      details,
+    },
+    select: { id: true },
+  })
+
+  return NextResponse.json({ ok: true, reportId: report.id })
+}

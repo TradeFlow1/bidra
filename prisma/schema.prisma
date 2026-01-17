@@ -127,6 +127,8 @@ model MessageThread {
   lastMessageAt DateTime @default(now())
   buyerLastReadAt      DateTime?
 sellerLastReadAt     DateTime?
+  buyerDeletedAt      DateTime?
+  sellerDeletedAt     DateTime?
 
   listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
   buyer    User      @relation("BuyerThreads", fields: [buyerId], references: [id])

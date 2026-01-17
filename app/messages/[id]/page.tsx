@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma"
 import { formatAuDateTime } from "@/lib/date"
 import SendBox from "./components/send-box"
 import InboxBackButton from "./components/inbox-back-button"
+import ThreadActions from "./components/thread-actions"
 
 export const dynamic = "force-dynamic"
 
@@ -88,7 +89,8 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
               <div className="flex gap-2">
                 <InboxBackButton />
-                <Link
+                <ThreadActions threadId={thread.id} />
+<Link
                   href={`/listings/${thread.listing.id}`}
                   className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-[var(--bidra-ink)] hover:bg-white/10"
                 >

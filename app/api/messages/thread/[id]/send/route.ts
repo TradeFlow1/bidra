@@ -59,6 +59,8 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     });
 
     const data: any = { lastMessageAt: now, updatedAt: now };
+    data.buyerDeletedAt = null;
+    data.sellerDeletedAt = null;
     if (me === thread.buyerId) data.buyerLastReadAt = now;
     if (me === thread.sellerId) data.sellerLastReadAt = now;
 
