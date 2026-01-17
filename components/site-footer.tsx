@@ -21,6 +21,7 @@ export default function SiteFooter() {
             </li>
             <li>
               <Link href="/legal/terms" className="bd-link font-semibold">Terms of Service</Link>
+<Link href="/legal/prohibited-items" className="bd-link font-semibold">Prohibited Items</Link>
             </li>
             <li>
               <Link href="/legal/prohibited-items" className="bd-link font-semibold">Prohibited Items</Link>
