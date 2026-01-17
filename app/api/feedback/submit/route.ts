@@ -64,6 +64,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Order not found." }, { status: 404 });
   }
 
+  if (!order.listing || !(order.listing as any).sellerId) {
+    return NextResponse.json({ error: "Order listing is unavailable." }, { status: 409 });
+  }
+
   const sellerId = order.listing.sellerId;
   const buyerId = order.buyerId;
 
@@ -125,10 +129,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Failed to submit feedback." }, { status: 500 });
   }
 
-  await prisma.order.update({
-    where: { id: orderId },
-    data: role === "BUYER" ? { buyerFeedbackAt: new Date() } : { sellerFeedbackAt: new Date() },
-  });
+  try {
+    await prisma.order.update({
+      where: { id: orderId },
+      data: role === "BUYER" ? { buyerFeedbackAt: new Date() } : { sellerFeedbackAt: new Date() },
+    });
+  } catch (e) {
+    console.error("order.update failed after feedback submit", e);
+    return NextResponse.json({ error: "Feedback saved, but failed to update order." }, { status: 500 });
+  }
 
   return NextResponse.json({ ok: true });
 }
