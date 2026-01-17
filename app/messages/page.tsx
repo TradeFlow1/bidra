@@ -28,7 +28,7 @@ export default async function MessagesInboxPage() {
     select: {
       id: true,
       lastMessageAt: true,
-      listing: { select: { id: true, title: true } },
+      listing: { select: { id: true, title: true, images: true, photos: true } },
       buyerId: true,
       sellerId: true,
       buyer: { select: { username: true, name: true, email: true, id: true } },
@@ -91,14 +91,39 @@ export default async function MessagesInboxPage() {
                         it.unread ? "bg-black/[0.03] border-black/15" : ""
                       }`}
                     >
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="font-extrabold">{it.listing?.title || "Listing"}</div>
-                        <div className="text-xs text-[var(--bidra-ink-2)]">
-                          <DateTimeText className="text-xs text-[var(--bidra-ink-2)]" value={it.lastMessageAt} />
-                        </div>
-                      </div>
-                      <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">With: {otherLabel}</div>
-                      <div className="mt-2 text-sm text-[var(--bidra-ink-2)] line-clamp-2">{last}</div>
+                      {(() => {
+                        const anyListing: any = it.listing as any
+                        const imgs = (anyListing && Array.isArray(anyListing.images) && anyListing.images.length)
+                          ? anyListing.images
+                          : (anyListing && Array.isArray(anyListing.photos) && anyListing.photos.length)
+                            ? anyListing.photos
+                            : []
+                        const thumb = imgs && imgs.length ? String(imgs[0]) : ""
+                        return (
+                          <div className="flex items-start gap-4">
+                            <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-black/10 bg-black/[0.03]">
+                              {thumb ? (
+                                <img src={thumb} alt="" className="h-full w-full object-cover" />
+                              ) : (
+                                <div className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-[var(--bidra-ink-3)]">
+                                  No photo
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between gap-3">
+                                <div className="min-w-0 font-extrabold truncate">{it.listing?.title || "Listing"}</div>
+                                <div className="shrink-0 text-xs text-[var(--bidra-ink-2)]">
+                                  <DateTimeText className="text-xs text-[var(--bidra-ink-2)]" value={it.lastMessageAt} />
+                                </div>
+                              </div>
+                              <div className="mt-1 text-sm text-[var(--bidra-ink-2)] truncate">With: {otherLabel}</div>
+                              <div className="mt-2 text-sm text-[var(--bidra-ink-2)] line-clamp-2">{last}</div>
+                            </div>
+                          </div>
+                        )
+                      })()}
                     </Link>
                   )
                 })
