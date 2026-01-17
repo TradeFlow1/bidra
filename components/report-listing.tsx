@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, type CSSProperties } from "react";
 import { useSession } from "next-auth/react";
-
 const REASONS = [
   { value: "PROHIBITED_ITEM", label: "Prohibited item" },
   { value: "SCAM_OR_FRAUD", label: "Scam or fraud" },
