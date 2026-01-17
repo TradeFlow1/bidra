@@ -13,6 +13,7 @@ import ReportListingButton from "./report-listing-button";
 import MessageSellerButton from "./message-seller-button";
 import { Badge } from "@/components/ui";
 import ListingImageGallery from "@/components/listing-image-gallery";
+import CountdownClock from "@/components/countdown-clock";
 import { isTimedOffersType } from "@/lib/listing-type";
 
 export const dynamic = "force-dynamic";
@@ -208,6 +209,8 @@ const ladderTop = Object.values(ladderRows)
       ? "Ending soon — seller reviewing offers"
       : null;
 
+  const showCountdown = Boolean((listing as any).endsAt) && listing.status === "ACTIVE";
+  const endsAtIso = (listing as any).endsAt ? new Date((listing as any).endsAt).toISOString() : null;
   const buyNowVisible =
     listing.status === "ACTIVE" &&
     !isSeller &&
@@ -329,7 +332,7 @@ const ladderTop = Object.values(ladderRows)
                       <div className="text-neutral-900 text-right">{showSocialProof ? "Multiple buyers" : (offersCount > 0 ? "Active" : "Quiet")}</div>
 
                       <div className="text-neutral-600">Timing</div>
-                      <div className="text-neutral-900 text-right">{urgencyText ? urgencyText : (isFinalWindow ? "Final 24h" : "In progress")}</div>
+                      <div className="text-neutral-900 text-right">{showCountdown ? <CountdownClock endsAt={endsAtIso} /> : (urgencyText ? urgencyText : (isFinalWindow ? "Final 24h" : "In progress"))}</div>
 
                       <div className="text-neutral-600">Interest</div>
                       <div className="text-neutral-900 text-right">{pressure ? "Strong" : (guideExceeded ? "Above guide" : "Normal")}</div>
