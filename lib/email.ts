@@ -40,6 +40,8 @@ async function sendEmail(args: { to: string; subject: string; text: string }) {
     return;
   }
 
+  console.log("[Bidra][SES] sending", { to, from, region: mustEnv("AWS_REGION") });
+
   const cmd = new SendEmailCommand({
     Source: from,
     Destination: { ToAddresses: [to] },
@@ -51,7 +53,17 @@ async function sendEmail(args: { to: string; subject: string; text: string }) {
     },
   });
 
-  await sesClient().send(cmd);
+  try {
+    const out = await sesClient().send(cmd);
+    console.log("[Bidra][SES] sent", { to, messageId: (out && out.MessageId) ? out.MessageId : null });
+  } catch (e: unknown) {
+    const msg =
+      typeof e === "object" && e && "message" in e
+        ? String((e as any).message)
+        : String(e);
+    console.log("[Bidra][SES ERROR]", { to, err: msg });
+    throw e;
+  }
 }
 
 export async function sendPasswordResetEmail(args: { to: string; resetUrl: string }) {
