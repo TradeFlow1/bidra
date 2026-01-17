@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿import { labelCategory } from "@/lib/labels";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -101,7 +102,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
               >
                 <div>
                   <div className="text-sm bd-ink2">
-                    {l.category} • {l.location}
+                    {labelCategory(l.category)} • {l.location}
                   </div>
 
                   <Link

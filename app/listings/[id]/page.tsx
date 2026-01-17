@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿import { labelCategory, labelCondition } from "@/lib/labels";
+import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -254,8 +255,8 @@ const ladderTop = Object.values(ladderRows)
 
             <div className="flex gap-2 flex-wrap">
               <Badge>{listing.type === "AUCTION" ? "Timed offers" : "Fixed price"}</Badge>
-              <Badge>{listing.category}</Badge>
-              <Badge>{listing.condition}</Badge>
+              <Badge>{labelCategory(listing.category)}</Badge>
+              <Badge>{labelCondition(listing.condition)}</Badge>
             </div>
 
             <div className="pt-1">

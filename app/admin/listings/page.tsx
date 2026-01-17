@@ -1,8 +1,9 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Card, Badge } from "@/components/ui";
+import { labelCategory } from "@/lib/labels";
 
 type AdminListingRow = {
   id: string;
@@ -45,7 +46,7 @@ export default async function AdminListings() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <div className="text-sm text-neutral-600">
-                  {l.category} • {l.location}
+                  {labelCategory(l.category)} â€¢ {l.location}
                 </div>
 
                 <Link className="font-semibold hover:underline" href={"/listings/" + l.id}>

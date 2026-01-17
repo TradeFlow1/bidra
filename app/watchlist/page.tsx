@@ -1,4 +1,5 @@
-﻿export const dynamic = "force-dynamic";
+﻿import { labelCategory } from "@/lib/labels";
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Link from "next/link";
@@ -124,7 +125,7 @@ export default async function WatchlistPage() {
                   </Link>
 
                   <div style={{ marginTop: 6, fontSize: 13, opacity: 0.75 }}>
-                    {w.listing.category ? <span>{w.listing.category}</span> : null}
+                    {w.listing.category ? <span>{labelCategory(w.listing.category)}</span> : null}
                     {w.listing.category && w.listing.location ? <span>  -  </span> : null}
                     {w.listing.location ? <span>{w.listing.location}</span> : null}
                     {(w.listing.category || w.listing.location) && w.listing.type ? <span>  -  </span> : null}
