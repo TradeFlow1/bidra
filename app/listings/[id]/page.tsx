@@ -359,6 +359,12 @@ const ladderTop = Object.values(ladderRows)
                       )}
                     </div>
                   </div>
+                ) : isEnded ? (
+                  <div className="bd-card p-4">
+                    <div className="text-sm font-semibold">Offers closed</div>
+                    <div className="mt-2 text-xs text-neutral-600">Listing ended — seller reviewing offers.</div>
+                    <div className="mt-2 text-xs text-neutral-600">Seller decides at the end. Highest offer is not an automatic sale.</div>
+                  </div>
                 ) : (
                   <div className="bd-card p-4">
                     <div className="text-sm font-semibold">Place an offer</div>
@@ -373,9 +379,6 @@ const ladderTop = Object.values(ladderRows)
                       <div className="mt-2 text-xs text-neutral-600">
                         Seller decides at the end. Highest offer is not an automatic sale.
                       </div>
-                      {isEnded ? (
-                        <div className="mt-1 text-xs text-neutral-600">Listing ended — seller reviewing offers.</div>
-                      ) : null}
                     </div>
                   </div>
                 )}
