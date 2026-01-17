@@ -15,10 +15,26 @@ export default function ContactPage() {
 
       <Card>
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
             const fd = new FormData(e.currentTarget);
-            console.log("[Bidra Contact]", Object.fromEntries(fd.entries()));
+            const email = String(fd.get("email") || "").trim();
+            const message = String(fd.get("message") || "").trim();
+
+            setSent(false);
+
+            const r = await fetch("/api/contact", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ email, message }),
+            });
+
+            const data = await r.json().catch(() => ({} as any));
+            if (!r.ok || !(data as any)?.ok) {
+              alert(String((data as any)?.error || "Failed to send message."));
+              return;
+            }
+
             setSent(true);
             (e.currentTarget as HTMLFormElement).reset();
           }}
