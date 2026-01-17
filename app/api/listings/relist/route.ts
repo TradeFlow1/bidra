@@ -42,8 +42,9 @@ export async function POST(req: Request) {
       if (!isAdmin && listing.sellerId !== userId)
         return { ok: false, status: 403 as const, error: "Not allowed." };
 
-      if (listing.status === "ACTIVE")
-        return { ok: false, status: 400 as const, error: "Listing is already active." };
+      // ISSUE #7: relist should ONLY be available on ENDED listings
+      if (listing.status !== "ENDED")
+        return { ok: false, status: 400 as const, error: "Relist is only available for ended listings." };
 
       const next = await tx.listing.update({
         where: { id: listingId },

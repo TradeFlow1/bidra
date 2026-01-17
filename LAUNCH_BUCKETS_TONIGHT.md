@@ -22,7 +22,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [ ] ISSUE: notifications for users – how do we set that up
 - [ ] ISSUE: when user lists an item, default location to their signed-up suburb, allow manual change
 - [x] ISSUE: AI suggestions for product descriptions when listing an item  ✅ DONE
-- [ ] ISSUE: seller has relist on live listing – should only be available on expired listing
+- [x] ISSUE: seller has relist on live listing – should only be available on expired listing  ✅ DONE
 - [ ] ISSUE: item that has been 'bought' still showing as active listings to other users
 - [ ] ISSUE: no option to delete old messages or report in messages
 - [ ] ISSUE: restricted account past timeout did not automatically end restriction

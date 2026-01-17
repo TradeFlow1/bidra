@@ -282,9 +282,11 @@ const ladderTop = Object.values(ladderRows)
                       {Array.isArray((listing as any).images) && (listing as any).images.length > 0 ? "Manage photos" : "Add photos"}
                     </Link>
                   </div>
-                  <div>
-                    <RelistButton listingId={(listing as any).id} />
-                  </div>
+{(listing as any).status === "ENDED" ? (
+  <div>
+    <RelistButton listingId={(listing as any).id} />
+  </div>
+) : null}
                 </div>
               ) : null}
             </div>
