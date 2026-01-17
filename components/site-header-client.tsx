@@ -17,7 +17,13 @@ type SessionLike =
   | null
   | undefined;
 
-export default function SiteHeaderClient({ session }: { session?: SessionLike }) {
+export default function SiteHeaderClient({
+  session,
+  notificationCount = 0,
+}: {
+  session?: SessionLike;
+  notificationCount?: number;
+}) {
   const [open, setOpen] = useState(false);
   const [acctOpen, setAcctOpen] = useState(false);
   const headerRef = useRef<HTMLElement | null>(null);
@@ -30,10 +36,10 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
   }, [session]);
 
   // White pill (desktop + mobile)
-  const pill = "inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5 focus:outline-none focus:ring-0 focus-visible:outline-none";
+  const pill =
+    "inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5 focus:outline-none focus:ring-0 focus-visible:outline-none";
 
-  const linkPlain =
-    "focus:outline-none focus:ring-0 focus-visible:outline-none";
+  const linkPlain = "focus:outline-none focus:ring-0 focus-visible:outline-none";
 
   function closeAll() {
     setOpen(false);
@@ -74,6 +80,13 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
     };
   }, []);
 
+  const badge =
+    notificationCount && notificationCount > 0 ? (
+      <span className="ml-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-black px-2 py-0.5 text-[11px] font-extrabold text-white">
+        {notificationCount > 99 ? "99+" : notificationCount}
+      </span>
+    ) : null;
+
   return (
     <header ref={headerRef as any} className="bd-header border-b border-black/10">
       {/* Top bar */}
@@ -108,6 +121,10 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
 
           {isAuthed ? (
             <>
+              <Link href="/notifications" className={pill} onClick={closeAll}>
+                Notifications{badge}
+              </Link>
+
               <Link href="/messages" className={pill} onClick={closeAll}>
                 Messages
               </Link>
@@ -122,27 +139,50 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
               </button>
 
               {acctOpen ? (
-                <div className="absolute right-0 top-12 z-50 w-56 rounded-xl border border-black/10 bg-white text-black shadow-lg p-2" style={{ backgroundColor: "#ffffff", color: "#000000" }}>
+                <div
+                  className="absolute right-0 top-12 z-50 w-56 rounded-xl border border-black/10 bg-white text-black shadow-lg p-2"
+                  style={{ backgroundColor: "#ffffff", color: "#000000" }}
+                >
                   <div className="flex flex-col text-sm">
-                    <Link href="/profile" className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain} onClick={closeAll}>
+                    <Link
+                      href="/profile"
+                      className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain}
+                      onClick={closeAll}
+                    >
                       Account settings
                     </Link>
-                    <Link href="/dashboard" className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain} onClick={closeAll}>
+                    <Link
+                      href="/dashboard"
+                      className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain}
+                      onClick={closeAll}
+                    >
                       Dashboard
                     </Link>
-                    <Link href="/orders" className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain} onClick={closeAll}>
+                    <Link
+                      href="/orders"
+                      className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain}
+                      onClick={closeAll}
+                    >
                       Orders
                     </Link>
 
                     {(session?.user as any)?.role === "ADMIN" ? (
-                      <Link href="/admin" className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain} onClick={closeAll}>
+                      <Link
+                        href="/admin"
+                        className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain}
+                        onClick={closeAll}
+                      >
                         Admin
                       </Link>
                     ) : null}
 
                     <div className="my-2 border-t border-black/10" />
 
-                    <Link href="/logout" className={"rounded-md px-3 py-2 text-black hover:bg-black/5 text-left " + linkPlain} onClick={closeAll}>
+                    <Link
+                      href="/logout"
+                      className={"rounded-md px-3 py-2 text-black hover:bg-black/5 text-left " + linkPlain}
+                      onClick={closeAll}
+                    >
                       Sign out
                     </Link>
                   </div>
@@ -202,6 +242,9 @@ export default function SiteHeaderClient({ session }: { session?: SessionLike })
 
               {isAuthed ? (
                 <>
+                  <Link href="/notifications" onClick={closeAll} className={pill}>
+                    Notifications{badge}
+                  </Link>
                   <Link href="/messages" onClick={closeAll} className={pill}>
                     Messages
                   </Link>
