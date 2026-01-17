@@ -5,6 +5,88 @@ import React, { useMemo, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FULL_CATEGORIES, CATEGORY_GROUPS } from "@/lib/categories";
 
+type CatRule = { cat: string; kws: string[] };
+
+const CATEGORY_RULES: CatRule[] = [
+  { cat: "Phones & Accessories", kws: ["iphone","android","phone","mobile","samsung","pixel","charger","case","airpods"] },
+  { cat: "Computers", kws: ["laptop","macbook","pc","desktop","monitor","keyboard","mouse","ssd","gpu","graphics","ram"] },
+  { cat: "Gaming", kws: ["ps5","playstation","xbox","switch","nintendo","controller","gaming","steamdeck"] },
+  { cat: "TV & Audio", kws: ["tv","television","soundbar","speaker","subwoofer","receiver","amplifier","headphones"] },
+  { cat: "Cameras", kws: ["camera","dslr","mirrorless","lens","gopro","canon","nikon","sony a7"] },
+
+  { cat: "Living Room", kws: ["sofa","couch","armchair","coffee table","tv unit","entertainment unit","rug"] },
+  { cat: "Bedroom", kws: ["bed","mattress","bedframe","dresser","wardrobe","side table","bedside"] },
+  { cat: "Dining", kws: ["dining","table","chairs","bar stool","buffet","hutch"] },
+  { cat: "Outdoor & Garden", kws: ["outdoor","patio","bbq","grill","garden","lawn","mower","trimmer"] },
+  { cat: "Home Decor", kws: ["mirror","lamp","vase","art","decor","curtain","blinds"] },
+
+  { cat: "Kitchen Appliances", kws: ["fridge","refrigerator","microwave","air fryer","toaster","kettle","blender","coffee machine"] },
+  { cat: "Laundry Appliances", kws: ["washer","washing machine","dryer","laundry"] },
+  { cat: "Heating & Cooling", kws: ["aircon","air con","heater","fan","portable air conditioner"] },
+  { cat: "Vacuums", kws: ["vacuum","dyson","roomba"] },
+
+  { cat: "Power Tools", kws: ["drill","impact","saw","circular saw","jigsaw","sander","makita","dewalt","milwaukee"] },
+  { cat: "Hand Tools", kws: ["spanner","wrench","socket","hammer","screwdriver","pliers"] },
+  { cat: "Building Materials", kws: ["timber","wood","plywood","gyprock","cement","bricks"] },
+
+  { cat: "Men's Clothing", kws: ["mens","men's","jacket","shirt","pants","jeans","hoodie"] },
+  { cat: "Women's Clothing", kws: ["womens","women's","dress","skirt","blouse","heels"] },
+  { cat: "Shoes", kws: ["shoes","sneakers","boots","nike","adidas"] },
+  { cat: "Bags", kws: ["bag","handbag","backpack","luggage"] },
+  { cat: "Jewellery & Watches", kws: ["watch","rolex","seiko","jewellery","ring","necklace"] },
+
+  { cat: "Fitness", kws: ["dumbbell","weights","treadmill","bench","gym","yoga","protein"] },
+  { cat: "Camping", kws: ["tent","swag","sleeping bag","camping","esky","gazebo"] },
+  { cat: "Cycling", kws: ["bike","bicycle","helmet","mtb","road bike"] },
+  { cat: "Fishing", kws: ["fishing","rod","reel","tackle","bait"] },
+  { cat: "Water Sports", kws: ["surf","surfboard","sup","paddle board","kayak"] },
+
+  { cat: "Toys", kws: ["lego","toy","doll","action figure","hot wheels"] },
+  { cat: "Games", kws: ["board game","card game","puzzle"] },
+  { cat: "Kids Clothing", kws: ["kids","kid's","child","children","size 4","size 6"] },
+
+  { cat: "Cars", kws: ["car","sedan","hatch","ute","4x4","ford","holden","toyota"] },
+  { cat: "Motorcycles", kws: ["motorbike","motorcycle","helmet","yamaha","honda","kawasaki"] },
+  { cat: "Vehicle Parts & Accessories", kws: ["tyres","tires","rim","wheels","car parts","towbar","roof rack"] },
+  { cat: "Boats & Marine", kws: ["boat","marine","outboard","jetski","jet ski"] },
+  { cat: "Caravans & Campers", kws: ["caravan","camper","campervan","rv"] },
+
+  { cat: "Books", kws: ["book","novel","textbook","paperback","hardcover"] },
+  { cat: "Movies", kws: ["dvd","bluray","blu-ray","movie"] },
+  { cat: "Music", kws: ["vinyl","record","cd","guitar","piano"] },
+
+  { cat: "Coins", kws: ["coin","coins","currency"] },
+  { cat: "Trading Cards", kws: ["pokemon","mtg","magic the gathering","trading card"] },
+  { cat: "Memorabilia", kws: ["memorabilia","signed","autograph"] },
+  { cat: "Antiques", kws: ["antique","vintage"] },
+
+  { cat: "Pet Supplies (NO LIVE ANIMALS)", kws: ["dog","cat","pet","leash","collar","litter","aquarium"] },
+];
+
+function suggestCategoryFromText(textRaw: string): string {
+  const t = (textRaw || "").toLowerCase();
+  if (t.length < 6) return "";
+
+  let bestCat = "";
+  let bestScore = 0;
+
+  for (const r of CATEGORY_RULES) {
+    let s = 0;
+    for (const kw of r.kws) {
+      if (t.includes(kw)) s += 1;
+    }
+    if (s > bestScore) {
+      bestScore = s;
+      bestCat = r.cat;
+    }
+  }
+
+  // If bestCat not in current categories list, ignore (safety)
+  if (bestCat && !FULL_CATEGORIES.includes(bestCat as any)) return "";
+  // Require at least 1 hit to suggest
+  return bestScore >= 1 ? bestCat : "";
+}
+
 type ListingTypeUI = "FIXED_PRICE" | "TIMED_OFFERS";
 
 function dollarsToCentsOrNull(v: string): number | null {
@@ -49,6 +131,11 @@ export default function SellNewClient() {
 
   const isTimedOffers = type === "TIMED_OFFERS";
   const categoryOptions = useMemo(() => FULL_CATEGORIES, []);
+
+  const suggestedCategory = useMemo(() => {
+    const blob = `${title} ${description}`.trim();
+    return suggestCategoryFromText(blob);
+  }, [title, description]);
 
   const previews = useMemo(() => {
     return files.slice(0, 10).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
@@ -240,6 +327,18 @@ export default function SellNewClient() {
 
         <div>
           <label className="text-sm font-medium">Category</label>
+          {suggestedCategory && suggestedCategory !== category && (
+            <div className="mt-1 flex flex-wrap items-center gap-2 text-xs bd-ink2">
+              <span>Suggested: <span className="font-semibold bd-ink">{suggestedCategory}</span></span>
+              <button
+                type="button"
+                className="bd-btn bd-btn-ghost py-1 px-2 text-xs"
+                onClick={() => setCategory(suggestedCategory as any)}
+              >
+                Use suggestion
+              </button>
+            </div>
+          )}
           <select
             className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
             value={category}
