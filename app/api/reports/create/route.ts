@@ -1,6 +1,7 @@
 ﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdult } from "@/lib/require-adult";
+import { auth } from "@/lib/auth";
+import { yearsOld } from "@/lib/require-adult";
 
 const ALLOWED_REASONS = new Set([
   "PROHIBITED_ITEM",
@@ -12,13 +13,40 @@ const ALLOWED_REASONS = new Set([
 ]);
 
 export async function POST(req: Request) {
-  // Single source of truth: requireAdult (auth + DB fallback)
-  const gate = await requireAdult();
-  if (!gate.ok) {
-    return new Response(JSON.stringify({ ok: false, reason: gate.reason }), {
-      status: gate.status,
+  // Reporting is a safety feature: allow any authenticated user.
+  // Only hard-block if we can positively determine UNDER_18.
+  const session = await auth();
+  const reporterId = (session as any)?.user?.id;
+
+  if (!reporterId) {
+    return new Response(JSON.stringify({ ok: false, reason: "NOT_AUTHENTICATED" }), {
+      status: 401,
       headers: { "content-type": "application/json" },
     });
+  }
+
+  // If DOB exists and user is under 18, block. Otherwise allow reporting.
+  try {
+    const dbUser = await prisma.user.findUnique({
+      where: { id: reporterId },
+      select: { dob: true },
+    });
+
+    const rawDob: any = (dbUser as any)?.dob ?? null;
+    if (rawDob) {
+      const d = new Date(rawDob);
+      if (!isNaN(d.getTime())) {
+        const age = yearsOld(d);
+        if (age < 18) {
+          return new Response(JSON.stringify({ ok: false, reason: "UNDER_18" }), {
+            status: 403,
+            headers: { "content-type": "application/json" },
+          });
+        }
+      }
+    }
+  } catch {
+    // If DOB lookup fails, do not block reporting.
   }
 
   try {
@@ -37,9 +65,6 @@ export async function POST(req: Request) {
       select: { id: true },
     });
     if (!exists) return NextResponse.json({ error: "Listing not found" }, { status: 404 });
-
-    const reporterId = (gate.session as any)?.user?.id;
-    if (!reporterId) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
 
     const report = await prisma.report.create({
       data: {
