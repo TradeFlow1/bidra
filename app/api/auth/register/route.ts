@@ -72,7 +72,7 @@ export async function POST(req: Request) {
   const hasPostcode = postcode.length > 0;
   const hasSuburbState = suburb.length > 0 && state.length > 0;
   if (!hasPostcode && !hasSuburbState) {
-    return NextResponse.json({ error: "Provide postcode OR suburb + state" }, { status: 400 });
+    return NextResponse.json({ error: "Location required: enter a postcode, or enter suburb + state." }, { status: 400 });
   }
 
   const existsEmail = await prisma.user.findUnique({ where: { email: emailNorm } });

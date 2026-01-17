@@ -253,7 +253,7 @@ export default function RegisterPage() {
                   <p className="text-sm font-extrabold text-[#0b1220]">Location</p>
                   <p className="text-xs text-black/55">Country: AU</p>
                 </div>
-                <p className="mt-1 text-sm text-black/60">Use postcode OR suburb + state.</p>
+                <p className="mt-1 text-sm text-black/60">Enter <span className="font-semibold">postcode</span> OR <span className="font-semibold">suburb + state</span>. (No street address)</p>
 
                 <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <div className="sm:col-span-1">
@@ -270,7 +270,7 @@ export default function RegisterPage() {
                           set("state", "");
                         }
                       }}
-                      placeholder="Postcode"
+                      placeholder="e.g. 4301"
                       inputMode="numeric"
                     />
                     <p className={helper}>
@@ -295,7 +295,7 @@ export default function RegisterPage() {
                         set("suburb", v);
                         if (v.trim()) set("postcode", "");
                       }}
-                      placeholder="Suburb"
+                      placeholder="e.g. Redbank Plains"
                     />
 
                     <label className={cx(label, "mt-3 block")}>State</label>
@@ -308,7 +308,7 @@ export default function RegisterPage() {
                         set("state", v);
                         if (v.trim()) set("postcode", "");
                       }}
-                      placeholder="State (e.g. NSW)"
+                      placeholder="e.g. QLD"
                     />
                     <p className={helper}>Example: QLD, NSW, VIC</p>
                   </div>

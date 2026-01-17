@@ -18,6 +18,7 @@ export default async function ProfilePage({
   if (!dbUser) redirect("/auth/login");
 
   const saved = String(searchParams?.saved ?? "") === "1";
+  const failed = String(searchParams?.saved ?? "") === "0";
 
   async function update(formData: FormData) {
     "use server";
@@ -94,6 +95,14 @@ export default async function ProfilePage({
           </div>
         </div>
       ) : null}
+
+      {failed ? (
+        <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900">
+          <div className="font-semibold">Please fix your location.</div>
+          <div className="mt-1">Enter <strong>postcode</strong> OR <strong>suburb + state</strong>. (No street address)</div>
+        </div>
+      ) : null}
+
 
       <div className="mt-6 space-y-4">
         <Card>
