@@ -354,7 +354,6 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             <option value="TIMED_OFFERS">Timed offers</option>
           </select>
           <div className="mt-1 text-xs bd-ink2">
-            Timed offers collect offers. When the offer period ends, the seller chooses whether to proceed with the highest offer.
           </div>
         </div>
 

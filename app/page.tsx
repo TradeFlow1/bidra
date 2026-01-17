@@ -53,7 +53,6 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="bd-hero-eyebrow">AUSTRALIA-WIDE • BUY &amp; SELL • MAKE OFFERS • SELLER CHOOSES</div>
 
           <h1 className="bd-hero-h1">Australia-wide marketplace for buying and selling.</h1>
           <p className="bd-hero-p">

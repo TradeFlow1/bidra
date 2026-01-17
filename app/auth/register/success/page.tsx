@@ -29,7 +29,6 @@ export default function RegisterSuccessPage() {
         </div>
 
         <p className="mt-4 text-xs text-black/55">
-          Bidra is an Australian marketplace with seller-accepted offers (seller chooses whether to proceed).
         </p>
       </div>
     </main>
