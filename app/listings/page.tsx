@@ -78,6 +78,19 @@ export default async function ListingsPage({
 
   const where: any = { AND: [] as any[] };
 
+  // BUCKET_A_P0: hide obvious test/gibberish listings from public browse
+  where.AND.push({
+    NOT: [
+      { title: { equals: "test", mode: "insensitive" } },
+      { title: { startsWith: "test", mode: "insensitive" } },
+      { title: { contains: "dfgh", mode: "insensitive" } },
+      { title: { contains: "asdf", mode: "insensitive" } },
+      { title: { contains: "qwer", mode: "insensitive" } },
+      { title: { contains: "no photos", mode: "insensitive" } },
+      { title: { contains: "no photo", mode: "insensitive" } }
+    ],
+  });
+
   // Always hide DELETED/SUSPENDED/etc from public browse
   where.AND.push({ status: "ACTIVE" });
 

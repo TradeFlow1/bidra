@@ -1,10 +1,21 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
     const listings = await prisma.listing.findMany({
-      where: { status: "ACTIVE" },
+      where: {
+        status: "ACTIVE",
+        NOT: [
+          { title: { equals: "test", mode: "insensitive" } },
+          { title: { startsWith: "test", mode: "insensitive" } },
+          { title: { contains: "dfgh", mode: "insensitive" } },
+          { title: { contains: "asdf", mode: "insensitive" } },
+          { title: { contains: "qwer", mode: "insensitive" } },
+          { title: { contains: "no photos", mode: "insensitive" } },
+          { title: { contains: "no photo", mode: "insensitive" } }
+        ],
+      },
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
