@@ -1,7 +1,19 @@
 ﻿"use client";
 
 import { useRouter } from "next/navigation";
-import { FULL_CATEGORIES } from "@/lib/categories";
+
+const HOME_LAUNCH_CATEGORIES = [
+  "Home & Furniture",
+  "Tech & Electronics",
+  "Fashion & Wearables",
+  "Sports & Outdoors",
+  "Kids & Toys",
+  "Appliances",
+  "Tools & DIY",
+  "Books & Media",
+  "Collectibles & Vintage",
+  "Seasonal Goods",
+] as const;
 
 export default function HomeCategorySelectClient() {
   const router = useRouter();
@@ -22,7 +34,7 @@ export default function HomeCategorySelectClient() {
         }}
       >
         <option value="">Select a category…</option>
-        {FULL_CATEGORIES.map((c) => (
+        {HOME_LAUNCH_CATEGORIES.map((c) => (
           <option key={c} value={c}>
             {c}
           </option>
