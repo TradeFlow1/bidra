@@ -6,7 +6,7 @@ export default function PricingPage() {
     <div className="max-w-3xl flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Pricing</h1>
       <p className="text-neutral-700">
-        Bidra is in MVP. Fees may change as we scale — we'll always show costs clearly before you commit.
+        Fees may change over time — we’ll always show costs clearly before you commit.
       </p>
 
       <div className="grid md:grid-cols-3 gap-4">
@@ -16,7 +16,7 @@ export default function PricingPage() {
         </Card>
         <Card>
           <div className="font-semibold">Sell</div>
-          <div className="mt-2 text-sm text-neutral-700">MVP promotional fees may apply (see Fees policy).</div>
+          <div className="mt-2 text-sm text-neutral-700">Promotional fees may apply (see Fees policy).</div>
           <Link href="/legal/fees" className="mt-2 inline-block text-sm hover:underline">View fees</Link>
         </Card>
         <Card>

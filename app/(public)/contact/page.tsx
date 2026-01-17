@@ -29,7 +29,7 @@ export default function ContactPage() {
           <label className="text-sm">Message</label>
           <Textarea name="message" required />
           <Button type="submit" className="bg-black text-white border-black hover:opacity-90">Send</Button>
-          {sent ? <div className="text-sm text-green-700">Message sent (logged in console for MVP).</div> : null}
+          {sent ? <div className="text-sm text-green-700">Message sent. We’ll reply to your email as soon as we can.</div> : null}
         </form>
       </Card>
     </div>
