@@ -1,14 +1,6 @@
 ﻿import { NextResponse } from "next/server";
-import { requireAdult } from "@/lib/require-adult";
-
 import { prisma } from "@/lib/prisma";
-
-import { getServerSession } from "next-auth";
-
-import { authOptions } from "@/lib/auth";
-
-
-
+import { requireAdult } from "@/lib/require-adult";
 
 const ALLOWED_REASONS = new Set([
   "PROHIBITED_ITEM",
@@ -18,8 +10,9 @@ const ALLOWED_REASONS = new Set([
   "SAFETY_RISK",
   "OTHER",
 ]);
+
 export async function POST(req: Request) {
-  
+  // Single source of truth: requireAdult (auth + DB fallback)
   const gate = await requireAdult();
   if (!gate.ok) {
     return new Response(JSON.stringify({ ok: false, reason: gate.reason }), {
@@ -27,32 +20,33 @@ export async function POST(req: Request) {
       headers: { "content-type": "application/json" },
     });
   }
-try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
-    }
 
+  try {
     const body = await req.json().catch(() => ({}));
-    const listingId = String(body?.listingId || "").trim();
-    const reason = String(body?.reason || "").trim();
-    const details = String(body?.details || "").trim();
+    const listingId = String((body as any)?.listingId || "").trim();
+    const reason = String((body as any)?.reason || "").trim();
+    const details = String((body as any)?.details || "").trim();
 
     if (!listingId) return NextResponse.json({ error: "listingId required" }, { status: 400 });
     if (!reason) return NextResponse.json({ error: "Reason required" }, { status: 400 });
     if (!ALLOWED_REASONS.has(reason)) return NextResponse.json({ error: "Invalid reason" }, { status: 400 });
     if (details.length > 1000) return NextResponse.json({ error: "Details too long" }, { status: 400 });
 
-    // ensure listing exists
-    const exists = await prisma.listing.findUnique({ where: { id: listingId }, select: { id: true } });
+    const exists = await prisma.listing.findUnique({
+      where: { id: listingId },
+      select: { id: true },
+    });
     if (!exists) return NextResponse.json({ error: "Listing not found" }, { status: 404 });
+
+    const reporterId = (gate.session as any)?.user?.id;
+    if (!reporterId) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
 
     const report = await prisma.report.create({
       data: {
         listingId,
-        reporterId: session.user.id,
+        reporterId,
         reason,
-        details: details || null,
+        details: details ? details : null,
       },
     });
 
