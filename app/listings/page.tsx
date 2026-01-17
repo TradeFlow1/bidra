@@ -409,7 +409,7 @@ where.AND.push({ images: { isEmpty: false } });
           <div className="browseList w-full grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {listings.length === 0 ? (
               <div className="card" style={{ opacity: 0.9 }}>
-                <p className="cardBody" style={{ margin: 0 }}>No listings found.</p>
+                <p className="cardBody" style={{ margin: 0 }}>No listings found. Try changing filters or searching again.</p>
               </div>
             ) : (
               listings.map((l) => (

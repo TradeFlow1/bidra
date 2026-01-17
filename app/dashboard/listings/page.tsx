@@ -131,7 +131,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
             ))}
 
             {!listings.length ? (
-              <div className="text-sm bd-ink2">No listings yet. Create one to start selling.</div>
+              <div className="text-sm bd-ink2">No listings yet. Create a listing to start selling.</div>
             ) : null}
           </div>
         </div>

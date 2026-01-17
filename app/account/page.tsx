@@ -263,7 +263,7 @@ export default async function AccountPage() {
               As buyer ({pendingFeedbackAsBuyer.length})
             </div>
             {pendingFeedbackAsBuyer.length === 0 ? (
-              <p style={small}>Nothing overdue.</p>
+              <p style={small}>No actions needed right now.</p>
             ) : (
               <div style={tableWrap}>
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -317,7 +317,7 @@ export default async function AccountPage() {
               As seller ({pendingFeedbackAsSeller.length})
             </div>
             {pendingFeedbackAsSeller.length === 0 ? (
-              <p style={small}>Nothing overdue.</p>
+              <p style={small}>No actions needed right now.</p>
             ) : (
               <div style={tableWrap}>
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -524,7 +524,7 @@ export default async function AccountPage() {
               {myListings.length === 0 ? (
                 <tr>
                   <td style={td} colSpan={5}>
-                    No listings yet.
+                    No listings yet. Create one to start selling.
                   </td>
                 </tr>
               ) : (

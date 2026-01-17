@@ -89,7 +89,7 @@ export default async function OrdersPage() {
             ))}
 
             {!orders.length ? (
-              <div className="text-sm bd-ink2">No orders yet.</div>
+              <div className="text-sm bd-ink2">No orders yet. Your purchases and sales will appear here.</div>
             ) : null}
           </div>
         </div>

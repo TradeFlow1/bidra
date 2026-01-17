@@ -302,7 +302,7 @@ const ladderTop = Object.values(ladderRows)
                     </div>
 
                     <div className="text-2xl font-extrabold">
-                      {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet"}
+                      {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet."}
                     </div>
                     <div className="text-xs text-neutral-600">Highest offer</div>
                     {(listing as any).bids && (listing as any).bids.length ? (

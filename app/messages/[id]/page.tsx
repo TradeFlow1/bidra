@@ -108,7 +108,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                   ))}
                 </div>
               ) : (
-                <div className="text-sm text-[var(--bidra-ink-2)]">No messages yet.</div>
+                <div className="text-sm text-[var(--bidra-ink-2)]">No messages yet. Say hello to get started.</div>
               )}
             </div>
 
