@@ -14,3 +14,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 
 ## P2 (Nice to have)
 - [ ] P2-1:
+
+## Screenshot issues (intake)
+- [ ] (paste issue list here verbatim)
+
