@@ -87,6 +87,49 @@ function suggestCategoryFromText(textRaw: string): string {
   return bestScore >= 1 ? bestCat : "";
 }
 
+function suggestDescriptionDraft(args: {
+  title: string;
+  category: string;
+  condition: string;
+  type: "FIXED_PRICE" | "TIMED_OFFERS";
+  priceLabel: string;
+  location: string;
+}): string {
+  const title = (args.title || "").trim();
+  const category = (args.category || "").trim();
+  const condition = (args.condition || "").trim();
+  const priceLabel = (args.priceLabel || "").trim();
+  const location = (args.location || "").trim();
+
+  const lines: string[] = [];
+  if (title) lines.push(`Selling: ${title}.`);
+  if (category) lines.push(`Category: ${category}.`);
+  if (condition) lines.push(`Condition: ${condition.replaceAll("_", " ").toLowerCase()}.`);
+
+  // Simple “AI-like” structure: details + pickup + payment note
+  lines.push("");
+  lines.push("Details:");
+  lines.push("- Included: (add what’s included)");
+  lines.push("- Reason for selling: (optional)");
+  lines.push("- Any marks or faults: (be honest)");
+
+  lines.push("");
+  if (args.type === "TIMED_OFFERS") {
+    lines.push("Timed offers: I’ll review offers when the time ends and decide whether to proceed with the highest offer.");
+  } else if (priceLabel) {
+    lines.push(`Price: ${priceLabel}.`);
+  }
+
+  if (location) {
+    lines.push(`Pickup location: ${location}.`);
+  } else {
+    lines.push("Pickup location: (your suburb).");
+  }
+
+  lines.push("Pickup preferred. If you need delivery, message me to discuss.");
+  return lines.join("\n");
+}
+
 type ListingTypeUI = "FIXED_PRICE" | "TIMED_OFFERS";
 
 function dollarsToCentsOrNull(v: string): number | null {
@@ -323,6 +366,27 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         <div>
           <label className="text-sm font-medium">Description</label>
           <textarea className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" rows={5} value={description} onChange={(e) => setDescription(e.target.value)} />
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              className="bd-btn bd-btn-ghost py-1 px-2 text-xs"
+              onClick={() => {
+                const priceLabel = type === "TIMED_OFFERS" ? (startingBid ? `$${startingBid} starting` : "") : (price ? `$${price}` : "");
+                const draft = suggestDescriptionDraft({
+                  title,
+                  category: String(category || ""),
+                  condition,
+                  type,
+                  priceLabel,
+                  location,
+                });
+                setDescription(draft);
+              }}
+            >
+              Suggest description
+            </button>
+            <span className="text-xs bd-ink2">Fills a draft you can edit.</span>
+          </div>
         </div>
 
         <div>
