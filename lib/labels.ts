@@ -9,13 +9,13 @@
 
 const CONDITION_LABELS: Record<string, string> = {
   NEW: "New",
-  NEW_WITH_TAGS: "New with tags",
-  LIKE_NEW: "Like new",
-  EXCELLENT: "Excellent",
-  GOOD: "Good",
-  FAIR: "Fair",
+  NEW_WITH_TAGS: "New (with tags)",
+  LIKE_NEW: "Used - Like New",
+  EXCELLENT: "Used - Excellent",
+  GOOD: "Used - Good",
+  FAIR: "Used - Fair",
   USED: "Used",
-  FOR_PARTS: "For parts / not working",
+  FOR_PARTS: "For parts",
 };
 
 export function labelCondition(v?: string | null): string {
