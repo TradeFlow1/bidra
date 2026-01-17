@@ -36,10 +36,7 @@ export default function ReportListing({
   }, [reason]);
 
   async function submit() {
-    if (!isAuthed) {
-      setMsg("Not authenticated. Please log in to report a listing.");
-      return;
-    }
+    // If not authenticated, let the API return 401 and we redirect to login (keeps single source of truth)
     if (!reasonIsValid) {
       setMsg("Please choose a reason.");
       return;
