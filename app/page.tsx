@@ -161,7 +161,7 @@ export default async function HomePage() {
       {/* SAFETY (minimal trust cue) */}
       <div className="mt-6 text-xs bd-ink2">
         <span className="font-semibold bd-ink">Safety:</span>{" "}
-        Meet in a public place and avoid off-platform prepayment.{" "}
+        
         <Link href="/legal/prohibited-items" className="bd-link">
           Prohibited items & safety
         </Link>

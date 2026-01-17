@@ -27,7 +27,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [ ] ISSUE: no option to delete old messages or report in messages
 - [ ] ISSUE: restricted account past timeout did not automatically end restriction
 - [ ] ISSUE: admin report system needs to be better
-- [ ] ISSUE: avoid off-platform payments text needs to go until Stripe later
+- [x] ISSUE: avoid off-platform payments text needs to go until Stripe later  ✅ DONE
 - [ ] ISSUE: suggest better wording for Australia-wide marketplace on the hero
 - [ ] ISSUE: some listings show on home but not listings page; others show in listings but not home
 - [ ] ISSUE: messages page – show small photo of the listing you’re messaging about
