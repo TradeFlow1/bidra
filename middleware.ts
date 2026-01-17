@@ -16,6 +16,8 @@ function isPublic(pathname: string) {
     pathname.startsWith("/auth/register/") ||
     pathname.startsWith("/auth/verify") ||
     pathname.startsWith("/auth/phone-verify") ||
+    pathname.startsWith("/forgot-password") ||
+    pathname.startsWith("/reset-password") ||
     pathname.startsWith("/legal") ||
     pathname.startsWith("/support") ||
     pathname === "/" ||
@@ -24,6 +26,9 @@ function isPublic(pathname: string) {
 }
 
 function needsPhoneGate(pathname: string) {
+  // IMPORTANT: keep phone verification gate OFF unless explicitly enabled.
+  if (String(process.env.PHONE_GATE_ENABLED ?? "").trim() !== "1") return false;
+
   return (
     pathname.startsWith("/sell") ||
     pathname.startsWith("/messages") ||
@@ -72,7 +77,8 @@ export async function middleware(req: NextRequest) {
   if (!token) {
     const target = url.clone();
     target.pathname = "/auth/login";
-    target.searchParams.set("next", pathname);
+    const nextPath = pathname + (url.search || "");
+    target.searchParams.set("next", nextPath);
     return NextResponse.redirect(target);
   }
 

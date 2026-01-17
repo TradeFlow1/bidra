@@ -105,6 +105,7 @@ export default function RegisterPage() {
       postcode: form.postcode.trim(),
       suburb: form.suburb.trim(),
       state: form.state.trim(),
+      termsAccepted: agreeTerms,
     };
 
     const res = await fetch("/api/auth/register", {
