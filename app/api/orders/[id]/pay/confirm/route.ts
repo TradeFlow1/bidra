@@ -27,9 +27,20 @@ export async function POST(_: Request, { params }: { params: { id: string } }) {
 
   if (order.status === "PAID") return NextResponse.json({ ok: true, status: "PAID" });
 
-  await prisma.order.update({
-    where: { id: order.id },
-    data: { status: "PAID" },
+  await prisma.$transaction(async (tx) => {
+    await tx.order.update({
+      where: { id: order.id },
+      data: { status: "PAID" },
+    });
+
+    // Safety: if a listing somehow remained ACTIVE even though an order exists, force it to SOLD.
+    // This is idempotent and only affects listings tied to this order.
+    if (order?.listingId) {
+      await tx.listing.updateMany({
+        where: { id: order.listingId, status: "ACTIVE" },
+        data: { status: "SOLD" },
+      });
+    }
   });
 
   return NextResponse.json({ ok: true, status: "PAID" });
