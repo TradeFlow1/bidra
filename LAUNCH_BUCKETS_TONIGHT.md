@@ -33,7 +33,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [ ] ISSUE: messages page – show small photo of the listing you’re messaging about
 - [ ] ISSUE: no time remaining on a listing (countdown clock)
 - [ ] ISSUE: fix postcode + suburb UX across Bidra to be more user friendly
-- [ ] ISSUE: submit feedback error 500
+- [x] ISSUE: submit feedback error 500  ✅ DONE
 - [ ] ISSUE: my offer on a listing failed – check offers flow + ensure no broken links
 - [ ] ISSUE: the whole website screams amateur (UX polish pass)
 
