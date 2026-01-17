@@ -46,7 +46,7 @@ export default async function AdminListings() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <div className="text-sm text-neutral-600">
-                  {labelCategory(l.category)} â€¢ {l.location}
+                  {labelCategory(l.category)} • {l.location}
                 </div>
 
                 <Link className="font-semibold hover:underline" href={"/listings/" + l.id}>
