@@ -97,7 +97,7 @@ function dollarsToCentsOrNull(v: string): number | null {
   return Math.round(n * 100);
 }
 
-export default function SellNewClient() {
+export default function SellNewClient({ defaultLocation = "" }: { defaultLocation?: string }) {
   const [feedbackGate, setFeedbackGate] = React.useState<null | {
     message: string;
     pendingCount: number;
@@ -112,7 +112,7 @@ export default function SellNewClient() {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState<(typeof FULL_CATEGORIES)[number] | "">("");
   const [condition, setCondition] = useState("USED");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState((defaultLocation || "").trim());
 
   // FIXED_PRICE dollars
   const [price, setPrice] = useState("");

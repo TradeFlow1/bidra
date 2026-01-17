@@ -2,8 +2,29 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getFeedbackGate } from "@/lib/feedback-gate";
+import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
+
+function buildDefaultLocation(u: { suburb?: string | null; state?: string | null; postcode?: string | null }) {
+  const parts: string[] = [];
+  const suburb = (u.suburb || "").trim();
+  const state = (u.state || "").trim();
+  const postcode = (u.postcode || "").trim();
+
+  if (suburb) parts.push(suburb);
+
+  const tail: string[] = [];
+  if (state) tail.push(state.toUpperCase());
+  if (postcode) tail.push(postcode);
+
+  if (tail.length) {
+    if (parts.length) parts[0] = parts[0] + ", " + tail.join(" ");
+    else parts.push(tail.join(" "));
+  }
+
+  return parts.join("");
+}
 
 export default async function SellNewPage() {
   const session = await auth();
@@ -26,17 +47,11 @@ export default async function SellNewPage() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <a
-              href={gate.feedbackUrl || "/orders"}
-              className="bd-btn bd-btn-primary"
-            >
+            <a href={gate.feedbackUrl || "/orders"} className="bd-btn bd-btn-primary">
               Complete feedback
             </a>
 
-            <a
-              href="/orders"
-              className="bd-btn bd-btn-ghost"
-            >
+            <a href="/orders" className="bd-btn bd-btn-ghost">
               View orders
             </a>
           </div>
@@ -44,6 +59,13 @@ export default async function SellNewPage() {
       </main>
     );
   }
+
+  const userRow = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { suburb: true, state: true, postcode: true },
+  });
+
+  const defaultLocation = userRow ? buildDefaultLocation(userRow) : "";
 
   return (
     <main className="bd-container py-10">
@@ -54,7 +76,7 @@ export default async function SellNewPage() {
         </p>
 
         <div className="mt-6">
-          <SellNewClient />
+          <SellNewClient defaultLocation={defaultLocation} />
         </div>
       </div>
     </main>
