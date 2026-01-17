@@ -1,8 +1,7 @@
 ﻿"use client";
 
-"use client";
-
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState, type CSSProperties } from "react";
 import { useSession } from "next-auth/react";
 
@@ -24,6 +23,7 @@ export default function ReportListing({
 }) {
   const { status } = useSession();
   const isAuthed = status === "authenticated";
+  const router = useRouter();
 
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState<string>("");
@@ -59,8 +59,35 @@ export default function ReportListing({
         }),
       });
 
+      // 401: send to login, then come back to this listing
+      if (res.status === 401) {
+        router.push("/auth/login?next=" + encodeURIComponent("/listings/" + listingId));
+        return;
+      }
+
+      // 403: age/restriction gate
+      if (res.status === 403) {
+        router.push("/account/restrictions");
+        return;
+      }
+
       const data = await res.json().catch(() => ({} as any));
-      if (!res.ok) throw new Error(data?.error || `Report failed (${res.status})`);
+
+      if (!res.ok) {
+        const reasonCode = String((data as any)?.reason || "").toUpperCase();
+        if (
+          reasonCode.includes("AGE") ||
+          reasonCode.includes("UNDER") ||
+          reasonCode.includes("VERIFY") ||
+          reasonCode.includes("RESTRICT")
+        ) {
+          router.push("/account/restrictions");
+          return;
+        }
+
+        const errMsg = String((data as any)?.error || "");
+        throw new Error(errMsg ? errMsg : "Report failed (" + String(res.status) + ")");
+      }
 
       setMsg("Report submitted. Thanks - we'll review it.");
       setOpen(false);
@@ -191,7 +218,14 @@ export default function ReportListing({
           </div>
 
           {msg ? (
-            <div style={{ marginTop: 10, ...(msg.toLowerCase().includes("submitted") ? { color: "#166534" } : dangerText) }}>
+            <div
+              style={{
+                marginTop: 10,
+                ...(msg.toLowerCase().includes("submitted")
+                  ? { color: "#166534" }
+                  : dangerText),
+              }}
+            >
               {msg}
             </div>
           ) : null}
