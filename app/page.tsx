@@ -31,7 +31,7 @@ function getRequestBaseUrl() {
 
 async function getLatestListings(): Promise<ListingLite[]> {
   const baseUrl = getRequestBaseUrl();
-  const res = await fetch(`${baseUrl}/api/listings`, { cache: "no-store" });
+  const res = await fetch(`${baseUrl}/api/listings?local=1`, { cache: "no-store" });
   if (!res.ok) return [];
   const data = (await res.json()) as { listings?: ListingLite[] };
   return Array.isArray(data?.listings) ? data.listings.slice(0, 12) : [];
