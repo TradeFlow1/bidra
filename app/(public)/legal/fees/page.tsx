@@ -8,7 +8,7 @@
       <h2>Current approach</h2>
       <ul>
         <li>Browsing is free.</li>
-        <li>Secure checkout is supported for buy-now where available.</li>
+        <li>Buy Now may be available on some listings. Payment options depend on what features are enabled.</li>
         <li>Fee structures may evolve with premium features.</li>
       </ul>
     </div>
