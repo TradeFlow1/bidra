@@ -8,6 +8,12 @@ import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import PayConfirmClient from "./pay-confirm-client";
 
+const PAYID_EMAIL = (process.env.BIDRA_PAYID_EMAIL || "support@bidra.com.au").trim();
+const PAYID_MOBILE = (process.env.BIDRA_PAYID_MOBILE || "").trim(); // e.g. 04xx...
+const BANK_NAME = (process.env.BIDRA_BANK_NAME || "").trim(); // e.g. Bidra Pty Ltd
+const BANK_BSB = (process.env.BIDRA_BANK_BSB || "").trim();
+const BANK_ACCOUNT = (process.env.BIDRA_BANK_ACCOUNT || "").trim();
+
 function money(cents: number) {
   return (cents / 100).toLocaleString("en-AU", { style: "currency", currency: "AUD" });
 }
@@ -94,9 +100,30 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                 </div>
 
                 <div className="mt-3 grid gap-2 text-sm">
-                  <div><span className="bd-ink2">PayID:</span> <b>support@bidra.com.au</b></div>
+                  <div className="text-xs bd-ink2">
+                    Important: this is the PayID to pay to. Do <b>not</b> use your Bidra signup email as the PayID.
+                  </div>
+
+                  <div><span className="bd-ink2">PayID (email):</span> <b>{PAYID_EMAIL}</b></div>
+
+                  {PAYID_MOBILE ? (
+                    <div><span className="bd-ink2">PayID (mobile):</span> <b>{PAYID_MOBILE}</b></div>
+                  ) : null}
+
                   <div><span className="bd-ink2">Reference:</span> <b>{order.id}</b></div>
                   <div><span className="bd-ink2">Amount:</span> <b>{money(order.amount)}</b></div>
+
+                  {BANK_BSB && BANK_ACCOUNT ? (
+                    <div className="mt-2 bd-card p-3">
+                      <div className="text-sm font-extrabold bd-ink">Bank transfer (if you can’t use PayID)</div>
+                      <div className="mt-2 grid gap-1 text-sm">
+                        {BANK_NAME ? <div><span className="bd-ink2">Name:</span> <b>{BANK_NAME}</b></div> : null}
+                        <div><span className="bd-ink2">BSB:</span> <b>{BANK_BSB}</b></div>
+                        <div><span className="bd-ink2">Account:</span> <b>{BANK_ACCOUNT}</b></div>
+                        <div><span className="bd-ink2">Reference:</span> <b>{order.id}</b></div>
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
 
                 <div className="mt-3 text-xs bd-ink2">
