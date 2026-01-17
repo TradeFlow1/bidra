@@ -25,6 +25,11 @@ export default async function AdminReports({
   const status = (searchParams?.status || "open").toLowerCase();
   const showResolved = status === "resolved";
 
+  const [openCount, resolvedCount] = await Promise.all([
+    prisma.report.count({ where: { resolved: false } }),
+    prisma.report.count({ where: { resolved: true } }),
+  ]);
+
   const reports = (await prisma.report.findMany({
     where: showResolved ? { resolved: true } : { resolved: false },
     orderBy: [{ resolved: "asc" }, { createdAt: "desc" }],
@@ -56,7 +61,8 @@ export default async function AdminReports({
     <div style={{ maxWidth: 900, margin: "0 auto", padding: 16 }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 34, margin: 0 }}>Reports</h1>          <div style={{ color: "#666", marginTop: 6 }}>
+          <h1 style={{ fontSize: 34, margin: 0 }}>Reports</h1>
+          <div style={{ color: "#666", marginTop: 6 }}>
             {showResolved ? "Showing resolved reports" : "Showing open reports"}
           </div>
         </div>

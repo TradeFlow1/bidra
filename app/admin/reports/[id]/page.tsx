@@ -148,7 +148,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
               {!isResolved ? (
                 <form action="/api/admin/reports/resolve" method="post" style={{ display: "inline-block" }}>
                   <input type="hidden" name="reportId" value={report.id} />
-                  <input type="hidden" name="backTo" value="/admin/reports" />
+                  <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
                   <button type="submit" style={{ padding: "8px 10px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
                     Resolve
                   </button>
@@ -158,7 +158,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
               {isResolved ? (
                 <form action="/api/admin/reports/reopen" method="post" style={{ display: "inline-block" }}>
                   <input type="hidden" name="reportId" value={report.id} />
-                  <input type="hidden" name="backTo" value="/admin/reports" />
+                  <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
                   <button type="submit" style={{ padding: "8px 10px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
                     Re-open
                   </button>
@@ -167,7 +167,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
               {isResolved ? (
                 <form action="/api/admin/reports/reopen" method="post" style={{ display: "inline-block" }}>
                   <input type="hidden" name="reportId" value={report.id} />
-                  <input type="hidden" name="backTo" value="/admin/reports" />
+                  <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
                   <button type="submit" style={{ padding: "8px 10px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
                     Re-open
                   </button>
@@ -222,7 +222,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
 <form action="/api/admin/listings/suspend" method="post">
                 <input type="hidden" name="listingId" value={report.listing.id} />
                 <input type="hidden" name="reportId" value={report.id} />
-                <input type="hidden" name="backTo" value="/admin/reports" />
+                <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
                 <button type="submit" style={{ padding: "10px 12px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
                   Suspend listing
                 </button>
@@ -233,7 +233,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
 <form action="/api/admin/listings/unsuspend" method="post">
                 <input type="hidden" name="listingId" value={report.listing.id} />
                 <input type="hidden" name="reportId" value={report.id} />
-                <input type="hidden" name="backTo" value="/admin/reports" />
+                <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
                 <button type="submit" style={{ padding: "10px 12px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
                   Unsuspend listing
                 </button>
@@ -244,7 +244,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
 <form action="/api/admin/listings/delete" method="post">
                 <input type="hidden" name="listingId" value={report.listing.id} />
                 <input type="hidden" name="reportId" value={report.id} />
-                <input type="hidden" name="backTo" value="/admin/reports" />
+                <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
 
                 <ConfirmSubmitButton
                   style={{
