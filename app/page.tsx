@@ -37,7 +37,7 @@ async function getLatestListings(): Promise<ListingLite[]> {
   return Array.isArray(data?.listings) ? data.listings.slice(0, 12) : [];
 }
 
-const LOGO_SRC = "/brand/logo/Bidra_cropped_1.png";
+const LOGO_SRC = "/brand/bidra-kangaroo-logo.png";
 
 export default async function HomePage() {
   const listings = await getLatestListings();
