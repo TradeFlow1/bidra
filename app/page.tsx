@@ -53,11 +53,11 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="bd-hero-eyebrow">AUSTRALIA-WIDE • LIST • OFFER • SELLER DECIDES</div>
+          <div className="bd-hero-eyebrow">AUSTRALIA-WIDE • BUY &amp; SELL • MAKE OFFERS • SELLER CHOOSES</div>
 
-          <h1 className="bd-hero-h1">Australia&#39;s marketplace for buying and selling.</h1>
+          <h1 className="bd-hero-h1">Australia-wide marketplace for buying and selling.</h1>
           <p className="bd-hero-p">
-            Browse items, make an offer, and trade directly.
+            Browse listings, make an offer, and arrange the handover with the seller.
           </p>
 
           <div className="mt-4 flex flex-wrap gap-3">
@@ -70,7 +70,7 @@ export default async function HomePage() {
           </div>
 
           <div className="bd-hero-fine">
-            Bidra is a marketplace platform — sellers choose whether to accept, decline, or counter an offer.
+            Bidra is a neutral marketplace — sellers choose whether to accept, decline or counter offers.
           </div>
         </div>
       </section>
