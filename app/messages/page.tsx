@@ -15,7 +15,9 @@ export default async function MessagesInboxPage() {
   if (!session?.user?.id) redirect("/auth/login")
 
   const adult = await requireAdult(session)
-  if (!adult.ok) redirect("/account/restrictions")
+  // Messages should NOT dump users into "account restrictions" unless they are explicitly under 18.
+  // (Missing DOB / not age-verified should be handled via onboarding, not by breaking Messages.)
+  if (!adult.ok && (adult as any).reason === "UNDER_18") redirect("/account/restrictions")
 
   const me = session.user.id
 

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -30,7 +30,7 @@ export default async function RestrictionsPage() {
           <div><b>Policy strikes:</b> {dbUser?.policyStrikes ?? 0}</div>
           <div>
             <b>Restricted until:</b>{" "}
-            {blockedUntil ? blockedUntil.toLocaleString("en-AU") : "—"}
+              {blockedUntil ? blockedUntil.toLocaleString("en-AU") : "—"}
           </div>
         </div>
 
