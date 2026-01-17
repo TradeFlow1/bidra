@@ -5,8 +5,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { Card, Button, Badge } from "@/components/ui";
-import { getBaseUrl } from "@/lib/base-url";
+import { Card, Badge } from "@/components/ui";
 
 export default async function OrderDetailPage({ params }: { params: { id: string } }) {
   const session = await auth();
@@ -94,54 +93,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               {order.status === "PENDING" ? (
                 <div className="pt-2">
-                  <form action={async (formData: FormData) => {
-                    "use server";
-                    const { auth } = await import("@/lib/auth");
-                    const { prisma } = await import("@/lib/prisma");
-                    const { stripe } = await import("@/lib/stripe");
-                    const { redirect } = await import("next/navigation");
-                    const { getBaseUrl } = await import("@/lib/base-url");
-
-                    const session = await auth();
-                    const user = session?.user as any;
-                    if (!user) redirect("/auth/login");
-
-                    const orderId = String(formData.get("orderId") ?? "");
-                    const order = await prisma.order.findUnique({ where: { id: orderId }, include: { listing: true } });
-                    if (!order || (order.buyerId !== user.id && (order.listing as any)?.sellerId !== user.id)) throw new Error("Not allowed");
-                    if (order.status !== "PENDING") redirect("/orders");
-
-                    const baseUrl = getBaseUrl();
-                    const sessionStripe = await stripe.checkout.sessions.create({
-                      mode: "payment",
-                      success_url: `${baseUrl}/orders?paid=1`,
-                      cancel_url: `${baseUrl}/orders?cancelled=1`,
-                      line_items: [
-                        {
-                          quantity: 1,
-                          price_data: {
-                            currency: "aud",
-                            product_data: {
-                              name: order.listing.title,
-                              description: "Bidra marketplace purchase"
-                            },
-                            unit_amount: order.amount
-                          }
-                        }
-                      ],
-                      metadata: { orderId: order.id }
-                    });
-
-                    await prisma.order.update({
-                      where: { id: order.id },
-                      data: { stripeSessionId: sessionStripe.id }
-                    });
-
-                    redirect(sessionStripe.url || "/orders");
-                  }}>
-                    <input type="hidden" name="orderId" value={order.id} />
-                    <Button type="submit" className="bd-btn bd-btn-primary text-center">Pay now</Button>
-                  </form>
+                  <Link href={`/orders/${order.id}/pay`} className="bd-btn bd-btn-primary text-center">
+                    Pay now
+                  </Link>
                 </div>
               ) : null}
 
