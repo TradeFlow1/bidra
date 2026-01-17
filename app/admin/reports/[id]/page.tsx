@@ -164,15 +164,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
                   </button>
                 </form>
               ) : null}
-              {isResolved ? (
-                <form action="/api/admin/reports/reopen" method="post" style={{ display: "inline-block" }}>
-                  <input type="hidden" name="reportId" value={report.id} />
-                  <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                  <button type="submit" style={{ padding: "8px 10px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
-                    Re-open
-                  </button>
-                </form>
-              ) : null}
+              
             <span style={pill}>Reason: {String(report.reason)}</span>
             <span style={pill}>Listing: {listingStatusLabel}</span>
           </div>
