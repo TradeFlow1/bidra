@@ -6,6 +6,7 @@ export async function GET() {
     const listings = await prisma.listing.findMany({
       where: {
         status: "ACTIVE",
+        images: { isEmpty: false },
         NOT: [
           { title: { equals: "test", mode: "insensitive" } },
           { title: { startsWith: "test", mode: "insensitive" } },
