@@ -9,10 +9,10 @@ const INC_CENTS = 1000; // $10.00 increment for visible offer ladder
 export async function POST(req: Request) {
   const gate = await requireAdult();
   if (!gate.ok) {
-    return new Response(JSON.stringify({ ok: false, reason: gate.reason }), {
-      status: gate.status,
-      headers: { "content-type": "application/json" },
-    });
+    return NextResponse.json(
+      { ok: false, error: String((gate as any)?.reason || "Not allowed") },
+      { status: (gate as any)?.status || 403 }
+    );
   }
 
   const userId = (gate as any)?.session?.user?.id as string | undefined;
@@ -78,92 +78,98 @@ export async function POST(req: Request) {
   // - store max in OfferMax
   // - compute visible offer based on top-2 maxes
   // - write visible offer to Bid ladder if it increases
-  const result = await prisma.$transaction(async (tx) => {
-    await tx.offerMax.upsert({
-      where: { listingId_bidderId: { listingId: listing.id, bidderId: userId } },
-      update: { maxAmount: maxCents },
-      create: { listingId: listing.id, bidderId: userId, maxAmount: maxCents },
-    });
-
-    const top = await tx.offerMax.findMany({
-      where: { listingId: listing.id },
-      orderBy: { maxAmount: "desc" },
-      take: 2,
-      select: { bidderId: true, maxAmount: true },
-    });
-
-    const leader = top[0];
-    const runner = top.length > 1 ? top[1] : null;
-
-    // VISIBLE ladder is $10 steps. Cap max amounts down to nearest $10 for ladder math.
-    const leaderCap = leader ? Math.floor(leader.maxAmount / INC_CENTS) * INC_CENTS : 0;
-    const runnerCap = runner ? Math.floor(runner.maxAmount / INC_CENTS) * INC_CENTS : 0;
-
-    // Re-check highest inside txn
-    const nowHighest = await tx.bid.findFirst({
-      where: { listingId: listing.id },
-      orderBy: { amount: "desc" },
-      select: { amount: true, bidderId: true },
-    });
-
-    const highestAmt = nowHighest?.amount ?? 0;
-    const highestBidder = nowHighest?.bidderId ?? null;
-    // Visible offer ladder: do NOT force offers up to guide price.
-    const minNextTxn = highestAmt > 0 ? (highestAmt + INC_CENTS) : INC_CENTS;
-
-    if (!leader) {
-      return { highestAmt, highestBidder, placed: false };
-    }
-
-    if (leaderCap < minNextTxn) {
-      // This should be impossible given earlier check, but keep safe.
-      return { highestAmt, highestBidder, placed: false };
-    }
-
-    let newVisible = 0;
-
-    if (runner) {
-      const target = runnerCap + INC_CENTS;
-      newVisible = Math.min(leaderCap, Math.max(minNextTxn, target));
-    } else {
-      newVisible = Math.min(leaderCap, minNextTxn);
-    }
-
-    // Only write a new ladder row if it actually increases the visible highest
-    if (newVisible > highestAmt) {
-      await tx.bid.create({
-        data: {
-          amount: newVisible,
-          bidderId: leader.bidderId,
-          listingId: listing.id,
-        },
-      });
-
-      // Admin visibility: seller has a new top offer (drives "Needs attention" later)
-      try {
-        await tx.adminEvent.create({
-          data: {
-            type: "OFFER_NEW_TOP",
-            userId: listing.sellerId,
-            data: {
-              listingId: listing.id,
-              sellerId: listing.sellerId,
-              bidderId: leader.bidderId,
-              amount: newVisible,
-              previousTop: highestAmt,
-            },
-          },
+  let result: any = null;
+  try {
+      result = await prisma.$transaction(async (tx) => {
+        await tx.offerMax.upsert({
+          where: { listingId_bidderId: { listingId: listing.id, bidderId: userId } },
+          update: { maxAmount: maxCents },
+          create: { listingId: listing.id, bidderId: userId, maxAmount: maxCents },
         });
-      } catch (e) {
-        // never block offer placement on admin logging
-        console.warn("[ADMIN_VISIBILITY] Failed to log OFFER_NEW_TOP", e);
-      }
-
-      return { highestAmt: newVisible, highestBidder: leader.bidderId, placed: true };
-    }
-
-    return { highestAmt, highestBidder, placed: false };
-  });
+    
+        const top = await tx.offerMax.findMany({
+          where: { listingId: listing.id },
+          orderBy: { maxAmount: "desc" },
+          take: 2,
+          select: { bidderId: true, maxAmount: true },
+        });
+    
+        const leader = top[0];
+        const runner = top.length > 1 ? top[1] : null;
+    
+        // VISIBLE ladder is $10 steps. Cap max amounts down to nearest $10 for ladder math.
+        const leaderCap = leader ? Math.floor(leader.maxAmount / INC_CENTS) * INC_CENTS : 0;
+        const runnerCap = runner ? Math.floor(runner.maxAmount / INC_CENTS) * INC_CENTS : 0;
+    
+        // Re-check highest inside txn
+        const nowHighest = await tx.bid.findFirst({
+          where: { listingId: listing.id },
+          orderBy: { amount: "desc" },
+          select: { amount: true, bidderId: true },
+        });
+    
+        const highestAmt = nowHighest?.amount ?? 0;
+        const highestBidder = nowHighest?.bidderId ?? null;
+        // Visible offer ladder: do NOT force offers up to guide price.
+        const minNextTxn = highestAmt > 0 ? (highestAmt + INC_CENTS) : INC_CENTS;
+    
+        if (!leader) {
+          return { highestAmt, highestBidder, placed: false };
+        }
+    
+        if (leaderCap < minNextTxn) {
+          // This should be impossible given earlier check, but keep safe.
+          return { highestAmt, highestBidder, placed: false };
+        }
+    
+        let newVisible = 0;
+    
+        if (runner) {
+          const target = runnerCap + INC_CENTS;
+          newVisible = Math.min(leaderCap, Math.max(minNextTxn, target));
+        } else {
+          newVisible = Math.min(leaderCap, minNextTxn);
+        }
+    
+        // Only write a new ladder row if it actually increases the visible highest
+        if (newVisible > highestAmt) {
+          await tx.bid.create({
+            data: {
+              amount: newVisible,
+              bidderId: leader.bidderId,
+              listingId: listing.id,
+            },
+          });
+    
+          // Admin visibility: seller has a new top offer (drives "Needs attention" later)
+          try {
+            await tx.adminEvent.create({
+              data: {
+                type: "OFFER_NEW_TOP",
+                userId: listing.sellerId,
+                data: {
+                  listingId: listing.id,
+                  sellerId: listing.sellerId,
+                  bidderId: leader.bidderId,
+                  amount: newVisible,
+                  previousTop: highestAmt,
+                },
+              },
+            });
+          } catch (e) {
+            // never block offer placement on admin logging
+            console.warn("[ADMIN_VISIBILITY] Failed to log OFFER_NEW_TOP", e);
+          }
+    
+          return { highestAmt: newVisible, highestBidder: leader.bidderId, placed: true };
+        }
+    
+        return { highestAmt, highestBidder, placed: false };
+      });
+  } catch (e) {
+    console.error("offers/place failed", e);
+    return NextResponse.json({ ok: false, error: "Offer failed." }, { status: 500 });
+  }
 
   const isWinning = result.highestBidder === userId;
 

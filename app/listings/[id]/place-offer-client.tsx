@@ -58,7 +58,7 @@ export default function PlaceOfferClient({
 
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setMsg(data?.error || "Offer failed.");
+        setMsg(data?.error || data?.reason || "Offer failed.");
         return;
       }
 
