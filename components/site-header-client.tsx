@@ -32,7 +32,7 @@ export default function SiteHeaderClient({
 
   const isAuthed = !!session?.user?.id;
   const displayName = useMemo(() => {
-    return session?.user?.username || session?.user?.name || session?.user?.email || "My account";
+    return session?.user?.username || session?.user?.name || session?.user?.email || "Account";
   }, [session]);
 
   // White pill (desktop + mobile)
