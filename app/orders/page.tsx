@@ -62,9 +62,9 @@ export default async function OrdersPage() {
                 </div>
 
                 <div className="flex gap-2 flex-wrap justify-end">
-                  {o.status === "PENDING" ? (
+                  {(o.status === "PENDING" && o.buyerId === user.id) ? (
                     <Link
-                      href={`/orders/${o.id}/pay-now`}
+                      href={`/orders/${o.id}/pay`}
                       className="bd-btn bd-btn-primary text-center"
                     >
                       Pay now

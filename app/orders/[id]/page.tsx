@@ -95,7 +95,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                 Amount: <b>${(order.amount / 100).toFixed(2)}</b> AUD
               </div>
 
-              {order.status === "PENDING" ? (
+              {(order.status === "PENDING" && order.buyerId === user.id) ? (
                 <div className="pt-2">
                   <Link href={`/orders/${order.id}/pay`} className="bd-btn bd-btn-primary text-center">
                     Pay now
