@@ -65,26 +65,58 @@ const CATEGORY_RULES: CatRule[] = [
 
 function suggestCategoryFromText(textRaw: string): string {
   const t = (textRaw || "").toLowerCase();
-  if (t.length < 6) return "";
 
-  let bestCat = "";
+  // Strong pet/animal signals ONLY (prevents "tools" -> pets)
+  const petSignals = [
+    "dog","cat","puppy","kitten","bird","fish","reptile","rabbit","hamster",
+    "pet","aquarium","kennel","leash","collar","harness","litter","crate","cage"
+  ];
+  const hasPetSignal = petSignals.some((k) => t.includes(k));
+
+  // Tools / garage / workshop signals
+  const toolSignals = [
+    "tool","tools","garage","workshop","shed","diy","tradie",
+    "drill","driver","impact","saw","socket","spanner","wrench","hammer",
+    "grinder","compressor","ladder","sander","router","jigsaw","circular",
+    "ratchet","allen","hex","pliers","vice","clamp","chisel","workbench"
+  ];
+  const hasToolSignal = toolSignals.some((k) => t.includes(k));
+
+  // Weighted scoring for a few common buckets used in Bidra categories
+  // Return "" when uncertain (no suggestion shown)
+  let best = "";
   let bestScore = 0;
 
-  for (const r of CATEGORY_RULES) {
+  const score = (name: string, keys: string[], weight: number) => {
     let s = 0;
-    for (const kw of r.kws) {
-      if (t.includes(kw)) s += 1;
-    }
-    if (s > bestScore) {
-      bestScore = s;
-      bestCat = r.cat;
-    }
+    for (const k of keys) if (t.includes(k)) s += weight;
+    if (s > bestScore) { bestScore = s; best = name; }
+  };
+
+  // IMPORTANT: pets only if real pet signals exist
+  if (hasPetSignal) {
+    score("Pet Supplies (NO LIVE ANIMALS)", petSignals, 3);
   }
 
-  // If bestCat not in current categories list, ignore (safety)
-  if (bestCat && !FULL_CATEGORIES.includes(bestCat as any)) return "";
-  // Require at least 1 hit to suggest
-  return bestScore >= 1 ? bestCat : "";
+  // Tools should win very easily for garage/tool text
+  if (hasToolSignal) {
+        // Split tools into real Bidra categories
+    const powerSignals = ["drill","impact","saw","circular","jigsaw","sander","grinder","router","compressor","makita","dewalt","milwaukee"];
+    const handSignals  = ["spanner","wrench","socket","ratchet","hammer","screwdriver","pliers","allen","hex","chisel","clamp","vice"];
+
+    // If generic tool text, prefer Hand Tools as a safe default
+    score("Hand Tools", handSignals.concat(["tool","tools","garage","workshop","shed","diy","tradie","workbench"]), 3);
+    score("Power Tools", powerSignals.concat(["power tool","powertools"]), 3);
+  }
+
+  // Add a few other safe buckets (low weight)
+  score("Home & Garden", ["garden","lawn","mower","outdoor","patio","bbq","grill","shed"], 2);
+  score("Electronics", ["phone","iphone","android","laptop","computer","pc","monitor","tablet","console","playstation","xbox"], 2);
+  score("Automotive", ["car","ute","4wd","tyre","tire","battery","rim","engine","motor","oil","mechanic"], 2);
+
+  // Confidence threshold: require at least 3 points
+  if (bestScore < 3) return "";
+  return best;
 }
 
 function suggestDescriptionDraft(args: {
