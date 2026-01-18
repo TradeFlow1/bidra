@@ -312,6 +312,18 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         }),
       });
 
+      // If session expired / not signed in, send to login and come back here.
+      if (res.status === 401) {
+        router.push("/auth/login?next=/sell/new");
+        return;
+      }
+
+      // If session expired / not signed in, send to login and come back here.
+      if (res.status === 401) {
+        router.push("/auth/login?next=/sell/new");
+        return;
+      }
+
     // Feedback trust gate: if overdue feedback blocks listing creation, show a friendly CTA.
     if (res.status === 403) {
       const data = await res.json().catch(() => null);
