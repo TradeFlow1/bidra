@@ -2,7 +2,6 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { requireAdult } from "@/lib/require-adult";
 
 export async function POST(req: Request) {
   try {
@@ -13,10 +12,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: "Not authenticated" }, { status: 401 });
     }
 
-    const gate = await requireAdult(session);
-    if (!gate.ok) {
-      return NextResponse.json({ ok: false, error: gate.reason }, { status: gate.status });
-    }
+
 
     const body = await req.json().catch(() => ({}));
 
