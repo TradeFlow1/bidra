@@ -340,27 +340,32 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         return;
       }
 
-      // If session expired / not signed in, send to login and come back here.
-      if (res.status === 401) {
-        router.push("/auth/login?next=/sell/new");
-        return;
-      }
-
-    // Feedback trust gate: if overdue feedback blocks listing creation, show a friendly CTA.
-    if (res.status === 403) {
-      const data = await res.json().catch(() => null);
-      if (data && (data.code === "FEEDBACK_REQUIRED" || data.error === "FEEDBACK_REQUIRED")) {
-        setFeedbackGate({
-          message: data.error || data.message || "Please leave feedback to continue.",
-          pendingCount: Number(data.pendingCount || 0),
-          feedbackUrl: data.feedbackUrl || null,
-        });
-        return;
-      }
-    }
-      const text = await res.text();
+      // Read body exactly once, then parse JSON from it if possible
+      const text = await res.text().catch(() => "");
       let data: any = null;
-      try { data = JSON.parse(text); } catch { data = null; }
+      try { data = text ? JSON.parse(text) : null; } catch { data = null; }
+
+      // Feedback trust gate: if overdue feedback blocks listing creation, show a friendly CTA.
+      if (res.status === 403) {
+        if (data && (data.code === "FEEDBACK_REQUIRED" || data.error === "FEEDBACK_REQUIRED")) {
+          setFeedbackGate({
+            message: data.error || data.message || "Please leave feedback to continue.",
+            pendingCount: Number(data.pendingCount || 0),
+            feedbackUrl: data.feedbackUrl || null,
+          });
+          return;
+        }
+
+        const reason = (data && (data.reason || data.error)) ? String(data.reason || data.error) : "";
+        const msg =
+          reason === "MISSING_AGE_VERIFICATION" ? "Please add your date of birth in Account settings (18+ required) to list items." :
+          reason === "AGE_NOT_VERIFIED" ? "Your account isn’t age-verified yet. Please complete age verification to list items." :
+          reason === "UNDER_18" ? "Bidra accounts are 18+ only. You can browse publicly, but you can’t list or bid." :
+          reason === "POLICY_BLOCKED" ? "Your account is temporarily restricted. Please try again later." :
+          "You can’t create a listing right now.";
+        setErr(msg);
+        return;
+      }
 
       if (!res.ok) {
         const msg = (data && data.error) ? String(data.error) : text || "Failed to create listing.";
