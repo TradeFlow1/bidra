@@ -7,10 +7,8 @@ import { FULL_CATEGORIES } from "@/lib/categories";
 
 
 import { getFeedbackGate } from "@/lib/feedback-gate";
-import { getServerSession } from "next-auth";
 
 
-import { authOptions } from "@/lib/auth";
 type ListingTypeIn = "AUCTION" | "BUY_NOW" | "FIXED_PRICE";
 
 function isAllowedType(t: any): t is ListingTypeIn {
@@ -98,7 +96,7 @@ export async function POST(req: Request) {
     });
   }
 try {
-    const session = await getServerSession(authOptions);
+    const session = (gate as any).session;
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
