@@ -114,6 +114,8 @@ function suggestCategoryFromText(textRaw: string): string {
   score("Electronics", ["phone","iphone","android","laptop","computer","pc","monitor","tablet","console","playstation","xbox"], 2);
   score("Automotive", ["car","ute","4wd","tyre","tire","battery","rim","engine","motor","oil","mechanic"], 2);
 
+  // Only suggest real Bidra categories (prevents UI fallbacks)
+  if (best && !FULL_CATEGORIES.includes(best)) return "";
   // Confidence threshold: require at least 3 points
   if (bestScore < 3) return "";
   return best;

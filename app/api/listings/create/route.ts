@@ -95,23 +95,7 @@ try {
       );
     }
 
-    // Feedback enforcement (hard gate):
-    // If you have pending feedback older than 48 hours, you cannot create new listings.
-    const gate = await getFeedbackGate(session.user.id, 48);
 
-    if (gate.blocked) {
-      return NextResponse.json(
-        {
-          error: "Feedback required: please submit feedback to continue listing.",
-          code: "FEEDBACK_REQUIRED",
-          pendingCount: gate.pendingCount,
-          orderId: gate.orderId,
-          feedbackUrl: gate.feedbackUrl,
-          graceHours: gate.graceHours,
-        },
-        { status: 403 }
-      );
-    }
 
     const body = await req.json().catch(() => ({}));
 
