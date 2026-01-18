@@ -182,7 +182,7 @@ if (images.length > 10) return NextResponse.json({ error: "Too many images (max 
     }
 
     // ---- POLICY ENFORCEMENT (with strikes) ----
-    const textToCheck = `${title} ${description} ${category}`.toLowerCase();
+    const textToCheck = `${title} ${description}`.toLowerCase();
     if (textLooksProhibited(textToCheck)) {
       const strike = await applyStrike(session.user.id);
       return NextResponse.json(
