@@ -42,9 +42,22 @@ export async function POST(req: Request) {
       if (!isAdmin && listing.sellerId !== userId)
         return { ok: false, status: 403 as const, error: "Not allowed." };
 
-      // ISSUE #7: relist should ONLY be available on ENDED listings
+      // Relist is ONLY allowed on ENDED listings
       if (listing.status !== "ENDED")
         return { ok: false, status: 400 as const, error: "Relist is only available for ended listings." };
+
+      // Hard block: if a listing has a PAID or COMPLETED order, it must never be relisted
+      const paidOrCompleted = await tx.order.findFirst({
+        where: {
+          listingId: listing.id,
+          OR: [{ status: "PAID" }, { outcome: "COMPLETED" }],
+        },
+        select: { id: true },
+      });
+
+      if (paidOrCompleted) {
+        return { ok: false, status: 409 as const, error: "This listing has been paid for and cannot be relisted." };
+      }
 
       const next = await tx.listing.update({
         where: { id: listingId },
