@@ -270,12 +270,10 @@ const ladderTop = Object.values(ladderRows)
             </div>
 
             <div className="pt-2 space-y-3">
-              <ReportListingButton listingId={(listing as any).id}
-                        endsAtIso={endsAtIso} />
+              <ReportListingButton listingId={(listing as any).id} />
 
               <div>
-                {session?.user?.id === (listing as any).sellerId ? null : <MessageSellerButton listingId={(listing as any).id}
-                        endsAtIso={endsAtIso} />}
+                {session?.user?.id === (listing as any).sellerId ? null : <MessageSellerButton listingId={(listing as any).id} />}
               </div>
 
               {session?.user?.id && (isAdmin || (listing as any).sellerId === session.user.id) ? <DeleteListingButton id={(listing as any).id} /> : null}
@@ -289,8 +287,7 @@ const ladderTop = Object.values(ladderRows)
                   </div>
 {(listing as any).status === "ENDED" ? (
   <div>
-    <RelistButton listingId={(listing as any).id}
-                        endsAtIso={endsAtIso} />
+    <RelistButton listingId={(listing as any).id} />
   </div>
 ) : null}
                 </div>
@@ -343,8 +340,7 @@ const ladderTop = Object.values(ladderRows)
 
                     {buyNowVisible ? (
                       <div className="pt-3">
-                        <BuyNowButton listingId={(listing as any).id}
-                        endsAtIso={endsAtIso} />
+                        <BuyNowButton listingId={(listing as any).id} />
                         <div className="mt-1 text-xs text-neutral-600">Buy Now: {formatMoney(buyNowPriceCents as number)}</div>
                       </div>
                     ) : (
@@ -361,8 +357,7 @@ const ladderTop = Object.values(ladderRows)
                     <div className="text-sm font-semibold">Seller action</div>
                     <div className="mt-2">
                       {isEnded && hasAnyOffer ? (
-                        <AcceptHighestOfferButton listingId={(listing as any).id}
-                        endsAtIso={endsAtIso} />
+                        <AcceptHighestOfferButton listingId={(listing as any).id} />
                       ) : (
                         <div className="text-xs text-neutral-600">
                           You can proceed with the highest offer after the listing ends and at least one offer exists.
@@ -382,7 +377,6 @@ const ladderTop = Object.values(ladderRows)
                     <div className="mt-2">
                       <PlaceOfferClient
                         listingId={(listing as any).id}
-                        endsAtIso={endsAtIso}
                         minOfferCents={minOfferCents}
                         offerState={(offerState === "OUTOFFERED" ? "OUTBID" : offerState)}
                         disabled={isEnded || isSeller}
@@ -401,8 +395,7 @@ const ladderTop = Object.values(ladderRows)
                 <div className="text-2xl font-extrabold">{formatMoney(guidePriceCents)}</div>
                 {buyNowVisible ? (
                   <div className="space-y-1">
-                    <BuyNowButton listingId={(listing as any).id}
-                        endsAtIso={endsAtIso} />
+                    <BuyNowButton listingId={(listing as any).id} />
                     <div className="text-xs text-neutral-600">Buy Now: {formatMoney((buyNowPriceCents ?? guidePriceCents) as number)}</div>
                   </div>
                 ) : null}
