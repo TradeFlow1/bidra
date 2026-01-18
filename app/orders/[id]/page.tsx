@@ -1,11 +1,15 @@
-﻿export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
-import Link from "next/link";
+﻿import Link from "next/link";
+import SellerConfirmReceived from "./seller-confirm-received";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+
+
 
 export default async function OrderDetailPage({ params }: { params: { id: string } }) {
   const session = await auth();
@@ -97,6 +101,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                     Pay now
                   </Link>
                 </div>
+              ) : null}
+
+              {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+                <SellerConfirmReceived orderId={order.id} />
               ) : null}
 
               <div className="pt-2">
