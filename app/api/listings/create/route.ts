@@ -36,9 +36,30 @@ const PROHIBITED_KEYWORDS = [
   "cocaine","meth","ice","heroin","mdma","ecstasy","weed","marijuana","thc","vape thc"
 ];
 
+function escapeRegex(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function textLooksProhibited(text: string) {
   const t = (text || "").toLowerCase();
-  return PROHIBITED_KEYWORDS.some((k) => t.includes(k));
+  // Match whole words for single tokens, and phrase boundaries for multi-word entries.
+  // Prevent false positives like "cat" matching inside "category".
+  return PROHIBITED_KEYWORDS.some((k) => {
+    const key = String(k || "").toLowerCase().trim();
+    if (!key) return false;
+
+    const isPhrase = /\s/.test(key);
+    const pattern = isPhrase
+      ? `(^|[^a-z0-9])${escapeRegex(key)}($|[^a-z0-9])`
+      : `\b${escapeRegex(key)}\b`;
+
+    try {
+      const re = new RegExp(pattern, "i");
+      return re.test(t);
+    } catch {
+      return false;
+    }
+  });
 }
 
 async function applyStrike(userId: string) {
