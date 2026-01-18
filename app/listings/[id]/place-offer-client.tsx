@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function PlaceOfferClient({
@@ -9,12 +9,14 @@ export default function PlaceOfferClient({
   offerState = "NONE",
   disabled = false,
   disabledText = "Waiting for seller decision.",
+  endsAtIso,
 }: {
   listingId: string;
   minOfferCents: number;
   offerState?: "NONE" | "TOP" | "OUTBID";
   disabled?: boolean;
   disabledText?: string;
+  endsAtIso?: string;
 }) {
   const safeMinCents = Number.isFinite(Number(minOfferCents)) ? Number(minOfferCents) : 0;
   const minDollars = safeMinCents / 100;
@@ -29,8 +31,23 @@ export default function PlaceOfferClient({
   }>(null);
   const router = useRouter();
 
+  // Client-side stale-tab guard: once endsAt passes, disable offers without requiring refresh
+  const [clientEnded, setClientEnded] = useState(false);
+  useEffect(() => {
+    if (!endsAtIso) return;
+    const end = new Date(endsAtIso).getTime();
+    if (!Number.isFinite(end)) return;
+    const tick = () => setClientEnded(Date.now() >= end);
+    tick();
+    const t = setInterval(tick, 1000);
+    return () => clearInterval(t);
+  }, [endsAtIso]);
+
+  const hardDisabled = Boolean(disabled) || Boolean(clientEnded);
+  const hardDisabledText = clientEnded ? "Offers are closed." : (disabledText || "Waiting for seller decision.");
+
   async function submit() {
-    if (disabled) { setMsg(disabledText || "Waiting for seller decision."); return; }
+    if (hardDisabled) { setMsg(hardDisabledText); return; }
     if (loading) { return; }
     setMsg("");
     setLastResult(null);
@@ -133,21 +150,21 @@ export default function PlaceOfferClient({
           onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } }}
           inputMode="decimal"
           placeholder="e.g. 25.50"
-          disabled={disabled || loading}
+          disabled={hardDisabled || loading}
           className="w-full h-11 rounded-xl border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-3 py-2 text-sm text-[var(--bidra-fg)] placeholder:text-[var(--bidra-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--bidra-link)] disabled:opacity-60"
         />
 
         <button
           type="button"
           onClick={submit}
-          disabled={loading || disabled}
+          disabled={loading || hardDisabled}
           className="w-full sm:w-auto rounded-xl bg-[var(--bidra-link)] px-4 py-2.5 text-sm font-semibold text-[#0B0E11] transition hover:opacity-90 disabled:opacity-60"
         >
           {loading ? "Submitting..." : "Place offer"}
         </button>
       </div>
 
-      {(disabled && !msg) ? <div className="text-xs text-[var(--bidra-muted)]">{disabledText || "Waiting for seller decision."}</div> : null}
+      {(hardDisabled && !msg) ? <div className="text-xs text-[var(--bidra-muted)]">{hardDisabledText}</div> : null}
       {msg ? <div className="text-xs text-[var(--bidra-muted)]">{msg}</div> : null}
     </div>
   );
