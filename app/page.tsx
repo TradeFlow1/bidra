@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 
 import ListingCard from "@/components/listing-card";
 import HomeCategorySelectClient from "@/components/home-category-select-client";
@@ -41,6 +42,8 @@ const LOGO_SRC = "/brand/bidra-kangaroo-logo.png";
 
 export default async function HomePage() {
   const listings = await getLatestListings();
+  const session = await auth();
+  const sellHref = session?.user?.id ? "/sell/new" : "/auth/login?next=%2Fsell%2Fnew";
 
   return (
     <main className="bd-container py-6 pb-14">
@@ -64,7 +67,7 @@ export default async function HomePage() {
             <Link href="/listings" className="bd-btn bd-btn-primary">
               Browse items
             </Link>
-            <Link href="/auth/login?next=%2Fsell%2Fnew" className="bd-btn bd-btn-primary">
+            <Link href={sellHref} className="bd-btn bd-btn-primary">
               List an item
             </Link>
           </div>
@@ -130,7 +133,7 @@ export default async function HomePage() {
           {listings.length === 0 ? (
             <div className="bd-card p-6 bd-ink2">
               No listings yet. Be the first to{" "}
-              <Link href="/auth/login?next=%2Fsell%2Fnew" className="font-semibold bd-link hover:bd-link">
+              <Link href={sellHref} className="font-semibold bd-link hover:bd-link">
                 create a listing
               </Link>
               .
