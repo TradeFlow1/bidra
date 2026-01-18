@@ -11,7 +11,7 @@ import { prisma } from "@/lib/prisma";
  * - If active: block with reason POLICY_BLOCKED
  */
 function getDob(user: any): Date | null {
-  const raw = user?.dateOfBirth ?? user?.dob ?? null;
+  const raw = user?.dob ?? null;
   if (!raw) return null;
   const d = new Date(raw);
   return isNaN(d.getTime()) ? null : d;
@@ -37,8 +37,7 @@ export async function requireAdult(sessionArg?: any) {
     where: { id: userId },
     select: {
       id: true,
-      dateOfBirth: true,
-      dob: true,
+dob: true,
       ageVerified: true,
       policyBlockedUntil: true,
       policyStrikes: true,
