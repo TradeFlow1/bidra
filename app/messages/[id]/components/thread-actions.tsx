@@ -2,7 +2,12 @@
 
 export default function ThreadActions({ threadId }: { threadId: string }) {
   async function doDelete() {
-    const ok = window.confirm("Delete this chat? It will be removed from your inbox.")
+    const phrase = "DELETE";
+const input = window.prompt(
+  "Delete this chat?\n\nThis removes the chat from your inbox only.\nType DELETE to confirm:",
+  ""
+);
+const ok = (input || "").trim().toUpperCase() === phrase;
     if (!ok) return
     const res = await fetch(`/api/messages/thread/${threadId}/delete`, { method: "POST" })
     if (!res.ok) {
