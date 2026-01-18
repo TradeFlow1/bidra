@@ -45,37 +45,48 @@ export default async function HomePage() {
   return (
     <main className="bd-container py-6 pb-14">
       {/* HERO */}
-      <section className="bd-hero">
-        <div className="flex flex-col gap-3">
-          <div className="bd-hero-row">
-            <div className="bd-hero-logoWrap">
-              <img src={LOGO_SRC} alt="Bidra" className="bd-hero-logo" />
-            </div>
-          </div>
+<section className="relative overflow-hidden rounded-[28px] shadow-xl">
+  <div
+    className="absolute inset-0"
+    style={{
+      backgroundImage: "url(/brand/hero-clouds.png?v=2)",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}
+  />
+  <div className="absolute inset-0 bg-slate-900/40" />
 
-          <div className="bd-hero-eyebrow">AUSTRALIA-WIDE • BUY &amp; SELL • OFFERS &amp; LISTINGS</div>
+  <div className="relative px-6 py-10 sm:px-10 sm:py-12 text-center">
+    <div className="mx-auto flex items-center justify-center -mb-12">
+      <div className="mx-auto h-40 sm:h-48 overflow-hidden flex items-center justify-center">
+  <img src={LOGO_SRC} alt="Bidra" className="h-96 sm:h-[28rem] w-auto drop-shadow-sm" />
+</div>
 
-          <h1 className="bd-hero-h1">Australia-wide marketplace for buying and selling.</h1>
-          <p className="bd-hero-p">
-            Browse listings, make offers, and complete the sale when the seller accepts.
-          </p>
+    </div>
 
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link href="/listings" className="bd-btn bd-btn-primary">
-              Browse items
-            </Link>
-            <Link href="/sell/new" className="bd-btn bd-btn-primary">
-              List an item
-            </Link>
-          </div>
+    <h1 className="mt-1 text-4xl font-extrabold tracking-tight text-white drop-shadow-sm sm:text-6xl">
+      Buy, Sell, and Trade Across Australia.
+    </h1>
 
-          <div className="bd-hero-fine">
-            Bidra is a marketplace for listings and offers — sellers can accept, decline, or counter.
-          </div>
-        </div>
-      </section>
+    <p className="mx-auto mt-4 max-w-3xl text-base text-white sm:text-lg">
+      Explore listings, make offers, and connect with buyers and sellers from all over Australia.
+    </p>
 
-      {/* CATEGORIES */}
+    <div className="mt-4 flex flex-wrap justify-center gap-3 sm:gap-4">
+      <Link href="/listings" className="bd-btn bd-btn-primary">
+        Browse items
+      </Link>
+      <Link href="/sell/new" className="bd-btn bd-btn-primary">
+        List an item
+      </Link>
+    </div>
+
+    <div className="mt-7 text-sm text-white/70">
+      Bidra is a marketplace for listings and offers — sellers can accept, decline, or counter.
+    </div>
+  </div>
+</section>
+{/* CATEGORIES */}
       <section className="bd-section">
         <div className="flex items-center justify-between gap-3">
           <div className="bd-section-title">Categories</div>
