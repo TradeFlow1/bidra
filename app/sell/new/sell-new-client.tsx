@@ -1,7 +1,7 @@
 ﻿"use client";
 import Link from "next/link";
 
-import React, { useMemo, useState, useRef } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { FULL_CATEGORIES, CATEGORY_GROUPS } from "@/lib/categories";
 
@@ -182,6 +182,28 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   }>(null);
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let old: any = undefined;
+    try {
+      if ("scrollRestoration" in window.history) {
+        old = (window.history as any).scrollRestoration;
+        (window.history as any).scrollRestoration = "manual";
+      }
+    } catch {}
+
+    try { window.scrollTo({ top: 0, left: 0 }); } catch {}
+
+    return () => {
+      try {
+        if (old !== undefined && "scrollRestoration" in window.history) {
+          (window.history as any).scrollRestoration = old;
+        }
+      } catch {}
+    };
+  }, []);
 
   const [type, setType] = useState<ListingTypeUI>("FIXED_PRICE");
 
