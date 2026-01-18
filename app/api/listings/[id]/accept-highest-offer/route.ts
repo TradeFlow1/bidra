@@ -54,14 +54,21 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     const result = await prisma.$transaction(async (tx) => {
       // Race-safe: only the first request that flips ACTIVE->SOLD may create an order
       const updated = await tx.listing.updateMany({
-        where: { id: listing.id, status: "ACTIVE" },
+        where: { id: listing.id, status: { in: ["ACTIVE","ENDED"] } },
         data: { status: "SOLD" },
       })
 
       if (updated.count !== 1) {
         // Idempotency: if an order already exists for this listing, return it
         const existing = await tx.order.findFirst({
-          where: { listingId: listing.id, status: "PENDING" },
+          where: {
+              listingId: listing.id,
+              OR: [
+                { status: "PENDING" },
+                { status: "PAID" },
+                { outcome: "COMPLETED" },
+              ],
+            },
           orderBy: { createdAt: "desc" },
           select: { id: true },
         })
