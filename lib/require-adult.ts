@@ -49,12 +49,29 @@ dob: true,
     return { ok: false as const, status: 403, reason: "MISSING_AGE_VERIFICATION" };
   }
 
-  const ageVerified = Boolean((dbUser as any)?.ageVerified);
+  let ageVerified = Boolean((dbUser as any)?.ageVerified);
+  const age = yearsOld(dob);
+
+  // Self-heal legacy accounts: if DOB exists and user is 18+, but ageVerified is false,
+  // promote them once so they don't get stuck behind an "age not verified" gate forever.
+  if (!ageVerified && age >= 18) {
+    try {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { ageVerified: true },
+      });
+      ageVerified = true;
+      (dbUser as any).ageVerified = true;
+    } catch (e) {
+      // If DB update fails, still block (safer than allowing)
+      return { ok: false as const, status: 403, reason: "AGE_NOT_VERIFIED" };
+    }
+  }
+
   if (!ageVerified) {
     return { ok: false as const, status: 403, reason: "AGE_NOT_VERIFIED" };
   }
 
-  const age = yearsOld(dob);
   if (age < 18) {
     return { ok: false as const, status: 403, reason: "UNDER_18" };
   }
