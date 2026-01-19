@@ -2,6 +2,14 @@
 Date: 2026-01-17 (AEST)
 Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 
+## Scope (Tonight) — #1–#5 ONLY
+- [x] #1: Re-check #1–#5 status in this file (truth)
+- [x] #2: Confirm DONE vs pending for #1–#5 (truth)
+- [x] #3: Live-site “must not fail” smoke sweep (home/ctas, listings+filters, listing detail+gallery+message seller, login/register/logout, legal+support)
+- [x] #4: Brand assets verification (only kangaroo + hero-clouds; /brand/*.png 200; no mixed-domain issues)
+- [x] #5: Git hygiene / deploy sync (git status clean; only trigger-deploy commit if Vercel is stale)
+
+
 ## P0 (Must fix)
 - [x] P0-6 (NEW): Imported screenshot issues + confirmed key features exist in repo (local listings hook, category suggestion code, message delete/report routes, restrictions TTL fields, admin reports routes, offers endpoints)  ✅ DONE
 - [x] P0-7: Remove public 'coming soon' copy on /orders/[id]/pay-now (redirect to /orders/[id]/pay)  ✅ DONE
