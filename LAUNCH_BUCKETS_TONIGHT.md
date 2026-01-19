@@ -24,7 +24,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [ ] P2-1:
 
 ## Screenshot issues (intake)
-- [ ] ISSUE: rotating listings on the home page by area closest (LOCAL LISTINGS)
+- [x] ISSUE: rotating listings on the home page by area closest (LOCAL LISTINGS)  ✅ DONE (home uses /api/listings?local=1; API ranks by postcode/suburb/state + daily rotation; falls back when logged out)
 - [ ] ISSUE: suggest category by description when selling an item
 - [ ] ISSUE: Pay Now – cannot use signup email as PayID (most people use mobile); allow user to add PayID/bank details
 - [ ] ISSUE: notifications for users – how do we set that up
