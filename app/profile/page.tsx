@@ -107,10 +107,10 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
         state: hasState ? state : null,
         country: "AU",
         payidEmail: payidEmail || null,
-        payidMobile: payidMobile || null,
+        payidMobile: (payidMobileDigits || "") ? payidMobileDigits : null,
         bankName: bankName || null,
-        bankBsb: bankBsb || null,
-        bankAccount: bankAccount || null,
+        bankBsb: (bankBsbDigits || "") ? bankBsbDigits : null,
+        bankAccount: (bankAccountDigits || "") ? bankAccountDigits : null,
       },
     });
 
