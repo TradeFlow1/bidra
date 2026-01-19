@@ -4,6 +4,7 @@ export const revalidate = 0;
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import PayConfirmClient from "./pay-confirm-client";
@@ -23,6 +24,23 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
   const session = await auth();
   const user = session?.user as any;
   if (!user) redirect(`/auth/login?next=/orders/${params.id}/pay`);
+
+  const gate = await requireAdult(session as any);
+  if (!gate.ok) {
+    return (
+      <main className="bd-container py-10">
+        <div className="container max-w-3xl">
+          <Card className="bd-card p-6">
+            <h1 className="text-3xl font-extrabold tracking-tight">Pay</h1>
+            <p className="mt-2 text-sm bd-ink2">This page is restricted.</p>
+            <div className="mt-5">
+              <Link className="bd-link font-semibold" href="/account">Back to account</Link>
+            </div>
+          </Card>
+        </div>
+      </main>
+    );
+  }
 
   const order = await prisma.order.findUnique({
     where: { id: params.id },
