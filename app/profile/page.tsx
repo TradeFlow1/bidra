@@ -58,6 +58,45 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
       redirect("/profile?saved=0");
     }
 
+        // ---- Payout details validation (optional) ----
+    const payidEmailNorm = payidEmail.trim();
+    const payidMobileDigits = payidMobile.replace(/[^\d]/g, "");
+    const bankBsbDigits = bankBsb.replace(/[^\d]/g, "");
+    const bankAccountDigits = bankAccount.replace(/[^\d]/g, "");
+
+    const hasPayidEmail = payidEmailNorm.length > 0;
+    const hasPayidMobile = payidMobileDigits.length > 0;
+
+    const hasBankName = bankName.trim().length > 0;
+    const hasBankBsb = bankBsbDigits.length > 0;
+    const hasBankAccount = bankAccountDigits.length > 0;
+
+    // PayID email: basic shape check
+    if (hasPayidEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payidEmailNorm)) {
+      redirect("/profile?saved=0");
+    }
+
+    // PayID mobile: AU mobile 04xxxxxxxx (10 digits total)
+    if (hasPayidMobile) {
+      if (!(payidMobileDigits.length === 10 && payidMobileDigits.startsWith("04"))) {
+        // PayID mobile must be an AU mobile number
+        redirect("/profile?saved=0");
+      }
+    }
+
+    // Bank: if any bank field provided, require BSB + account and validate lengths
+    if (hasBankName || hasBankBsb || hasBankAccount) {
+      if (!hasBankBsb || !hasBankAccount) {
+        redirect("/profile?saved=0");
+      }
+      if (bankBsbDigits.length !== 6) {
+        redirect("/profile?saved=0");
+      }
+      if (bankAccountDigits.length < 6 || bankAccountDigits.length > 12) {
+        redirect("/profile?saved=0");
+      }
+    }
+
     await prisma.user.update({
       where: { id: u.id },
       data: {
