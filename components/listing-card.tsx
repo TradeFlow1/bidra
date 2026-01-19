@@ -35,7 +35,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
   const isNoPhotos = !imgs || imgs.length === 0;
   const fallback =
     (imgs && imgs.length > 0 && (imgs[0]?.url || imgs[0]?.src || imgs[0])) ||
-    "/brand/icon/bidra-icon_dark.png";
+    "/brand/bidra-kangaroo-icon.png";
 
   const isTimedOffers = isTimedOffersType(listing.type);
   const hasBuyNow = typeof listing.buyNowPrice === "number";
