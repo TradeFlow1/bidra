@@ -95,5 +95,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|favicon.ico|icon.png|brand|robots.txt|sitemap.xml).*)"],
+  matcher: ["/((?!_next|favicon.ico|icon.png|robots.txt|sitemap.xml).*)"],
 };
