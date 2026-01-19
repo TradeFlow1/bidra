@@ -8,14 +8,15 @@ import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import PayConfirmClient from "./pay-confirm-client";
 
-const PAYID_EMAIL = (process.env.BIDRA_PAYID_EMAIL || "support@bidra.com.au").trim();
-const PAYID_MOBILE = (process.env.BIDRA_PAYID_MOBILE || "").trim(); // e.g. 04xx...
-const BANK_NAME = (process.env.BIDRA_BANK_NAME || "").trim(); // e.g. Bidra Pty Ltd
-const BANK_BSB = (process.env.BIDRA_BANK_BSB || "").trim();
-const BANK_ACCOUNT = (process.env.BIDRA_BANK_ACCOUNT || "").trim();
-
 function money(cents: number) {
   return (cents / 100).toLocaleString("en-AU", { style: "currency", currency: "AUD" });
+}
+
+function formatPayidMobile(digits: string) {
+  const d = (digits || "").replace(/[^\d]/g, "");
+  // AU mobile: 04xxxxxxxx (10 digits). Display as 04xx xxx xxx when possible.
+  if (d.length === 10 && d.startsWith("04")) return `${d.slice(0, 4)} ${d.slice(4, 7)} ${d.slice(7)}`;
+  return digits || "";
 }
 
 export default async function OrderPayPage({ params }: { params: { id: string } }) {
@@ -63,6 +64,28 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
     );
   }
 
+  const sellerId = (order.listing as any)?.sellerId as string | undefined;
+  const seller = sellerId
+    ? await prisma.user.findUnique({
+        where: { id: sellerId },
+        select: {
+          id: true,
+          email: true,
+          payidEmail: true,
+          payidMobile: true,
+          bankName: true,
+          bankBsb: true,
+          bankAccount: true,
+        },
+      })
+    : null;
+
+  const sellerPayidEmail = (seller?.payidEmail || seller?.email || "").trim();
+  const sellerPayidMobile = formatPayidMobile((seller?.payidMobile || "").trim());
+  const sellerBankName = (seller?.bankName || "").trim();
+  const sellerBankBsb = (seller?.bankBsb || "").trim();
+  const sellerBankAccount = (seller?.bankAccount || "").trim();
+
   const orderHref = `/orders/${order.id}`;
   const listingHref = `/listings/${order.listingId}`;
 
@@ -94,32 +117,34 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
               </div>
 
               <div className="mt-2 bd-card p-4">
-                <div className="text-sm font-extrabold bd-ink">PayID (Osko)</div>
+                <div className="text-sm font-extrabold bd-ink">Pay the seller (PayID / Osko)</div>
                 <div className="mt-2 text-sm bd-ink2">
                   Send the exact amount via PayID/Osko using your banking app.
                 </div>
 
                 <div className="mt-3 grid gap-2 text-sm">
-                  <div className="text-xs bd-ink2">
-                    Important: this is the PayID to pay to. Do <b>not</b> use your Bidra signup email as the PayID.
-                  </div>
+                  {sellerPayidEmail ? (
+                    <div><span className="bd-ink2">PayID (email):</span> <b>{sellerPayidEmail}</b></div>
+                  ) : (
+                    <div className="text-xs bd-ink2">
+                      Seller payout details are missing. Ask the seller to add PayID or bank details in Account Settings.
+                    </div>
+                  )}
 
-                  <div><span className="bd-ink2">PayID (email):</span> <b>{PAYID_EMAIL}</b></div>
-
-                  {PAYID_MOBILE ? (
-                    <div><span className="bd-ink2">PayID (mobile):</span> <b>{PAYID_MOBILE}</b></div>
+                  {sellerPayidMobile ? (
+                    <div><span className="bd-ink2">PayID (mobile):</span> <b>{sellerPayidMobile}</b></div>
                   ) : null}
 
                   <div><span className="bd-ink2">Reference:</span> <b>{order.id}</b></div>
                   <div><span className="bd-ink2">Amount:</span> <b>{money(order.amount)}</b></div>
 
-                  {BANK_BSB && BANK_ACCOUNT ? (
+                  {sellerBankBsb && sellerBankAccount ? (
                     <div className="mt-2 bd-card p-3">
                       <div className="text-sm font-extrabold bd-ink">Bank transfer (if you can’t use PayID)</div>
                       <div className="mt-2 grid gap-1 text-sm">
-                        {BANK_NAME ? <div><span className="bd-ink2">Name:</span> <b>{BANK_NAME}</b></div> : null}
-                        <div><span className="bd-ink2">BSB:</span> <b>{BANK_BSB}</b></div>
-                        <div><span className="bd-ink2">Account:</span> <b>{BANK_ACCOUNT}</b></div>
+                        {sellerBankName ? <div><span className="bd-ink2">Name:</span> <b>{sellerBankName}</b></div> : null}
+                        <div><span className="bd-ink2">BSB:</span> <b>{sellerBankBsb}</b></div>
+                        <div><span className="bd-ink2">Account:</span> <b>{sellerBankAccount}</b></div>
                         <div><span className="bd-ink2">Reference:</span> <b>{order.id}</b></div>
                       </div>
                     </div>
@@ -127,7 +152,12 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                 </div>
 
                 <div className="mt-3 text-xs bd-ink2">
-                  Tip: include the reference exactly so your payment can be matched quickly.
+                  Tip: include the reference exactly so the seller can match your payment quickly.
+                </div>
+
+                <div className="mt-2 text-xs bd-ink2">
+                  If you’re the seller and these details are wrong or blank, update them in{" "}
+                  <Link className="bd-link font-semibold" href="/profile">Account Settings</Link>.
                 </div>
               </div>
 
@@ -145,7 +175,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                     </div>
                   )}
                   <div className="text-xs bd-ink2">
-                    Bidra is a marketplace platform — sellers control outcomes. This confirmation records that the buyer has paid via PayID/Osko.
+                    Bidra is a marketplace platform — sellers control outcomes. This confirmation records that the buyer has sent payment.
                   </div>
                 </div>
               )}
