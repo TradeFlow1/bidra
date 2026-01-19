@@ -37,6 +37,13 @@ export default async function ProfilePage({
     const suburb = String(formData.get("suburb") ?? "").trim().slice(0, 60);
     const state = String(formData.get("state") ?? "").trim().slice(0, 10);
 
+const payidEmail = String(formData.get("payidEmail") ?? "").trim().slice(0, 120);
+const payidMobile = String(formData.get("payidMobile") ?? "").trim().slice(0, 32);
+
+const bankName = String(formData.get("bankName") ?? "").trim().slice(0, 80);
+const bankBsb = String(formData.get("bankBsb") ?? "").trim().slice(0, 16);
+const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32);
+
     const hasPostcode = postcode.length > 0;
     const hasSuburb = suburb.length > 0;
     const hasState = state.length > 0;
@@ -60,6 +67,11 @@ export default async function ProfilePage({
         suburb: hasSuburb ? suburb : null,
         state: hasState ? state : null,
         country: "AU",
+        payidEmail: payidEmail || null,
+        payidMobile: payidMobile || null,
+        bankName: bankName || null,
+        bankBsb: bankBsb || null,
+        bankAccount: bankAccount || null,
       },
     });
 
@@ -177,6 +189,47 @@ export default async function ProfilePage({
             </div>
 
             <div className="bd-card p-5">
+  <div className="text-sm font-semibold">Payout details</div>
+  <div className="mt-1 text-xs bd-ink2">Optional — only needed if selling.</div>
+
+  <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div>
+      <label className="text-sm font-medium">PayID email (optional)</label>
+      <Input name="payidEmail" defaultValue={(dbUser as any).payidEmail ?? ""} placeholder="e.g. you@example.com" />
+      <div className="mt-1 text-xs bd-ink2">Use this if you receive PayID payments to your email.</div>
+    </div>
+
+    <div>
+      <label className="text-sm font-medium">PayID mobile (optional)</label>
+      <Input name="payidMobile" defaultValue={(dbUser as any).payidMobile ?? ""} placeholder="e.g. 04xx xxx xxx" />
+      <div className="mt-1 text-xs bd-ink2">Most Australians use mobile PayID — add it here if preferred.</div>
+    </div>
+  </div>
+
+  <div className="mt-4">
+    <div className="text-sm font-medium">Bank transfer fallback (optional)</div>
+
+    <div className="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="sm:col-span-1">
+        <label className="text-sm font-medium">Bank name</label>
+        <Input name="bankName" defaultValue={(dbUser as any).bankName ?? ""} placeholder="e.g. Commonwealth Bank" />
+      </div>
+
+      <div className="sm:col-span-1">
+        <label className="text-sm font-medium">BSB</label>
+        <Input name="bankBsb" defaultValue={(dbUser as any).bankBsb ?? ""} placeholder="e.g. 062-000" />
+      </div>
+
+      <div className="sm:col-span-1">
+        <label className="text-sm font-medium">Account number</label>
+        <Input name="bankAccount" defaultValue={(dbUser as any).bankAccount ?? ""} placeholder="e.g. 12345678" />
+      </div>
+    </div>
+
+    <div className="mt-2 text-xs bd-ink2">Used only if PayID isn’t available for a sale.</div>
+  </div>
+</div>
+<div className="bd-card p-5">
   <div className="text-sm font-semibold">Security</div>
   <div className="mt-3 flex flex-col gap-2 sm:flex-row">
     <a className="bd-btn bd-btn-ghost" href="/forgot-password">
