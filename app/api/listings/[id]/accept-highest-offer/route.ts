@@ -90,7 +90,8 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       return { order }
     })
 
-    return NextResponse.json({ ok: true, orderId: result.order.id })} catch (e: any) {
+    return NextResponse.json({ ok: true, orderId: result.order.id })
+  } catch (e: any) {
     console.error("Accept highest offer error:", e)
 
     if (e?.message === "LISTING_NOT_ACTIVE") {
