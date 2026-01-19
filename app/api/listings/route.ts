@@ -73,6 +73,8 @@ export async function GET(req: Request) {
       where: {
         status: "ACTIVE",
         images: { isEmpty: false },
+        // Safety: never return listings that already have an order
+        orders: { none: {} },
         NOT: [
           { title: { equals: "test", mode: "insensitive" } },
           { title: { startsWith: "test", mode: "insensitive" } },

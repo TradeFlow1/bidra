@@ -94,6 +94,9 @@ export default async function ListingsPage({
   // Always hide DELETED/SUSPENDED/etc from public browse
   where.AND.push({ status: "ACTIVE" });
 
+  // Safety: if an order exists for a listing, it must not be publicly browseable
+  where.AND.push({ orders: { none: {} } });
+
 // BUCKET_A_P0: hide no-photo listings from public browse
 where.AND.push({ images: { isEmpty: false } });
 
