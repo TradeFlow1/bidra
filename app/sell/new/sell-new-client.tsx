@@ -66,12 +66,21 @@ const CATEGORY_RULES: CatRule[] = [
 function suggestCategoryFromText(textRaw: string): string {
   const t = (textRaw || "").toLowerCase();
 
+  const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const hasToken = (token: string) => {
+    const k = String(token || "").trim().toLowerCase();
+    if (!k) return false;
+    if (k.includes(" ")) return t.includes(k);
+    const re = new RegExp(`(^|[^a-z0-9])${escapeRegExp(k)}([^a-z0-9]|$)`);
+    return re.test(t);
+  };
+
   // Strong pet/animal signals ONLY (prevents "tools" -> pets)
   const petSignals = [
     "dog","cat","puppy","kitten","bird","fish","reptile","rabbit","hamster",
     "pet","aquarium","kennel","leash","collar","harness","litter","crate","cage"
   ];
-  const hasPetSignal = petSignals.some((k) => t.includes(k));
+  const hasPetSignal = petSignals.some((k) => hasToken(k));
 
   // Tools / garage / workshop signals
   const toolSignals = [
@@ -80,7 +89,7 @@ function suggestCategoryFromText(textRaw: string): string {
     "grinder","compressor","ladder","sander","router","jigsaw","circular",
     "ratchet","allen","hex","pliers","vice","clamp","chisel","workbench"
   ];
-  const hasToolSignal = toolSignals.some((k) => t.includes(k));
+  const hasToolSignal = toolSignals.some((k) => hasToken(k));
 
   // Weighted scoring for a few common buckets used in Bidra categories
   // Return "" when uncertain (no suggestion shown)
@@ -89,7 +98,7 @@ function suggestCategoryFromText(textRaw: string): string {
 
   const score = (name: string, keys: string[], weight: number) => {
     let s = 0;
-    for (const k of keys) if (t.includes(k)) s += weight;
+    for (const k of keys) if (hasToken(k)) s += weight;
     if (s > bestScore) { bestScore = s; best = name; }
   };
 
