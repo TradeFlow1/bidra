@@ -2,6 +2,7 @@
 import SellerConfirmReceived from "./seller-confirm-received";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 
@@ -15,6 +16,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const session = await auth();
   const user = session?.user as any;
   if (!user) redirect(`/auth/login?next=/orders/${params.id}`);
+
+  const gate = await requireAdult(session as any);
+  if (!gate.ok) redirect("/account/restrictions");
 
   const orderId = params.id;
 

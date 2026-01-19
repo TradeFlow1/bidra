@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 
@@ -10,6 +11,9 @@ export default async function OrdersPage() {
   const session = await auth();
   const user = session?.user as any;
   if (!user) redirect("/auth/login");
+
+  const gate = await requireAdult(session as any);
+  if (!gate.ok) redirect("/account/restrictions");
 
   const orders = await prisma.order.findMany({
     where: {
