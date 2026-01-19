@@ -64,7 +64,7 @@ export default async function HomePage() {
 
     </div>
 
-    <h1 className="mt-1 text-4xl font-extrabold tracking-tight text-white drop-shadow-sm sm:text-6xl">
+    <h1 className="mx-auto max-w-4xl text-3xl md:text-4xl font-semibold text-black whitespace-nowrap leading-tight">
       Buy, Sell, and Trade Across Australia.
     </h1>
 
