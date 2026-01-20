@@ -44,5 +44,3 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [x] ISSUE: submit feedback error 500  ✅ DONE
 - [ ] ISSUE: my offer on a listing failed – check offers flow + ensure no broken links
 - [ ] ISSUE: the whole website screams amateur (UX polish pass)
-
-
