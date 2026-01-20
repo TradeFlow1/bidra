@@ -57,6 +57,12 @@ model User {
   reports               Report[]             @relation("ReporterReports")
   verificationTokens    VerificationToken[]
   watchlist             Watchlist[]
+  // Payout details (Osko/PayID + bank). Optional; shown on /orders/[id]/pay
+  payidEmail   String?
+  payidMobile  String?
+  bankName     String?
+  bankBsb      String?
+  bankAccount  String?
 }
 
 model VerificationToken {
