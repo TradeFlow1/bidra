@@ -26,7 +26,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 ## Screenshot issues (intake)
 - [x] ISSUE: rotating listings on the home page by area closest (LOCAL LISTINGS)  ✅ DONE (home uses /api/listings?local=1; API ranks by postcode/suburb/state + daily rotation; falls back when logged out)
 - [x] ISSUE: suggest category by description when selling an item  ✅ DONE (token/word-boundary matching; avoids false matches like 'tools' -> pets; commit 48fdfa1)
-- [x] ISSUE: Pay Now – cannot use signup email as PayID (most people use mobile); allow user to add PayID/bank details
+- [x] ISSUE: Pay Now – cannot use signup email as PayID (most people use mobile); allow user to add PayID/bank details  ✅ DONE (commit 1938ea6)
 - [ ] ISSUE: notifications for users – how do we set that up
 - [x] ISSUE: when user lists an item, default location to their signed-up suburb, allow manual change
 - [x] ISSUE: AI suggestions for product descriptions when listing an item  ✅ DONE
