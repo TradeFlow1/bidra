@@ -495,7 +495,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               <optgroup key={g.parent} label={g.parent}>
                 <option value={g.parent}>{g.parent}</option>
                 {g.children.map((c) => (
-                  <option key={`${g.parent}:${c}`} value={c}>
+                  <option key={`${g.parent}:${c}`} value={joinCategory(g.parent, c)}>
                     {c}
                   </option>
                 ))}
