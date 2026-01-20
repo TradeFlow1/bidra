@@ -239,7 +239,7 @@ where.AND.push({ images: { isEmpty: false } });
           <optgroup key={g.parent} label={g.parent}>
             <option value={g.parent}>{g.parent}</option>
             {g.children.map((c) => (
-              <option key={`${g.parent}:${c}`} value={c}>
+              <option key={`${g.parent}:${c}`} value={joinCategory(g.parent, c)}>
                 {c}
               </option>
             ))}
@@ -341,7 +341,7 @@ where.AND.push({ images: { isEmpty: false } });
           <optgroup key={g.parent} label={g.parent}>
             <option value={g.parent}>{g.parent}</option>
             {g.children.map((c) => (
-              <option key={`${g.parent}:${c}`} value={c}>
+              <option key={`${g.parent}:${c}`} value={joinCategory(g.parent, c)}>
                 {c}
               </option>
             ))}
