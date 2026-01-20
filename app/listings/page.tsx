@@ -8,7 +8,8 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { FULL_CATEGORIES, CATEGORY_GROUPS } from "@/lib/categories";
 import WatchButton from "@/components/watch-button";
-import ListingCard from "@/components/listing-card";`nimport { isTimedOffersType } from "@/lib/listing-type";
+import ListingCard from "@/components/listing-card";
+import { isTimedOffersType } from "@/lib/listing-type";
 import MobileFiltersToggle from "@/components/mobile-filters-toggle";
 
 type SearchParams = {
@@ -422,12 +423,17 @@ where.AND.push({ images: { isEmpty: false } });
                     id: l.id,
                     title: l.title,
                     description: l.description,
-                    price: (isTimedOffersType(l.type)`n                      ? ((l.bids && l.bids.length ? l.bids[0].amount : null) ?? l.price)`n                      : (l.buyNowPrice ?? l.price)`n                    ) as any,
+                    price: (isTimedOffersType(l.type)
+                      ? ((l.bids && l.bids.length ? l.bids[0].amount : null) ?? l.price)
+                      : (l.buyNowPrice ?? l.price)
+                    ) as any,
                     buyNowPrice: l.buyNowPrice,
                     type: l.type,
                     category: l.category,
                     location: l.location,
-                    images: (l as any).images ?? null,`n                    endsAt: (l as any).endsAt ?? null,`n                    status: (l as any).status ?? "ACTIVE",
+                    images: (l as any).images ?? null,
+                    endsAt: (l as any).endsAt ?? null,
+                    status: (l as any).status ?? "ACTIVE",
                   }}
                   initiallyWatched={typeof watchedSet !== "undefined" ? watchedSet.has(l.id) : false}
                 />
