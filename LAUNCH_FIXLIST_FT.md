@@ -18,7 +18,7 @@ Rule: One checkbox = one focused change-set (minimal regress).
 - [x] PAY-01: Remove any hardcoded support@bidra.com.au usage in user-facing flows/legal copy. Replace with neutral wording (no email) OR configurable seller contact.
 - [x] PAY-02: PayID/Osko payment: allow sellers to set PayID details in Account Settings (optional). After a sale: if seller has PayID show instructions; if not, show “Contact seller to arrange payment.”
 - [x] ACCT-01: Consolidate /dashboard and /account into one simple “My Account” hub (keep routes, but make one redirect or one canonical UI).
-- [ ] MSG-01: /messages UI: fix white text on white pill (Messages screenshot). Ensure pill text is dark and readable.
+- [x] MSG-01: /messages UI: fix white text on white pill (Messages screenshot). Ensure pill text is dark and readable.
 - [ ] MSG-02: Messages list + thread: show listing photo thumbnail in the chat header / thread area so users know which listing it’s for.
 - [ ] LOC-01: Location rules everywhere: require Suburb + Postcode + State (NOT either/or) on signup + account. Ensure privacy copy avoids revealing exact suburb examples publicly.
 - [ ] LOC-02: Listing cards should display: "{postcode} {suburb}, {STATE}" (example format only; avoid exposing “where I live” in examples). Autofill /sell/new from profile but allow manual change.
