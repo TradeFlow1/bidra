@@ -45,7 +45,7 @@ export default function LegalHubPage() {
         </div>
 
         <p className="text-xs text-black/50">
-          Plain-language legal pages. We’ll keep these updated as Bidra evolves.
+          Plain-language legal pages for using Bidra in Australia.
         </p>
       </div>
     </main>

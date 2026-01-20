@@ -60,8 +60,7 @@ export default function PrivacyPage() {
         </section>
 
         <p className="text-xs text-black/50">
-          This is a plain-language policy. We’ll expand details (cookies, retention, and
-          subprocessors) before a broader public launch.
+          This is a plain-language policy. For questions or requests, contact support@bidra.com.au.
         </p>
       </div>
     </main>

@@ -89,7 +89,7 @@ export default async function MessagesInboxPage() {
                   items.map((it) => {
                     const other = me === it.buyerId ? it.seller : it.buyer
                     const otherLabel = other.username || other.name || other.email || "User"
-                    const last = it.messages[0]?.body ? it.messages[0].body : "No messages yet.."
+                    const last = it.messages[0]?.body ? it.messages[0].body : "No messages yet."
 
                     const anyListing: any = it.listing as any
                     const imgs =

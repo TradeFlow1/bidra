@@ -74,8 +74,7 @@ export default function TermsPage() {
         </section>
 
         <p className="text-xs text-black/50">
-          This is a plain-language summary. We’ll expand these Terms before a broader
-          public launch.
+          Plain-language Terms for using Bidra. For questions, contact support@bidra.com.au.
         </p>
       </div>
     </main>
