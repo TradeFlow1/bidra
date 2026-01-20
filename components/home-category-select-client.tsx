@@ -1,19 +1,7 @@
 ﻿"use client";
 
 import { useRouter } from "next/navigation";
-
-const HOME_LAUNCH_CATEGORIES = [
-  "Home & Furniture",
-  "Tech & Electronics",
-  "Fashion & Wearables",
-  "Sports & Outdoors",
-  "Kids & Toys",
-  "Appliances",
-  "Tools & DIY",
-  "Books & Media",
-  "Collectibles & Vintage",
-  "Seasonal Goods",
-] as const;
+import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
 
 export default function HomeCategorySelectClient() {
   const router = useRouter();
@@ -34,10 +22,16 @@ export default function HomeCategorySelectClient() {
         }}
       >
         <option value="">Select a category…</option>
-        {HOME_LAUNCH_CATEGORIES.map((c) => (
-          <option key={c} value={c}>
-            {c}
-          </option>
+
+        {CATEGORY_GROUPS.map((g) => (
+          <optgroup key={g.parent} label={g.parent}>
+            <option value={g.parent}>{g.parent}</option>
+            {g.children.map((c) => (
+              <option key={`${g.parent}:${c}`} value={joinCategory(g.parent, c)}>
+                {c}
+              </option>
+            ))}
+          </optgroup>
         ))}
       </select>
     </div>
