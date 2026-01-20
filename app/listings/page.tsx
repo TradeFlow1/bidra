@@ -8,7 +8,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { FULL_CATEGORIES, CATEGORY_GROUPS } from "@/lib/categories";
 import WatchButton from "@/components/watch-button";
-import ListingCard from "@/components/listing-card";
+import ListingCard from "@/components/listing-card";`nimport { isTimedOffersType } from "@/lib/listing-type";
 import MobileFiltersToggle from "@/components/mobile-filters-toggle";
 
 type SearchParams = {
@@ -56,7 +56,7 @@ function endsLabel(endsAt: Date | null | undefined) {
   const hrs = Math.floor(mins / 60);
   if (hrs < 48) return `Ends in ${hrs}h`;
   const days = Math.floor(hrs / 24);
-  return `Ends in ${days}d`;
+  const remH = hrs - (days * 24); return `Ends in ${days}d ${remH}h`;
 }
 
 export default async function ListingsPage({
@@ -422,15 +422,12 @@ where.AND.push({ images: { isEmpty: false } });
                     id: l.id,
                     title: l.title,
                     description: l.description,
-                    price: (l.type === "AUCTION"
-                      ? ((l.bids && l.bids.length ? l.bids[0].amount : null) ?? l.price)
-                      : (l.buyNowPrice ?? l.price)
-                    ) as any,
+                    price: (isTimedOffersType(l.type)`n                      ? ((l.bids && l.bids.length ? l.bids[0].amount : null) ?? l.price)`n                      : (l.buyNowPrice ?? l.price)`n                    ) as any,
                     buyNowPrice: l.buyNowPrice,
                     type: l.type,
                     category: l.category,
                     location: l.location,
-                    images: (l as any).images ?? null,
+                    images: (l as any).images ?? null,`n                    endsAt: (l as any).endsAt ?? null,`n                    status: (l as any).status ?? "ACTIVE",
                   }}
                   initiallyWatched={typeof watchedSet !== "undefined" ? watchedSet.has(l.id) : false}
                 />

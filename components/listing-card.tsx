@@ -14,8 +14,10 @@ type ListingCardListing = {
   type?: string;
   category?: string;
   condition?: string | null;
-  images?: any;
   location?: string | null;
+  images?: any;
+  endsAt?: string | Date | null;
+  status?: string | null;
 };
 
 type ListingCardProps = {
@@ -26,6 +28,25 @@ type ListingCardProps = {
 function money(cents: number | null | undefined) {
   const v = typeof cents === "number" ? cents : 0;
   return (v / 100).toLocaleString("en-AU", { style: "currency", currency: "AUD" });
+}
+
+function endsLabel(endsAt: any) {
+  if (!endsAt) return null;
+
+  const d = endsAt instanceof Date ? endsAt : new Date(String(endsAt));
+  const ms = d.getTime() - Date.now();
+  if (!Number.isFinite(ms)) return null;
+  if (ms <= 0) return "Ended";
+
+  const totalSec = Math.floor(ms / 1000);
+  const days = Math.floor(totalSec / 86400);
+  const rem = totalSec - days * 86400;
+  const hours = Math.floor(rem / 3600);
+  const mins = Math.floor((rem - hours * 3600) / 60);
+
+  if (days >= 1) return `Ends in ${days}d ${hours}h`;
+  if (hours >= 1) return `Ends in ${hours}h ${String(mins).padStart(2, "0")}m`;
+  return `Ends in ${Math.max(1, mins)}m`;
 }
 
 export default function ListingCard({ listing }: ListingCardProps) {
@@ -46,6 +67,9 @@ export default function ListingCard({ listing }: ListingCardProps) {
   // - Timed offers: listing.price is already mapped as current top offer cents (see app/listings/page.tsx mapping)
   // - Fixed: show buyNowPrice if present else listing.price
   const primaryCents = isTimedOffers ? Number(listing.price) : (hasBuyNow ? (listing.buyNowPrice as number) : Number(listing.price));
+
+  const isActive = String(listing.status || "ACTIVE") === "ACTIVE";
+  const ends = isTimedOffers && isActive ? endsLabel(listing.endsAt) : null;
 
   return (
     <Link
@@ -96,7 +120,9 @@ export default function ListingCard({ listing }: ListingCardProps) {
           )}
         </div>
 
-        {null}
+        {ends ? (
+          <div className="text-[12px] font-semibold text-black/60">{ends}</div>
+        ) : null}
 
         {listing.location ? (
           <div className="text-xs font-medium text-black/55">{listing.location}</div>
