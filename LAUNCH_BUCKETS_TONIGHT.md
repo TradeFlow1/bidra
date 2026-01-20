@@ -34,7 +34,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [x] ISSUE: item that has been 'bought' still showing as active listings to other users  ✅ DONE (public feeds filter status ACTIVE + orders none)
 - [x] ISSUE: no option to delete old messages or report in messages
 - [x] ISSUE: restricted account past timeout did not automatically end restriction
-- [ ] ISSUE: admin report system needs to be better
+- [ ] ISSUE: admin report system needs to be better  ✅ DONE (reports list upgraded: counts + reporter + listing status; 9fb07e8 Admin reports: show counts + reporter + listing status)
 - [x] ISSUE: avoid off-platform payments text needs to go until Stripe later  ✅ DONE
 - [x] ISSUE: suggest better wording for Australia-wide marketplace on the hero  ✅ DONE
 - [x] ISSUE: some listings show on home but not listings page; others show in listings but not home
