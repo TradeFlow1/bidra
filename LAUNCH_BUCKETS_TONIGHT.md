@@ -17,11 +17,11 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [x] P0-9: Brand assets locked to kangaroo + hero-clouds only; remove light/dark icon + favicons; prod /brand/*.png returns 200  ✅ DONE
 
 ## P1 (Should fix)
-- [ ] P1-1:
-- [ ] P1-2:
+- [x] P1-1: (N/A) No extra P1 items defined for tonight
+- [x] P1-2: (N/A) No extra P1 items defined for tonight
 
 ## P2 (Nice to have)
-- [ ] P2-1:
+- [x] P2-1: (N/A) No extra P2 items defined for tonight
 
 ## Screenshot issues (intake)
 - [x] ISSUE: rotating listings on the home page by area closest (LOCAL LISTINGS)  ✅ DONE (home uses /api/listings?local=1; API ranks by postcode/suburb/state + daily rotation; falls back when logged out)
@@ -34,7 +34,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [x] ISSUE: item that has been 'bought' still showing as active listings to other users  ✅ DONE (public feeds filter status ACTIVE + orders none)
 - [x] ISSUE: no option to delete old messages or report in messages
 - [x] ISSUE: restricted account past timeout did not automatically end restriction
-- [ ] ISSUE: admin report system needs to be better  ✅ DONE (reports list upgraded: counts + reporter + listing status; 9fb07e8 Admin reports: show counts + reporter + listing status)
+- [x] ISSUE: admin report system needs to be better  ✅ DONE (reports list upgraded: counts + reporter + listing status; 9fb07e8 Admin reports: show counts + reporter + listing status)
 - [x] ISSUE: avoid off-platform payments text needs to go until Stripe later  ✅ DONE
 - [x] ISSUE: suggest better wording for Australia-wide marketplace on the hero  ✅ DONE
 - [x] ISSUE: some listings show on home but not listings page; others show in listings but not home
