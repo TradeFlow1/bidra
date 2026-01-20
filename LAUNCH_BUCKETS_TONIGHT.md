@@ -28,7 +28,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [x] ISSUE: suggest category by description when selling an item  ✅ DONE (token/word-boundary matching; avoids false matches like 'tools' -> pets; commit 48fdfa1)
 - [x] ISSUE: Pay Now – cannot use signup email as PayID (most people use mobile); allow user to add PayID/bank details
 - [ ] ISSUE: notifications for users – how do we set that up
-- [ ] ISSUE: when user lists an item, default location to their signed-up suburb, allow manual change
+- [x] ISSUE: when user lists an item, default location to their signed-up suburb, allow manual change
 - [x] ISSUE: AI suggestions for product descriptions when listing an item  ✅ DONE
 - [x] ISSUE: seller has relist on live listing – should only be available on expired listing  ✅ DONE
 - [ ] ISSUE: item that has been 'bought' still showing as active listings to other users
