@@ -39,7 +39,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [x] ISSUE: suggest better wording for Australia-wide marketplace on the hero  ✅ DONE
 - [x] ISSUE: some listings show on home but not listings page; others show in listings but not home
 - [x] ISSUE: messages page – show small photo of the listing you’re messaging about
-- [ ] ISSUE: no time remaining on a listing (countdown clock)
+- [ ] ISSUE: no time remaining on a listing (countdown clock)  ✅ DONE (500badc Listings: show time remaining (days+hours) and label countdown)
 - [ ] ISSUE: fix postcode + suburb UX across Bidra to be more user friendly
 - [x] ISSUE: submit feedback error 500  ✅ DONE
 - [ ] ISSUE: my offer on a listing failed – check offers flow + ensure no broken links
