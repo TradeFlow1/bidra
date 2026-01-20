@@ -6,7 +6,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { FULL_CATEGORIES, CATEGORY_GROUPS } from "@/lib/categories";
+import { FULL_CATEGORIES, CATEGORY_GROUPS , joinCategory} from "@/lib/categories";
 import WatchButton from "@/components/watch-button";
 import ListingCard from "@/components/listing-card";
 import { isTimedOffersType } from "@/lib/listing-type";
@@ -110,7 +110,25 @@ where.AND.push({ images: { isEmpty: false } });
     });
   }
 
-  if (category) where.AND.push({ category });
+    if (category) {
+    const isParent = CATEGORY_GROUPS.some((g) => g.parent === category);
+    if (isParent) {
+      where.AND.push({
+        OR: [
+          { category: category },
+          { category: { startsWith: category + " › " } },
+        ],
+      });
+    } else {
+      const legacyChild = category.includes(" › ") ? category.split(" › ").pop() : category;
+      where.AND.push({
+        OR: [
+          { category: category },
+          { category: legacyChild },
+        ],
+      });
+    }
+  }
   if (type) where.AND.push({ type });
   if (condition) where.AND.push({ condition });
 

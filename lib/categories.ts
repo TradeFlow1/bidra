@@ -131,6 +131,8 @@
     "Lessons",
   ],
 
+  "Free items": [],
+
   "Other": [],
 } as const;
 
@@ -141,9 +143,32 @@ export const CATEGORY_GROUPS = Object.entries(CATEGORY_TREE).map(([parent, child
   children: Array.from(children),
 })) as readonly { parent: string; children: readonly string[] }[];
 
+
+
+export const CATEGORY_SEPARATOR = " › " as const;
+
+export function joinCategory(parent: string, child?: string) {
+  const p = String(parent || "").trim();
+  const c = String(child || "").trim();
+  if (!p) return "";
+  if (!c) return p;
+  return `${p}${CATEGORY_SEPARATOR}${c}`;
+}
+
+export function getCategoryParent(value: string) {
+  const v = String(value || "");
+  const i = v.indexOf(CATEGORY_SEPARATOR);
+  return i >= 0 ? v.slice(0, i) : v;
+}
+
+export function getCategoryChild(value: string) {
+  const v = String(value || "");
+  const i = v.indexOf(CATEGORY_SEPARATOR);
+  return i >= 0 ? v.slice(i + CATEGORY_SEPARATOR.length) : "";
+}
 // Flattened list for legacy UI compatibility
-export const FULL_CATEGORIES = Object.entries(CATEGORY_TREE).flatMap(
-  ([parent, children]) => children.length ? [parent, ...children] : [parent]
+export const FULL_CATEGORIES = Object.entries(CATEGORY_TREE).flatMap(([parent, children]) =>
+  children.length ? [parent, ...children.map((c) => joinCategory(parent, c))] : [parent]
 ) as readonly string[];
 
 export type Category = (typeof FULL_CATEGORIES)[number];
