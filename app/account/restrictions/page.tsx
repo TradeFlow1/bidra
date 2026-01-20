@@ -14,7 +14,22 @@ export default async function RestrictionsPage() {
     select: { policyStrikes: true, policyBlockedUntil: true },
   });
 
-  const blockedUntil = dbUser?.policyBlockedUntil ? new Date(dbUser.policyBlockedUntil) : null;
+  // Self-heal: if the block has expired (or date is invalid), clear it here too.
+  let blockedUntil = dbUser?.policyBlockedUntil ? new Date(dbUser.policyBlockedUntil as any) : null;
+  if (blockedUntil) {
+    const ms = blockedUntil.getTime();
+    const now = Date.now();
+
+    // If invalid OR expired => clear
+    if (!isFinite(ms) || ms <= now) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { policyBlockedUntil: null },
+      });
+      blockedUntil = null;
+    }
+  }
+
   const isBlocked = blockedUntil ? blockedUntil.getTime() > Date.now() : false;
 
   return (
@@ -30,7 +45,7 @@ export default async function RestrictionsPage() {
           <div><b>Policy strikes:</b> {dbUser?.policyStrikes ?? 0}</div>
           <div>
             <b>Restricted until:</b>{" "}
-              {blockedUntil ? blockedUntil.toLocaleString("en-AU") : "—"}
+            {blockedUntil ? blockedUntil.toLocaleString("en-AU") : "—"}
           </div>
         </div>
 
