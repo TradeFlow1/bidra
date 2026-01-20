@@ -4,11 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-  param($m)
-  $inside = $m.Groups[1].Value
-  if ($inside -match '\bjoinCategory\b') { return $m.Value }
-  return ('import {' + $inside.Trim() + ', joinCategory} from "@/lib/categories";')
-
+import { FULL_CATEGORIES, CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
 
 type CatRule = { cat: string; kws: string[] };
 
