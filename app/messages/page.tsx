@@ -71,7 +71,7 @@ export default async function MessagesInboxPage() {
 
               <div className="mt-6 space-y-3">
                 {items.length === 0 ? (
-                  <div className="rounded-2xl bd-card p-6 text-white shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur">
+                  <div className="rounded-2xl bd-card p-6 shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur">
                     <div className="text-base font-semibold">No messages yet.</div>
                     <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
                       When you message a seller (or someone messages you), your chats will show up here.
