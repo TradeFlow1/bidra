@@ -32,7 +32,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [x] ISSUE: AI suggestions for product descriptions when listing an item  ✅ DONE
 - [x] ISSUE: seller has relist on live listing – should only be available on expired listing  ✅ DONE
 - [ ] ISSUE: item that has been 'bought' still showing as active listings to other users
-- [ ] ISSUE: no option to delete old messages or report in messages
+- [x] ISSUE: no option to delete old messages or report in messages
 - [ ] ISSUE: restricted account past timeout did not automatically end restriction
 - [ ] ISSUE: admin report system needs to be better
 - [x] ISSUE: avoid off-platform payments text needs to go until Stripe later  ✅ DONE
