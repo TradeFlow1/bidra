@@ -87,3 +87,7 @@ tools/_*.js
 .vercel
 vercel-bypass-cookie*.txt
 .env.vercel.prod
+
+# temp scripts
+tmp/
+
