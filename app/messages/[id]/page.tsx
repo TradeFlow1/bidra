@@ -42,7 +42,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
         lastMessageAt: true,
         buyerLastReadAt: true,
         sellerLastReadAt: true,
-        listing: { select: { id: true, title: true } },
+        listing: { select: { id: true, title: true, images: true, photos: true } },
         buyer: { select: { id: true, username: true, name: true, email: true } },
         seller: { select: { id: true, username: true, name: true, email: true } },
       },
@@ -69,6 +69,15 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
     const other = thread.buyerId === me ? thread.seller : thread.buyer
 
+    const anyListing: any = thread.listing as any
+    const imgs =
+      (anyListing && Array.isArray(anyListing.images) && anyListing.images.length)
+        ? anyListing.images
+        : (anyListing && Array.isArray(anyListing.photos) && anyListing.photos.length)
+          ? anyListing.photos
+          : []
+    const thumb = imgs && imgs.length ? String(imgs[0]) : ""
+
     const messages = await prisma.message.findMany({
       where: { threadId: thread.id },
       orderBy: { createdAt: "asc" },
@@ -83,14 +92,26 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
             <section className="py-10">
               <div className="flex items-end justify-between gap-3 flex-wrap">
                 <div>
-                  <div className="text-sm text-[var(--bidra-ink-2)]">
-                    Listing:{" "}
-                    <Link
-                      className="text-[var(--bidra-ink)] hover:underline underline-offset-4"
-                      href={`/listings/${thread.listing.id}`}
-                    >
-                      {thread.listing.title}
-                    </Link>
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-black/10 bg-black/[0.03]">
+                      {thumb ? (
+                        <img src={thumb} alt="" className="h-full w-full object-cover" />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-[var(--bidra-ink-3)]">
+                          No photo
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="text-sm text-[var(--bidra-ink-2)]">
+                      Listing:{" "}
+                      <Link
+                        className="text-[var(--bidra-ink)] hover:underline underline-offset-4"
+                        href={`/listings/${thread.listing.id}`}
+                      >
+                        {thread.listing.title}
+                      </Link>
+                    </div>
                   </div>
                   <h1 className="h1">Messages</h1>
                   <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
