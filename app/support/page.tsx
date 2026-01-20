@@ -46,7 +46,7 @@ export default function SupportPage() {
         <section className="bd-card">
           <h2 className="text-xl font-semibold">Need help?</h2>
           <p className="mt-2 text-black/70">
-            Email us at <strong>support@bidra.com.au</strong>.
+            Use our <a className="bd-link font-semibold" href="/contact">Contact page</a> for help.
           </p>
         </section>
 

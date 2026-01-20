@@ -60,7 +60,7 @@ export default function PrivacyPage() {
         </section>
 
         <p className="text-xs text-black/50">
-          This is a plain-language policy. For questions or requests, contact support@bidra.com.au.
+          This is a plain-language policy. For questions or requests, use the <a className="bd-link font-semibold" href="/contact">Contact page</a>.
         </p>
       </div>
     </main>

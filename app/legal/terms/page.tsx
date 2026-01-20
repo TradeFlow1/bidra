@@ -74,7 +74,7 @@ export default function TermsPage() {
         </section>
 
         <p className="text-xs text-black/50">
-          Plain-language Terms for using Bidra. For questions, contact support@bidra.com.au.
+          Plain-language Terms for using Bidra. For questions, use the <a className="bd-link font-semibold" href="/contact">Contact page</a>.
         </p>
       </div>
     </main>

@@ -34,7 +34,7 @@ export default function ProhibitedItemsPage() {
 
           <p className="mt-4 text-sm bd-ink2">
             Need help? Contact{" "}
-            <a className="bd-link font-semibold" href="mailto:support@bidra.com.au">support@bidra.com.au</a>.
+            <a className="bd-link font-semibold" href="/contact">Contact page</a>.
           </p>
         </div>
       </div>
