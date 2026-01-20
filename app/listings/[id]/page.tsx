@@ -332,7 +332,7 @@ const ladderTop = Object.values(ladderRows)
                       <div className="text-neutral-900 text-right">{showSocialProof ? "Multiple buyers" : (offersCount > 0 ? "Active" : "Quiet")}</div>
 
                       <div className="text-neutral-600">Timing</div>
-                      <div className="text-neutral-900 text-right">{showCountdown ? <CountdownClock endsAt={endsAtIso} /> : (urgencyText ? urgencyText : (isFinalWindow ? "Final 24h" : "In progress"))}</div>
+                      <div className="text-neutral-900 text-right">{showCountdown ? (<span><span className="text-xs text-neutral-600 mr-2">Time remaining</span><CountdownClock endsAt={endsAtIso} /></span>) : (urgencyText ? urgencyText : (isFinalWindow ? "Final 24h" : "In progress"))}</div>
 
                       <div className="text-neutral-600">Interest</div>
                       <div className="text-neutral-900 text-right">{pressure ? "Strong" : (guideExceeded ? "Above guide" : "Normal")}</div>

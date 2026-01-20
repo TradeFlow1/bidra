@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import ListingThumbCarousel from "@/components/listing-thumb-carousel";
 import { isTimedOffersType } from "@/lib/listing-type";
+import { formatTimeRemaining } from "@/lib/time-remaining";
 
 type ListingCardListing = {
   id: string;
@@ -31,22 +32,10 @@ function money(cents: number | null | undefined) {
 }
 
 function endsLabel(endsAt: any) {
-  if (!endsAt) return null;
-
-  const d = endsAt instanceof Date ? endsAt : new Date(String(endsAt));
-  const ms = d.getTime() - Date.now();
-  if (!Number.isFinite(ms)) return null;
-  if (ms <= 0) return "Ended";
-
-  const totalSec = Math.floor(ms / 1000);
-  const days = Math.floor(totalSec / 86400);
-  const rem = totalSec - days * 86400;
-  const hours = Math.floor(rem / 3600);
-  const mins = Math.floor((rem - hours * 3600) / 60);
-
-  if (days >= 1) return `Ends in ${days}d ${hours}h`;
-  if (hours >= 1) return `Ends in ${hours}h ${String(mins).padStart(2, "0")}m`;
-  return `Ends in ${Math.max(1, mins)}m`;
+  const t = formatTimeRemaining(endsAt);
+  if (!t) return null;
+  if (t === "Ended") return "Ended";
+  return `Ends in ${t}`;
 }
 
 export default function ListingCard({ listing }: ListingCardProps) {
