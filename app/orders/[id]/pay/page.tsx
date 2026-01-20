@@ -145,7 +145,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                     <div><span className="bd-ink2">PayID (email):</span> <b>{sellerPayidEmail}</b></div>
                   ) : (
                     <div className="text-xs bd-ink2">
-                      Seller payout details are missing. Ask the seller to add PayID or bank details in Account Settings.
+                      Seller payout details are missing. Contact the seller to arrange payment.
                     </div>
                   )}
 
