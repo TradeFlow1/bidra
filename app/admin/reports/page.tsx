@@ -9,7 +9,8 @@ type AdminReportRow = {
   resolved: boolean;
   listingId: string;
   createdAt: Date;
-  listing?: { id: string; title: string } | null;
+  listing?: { id: string; title: string; status: string } | null;
+  reporter?: { email: string } | null;
 };
 
 export default async function AdminReports({
@@ -40,22 +41,45 @@ export default async function AdminReports({
       resolved: true,
       listingId: true,
       createdAt: true,
-      listing: { select: { id: true, title: true } },
+      listing: { select: { id: true, title: true, status: true } },
+      reporter: { select: { email: true } },
     },
   })) as AdminReportRow[];
 
   const btnStyle = (active: boolean) =>
     ({
-      display: "inline-block",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 8,
       padding: "8px 12px",
       borderRadius: 8,
       textDecoration: "none",
-      fontWeight: 800,
+      fontWeight: 900,
       fontSize: 13,
       border: "1px solid #ddd",
       color: active ? "#111" : "#1DA1F2",
       background: active ? "#f3f3f3" : "#fff",
     } as const);
+
+  const badgeStyle: React.CSSProperties = {
+    display: "inline-block",
+    fontSize: 12,
+    fontWeight: 900,
+    border: "1px solid #ddd",
+    borderRadius: 999,
+    padding: "2px 8px",
+    color: "#111",
+    background: "#fff",
+  };
+
+  const pill: React.CSSProperties = {
+    fontSize: 12,
+    fontWeight: 900,
+    border: "1px solid #ddd",
+    borderRadius: 999,
+    padding: "3px 8px",
+    display: "inline-block",
+  };
 
   return (
     <div style={{ maxWidth: 900, margin: "0 auto", padding: 16 }}>
@@ -69,10 +93,10 @@ export default async function AdminReports({
 
         <div style={{ display: "flex", gap: 8 }}>
           <Link href="/admin/reports?status=open" style={btnStyle(!showResolved)}>
-            Open
+            Open <span style={badgeStyle}>{openCount}</span>
           </Link>
           <Link href="/admin/reports?status=resolved" style={btnStyle(showResolved)}>
-            Resolved
+            Resolved <span style={badgeStyle}>{resolvedCount}</span>
           </Link>
         </div>
       </div>
@@ -80,15 +104,15 @@ export default async function AdminReports({
       <div style={{ marginTop: 16 }}>
         {reports.length === 0 ? (
           <div style={{ border: "1px solid #ddd", borderRadius: 10, padding: 14 }}>
-            <div style={{ fontWeight: 800 }}>No reports found</div>
+            <div style={{ fontWeight: 900 }}>No reports found</div>
             <div style={{ color: "#666", marginTop: 6 }}>
               {showResolved ? "There are no resolved reports yet." : "There are no open reports right now."}
             </div>
           </div>
         ) : (
           <div style={{ border: "1px solid #ddd", borderRadius: 10, overflow: "hidden" }}>
-            {reports.map((r) => (
-              <div key={r.id} style={{ borderTop: "1px solid #eee", padding: 12 }}>
+            {reports.map((r, idx) => (
+              <div key={r.id} style={{ borderTop: idx === 0 ? "none" : "1px solid #eee", padding: 12 }}>
                 <div style={{ color: "#666", fontSize: 13 }}>
                   Report {" – "} {new Date(r.createdAt).toLocaleString("en-AU")}
                 </div>
@@ -100,13 +124,15 @@ export default async function AdminReports({
                 </div>
 
                 <div style={{ marginTop: 8, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-                  <span style={{ fontSize: 12, fontWeight: 900, border: "1px solid #ddd", borderRadius: 999, padding: "3px 8px" }}>
-                    {r.resolved ? "RESOLVED" : "OPEN"}
-                  </span>
-                  <span style={{ fontSize: 12, fontWeight: 900, border: "1px solid #ddd", borderRadius: 999, padding: "3px 8px" }}>
-                    {r.reason}
-                  </span>
-                  <Link href={"/listings/" + r.listingId + "?returnTo=" + encodeURIComponent("/admin/reports/" + r.id)} style={{ fontSize: 13, color: "#1DA1F2", textDecoration: "none" }}>
+                  <span style={pill}>{r.resolved ? "RESOLVED" : "OPEN"}</span>
+                  <span style={pill}>Reason: {r.reason}</span>
+                  <span style={pill}>Listing: {r.listing?.status ? String(r.listing.status) : "UNKNOWN"}</span>
+                  <span style={pill}>Reporter: {r.reporter?.email ? r.reporter.email : "Unknown"}</span>
+
+                  <Link
+                    href={"/listings/" + r.listingId + "?returnTo=" + encodeURIComponent("/admin/reports/" + r.id)}
+                    style={{ fontSize: 13, color: "#1DA1F2", textDecoration: "none", fontWeight: 800 }}
+                  >
                     View listing
                   </Link>
                 </div>
