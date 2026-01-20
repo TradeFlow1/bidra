@@ -183,7 +183,7 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
 
             <div className="bd-card p-5">
               <div className="text-sm font-semibold">Location</div>
-<div className="mt-1 text-xs bd-ink2">Provide either your <strong>postcode</strong> OR your <strong>suburb</strong>, and always select a <strong>state</strong>.</div>
+<div className="mt-1 text-xs bd-ink2">Use your <strong>postcode</strong> (fastest) OR your <strong>suburb + state</strong>. If you enter a suburb, you must choose a state.</div>
               <div className="mt-1 text-sm bd-ink2">
                 Use <span className="font-semibold">postcode</span> OR <span className="font-semibold">suburb + state</span>. (No street address)
               </div>

@@ -70,9 +70,12 @@ export async function POST(req: Request) {
   }
 
   const hasPostcode = postcode.length > 0;
-  const hasSuburbState = suburb.length > 0 && state.length > 0;
-  if (!hasPostcode && !hasSuburbState) {
-    return NextResponse.json({ error: "Location required: enter a postcode, or enter suburb + state." }, { status: 400 });
+  const hasSuburb = suburb.length > 0;
+  const hasState = state.length > 0;
+
+  // Rule (launch): postcode + suburb + state are all required. No street address.
+  if (!hasPostcode || !hasSuburb || !hasState) {
+    return NextResponse.json({ error: "Location required: postcode + suburb + state." }, { status: 400 });
   }
 
   const existsEmail = await prisma.user.findUnique({ where: { email: emailNorm } });
@@ -83,8 +86,7 @@ export async function POST(req: Request) {
 
   const hash = await bcrypt.hash(passwordStr, 10);
 
-  const locationText =
-    hasPostcode ? `${state || "AU"} ${postcode}` : `${suburb}${state ? ", " + state : ""}`;
+  const locationText = `${postcode} ${suburb} ${state}`;
 
   const user = await prisma.user.create({
     data: {
