@@ -37,7 +37,7 @@ Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 - [ ] ISSUE: admin report system needs to be better
 - [x] ISSUE: avoid off-platform payments text needs to go until Stripe later  ✅ DONE
 - [x] ISSUE: suggest better wording for Australia-wide marketplace on the hero  ✅ DONE
-- [ ] ISSUE: some listings show on home but not listings page; others show in listings but not home
+- [x] ISSUE: some listings show on home but not listings page; others show in listings but not home
 - [ ] ISSUE: messages page – show small photo of the listing you’re messaging about
 - [ ] ISSUE: no time remaining on a listing (countdown clock)
 - [ ] ISSUE: fix postcode + suburb UX across Bidra to be more user friendly
