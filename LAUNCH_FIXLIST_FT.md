@@ -20,7 +20,7 @@ Rule: One checkbox = one focused change-set (minimal regress).
 - [x] ACCT-01: Consolidate /dashboard and /account into one simple “My Account” hub (keep routes, but make one redirect or one canonical UI).
 - [x] MSG-01: /messages UI: fix white text on white pill (Messages screenshot). Ensure pill text is dark and readable.
 - [x] MSG-02: Messages list + thread: show listing photo thumbnail in the chat header / thread area so users know which listing it’s for.
-- [ ] LOC-01: Location rules everywhere: require Suburb + Postcode + State (NOT either/or) on signup + account. Ensure privacy copy avoids revealing exact suburb examples publicly.
+- [x] LOC-01: Location rules everywhere: require Suburb + Postcode + State (NOT either/or) on signup + account. Ensure privacy copy avoids revealing exact suburb examples publicly.
 - [ ] LOC-02: Listing cards should display: "{postcode} {suburb}, {STATE}" (example format only; avoid exposing “where I live” in examples). Autofill /sell/new from profile but allow manual change.
 - [ ] FOOT-01: Footer must sit at bottom on all pages. Fix pages where footer appears halfway up (Messages/Orders screenshots show large empty space).
 - [ ] DOB-01: Signup DOB input: replace clunky calendar with a reel/spinner style selector for day/month/year (fast mobile signup).
