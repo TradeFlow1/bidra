@@ -23,7 +23,7 @@ Rule: One checkbox = one focused change-set (minimal regress).
 - [x] LOC-01: Location rules everywhere: require Suburb + Postcode + State (NOT either/or) on signup + account. Ensure privacy copy avoids revealing exact suburb examples publicly.
 - [x] LOC-02: Listing cards should display: "{postcode} {suburb}, {STATE}" (example format only; avoid exposing “where I live” in examples). Autofill /sell/new from profile but allow manual change.
 - [x] FOOT-01: Footer must sit at bottom on all pages. Fix pages where footer appears halfway up (Messages/Orders screenshots show large empty space).
-- [ ] DOB-01: Signup DOB input: replace clunky calendar with a reel/spinner style selector for day/month/year (fast mobile signup).
+- [x] DOB-01: Signup DOB input: replace clunky calendar with a reel/spinner style selector for day/month/year (fast mobile signup).
 - [ ] OFF-01: Highest offer / Outbid indicator needs more colour/visual emphasis so it grabs attention (Browse screenshot).
 - [ ] STRIKE-01: Remove all current strikes/restrictions for all users (reset for Friend Test environment).
 - [ ] AUTH-01: Remove duplicate reset-password routes shown in /profile (only one clear reset path).
