@@ -122,7 +122,26 @@ try {
     const description = String(body.description || "").trim();
     const category = String(body.category || "").trim();
     const condition = String(body.condition || "Used").trim();
-    const location = String(body.location || "").trim();
+    function normalizeLocation(input: string) {
+      const raw = String(input ?? "");
+      const s = raw.replace(/\s+/g, " ").trim();
+      if (!s) return "";
+
+      // Already: "4000 Brisbane, QLD" -> ensure state upper
+      let m = s.match(/^(\d{4})\s+(.+?),\s*([A-Za-z]{2,3})$/);
+      if (m) return `${m[1]} ${m[2].trim()}, ${m[3].trim().toUpperCase()}`;
+
+      // "4000 Brisbane QLD" -> add comma + upper state
+      m = s.match(/^(\d{4})\s+(.+?)\s+([A-Za-z]{2,3})$/);
+      if (m) return `${m[1]} ${m[2].trim()}, ${m[3].trim().toUpperCase()}`;
+
+      // "Brisbane, QLD 4000" -> reorder
+      m = s.match(/^(.+?),\s*([A-Za-z]{2,3})\s+(\d{4})$/);
+      if (m) return `${m[3]} ${m[1].trim()}, ${m[2].trim().toUpperCase()}`;
+
+      return s;
+    }
+    const location = normalizeLocation(String(body.location || ""));
 
     const typeRaw = body.type;
     const type: ListingTypeIn = isAllowedType(typeRaw) ? typeRaw : "FIXED_PRICE";
