@@ -50,7 +50,7 @@ export default function RegisterPage() {
     const pwOk = form.password.length >= 8;
     const confirmOk = form.confirmPassword.length >= 8 && form.password === form.confirmPassword;
     // location
-    const locationOk = (form.postcode.trim().length > 0) || (form.suburb.trim().length > 0 && form.state.trim().length > 0);
+    const locationOk = (form.postcode.trim().length > 0) && (form.suburb.trim().length > 0) && (form.state.trim().length > 0);
     return emailOk && userOk && dobOk && pwOk && confirmOk && locationOk && agreeTerms && !loading;
   }, [form, agreeTerms, loading]);
 
