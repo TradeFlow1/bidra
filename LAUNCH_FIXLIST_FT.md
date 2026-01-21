@@ -29,7 +29,7 @@ Rule: One checkbox = one focused change-set (minimal regress).
 - [x] AUTH-01: Remove duplicate reset-password routes shown in /profile (only one clear reset path).
 - [x] BLOCK-01: When a user clears the required feedback/log, unblock immediately (no stale block state).
 - [x] DASH-01: Seller/Bought/Expired/Active listings are confusing (seller view needs clear separation + labels).
-- [ ] HOME-01: Home page mobile hero gets cut off (Home screenshot) — fix spacing/responsiveness.
+- [x] HOME-01: Home page mobile hero gets cut off (Home screenshot) — fix spacing/responsiveness.
 
 ## P1 — Friend Test temporary pages (must be removable cleanly later)
 - [ ] FT-01: Friend Test feedback/suggestions page: keep for testing, but isolate so it can be deleted later (feature-flag or clearly separated route).
