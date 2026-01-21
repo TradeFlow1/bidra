@@ -268,17 +268,7 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
     <div className="mt-2 text-xs bd-ink2">Used only if PayID isn’t available for a sale.</div>
   </div>
 </div>
-<div className="bd-card p-5">
-  <div className="text-sm font-semibold">Security</div>
-  <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-    <a className="bd-btn bd-btn-ghost" href="/forgot-password">
-      Reset password
-    </a>
-    <a className="bd-btn bd-btn-ghost" href="/logout">
-      Log out
-    </a>
-  </div>
-</div>
+
 
 <Button type="submit" className="bd-btn bd-btn-primary w-full text-center">
               Save changes
