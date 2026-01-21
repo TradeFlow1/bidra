@@ -49,7 +49,7 @@ export default function RegisterPage() {
     const dobOk = form.dob.trim().length > 0;
     const pwOk = form.password.length >= 8;
     const confirmOk = form.confirmPassword.length >= 8 && form.password === form.confirmPassword;
-    // keep existing location rule: postcode OR suburb+state
+    // location
     const locationOk = (form.postcode.trim().length > 0) || (form.suburb.trim().length > 0 && form.state.trim().length > 0);
     return emailOk && userOk && dobOk && pwOk && confirmOk && locationOk && agreeTerms && !loading;
   }, [form, agreeTerms, loading]);
@@ -253,60 +253,46 @@ export default function RegisterPage() {
                   <p className="text-sm font-extrabold text-[#0b1220]">Location</p>
                   <p className="text-xs text-black/55">Country: AU</p>
                 </div>
-                <p className="mt-1 text-sm text-black/60">Enter <span className="font-semibold">postcode</span> OR <span className="font-semibold">suburb + state</span>. (No street address)</p>
+                <p className="mt-1 text-sm text-black/60">Enter <span className="font-semibold">postcode</span>, <span className="font-semibold">suburb</span>, and <span className="font-semibold">state</span>. (No street address)</p>
 
                 <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <div className="sm:col-span-1">
                     <label className={label}>Postcode</label>
                     <input
-                      className={cx(input, hasSuburbState && "opacity-60")}
-                      disabled={hasSuburbState}
+                      className={input}
                       value={form.postcode}
                       onChange={(e) => {
                         const v = e.target.value;
                         set("postcode", v);
-                        if (v.trim()) {
-                          set("suburb", "");
-                          set("state", "");
-                        }
                       }}
                       placeholder="e.g. 4301"
                       inputMode="numeric"
                     />
                     <p className={helper}>
-                      {hasSuburbState ? "Clear suburb/state to use postcode." : "Fastest option."}
+                      Fastest option.
                     </p>
                   </div>
 
-                  <div className="hidden sm:flex sm:col-span-1 items-center justify-center">
-                    <div className="rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-bold text-black/55">
-                      OR
-                    </div>
-                  </div>
 
                   <div className="sm:col-span-1">
                     <label className={label}>Suburb</label>
                     <input
-                      className={cx(input, hasPostcode && "opacity-60")}
-                      disabled={hasPostcode}
+                      className={input}
                       value={form.suburb}
                       onChange={(e) => {
                         const v = e.target.value;
                         set("suburb", v);
-                        if (v.trim()) set("postcode", "");
                       }}
                       placeholder="e.g. Redbank Plains"
                     />
 
                     <label className={cx(label, "mt-3 block")}>State</label>
                     <input
-                      className={cx(input, hasPostcode && "opacity-60")}
-                      disabled={hasPostcode}
+                      className={input}
                       value={form.state}
                       onChange={(e) => {
                         const v = e.target.value.toUpperCase();
                         set("state", v);
-                        if (v.trim()) set("postcode", "");
                       }}
                       placeholder="e.g. QLD"
                     />
