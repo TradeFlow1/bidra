@@ -123,7 +123,16 @@ export async function POST(req: Request) {
     // Duplicate feedback (Prisma unique constraint) -> treat as "already submitted"
     const code = e?.code ? String(e.code) : "";
     if (code === "P2002") {
-      return NextResponse.json({ error: "Feedback already submitted for this order." }, { status: 409 });
+      // Idempotent submit: if feedback already exists, still ensure the order timestamp is set so gates unblock immediately.
+      try {
+        await prisma.order.update({
+          where: { id: orderId },
+          data: role === "BUYER" ? { buyerFeedbackAt: new Date() } : { sellerFeedbackAt: new Date() },
+        });
+      } catch (e2) {
+        console.error("order.update failed after duplicate feedback submit", e2);
+      }
+      return NextResponse.json({ ok: true, alreadySubmitted: true });
     }
     console.error("feedback.create failed", e);
     return NextResponse.json({ error: "Failed to submit feedback." }, { status: 500 });
