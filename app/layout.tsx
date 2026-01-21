@@ -18,10 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="min-h-screen flex flex-col">
         <Providers>
           <SiteHeader />
-          <main>{children}</main>
+          <main className="flex-1">{children}</main>
           <SiteFooter />
         </Providers>
       </body>
