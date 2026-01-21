@@ -26,7 +26,7 @@ Rule: One checkbox = one focused change-set (minimal regress).
 - [x] DOB-01: Signup DOB input: replace clunky calendar with a reel/spinner style selector for day/month/year (fast mobile signup).
 - [x] OFF-01: Highest offer / Outbid indicator needs more colour/visual emphasis so it grabs attention (Browse screenshot).
 - [x] STRIKE-01: Remove all current strikes/restrictions for all users (reset for Friend Test environment).
-- [ ] AUTH-01: Remove duplicate reset-password routes shown in /profile (only one clear reset path).
+- [x] AUTH-01: Remove duplicate reset-password routes shown in /profile (only one clear reset path).
 - [ ] BLOCK-01: When a user clears the required feedback/log, unblock immediately (no stale block state).
 - [ ] DASH-01: Seller/Bought/Expired/Active listings are confusing (seller view needs clear separation + labels).
 - [ ] HOME-01: Home page mobile hero gets cut off (Home screenshot) — fix spacing/responsiveness.
