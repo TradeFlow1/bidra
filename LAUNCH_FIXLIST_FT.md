@@ -27,7 +27,7 @@ Rule: One checkbox = one focused change-set (minimal regress).
 - [x] OFF-01: Highest offer / Outbid indicator needs more colour/visual emphasis so it grabs attention (Browse screenshot).
 - [x] STRIKE-01: Remove all current strikes/restrictions for all users (reset for Friend Test environment).
 - [x] AUTH-01: Remove duplicate reset-password routes shown in /profile (only one clear reset path).
-- [ ] BLOCK-01: When a user clears the required feedback/log, unblock immediately (no stale block state).
+- [x] BLOCK-01: When a user clears the required feedback/log, unblock immediately (no stale block state).
 - [ ] DASH-01: Seller/Bought/Expired/Active listings are confusing (seller view needs clear separation + labels).
 - [ ] HOME-01: Home page mobile hero gets cut off (Home screenshot) — fix spacing/responsiveness.
 
