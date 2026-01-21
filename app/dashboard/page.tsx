@@ -124,7 +124,6 @@ export default async function DashboardPage() {
     !adult.ok ||
     isBlocked ||
     pendingBuyerFeedbackCount > 0 ||
-    pendingSellerFeedbackCount > 0 ||
     newTopOfferCount > 0 ||
     needsEmail ||
     needsPhone ||
