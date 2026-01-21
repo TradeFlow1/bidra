@@ -86,7 +86,8 @@ export async function POST(req: Request) {
 
   const hash = await bcrypt.hash(passwordStr, 10);
 
-  const locationText = `${postcode} ${suburb} ${state}`;
+  const stateUp = String(state ?? "").trim().toUpperCase();
+  const locationText = `${postcode} ${suburb}, ${stateUp}`;
 
   const user = await prisma.user.create({
     data: {
