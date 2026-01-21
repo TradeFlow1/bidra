@@ -56,10 +56,10 @@ export default async function HomePage() {
   />
   <div className="absolute inset-0 bg-slate-900/40" />
 
-  <div className="relative px-6 py-10 sm:px-10 sm:py-12 text-center">
-    <div className="mx-auto flex items-center justify-center -mb-12">
+  <div className="relative px-6 py-10 pb-12 sm:px-10 sm:py-12 text-center">
+    <div className="mx-auto flex items-center justify-center sm:-mb-12">
       <div className="mx-auto h-40 sm:h-48 overflow-hidden flex items-center justify-center">
-  <img src={LOGO_SRC} alt="Bidra" className="h-96 sm:h-[28rem] w-auto drop-shadow-sm" />
+  <img src={LOGO_SRC} alt="Bidra" className="h-64 sm:h-[28rem] w-auto drop-shadow-sm" />
 </div>
 
     </div>
