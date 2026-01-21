@@ -24,7 +24,7 @@ Rule: One checkbox = one focused change-set (minimal regress).
 - [x] LOC-02: Listing cards should display: "{postcode} {suburb}, {STATE}" (example format only; avoid exposing “where I live” in examples). Autofill /sell/new from profile but allow manual change.
 - [x] FOOT-01: Footer must sit at bottom on all pages. Fix pages where footer appears halfway up (Messages/Orders screenshots show large empty space).
 - [x] DOB-01: Signup DOB input: replace clunky calendar with a reel/spinner style selector for day/month/year (fast mobile signup).
-- [ ] OFF-01: Highest offer / Outbid indicator needs more colour/visual emphasis so it grabs attention (Browse screenshot).
+- [x] OFF-01: Highest offer / Outbid indicator needs more colour/visual emphasis so it grabs attention (Browse screenshot).
 - [ ] STRIKE-01: Remove all current strikes/restrictions for all users (reset for Friend Test environment).
 - [ ] AUTH-01: Remove duplicate reset-password routes shown in /profile (only one clear reset path).
 - [ ] BLOCK-01: When a user clears the required feedback/log, unblock immediately (no stale block state).
