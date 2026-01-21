@@ -25,20 +25,14 @@ export async function POST(req: Request) {
     const postcode =
       typeof body.postcode === "string" ? body.postcode.trim().slice(0, 10) : undefined;
 
-// Location rule: postcode OR (suburb + state). If suburb entered, state is required.
+// Location rule (launch): postcode + suburb + state are all required. No street address.
 const hasPostcode = !!(postcode && postcode.length > 0);
 const hasSuburb = !!(suburb && suburb.length > 0);
 const hasState = !!(state && state.length > 0);
 
-if (!hasPostcode && !(hasSuburb && hasState)) {
+if (!hasPostcode || !hasSuburb || !hasState) {
   return NextResponse.json(
-    { ok: false, error: "Location required: enter a postcode, or enter suburb + state." },
-    { status: 400 }
-  );
-}
-if (hasSuburb && !hasState) {
-  return NextResponse.json(
-    { ok: false, error: "State is required when suburb is provided." },
+    { ok: false, error: "Location required: postcode + suburb + state." },
     { status: 400 }
   );
 }
