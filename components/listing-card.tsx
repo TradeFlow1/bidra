@@ -103,7 +103,11 @@ export default function ListingCard({ listing }: ListingCardProps) {
 
         <div className="text-[14px] font-black text-[#0b1220]">
           {isTimedOffers ? (
-            <span>Top offer: {money(primaryCents)}</span>
+            <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-100 px-2 py-0.5 text-[12px] font-extrabold text-amber-950">
+              <span className="opacity-80">Top offer</span>
+              <span aria-hidden="true">•</span>
+              <span>{money(primaryCents)}</span>
+            </span>
           ) : (
             <span>{money(primaryCents)}</span>
           )}
