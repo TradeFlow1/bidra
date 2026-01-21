@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 
+const FT_ENABLED =
+  process.env.NEXT_PUBLIC_FT_ENABLED === "1" ||
+  process.env.NEXT_PUBLIC_FT_ENABLED === "true";
+
 export default function FeedbackPage() {
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
@@ -20,8 +24,8 @@ export default function FeedbackPage() {
         body: JSON.stringify({
           message,
           email: email || null,
-          source: "FT-P1"
-        })
+          source: "FT-P1",
+        }),
       });
       setSent(true);
     } catch {
@@ -31,13 +35,22 @@ export default function FeedbackPage() {
     }
   }
 
+  if (!FT_ENABLED) {
+    return (
+      <main className="mx-auto max-w-xl p-6">
+        <h1 className="text-xl font-bold">Feedback (Friend Test only)</h1>
+        <p className="mt-2 text-sm text-gray-600">
+          This page is only available during the private Friend Test.
+        </p>
+      </main>
+    );
+  }
+
   if (sent) {
     return (
       <main className="mx-auto max-w-xl p-6">
         <h1 className="text-xl font-bold">Thanks 🙏</h1>
-        <p className="mt-2 text-sm">
-          Your feedback helps us find issues before launch.
-        </p>
+        <p className="mt-2 text-sm">Your feedback helps us find issues before launch.</p>
       </main>
     );
   }
@@ -73,10 +86,7 @@ export default function FeedbackPage() {
           />
         </div>
 
-        <button
-          disabled={busy}
-          className="bd-btn bd-btn-primary disabled:opacity-60"
-        >
+        <button disabled={busy} className="bd-btn bd-btn-primary disabled:opacity-60">
           {busy ? "Sending…" : "Send feedback"}
         </button>
       </form>

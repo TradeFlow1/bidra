@@ -6,7 +6,15 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
+const FT_ENABLED = process.env.FT_ENABLED === "1";
+
+
 export async function POST(req: Request) {
+  if (!FT_ENABLED) {
+    return new Response("Friend Test feedback disabled", { status: 404 });
+  }
+
+
   // FT routes must never run in production.
   if (process.env.NODE_ENV === "production") {
     return NextResponse.json({ error: "not_found" }, { status: 404 });
