@@ -7,25 +7,20 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 function buildDefaultLocation(u: { suburb?: string | null; state?: string | null; postcode?: string | null }) {
-  const parts: string[] = [];
   const suburb = (u.suburb || "").trim();
-  const state = (u.state || "").trim();
+  const state = (u.state || "").trim().toUpperCase();
   const postcode = (u.postcode || "").trim();
 
-  if (suburb) parts.push(suburb);
+  const left: string[] = [];
+  if (postcode) left.push(postcode);
+  if (suburb) left.push(suburb);
 
-  const tail: string[] = [];
-  if (state) tail.push(state.toUpperCase());
-  if (postcode) tail.push(postcode);
+  const leftText = left.join(" ").trim();
+  const rightText = state ? state : "";
 
-  if (tail.length) {
-    if (parts.length) parts[0] = parts[0] + ", " + tail.join(" ");
-    else parts.push(tail.join(" "));
-  }
-
-  return parts.join("");
+  if (leftText && rightText) return leftText + ", " + rightText;
+  return leftText || rightText || "";
 }
-
 export default async function SellNewPage() {
   const session = await auth();
 
