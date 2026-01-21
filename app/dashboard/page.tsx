@@ -99,12 +99,11 @@ export default async function DashboardPage() {
     where: { buyerId: me },
   });
 
-  const pendingBuyerFeedbackCount = await prisma.order.count({
-    where: { buyerId: me, completedAt: { not: null }, buyerFeedbackAt: null },
-  });
+  const graceHours = 48;
+  const cutoff = new Date(Date.now() - graceHours * 60 * 60 * 1000);
 
-  const pendingSellerFeedbackCount = await prisma.order.count({
-    where: { listing: { sellerId: me }, completedAt: { not: null }, sellerFeedbackAt: null },
+  const pendingBuyerFeedbackCount = await prisma.order.count({
+    where: { buyerId: me, completedAt: { not: null, lt: cutoff }, buyerFeedbackAt: null },
   });
 
   const sinceTopOffers = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
@@ -180,12 +179,6 @@ export default async function DashboardPage() {
                   </div>
                 ) : null}
 
-                {pendingSellerFeedbackCount > 0 ? (
-                  <div>
-                    <ActionLink href="/orders">Leave seller feedback ({pendingSellerFeedbackCount})</ActionLink>
-                  </div>
-                ) : null}
-
                 {newTopOfferCount > 0 ? (
                   <div>
                     <ActionLink href="/dashboard/listings">New top offers received ({newTopOfferCount})</ActionLink>
@@ -235,7 +228,7 @@ export default async function DashboardPage() {
               <div className="flex flex-wrap gap-2">
                 <Pill>Orders: {ordersAsBuyerCount}</Pill>
                 <Pill tone={pendingBuyerFeedbackCount === 0 ? "ok" : "warn"}>
-                  Feedback due: {pendingBuyerFeedbackCount}
+                  Overdue feedback (48h+): {pendingBuyerFeedbackCount}
                 </Pill>
               </div>
 
