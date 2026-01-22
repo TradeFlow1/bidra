@@ -36,7 +36,7 @@ How to use:
   - 
 
 ### /auth/login
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
