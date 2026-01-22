@@ -41,7 +41,7 @@ How to use:
   - 
 
 ### /auth/phone-verify
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
