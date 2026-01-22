@@ -33,7 +33,7 @@ Rule: One checkbox = one focused change-set (minimal regress).
 
 ## P1 — Friend Test temporary pages (must be removable cleanly later)
 - [x] FT-01: Friend Test feedback/suggestions page: keep for testing, but isolate so it can be deleted later (feature-flag or clearly separated route).
-- [ ] FT-02: Temporary friends/family test reporting: keep for testing, but isolate so it can be deleted later.
+- [x] FT-02: Temporary friends/family test reporting: keep for testing, but isolate so it can be deleted later.
 
 ## P2 — Structured audit passes (do last, but before public launch)
 - [ ] AUDIT-PUB-01: Scan EVERY public page end-to-end (no functionality changes): visual/theme consistency + broken UI + copy.
