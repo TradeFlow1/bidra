@@ -96,7 +96,7 @@ How to use:
   - 
 
 ### /ft/report
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
