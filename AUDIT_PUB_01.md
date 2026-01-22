@@ -16,7 +16,7 @@ How to use:
 ## Route checklist
 
 ### /
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
@@ -26,7 +26,7 @@ How to use:
   - 
 
 ### /account
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
