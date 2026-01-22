@@ -76,7 +76,7 @@ How to use:
   - 
 
 ### /disputes
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
