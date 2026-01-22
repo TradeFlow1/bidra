@@ -66,7 +66,7 @@ How to use:
   - 
 
 ### /dashboard
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
