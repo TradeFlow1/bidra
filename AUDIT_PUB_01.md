@@ -46,7 +46,7 @@ How to use:
   - 
 
 ### /auth/register
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
