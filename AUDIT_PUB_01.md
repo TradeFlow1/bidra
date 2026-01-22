@@ -91,7 +91,7 @@ How to use:
   - 
 
 ### /ft/feedback
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
