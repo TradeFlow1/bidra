@@ -21,7 +21,7 @@ How to use:
   - 
 
 ### /about
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
