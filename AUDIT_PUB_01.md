@@ -31,7 +31,7 @@ How to use:
   - 
 
 ### /account/restrictions
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
