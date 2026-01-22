@@ -56,7 +56,7 @@ How to use:
   - 
 
 ### /auth/verify
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
