@@ -101,7 +101,7 @@ How to use:
   - 
 
 ### /help
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
