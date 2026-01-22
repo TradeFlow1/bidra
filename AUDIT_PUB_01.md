@@ -51,7 +51,7 @@ How to use:
   - 
 
 ### /auth/register/success
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
