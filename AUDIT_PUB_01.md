@@ -61,7 +61,7 @@ How to use:
   - 
 
 ### /contact
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
