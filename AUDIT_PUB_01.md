@@ -71,7 +71,7 @@ How to use:
   - 
 
 ### /dashboard/listings
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
