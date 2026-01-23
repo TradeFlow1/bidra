@@ -116,7 +116,7 @@ How to use:
   - 
 
 ### /legal/privacy
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
