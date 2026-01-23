@@ -121,7 +121,7 @@ How to use:
   - 
 
 ### /legal/prohibited
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
