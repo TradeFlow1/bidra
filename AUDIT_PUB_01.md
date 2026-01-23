@@ -246,22 +246,22 @@ How to use:
   - 
 
 ### /signin
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
 ### /support
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
 ### /terms
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
 ### /watchlist
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
