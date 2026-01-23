@@ -3,8 +3,8 @@ export const revalidate = 0;
 
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
+import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import FeedbackClient from "./feedback-client";
 
@@ -13,9 +13,14 @@ export default async function FeedbackPage({
 }: {
   params: { id: string };
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session?.user?.id) {
     redirect(`/auth/login?next=/orders/${params.id}/feedback`);
+  }
+
+  const gate = await requireAdult(session as any);
+  if (!gate.ok) {
+    redirect("/account/restrictions");
   }
 
   const orderId = params.id;
