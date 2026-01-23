@@ -126,7 +126,7 @@ How to use:
   - 
 
 ### /legal/prohibited-items
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
