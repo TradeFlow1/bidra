@@ -206,7 +206,7 @@ How to use:
   - 
 
 ### /profile
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
