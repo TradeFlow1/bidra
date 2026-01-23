@@ -201,7 +201,7 @@ How to use:
   - 
 
 ### /privacy
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
