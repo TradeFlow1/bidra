@@ -55,6 +55,10 @@ export default function TermsPage() {
             select a buyer or bind a sale. At the end of an offer period, the seller decides
             whether to proceed with the highest offer.
           </p>
+
+          <p className="text-sm text-black/70">
+            If a listing shows Buy Now, Buy Now is a binding purchase path. The seller has pre-authorised the sale. When a buyer uses Buy Now, an order is created and the buyer is expected to pay using the payment options provided.
+          </p>
         </section>
 
         <section className="space-y-2">
