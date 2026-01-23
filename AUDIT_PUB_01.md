@@ -106,7 +106,7 @@ How to use:
   - 
 
 ### /legal
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
