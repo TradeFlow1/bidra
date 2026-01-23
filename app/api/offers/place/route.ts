@@ -87,7 +87,24 @@ export async function POST(req: Request) {
           create: { listingId: listing.id, bidderId: userId, maxAmount: maxCents },
         });
     
-        const top = await tx.offerMax.findMany({
+         
+        // Audit log: offer placed / max updated
+        try {
+          await tx.adminEvent.create({
+            data: {
+              type: "OFFER_PLACED",
+              userId: userId,
+              data: {
+                listingId: listing.id,
+                bidderId: userId,
+                maxAmount: maxCents,
+              },
+            },
+          });
+        } catch (e) {
+          console.warn("[ADMIN_AUDIT] Failed to log OFFER_PLACED", e);
+        }
+const top = await tx.offerMax.findMany({
           where: { listingId: listing.id },
           orderBy: { maxAmount: "desc" },
           take: 2,

@@ -19,6 +19,7 @@ const order = await prisma.order.findUnique({
         outcome: true,
         completedAt: true,
         buyerId: true,
+        listingId: true,
         listing: { select: { sellerId: true } },
       },
     });
@@ -49,7 +50,28 @@ const order = await prisma.order.findUnique({
       select: { outcome: true, completedAt: true },
     });
 
-    return NextResponse.json({ ok: true, outcome: updated.outcome, completedAt: updated.completedAt });
+     
+    // Audit log: seller confirmed payment received (order completed)
+    try {
+      await prisma.adminEvent.create({
+        data: {
+          type: "ORDER_COMPLETED",
+          userId: String(userId),
+          orderId: order.id,
+          data: {
+            listingId: (order as any)?.listingId,
+            buyerId: (order as any)?.buyerId,
+            sellerId: sellerId,
+            prevStatus: (order as any)?.status,
+            prevOutcome: (order as any)?.outcome,
+            newOutcome: "COMPLETED",
+          },
+        },
+      });
+    } catch (e) {
+      console.warn("[ADMIN_AUDIT] Failed to log ORDER_COMPLETED", e);
+    }
+return NextResponse.json({ ok: true, outcome: updated.outcome, completedAt: updated.completedAt });
   } catch (e: any) {
     console.error("order.complete failed", e);
     return NextResponse.json({ ok: false, error: "Unable to confirm payment received." }, { status: 500 });

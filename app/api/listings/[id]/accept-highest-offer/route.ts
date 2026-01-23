@@ -87,7 +87,27 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
         },
       })
 
-      return { order }
+       
+      // Audit log: seller proceeded with highest offer (order created)
+      try {
+        await tx.adminEvent.create({
+          data: {
+            type: "OFFER_ACCEPTED",
+            userId: session.user.id,
+            orderId: order.id,
+            data: {
+              listingId: listing.id,
+              sellerId: session.user.id,
+              buyerId: buyerId,
+              amount: amount,
+              highestBidId: top?.id,
+            },
+          },
+        });
+      } catch (e) {
+        console.warn("[ADMIN_AUDIT] Failed to log OFFER_ACCEPTED", e);
+      }
+return { order }
     })
 
     return NextResponse.json({ ok: true, orderId: result.order.id })

@@ -94,7 +94,26 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
         },
       })
 
-      return { order }
+       
+      // Audit log: Buy Now placed (order created)
+      try {
+        await tx.adminEvent.create({
+          data: {
+            type: "BUY_NOW_PLACED",
+            userId: session.user.id,
+            orderId: order.id,
+            data: {
+              listingId: listing.id,
+              buyerId: session.user.id,
+              sellerId: listing.sellerId,
+              amount: amount,
+            },
+          },
+        });
+      } catch (e) {
+        console.warn("[ADMIN_AUDIT] Failed to log BUY_NOW_PLACED", e);
+      }
+return { order }
     })
 
     return NextResponse.json({ ok: true, orderId: result.order.id })
