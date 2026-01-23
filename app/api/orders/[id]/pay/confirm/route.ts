@@ -33,6 +33,13 @@ export async function POST(_: Request, { params }: { params: { id: string } }) {
 
   if (order.status === "PAID") return NextResponse.json({ ok: true, status: "PAID" });
 
+  if (order.status !== "PENDING") {
+    return NextResponse.json(
+      { ok: false, error: "This order cannot be confirmed in its current state.", status: order.status },
+      { status: 400 }
+    );
+  }
+
   await prisma.$transaction(async (tx) => {
     await tx.order.update({
       where: { id: order.id },
