@@ -236,7 +236,7 @@ How to use:
   - 
 
 ### /sell/new
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
