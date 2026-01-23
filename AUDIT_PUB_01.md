@@ -181,7 +181,7 @@ How to use:
   - 
 
 ### /orders/[id]/feedback
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
