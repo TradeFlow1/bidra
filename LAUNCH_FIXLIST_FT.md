@@ -37,6 +37,6 @@ Rule: One checkbox = one focused change-set (minimal regress).
 
 ## P2 — Structured audit passes (do last, but before public launch)
 - [x] AUDIT-PUB-01: Scan EVERY public page end-to-end (no functionality changes): visual/theme consistency + broken UI + copy.
-- [ ] AUDIT-ADM-01: Scan EVERY admin page end-to-end: broken UI + policy correctness.
+- [x] AUDIT-ADM-01: Scan EVERY admin page end-to-end: broken UI + policy correctness.
 - [ ] AUDIT-OTHER-01: Scan non-FT-impact pages: note issues but don’t regress FT.
 
