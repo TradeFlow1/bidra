@@ -62,7 +62,23 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-lg font-extrabold">5) Safety and communications</h2>
+          <h2 className="text-lg font-extrabold">5) Cancellations and refunds</h2>
+          <p className="text-sm text-black/70">
+            Bidra is a marketplace platform. Buyers and sellers arrange pickup/postage and payment directly, unless Bidra provides a specific payment feature for the order. Bidra records confirmations and may enforce platform rules, but does not process payments or guarantee outcomes.
+          </p>
+          <p className="text-sm text-black/70">
+            <strong>Buy Now:</strong> Buy Now creates a binding order. The buyer is expected to pay using the payment options shown for that order. Sellers should only enable Buy Now if they are ready to sell at that price.
+          </p>
+          <p className="text-sm text-black/70">
+            <strong>Timed offers:</strong> Timed offers are non-binding until the seller chooses to proceed with an offer. If the seller proceeds and an order is created, that order is binding and payment is expected.
+          </p>
+          <p className="text-sm text-black/70">
+            <strong>Cancellations/refunds:</strong> Cancellations are not guaranteed and depend on seller agreement and the circumstances. If payment has already been made, any refund is handled by the seller using the same payment method, unless Bidra provides a specific refund feature.
+          </p>
+        </section>
+
+        <section className="space-y-2">
+          <h2 className="text-lg font-extrabold">6) Safety and communications</h2>
           <p className="text-sm text-black/70">
             Keep personal information minimal until you’re confident. Use Bidra reporting tools if a
             listing or user concerns you.
@@ -70,7 +86,7 @@ export default function TermsPage() {
         </section>
 
         <section className="space-y-2">
-          <h2 className="text-lg font-extrabold">6) Changes</h2>
+          <h2 className="text-lg font-extrabold">7) Changes</h2>
           <p className="text-sm text-black/70">
             We may update these Terms to improve safety and clarity. Continued use of Bidra after a
             change means you accept the updated Terms.
