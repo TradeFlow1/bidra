@@ -114,6 +114,9 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight">Pay now</h1>
+               <div className="mt-2 text-sm bd-ink2">
+                 <b>This is a binding purchase.</b> You created this order by using Buy Now (or the seller accepted your offer). You're expected to complete payment using the details below.
+               </div>
               <div className="text-sm bd-ink2 mt-1">
                 <Badge>{order.status}</Badge>{" "}
                 <span className="ml-2">Order <code className="font-mono">{order.id}</code></span>
@@ -158,7 +161,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
 
                   {sellerBankBsb && sellerBankAccount ? (
                     <div className="mt-2 bd-card p-3">
-                      <div className="text-sm font-extrabold bd-ink">Bank transfer (if you can’t use PayID)</div>
+                      <div className="text-sm font-extrabold bd-ink">Bank transfer (if you can't use PayID)</div>
                       <div className="mt-2 grid gap-1 text-sm">
                         {sellerBankName ? <div><span className="bd-ink2">Name:</span> <b>{sellerBankName}</b></div> : null}
                         <div><span className="bd-ink2">BSB:</span> <b>{sellerBankBsb}</b></div>
@@ -174,7 +177,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                 </div>
 
                 <div className="mt-2 text-xs bd-ink2">
-                  If you’re the seller and these details are wrong or blank, update them in{" "}
+                  If you're the seller and these details are wrong or blank, update them in{" "}
                   <Link className="bd-link font-semibold" href="/profile">Account Settings</Link>.
                 </div>
               </div>
@@ -189,11 +192,11 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                     <PayConfirmClient orderId={order.id} />
                   ) : (
                     <div className="text-sm bd-ink2">
-                      Waiting for the buyer to confirm payment.
+                      This is a binding order. Waiting for the buyer to complete payment.
                     </div>
                   )}
                   <div className="text-xs bd-ink2">
-                    Bidra is a marketplace platform — sellers control outcomes. This confirmation records that the buyer has sent payment.
+                    Bidra is a marketplace platform — sellers control outcomes. Bidra records payment confirmations but does not process payments or guarantee outcomes.
                   </div>
                 </div>
               )}
