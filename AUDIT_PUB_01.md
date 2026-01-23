@@ -131,7 +131,7 @@ How to use:
   - 
 
 ### /legal/terms
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
