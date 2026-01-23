@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 type SessionLike =
   | {
@@ -29,6 +29,8 @@ export default function SiteHeaderClient({
   const headerRef = useRef<HTMLElement | null>(null);
 
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const q = (searchParams?.get("q") || "").toString();
 
   const isAuthed = !!session?.user?.id;
   const displayName = useMemo(() => {
@@ -52,6 +54,16 @@ export default function SiteHeaderClient({
     setAcctOpen(false);
   }, [pathname]);
 
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev || "";
+    };
+  }, [open]);
   // Close on click-outside + Esc
   useEffect(() => {
     function onDocDown(e: MouseEvent) {
@@ -100,9 +112,10 @@ export default function SiteHeaderClient({
 
         {/* Center: Desktop search (locked) */}
         <div className="hidden flex-1 items-center justify-center md:flex">
-          <form action="/listings" method="get" className="w-full max-w-md">
+          <form action="/listings" method="get" className="w-full max-w-md" onSubmit={closeAll}>
             <input
               name="q"
+               defaultValue={q}
               placeholder="Search listings"
               className="w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm text-black placeholder:text-black/50 outline-none focus:border-black/20"
               style={{ backgroundColor: "#ffffff", color: "#000000" }}
@@ -210,17 +223,20 @@ export default function SiteHeaderClient({
               setAcctOpen(false);
             }}
             className={pill}
+            aria-expanded={open}
+            aria-controls="mobile-nav"
           >
-            Menu
+            {open ? "Close" : "Menu"}
           </button>
         </div>
       </div>
 
       {/* Mobile search (locked) */}
       <div className="mx-auto w-full max-w-6xl px-4 pb-3 md:hidden">
-        <form action="/listings" method="get">
+        <form action="/listings" method="get" onSubmit={closeAll}>
           <input
             name="q"
+               defaultValue={q}
             placeholder="Search listings"
             className="w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm text-black placeholder:text-black/50 outline-none focus:border-black/20"
             style={{ backgroundColor: "#ffffff", color: "#000000" }}
@@ -230,7 +246,7 @@ export default function SiteHeaderClient({
 
       {/* Mobile menu */}
       {open ? (
-        <div className="md:hidden border-t border-black/10 bd-header">
+        <div id="mobile-nav" className="md:hidden border-t border-black/10 bd-header">
           <div className="mx-auto w-full max-w-6xl px-4 py-3">
             <div className="flex flex-col gap-3 text-sm">
               <Link href="/listings" onClick={closeAll} className={pill}>
