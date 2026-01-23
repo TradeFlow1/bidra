@@ -146,7 +146,7 @@ How to use:
   - 
 
 ### /login
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
