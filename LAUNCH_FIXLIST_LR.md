@@ -14,7 +14,7 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 ### LR-P0-02 Authentication & Access Gating
 - [x] 18+ enforcement is strict server-side for all sensitive actions/APIs (not UI-only).
 - [x] Under-18 users can browse public pages only (no listing, bidding, messaging, watchlist, orders, feedback, reports create).
-- [ ] Session handling stable (NEXTAUTH_URL, secrets, redirects).
+- [x] Session handling stable (NEXTAUTH_URL, secrets, redirects).
 
 ### LR-P0-03 Core Marketplace Flows
 - [ ] Browse → listing detail: all critical listing info renders cleanly (price/offer state, photos, location display, seller link).
