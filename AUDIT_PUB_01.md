@@ -221,7 +221,7 @@ How to use:
   - 
 
 ### /reset-password
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
