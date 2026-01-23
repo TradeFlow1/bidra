@@ -111,7 +111,7 @@ How to use:
   - 
 
 ### /legal/fees
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
