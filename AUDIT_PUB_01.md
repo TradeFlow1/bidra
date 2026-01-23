@@ -216,7 +216,7 @@ How to use:
   - 
 
 ### /register
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
