@@ -136,7 +136,7 @@ How to use:
   - 
 
 ### /listings
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
