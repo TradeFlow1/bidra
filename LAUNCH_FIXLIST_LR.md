@@ -31,10 +31,10 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 - [ ] Cancel/refund rules exist and match model.
 
 ### LR-P0-05 Payments (Locked Pay Page)
-- [ ] Canonical payment page is /orders/[id]/pay (single source of truth).
-- [ ] Osko/PayID “I’ve paid” confirm works (audit logged).
-- [ ] Messaging includes soft reminders to pay on-platform (no threats, no bans).
-- [ ] No pooled-funds behaviour; platform does not handle money.
+- [x] Canonical payment page is /orders/[id]/pay (single source of truth).
+- [x] Osko/PayID “I’ve paid” confirm works (audit logged).
+- [x] Messaging includes soft reminders to pay on-platform (no threats, no bans).
+- [x] No pooled-funds behaviour; platform does not handle money.
 
 ### LR-P0-06 Prohibited Items Blocking (Locked Requirement)
 - [ ] Prohibited items blocked at listing creation server-side (no publish/review path).
