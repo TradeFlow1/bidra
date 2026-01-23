@@ -151,7 +151,7 @@ How to use:
   - 
 
 ### /logout
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
