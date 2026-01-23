@@ -141,7 +141,7 @@ How to use:
   - 
 
 ### /listings/[id]
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
