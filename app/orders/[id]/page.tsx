@@ -103,6 +103,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                 <div className="pt-2">
                   <Link href={`/orders/${order.id}/pay`} className="bd-btn bd-btn-primary text-center">
                     Pay now
+                    <div className="mt-1 text-xs bd-ink2">Binding order — please pay to proceed.</div>
                   </Link>
                 </div>
               ) : null}
@@ -113,7 +114,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               <div className="pt-2">
                 <p className="text-xs bd-ink2">
-                  Bidra does not decide a “highest offer” or force a sale — outcomes are seller-controlled. Payments shown here apply only if your order is marked payable.
+                  For timed offers, the seller decides whether to proceed. If an order exists (like this one), it is binding and payment is expected. Bidra records confirmations but does not process payments or guarantee outcomes.
                 </p>
               </div>
             </div>

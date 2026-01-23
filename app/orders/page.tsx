@@ -72,6 +72,7 @@ export default async function OrdersPage() {
                       className="bd-btn bd-btn-primary text-center"
                     >
                       Pay now
+                      <div className="mt-1 text-xs bd-ink2">Binding order — please pay to proceed.</div>
                     </Link>
                   ) : null}
 
