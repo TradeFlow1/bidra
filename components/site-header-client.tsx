@@ -90,7 +90,7 @@ export default function SiteHeaderClient({
   return (
     <header ref={headerRef as any} className="bd-header border-b border-black/10">
       {/* Top bar */}
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Left: Home */}
         <div className="flex items-center gap-3">
           <Link href="/" className={pill} onClick={closeAll}>
@@ -217,7 +217,7 @@ export default function SiteHeaderClient({
       </div>
 
       {/* Mobile search (locked) */}
-      <div className="mx-auto max-w-6xl px-4 pb-3 md:hidden">
+      <div className="mx-auto w-full max-w-6xl px-4 pb-3 md:hidden">
         <form action="/listings" method="get">
           <input
             name="q"
@@ -231,7 +231,7 @@ export default function SiteHeaderClient({
       {/* Mobile menu */}
       {open ? (
         <div className="md:hidden border-t border-black/10 bd-header">
-          <div className="mx-auto max-w-6xl px-4 py-3">
+          <div className="mx-auto w-full max-w-6xl px-4 py-3">
             <div className="flex flex-col gap-3 text-sm">
               <Link href="/listings" onClick={closeAll} className={pill}>
                 Browse
