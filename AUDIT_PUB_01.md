@@ -226,7 +226,7 @@ How to use:
   - 
 
 ### /sell
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
