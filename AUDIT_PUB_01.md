@@ -231,7 +231,7 @@ How to use:
   - 
 
 ### /sell/edit/[id]
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
