@@ -16,23 +16,22 @@ export default function SiteFooter() {
         <div>
           <div className="font-semibold text-gray-900 mb-2">Trust & Safety</div>
           <ul className="space-y-1">
-            <li>
-              <Link href="/legal/privacy" className="bd-link font-semibold">Privacy Policy</Link>
-            </li>
-            <li>
-              <Link href="/legal/terms" className="bd-link font-semibold">Terms of Service</Link>
-<Link href="/legal/prohibited-items" className="bd-link font-semibold">Prohibited Items</Link>
-            </li>
-            <li>
-              
-            </li>
-            <li>
-              <Link href="/support" className="bd-link font-semibold">Support & Safety</Link>
-            </li>
-            <li>
-              <Link href="/feedback" className="bd-link font-semibold">Feedback</Link>
-            </li>
-          </ul>
+  <li>
+    <Link href="/legal/privacy" className="bd-link font-semibold">Privacy Policy</Link>
+  </li>
+  <li>
+    <Link href="/legal/terms" className="bd-link font-semibold">Terms of Service</Link>
+  </li>
+  <li>
+    <Link href="/legal/prohibited-items" className="bd-link font-semibold">Prohibited Items</Link>
+  </li>
+  <li>
+    <Link href="/support" className="bd-link font-semibold">Support & Safety</Link>
+  </li>
+  <li>
+    <Link href="/feedback" className="bd-link font-semibold">Feedback</Link>
+  </li>
+</ul>
         </div>
 
         <div>
