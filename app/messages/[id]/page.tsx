@@ -149,8 +149,8 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               <div className="mt-4 bd-card p-4">
                 <SendBox threadId={thread.id} />
                 <div className="mt-3 text-xs text-[var(--bidra-ink-2)]">
-                  Tip: Keep personal information minimal until you're confident.
-                </div>
+  Tip: Keep chats about the listing. For safety, avoid sharing PayID/BSB, cash pickup details, or other personal info in messages. If you’re buying, you can always complete payment securely via your Bidra order page.
+</div>
               </div>
             </section>
           </div>
