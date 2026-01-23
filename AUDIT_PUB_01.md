@@ -161,7 +161,7 @@ How to use:
   - 
 
 ### /messages/[id]
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
