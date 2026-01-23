@@ -2,6 +2,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { requireAdult } from "@/lib/require-adult";
 
 export async function POST(req: Request) {
   try {
@@ -14,7 +15,11 @@ export async function POST(req: Request) {
 
 
 
-    const body = await req.json().catch(() => ({}));
+        const gate = await requireAdult(session as any);
+    if (!gate.ok) {
+      return NextResponse.json({ ok: false, error: gate.reason || "Adult required" }, { status: 403 });
+    }
+const body = await req.json().catch(() => ({}));
 
     const displayName =
       typeof body.displayName === "string" ? body.displayName.trim().slice(0, 40) : undefined;

@@ -1,6 +1,7 @@
 ﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { requireAdult } from "@/lib/require-adult";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -22,6 +23,13 @@ export async function POST(req: Request) {
 
   const session = await auth();
   const userId = (session?.user as any)?.id as string | undefined;
+
+  // If logged in, enforce 18+ (anonymous FT feedback stays allowed)
+  if (userId) {
+    const gate = await requireAdult(session as any);
+    if (!gate.ok) return NextResponse.json({ ok: false, reason: gate.reason || "ADULT_REQUIRED" }, { status: 403 });
+  }
+
 
   let body: any = null;
   try {

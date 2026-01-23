@@ -1,7 +1,7 @@
 ﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { yearsOld } from "@/lib/require-adult";
+import { requireAdult } from "@/lib/require-adult";
 
 const ALLOWED_REASONS = new Set([
   "PROHIBITED_ITEM",
@@ -13,10 +13,8 @@ const ALLOWED_REASONS = new Set([
 ]);
 
 export async function POST(req: Request) {
-  // Reporting is a safety feature: allow any authenticated user.
-  // Only hard-block if we can positively determine UNDER_18.
   const session = await auth();
-  const reporterId = (session as any)?.user?.id;
+  const reporterId = (session as any)?.user?.id as string | undefined;
 
   if (!reporterId) {
     return new Response(JSON.stringify({ ok: false, reason: "NOT_AUTHENTICATED" }), {
@@ -25,28 +23,13 @@ export async function POST(req: Request) {
     });
   }
 
-  // If DOB exists and user is under 18, block. Otherwise allow reporting.
-  try {
-    const dbUser = await prisma.user.findUnique({
-      where: { id: reporterId },
-      select: { dob: true },
+  // Enforce 18+ (browse-only for under-18)
+  const gate = await requireAdult(session as any);
+  if (!gate.ok) {
+    return new Response(JSON.stringify({ ok: false, reason: gate.reason || "UNDER_18" }), {
+      status: 403,
+      headers: { "content-type": "application/json" },
     });
-
-    const rawDob: any = (dbUser as any)?.dob ?? null;
-    if (rawDob) {
-      const d = new Date(rawDob);
-      if (!isNaN(d.getTime())) {
-        const age = yearsOld(d);
-        if (age < 18) {
-          return new Response(JSON.stringify({ ok: false, reason: "UNDER_18" }), {
-            status: 403,
-            headers: { "content-type": "application/json" },
-          });
-        }
-      }
-    }
-  } catch {
-    // If DOB lookup fails, do not block reporting.
   }
 
   try {
