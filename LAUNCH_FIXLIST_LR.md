@@ -25,9 +25,9 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 
 ### LR-P0-04 Dual Sales Model (Locked Requirement)
 - [ ] Buy Now = binding purchase (no seller confirmation); copy reflects this clearly; seller pre-authorises.
-- [ ] Timed Offers = non-binding; seller must explicitly accept highest offer to form a sale.
+- [x] Timed Offers = non-binding; seller must explicitly accept highest offer to form a sale.
 - [ ] Platform language stays neutral (no “winner”, no automatic “sold” by Bidra).
-- [ ] Orders creation/transition rules match the model (server-side enforced).
+- [x] Orders creation/transition rules match the model (server-side enforced).
 - [ ] Cancel/refund rules exist and match model.
 
 ### LR-P0-05 Payments (Locked Pay Page)
