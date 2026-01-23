@@ -186,7 +186,7 @@ How to use:
   - 
 
 ### /orders/[id]/pay
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
