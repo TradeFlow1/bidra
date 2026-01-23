@@ -1,5 +1,10 @@
 ﻿import { redirect } from "next/navigation";
 
-export default function AliasRedirect({ params }: { params: { id: string } }) {
-  redirect(`/orders/${params.id}/pay`);
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export default function PayNowRedirect({ params }: { params: { id: string } }) {
+  const id = String(params?.id || "").trim();
+  if (!id) redirect("/orders");
+  redirect(`/orders/${id}/pay`);
 }

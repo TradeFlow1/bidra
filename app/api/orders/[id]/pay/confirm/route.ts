@@ -47,6 +47,21 @@ export async function POST(_: Request, { params }: { params: { id: string } }) {
         data: { status: "SOLD" },
       });
     }
+    // Audit log: buyer confirmed Osko/PayID payment
+    await tx.adminEvent.create({
+      data: {
+        type: "ORDER_PAY_CONFIRMED",
+        userId: user.id,
+        orderId: order.id,
+        data: {
+          listingId: order.listingId,
+          buyerId: order.buyerId,
+          sellerId: order.listing?.sellerId,
+          prevStatus: order.status,
+          newStatus: "PAID",
+        },
+      },
+    });
   });
 
   return NextResponse.json({ ok: true, status: "PAID" });
