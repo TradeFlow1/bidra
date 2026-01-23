@@ -241,7 +241,7 @@ How to use:
   - 
 
 ### /seller/[id]
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
