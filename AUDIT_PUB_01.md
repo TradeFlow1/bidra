@@ -211,7 +211,7 @@ How to use:
   - 
 
 ### /prohibited-items
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
