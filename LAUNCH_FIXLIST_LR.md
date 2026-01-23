@@ -17,10 +17,10 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 - [x] Session handling stable (NEXTAUTH_URL, secrets, redirects).
 
 ### LR-P0-03 Core Marketplace Flows
-- [ ] Browse → listing detail: all critical listing info renders cleanly (price/offer state, photos, location display, seller link).
-- [ ] Sell/New listing: validation is correct; no broken fields; errors are clear; success redirects correctly.
-- [ ] Edit listing works; delete listing works; relist works.
-- [ ] Watchlist add/remove works everywhere (list + detail) and respects 18+ gating.
+- [x] Browse → listing detail: all critical listing info renders cleanly (price/offer state, photos, location display, seller link).
+- [x] Sell/New listing: validation is correct; no broken fields; errors are clear; success redirects correctly.
+- [x] Edit listing works; delete listing works; relist works.
+- [x] Watchlist add/remove works everywhere (list + detail) and respects 18+ gating.
 - [ ] Reporting works (listing + messaging thread) and admin can action correctly.
 
 ### LR-P0-04 Dual Sales Model (Locked Requirement)
