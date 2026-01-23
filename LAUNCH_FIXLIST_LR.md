@@ -5,15 +5,15 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 ## LR-P0 (Must-fix before any public launch)
 
 ### LR-P0-01 Navigation & Header
-- [ ] No console/runtime errors on any page (including DevTools open).
-- [ ] Auth-aware header states correct (signed out vs signed in).
+- [x] No console/runtime errors on any page (including DevTools open).
+- [x] Auth-aware header states correct (signed out vs signed in).
 - [x] Mobile menu reliable (no dead buttons).
 - [x] Search works and is styled correctly (desktop + mobile).
-- [ ] No invalid hook call / next/link misuse / hydration crashes.
+- [x] No invalid hook call / next/link misuse / hydration crashes.
 
 ### LR-P0-02 Authentication & Access Gating
-- [ ] 18+ enforcement is strict server-side for all sensitive actions/APIs (not UI-only).
-- [ ] Under-18 users can browse public pages only (no listing, bidding, messaging, watchlist, orders, feedback, reports create).
+- [x] 18+ enforcement is strict server-side for all sensitive actions/APIs (not UI-only).
+- [x] Under-18 users can browse public pages only (no listing, bidding, messaging, watchlist, orders, feedback, reports create).
 - [ ] Session handling stable (NEXTAUTH_URL, secrets, redirects).
 
 ### LR-P0-03 Core Marketplace Flows
