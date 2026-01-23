@@ -176,7 +176,7 @@ How to use:
   - 
 
 ### /orders/[id]
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
