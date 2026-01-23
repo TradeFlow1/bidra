@@ -196,7 +196,7 @@ How to use:
   - 
 
 ### /pricing
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
