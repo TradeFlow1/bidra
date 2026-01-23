@@ -156,7 +156,7 @@ How to use:
   - 
 
 ### /messages
-- [ ] PASS (no issues)
+- [x] PASS (no issues)
 - Issues:
   - 
 
