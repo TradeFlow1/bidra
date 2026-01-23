@@ -7,8 +7,8 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 ### LR-P0-01 Navigation & Header
 - [ ] No console/runtime errors on any page (including DevTools open).
 - [ ] Auth-aware header states correct (signed out vs signed in).
-- [ ] Mobile menu reliable (no dead buttons).
-- [ ] Search works and is styled correctly (desktop + mobile).
+- [x] Mobile menu reliable (no dead buttons).
+- [x] Search works and is styled correctly (desktop + mobile).
 - [ ] No invalid hook call / next/link misuse / hydration crashes.
 
 ### LR-P0-02 Authentication & Access Gating
