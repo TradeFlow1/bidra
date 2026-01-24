@@ -155,6 +155,13 @@ if (images.some((u: string) => {
 if (hasBuyNowField) {
   const isTimedOffers = String((existing as any).type || "").toUpperCase() === "AUCTION";
 
+// FIXED_PRICE: keep canonical price aligned (prevents drift between price and buyNowPrice)
+if (!isTimedOffers) {
+  data.buyNowPrice = price;
+  data.buyNowEnabled = true;
+  data.reservePrice = null;
+}
+
   if (!isTimedOffers) {
     // ignore silently (do not error) to avoid breaking older clients
   } else {
