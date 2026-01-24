@@ -5,9 +5,18 @@ function mustEnv(name: string): string {
   return v && String(v).trim() ? String(v).trim() : "";
 }
 
+function siteUrl(): string {
+  // Prefer NEXTAUTH_URL in prod; fallback to public domain; then localhost for dev
+  const v =
+    mustEnv("NEXTAUTH_URL") ||
+    mustEnv("SITE_URL") ||
+    "https://www.bidra.com.au";
+  return String(v).replace(/\/+$/, "");
+}
+
 function isConfiguredSES(): boolean {
   // Only send real emails when explicitly enabled.
-  // Prevents broken AWS keys from crashing auth flows.
+  // Prevents broken AWS keys from crashing flows.
   if (String(process.env.SES_ENABLED ?? "").trim() !== "1") return false;
 
   return Boolean(
@@ -37,13 +46,13 @@ async function sendEmail(args: { to: string; subject: string; text: string }) {
   // Dev-safe fallback: if SES not configured, log only.
   if (!isConfiguredSES()) {
     if (process.env.NODE_ENV !== "production") {
-
+      console.log("[Bidra][EMAIL:DEV-LOG ONLY]", { to, subject: args.subject });
     }
     return;
   }
 
   if (process.env.NODE_ENV !== "production") {
-
+    console.log("[Bidra][EMAIL:SENDING]", { to, subject: args.subject });
   }
 
   const cmd = new SendEmailCommand({
@@ -60,7 +69,7 @@ async function sendEmail(args: { to: string; subject: string; text: string }) {
   try {
     const out = await sesClient().send(cmd);
     if (process.env.NODE_ENV !== "production") {
-
+      console.log("[Bidra][EMAIL:SENT]", { to, messageId: (out as any)?.MessageId });
     }
   } catch (e: unknown) {
     const msg =
@@ -99,5 +108,92 @@ export async function sendVerifyEmail(args: { to: string; verifyUrl: string }) {
       "Verify your Bidra email:\n\n" +
       verifyUrl +
       "\n\nIf you didn’t create an account, you can ignore this email.",
+  });
+}
+
+export async function sendNewMessageEmail(args: {
+  to: string;
+  threadId: string;
+  listingTitle?: string | null;
+}) {
+  const to = String(args.to || "").trim();
+  const threadId = String(args.threadId || "").trim();
+  if (!to || !threadId) return;
+
+  const url = siteUrl() + "/messages/" + encodeURIComponent(threadId);
+  const title = String(args.listingTitle || "").trim();
+
+  await sendEmail({
+    to,
+    subject: title ? `New message about: ${title}` : "You have a new message on Bidra",
+    text:
+      "You have a new message on Bidra.\n\n" +
+      (title ? `Listing: ${title}\n\n` : "") +
+      "View and reply here:\n" +
+      url +
+      "\n\nIf you weren’t expecting this, you can ignore this email.",
+  });
+}
+
+export async function sendBuyNowPlacedEmail(args: {
+  to: string;
+  orderId: string;
+  listingTitle?: string | null;
+  amountCents: number;
+  role: "BUYER" | "SELLER";
+}) {
+  const to = String(args.to || "").trim();
+  const orderId = String(args.orderId || "").trim();
+  if (!to || !orderId) return;
+
+  const url = siteUrl() + "/orders/" + encodeURIComponent(orderId);
+  const title = String(args.listingTitle || "").trim();
+  const amount = Number.isFinite(args.amountCents) ? args.amountCents : 0;
+  const dollars = "$" + (amount / 100).toFixed(2);
+
+  const who =
+    args.role === "BUYER"
+      ? "Your Buy Now order has been placed."
+      : "A buyer has placed a Buy Now order on your listing.";
+
+  await sendEmail({
+    to,
+    subject: title ? `Buy Now placed: ${title}` : "Buy Now order placed",
+    text:
+      who +
+      "\n\n" +
+      (title ? `Listing: ${title}\n` : "") +
+      `Amount: ${dollars}\n\n` +
+      "View order details:\n" +
+      url +
+      "\n\n(You may need to sign in.)",
+  });
+}
+
+export async function sendNewTopOfferEmail(args: {
+  to: string;
+  listingId: string;
+  listingTitle?: string | null;
+  amountCents: number;
+}) {
+  const to = String(args.to || "").trim();
+  const listingId = String(args.listingId || "").trim();
+  if (!to || !listingId) return;
+
+  const url = siteUrl() + "/listings/" + encodeURIComponent(listingId);
+  const title = String(args.listingTitle || "").trim();
+  const amount = Number.isFinite(args.amountCents) ? args.amountCents : 0;
+  const dollars = "$" + (amount / 100).toFixed(2);
+
+  await sendEmail({
+    to,
+    subject: title ? `New top offer: ${title}` : "You have a new top offer",
+    text:
+      "Your listing has a new top offer.\n\n" +
+      (title ? `Listing: ${title}\n` : "") +
+      `Current top offer: ${dollars}\n\n` +
+      "View listing:\n" +
+      url +
+      "\n\n(You may need to sign in.)",
   });
 }

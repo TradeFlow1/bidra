@@ -2,6 +2,7 @@
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
+import { sendBuyNowPlacedEmail } from "@/lib/email"
 
 export const dynamic = "force-dynamic"
 
@@ -115,6 +116,42 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       }
 return { order }
     })
+
+    // Email notify buyer + seller (SES-gated; dev logs when disabled)
+    try {
+      const orderId = String(result?.order?.id || "").trim()
+      if (orderId) {
+        const [buyer, seller] = await Promise.all([
+          prisma.user.findUnique({ where: { id: session.user.id }, select: { email: true } }),
+          prisma.user.findUnique({ where: { id: listing.sellerId }, select: { email: true } }),
+        ])
+
+        const buyerEmail = String(buyer?.email || "").trim()
+        const sellerEmail = String(seller?.email || "").trim()
+
+        if (buyerEmail) {
+          await sendBuyNowPlacedEmail({
+            to: buyerEmail,
+            orderId,
+            listingTitle: (listing as any)?.title || null,
+            amountCents: amount,
+            role: "BUYER",
+          })
+        }
+
+        if (sellerEmail) {
+          await sendBuyNowPlacedEmail({
+            to: sellerEmail,
+            orderId,
+            listingTitle: (listing as any)?.title || null,
+            amountCents: amount,
+            role: "SELLER",
+          })
+        }
+      }
+    } catch (e) {
+      console.warn("[EMAIL_NOTIFY] buy-now notify failed", e)
+    }
 
     return NextResponse.json({ ok: true, orderId: result.order.id })
   } catch (e: any) {

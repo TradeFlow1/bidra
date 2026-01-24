@@ -2,6 +2,7 @@
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
+import { sendNewMessageEmail } from "@/lib/email";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const session = await auth();
@@ -85,6 +86,19 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
     return created;
   });
+
+  // Email notify the other participant (SES-gated; dev logs when disabled)
+  try {
+    const otherId = thread.buyerId === me ? thread.sellerId : thread.buyerId;
+    const other = await prisma.user.findUnique({ where: { id: otherId }, select: { email: true } });
+    const listing = await prisma.listing.findUnique({ where: { id: thread.listingId }, select: { title: true } });
+    const to = String(other?.email || "").trim();
+    if (to) {
+      await sendNewMessageEmail({ to, threadId: thread.id, listingTitle: listing?.title || null });
+    }
+  } catch (e) {
+    console.warn("[EMAIL_NOTIFY] message notify failed", e);
+  }
 
   return NextResponse.json({ ok: true, message: msg });
 }

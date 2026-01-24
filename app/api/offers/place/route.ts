@@ -1,6 +1,7 @@
 ﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
+import { sendNewTopOfferEmail } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -189,6 +190,27 @@ const top = await tx.offerMax.findMany({
   }
 
   const isWinning = result.highestBidder === userId;
+
+  // Email notify seller ONLY when the visible top offer actually moved (placed:true)
+  try {
+    if (result?.placed) {
+      const seller = await prisma.user.findUnique({
+        where: { id: listing.sellerId },
+        select: { email: true },
+      });
+      const to = String(seller?.email || "").trim();
+      if (to) {
+        await sendNewTopOfferEmail({
+          to,
+          listingId: listing.id,
+          listingTitle: (listing as any)?.title || null,
+          amountCents: Number(result.highestAmt || 0),
+        });
+      }
+    }
+  } catch (e) {
+    console.warn("[EMAIL_NOTIFY] offer notify failed", e);
+  }
 
   return NextResponse.json({
     ok: true,
