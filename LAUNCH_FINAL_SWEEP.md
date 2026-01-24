@@ -7,7 +7,7 @@ Only items not proven DONE in prior LR archive.
 - [x] Post-purchase clarity for buyers (what happens next)
 - [x] Homepage filters: remove “hidden Apply” confusion
 - [x] Mobile hero clipping fix
-- [ ] Post-signup CTA pills (Browse / Create listing / Log in)
+- [x] Post-signup CTA pills (Browse / Create listing / Log in)
 - [ ] Suggested category from title works reliably
 - [ ] Seller listing edit UX smoother (access + flow)
 - [ ] Easier to edit LIVE listings for sellers (fast access + clear controls)
