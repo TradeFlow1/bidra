@@ -171,13 +171,32 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>((listing as any).buy
               <div className="mt-1 text-sm bd-ink2">Update your listing details, status and photos.</div>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              <Link href="/dashboard/listings" className="bd-btn bd-btn-ghost text-center">
-                My listings
-              </Link>
-              <Link href={`/listings/${listing.id}`} className="bd-btn bd-btn-primary text-center">
-                View listing
-              </Link>
+            <div className="flex flex-col items-start gap-2 sm:items-end">
+              <div className="flex items-center gap-2 flex-wrap">
+                <div className="text-xs bd-ink2">
+                  Status: <span className="font-extrabold bd-ink">{status}</span>
+                  {status === "ACTIVE" ? <span className="ml-2 inline-flex items-center rounded-full border border-black/10 bg-white px-2 py-0.5 text-[11px] font-extrabold bd-ink">Live listing</span> : null}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="submit"
+                  form="editListingForm"
+                  disabled={isSaving}
+                  className="bd-btn bd-btn-primary text-center"
+                >
+                  {isSaving ? "Saving..." : "Save changes"}
+                </button>
+
+                <Link href={`/listings/${listing.id}`} className="bd-btn bd-btn-ghost text-center">
+                  View listing
+                </Link>
+
+                <Link href="/dashboard/listings" className="bd-btn bd-btn-ghost text-center">
+                  My listings
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -189,7 +208,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>((listing as any).buy
           ) : null}
 
           <div className="bd-card p-6">
-            <form
+            <form id="editListingForm"
               className="grid gap-4"
               onSubmit={async (e) => {
                 e.preventDefault();
