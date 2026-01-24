@@ -39,12 +39,15 @@ export async function POST(req: Request) {
     });
 
     const verifyUrl = `${baseUrl()}/auth/verify?token=${token}`;
-    console.log("DEV_SES_ENABLED:", String(process.env.SES_ENABLED ?? ""));
 
-    // Dev helper: if SES not enabled, return the link so you can use it locally.
+    // Dev helper only (never leak links in production)
     if (String(process.env.SES_ENABLED ?? "").trim() !== "1") {
-      console.log("DEV_VERIFY_URL:", verifyUrl);
-      return NextResponse.json({ ok: true, devVerifyUrl: verifyUrl });
+      if (process.env.NODE_ENV !== "production") {
+        console.log("DEV_SES_ENABLED:", String(process.env.SES_ENABLED ?? ""));
+        console.log("DEV_VERIFY_URL:", verifyUrl);
+        return NextResponse.json({ ok: true, devVerifyUrl: verifyUrl });
+      }
+      return NextResponse.json({ ok: true });
     }
 
     await sendVerifyEmail({ to: email, verifyUrl });
