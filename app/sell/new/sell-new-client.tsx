@@ -177,9 +177,13 @@ function suggestDescriptionDraft(args: {
 type ListingTypeUI = "FIXED_PRICE" | "TIMED_OFFERS";
 
 function dollarsToCentsOrNull(v: string): number | null {
-  const t = (v ?? "").trim();
-  if (!t) return null;
-  const n = Number(t);
+  const raw = (v ?? "").trim();
+  if (!raw) return null;
+
+  // Allow common user paste formats like "$1,200" or "1 200"
+  const cleaned = raw.replace(/[$,\s]/g, "");
+  const n = Number(cleaned);
+
   if (!Number.isFinite(n)) return NaN as any;
   return Math.round(n * 100);
 }
