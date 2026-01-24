@@ -64,6 +64,79 @@ const CATEGORY_RULES: CatRule[] = [
   { cat: "Pet Supplies (NO LIVE ANIMALS)", kws: ["dog","cat","pet","leash","collar","litter","aquarium"] },
 ];
 
+const KEYWORD_BUCKETS: { cat: string; kws: string[] }[] = [
+  // Tech & Electronics
+  { cat: "Tech & Electronics › Phones & Accessories", kws: ["iphone","android","samsung","pixel","phone","mobile","charger","case","airpods","sim","telstra","optus","vodafone"] },
+  { cat: "Tech & Electronics › Computers", kws: ["laptop","notebook","macbook","imac","pc","desktop","computer","monitor","keyboard","mouse","ssd","hdd","hard drive","gpu","graphics card","ram","motherboard","windows","linux"] },
+  { cat: "Tech & Electronics › Gaming", kws: ["playstation","ps4","ps5","xbox","nintendo","switch","controller","console","game console","steam deck"] },
+  { cat: "Tech & Electronics › TV & Audio", kws: ["tv","television","soundbar","speaker","speakers","subwoofer","headphones","earbuds","stereo","amplifier","receiver"] },
+  { cat: "Tech & Electronics › Cameras", kws: ["camera","dslr","mirrorless","gopro","lens","tripod","canon","nikon","sony"] },
+
+  // Home & Furniture
+  { cat: "Home & Furniture › Living Room", kws: ["sofa","couch","lounge","coffee table","tv unit","entertainment unit","recliner"] },
+  { cat: "Home & Furniture › Bedroom", kws: ["bed","mattress","frame","wardrobe","dresser","drawers","bedside","nightstand"] },
+  { cat: "Home & Furniture › Dining", kws: ["dining table","dining set","chairs","bar stools","buffet","sideboard"] },
+  { cat: "Home & Furniture › Outdoor & Garden", kws: ["outdoor setting","patio","deck","bbq","grill","umbrella","gazebo"] },
+  { cat: "Home & Furniture › Office Furniture", kws: ["desk","office chair","standing desk","filing cabinet"] },
+  { cat: "Home & Furniture › Storage", kws: ["shelves","shelving","storage","cupboard","cabinet","rack"] },
+  { cat: "Home & Furniture › Home Decor", kws: ["rug","curtains","blinds","lamp","mirror","artwork","vase","cushion"] },
+
+  // Appliances
+  { cat: "Appliances › Kitchen Appliances", kws: ["fridge","freezer","microwave","dishwasher","oven","cooktop","air fryer","kettle","toaster","coffee machine","mixer"] },
+  { cat: "Appliances › Laundry Appliances", kws: ["washing machine","washer","dryer","tumble dryer"] },
+  { cat: "Appliances › Heating & Cooling", kws: ["aircon","air conditioner","heater","fan","dehumidifier"] },
+  { cat: "Appliances › Vacuums", kws: ["vacuum","dyson","robot vacuum","roomba"] },
+
+  // Sports & Outdoors
+  { cat: "Sports & Outdoors › Fitness", kws: ["treadmill","weights","dumbbell","barbell","gym","exercise bike","rowing machine","bench press","kettlebell"] },
+  { cat: "Sports & Outdoors › Camping", kws: ["tent","swag","sleeping bag","camping","esky","gazebo","camp chair"] },
+  { cat: "Sports & Outdoors › Cycling", kws: ["bike","bicycle","helmet","mtb","road bike","bmx"] },
+  { cat: "Sports & Outdoors › Fishing", kws: ["fishing","rod","reel","tackle","bait"] },
+  { cat: "Sports & Outdoors › Water Sports", kws: ["surf","surfboard","sup","paddle board","kayak","wetsuit"] },
+
+  // Kids & Toys
+  { cat: "Kids & Toys › Toys", kws: ["lego","toy","doll","action figure","hot wheels","barbie"] },
+  { cat: "Kids & Toys › Games", kws: ["board game","card game","puzzle"] },
+  { cat: "Kids & Toys › Kids Clothing", kws: ["kids","kid's","child","children","size 4","size 6","size 8","size 10"] },
+
+  // Books & Media
+  { cat: "Books & Media › Books", kws: ["book","novel","textbook","paperback","hardcover"] },
+  { cat: "Books & Media › Movies", kws: ["dvd","bluray","blu-ray","movie"] },
+  { cat: "Books & Media › Music", kws: ["vinyl","record","cd","guitar","piano","keyboard instrument"] },
+  { cat: "Books & Media › Games", kws: ["board game","card game","puzzle"] },
+
+  // Collectibles & Vintage
+  { cat: "Collectibles & Vintage › Coins", kws: ["coin","coins","currency"] },
+  { cat: "Collectibles & Vintage › Trading Cards", kws: ["pokemon","mtg","magic the gathering","trading card"] },
+  { cat: "Collectibles & Vintage › Memorabilia", kws: ["memorabilia","signed","autograph"] },
+  { cat: "Collectibles & Vintage › Antiques", kws: ["antique","vintage"] },
+
+  // Vehicles
+  { cat: "Vehicles › Cars", kws: ["car","sedan","hatch","ute","4x4","4wd","ford","holden","toyota","mazda","hyundai","kia"] },
+  { cat: "Vehicles › Motorcycles", kws: ["motorbike","motorcycle","helmet","yamaha","honda","kawasaki","ducati"] },
+  { cat: "Vehicles › Vehicle Parts & Accessories", kws: ["tyres","tires","rim","wheels","car parts","towbar","roof rack","battery","dashcam"] },
+  { cat: "Vehicles › Boats & Marine", kws: ["boat","marine","outboard","jetski","jet ski"] },
+  { cat: "Vehicles › Caravans & Campers", kws: ["caravan","camper","campervan","rv"] },
+
+  // Pet Supplies
+  { cat: "Pet Supplies (NO LIVE ANIMALS)", kws: ["dog","cat","pet","leash","collar","litter","aquarium","kennel","harness"] },
+];
+function normalizeSuggestedCategory(raw: string): string {
+  const v = String(raw || "").trim();
+  if (!v) return "";
+  // If it's already a valid FULL_CATEGORIES entry, keep it
+  if (FULL_CATEGORIES.includes(v)) return v;
+
+  // If it's a child label, convert to "Parent › Child"
+  for (const g of CATEGORY_GROUPS) {
+    for (const c of g.children) {
+      if (c === v) return joinCategory(g.parent, c);
+    }
+  }
+
+  return "";
+}
+
 function suggestCategoryFromText(textRaw: string): string {
   const t = (textRaw || "").toLowerCase();
 
@@ -92,8 +165,7 @@ function suggestCategoryFromText(textRaw: string): string {
   ];
   const hasToolSignal = toolSignals.some((k) => hasToken(k));
 
-  // Weighted scoring for a few common buckets used in Bidra categories
-  // Return "" when uncertain (no suggestion shown)
+  // Weighted scoring. Return "" when uncertain (no suggestion shown)
   let best = "";
   let bestScore = 0;
 
@@ -110,27 +182,32 @@ function suggestCategoryFromText(textRaw: string): string {
 
   // Tools should win very easily for garage/tool text
   if (hasToolSignal) {
-        // Split tools into real Bidra categories
     const powerSignals = ["drill","impact","saw","circular","jigsaw","sander","grinder","router","compressor","makita","dewalt","milwaukee"];
     const handSignals  = ["spanner","wrench","socket","ratchet","hammer","screwdriver","pliers","allen","hex","chisel","clamp","vice"];
 
-    // If generic tool text, prefer Hand Tools as a safe default
     score("Hand Tools", handSignals.concat(["tool","tools","garage","workshop","shed","diy","tradie","workbench"]), 3);
     score("Power Tools", powerSignals.concat(["power tool","powertools"]), 3);
+    score("Garden Tools", ["garden","lawn","mower","blower","whipper","line trimmer","hedge trimmer","edger"], 3);
+    score("Building Materials", ["timber","wood","plywood","gyprock","drywall","cement","concrete","bricks","pavers","steel","aluminium"], 3);
   }
 
-  // Add a few other safe buckets (low weight)
-  score("Home & Garden", ["garden","lawn","mower","outdoor","patio","bbq","grill","shed"], 2);
-  score("Electronics", ["phone","iphone","android","laptop","computer","pc","monitor","tablet","console","playstation","xbox"], 2);
-  score("Automotive", ["car","ute","4wd","tyre","tire","battery","rim","engine","motor","oil","mechanic"], 2);
+  // Comprehensive keyword buckets
+  for (const b of KEYWORD_BUCKETS) {
+    score(b.cat, b.kws, 2);
+  }
 
-  // Only suggest real Bidra categories (prevents UI fallbacks)
-  if (best && !FULL_CATEGORIES.includes(best)) return "";
-  // Confidence threshold: require at least 3 points
+  // Parent-level nudges (REAL Bidra categories only)
+  score("Tech & Electronics", ["electronics","tech","gadget","device"], 2);
+  score("Home & Furniture", ["furniture","sofa","couch","table","chair","bed","dresser","wardrobe"], 2);
+  score("Vehicles", ["vehicle","cars","car","ute","4wd","truck","boat","motorcycle","caravan"], 2);
+
+  const normalized = normalizeSuggestedCategory(best);
+
+  // Confidence threshold
+  if (!normalized) return "";
   if (bestScore < 3) return "";
-  return best;
+  return normalized;
 }
-
 function suggestDescriptionDraft(args: {
   title: string;
   category: string;
@@ -224,6 +301,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState<(typeof FULL_CATEGORIES)[number] | "">("");
+  const [categoryTouched, setCategoryTouched] = useState(false);
   const [condition, setCondition] = useState("USED");
   const [location, setLocation] = useState((defaultLocation || "").trim());
 
@@ -249,6 +327,13 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     const blob = `${title} ${description}`.trim();
     return suggestCategoryFromText(blob);
   }, [title, description]);
+
+  // Auto-apply suggestion only if the user hasn't chosen a category yet
+  useEffect(() => {
+    if (categoryTouched) return;
+    if (category) return;
+    if (suggestedCategory) setCategory(suggestedCategory as any);
+  }, [suggestedCategory, categoryTouched, category]);
 
   const previews = useMemo(() => {
     return files.slice(0, 10).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
@@ -483,7 +568,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               <button
                 type="button"
                 className="bd-btn bd-btn-ghost py-1 px-2 text-xs"
-                onClick={() => setCategory(suggestedCategory as any)}
+                onClick={() => { setCategoryTouched(true); setCategory(suggestedCategory as any); }}
               >
                 Use suggestion
               </button>
@@ -492,7 +577,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           <select
             className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
             value={category}
-            onChange={(e) => setCategory(e.target.value as any)}
+            onChange={(e) => { setCategoryTouched(true); setCategory(e.target.value as any); }}
           >
             <option value="">Select a category…</option>
             {CATEGORY_GROUPS.map((g) => (
