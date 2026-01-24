@@ -15,4 +15,4 @@ Only items not proven DONE in prior LR archive.
 - [x] Login validation UX consistent (no random browser popups)
 - [x] Listing detail price/CTA duplication cleaned up
 - [x] Unread messages banner is obvious (clear unread state, Bidra-blue ok)
-- [ ] New listing: ability to delete a photo after mobile camera multi-photo capture
+- [x] New listing: ability to delete a photo after mobile camera multi-photo capture
