@@ -1,39 +1,44 @@
-﻿import { labelCategory } from "@/lib/labels";
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
-import Link from "next/link";
+﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
+import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
+import { labelCategory } from "@/lib/labels";
 
 function dollars(cents: number | null | undefined) {
   if (typeof cents !== "number") return "";
   return `$${(cents / 100).toFixed(2)}`;
 }
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
 export default async function WatchlistPage() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   if (!session?.user?.id) redirect("/auth/login?next=/watchlist");
+
+  const gate = await requireAdult(session as any);
+  if (!gate.ok && (gate as any).reason === "UNDER_18") redirect("/account/restrictions");
+  if (!gate.ok) redirect("/account");
+
+  const userId = session.user.id;
 
   async function removeWatch(formData: FormData) {
     "use server";
     const listingId = String(formData.get("listingId") || "").trim();
     if (!listingId) return;
 
-    const session = await getServerSession(authOptions);
-    if (!session?.user?.id) return;
+    const session2 = await auth();
+    if (!session2?.user?.id) return;
 
     await prisma.watchlist.deleteMany({
-      where: { userId: session.user.id, listingId , listing: { status: "ACTIVE" } },
+      where: { userId: session2.user.id, listingId },
     });
 
     revalidatePath("/watchlist");
   }
-
-  const userId = session.user.id;
 
   const items = await prisma.watchlist.findMany({
     where: { userId },
@@ -50,106 +55,103 @@ export default async function WatchlistPage() {
           location: true,
           type: true,
           price: true,
+          status: true,
         },
       },
     },
   });
 
-  const wrap: React.CSSProperties = {
-    maxWidth: 1100,
-    margin: "0 auto",
-    padding: 16,
-    fontFamily: "system-ui, -apple-system, Segoe UI, Roboto, Arial",
-  };
-
-  const card: React.CSSProperties = {
-    border: "1px solid rgba(0,0,0,0.12)",
-    borderRadius: 14,
-    padding: 14,
-    background: "#fff",
-  };
-
-  const btnPrimary: React.CSSProperties = {
-    padding: "10px 14px",
-    borderRadius: 12,
-    border: "1px solid rgba(0,0,0,0.12)",
-    background: "#2563eb",
-    color: "#fff",
-    fontWeight: 900,
-    cursor: "pointer",
-  };
-
-  const btnGhostLink: React.CSSProperties = {
-    padding: "10px 14px",
-    borderRadius: 12,
-    border: "1px solid rgba(0,0,0,0.12)",
-    background: "#fff",
-    color: "#111827",
-    fontWeight: 900,
-    textDecoration: "none",
-    display: "inline-block",
-  };
+  // If listings were deleted/sold, keep the watch row but show it as unavailable.
+  const active = items.filter((w) => w.listing?.status === "ACTIVE");
+  const inactive = items.filter((w) => w.listing?.status !== "ACTIVE");
 
   return (
-    <main style={wrap}>
-      <header style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
-        <div>
-          <h1 style={{ margin: 0, fontSize: 28 }}>Watchlist</h1>
-          <p style={{ marginTop: 8, marginBottom: 0, opacity: 0.75 }}>
-            Listings you've saved.
-          </p>
+    <main className="bd-container py-10">
+      <div className="container max-w-5xl">
+        <div className="flex items-end justify-between gap-3 flex-wrap">
+          <div>
+            <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Watchlist</h1>
+            <p className="mt-2 text-sm bd-ink2">Listings you’ve saved.</p>
+          </div>
+
+          <div className="flex gap-2 flex-wrap">
+            <Link href="/listings" className="bd-btn bd-btn-primary">Browse</Link>
+            <Link href="/sell/new" className="bd-btn bd-btn-ghost">Sell</Link>
+          </div>
         </div>
 
-        <nav style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-          <Link href="/listings" style={{ textDecoration: "underline" }}>Browse</Link>
-          <Link href="/sell" style={{ textDecoration: "underline" }}>Sell</Link>
-          <Link href="/account" style={{ textDecoration: "underline" }}>My account</Link>
-        </nav>
-      </header>
-
-      <section style={{ marginTop: 16, display: "grid", gap: 12 }}>
-        {items.length === 0 ? (
-          <div style={{ ...card, opacity: 0.85 }}>
-            No watched listings yet.
-            <div style={{ marginTop: 10 }}>
-              <Link href="/listings" style={{ ...btnGhostLink }}>Browse listings</Link>
-            </div>
-          </div>
-        ) : (
-          items.map((w) => (
-            <div key={w.id} style={card}>
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-                <div style={{ minWidth: 280 }}>
-                  <Link href={`/listings/${w.listing.id}`} style={{ textDecoration: "underline", fontWeight: 900 }}>
-                    {w.listing.title}
-                  </Link>
-
-                  <div style={{ marginTop: 6, fontSize: 13, opacity: 0.75 }}>
-                    {w.listing.category ? <span>{labelCategory(w.listing.category)}</span> : null}
-                    {w.listing.category && w.listing.location ? <span>  -  </span> : null}
-                    {w.listing.location ? <span>{w.listing.location}</span> : null}
-                    {(w.listing.category || w.listing.location) && w.listing.type ? <span>  -  </span> : null}
-                    {w.listing.type ? <span>{w.listing.type}</span> : null}
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                  <div style={{ fontWeight: 900 }}>{dollars(w.listing.price)}</div>
-
-                  <Link href={`/listings/${w.listing.id}`} style={btnGhostLink}>
-                    View
-                  </Link>
-
-                  <form action={removeWatch}>
-                    <input type="hidden" name="listingId" value={w.listing.id} />
-                    <button type="submit" style={btnPrimary}>Remove</button>
-                  </form>
-                </div>
+        <div className="mt-6 grid gap-3">
+          {items.length === 0 ? (
+            <div className="bd-card p-6">
+              <div className="text-base font-semibold bd-ink">No watched listings yet.</div>
+              <div className="mt-1 text-sm bd-ink2">
+                Tap the heart on a listing to save it here.
+              </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Link href="/listings" className="bd-btn bd-btn-primary">Browse listings</Link>
+                <Link href="/dashboard" className="bd-btn bd-btn-ghost">Dashboard</Link>
               </div>
             </div>
-          ))
-        )}
-      </section>
+          ) : (
+            <>
+              {active.map((w) => (
+                <div key={w.id} className="bd-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="font-extrabold bd-ink">
+                      <Link href={`/listings/${w.listing.id}`} className="hover:underline underline-offset-4">
+                        {w.listing.title}
+                      </Link>
+                    </div>
+
+                    <div className="mt-1 text-sm bd-ink2">
+                      {w.listing.category ? <span>{labelCategory(w.listing.category)}</span> : null}
+                      {w.listing.category && w.listing.location ? <span>  ·  </span> : null}
+                      {w.listing.location ? <span>{w.listing.location}</span> : null}
+                      {(w.listing.category || w.listing.location) && w.listing.type ? <span>  ·  </span> : null}
+                      {w.listing.type ? <span>{w.listing.type}</span> : null}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 flex-wrap justify-end">
+                    <div className="font-extrabold bd-ink">{dollars(w.listing.price)} AUD</div>
+                    <Link href={`/listings/${w.listing.id}`} className="bd-btn bd-btn-primary">View</Link>
+
+                    <form action={removeWatch}>
+                      <input type="hidden" name="listingId" value={w.listing.id} />
+                      <button type="submit" className="bd-btn bd-btn-ghost">Remove</button>
+                    </form>
+                  </div>
+                </div>
+              ))}
+
+              {inactive.length ? (
+                <div className="bd-card p-6">
+                  <div className="text-base font-semibold bd-ink">Unavailable listings</div>
+                  <div className="mt-1 text-sm bd-ink2">
+                    These listings are no longer active (sold/removed). You can remove them.
+                  </div>
+
+                  <div className="mt-4 grid gap-2">
+                    {inactive.map((w) => (
+                      <div key={w.id} className="flex items-center justify-between gap-3 flex-wrap">
+                        <div className="text-sm bd-ink2">
+                          <span className="font-semibold bd-ink">{w.listing?.title ?? "Listing"}</span>
+                          <span className="ml-2">(not active)</span>
+                        </div>
+
+                        <form action={removeWatch}>
+                          <input type="hidden" name="listingId" value={w.listing?.id ?? ""} />
+                          <button type="submit" className="bd-btn bd-btn-ghost">Remove</button>
+                        </form>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </>
+          )}
+        </div>
+      </div>
     </main>
   );
 }

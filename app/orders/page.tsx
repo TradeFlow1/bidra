@@ -94,7 +94,16 @@ export default async function OrdersPage() {
             ))}
 
             {!orders.length ? (
-              <div className="text-sm bd-ink2">No orders yet. Your purchases and sales will appear here.</div>
+              <div className="bd-card p-6">
+  <div className="text-base font-semibold bd-ink">No orders yet.</div>
+  <div className="mt-1 text-sm bd-ink2">
+    When you buy now (binding) or a seller accepts your top offer, your order will appear here.
+  </div>
+  <div className="mt-4 flex flex-wrap gap-2">
+    <Link href="/listings" className="bd-btn bd-btn-primary text-center">Browse listings</Link>
+    <Link href="/sell/new" className="bd-btn bd-btn-ghost text-center">Create a listing</Link>
+  </div>
+</div>
             ) : null}
           </div>
         </div>
