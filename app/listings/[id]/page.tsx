@@ -281,9 +281,12 @@ const ladderTop = Object.values(ladderRows)
               {isSeller ? (
                 <div className="mt-3 space-y-2">
                   <div className="flex flex-wrap gap-2">
-                    <Link href={`/sell/edit/${(listing as any).id}`} className="bd-btn bd-btn-primary" prefetch={false}>
-                      {Array.isArray((listing as any).images) && (listing as any).images.length > 0 ? "Manage photos" : "Add photos"}
-                    </Link>
+                    <div>
+                      <Link href={`/sell/edit/${(listing as any).id}`} className="bd-btn bd-btn-primary" prefetch={false}>
+                        Edit listing
+                      </Link>
+                      <div className="mt-1 text-xs bd-ink2">Edit title, price, description, and photos.</div>
+                    </div>
                   </div>
 {(listing as any).status === "ENDED" ? (
   <div>

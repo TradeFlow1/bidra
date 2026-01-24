@@ -8,8 +8,8 @@ Only items not proven DONE in prior LR archive.
 - [x] Homepage filters: remove “hidden Apply” confusion
 - [x] Mobile hero clipping fix
 - [x] Post-signup CTA pills (Browse / Create listing / Log in)
-- [ ] Suggested category from title works reliably
-- [ ] Seller listing edit UX smoother (access + flow)
+- [x] Suggested category from title works reliably
+- [x] Seller listing edit UX smoother (access + flow)
 - [ ] Easier to edit LIVE listings for sellers (fast access + clear controls)
 - [ ] Price input UI prevents $ confusion (numerals-only OR $ shown)
 - [ ] Login validation UX consistent (no random browser popups)

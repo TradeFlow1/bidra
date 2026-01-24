@@ -123,10 +123,13 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                 </div>
 
                 <div className="flex items-center gap-2 flex-wrap">
-  <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-primary text-center">
-    Edit listing
-  </Link>
-</div>
+                  <Link href={"/listings/" + l.id} className="bd-btn bd-btn-ghost text-center">
+                    View
+                  </Link>
+                  <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-primary text-center">
+                    Edit listing
+                  </Link>
+                </div>
               </Card>
             ))}
 
