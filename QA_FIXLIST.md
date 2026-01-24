@@ -19,7 +19,7 @@
 - [ ] P2 | Seller | /sell/new | Photos section lacks clear upload button (CL5)
 - [ ] P2 | Seller | /listings | Inconsistent label usage on filter inputs (B1)
 - [ ] P1 | Seller | /listings | “Show results” appears as text rather than clickable button (B2)
-- [ ] P0 | Seller | /listings | Search returns zero results / header search non-functional (B3, MISC1)
+- [x] P0 | Seller | /listings | Search returns zero results / header search non-functional (B3, MISC1)
 - [ ] P2 | Seller | /listings | “Show results Clear” UI confusing when no results (B4)
 - [ ] P1 | Seller | listing pages | Placeholder bullets remain in listing descriptions (L1)
 - [ ] P0 | Seller | listing pages | Price discrepancy between listing and order (L2)
@@ -58,7 +58,7 @@
 - [ ] P0 | Buyer | /orders/[id] | 'Pay now to continue' shown without actionable payment button
 - [ ] P0 | Buyer | /listings/[id] | Offer submission provides no confirmation or success feedback
 - [ ] P0 | Buyer | /listings/[id] | Highest offer incorrectly labelled as 'You'
-- [ ] P0 | Buyer | /browse | Search input Enter key inconsistently submits query
+- [x] P0 | Buyer | /browse | Search input Enter key inconsistently submits query
 - [ ] P1 | Buyer | /browse | Watchlist (heart) affordance missing or undiscoverable
 - [ ] P1 | Buyer | /listings/[id] | Buy Now vs Offer language unclear and inconsistent
 - [ ] P1 | Buyer | /orders/[id]/feedback | Leave feedback redirects to wrong page
