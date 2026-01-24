@@ -62,5 +62,19 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     select: { id: true },
   })
 
+  // Admin audit trail (for reconstructing messaging actions)
+  await prisma.adminEvent.create({
+    data: {
+      type: "MESSAGE_THREAD_REPORTED",
+      userId: me,
+      data: {
+        threadId: thread.id,
+        listingId: thread.listingId,
+        reportId: report.id,
+        detailsLen: userDetails.length,
+      },
+    },
+  })
+
   return NextResponse.json({ ok: true, reportId: report.id })
 }

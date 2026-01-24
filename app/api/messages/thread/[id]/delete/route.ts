@@ -27,5 +27,18 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
   if (me === thread.sellerId) data.sellerDeletedAt = new Date()
 
   await prisma.messageThread.update({ where: { id: thread.id }, data })
+
+  // Admin audit trail (for reconstructing messaging actions)
+  await prisma.adminEvent.create({
+    data: {
+      type: "MESSAGE_THREAD_DELETED",
+      userId: me,
+      data: {
+        threadId: thread.id,
+        role: me === thread.buyerId ? "BUYER" : "SELLER",
+      },
+    },
+  })
+
   return NextResponse.json({ ok: true })
 }

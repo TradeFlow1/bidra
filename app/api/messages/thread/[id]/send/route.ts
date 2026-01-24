@@ -69,6 +69,20 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       data,
     });
 
+    // Admin audit trail (for reconstructing messaging actions)
+    await tx.adminEvent.create({
+      data: {
+        type: "MESSAGE_SENT",
+        userId: me,
+        data: {
+          threadId: thread.id,
+          listingId: thread.listingId,
+          messageId: created.id,
+          bodyLen: text.length,
+        },
+      },
+    });
+
     return created;
   });
 
