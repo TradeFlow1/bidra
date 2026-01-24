@@ -45,7 +45,9 @@ if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this t
 
     const highestOffer = listing.bids?.length ? listing.bids[0].amount : 0
 
-    const amount = isTimedOffers ? (listing.buyNowPrice as number) : listing.price
+    const amount = isTimedOffers
+      ? (listing.buyNowPrice as number)
+      : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price)
 
     // Timed offers (schema type: AUCTION): Kevin model
     if (listing.type === "AUCTION") {
