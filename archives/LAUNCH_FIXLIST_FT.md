@@ -1,4 +1,10 @@
-﻿# Bidra — Friend Test Launch Fix List (Matchbox)
+﻿# [ARCHIVED]
+
+> Historical document only. **Do not use for active tracking.**
+> Single source of truth was .\LAUNCH_FIXLIST_LR.md (reached 100% and archived on 2026-01-24).
+
+---
+# Bidra — Friend Test Launch Fix List (Matchbox)
 Rule: Only tick [x] AFTER: (1) npm run build is green AND (2) git commit + push is done.
 Rule: One checkbox = one focused change-set (minimal regress).
 

@@ -1,4 +1,10 @@
-﻿# Bidra — Tonight Public Launch Buckets (Matchbox)
+﻿# [ARCHIVED]
+
+> Historical document only. **Do not use for active tracking.**
+> Single source of truth was .\LAUNCH_FIXLIST_LR.md (reached 100% and archived on 2026-01-24).
+
+---
+# Bidra — Tonight Public Launch Buckets (Matchbox)
 Date: 2026-01-17 (AEST)
 Rule: Only mark DONE after (1) npm run build is green and (2) git commit + push.
 

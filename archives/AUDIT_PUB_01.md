@@ -1,4 +1,10 @@
-﻿# AUDIT-PUB-01 — Public Page Sweep
+﻿# [ARCHIVED]
+
+> Historical document only. **Do not use for active tracking.**
+> Single source of truth was .\LAUNCH_FIXLIST_LR.md (reached 100% and archived on 2026-01-24).
+
+---
+# AUDIT-PUB-01 — Public Page Sweep
 
 Rule: No functionality changes in this step. Only identify issues (UI/theme/copy/broken links/console errors).
 How to use:

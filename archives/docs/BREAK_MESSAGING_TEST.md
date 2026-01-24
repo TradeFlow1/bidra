@@ -1,4 +1,10 @@
-﻿# Break the Messaging System — Adversarial Test (Friend Test)
+﻿# [ARCHIVED]
+
+> Historical document only. **Do not use for active tracking.**
+> Single source of truth was .\LAUNCH_FIXLIST_LR.md (reached 100% and archived on 2026-01-24).
+
+---
+# Break the Messaging System — Adversarial Test (Friend Test)
 
 Date:
 Tester(s):
