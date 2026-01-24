@@ -50,7 +50,7 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 
 ### LR-P0-08 Messaging Adversarial Test (Mandatory before public launch)
 - [x] Instrumentation ready: MESSAGE_SENT / MESSAGE_THREAD_REPORTED / MESSAGE_THREAD_DELETED logged to AdminEvent; /admin/events supports ?q= filter.
-- [ ] “Break the messaging system” test phase completed and issues resolved:
+- [x] “Break the messaging system” test phase completed and issues resolved:
       harassment/off-platform payment evasion, spam, multi-tab, network failures,
       listing/account state changes, admin audit reconstruction.
 
@@ -65,7 +65,7 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 - [x] No accidental static export / prerender traps.
 
 ## LR-P1 (Should-fix before launch)
-- [ ] Accessibility pass (keyboard nav, contrast, focus states).
+- [x] Accessibility pass (keyboard nav, contrast, focus states).
 - [ ] Mobile responsiveness pass on key pages.
 - [ ] Error states polished (empty inbox, empty watchlist, no listings, etc.).
 - [x] Admin audit/events cover critical actions (orders/pay/feedback/report actions).
