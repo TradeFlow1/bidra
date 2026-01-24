@@ -1,0 +1,70 @@
+﻿# Bidra QA Fix List
+
+### Combined QA Issues (Seller, Buyer, Admin, Logged-out)
+
+- [ ] P2 | Seller | / (Home) | Tagline incomplete and grammatically awkward (H1)
+- [ ] P2 | Seller | /legal/prohibited-items | Duplicate "Contact" and missing verb “are” in prohibited items page (PI1, PI2)
+- [ ] P2 | Seller | /legal/privacy | Awkward phrasing "No collecting sensitive traits" (PP1)
+- [ ] P2 | Seller | /legal/terms | Grammar issues in terms: missing verb and incorrect agreement (T1, T2)
+- [ ] P1 | Seller | /support | Safety tips omit warning against sharing phone/email (SS1)
+- [ ] P1 | Seller | /dashboard | Direct navigation to /dashboard returns 404 (D1)
+- [ ] P2 | Seller | /dashboard | Awkward heading “Your shortcuts, status, and anything that needs action.” (D2)
+- [ ] P2 | Seller | /dashboard/listings | Long titles overflow listing cards (ML1)
+- [ ] P1 | Seller | /dashboard/listings | Edit listing retains placeholder text like “Included: (add what’s included)” (ML2)
+- [ ] P1 | Seller | /dashboard/listings | No option to delete or end listing in edit form (ML3)
+- [ ] P2 | Seller | /sell/new | Duplicate heading “Add the basics” (CL1)
+- [ ] P1 | Seller | /sell/new | Suggested description inserts placeholders into live listings (CL2)
+- [ ] P1 | Seller | /sell/new | Validation error messages do not clear when field becomes valid (CL3)
+- [ ] P1 | Seller | /sell/new | Create listing button indicates loading despite invalid form (CL4)
+- [ ] P2 | Seller | /sell/new | Photos section lacks clear upload button (CL5)
+- [ ] P2 | Seller | /listings | Inconsistent label usage on filter inputs (B1)
+- [ ] P1 | Seller | /listings | “Show results” appears as text rather than clickable button (B2)
+- [ ] P0 | Seller | /listings | Search returns zero results / header search non-functional (B3, MISC1)
+- [ ] P2 | Seller | /listings | “Show results Clear” UI confusing when no results (B4)
+- [ ] P1 | Seller | listing pages | Placeholder bullets remain in listing descriptions (L1)
+- [ ] P0 | Seller | listing pages | Price discrepancy between listing and order (L2)
+- [ ] P1 | Seller | listing pages | Listing becomes unavailable immediately after clicking “Buy now” (L3)
+- [ ] P2 | Seller | listing pages | Report modal styling inconsistent (L5)
+- [ ] P2 | Seller | /orders | Spacing error in status message (“Pay nowBinding order”) (O1, O6)
+- [ ] P0 | Seller | /orders | Order price differs from listing price (O2)
+- [ ] P0 | Seller | /orders | Pay now pages lack payment instructions/buttons for some orders (O3)
+- [ ] P1 | Seller | /orders | Paid orders lack “Confirm payment received” action (O4)
+- [ ] P1 | Seller | /orders | “View order” links occasionally open wrong order (O5)
+- [ ] P0 | Seller | /messages | Messages show phone numbers, emails and PayID details without filtering (M1)
+- [ ] P1 | Seller | /messages | Safety tip omits warnings about phone/email (M2)
+- [ ] P2 | Seller | /messages | Ensure spelling correct in report modals (“happened”) (M3)
+- [ ] P2 | Seller | /messages | Delete chat modal breaks “inbox only” into separate words (M4)
+- [ ] P1 | Seller | Footer | Feedback link leads to 404 (F1)
+- [ ] P2 | Seller | Feedback | Inconsistent access to feedback flow (F2)
+- [ ] P2 | Seller | Feedback | Ensure leave feedback form keyboard accessible (F3)
+- [ ] P1 | Seller | /profile | Grammar error in payout description (“Most Australian use mobile PayID”) (P1 issue)
+- [ ] P2 | Seller | misc | Generic 404 pages lack helpful navigation (MISC2)
+- [ ] P0 | Logged-out | /listings | Search field does not submit on Enter; user must click unstyled "Show results" text
+- [ ] P0 | Logged-out | /listings/[id] | Placeholder text (e.g., 'Included: (add what''s included)') visible in listing descriptions
+- [ ] P0 | Logged-out | /listings/[id] | 'You are the highest offer' shown even when user has not placed an offer
+- [ ] P0 | Logged-out | / (Home) | 'List an item' button does not consistently navigate to login/signup
+- [ ] P1 | Logged-out | /legal/prohibited-items | Grammar errors: 'No live animals permitted' missing verb; 'Contact Contact page' duplicates word
+- [ ] P1 | Logged-out | /legal/terms | Awkward wording in offers section ('Bidra may show "top offer" and timed offers mechanics')
+- [ ] P1 | Logged-out | /legal/privacy | Misphrased bullet: 'No collecting sensitive traits (religion, politics, health, etc.)'
+- [ ] P1 | Logged-out | /listings | Unstyled 'Show results' / 'Clear' labels; should be buttons or auto-submit on Enter
+- [ ] P1 | Logged-out | /contact & /feedback | Links redirect to login with no explanation; should show friendly message requiring sign-in
+- [ ] P1 | Logged-out | / | Implausible top-offer values displayed on some listing cards (e.g., $7.5m); needs moderation
+- [ ] P1 | Logged-out | / | Category dropdown covers hero image and is unwieldy on mobile/desktop
+- [ ] P1 | Logged-out | / | Obvious typos in listing names (e.g., 'Fish tand') should be flagged or corrected
+- [ ] P2 | Logged-out | /messages & /safety | Safety tips omit warnings about sharing phone numbers or email addresses
+- [ ] P2 | Logged-out | /random | No 404 page for unknown routes; non-existent URLs redirect to login
+- [ ] P2 | Logged-out | /watchlist | No heart icons or guidance on how to watch items for visitors
+- [ ] P2 | Logged-out | /listings | 'Show results' and 'Clear' need consistent styling and spacing
+- [ ] P0 | Buyer | /orders/[id] | 'Pay now to continue' shown without actionable payment button
+- [ ] P0 | Buyer | /listings/[id] | Offer submission provides no confirmation or success feedback
+- [ ] P0 | Buyer | /listings/[id] | Highest offer incorrectly labelled as 'You'
+- [ ] P0 | Buyer | /browse | Search input Enter key inconsistently submits query
+- [ ] P1 | Buyer | /browse | Watchlist (heart) affordance missing or undiscoverable
+- [ ] P1 | Buyer | /listings/[id] | Buy Now vs Offer language unclear and inconsistent
+- [ ] P1 | Buyer | /orders/[id]/feedback | Leave feedback redirects to wrong page
+- [ ] P1 | Buyer | /messages/[thread] | Safety copy insufficient (missing phone/email warnings)
+- [ ] P2 | Buyer | /browse | Listing title typos visible to buyers
+- [ ] P2 | Buyer | /browse | Long listing titles break card layout
+- [ ] P2 | Buyer | /watchlist | Empty state lacks guidance
+- [ ] P2 | Buyer | Global | Capitalisation inconsistencies in CTAs
+- [ ] P2 | Buyer | Global | Native browser alerts used instead of styled dialogs

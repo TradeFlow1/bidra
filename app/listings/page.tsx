@@ -98,8 +98,7 @@ export default async function ListingsPage({
   // Safety: if an order exists for a listing, it must not be publicly browseable
   where.AND.push({ orders: { none: {} } });
 
-// BUCKET_A_P0: hide no-photo listings from public browse
-where.AND.push({ images: { isEmpty: false } });
+// NOTE: do NOT hide no-photo listings; UI already shows 'Photos coming soon'.
 
   if (q) {
     where.AND.push({
