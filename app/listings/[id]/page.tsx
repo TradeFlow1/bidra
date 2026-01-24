@@ -341,8 +341,7 @@ const ladderTop = Object.values(ladderRows)
                     {buyNowVisible ? (
                       <div className="pt-3">
                         <BuyNowButton listingId={(listing as any).id} />
-                        <div className="mt-1 text-xs text-neutral-600">Buy Now: {formatMoney(buyNowPriceCents as number)}</div>
-                        <div className="mt-1 text-xs text-neutral-600">Buy Now is a binding purchase. Seller has pre-authorised this sale. You'll be asked to pay after continuing.</div>
+<div className="mt-1 text-xs text-neutral-600">Buy Now is a binding purchase. Seller has pre-authorised this sale. You'll be asked to pay after continuing.</div>
                       </div>
                     ) : (
                       <>
@@ -397,7 +396,6 @@ const ladderTop = Object.values(ladderRows)
                 {buyNowVisible ? (
                   <div className="space-y-1">
                     <BuyNowButton listingId={(listing as any).id} />
-                    <div className="text-xs text-neutral-600">Buy Now: {formatMoney((buyNowPriceCents ?? guidePriceCents) as number)}</div>
                     <div className="text-xs text-neutral-600">Buy Now is a binding purchase. Seller has pre-authorised this sale. You'll be asked to pay after continuing.</div>
                   </div>
                 ) : null}

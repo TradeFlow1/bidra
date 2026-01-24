@@ -53,6 +53,8 @@ export default async function MessagesInboxPage() {
       return { ...t, unread }
     })
 
+        const unreadCount = items.filter((i) => i.unread).length
+
     items.sort((a, b) => {
       if (a.unread !== b.unread) return a.unread ? -1 : 1
       const aT = a.lastMessageAt ? new Date(a.lastMessageAt).getTime() : 0
@@ -69,6 +71,12 @@ export default async function MessagesInboxPage() {
 
               <h1 className="text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)]">Messages</h1>
               <p className="mt-2 text-sm text-[var(--bidra-ink-2)]">Private conversations about listings.</p>
+
+{unreadCount > 0 ? (
+  <div className="mt-4 rounded-2xl border border-black/10 bg-[var(--bidra-blue)]/10 px-4 py-3 text-sm text-[var(--bidra-ink)]">
+    <b>Unread messages:</b> You have <b>{unreadCount}</b> unread {unreadCount === 1 ? "conversation" : "conversations"}.
+  </div>
+) : null}
 
               <div className="mt-6 space-y-3">
                 {items.length === 0 ? (
