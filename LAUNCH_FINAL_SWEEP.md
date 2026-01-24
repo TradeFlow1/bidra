@@ -4,7 +4,7 @@ Only items not proven DONE in prior LR archive.
 - [x] Notifications: listing bought / new offer / offer ended-highest offer / new message
 - [x] Local time/date correctness (DST-safe)
 - [x] Feedback visibility + route correctness (no dead links, clear entry points)
-- [ ] Post-purchase clarity for buyers (what happens next)
+- [x] Post-purchase clarity for buyers (what happens next)
 - [ ] Homepage filters: remove “hidden Apply” confusion
 - [ ] Mobile hero clipping fix
 - [ ] Post-signup CTA pills (Browse / Create listing / Log in)
