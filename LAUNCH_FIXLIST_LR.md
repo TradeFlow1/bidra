@@ -43,10 +43,10 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 - [x] Clear user-facing error + attempt logging + escalation only on repeats.
 
 ### LR-P0-07 Mobile Photos (Locked Requirement)
-- [ ] Mobile upload supports multiple photos per listing (append, not replace).
-- [ ] User can tap “Add photo / Take photo” repeatedly; input resets after selection.
-- [ ] Backend accepts multiple files and appends correctly.
-- [ ] Thumbnails show; remove works (reorder optional).
+- [x] Mobile upload supports multiple photos per listing (append, not replace).
+- [x] User can tap “Add photo / Take photo” repeatedly; input resets after selection.
+- [x] Backend accepts multiple files and appends correctly.
+- [x] Thumbnails show; remove works (reorder optional).
 
 ### LR-P0-08 Messaging Adversarial Test (Mandatory before public launch)
 - [ ] “Break the messaging system” test phase completed and issues resolved:
