@@ -115,6 +115,36 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               <div className="pt-2">
                 <p className="text-xs bd-ink2">
+                  
+                  <Card className="bd-card p-6">
+                    <div className="grid gap-2">
+                      <div className="text-sm font-extrabold bd-ink">What happens next</div>
+                      {order.status === "PENDING" ? (
+                        <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
+                          <li><b>Pay now</b> to continue. This order is binding.</li>
+                          <li>After you submit "I've paid", the seller will verify they received payment.</li>
+                          <li>Once verified, arrange pickup/shipping in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+                        </ul>
+                      ) : order.status === "PAID" ? (
+                        <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
+                          <li>Your payment is marked as <b>PAID</b>.</li>
+                          <li>The seller will confirm receipt, then coordinate pickup/shipping in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+                          <li>After the handover, leave feedback to help build trust.</li>
+                        </ul>
+                      ) : order.outcome === "COMPLETED" ? (
+                        <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
+                          <li>This order is marked <b>COMPLETED</b>.</li>
+                          <li>You can leave feedback anytime from this order.</li>
+                        </ul>
+                      ) : (
+                        <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
+                          <li>Check the order status above for the current step.</li>
+                          <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+                        </ul>
+                      )}
+                    </div>
+                  </Card>
+                  
                   For timed offers, the seller decides whether to proceed. If an order exists (like this one), it is binding and payment is expected. Bidra records confirmations but does not process payments or guarantee outcomes.
                 </p>
               </div>
