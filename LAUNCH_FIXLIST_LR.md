@@ -67,7 +67,7 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 ## LR-P1 (Should-fix before launch)
 - [x] Accessibility pass (keyboard nav, contrast, focus states).
 - [x] Mobile responsiveness pass on key pages.
-- [ ] Error states polished (empty inbox, empty watchlist, no listings, etc.).
+- [x] Error states polished (empty inbox, empty watchlist, no listings, etc.).
 - [x] Admin audit/events cover critical actions (orders/pay/feedback/report actions).
 
 ## LR-P2 (Nice-to-have)
