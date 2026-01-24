@@ -60,9 +60,9 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 - [x] Copy is plain/accurate: Bidra not the seller; no guarantees; dispute expectations clear.
 
 ### LR-P0-10 Domain/SEO/Deployment Sanity
-- [ ] Single Vercel project; prod build green; env vars correct.
-- [ ] Apex -> www redirect confirmed.
-- [ ] No accidental static export / prerender traps.
+- [x] Single Vercel project; prod build green; env vars correct.
+- [x] Apex -> www redirect confirmed.
+- [x] No accidental static export / prerender traps.
 
 ## LR-P1 (Should-fix before launch)
 - [ ] Accessibility pass (keyboard nav, contrast, focus states).
