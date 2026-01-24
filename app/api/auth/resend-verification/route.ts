@@ -9,7 +9,6 @@ export async function GET(req: Request) {
   return NextResponse.redirect(new URL("/auth/login?resend=1", url));
 }
 
-
 function baseUrl() {
   return process.env.NEXTAUTH_URL || "http://localhost:3000";
 }
@@ -43,8 +42,7 @@ export async function POST(req: Request) {
     // Dev helper only (never leak links in production)
     if (String(process.env.SES_ENABLED ?? "").trim() !== "1") {
       if (process.env.NODE_ENV !== "production") {
-        console.log("DEV_SES_ENABLED:", String(process.env.SES_ENABLED ?? ""));
-        console.log("DEV_VERIFY_URL:", verifyUrl);
+
         return NextResponse.json({ ok: true, devVerifyUrl: verifyUrl });
       }
       return NextResponse.json({ ok: true });

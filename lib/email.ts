@@ -37,13 +37,13 @@ async function sendEmail(args: { to: string; subject: string; text: string }) {
   // Dev-safe fallback: if SES not configured, log only.
   if (!isConfiguredSES()) {
     if (process.env.NODE_ENV !== "production") {
-      console.log("[Bidra][EMAIL DEV]", { to, subject: args.subject, text: args.text });
+
     }
     return;
   }
 
   if (process.env.NODE_ENV !== "production") {
-    console.log("[Bidra][SES] sending", { to, from, region: mustEnv("AWS_REGION") });
+
   }
 
   const cmd = new SendEmailCommand({
@@ -60,14 +60,14 @@ async function sendEmail(args: { to: string; subject: string; text: string }) {
   try {
     const out = await sesClient().send(cmd);
     if (process.env.NODE_ENV !== "production") {
-      console.log("[Bidra][SES] sent", { to, messageId: (out && out.MessageId) ? out.MessageId : null });
+
     }
   } catch (e: unknown) {
     const msg =
       typeof e === "object" && e && "message" in e
         ? String((e as any).message)
         : String(e);
-    console.log("[Bidra][SES ERROR]", { to, err: msg });
+    console.error("[Bidra][SES ERROR]", { to, err: msg });
     throw e;
   }
 }

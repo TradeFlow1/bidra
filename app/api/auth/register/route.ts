@@ -125,7 +125,7 @@ export async function POST(req: Request) {
   const verifyUrl = `${baseUrl()}/auth/verify?token=${token}`;
   await sendVerifyEmail({ to: emailNorm, verifyUrl });
   if (process.env.NODE_ENV !== "production") {
-    console.log("[Bidra] Email verification link:", verifyUrl);
+
   }
 
   return NextResponse.json({ ok: true });
