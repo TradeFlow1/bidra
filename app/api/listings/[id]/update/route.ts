@@ -109,8 +109,15 @@ if (listingLooksProhibited({ title, description, category, images })) {
   );
 }
 
-// Hard guard: we only accept upload-style URLs. Block insecure http://.
-if (images.some((u: string) => u.toLowerCase().startsWith("http://"))) {
+// Hard guard: images must be uploaded via Bidra (Vercel Blob only).
+// Disallow pasted external URLs and insecure schemes.
+if (images.some((u: string) => {
+  const s = String(u ?? "").trim().toLowerCase();
+  if (!s) return false;
+  if (!s.startsWith("https://")) return true;
+  if (s.indexOf("vercel-storage.com/") < 0) return true;
+  return false;
+})) {
   return NextResponse.json({ error: "Images must be uploaded via Bidra (invalid image URL)." }, { status: 400 });
 }
 
