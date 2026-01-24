@@ -237,7 +237,7 @@ export default function RegisterPage() {
               </div>
             ) : null}
 
-            <form onSubmit={onSubmit} className="mt-6 space-y-5">
+            <form noValidate onSubmit={onSubmit} className="mt-6 space-y-5">
               <div>
                 <label className={label}>Email</label>
                 <input

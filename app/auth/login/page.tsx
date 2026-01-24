@@ -18,7 +18,7 @@ export default function Login() {
       <p className="mt-1 text-sm text-neutral-700">Use your email and password.</p>
 
       <Card className="mt-4">
-        <form
+        <form noValidate
           className="flex flex-col gap-3"
           onSubmit={async (e) => {
             e.preventDefault();
