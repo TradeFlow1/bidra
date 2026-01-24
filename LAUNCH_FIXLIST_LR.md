@@ -68,7 +68,7 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 - [ ] Accessibility pass (keyboard nav, contrast, focus states).
 - [ ] Mobile responsiveness pass on key pages.
 - [ ] Error states polished (empty inbox, empty watchlist, no listings, etc.).
-- [ ] Admin audit/events cover critical actions (orders/pay/feedback/report actions).
+- [x] Admin audit/events cover critical actions (orders/pay/feedback/report actions).
 
 ## LR-P2 (Nice-to-have)
 - [ ] Small copy polish sweep (no placeholders, no “beta” wording).
