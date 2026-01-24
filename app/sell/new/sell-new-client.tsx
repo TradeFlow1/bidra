@@ -397,6 +397,17 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     return files.slice(0, 10).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
   }, [files]);
 
+  function sanitizeMoneyInput(v: string): string {
+    const s = String(v ?? "");
+    let out = "";
+    let seenDot = false;
+    for (let i = 0; i < s.length; i++) {
+      const ch = s[i];
+      if (ch >= "0" && ch <= "9") { out += ch; continue; }
+      if (ch === "." && !seenDot) { out += "."; seenDot = true; continue; }
+    }
+    return out;
+  }
   async function onSubmit(e: React.FormEvent) {
     setFeedbackGate(null);
     e.preventDefault();
@@ -669,7 +680,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         {!isTimedOffers && (
           <div>
             <label className="text-sm font-medium">Price (AUD)</label>
-            <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="e.g. 60" />
+            <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={price} onChange={(e) => setPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
           </div>
         )}
 
@@ -677,18 +688,18 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           <>
             <div>
               <label className="text-sm font-medium">Starting offer (AUD)</label>
-              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={startingBid} onChange={(e) => setStartingBid(e.target.value)} placeholder="e.g. 60" />
+              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
             </div>
 
             <div>
               <label className="text-sm font-medium">Reserve price (AUD) (optional)</label>
-              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={reservePrice} onChange={(e) => setReservePrice(e.target.value)} placeholder="e.g. 120" />
+              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={reservePrice} onChange={(e) => setReservePrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 120" inputMode="decimal" />
               <div className="mt-1 text-xs bd-ink2">Must be ≥ starting offer. Leave blank for no reserve.</div>
             </div>
 
             <div>
               <label className="text-sm font-medium">Buy Now price (AUD) (optional)</label>
-              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={buyNowPrice} onChange={(e) => setBuyNowPrice(e.target.value)} placeholder="e.g. 200" />
+              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={buyNowPrice} onChange={(e) => setBuyNowPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 200" inputMode="decimal" />
               <div className="mt-1 text-xs bd-ink2">Only shown until met/exceeded.</div>
             </div>
 

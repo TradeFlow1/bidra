@@ -11,7 +11,7 @@ Only items not proven DONE in prior LR archive.
 - [x] Suggested category from title works reliably
 - [x] Seller listing edit UX smoother (access + flow)
 - [x] Easier to edit LIVE listings for sellers (fast access + clear controls)
-- [ ] Price input UI prevents $ confusion (numerals-only OR $ shown)
+- [x] Price input UI prevents $ confusion (numerals-only OR $ shown)
 - [ ] Login validation UX consistent (no random browser popups)
 - [x] Listing detail price/CTA duplication cleaned up
 - [x] Unread messages banner is obvious (clear unread state, Bidra-blue ok)
