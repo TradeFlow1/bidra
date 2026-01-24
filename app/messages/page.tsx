@@ -111,7 +111,7 @@ export default async function MessagesInboxPage() {
                         <div className="flex items-start gap-4">
                           <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-black/10 bg-black/[0.03]">
                             {thumb ? (
-                              <img src={thumb} alt="" className="h-full w-full object-cover" />
+                              <img src={thumb} alt="Listing photo" className="h-full w-full object-cover" />
                             ) : (
                               <div className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-[var(--bidra-ink-3)]">
                                 No photo
