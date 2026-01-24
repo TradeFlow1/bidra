@@ -13,7 +13,7 @@ function fmtJoined(d?: Date | string | null) {
   if (!d) return null;
   const dt = typeof d === "string" ? new Date(d) : d;
   if (Number.isNaN(dt.getTime())) return null;
-  return dt.toLocaleDateString(undefined, { year: "numeric", month: "short" });
+  return dt.toLocaleDateString("en-AU", { year: "numeric", month: "short" });
 }
 
 export default function TrustPanel({
