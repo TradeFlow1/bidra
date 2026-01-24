@@ -55,9 +55,9 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
       listing/account state changes, admin audit reconstruction.
 
 ### LR-P0-09 Legal/Trust Pages
-- [ ] Terms + Privacy + Support pages exist and are linked in footer/header where appropriate.
-- [ ] Prohibited items page exists and is linked.
-- [ ] Copy is plain/accurate: Bidra not the seller; no guarantees; dispute expectations clear.
+- [x] Terms + Privacy + Support pages exist and are linked in footer/header where appropriate.
+- [x] Prohibited items page exists and is linked.
+- [x] Copy is plain/accurate: Bidra not the seller; no guarantees; dispute expectations clear.
 
 ### LR-P0-10 Domain/SEO/Deployment Sanity
 - [ ] Single Vercel project; prod build green; env vars correct.
