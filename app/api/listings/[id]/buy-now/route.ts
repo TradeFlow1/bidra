@@ -56,15 +56,16 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       }
     }
 
+    const amount = listing.type === "AUCTION" ? listing.buyNowPrice : listing.price
+
     // Fixed price: primary path (allowed). Still prevent Buy Now if already met/exceeded by offers.
-    if (highestOffer >= listing.buyNowPrice) {
+    if (highestOffer >= amount) {
       return jsonError("Buy Now is no longer available.", 400)
     }
 
     // Seller can't buy their own item
     if (listing.sellerId === session.user.id) return jsonError("You can’t Buy Now your own listing.", 400)
 
-    const amount = listing.buyNowPrice
 
     const result = await prisma.$transaction(async (tx) => {
       // Race-safe: only the first request that flips ACTIVE->SOLD may create an order
