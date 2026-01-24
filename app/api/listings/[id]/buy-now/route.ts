@@ -39,9 +39,13 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     if (listing.status !== "ACTIVE") return jsonError("Listing is not active.", 400)
 
     // Buy Now price is stored in cents as listing.buyNowPrice
-    if (typeof listing.buyNowPrice !== "number") return jsonError("Buy Now is not set for this listing.", 400)
+    const isTimedOffers = listing.type === "AUCTION"
+const hasBuyNow = typeof listing.buyNowPrice === "number"
+if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this timed-offers listing.", 400)
 
     const highestOffer = listing.bids?.length ? listing.bids[0].amount : 0
+
+    const amount = isTimedOffers ? (listing.buyNowPrice as number) : listing.price
 
     // Timed offers (schema type: AUCTION): Kevin model
     if (listing.type === "AUCTION") {
@@ -51,12 +55,11 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       if (!isFinalWindow) return jsonError("Buy Now may be enabled late-stage on timed offers.", 400)
 
       // Must be above current highest offer
-      if (listing.buyNowPrice <= highestOffer) {
+      if (amount <= highestOffer) {
         return jsonError("Buy Now must be above the current highest offer.", 400)
       }
     }
 
-    const amount = listing.type === "AUCTION" ? listing.buyNowPrice : listing.price
 
     // Fixed price: primary path (allowed). Still prevent Buy Now if already met/exceeded by offers.
     if (highestOffer >= amount) {
