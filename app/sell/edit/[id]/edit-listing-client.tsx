@@ -438,9 +438,14 @@ buyNowPrice:
                     accept="image/*"
                     multiple
                     onChange={(e) => {
-                      const next = Array.from(e.target.files || []);
-                      setFiles(next.slice(0, 10));
-                      uploadAndAppend(next);
+                      const picked = Array.from(e.target.files || []);
+                      const remaining = Math.max(0, 10 - (existingImages?.length || 0));
+                      const toAdd = picked.slice(0, remaining);
+
+                      setFiles((prev) => [...prev, ...toAdd].slice(0, 10));
+                      uploadAndAppend(toAdd);
+
+                      e.currentTarget.value = "";
                     }}
                   />
 

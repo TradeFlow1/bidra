@@ -578,7 +578,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             type="file"
             accept="image/*"
             multiple
-            onChange={(e) => setFiles(Array.from(e.target.files || []).slice(0, 10))}
+            onChange={(e) => { const picked = Array.from(e.target.files || []); setFiles((prev) => [...prev, ...picked].slice(0, 10)); e.currentTarget.value = ""; }}
           />
 
           {previews.length > 0 && (
