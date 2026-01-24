@@ -85,7 +85,13 @@ const KEYWORD_BUCKETS: { cat: string; kws: string[] }[] = [
   { cat: "Appliances › Kitchen Appliances", kws: ["fridge","freezer","microwave","dishwasher","oven","cooktop","air fryer","kettle","toaster","coffee machine","mixer"] },
   { cat: "Appliances › Laundry Appliances", kws: ["washing machine","washer","dryer","tumble dryer"] },
   { cat: "Appliances › Heating & Cooling", kws: ["aircon","air conditioner","heater","fan","dehumidifier"] },
-  { cat: "Appliances › Vacuums", kws: ["vacuum","dyson","robot vacuum","roomba"] },
+  { cat: "Appliances › Vacuums", kws: ["vacuum","dyson","robot vacuum","roomba","vacuum cleaner","stick vacuum","miele"] },
+
+  // Tools & DIY
+  { cat: "Tools & DIY › Power Tools", kws: ["drill","impact","driver","saw","circular","jigsaw","sander","grinder","router","nail gun","compressor","air compressor","makita","dewalt","milwaukee","ryobi","ozito"] },
+  { cat: "Tools & DIY › Hand Tools", kws: ["spanner","wrench","socket","ratchet","hammer","screwdriver","pliers","allen","hex","chisel","clamp","vice","tape measure","level","stanley knife","utility knife","tool kit","toolbox"] },
+  { cat: "Tools & DIY › Garden Tools", kws: ["lawn mower","mower","whipper","line trimmer","hedge trimmer","blower","leaf blower","chainsaw","edger","rake","shovel","spade","secateurs"] },
+  { cat: "Tools & DIY › Building Materials", kws: ["timber","wood","plywood","mdf","gyprock","drywall","cement","concrete","bricks","pavers","steel","aluminium","insulation","paint","primer","tiles"] },
 
   // Sports & Outdoors
   { cat: "Sports & Outdoors › Fitness", kws: ["treadmill","weights","dumbbell","barbell","gym","exercise bike","rowing machine","bench press","kettlebell"] },
@@ -119,7 +125,59 @@ const KEYWORD_BUCKETS: { cat: string; kws: string[] }[] = [
   { cat: "Vehicles › Caravans & Campers", kws: ["caravan","camper","campervan","rv"] },
 
   // Pet Supplies
-  { cat: "Pet Supplies (NO LIVE ANIMALS)", kws: ["dog","cat","pet","leash","collar","litter","aquarium","kennel","harness"] },
+  { cat: "Pet Supplies (NO LIVE ANIMALS)", kws: ["dog","cat","pet","leash","collar","litter","aquarium","kennel","harness","pet bed","crate","carrier","scratching post","cat tree","fish tank"] },
+
+  // Fashion & Wearables
+  { cat: "Fashion & Wearables › Men's Clothing", kws: ["mens","men's","shirt","tshirt","tee","hoodie","jumper","jacket","jeans","shorts","pants","suit","tie"] },
+  { cat: "Fashion & Wearables › Women's Clothing", kws: ["womens","women's","dress","skirt","blouse","top","heels","cardigan","jacket","jeans","activewear","leggings"] },
+  { cat: "Fashion & Wearables › Shoes", kws: ["shoes","sneakers","runners","boots","heels","sandals","thongs","nike","adidas","asics","new balance"] },
+  { cat: "Fashion & Wearables › Bags", kws: ["bag","handbag","backpack","rucksack","wallet","purse","luggage","suitcase"] },
+  { cat: "Fashion & Wearables › Jewellery & Watches", kws: ["watch","watches","rolex","seiko","casio","ring","necklace","bracelet","earrings","jewellery","jewelry"] },
+
+  // Beauty & Personal Care
+  { cat: "Beauty & Personal Care › Skincare", kws: ["skincare","cleanser","moisturiser","moisturizer","serum","sunscreen","spf","retinol","toner"] },
+  { cat: "Beauty & Personal Care › Hair Care", kws: ["shampoo","conditioner","hair dryer","hairdryer","straightener","curling iron","ghd","dyson airwrap"] },
+  { cat: "Beauty & Personal Care › Fragrances", kws: ["perfume","cologne","fragrance","eau de parfum","aftershave"] },
+  { cat: "Beauty & Personal Care › Grooming", kws: ["shaver","razor","clippers","trimmer","beard","grooming"] },
+
+  // Baby & Nursery
+  { cat: "Baby & Nursery › Prams", kws: ["pram","stroller","pushchair","buggy"] },
+  { cat: "Baby & Nursery › Car Seats", kws: ["car seat","baby seat","booster seat","capsule"] },
+  { cat: "Baby & Nursery › Nursery Furniture", kws: ["cot","crib","bassinet","change table","change pad","high chair","nursery"] },
+
+  // Art
+  { cat: "Art › Paintings", kws: ["painting","canvas","acrylic","oil painting","watercolour","watercolor"] },
+  { cat: "Art › Sculpture", kws: ["sculpture","statue","ceramic","clay","bronze"] },
+  { cat: "Art › Photography", kws: ["photography","photo print","print","framed print"] },
+
+  // Office & Business
+  { cat: "Office & Business › Office Equipment", kws: ["printer","scanner","label printer","shredder","laminator","monitor arm","docking station"] },
+  { cat: "Office & Business › Supplies", kws: ["stationery","paper","notebook","pens","labels","ink","toner"] },
+  { cat: "Office & Business › POS & Retail", kws: ["pos","eftpos","receipt printer","cash drawer","barcode scanner","square terminal"] },
+
+  // Industrial
+  { cat: "Industrial › Machinery", kws: ["machinery","lathe","mill","press","forklift","generator","welder","welding"] },
+  { cat: "Industrial › Electrical", kws: ["electrical","cable","conduit","switchboard","breaker","inverter"] },
+  { cat: "Industrial › Safety Equipment", kws: ["safety","ppe","hi vis","high vis","helmet","gloves","goggles","earmuffs","respirator"] },
+
+  // Health & Medical (non-prescription)
+  { cat: "Health & Medical (non-prescription) › Mobility", kws: ["wheelchair","walker","walking frame","mobility scooter","crutches","cane"] },
+  { cat: "Health & Medical (non-prescription) › Monitoring Devices", kws: ["blood pressure","bp monitor","thermometer","pulse oximeter","oximeter","glucose monitor"] },
+  { cat: "Health & Medical (non-prescription) › Wellness", kws: ["massage gun","foam roller","yoga mat","meditation","sauna blanket"] },
+
+  // Tickets (where permitted)
+  { cat: "Tickets (where permitted) › Events", kws: ["tickets","event ticket","festival ticket","gig ticket"] },
+  { cat: "Tickets (where permitted) › Sport", kws: ["match ticket","game ticket","sport ticket"] },
+  { cat: "Tickets (where permitted) › Theatre", kws: ["theatre ticket","theater ticket","show ticket","musical"] },
+
+  // Services
+  { cat: "Services › Trade Services", kws: ["plumber","electrician","tradie","handyman","tiling","painting service"] },
+  { cat: "Services › Creative Services", kws: ["design","graphic design","photographer","videographer","logo"] },
+  { cat: "Services › Lessons", kws: ["tutor","tutoring","lessons","guitar lessons","piano lessons","driving lessons"] },
+
+  // Free items + Other
+  { cat: "Free items", kws: ["free","giveaway","free to good home","no charge"] },
+  { cat: "Other", kws: ["misc","miscellaneous","assorted","bundle","lot"] },
 ];
 function normalizeSuggestedCategory(raw: string): string {
   const v = String(raw || "").trim();
@@ -672,8 +730,16 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
           {previews.length > 0 && (
             <div className="mt-3 grid grid-cols-3 gap-2">
-              {previews.map((p) => (
-                <div key={p.url} className="overflow-hidden rounded-md border">
+              {previews.map((p, idx) => (
+                <div key={p.url} className="relative overflow-hidden rounded-md border">
+                  <button
+                    type="button"
+                    aria-label="Remove photo"
+                    className="absolute right-1 top-1 rounded-md bg-white/90 px-2 py-1 text-xs font-semibold bd-ink shadow"
+                    onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
+                  >
+                    ✕
+                  </button>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={p.url} alt={p.name} className="h-24 w-full object-cover" />
                 </div>
