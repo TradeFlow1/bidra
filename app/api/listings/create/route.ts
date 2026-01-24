@@ -3,6 +3,8 @@ import { requireAdult } from "@/lib/require-adult";
 
 
 import { prisma } from "@/lib/prisma";
+import { listingLooksProhibited } from "@/lib/prohibited-items";
+import { applyPolicyStrike, isPolicyBlocked } from "@/lib/policy-strike";
 import { FULL_CATEGORIES } from "@/lib/categories";
 
 
@@ -22,70 +24,6 @@ function toIntOrNull(v: any): number | null {
   return Math.trunc(n);
 }
 
-// Very lightweight policy layer (server-side). This is not perfect, but it's enforceable and strike-backed.
-const PROHIBITED_KEYWORDS = [
-  // Live animals
-  "kitten","puppy","dog","cat","rabbit","bird","snake","reptile","horse","livestock","animal","pet",
-  "pup","kittens","puppies",
-  // Weapons / restricted
-  "gun","firearm","ammo","ammunition","rifle","pistol","shotgun","silencer",
-  "switchblade","brass knuckles",
-  // Drugs / controlled
-  "cocaine","meth","ice","heroin","mdma","ecstasy","weed","marijuana","thc","vape thc"
-];
-
-function escapeRegex(s: string) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-function textLooksProhibited(text: string) {
-  const t = (text || "").toLowerCase();
-  // Match whole words for single tokens, and phrase boundaries for multi-word entries.
-  // Prevent false positives like "cat" matching inside "category".
-  return PROHIBITED_KEYWORDS.some((k) => {
-    const key = String(k || "").toLowerCase().trim();
-    if (!key) return false;
-
-    const isPhrase = /\s/.test(key);
-    const pattern = isPhrase
-      ? `(^|[^a-z0-9])${escapeRegex(key)}($|[^a-z0-9])`
-      : `\b${escapeRegex(key)}\b`;
-
-    try {
-      const re = new RegExp(pattern, "i");
-      return re.test(t);
-    } catch {
-      return false;
-    }
-  });
-}
-
-async function applyStrike(userId: string) {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { policyStrikes: true, policyBlockedUntil: true },
-  });
-
-  const strikes = (user?.policyStrikes ?? 0) + 1;
-
-  // Block ladder
-  // 3 strikes -> 24 hours, 5 strikes -> 7 days
-  let blockedUntil: Date | null = user?.policyBlockedUntil ?? null;
-  const now = new Date();
-
-  if (strikes >= 5) blockedUntil = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-  else if (strikes >= 3) blockedUntil = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-
-  await prisma.user.update({
-    where: { id: userId },
-    data: {
-      policyStrikes: strikes,
-      policyBlockedUntil: blockedUntil,
-    },
-  });
-
-  return { strikes, blockedUntil };
-}
 export async function POST(req: Request) {
   
   const gate = await requireAdult();
@@ -101,18 +39,18 @@ try {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    // If currently blocked
-    const me = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: { policyBlockedUntil: true },
-    });
-
-    if (me?.policyBlockedUntil && me.policyBlockedUntil.getTime() > Date.now()) {
+    // If currently blocked (policy ladder)
+    const pb = await isPolicyBlocked(session.user.id);
+    if (pb.blocked) {
       return NextResponse.json(
         { error: "Account temporarily restricted due to policy violations. Try again later." },
         { status: 403 }
       );
     }
+
+
+
+
 
 
 
@@ -199,9 +137,28 @@ if (images.length > 10) return NextResponse.json({ error: "Too many images (max 
     }
 
     // ---- POLICY ENFORCEMENT (with strikes) ----
-    const textToCheck = `${title} ${description}`.toLowerCase();
-    if (textLooksProhibited(textToCheck)) {
-      const strike = await applyStrike(session.user.id);
+    if (listingLooksProhibited({ title, description, category, images })) {
+      const strike = await applyPolicyStrike(session.user.id);
+
+      // audit (best-effort)
+      try {
+        await prisma.adminEvent.create({
+          data: {
+            type: "LISTING_POLICY_BLOCKED_CREATE",
+            userId: session.user.id,
+            data: {
+              strikes: strike.strikes,
+              blockedUntil: strike.blockedUntil ? new Date(strike.blockedUntil).toISOString() : null,
+              title,
+              category,
+              at: new Date().toISOString(),
+            },
+          },
+        });
+      } catch (e) {
+        console.warn("[ADMIN_AUDIT] Failed to log LISTING_POLICY_BLOCKED_CREATE", e);
+      }
+
       return NextResponse.json(
         {
           error: "This item is not permitted to be listed.",

@@ -1,5 +1,7 @@
 ﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { listingLooksProhibited } from "@/lib/prohibited-items";
+import { applyPolicyStrike, isPolicyBlocked } from "@/lib/policy-strike";
 import { FULL_CATEGORIES } from "@/lib/categories";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -16,6 +18,15 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
 
     const gate = await requireAdult(session);
     if (!gate.ok) return NextResponse.json({ error: gate.reason }, { status: gate.status });
+
+    // If currently blocked (policy ladder)
+    const pb = await isPolicyBlocked(session.user.id);
+    if (pb.blocked) {
+      return NextResponse.json(
+        { error: "Account temporarily restricted due to policy violations. Try again later." },
+        { status: 403 }
+      );
+    }
 
     const id = String(ctx?.params?.id || "").trim();
     if (!id) {
@@ -64,6 +75,39 @@ const images = imagesRaw
   .map((v: any) => String(v ?? "").trim())
   .filter(Boolean)
   .slice(0, 10);
+
+// ---- POLICY ENFORCEMENT (with strikes) ----
+if (listingLooksProhibited({ title, description, category, images })) {
+  const strike = await applyPolicyStrike(session.user.id);
+
+  // audit (best-effort)
+  try {
+    await prisma.adminEvent.create({
+      data: {
+        type: "LISTING_POLICY_BLOCKED_UPDATE",
+        userId: session.user.id,
+        data: {
+          strikes: strike.strikes,
+          blockedUntil: strike.blockedUntil ? new Date(strike.blockedUntil).toISOString() : null,
+          listingId: id,
+          title,
+          category,
+          at: new Date().toISOString(),
+        },
+      },
+    });
+  } catch (e) {
+    console.warn("[ADMIN_AUDIT] Failed to log LISTING_POLICY_BLOCKED_UPDATE", e);
+  }
+
+  return NextResponse.json(
+    {
+      error: "This item is not permitted to be listed.",
+      policy: { strikes: strike.strikes, blockedUntil: strike.blockedUntil },
+    },
+    { status: 400 }
+  );
+}
 
 // Hard guard: we only accept upload-style URLs. Block insecure http://.
 if (images.some((u: string) => u.toLowerCase().startsWith("http://"))) {
