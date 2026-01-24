@@ -71,5 +71,5 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 - [x] Admin audit/events cover critical actions (orders/pay/feedback/report actions).
 
 ## LR-P2 (Nice-to-have)
-- [ ] Small copy polish sweep (no placeholders, no “beta” wording).
-- [ ] Performance tidy-ups (image sizes, caching sanity).
+- [x] Small copy polish sweep (no placeholders, no “beta” wording).
+- [x] Small copy polish sweep (no placeholders, no beta wording).
