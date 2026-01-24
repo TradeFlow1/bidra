@@ -132,9 +132,11 @@ function scrollTo(i: number) {
   if (!imgs.length) {
   return (
     <div className="flex h-full w-full items-center justify-center bg-neutral-100">
-      <img
+      <Image
         src="/brand/bidra-kangaroo-icon.png"
         alt="No image"
+        width={64}
+        height={64}
         className="h-16 w-16 object-contain opacity-70"
         draggable={false}
       />

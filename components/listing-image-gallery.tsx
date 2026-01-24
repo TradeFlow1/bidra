@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 
 function normalizeImages(images: any): string[] {
   if (!images) return [];
@@ -121,15 +122,19 @@ export default function ListingImageGallery(props: { images: any; title?: string
         >
           {imgs.map((src, i) => (
             <div key={i} className="relative w-full flex-shrink-0 snap-start">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt={title}
-                className="block h-[260px] w-full object-cover md:h-[420px] select-none"
-                draggable={false}
-                onDragStart={(e) => e.preventDefault()}
-                onContextMenu={(e) => e.preventDefault()}
-              />
+              <div className="relative h-[260px] w-full md:h-[420px]">
+                <Image
+                  src={src}
+                  alt={title}
+                  fill
+                  sizes="100vw"
+                  className="object-cover select-none"
+                  draggable={false}
+                  onDragStart={(e) => e.preventDefault()}
+                  onContextMenu={(e) => e.preventDefault()}
+                  unoptimized
+                />
+              </div>
 
               <div className="absolute bottom-3 right-2 rounded-full bg-black/70 px-2 py-1 text-xs text-white">
                 {i + 1}/{imgs.length}

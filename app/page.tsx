@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import { headers } from "next/headers";
+import Image from "next/image";
 
 import ListingCard from "@/components/listing-card";
 import HomeCategorySelectClient from "@/components/home-category-select-client";
@@ -59,7 +60,7 @@ export default async function HomePage() {
   <div className="relative px-5 py-8 pb-10 sm:px-10 sm:py-12 text-center">
     <div className="mx-auto flex items-center justify-center sm:-mb-12">
       <div className="mx-auto h-32 sm:h-48 overflow-hidden flex items-center justify-center">
-  <img src={LOGO_SRC} alt="Bidra" className="h-44 sm:h-[28rem] w-auto drop-shadow-sm" />
+  <Image src={LOGO_SRC} alt="Bidra" width={1200} height={1200} priority className="h-44 sm:h-[28rem] w-auto drop-shadow-sm" />
 </div>
 
     </div>

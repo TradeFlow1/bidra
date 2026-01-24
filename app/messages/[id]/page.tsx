@@ -1,4 +1,5 @@
-﻿import Link from "next/link"
+﻿import Image from "next/image";
+import Link from "next/link"
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
@@ -95,7 +96,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                   <div className="flex items-center gap-3">
                     <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-black/10 bg-black/[0.03]">
                       {thumb ? (
-                        <img src={thumb} alt="Listing photo" className="h-full w-full object-cover" />
+                        <Image src={thumb} alt="Listing photo" width={48} height={48} className="h-full w-full object-cover" unoptimized />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-[var(--bidra-ink-3)]">
                           No photo

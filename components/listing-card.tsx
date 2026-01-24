@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import ListingThumbCarousel from "@/components/listing-thumb-carousel";
@@ -70,15 +71,17 @@ export default function ListingCard({ listing }: ListingCardProps) {
           <ListingThumbCarousel images={listing.images} title={listing.title} />
         ) : (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={fallback}
               alt={listing.title}
-              className={isNoPhotos ? "h-full w-full select-none object-contain p-10 opacity-90" : "h-full w-full select-none object-cover"}
+              fill
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
+              className={isNoPhotos ? "select-none object-contain p-10 opacity-90" : "select-none object-cover"}
               draggable={false}
               onDragStart={(e) => e.preventDefault()}
               onContextMenu={(e) => e.preventDefault()}
               style={{ userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none" } as any}
+              unoptimized
             />
 
             {isNoPhotos ? (
