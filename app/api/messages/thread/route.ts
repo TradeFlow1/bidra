@@ -26,6 +26,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Seller cannot create a buyer thread." }, { status: 400 })
   }
 
+    const existing = await prisma.messageThread.findUnique({
+    where: { listingId_buyerId: { listingId, buyerId: me } },
+    select: { id: true, buyerDeletedAt: true, createdAt: true },
+  })
+
   const thread = await prisma.messageThread.upsert({
     where: { listingId_buyerId: { listingId, buyerId: me } },
     update: { updatedAt: new Date(), buyerDeletedAt: null },
@@ -34,6 +39,21 @@ export async function POST(req: Request) {
       buyerId: me,
       sellerId: listing.sellerId,
       lastMessageAt: new Date(),
+    },
+  })
+
+    const eventType = existing ? "MESSAGE_THREAD_OPENED" : "MESSAGE_THREAD_CREATED"
+  await prisma.adminEvent.create({
+    data: {
+      type: eventType,
+      userId: me,
+      data: {
+        listingId,
+        threadId: thread.id,
+        sellerId: listing.sellerId,
+        buyerId: me,
+        reopened: !!(existing && existing.buyerDeletedAt),
+      },
     },
   })
 
