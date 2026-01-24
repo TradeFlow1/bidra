@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
+import DateTimeText from "@/components/date-time-text";
 
 export const dynamic = "force-dynamic";
 
@@ -47,7 +48,7 @@ export default async function OrdersPage() {
                   <div className="text-sm bd-ink2">
                     <Badge>{o.status}</Badge>{" "}
                     <span className="ml-2">
-                      Created {new Date(o.createdAt).toLocaleString("en-AU")}
+                      Created <DateTimeText value={o.createdAt} />
                     </span>
                   </div>
 

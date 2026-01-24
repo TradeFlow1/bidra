@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
+import DateTimeText from "@/components/date-time-text";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -172,7 +173,7 @@ export default async function DashboardPage() {
                   <div className="bd-ink2">
                     Temporarily blocked until{" "}
                     <span className="font-semibold bd-ink">
-                      {user.policyBlockedUntil ? new Date(user.policyBlockedUntil).toLocaleString() : "—"}
+                      {user.policyBlockedUntil ? <DateTimeText value={user.policyBlockedUntil} /> : "—"}
                     </span>
                     .
                   </div>

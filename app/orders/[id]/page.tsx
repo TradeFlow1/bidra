@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
+import DateTimeText from "@/components/date-time-text";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -72,7 +73,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <h1 className="text-3xl font-extrabold tracking-tight">Order</h1>
               <div className="text-sm bd-ink2 mt-1">
                 <Badge>{order.status}</Badge>{" "}
-                <span className="ml-2">Created {new Date(order.createdAt).toLocaleString("en-AU")}</span>
+                <span className="ml-2">Created <DateTimeText value={order.createdAt} /></span>
               </div>
             </div>
 

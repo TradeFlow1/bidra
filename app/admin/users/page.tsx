@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Card, Badge } from "@/components/ui";
+import DateTimeText from "@/components/date-time-text";
 
 type AdminUserRow = {
   id: string;
@@ -59,12 +60,12 @@ export default async function AdminUsers() {
                   <Badge>{u.isActive ? "ACTIVE" : "INACTIVE"}</Badge>
                   <Badge>Strikes {u.policyStrikes}</Badge>
                   {u.policyBlockedUntil ? (
-                    <Badge>Blocked until {new Date(u.policyBlockedUntil).toLocaleString("en-AU")}</Badge>
+                    <Badge>Blocked until <DateTimeText value={u.policyBlockedUntil} /></Badge>
                   ) : null}
                 </div>
 
                 <div className="mt-2 text-xs text-neutral-600">
-                  Created {new Date(u.createdAt).toLocaleString("en-AU")}
+                  Created <DateTimeText value={u.createdAt} />
                 </div>
               </div>
 

@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import ConfirmSubmitButton from "@/components/confirm-submit-button";
 import AiRecommendActions from "@/components/ai-recommend-actions";
 import { analyzeReportDeterministic } from "@/lib/ai/analyze";
+import DateTimeText from "@/components/date-time-text";
 
 export default async function AdminReportDetail({ params }: { params: { id: string } }) {
   const session = await auth();
@@ -97,7 +98,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
         <div>
           <h1 style={{ fontSize: 28, margin: 0 }}>Report</h1>
           <div style={{ marginTop: 6, fontSize: 12, opacity: 0.8 }}>
-            Created: {new Date(report.createdAt as any).toLocaleString("en-AU")}
+            Created: <DateTimeText value={report.createdAt as any} />
           </div>
         </div>
 

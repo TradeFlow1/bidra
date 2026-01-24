@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Card, Badge } from "@/components/ui";
 import { labelCategory } from "@/lib/labels";
+import DateTimeText from "@/components/date-time-text";
 
 type AdminListingRow = {
   id: string;
@@ -61,7 +62,7 @@ export default async function AdminListings() {
               </div>
 
               <div className="text-xs text-neutral-600">
-                Created {new Date(l.createdAt).toLocaleString("en-AU")}
+                Created <DateTimeText value={l.createdAt} />
               </div>
             </div>
           </Card>

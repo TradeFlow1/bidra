@@ -2,6 +2,7 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import DateTimeText from "@/components/date-time-text";
 
 type AdminReportRow = {
   id: string;
@@ -114,7 +115,7 @@ export default async function AdminReports({
             {reports.map((r, idx) => (
               <div key={r.id} style={{ borderTop: idx === 0 ? "none" : "1px solid #eee", padding: 12 }}>
                 <div style={{ color: "#666", fontSize: 13 }}>
-                  Report {" – "} {new Date(r.createdAt).toLocaleString("en-AU")}
+                  Report {" – "} <DateTimeText value={r.createdAt} />
                 </div>
 
                 <div style={{ marginTop: 6, fontWeight: 900, fontSize: 16 }}>

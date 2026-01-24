@@ -2,6 +2,7 @@
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
+import DateTimeText from "@/components/date-time-text";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -91,7 +92,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
           <tbody>
             {rows.map((r) => (
               <tr key={r.id} style={{ borderTop: "1px solid rgba(0,0,0,0.08)" }}>
-                <td style={{ padding: 10, fontSize: 12, whiteSpace: "nowrap" }}>{new Date(r.createdAt).toLocaleString()}</td>
+                <td style={{ padding: 10, fontSize: 12, whiteSpace: "nowrap" }}><DateTimeText value={r.createdAt} /></td>
                 <td style={{ padding: 10, fontSize: 12, fontWeight: 800 }}>{r.type}</td>
                 <td style={{ padding: 10, fontSize: 12, fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" }}>{r.userId || "-"}</td>
                 <td style={{ padding: 10, fontSize: 12, fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" }}>{r.orderId || "-"}</td>

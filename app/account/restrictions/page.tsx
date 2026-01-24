@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
+import DateTimeText from "@/components/date-time-text";
 
 export default async function RestrictionsPage() {
   const session = await auth();
@@ -62,7 +63,7 @@ export default async function RestrictionsPage() {
           <div><b>Policy strikes:</b> {dbUser?.policyStrikes ?? 0}</div>
           <div>
             <b>Restricted until:</b>{" "}
-            {blockedUntil ? blockedUntil.toLocaleString("en-AU") : "—"}
+            {blockedUntil ? <DateTimeText value={blockedUntil} /> : "—"}
           </div>
         </div>
 
