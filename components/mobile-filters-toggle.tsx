@@ -19,6 +19,7 @@ export default function MobileFiltersToggle({ children }: { children: React.Reac
 
       {open ? (
         <div className="mt-3 rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+        <div className="mb-2 text-xs text-black/60">Change filters, then tap <b>Show results</b>.</div>
           <div className="[&_form]:space-y-3 [&_input]:bg-white [&_select]:bg-white">
             {children}
           </div>

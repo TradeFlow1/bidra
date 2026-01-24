@@ -5,7 +5,7 @@ Only items not proven DONE in prior LR archive.
 - [x] Local time/date correctness (DST-safe)
 - [x] Feedback visibility + route correctness (no dead links, clear entry points)
 - [x] Post-purchase clarity for buyers (what happens next)
-- [ ] Homepage filters: remove “hidden Apply” confusion
+- [x] Homepage filters: remove “hidden Apply” confusion
 - [ ] Mobile hero clipping fix
 - [ ] Post-signup CTA pills (Browse / Create listing / Log in)
 - [ ] Suggested category from title works reliably

@@ -316,7 +316,7 @@ where.AND.push({ images: { isEmpty: false } });
 
   <div className="mt-3 flex flex-wrap items-center gap-2">
     <button type="submit" className="btnPrimary" style={{ cursor: "pointer" }}>
-      Apply
+      Show results
     </button>
     {hasAnyFilter ? (
       <Link href="/listings" className="btnSecondary">Clear</Link>
@@ -418,7 +418,7 @@ where.AND.push({ images: { isEmpty: false } });
 
   <div className="mt-3 flex flex-wrap items-center gap-2">
     <button type="submit" className="btnPrimary" style={{ cursor: "pointer" }}>
-      Apply
+      Show results
     </button>
     {hasAnyFilter ? (
       <Link href="/listings" className="btnSecondary">Clear</Link>
