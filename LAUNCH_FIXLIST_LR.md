@@ -37,10 +37,10 @@ Scope: Public launch readiness (post Friend Test). Do not regress FT fixes.
 - [x] No pooled-funds behaviour; platform does not handle money.
 
 ### LR-P0-06 Prohibited Items Blocking (Locked Requirement)
-- [ ] Prohibited items blocked at listing creation server-side (no publish/review path).
-- [ ] Includes: vapes/nicotine, alcohol, sexual/fetish content (at minimum).
-- [ ] Validates title, description, category/tags, and images where possible.
-- [ ] Clear user-facing error + attempt logging + escalation only on repeats.
+- [x] Prohibited items blocked at listing creation server-side (no publish/review path).
+- [x] Includes: vapes/nicotine, alcohol, sexual/fetish content (at minimum).
+- [x] Validates title, description, category/tags, and images where possible.
+- [x] Clear user-facing error + attempt logging + escalation only on repeats.
 
 ### LR-P0-07 Mobile Photos (Locked Requirement)
 - [ ] Mobile upload supports multiple photos per listing (append, not replace).
