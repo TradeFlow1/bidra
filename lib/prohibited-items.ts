@@ -1,7 +1,7 @@
 ﻿export const PROHIBITED_KEYWORDS: string[] = [
   // --- Nicotine / vapes ---
   "vape","vaping","vapes","e-cig","ecig","e cig","e-cigarette","ecigarette",
-  "nicotine","nic salts","nic-salts","nicotine pouches","nicotine pouch","pouch",
+  "nicotine","nic salts","nic-salts","nicotine pouches","nicotine pouch",
   "juul","iqos","heat not burn","pod system","vape juice","e-liquid","eliquid",
   "disposable vape","vape pen","mods","coil","atomizer",
 
@@ -17,14 +17,15 @@
   // --- Weapons / restricted ---
   "gun","firearm","ammo","ammunition","rifle","pistol","shotgun","silencer","suppressor",
   "switchblade","brass knuckles","knuckleduster","knuckle duster","taser","stun gun",
-  "knife","combat knife","butterfly knife","balisong",
+  "combat knife","butterfly knife","balisong",
 
   // --- Drugs / controlled ---
   "cocaine","meth","ice","heroin","mdma","ecstasy","weed","marijuana","thc","cbd","magic mushrooms","psilocybin",
   "steroids","anabolic","ketamine","lsd","dmt","oxy","oxycodone","fentanyl",
 
-  // --- Live animals ---
-  "kitten","kittens","puppy","puppies","dog","cat","rabbit","bird","snake","reptile","horse","livestock","animal","pet",
+  // --- Live animals (intent keywords only; avoid blocking pet supplies) ---
+  "puppy","puppies","kitten","kittens",
+  "live animal","live animals","live puppy","live puppies","live kitten","live kittens",
 
   // --- Counterfeit / stolen / illegal services ---
   "fake id","counterfeit","replica","knockoff","stolen","pirated","cracked account","hacked account"
