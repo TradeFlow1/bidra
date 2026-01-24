@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
-export default async function AdminEventsPage() {
+export default async function AdminEventsPage({ searchParams }: { searchParams?: any }) {
   const gate = await requireAdult();
   if (!gate.ok) {
     return (
@@ -29,7 +29,20 @@ export default async function AdminEventsPage() {
     );
   }
 
+  const q = String(searchParams?.q || "").trim().slice(0, 80);
+
+  const where = q
+    ? {
+        OR: [
+          { type: { contains: q, mode: "insensitive" } },
+          { userId: { contains: q, mode: "insensitive" } },
+          { orderId: { contains: q, mode: "insensitive" } },
+        ],
+      }
+    : undefined;
+
   const rows = await prisma.adminEvent.findMany({
+    where: where as any,
     orderBy: { createdAt: "desc" },
     take: 200,
   });
@@ -47,6 +60,21 @@ export default async function AdminEventsPage() {
       <p style={{ marginTop: 8, opacity: 0.75 }}>
         Shows internal events. Key one: <b>FEEDBACK_SUBMITTED_WHILE_BLOCKED</b>.
       </p>
+
+      <form method="get" style={{ marginTop: 10, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+        <input
+          name="q"
+          defaultValue={q}
+          placeholder='Filter (e.g. "MESSAGE_", userId, orderId)'
+          style={{ padding: "8px 10px", borderRadius: 10, border: "1px solid rgba(0,0,0,0.15)", minWidth: 280 }}
+        />
+        <button type="submit" style={{ padding: "8px 12px", borderRadius: 10, border: "1px solid rgba(0,0,0,0.2)", background: "white", fontWeight: 800 }}>
+          Filter
+        </button>
+        {q ? (
+          <Link href="/admin/events" style={{ textDecoration: "underline", fontSize: 12 }}>Clear</Link>
+        ) : null}
+      </form>
 
       <div style={{ marginTop: 14, border: "1px solid rgba(0,0,0,0.10)", borderRadius: 12, overflow: "hidden" }}>
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
