@@ -67,7 +67,7 @@ export default async function SellNewPage() {
       <div className="container max-w-5xl">
         <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Create a listing</h1>
         <p className="mt-2 text-sm bd-ink2">
-          Add the basics — title, description, category, condition, location, and pricing.
+          Start with the basics — title, description, category, condition, location, and pricing.
         </p>
 
         <div className="mt-6">
