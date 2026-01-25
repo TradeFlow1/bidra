@@ -377,6 +377,10 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
+  function clearErrOnEdit() {
+    if (err) setErr(null);
+  }
+
   const isTimedOffers = type === "TIMED_OFFERS";
   const categoryOptions = useMemo(() => FULL_CATEGORIES, []);
 
@@ -582,7 +586,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         </div>
       )}
 
-  <form onSubmit={onSubmit} className="mt-6 grid gap-4">
+  <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="mt-6 grid gap-4">
         <div>
           <label className="text-sm font-medium">Sale type</label>
           <select
