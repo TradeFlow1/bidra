@@ -20,7 +20,7 @@
 - [x] P2 | Seller | /listings | Inconsistent label usage on filter inputs (B1)
 - [x] P1 | Seller | /listings | “Show results” appears as text rather than clickable button (B2)
 - [x] P0 | Seller | /listings | Search returns zero results / header search non-functional (B3, MISC1)
-- [ ] P2 | Seller | /listings | “Show results Clear” UI confusing when no results (B4)
+- [x] P2 | Seller | /listings | “Show results Clear” UI confusing when no results (B4)
 - [x] P1 | Seller | listing pages | Placeholder bullets remain in listing descriptions (L1)
 - [x] P0 | Seller | listing pages | Price discrepancy between listing and order (L2)
 - [ ] P1 | Seller | listing pages | Listing becomes unavailable immediately after clicking “Buy now” (L3)
