@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, type CSSProperties } from "react";
+import { useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
+
 const REASONS = [
   { value: "PROHIBITED_ITEM", label: "Prohibited item" },
   { value: "SCAM_OR_FRAUD", label: "Scam or fraud" },
@@ -35,7 +36,6 @@ export default function ReportListing({
   }, [reason]);
 
   async function submit() {
-    // If not authenticated, let the API return 401 and we redirect to login (keeps single source of truth)
     if (!reasonIsValid) {
       setMsg("Please choose a reason.");
       return;
@@ -55,13 +55,11 @@ export default function ReportListing({
         }),
       });
 
-      // 401: send to login, then come back to this listing
       if (res.status === 401) {
         router.push("/auth/login?next=" + encodeURIComponent("/listings/" + listingId));
         return;
       }
 
-      // 403: age/restriction gate
       if (res.status === 403) {
         router.push("/account/restrictions");
         return;
@@ -85,7 +83,7 @@ export default function ReportListing({
         throw new Error(errMsg ? errMsg : "Report failed (" + String(res.status) + ")");
       }
 
-      setMsg("Report submitted. Thanks - we'll review it.");
+      setMsg("Report submitted. Thanks — we’ll review it.");
       setOpen(false);
       setDetails("");
       setReason("");
@@ -96,33 +94,13 @@ export default function ReportListing({
     }
   }
 
-  const btn: CSSProperties = {
-    padding: compact ? "8px 10px" : "10px 12px",
-    borderRadius: 12,
-    border: "1px solid rgba(0,0,0,0.12)",
-    background: "#fff",
-    color: "#111827",
-    fontWeight: 900,
-    cursor: "pointer",
-  };
-
-  const primary: CSSProperties = {
-    padding: "10px 12px",
-    borderRadius: 12,
-    border: "1px solid rgba(0,0,0,0.12)",
-    background: "#2563eb",
-    color: "#fff",
-    fontWeight: 900,
-    cursor: "pointer",
-  };
-
-  const dangerText: CSSProperties = { fontSize: 13, fontWeight: 800, color: "#b91c1c" };
+  const triggerClass = compact ? "bd-btn bd-btn-ghost !px-3 !py-2" : "bd-btn bd-btn-ghost";
 
   return (
     <div>
       <button
         type="button"
-        style={btn}
+        className={triggerClass}
         onClick={() => {
           setOpen((v) => !v);
           setMsg("");
@@ -132,95 +110,75 @@ export default function ReportListing({
       </button>
 
       {open ? (
-        <div
-          style={{
-            marginTop: 10,
-            border: "1px solid rgba(0,0,0,0.12)",
-            borderRadius: 14,
-            padding: 12,
-            background: "#fff",
-            maxWidth: 560,
-          }}
-        >
-          <div style={{ fontWeight: 900, marginBottom: 8 }}>Report this listing</div>
+        <div className="bd-card mt-3 p-4 space-y-3" style={{ maxWidth: 560 }}>
+          <div className="text-base font-extrabold">Report this listing</div>
 
           {!isAuthed ? (
-            <div style={{ ...dangerText, marginBottom: 10 }}>
+            <div className="text-sm font-bold text-red-700">
               Not authenticated.{" "}
-              <Link href="/auth/login" style={{ textDecoration: "underline" }}>
+              <Link href="/auth/login" className="underline">
                 Log in
               </Link>{" "}
               to report a listing.
             </div>
           ) : null}
 
-          <div style={{ fontSize: 12, fontWeight: 900, marginBottom: 6 }}>Reason</div>
-          <select
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              borderRadius: 10,
-              border: "1px solid rgba(0,0,0,0.15)",
-              fontSize: 14,
-            }}
-          >
-            <option value="" disabled>
-              Choose a reason...
-            </option>
-
-            {REASONS.map((r) => (
-              <option key={r.value} value={r.value}>
-                {r.label}
+          <div className="space-y-1">
+            <div className="text-xs font-extrabold">Reason</div>
+            <select
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className="w-full rounded-xl border border-black/15 bg-white px-3 py-2 text-sm"
+            >
+              <option value="" disabled>
+                Choose a reason...
               </option>
-            ))}
-          </select>
-
-          <div style={{ fontSize: 12, fontWeight: 900, marginTop: 12, marginBottom: 6 }}>
-            Details (optional)
+              {REASONS.map((r) => (
+                <option key={r.value} value={r.value}>
+                  {r.label}
+                </option>
+              ))}
+            </select>
           </div>
-          <textarea
-            value={details}
-            onChange={(e) => setDetails(e.target.value)}
-            placeholder="Add details that help review (optional)"
-            rows={3}
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              borderRadius: 10,
-              border: "1px solid rgba(0,0,0,0.15)",
-              fontSize: 14,
-              resize: "vertical",
-            }}
-          />
 
-          <div style={{ display: "flex", gap: 10, marginTop: 12, alignItems: "center" }}>
+          <div className="space-y-1">
+            <div className="text-xs font-extrabold">Details (optional)</div>
+            <textarea
+              value={details}
+              onChange={(e) => setDetails(e.target.value)}
+              placeholder="Add details that help review (optional)"
+              rows={3}
+              className="w-full rounded-xl border border-black/15 bg-white px-3 py-2 text-sm"
+            />
+          </div>
+
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={submit}
               disabled={busy || !isAuthed || !reasonIsValid}
-              style={{
-                ...primary,
-                opacity: busy || !isAuthed || !reasonIsValid ? 0.6 : 1,
-              }}
+              className="bd-btn bd-btn-primary"
+              style={{ opacity: busy || !isAuthed || !reasonIsValid ? 0.6 : 1 }}
             >
               Submit report
             </button>
 
-            <button type="button" onClick={() => setOpen(false)} disabled={busy} style={btn}>
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              disabled={busy}
+              className="bd-btn bd-btn-ghost"
+              style={{ opacity: busy ? 0.6 : 1 }}
+            >
               Cancel
             </button>
           </div>
 
           {msg ? (
             <div
-              style={{
-                marginTop: 10,
-                ...(msg.toLowerCase().includes("submitted")
-                  ? { color: "#166534" }
-                  : dangerText),
-              }}
+              className={
+                msg.toLowerCase().includes("submitted") ? "text-sm font-bold text-green-800" : "text-sm font-bold text-red-700"
+              }
             >
               {msg}
             </div>
