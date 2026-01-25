@@ -249,7 +249,7 @@ export default async function ListingsPage({
     </div>
 
     <div className="md:col-span-2">
-      <div className="bd-label text-xs">Type</div>
+      <div className="bd-label text-xs">Sale type</div>
       <select name="type" defaultValue={type} className="bd-input">
         <option value="">Any</option>
         <option value="BUY_NOW">Buy Now</option>
@@ -282,26 +282,26 @@ export default async function ListingsPage({
   <div className="mt-3 grid gap-3 md:grid-cols-12">
     <div className="md:col-span-6">
       <div className="bd-label text-xs">Location</div>
-      <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
+      <input name="location" defaultValue={location} placeholder="Suburb, State" className="bd-input" />
     </div>
 
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Min ($)</div>
+      <div className="bd-label text-xs">Min price (AUD)</div>
       <input
         name="min"
         defaultValue={(searchParams?.min ?? "").trim()}
-        placeholder="Min"
+        placeholder="Min price"
         className="bd-input"
         inputMode="decimal"
       />
     </div>
 
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Max ($)</div>
+      <div className="bd-label text-xs">Max price (AUD)</div>
       <input
         name="max"
         defaultValue={(searchParams?.max ?? "").trim()}
-        placeholder="Max"
+        placeholder="Max price"
         className="bd-input"
         inputMode="decimal"
       />
@@ -352,7 +352,7 @@ export default async function ListingsPage({
     </div>
 
     <div className="md:col-span-2">
-      <div className="bd-label text-xs">Type</div>
+      <div className="bd-label text-xs">Sale type</div>
       <select name="type" defaultValue={type} className="bd-input">
         <option value="">Any</option>
         <option value="BUY_NOW">Buy Now</option>
@@ -385,26 +385,26 @@ export default async function ListingsPage({
   <div className="mt-3 grid gap-3 md:grid-cols-12">
     <div className="md:col-span-6">
       <div className="bd-label text-xs">Location</div>
-      <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
+      <input name="location" defaultValue={location} placeholder="Suburb, State" className="bd-input" />
     </div>
 
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Min ($)</div>
+      <div className="bd-label text-xs">Min price (AUD)</div>
       <input
         name="min"
         defaultValue={(searchParams?.min ?? "").trim()}
-        placeholder="Min"
+        placeholder="Min price"
         className="bd-input"
         inputMode="decimal"
       />
     </div>
 
     <div className="md:col-span-3">
-      <div className="bd-label text-xs">Max ($)</div>
+      <div className="bd-label text-xs">Max price (AUD)</div>
       <input
         name="max"
         defaultValue={(searchParams?.max ?? "").trim()}
-        placeholder="Max"
+        placeholder="Max price"
         className="bd-input"
         inputMode="decimal"
       />
