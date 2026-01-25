@@ -3,9 +3,9 @@
 ### Combined QA Issues (Seller, Buyer, Admin, Logged-out)
 
 - [x] P2 | Seller | / (Home) | Tagline incomplete and grammatically awkward (H1)
-- [ ] P2 | Seller | /legal/prohibited-items | Duplicate "Contact" and missing verb “are” in prohibited items page (PI1, PI2)
-- [ ] P2 | Seller | /legal/privacy | Awkward phrasing "No collecting sensitive traits" (PP1)
-- [ ] P2 | Seller | /legal/terms | Grammar issues in terms: missing verb and incorrect agreement (T1, T2)
+- [x] P2 | Seller | /legal/prohibited-items | Duplicate "Contact" and missing verb “are” in prohibited items page (PI1, PI2)
+- [x] P2 | Seller | /legal/privacy | Awkward phrasing "No collecting sensitive traits" (PP1)
+- [x] P2 | Seller | /legal/terms | Grammar issues in terms: missing verb and incorrect agreement (T1, T2)
 - [ ] P1 | Seller | /support | Safety tips omit warning against sharing phone/email (SS1)
 - [ ] P1 | Seller | /dashboard | Direct navigation to /dashboard returns 404 (D1)
 - [ ] P2 | Seller | /dashboard | Awkward heading “Your shortcuts, status, and anything that needs action.” (D2)
