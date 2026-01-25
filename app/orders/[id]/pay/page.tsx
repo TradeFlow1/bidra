@@ -104,6 +104,10 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
   const sellerBankBsb = (seller?.bankBsb || "").trim();
   const sellerBankAccount = (seller?.bankAccount || "").trim();
 
+  const hasPayDetails = Boolean(
+    sellerPayidEmail || sellerPayidMobile || (sellerBankBsb && sellerBankAccount)
+  );
+
   const orderHref = `/orders/${order.id}`;
   const listingHref = `/listings/${order.listingId}`;
 
@@ -148,7 +152,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                     <div><span className="bd-ink2">PayID (email):</span> <b>{sellerPayidEmail}</b></div>
                   ) : (
                     <div className="text-xs bd-ink2">
-                      Seller payout details are missing. Contact the seller to arrange payment.
+                      Seller payout details are missing. Please message the seller to add PayID/bank details.
                     </div>
                   )}
 
@@ -174,6 +178,21 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
 
                 <div className="mt-3 text-xs bd-ink2">
                   Tip: include the reference exactly so the seller can match your payment quickly.
+
+                {!hasPayDetails ? (
+                  <div className="mt-3 bd-card p-4">
+                    <div className="text-sm font-extrabold bd-ink">Missing payout details</div>
+                    <div className="mt-1 text-sm bd-ink2">
+                      You can't complete payment until the seller adds PayID/bank details. Use the buttons below to view the listing and message them.
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <Link href={listingHref} className="bd-btn bd-btn-primary text-center">View listing</Link>
+                      <Link href={orderHref} className="bd-btn bd-btn-primary text-center">Back to order</Link>
+                      <Link href="/profile" className="bd-btn bd-btn-primary text-center">Account Settings</Link>
+                    </div>
+                  </div>
+                ) : null}
+
                 </div>
 
                 <div className="mt-2 text-xs bd-ink2">
@@ -188,8 +207,13 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                 </div>
               ) : (
                 <div className="mt-2 grid gap-2">
-                  {isBuyer ? (
+                  {isBuyer ? (hasPayDetails ? (
                     <PayConfirmClient orderId={order.id} />
+                  ) : (
+                    <div className="text-sm bd-ink2">
+                      Waiting for the seller to add payout details. View the listing and message them to add PayID/bank details.
+                    </div>
+                  )) : (
                   ) : (
                     <div className="text-sm bd-ink2">
                       This is a binding order. Waiting for the buyer to complete payment.
