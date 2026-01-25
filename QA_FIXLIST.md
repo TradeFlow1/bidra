@@ -40,8 +40,8 @@
 - [ ] P1 | Seller | /profile | Grammar error in payout description (“Most Australian use mobile PayID”) (P1 issue)
 - [ ] P2 | Seller | misc | Generic 404 pages lack helpful navigation (MISC2)
 - [x] P0 | Logged-out | /listings | Search field does not submit on Enter; user must click unstyled "Show results" text
-- [ ] P0 | Logged-out | /listings/[id] | Placeholder text (e.g., 'Included: (add what''s included)') visible in listing descriptions
-- [ ] P0 | Logged-out | /listings/[id] | 'You are the highest offer' shown even when user has not placed an offer
+- [x] P0 | Logged-out | /listings/[id] | Placeholder text (e.g., 'Included: (add what''s included)') visible in listing descriptions
+- [x] P0 | Logged-out | /listings/[id] | 'You are the highest offer' shown even when user has not placed an offer
 - [ ] P0 | Logged-out | / (Home) | 'List an item' button does not consistently navigate to login/signup
 - [ ] P1 | Logged-out | /legal/prohibited-items | Grammar errors: 'No live animals permitted' missing verb; 'Contact Contact page' duplicates word
 - [ ] P1 | Logged-out | /legal/terms | Awkward wording in offers section ('Bidra may show "top offer" and timed offers mechanics')
@@ -56,7 +56,7 @@
 - [ ] P2 | Logged-out | /watchlist | No heart icons or guidance on how to watch items for visitors
 - [x] P2 | Logged-out | /listings | 'Show results' and 'Clear' need consistent styling and spacing
 - [ ] P0 | Buyer | /orders/[id] | 'Pay now to continue' shown without actionable payment button
-- [ ] P0 | Buyer | /listings/[id] | Offer submission provides no confirmation or success feedback
+- [x] P0 | Buyer | /listings/[id] | Offer submission provides no confirmation or success feedback
 - [ ] P0 | Buyer | /listings/[id] | Highest offer incorrectly labelled as 'You'
 - [x] P0 | Buyer | /browse | Search input Enter key inconsistently submits query
 - [ ] P1 | Buyer | /browse | Watchlist (heart) affordance missing or undiscoverable
