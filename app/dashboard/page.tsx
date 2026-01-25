@@ -140,7 +140,7 @@ export default async function DashboardPage() {
               Dashboard
             </h1>
             <div className="mt-1 text-sm bd-ink2">
-              Your shortcuts, status, and anything that needs action.
+              Shortcuts and anything that needs action.
             </div>
           </div>
 

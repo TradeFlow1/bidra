@@ -100,13 +100,13 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                 key={l.id}
                 className="bd-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-3"
               >
-                <div>
+                <div className="min-w-0">
                   <div className="text-sm bd-ink2">
                     {labelCategory(l.category)} • {l.location}
                   </div>
 
                   <Link
-                    className="bd-ink font-extrabold hover:underline underline-offset-4"
+                    className="bd-ink font-extrabold hover:underline underline-offset-4 block max-w-full truncate"
                     href={"/listings/" + l.id}
                   >
                     {l.title}
