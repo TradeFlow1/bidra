@@ -1,4 +1,5 @@
 ﻿import Image from "next/image";
+import { maskContactInfo } from "@/lib/message-safety"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
@@ -138,7 +139,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                     {messages.map((m) => (
                       <div key={m.id} className="text-sm">
                         <span className="text-[var(--bidra-ink-2)]">{formatAuDateTime(m.createdAt)} {" · "}</span>
-                        <b>{m.userId === me ? "You" : displayName(other)}</b>: {m.body}
+                        <b>{m.userId === me ? "You" : displayName(other)}</b>: {maskContactInfo(m.body)}
                       </div>
                     ))}
                   </div>

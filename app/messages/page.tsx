@@ -1,4 +1,5 @@
 ﻿import Image from "next/image";
+import { maskContactInfo } from "@/lib/message-safety"
 import Link from "next/link"
 import InboxAutoRefresh from "./components/inbox-auto-refresh"
 import DateTimeText from "@/components/date-time-text"
@@ -98,7 +99,7 @@ export default async function MessagesInboxPage() {
                   items.map((it) => {
                     const other = me === it.buyerId ? it.seller : it.buyer
                     const otherLabel = other.username || other.name || other.email || "User"
-                    const last = it.messages[0]?.body ? it.messages[0].body : "No messages yet."
+                    const last = it.messages[0]?.body ? maskContactInfo(it.messages[0].body) : "No messages yet."
 
                     const anyListing: any = it.listing as any
                     const imgs =

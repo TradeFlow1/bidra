@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { sendNewMessageEmail } from "@/lib/email";
+import { containsContactInfo } from "@/lib/message-safety";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const session = await auth();
@@ -28,6 +29,13 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   }
   if (text.length > 2000) {
     return NextResponse.json({ error: "Message too long." }, { status: 400 });
+  }
+
+  if (containsContactInfo(text)) {
+    return NextResponse.json(
+      { error: "For safety, please don't share phone numbers, email addresses, or PayID/payment details in messages." },
+      { status: 400 }
+    );
   }
 
   const me = session.user.id;
