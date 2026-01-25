@@ -9,7 +9,7 @@ export default function ProhibitedItemsPage() {
         <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Prohibited items</h1>
 
         <p className="mt-3 text-sm bd-ink2">
-          Bidra is a platform for listing items locally in Australia. Some items are not allowed to be listed
+          Bidra is a platform for listing items locally in Australia. Some items are not allowed to be listed on Bidra.
           under any circumstances.
         </p>
 
@@ -33,7 +33,7 @@ export default function ProhibitedItemsPage() {
           </p>
 
           <p className="mt-4 text-sm bd-ink2">
-            Need help? Contact{" "}
+            Need help? Visit the{" "}
             <a className="bd-link font-semibold" href="/contact">Contact page</a>.
           </p>
         </div>

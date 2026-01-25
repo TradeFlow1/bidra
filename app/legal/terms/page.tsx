@@ -18,7 +18,7 @@ export default function TermsPage() {
         <section className="space-y-2">
           <h2 className="text-lg font-extrabold">1) Eligibility</h2>
           <p className="text-sm text-black/70">
-            Bidra accounts are 18+. Under 18s may browse publicly but cannot create accounts, list,
+            Bidra accounts are for adults (18+). Under 18s may browse publicly but cannot create accounts, list,
             offer, message, or transact on Bidra.
           </p>
         </section>
@@ -28,7 +28,7 @@ export default function TermsPage() {
           <p className="text-sm text-black/70">
             Listings are created by users. You are responsible for verifying items, descriptions,
             condition, authenticity, and suitability before proceeding. Any deal is made between
-            buyer and seller.
+            the buyer and the seller.
           </p>
         </section>
 
