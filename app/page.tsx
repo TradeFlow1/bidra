@@ -51,16 +51,16 @@ const listings = await getLatestListings();
       {/* HERO */}
 <section className="relative overflow-hidden rounded-[28px] shadow-xl">
   <div
-    className="absolute inset-0 pointer-events-none"
+    className="absolute inset-0 pointer-events-none -z-10"
     style={{
       backgroundImage: "url(/brand/hero-clouds.png?v=2)",
       backgroundSize: "cover",
       backgroundPosition: "center",
     }}
   />
-  <div className="absolute inset-0 bg-slate-900/40 pointer-events-none" />
+  <div className="absolute inset-0 bg-slate-900/40 pointer-events-none -z-10" />
 
-  <div className="relative px-5 py-8 pb-10 sm:px-10 sm:py-12 text-center">
+  <div className="relative z-10 px-5 py-8 pb-10 sm:px-10 sm:py-12 text-center">
     <div className="mx-auto flex items-center justify-center sm:-mb-12">
       <div className="mx-auto h-44 sm:h-48 overflow-visible flex items-center justify-center">
   <Image src={LOGO_SRC} alt="Bidra" width={1200} height={1200} priority className="h-44 sm:h-[28rem] w-auto drop-shadow-sm" />
