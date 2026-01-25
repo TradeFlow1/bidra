@@ -49,7 +49,29 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     const body = await req.json();
 
     const title = String(body.title || "").trim();
-    const description = String(body.description || "").trim();
+    function sanitizeDescription(input: string): string {
+      const raw = String(input ?? "");
+      const lines = raw.split(/\r?\n/);
+
+      const cleaned = lines.filter((ln) => {
+        const s = String(ln ?? "").trim();
+        if (!s) return true;
+
+        // Remove ONLY the template placeholder line(s)
+        // e.g. "- Included: (add what’s included)" / "- Included: (add what's included)"
+        const t = s
+          .replace(/^[-*]\s*/, "")
+          .replace(/\s+/g, " ")
+          .toLowerCase();
+
+        return t !== "included: (add what’s included)".toLowerCase() &&
+               t !== "included: (add what's included)".toLowerCase();
+      });
+
+      return cleaned.join("\n").trim();
+    }
+
+    const description = sanitizeDescription(String(body.description || "").trim());
     const category = String(body.category || "").trim();
     const condition = String(body.condition || "Used").trim();
     function normalizeLocation(input: string) {

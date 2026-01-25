@@ -161,6 +161,78 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>((listing as any).buy
     return null;
   }
 
+  async function endListing() {
+    if (isSaving) return;
+    if (!confirm("End this listing now? This will stop new offers and mark it as ended.")) return;
+
+    setError(null);
+    setIsSaving(true);
+    try {
+      const body: any = {
+        title: title.trim(),
+        description: description.trim(),
+        category: category.trim(),
+        condition: condition.trim(),
+        location: location.trim(),
+        price: dollarsToCents(price),
+        images: (existingImages || []).filter(Boolean).slice(0, 10),
+        status: "ENDED",
+      };
+
+      // Preserve timed-offers buy now behavior if present in UI (do not force)
+      if (isTimedOffers) {
+        body.buyNowPrice =
+          (!buyNowEnabled
+            ? null
+            : (inFinal24h && String(buyNow ?? "").trim()
+                ? dollarsToCents(String(buyNow ?? "").trim())
+                : null));
+      }
+
+      const res = await fetch(`/api/listings/${listing.id}/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(String((data as any)?.error || `End failed (HTTP ${res.status})`));
+        return;
+      }
+
+      setStatus("ENDED");
+      router.push("/dashboard/listings");
+      router.refresh();
+    } catch (e: any) {
+      setError(String(e?.message || e || "End failed."));
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  async function deleteListing() {
+    if (isSaving) return;
+    if (!confirm("Delete this listing? It will be removed from public view.")) return;
+
+    setError(null);
+    setIsSaving(true);
+    try {
+      const res = await fetch(`/api/listings/${listing.id}/delete`, { method: "POST" });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(String((data as any)?.error || `Delete failed (HTTP ${res.status})`));
+        return;
+      }
+
+      router.push("/dashboard/listings");
+      router.refresh();
+    } catch (e: any) {
+      setError(String(e?.message || e || "Delete failed."));
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
   return (
     <main className="bd-container py-10">
       <div className="container max-w-2xl">
@@ -192,6 +264,26 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>((listing as any).buy
                 <Link href={`/listings/${listing.id}`} className="bd-btn bd-btn-ghost text-center">
                   View listing
                 </Link>
+
+                {status === "ACTIVE" ? (
+                  <button
+                    type="button"
+                    onClick={endListing}
+                    disabled={isSaving}
+                    className="bd-btn bd-btn-ghost text-center"
+                  >
+                    End listing
+                  </button>
+                ) : null}
+
+                <button
+                  type="button"
+                  onClick={deleteListing}
+                  disabled={isSaving}
+                  className="bd-btn bd-btn-ghost text-center"
+                >
+                  Delete listing
+                </button>
 
                 <Link href="/dashboard/listings" className="bd-btn bd-btn-ghost text-center">
                   My listings
