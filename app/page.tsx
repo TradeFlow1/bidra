@@ -63,7 +63,7 @@ const listings = await getLatestListings();
   <div className="relative z-10 px-5 py-8 pb-10 sm:px-10 sm:py-12 text-center">
     <div className="mx-auto flex items-center justify-center sm:-mb-12">
       <div className="mx-auto h-44 sm:h-48 overflow-visible flex items-center justify-center">
-  <Image src={LOGO_SRC} alt="Bidra" width={1200} height={1200} priority className="h-44 sm:h-[28rem] w-auto drop-shadow-sm" />
+  <Image src={LOGO_SRC} alt="Bidra" width={1200} height={1200} priority className="h-44 sm:h-[28rem] w-auto drop-shadow-sm pointer-events-none select-none" />
 </div>
 
     </div>
