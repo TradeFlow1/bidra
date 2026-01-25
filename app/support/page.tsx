@@ -21,6 +21,7 @@ export default function SupportPage() {
           <ul className="mt-2 list-disc space-y-1 pl-5 text-black/75">
             <li>Meet in a public place or bring someone with you.</li>
             <li>Avoid sharing unnecessary personal information.</li>
+            <li>Do not share your phone number or email address in messages.</li>
             <li>Inspect items before handing over money.</li>
             <li>Trust your instincts — if it feels off, walk away.</li>
           </ul>
