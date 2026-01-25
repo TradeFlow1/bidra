@@ -288,7 +288,6 @@ function suggestDescriptionDraft(args: {
   // Simple “AI-like” structure: details + pickup + payment note
   lines.push("");
   lines.push("Details:");
-  lines.push("- Included: (add what’s included)");
   lines.push("- Reason for selling: (optional)");
   lines.push("- Any marks or faults: (be honest)");
 
