@@ -206,6 +206,12 @@ export default async function ListingsPage({
     sort
   );
 
+  const resultsCount = listings.length;
+  const showResultsText =
+    resultsCount === 0 ? "No results" : hasAnyFilter ? "Update results" : "Show results";
+  const clearText = resultsCount === 0 && hasAnyFilter ? "Clear filters" : "Clear";
+
+
   /* STEP3_FILTERS_CLEAN: replace inline filter styles with bd-input / bd-label */
 
   return (
@@ -316,10 +322,10 @@ export default async function ListingsPage({
 
   <div className="mt-3 flex flex-wrap items-center gap-2">
     <button type="submit" className="bd-btn bd-btn-primary">
-      Show results
+      {showResultsText}
     </button>
     {hasAnyFilter ? (
-      <Link href="/listings" className="bd-btn bd-btn-secondary">Clear</Link>
+      <Link href="/listings" className="bd-btn bd-btn-secondary">{clearText}</Link>
     ) : null}
   </div>
 </form>
@@ -419,10 +425,10 @@ export default async function ListingsPage({
 
   <div className="mt-3 flex flex-wrap items-center gap-2">
     <button type="submit" className="bd-btn bd-btn-primary">
-      Show results
+      {showResultsText}
     </button>
     {hasAnyFilter ? (
-      <Link href="/listings" className="bd-btn bd-btn-secondary">Clear</Link>
+      <Link href="/listings" className="bd-btn bd-btn-secondary">{clearText}</Link>
     ) : null}
   </div>
 </form>
