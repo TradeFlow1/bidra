@@ -10,6 +10,23 @@ import { FULL_CATEGORIES } from "@/lib/categories";
 
 import { getFeedbackGate } from "@/lib/feedback-gate";
 
+function sanitizeDescription(desc: string): string {
+  const raw = String(desc || "");
+  const lines = raw.split("\n");
+  const keep: string[] = [];
+  for (const l of lines) {
+    const s = String(l || "").toLowerCase();
+    const isPlaceholder =
+      s.includes("included: (add") ||
+      s.includes("reason for selling") ||
+      s.includes("any marks or faults") ||
+      s.includes("pickup location: (your suburb)");
+    if (!isPlaceholder) keep.push(l);
+  }
+  return keep.join("\n").trim();
+}
+
+
 
 type ListingTypeIn = "AUCTION" | "BUY_NOW" | "FIXED_PRICE";
 
@@ -205,7 +222,7 @@ if (images.length > 10) return NextResponse.json({ error: "Too many images (max 
       data: {
         type: typeToSave,
         title,
-        description,
+        description: sanitizeDescription(description),
         category,
         condition,
         location,
