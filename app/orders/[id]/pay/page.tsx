@@ -207,13 +207,14 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                 </div>
               ) : (
                 <div className="mt-2 grid gap-2">
-                  {isBuyer ? (hasPayDetails ? (
-                    <PayConfirmClient orderId={order.id} />
-                  ) : (
-                    <div className="text-sm bd-ink2">
-                      Waiting for the seller to add payout details. View the listing and message them to add PayID/bank details.
-                    </div>
-                  )) : (
+                  {isBuyer ? (
+                    hasPayDetails ? (
+                      <PayConfirmClient orderId={order.id} />
+                    ) : (
+                      <div className="text-sm bd-ink2">
+                        Waiting for the seller to add payout details. View the listing and message them to add PayID/bank details.
+                      </div>
+                    )
                   ) : (
                     <div className="text-sm bd-ink2">
                       This is a binding order. Waiting for the buyer to complete payment.
