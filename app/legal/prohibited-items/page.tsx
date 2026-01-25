@@ -10,7 +10,7 @@ export default function ProhibitedItemsPage() {
 
         <p className="mt-3 text-sm bd-ink2">
           Bidra is a platform for listing items locally in Australia. Some items are not allowed to be listed on Bidra.
-          under any circumstances.
+          Under any circumstances.
         </p>
 
         <div className="mt-6 bd-card p-6">
@@ -21,7 +21,7 @@ export default function ProhibitedItemsPage() {
             <li>Stolen property or items suspected to be stolen</li>
             <li>Counterfeit, replica, or infringing goods</li>
             <li>Hazardous materials, explosives, or unsafe chemicals</li>
-            <li>No live animals permitted</li>
+            <li>Live animals are not permitted</li>
             <li>Adult sexual services or explicit content</li>
             <li>Listings that promote violence, hate, or exploitation</li>
             <li>Misleading, deceptive, or fraudulent listings</li>
@@ -34,7 +34,7 @@ export default function ProhibitedItemsPage() {
 
           <p className="mt-4 text-sm bd-ink2">
             Need help? Visit the{" "}
-            <a className="bd-link font-semibold" href="/contact">Contact page</a>.
+            <a className="bd-link font-semibold" href="/contact">Contact</a> page.
           </p>
         </div>
       </div>
