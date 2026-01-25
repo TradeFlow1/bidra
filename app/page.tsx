@@ -51,7 +51,7 @@ const listings = await getLatestListings();
       {/* HERO */}
 <section className="relative overflow-hidden rounded-[28px] shadow-xl">
   <div
-    className="absolute inset-0"
+    className="absolute inset-0 pointer-events-none"
     style={{
       backgroundImage: "url(/brand/hero-clouds.png?v=2)",
       backgroundSize: "cover",
