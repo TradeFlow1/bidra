@@ -18,7 +18,7 @@
 - [ ] P1 | Seller | /sell/new | Create listing button indicates loading despite invalid form (CL4)
 - [ ] P2 | Seller | /sell/new | Photos section lacks clear upload button (CL5)
 - [ ] P2 | Seller | /listings | Inconsistent label usage on filter inputs (B1)
-- [ ] P1 | Seller | /listings | “Show results” appears as text rather than clickable button (B2)
+- [x] P1 | Seller | /listings | “Show results” appears as text rather than clickable button (B2)
 - [x] P0 | Seller | /listings | Search returns zero results / header search non-functional (B3, MISC1)
 - [ ] P2 | Seller | /listings | “Show results Clear” UI confusing when no results (B4)
 - [x] P1 | Seller | listing pages | Placeholder bullets remain in listing descriptions (L1)
@@ -46,7 +46,7 @@
 - [ ] P1 | Logged-out | /legal/prohibited-items | Grammar errors: 'No live animals permitted' missing verb; 'Contact Contact page' duplicates word
 - [ ] P1 | Logged-out | /legal/terms | Awkward wording in offers section ('Bidra may show "top offer" and timed offers mechanics')
 - [ ] P1 | Logged-out | /legal/privacy | Misphrased bullet: 'No collecting sensitive traits (religion, politics, health, etc.)'
-- [ ] P1 | Logged-out | /listings | Unstyled 'Show results' / 'Clear' labels; should be buttons or auto-submit on Enter
+- [x] P1 | Logged-out | /listings | Unstyled 'Show results' / 'Clear' labels; should be buttons or auto-submit on Enter
 - [ ] P1 | Logged-out | /contact & /feedback | Links redirect to login with no explanation; should show friendly message requiring sign-in
 - [ ] P1 | Logged-out | / | Implausible top-offer values displayed on some listing cards (e.g., $7.5m); needs moderation
 - [ ] P1 | Logged-out | / | Category dropdown covers hero image and is unwieldy on mobile/desktop
@@ -54,7 +54,7 @@
 - [ ] P2 | Logged-out | /messages & /safety | Safety tips omit warnings about sharing phone numbers or email addresses
 - [ ] P2 | Logged-out | /random | No 404 page for unknown routes; non-existent URLs redirect to login
 - [ ] P2 | Logged-out | /watchlist | No heart icons or guidance on how to watch items for visitors
-- [ ] P2 | Logged-out | /listings | 'Show results' and 'Clear' need consistent styling and spacing
+- [x] P2 | Logged-out | /listings | 'Show results' and 'Clear' need consistent styling and spacing
 - [ ] P0 | Buyer | /orders/[id] | 'Pay now to continue' shown without actionable payment button
 - [ ] P0 | Buyer | /listings/[id] | Offer submission provides no confirmation or success feedback
 - [ ] P0 | Buyer | /listings/[id] | Highest offer incorrectly labelled as 'You'
