@@ -44,7 +44,7 @@
 - [x] P0 | Logged-out | /listings/[id] | 'You are the highest offer' shown even when user has not placed an offer
 - [x] P0 | Logged-out | / (Home) | 'List an item' button does not consistently navigate to login/signup
 - [x] P1 | Logged-out | /legal/prohibited-items | Grammar errors: 'No live animals permitted' missing verb; 'Contact Contact page' duplicates word
-- [ ] P1 | Logged-out | /legal/terms | Awkward wording in offers section ('Bidra may show "top offer" and timed offers mechanics')
+- [x] P1 | Logged-out | /legal/terms | Awkward wording in offers section ('Bidra may show "top offer" and timed offers mechanics')
 - [ ] P1 | Logged-out | /legal/privacy | Misphrased bullet: 'No collecting sensitive traits (religion, politics, health, etc.)'
 - [x] P1 | Logged-out | /listings | Unstyled 'Show results' / 'Clear' labels; should be buttons or auto-submit on Enter
 - [ ] P1 | Logged-out | /contact & /feedback | Links redirect to login with no explanation; should show friendly message requiring sign-in

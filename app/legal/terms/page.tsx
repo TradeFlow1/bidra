@@ -51,9 +51,9 @@ export default function TermsPage() {
         <section className="space-y-2">
           <h2 className="text-lg font-extrabold">4) Offers and “Buy Now” language</h2>
           <p className="text-sm text-black/70">
-            Bidra may show “top offer” and timed offers mechanics. Bidra does not automatically
-            select a buyer or bind a sale. At the end of an offer period, the seller decides
-            whether to proceed with the highest offer.
+            Bidra may display a “top offer” during a timed offer period. Timed offers are not binding.
+            When the timer ends, the seller may choose to proceed with the highest offer (which creates
+            an order), or decline/relist. Bidra does not automatically select a buyer or complete a sale.
           </p>
 
           <p className="text-sm text-black/70">
