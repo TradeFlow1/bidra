@@ -4,7 +4,7 @@ export default function ThreadActions({ threadId }: { threadId: string }) {
   async function doDelete() {
     const phrase = "DELETE";
 const input = window.prompt(
-  "Delete this chat?\n\nThis removes the chat from your inbox only.\nType DELETE to confirm:",
+  "Delete this chat?\n\nThis removes the chat from your inbox.\nType DELETE to confirm:",
   ""
 );
 const ok = (input || "").trim().toUpperCase() === phrase;
