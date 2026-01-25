@@ -30,7 +30,7 @@
 - [x] P0 | Seller | /orders | Pay now pages lack payment instructions/buttons for some orders (O3)
 - [ ] P1 | Seller | /orders | Paid orders lack “Confirm payment received” action (O4)
 - [ ] P1 | Seller | /orders | “View order” links occasionally open wrong order (O5)
-- [ ] P0 | Seller | /messages | Messages show phone numbers, emails and PayID details without filtering (M1)
+- [x] P0 | Seller | /messages | Messages show phone numbers, emails and PayID details without filtering (M1)
 - [ ] P1 | Seller | /messages | Safety tip omits warnings about phone/email (M2)
 - [ ] P2 | Seller | /messages | Ensure spelling correct in report modals (“happened”) (M3)
 - [ ] P2 | Seller | /messages | Delete chat modal breaks “inbox only” into separate words (M4)
