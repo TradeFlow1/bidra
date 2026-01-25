@@ -29,7 +29,7 @@
 - [x] P0 | Seller | /orders | Order price differs from listing price (O2)
 - [x] P0 | Seller | /orders | Pay now pages lack payment instructions/buttons for some orders (O3)
 - [x] P1 | Seller | /orders | Paid orders lack “Confirm payment received” action (O4)
-- [ ] P1 | Seller | /orders | “View order” links occasionally open wrong order (O5)
+- [x] P1 | Seller | /orders | “View order” links occasionally open wrong order (O5)
 - [x] P0 | Seller | /messages | Messages show phone numbers, emails and PayID details without filtering (M1)
 - [ ] P1 | Seller | /messages | Safety tip omits warnings about phone/email (M2)
 - [ ] P2 | Seller | /messages | Ensure spelling correct in report modals (“happened”) (M3)
