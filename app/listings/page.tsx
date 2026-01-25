@@ -227,7 +227,8 @@ export default async function ListingsPage({
   <div className="grid gap-3 md:grid-cols-12">
     <div className="md:col-span-3">
       <div className="bd-label text-xs">Search</div>
-      <input name="q" defaultValue={q} placeholder="Search listings" className="bd-input" />
+      <input name="q" type="search" enterKeyHint="search" defaultValue={q} placeholder="Search listings" className="bd-input" />
+<button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Search</button>
     </div>
 
     <div className="md:col-span-3">
@@ -329,7 +330,8 @@ export default async function ListingsPage({
   <div className="grid gap-3 md:grid-cols-12">
     <div className="md:col-span-3">
       <div className="bd-label text-xs">Search</div>
-      <input name="q" defaultValue={q} placeholder="Search listings" className="bd-input" />
+      <input name="q" type="search" enterKeyHint="search" defaultValue={q} placeholder="Search listings" className="bd-input" />
+<button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Search</button>
     </div>
 
     <div className="md:col-span-3">
