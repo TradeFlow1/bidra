@@ -382,6 +382,45 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   }
 
   const isTimedOffers = type === "TIMED_OFFERS";
+  const canSubmit = useMemo(() => {
+    const t = title.trim();
+    const d = description.trim();
+    const loc = location.trim();
+
+    if (t.length < 3) return false;
+    if (d.length < 3) return false;
+    if (!category) return false;
+    if (!loc) return false;
+
+    const fixedPriceCents = dollarsToCentsOrNull(price);
+    const startBidCents   = dollarsToCentsOrNull(startingBid);
+    const reserveCents    = dollarsToCentsOrNull(reservePrice);
+    const buyNowCents     = dollarsToCentsOrNull(buyNowPrice);
+
+    if (!Number.isFinite(Number(durationDays))) return false;
+
+    if (!isTimedOffers) {
+      if (fixedPriceCents === null || Number.isNaN(fixedPriceCents) || fixedPriceCents <= 0) return false;
+      return true;
+    }
+
+    if (startBidCents === null || Number.isNaN(startBidCents) || startBidCents <= 0) return false;
+
+    if (reserveCents !== null) {
+      if (Number.isNaN(reserveCents)) return false;
+      if (reserveCents <= 0) return false;
+      if (reserveCents < startBidCents) return false;
+    }
+
+    if (buyNowCents !== null) {
+      if (Number.isNaN(buyNowCents)) return false;
+      if (buyNowCents <= 0) return false;
+      if (buyNowCents < startBidCents) return false;
+      if (reserveCents !== null && buyNowCents < reserveCents) return false;
+    }
+
+    return true;
+  }, [title, description, category, location, price, startingBid, reservePrice, buyNowPrice, durationDays, isTimedOffers]);
   const categoryOptions = useMemo(() => FULL_CATEGORIES, []);
 
   const suggestedCategory = useMemo(() => {
@@ -764,7 +803,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
         </div>
 
-        <button type="submit" disabled={busy} className="bd-btn bd-btn-primary text-center disabled:opacity-60">
+        <button type="submit" disabled={busy || !canSubmit} className="bd-btn bd-btn-primary text-center disabled:opacity-60">
           {busy ? "Creating..." : "Create listing"}
         </button>
       </form>
