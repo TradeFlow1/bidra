@@ -49,16 +49,9 @@ const listings = await getLatestListings();
   return (
     <main className="bd-container py-6 pb-14">
       {/* HERO */}
-<section className="relative overflow-hidden rounded-[28px] shadow-xl">
-  <div
-    className="absolute inset-0 pointer-events-none -z-10"
-    style={{
-      backgroundImage: "url(/brand/hero-clouds.png?v=2)",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    }}
-  />
-  <div className="absolute inset-0 bg-slate-900/40 pointer-events-none -z-10" />
+<section className="relative overflow-hidden rounded-[28px] shadow-xl" style={{ backgroundImage: "url(/brand/hero-clouds.png?v=2)", backgroundSize: "cover", backgroundPosition: "center" }}>
+  
+  <div className="absolute inset-0 bg-slate-900/40 pointer-events-none" />
 
   <div className="relative z-10 px-5 py-8 pb-10 sm:px-10 sm:py-12 text-center">
     <div className="mx-auto flex items-center justify-center sm:-mb-12">
