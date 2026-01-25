@@ -6,6 +6,23 @@ import Link from "next/link";
 import { FULL_CATEGORIES, CATEGORY_GROUPS , joinCategory} from "@/lib/categories";
 import { isTimedOffersType } from "@/lib/listing-type";
 
+function sanitizeDescriptionDisplay(input: string): string {
+  const raw = String(input || "");
+  const lines = raw.split(/\r?\n/);
+  const keep: string[] = [];
+  for (const l of lines) {
+    const s = String(l || "").toLowerCase();
+    const isPlaceholder =
+      s.includes("included: (add") ||
+      s.includes("reason for selling") ||
+      s.includes("any marks or faults") ||
+      s.includes("pickup location: (your suburb)");
+    if (!isPlaceholder) keep.push(l);
+  }
+  return keep.join("\n").trim();
+}
+
+
 const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
 type SellerStatus = (typeof SELLER_ALLOWED_STATUSES)[number];
 
@@ -49,7 +66,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const router = useRouter();
 
   const [title, setTitle] = useState(listing.title);
-  const [description, setDescription] = useState(listing.description);
+  const [description, setDescription] = useState(sanitizeDescriptionDisplay(listing.description));
   const [category, setCategory] = useState(listing.category);
   const [condition, setCondition] = useState(listing.condition);
   const [location, setLocation] = useState(listing.location);
