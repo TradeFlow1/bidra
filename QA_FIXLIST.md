@@ -14,7 +14,7 @@
 - [x] P1 | Seller | /dashboard/listings | No option to delete or end listing in edit form (ML3)
 - [x] P2 | Seller | /sell/new | Duplicate heading “Add the basics” (CL1)
 - [x] P1 | Seller | /sell/new | Suggested description inserts placeholders into live listings (CL2)
-- [ ] P1 | Seller | /sell/new | Validation error messages do not clear when field becomes valid (CL3)
+- [x] P1 | Seller | /sell/new | Validation error messages do not clear when field becomes valid (CL3)
 - [ ] P1 | Seller | /sell/new | Create listing button indicates loading despite invalid form (CL4)
 - [ ] P2 | Seller | /sell/new | Photos section lacks clear upload button (CL5)
 - [ ] P2 | Seller | /listings | Inconsistent label usage on filter inputs (B1)
