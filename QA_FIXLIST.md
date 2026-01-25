@@ -57,7 +57,7 @@
 - [x] P2 | Logged-out | /listings | 'Show results' and 'Clear' need consistent styling and spacing
 - [ ] P0 | Buyer | /orders/[id] | 'Pay now to continue' shown without actionable payment button
 - [x] P0 | Buyer | /listings/[id] | Offer submission provides no confirmation or success feedback
-- [ ] P0 | Buyer | /listings/[id] | Highest offer incorrectly labelled as 'You'
+- [x] P0 | Buyer | /listings/[id] | Highest offer incorrectly labelled as 'You'
 - [x] P0 | Buyer | /browse | Search input Enter key inconsistently submits query
 - [ ] P1 | Buyer | /browse | Watchlist (heart) affordance missing or undiscoverable
 - [ ] P1 | Buyer | /listings/[id] | Buy Now vs Offer language unclear and inconsistent
