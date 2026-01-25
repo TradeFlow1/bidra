@@ -55,7 +55,7 @@
 - [ ] P2 | Logged-out | /random | No 404 page for unknown routes; non-existent URLs redirect to login
 - [ ] P2 | Logged-out | /watchlist | No heart icons or guidance on how to watch items for visitors
 - [x] P2 | Logged-out | /listings | 'Show results' and 'Clear' need consistent styling and spacing
-- [ ] P0 | Buyer | /orders/[id] | 'Pay now to continue' shown without actionable payment button
+- [x] P0 | Buyer | /orders/[id] | 'Pay now to continue' shown without actionable payment button
 - [x] P0 | Buyer | /listings/[id] | Offer submission provides no confirmation or success feedback
 - [x] P0 | Buyer | /listings/[id] | Highest offer incorrectly labelled as 'You'
 - [x] P0 | Buyer | /browse | Search input Enter key inconsistently submits query
