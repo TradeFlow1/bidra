@@ -93,7 +93,7 @@ export default async function OrdersPage() {
                     href={`/orders/${o.id}`}
                     className="bd-btn bd-btn-primary text-center"
                   >
-                    View order
+                    View order · {String(o.id).slice(-6)}
                   </Link>
 
                   <Link
