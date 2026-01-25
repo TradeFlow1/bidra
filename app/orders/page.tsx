@@ -72,8 +72,8 @@ export default async function OrdersPage() {
                       href={`/orders/${o.id}/pay`}
                       className="bd-btn bd-btn-primary text-center"
                     >
-                      Pay now
-                      <div className="mt-1 text-xs bd-ink2">Binding order — please pay to proceed.</div>
+                      <span className="block">Pay now</span>
+                      <span className="mt-1 block text-xs bd-ink2">Binding order — please pay to proceed.</span>
                     </Link>
                   ) : null}
 
