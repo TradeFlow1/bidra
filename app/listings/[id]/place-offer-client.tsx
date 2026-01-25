@@ -7,6 +7,7 @@ export default function PlaceOfferClient({
   listingId,
   minOfferCents,
   offerState = "NONE",
+  viewerHasAnyOffer = false,
   disabled = false,
   disabledText = "Waiting for seller decision.",
   endsAtIso,
@@ -14,6 +15,7 @@ export default function PlaceOfferClient({
   listingId: string;
   minOfferCents: number;
   offerState?: "NONE" | "TOP" | "OUTBID";
+  viewerHasAnyOffer?: boolean;
   disabled?: boolean;
   disabledText?: string;
   endsAtIso?: string;
@@ -122,11 +124,11 @@ export default function PlaceOfferClient({
           </div>
         </div>
       ) : null}
-      {offerState === "TOP" ? (
+      {viewerHasAnyOffer && offerState === "TOP" ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900">
           You are the highest offer.
         </div>
-      ) : offerState === "OUTBID" ? (
+      ) : viewerHasAnyOffer && offerState === "OUTBID" ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2">
           <div className="text-sm font-extrabold text-neutral-900">You have been out-offered.</div>
           <div className="mt-0.5 text-xs text-neutral-700">Increase your offer to stay on top.</div>

@@ -173,7 +173,10 @@ const ladderTop = Object.values(ladderRows)
         select: { id: true },
       }))
     : false;
-  const offerState: "NONE" | "TOP" | "OUTOFFERED" =
+    const viewerHasAnyOffer = viewerId
+    ? (viewerHasMax || (((listing as any).bids as any[]) ?? []).some((b: any) => String(b?.bidderId ?? "") === String(viewerId)))
+    : false;
+const offerState: "NONE" | "TOP" | "OUTOFFERED" =
     !viewerId
       ? "NONE"
       : (topBidderId === viewerId ? "TOP" : (viewerHasMax ? "OUTOFFERED" : "NONE"));
@@ -182,7 +185,17 @@ const ladderTop = Object.values(ladderRows)
   const sellerName =
     (listing.seller as any)?.username ?? (listing.seller as any)?.name ?? (listing.seller as any)?.email ?? "Seller";
 
-  const descriptionText = String(listing.description ?? "").trim();
+  const rawDescriptionText = String(listing.description ?? "").trim();
+
+// Scrub common placeholder text that should never appear publicly
+const scrubbedDescriptionText = rawDescriptionText
+  .replace(/\(add what''s included\)/gi, "")
+  .replace(/\(add what's included\)/gi, "")
+  .replace(/included:\s*\(.*?\)/gi, "Included:")
+  .replace(/\bTBD\b/gi, "")
+  .replace(/\bTODO\b/gi, "")
+  .replace(/\bExample:\b.*$/gmi, "")
+  .trim();
 
   const rawBuyNow = (listing as any).buyNowPrice;
   const buyNowEnabled = Boolean((listing as any).buyNowEnabled);
@@ -265,7 +278,7 @@ const ladderTop = Object.values(ladderRows)
             <div className="pt-1">
               <div className="text-sm font-extrabold">Description</div>
               <div className="mt-2 rounded-xl border border-black/10 bg-white p-4 text-sm text-neutral-800 whitespace-pre-wrap">
-                {descriptionText ? descriptionText : "No description provided."}
+                {scrubbedDescriptionText ? scrubbedDescriptionText : "No description provided."}
               </div>
             </div>
 
@@ -382,6 +395,7 @@ const ladderTop = Object.values(ladderRows)
                         listingId={(listing as any).id}
                         minOfferCents={minOfferCents}
                         offerState={(offerState === "OUTOFFERED" ? "OUTBID" : offerState)}
+                        viewerHasAnyOffer={viewerHasAnyOffer}
                         disabled={isEnded || isSeller}
                         disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."}
                       />
