@@ -32,7 +32,7 @@
 - [x] P1 | Seller | /orders | “View order” links occasionally open wrong order (O5)
 - [x] P0 | Seller | /messages | Messages show phone numbers, emails and PayID details without filtering (M1)
 - [x] P1 | Seller | /messages | Safety tip omits warnings about phone/email (M2)
-- [ ] P2 | Seller | /messages | Ensure spelling correct in report modals (“happened”) (M3)
+- [x] P2 | Seller | /messages | Ensure spelling correct in report modals (“happened”) (M3)
 - [ ] P2 | Seller | /messages | Delete chat modal breaks “inbox only” into separate words (M4)
 - [ ] P1 | Seller | Footer | Feedback link leads to 404 (F1)
 - [ ] P2 | Seller | Feedback | Inconsistent access to feedback flow (F2)
