@@ -58,7 +58,7 @@ const listings = await getLatestListings();
       backgroundPosition: "center",
     }}
   />
-  <div className="absolute inset-0 bg-slate-900/40" />
+  <div className="absolute inset-0 bg-slate-900/40 pointer-events-none" />
 
   <div className="relative px-5 py-8 pb-10 sm:px-10 sm:py-12 text-center">
     <div className="mx-auto flex items-center justify-center sm:-mb-12">
