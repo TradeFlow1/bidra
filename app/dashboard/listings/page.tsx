@@ -127,7 +127,15 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                     View
                   </Link>
                   <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-primary text-center">
-                    Edit listing
+                    Manage
+                  </Link>
+                  {String(l.status) === "ACTIVE" ? (
+                    <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-ghost text-center">
+                      End
+                    </Link>
+                  ) : null}
+                  <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-ghost text-center">
+                    Delete
                   </Link>
                 </div>
               </Card>
