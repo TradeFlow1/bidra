@@ -314,11 +314,11 @@ export default async function ListingsPage({
   ) : null}
 
   <div className="mt-3 flex flex-wrap items-center gap-2">
-    <button type="submit" className="btnPrimary" style={{ cursor: "pointer" }}>
+    <button type="submit" className="bd-btn bd-btn-primary">
       Show results
     </button>
     {hasAnyFilter ? (
-      <Link href="/listings" className="btnSecondary">Clear</Link>
+      <Link href="/listings" className="bd-btn bd-btn-secondary">Clear</Link>
     ) : null}
   </div>
 </form>
@@ -416,11 +416,11 @@ export default async function ListingsPage({
   ) : null}
 
   <div className="mt-3 flex flex-wrap items-center gap-2">
-    <button type="submit" className="btnPrimary" style={{ cursor: "pointer" }}>
+    <button type="submit" className="bd-btn bd-btn-primary">
       Show results
     </button>
     {hasAnyFilter ? (
-      <Link href="/listings" className="btnSecondary">Clear</Link>
+      <Link href="/listings" className="bd-btn bd-btn-secondary">Clear</Link>
     ) : null}
   </div>
 </form>
