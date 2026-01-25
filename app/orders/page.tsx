@@ -102,6 +102,15 @@ export default async function OrdersPage() {
                   >
                     View listing
                   </Link>
+
+                  {(o.outcome === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
+                    <Link
+                      href={`/orders/${o.id}/feedback`}
+                      className="bd-btn bd-btn-ghost text-center"
+                    >
+                      Leave feedback
+                    </Link>
+                  ) : null}
                 </div>
               </Card>
             ))}
