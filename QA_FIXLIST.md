@@ -34,7 +34,7 @@
 - [x] P1 | Seller | /messages | Safety tip omits warnings about phone/email (M2)
 - [x] P2 | Seller | /messages | Ensure spelling correct in report modals (“happened”) (M3)
 - [x] P2 | Seller | /messages | Delete chat modal breaks “inbox only” into separate words (M4)
-- [ ] P1 | Seller | Footer | Feedback link leads to 404 (F1)
+- [x] P1 | Seller | Footer | Feedback link leads to 404 (F1)
 - [ ] P2 | Seller | Feedback | Inconsistent access to feedback flow (F2)
 - [ ] P2 | Seller | Feedback | Ensure leave feedback form keyboard accessible (F3)
 - [ ] P1 | Seller | /profile | Grammar error in payout description (“Most Australian use mobile PayID”) (P1 issue)
