@@ -38,7 +38,7 @@ export default function PrivacyPage() {
           <h2 className="text-lg font-extrabold">3) What we don’t do</h2>
           <ul className="list-disc pl-5 text-sm text-black/70 space-y-1">
             <li>No selling your personal data.</li>
-            <li>We don’t collect sensitive information (for example: religion, political opinions, health information, or biometrics).</li>
+            <li>We don’t ask for or store sensitive information (for example: religion, political opinions, health information, or biometrics).</li>
             <li>No street address requirement for accounts.</li>
           </ul>
         </section>
