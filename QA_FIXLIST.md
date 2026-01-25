@@ -23,7 +23,7 @@
 - [x] P2 | Seller | /listings | “Show results Clear” UI confusing when no results (B4)
 - [x] P1 | Seller | listing pages | Placeholder bullets remain in listing descriptions (L1)
 - [x] P0 | Seller | listing pages | Price discrepancy between listing and order (L2)
-- [ ] P1 | Seller | listing pages | Listing becomes unavailable immediately after clicking “Buy now” (L3)
+- [x] P1 | Seller | listing pages | Listing becomes unavailable immediately after clicking “Buy now” (L3)
 - [ ] P2 | Seller | listing pages | Report modal styling inconsistent (L5)
 - [ ] P2 | Seller | /orders | Spacing error in status message (“Pay nowBinding order”) (O1, O6)
 - [x] P0 | Seller | /orders | Order price differs from listing price (O2)
