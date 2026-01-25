@@ -38,7 +38,7 @@
 - [x] P2 | Seller | Feedback | Inconsistent access to feedback flow (F2)
 - [x] P2 | Seller | Feedback | Ensure leave feedback form keyboard accessible (F3)
 - [x] P1 | Seller | /profile | Grammar error in payout description (“Most Australian use mobile PayID”) (P1 issue)
-- [ ] P2 | Seller | misc | Generic 404 pages lack helpful navigation (MISC2)
+- [x] P2 | Seller | misc | Generic 404 pages lack helpful navigation (MISC2)
 - [x] P0 | Logged-out | /listings | Search field does not submit on Enter; user must click unstyled "Show results" text
 - [x] P0 | Logged-out | /listings/[id] | Placeholder text (e.g., 'Included: (add what''s included)') visible in listing descriptions
 - [x] P0 | Logged-out | /listings/[id] | 'You are the highest offer' shown even when user has not placed an offer
