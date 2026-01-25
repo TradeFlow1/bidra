@@ -11,7 +11,7 @@
 - [x] P2 | Seller | /dashboard | Awkward heading “Your shortcuts, status, and anything that needs action.” (D2)
 - [x] P2 | Seller | /dashboard/listings | Long titles overflow listing cards (ML1)
 - [x] P1 | Seller | /dashboard/listings | Edit listing retains placeholder text like “Included: (add what’s included)” (ML2)
-- [ ] P1 | Seller | /dashboard/listings | No option to delete or end listing in edit form (ML3)
+- [x] P1 | Seller | /dashboard/listings | No option to delete or end listing in edit form (ML3)
 - [ ] P2 | Seller | /sell/new | Duplicate heading “Add the basics” (CL1)
 - [x] P1 | Seller | /sell/new | Suggested description inserts placeholders into live listings (CL2)
 - [ ] P1 | Seller | /sell/new | Validation error messages do not clear when field becomes valid (CL3)
