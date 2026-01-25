@@ -113,8 +113,8 @@ export default function FeedbackClient({
         ) : (
           <div style={{ display: "grid", gap: 12 }}>
             <div>
-              <div style={{ fontWeight: 800 }}>Rating (1–5)</div>
-              <select
+              <label htmlFor="feedback-rating" style={{ fontWeight: 800, display: "block" }}>Rating (1–5)</label>
+              <select id="feedback-rating" name="rating" aria-label="Rating (1 to 5)" aria-describedby={status === "error" ? "feedback-error" : undefined} className="focus:outline-none focus:ring-2 focus:ring-black/30"
                 value={rating}
                 onChange={(e) => setRating(Number(e.target.value))}
                 style={{
@@ -134,8 +134,8 @@ export default function FeedbackClient({
             </div>
 
             <div>
-              <div style={{ fontWeight: 800 }}>Comment (optional)</div>
-              <textarea
+              <label htmlFor="feedback-comment" style={{ fontWeight: 800, display: "block" }}>Comment (optional)</label>
+              <textarea id="feedback-comment" name="comment" aria-label="Comment" aria-describedby={status === "error" ? "feedback-error" : undefined} className="focus:outline-none focus:ring-2 focus:ring-black/30"
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 rows={4}
@@ -169,7 +169,7 @@ export default function FeedbackClient({
             </button>
 
             {status === "error" ? (
-              <div style={{ color: "#b91c1c", fontWeight: 700 }}>{error}</div>
+              <div id="feedback-error" role="status" aria-live="polite" style={{ color: "#b91c1c", fontWeight: 700 }}>{error}</div>
             ) : null}
           </div>
         )}

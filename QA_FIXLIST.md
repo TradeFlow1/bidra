@@ -36,7 +36,7 @@
 - [x] P2 | Seller | /messages | Delete chat modal breaks “inbox only” into separate words (M4)
 - [x] P1 | Seller | Footer | Feedback link leads to 404 (F1)
 - [x] P2 | Seller | Feedback | Inconsistent access to feedback flow (F2)
-- [ ] P2 | Seller | Feedback | Ensure leave feedback form keyboard accessible (F3)
+- [x] P2 | Seller | Feedback | Ensure leave feedback form keyboard accessible (F3)
 - [ ] P1 | Seller | /profile | Grammar error in payout description (“Most Australian use mobile PayID”) (P1 issue)
 - [ ] P2 | Seller | misc | Generic 404 pages lack helpful navigation (MISC2)
 - [x] P0 | Logged-out | /listings | Search field does not submit on Enter; user must click unstyled "Show results" text
