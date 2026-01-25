@@ -65,6 +65,9 @@ export default async function OrdersPage() {
                   <div className="text-sm bd-ink2 mt-1">
                     Amount: <b>${(Number(o.amount) / 100).toFixed(2)}</b> AUD
                   </div>
+                  <div className="text-xs bd-ink2 mt-1">
+                    Order: <code className="font-mono">{String(o.id).slice(-6)}</code>
+                  </div>
                 </div>
 
                 <div className="flex gap-2 flex-wrap justify-end">
