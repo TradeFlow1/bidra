@@ -88,16 +88,27 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const isSeller = !!(session?.user?.id && session.user.id === (listing as any).sellerId);
 
   if (!isSeller && !isAdmin && listing.status !== "ACTIVE") {
-    return (
-      <main className="bd-container py-6 pb-14">
-        <div className="bd-card p-6 space-y-3">
-          <div className="text-lg font-semibold">This listing is not available.</div>
-          <Link href="/listings" className="bd-link text-sm">
-            ← Back to listings
-          </Link>
-        </div>
-      </main>
-    );
+    const viewerId = session?.user?.id ?? null;
+    const viewerOrder = viewerId
+      ? await prisma.order.findFirst({
+          where: { listingId: listing.id, buyerId: viewerId },
+          select: { id: true, status: true, outcome: true },
+        })
+      : null;
+
+    // Allow the buyer (who has an order) to still view the listing after Buy Now flips it to SOLD.
+    if (!viewerOrder) {
+      return (
+        <main className="bd-container py-6 pb-14">
+          <div className="bd-card p-6 space-y-3">
+            <div className="text-lg font-semibold">This listing is not available.</div>
+            <Link href="/listings" className="bd-link text-sm">
+              ← Back to listings
+            </Link>
+          </div>
+        </main>
+      );
+    }
   }
 
 
