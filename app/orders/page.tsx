@@ -5,6 +5,7 @@ import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
+import SellerConfirmReceived from "./[id]/seller-confirm-received";
 
 export const dynamic = "force-dynamic";
 
@@ -77,7 +78,15 @@ export default async function OrdersPage() {
                     </Link>
                   ) : null}
 
-                  <Link
+                  
+
+                  {(o.status === "PAID" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
+
+                    <SellerConfirmReceived orderId={o.id} />
+
+                  ) : null}
+
+<Link
                     href={`/orders/${o.id}`}
                     className="bd-btn bd-btn-primary text-center"
                   >
