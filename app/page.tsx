@@ -1,4 +1,5 @@
 ﻿import Link from "next/link";
+import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import Image from "next/image";
 
@@ -41,7 +42,9 @@ async function getLatestListings(): Promise<ListingLite[]> {
 const LOGO_SRC = "/brand/bidra-kangaroo-logo.png";
 
 export default async function HomePage() {
-  const listings = await getLatestListings();
+  
+  const session = await auth();
+const listings = await getLatestListings();
 
   return (
     <main className="bd-container py-6 pb-14">
@@ -77,7 +80,7 @@ export default async function HomePage() {
       <Link href="/listings" className="bd-btn bd-btn-primary">
         Browse items
       </Link>
-      <Link href="/sell/new" className="bd-btn bd-btn-primary">
+      <Link href={session?.user?.id ? "/sell/new" : "/auth/login?next=/sell/new"} className="bd-btn bd-btn-primary">
         List an item
       </Link>
     </div>
