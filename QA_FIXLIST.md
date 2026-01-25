@@ -2,7 +2,7 @@
 
 ### Combined QA Issues (Seller, Buyer, Admin, Logged-out)
 
-- [ ] P2 | Seller | / (Home) | Tagline incomplete and grammatically awkward (H1)
+- [x] P2 | Seller | / (Home) | Tagline incomplete and grammatically awkward (H1)
 - [ ] P2 | Seller | /legal/prohibited-items | Duplicate "Contact" and missing verb “are” in prohibited items page (PI1, PI2)
 - [ ] P2 | Seller | /legal/privacy | Awkward phrasing "No collecting sensitive traits" (PP1)
 - [ ] P2 | Seller | /legal/terms | Grammar issues in terms: missing verb and incorrect agreement (T1, T2)
