@@ -17,7 +17,36 @@ export const fetchCache = "force-no-store";
 
 export default async function WatchlistPage() {
   const session = await auth();
-  if (!session?.user?.id) redirect("/auth/login?next=/watchlist");
+  if (!session?.user?.id) {
+    return (
+      <main className="bd-container py-10">
+        <div className="container max-w-5xl">
+          <div className="flex items-end justify-between gap-3 flex-wrap">
+            <div>
+              <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Watchlist</h1>
+              <p className="mt-2 text-sm bd-ink2">Save listings you want to come back to.</p>
+            </div>
+
+            <div className="flex gap-2 flex-wrap">
+              <Link href="/listings" className="bd-btn bd-btn-primary">Browse</Link>
+              <Link href="/auth/login?next=/watchlist" className="bd-btn bd-btn-ghost">Sign in</Link>
+            </div>
+          </div>
+
+          <div className="mt-6 bd-card p-6">
+            <div className="text-base font-semibold bd-ink">Sign in to use your watchlist.</div>
+            <div className="mt-1 text-sm bd-ink2">
+              When you’re signed in, tap the heart on any listing to save it here.
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link href="/auth/login?next=/watchlist" className="bd-btn bd-btn-primary">Sign in</Link>
+              <Link href="/auth/register" className="bd-btn bd-btn-ghost">Create account</Link>
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   const gate = await requireAdult(session as any);
   if (!gate.ok && (gate as any).reason === "UNDER_18") redirect("/account/restrictions");
