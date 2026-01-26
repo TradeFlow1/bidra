@@ -48,7 +48,7 @@
 - [x] P1 | Logged-out | /legal/privacy | Misphrased bullet: 'No collecting sensitive traits (religion, politics, health, etc.)'
 - [x] P1 | Logged-out | /listings | Unstyled 'Show results' / 'Clear' labels; should be buttons or auto-submit on Enter
 - [x] P1 | Logged-out | /contact & /feedback | Links redirect to login with no explanation; should show friendly message requiring sign-in
-- [ ] P1 | Logged-out | / | Implausible top-offer values displayed on some listing cards (e.g., $7.5m); needs moderation
+- [x] P1 | Logged-out | / | Implausible top-offer values displayed on some listing cards (e.g., $7.5m); needs moderation
 - [ ] P1 | Logged-out | / | Category dropdown covers hero image and is unwieldy on mobile/desktop
 - [ ] P1 | Logged-out | / | Obvious typos in listing names (e.g., 'Fish tand') should be flagged or corrected
 - [ ] P2 | Logged-out | /messages & /safety | Safety tips omit warnings about sharing phone numbers or email addresses
