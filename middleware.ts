@@ -3,7 +3,8 @@ import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 function isPublic(pathname: string) {
-  return (
+  // Static + always-public routes
+  if (
     pathname.startsWith("/_next") ||
     pathname === "/favicon.ico" ||
     pathname === "/icon.png" ||
@@ -21,9 +22,22 @@ function isPublic(pathname: string) {
     pathname.startsWith("/legal") ||
     pathname.startsWith("/support") ||
     pathname.startsWith("/contact") ||
-    pathname.startsWith("/feedback") ||
-    pathname === "/" ||
-    pathname.startsWith("/listings")
+    pathname.startsWith("/feedback")
+  ) {
+    return true;
+  }
+
+  // Protected app areas (everything else is public, including unknown routes → proper 404)
+  return !(
+    pathname.startsWith("/sell") ||
+    pathname.startsWith("/messages") ||
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/account") ||
+    pathname.startsWith("/orders") ||
+    pathname.startsWith("/watchlist") ||
+    pathname.startsWith("/profile") ||
+    pathname.startsWith("/notifications") ||
+    pathname.startsWith("/admin")
   );
 }
 
