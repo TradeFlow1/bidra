@@ -281,7 +281,7 @@ const scrubbedDescriptionText = rawDescriptionText
             />
 
             <div className="flex gap-2 flex-wrap">
-              <Badge>{listing.type === "AUCTION" ? "Timed offers" : "Fixed price"}</Badge>
+              <Badge>{isTimedOffers ? "Timed offers" : "Fixed price"}</Badge>
               <Badge>{labelCategory(listing.category)}</Badge>
               <Badge>{labelCondition(listing.condition)}</Badge>
             </div>
