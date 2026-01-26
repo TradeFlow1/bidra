@@ -53,7 +53,7 @@
 - [x] P1 | Logged-out | / | Obvious typos in listing names (e.g., 'Fish tand') should be flagged or corrected
 - [x] P2 | Logged-out | /messages & /safety | Safety tips omit warnings about sharing phone numbers or email addresses
 - [x] P2 | Logged-out | /random | No 404 page for unknown routes; non-existent URLs redirect to login
-- [ ] P2 | Logged-out | /watchlist | No heart icons or guidance on how to watch items for visitors
+- [x] P2 | Logged-out | /watchlist | No heart icons or guidance on how to watch items for visitors
 - [x] P2 | Logged-out | /listings | 'Show results' and 'Clear' need consistent styling and spacing
 - [x] P0 | Buyer | /orders/[id] | 'Pay now to continue' shown without actionable payment button
 - [x] P0 | Buyer | /listings/[id] | Offer submission provides no confirmation or success feedback
