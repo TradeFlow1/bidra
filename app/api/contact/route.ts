@@ -1,11 +1,17 @@
 ﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
 export async function POST(req: Request) {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json({ ok: false, error: "Sign in required." }, { status: 401 });
+  }
+
   let body: any = null;
   try {
     body = await req.json();
@@ -28,7 +34,7 @@ export async function POST(req: Request) {
     await prisma.adminEvent.create({
       data: {
         type: "CONTACT_MESSAGE",
-        userId: null,
+        userId: session.user.id ?? null,
         data: {
           email,
           message,
