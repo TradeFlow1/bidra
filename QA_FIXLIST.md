@@ -51,7 +51,7 @@
 - [x] P1 | Logged-out | / | Implausible top-offer values displayed on some listing cards (e.g., $7.5m); needs moderation
 - [x] P1 | Logged-out | / | Category dropdown covers hero image and is unwieldy on mobile/desktop
 - [x] P1 | Logged-out | / | Obvious typos in listing names (e.g., 'Fish tand') should be flagged or corrected
-- [ ] P2 | Logged-out | /messages & /safety | Safety tips omit warnings about sharing phone numbers or email addresses
+- [x] P2 | Logged-out | /messages & /safety | Safety tips omit warnings about sharing phone numbers or email addresses
 - [ ] P2 | Logged-out | /random | No 404 page for unknown routes; non-existent URLs redirect to login
 - [ ] P2 | Logged-out | /watchlist | No heart icons or guidance on how to watch items for visitors
 - [x] P2 | Logged-out | /listings | 'Show results' and 'Clear' need consistent styling and spacing
@@ -62,7 +62,7 @@
 - [ ] P1 | Buyer | /browse | Watchlist (heart) affordance missing or undiscoverable
 - [ ] P1 | Buyer | /listings/[id] | Buy Now vs Offer language unclear and inconsistent
 - [ ] P1 | Buyer | /orders/[id]/feedback | Leave feedback redirects to wrong page
-- [ ] P1 | Buyer | /messages/[thread] | Safety copy insufficient (missing phone/email warnings)
+- [x] P1 | Buyer | /messages/[thread] | Safety copy insufficient (missing phone/email warnings)
 - [ ] P2 | Buyer | /browse | Listing title typos visible to buyers
 - [ ] P2 | Buyer | /browse | Long listing titles break card layout
 - [ ] P2 | Buyer | /watchlist | Empty state lacks guidance
