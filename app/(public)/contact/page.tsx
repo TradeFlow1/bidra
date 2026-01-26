@@ -1,53 +1,37 @@
-﻿"use client";
+﻿import Link from "next/link";
+import { auth } from "@/lib/auth";
+import ContactFormClient from "./contact-form-client";
 
-import { useState } from "react";
-import { Card, Input, Textarea, Button } from "@/components/ui";
-
-export default function ContactPage() {
-  const [sent, setSent] = useState(false);
+export default async function ContactPage() {
+  const session = await auth();
+  const isAuthed = Boolean(session?.user);
+  const email = String(session?.user?.email || "").trim();
 
   return (
-    <div className="max-w-2xl flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">Contact</h1>
-      <p className="text-neutral-700">
-        Messages are sent to Bidra support. If you don’t hear back, please email support from the Support page.
+    <main className="mx-auto max-w-2xl p-6">
+      <h1 className="text-3xl font-extrabold tracking-tight">Contact</h1>
+      <p className="mt-2 text-sm text-gray-600">
+        Messages are sent to Bidra support. For urgent safety issues, use Support &amp; Safety.
       </p>
 
-      <Card>
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            const fd = new FormData(e.currentTarget);
-            const email = String(fd.get("email") || "").trim();
-            const message = String(fd.get("message") || "").trim();
-
-            setSent(false);
-
-            const r = await fetch("/api/contact", {
-              method: "POST",
-              headers: { "content-type": "application/json" },
-              body: JSON.stringify({ email, message }),
-            });
-
-            const data = await r.json().catch(() => ({} as any));
-            if (!r.ok || !(data as any)?.ok) {
-              alert(String((data as any)?.error || "Failed to send message."));
-              return;
-            }
-
-            setSent(true);
-            (e.currentTarget as HTMLFormElement).reset();
-          }}
-          className="flex flex-col gap-3"
-        >
-          <label className="text-sm">Your email</label>
-          <Input name="email" type="email" required />
-          <label className="text-sm">Message</label>
-          <Textarea name="message" required />
-          <Button type="submit" className="bg-black text-white border-black hover:opacity-90">Send</Button>
-          {sent ? <div className="text-sm text-green-700">Message sent. We’ll reply to your email as soon as we can.</div> : null}
-        </form>
-      </Card>
-    </div>
+      {!isAuthed ? (
+        <div className="mt-4 rounded-xl border bg-white p-4">
+          <div className="text-sm font-extrabold bd-ink">Sign in required</div>
+          <p className="mt-1 text-sm bd-ink2">
+            To contact the Bidra team, please sign in first. You can still read Support &amp; Safety while logged out.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Link href="/auth/login?next=/contact" className="bd-btn bd-btn-primary">Sign in</Link>
+            <Link href="/auth/register" className="bd-btn bd-btn-ghost">Create account</Link>
+            <Link href="/support" className="bd-btn bd-btn-ghost">Support &amp; Safety</Link>
+            <Link href="/feedback" className="bd-btn bd-btn-ghost">Feedback</Link>
+          </div>
+        </div>
+      ) : (
+        <div className="mt-4">
+          <ContactFormClient defaultEmail={email} />
+        </div>
+      )}
+    </main>
   );
 }
