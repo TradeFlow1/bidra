@@ -63,8 +63,8 @@
 - [x] P1 | Buyer | /listings/[id] | Buy Now vs Offer language unclear and inconsistent
 - [x] P1 | Buyer | /orders/[id]/feedback | Leave feedback redirects to wrong page
 - [x] P1 | Buyer | /messages/[thread] | Safety copy insufficient (missing phone/email warnings)
-- [ ] P2 | Buyer | /browse | Listing title typos visible to buyers
+- [x] P2 | Buyer | /browse | Listing title typos visible to buyers
 - [x] P2 | Buyer | /browse | Long listing titles break card layout
-- [ ] P2 | Buyer | /watchlist | Empty state lacks guidance
-- [ ] P2 | Buyer | Global | Capitalisation inconsistencies in CTAs
+- [x] P2 | Buyer | /watchlist | Empty state lacks guidance
+- [x] P2 | Buyer | Global | Capitalisation inconsistencies in CTAs
 - [x] P2 | Buyer | Global | Native browser alerts used instead of styled dialogs
