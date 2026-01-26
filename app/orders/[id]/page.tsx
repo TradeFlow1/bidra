@@ -80,7 +80,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div className="flex flex-wrap gap-2">
               <Link href="/orders" className="bd-btn bd-btn-primary text-center">Orders</Link>
               <Link href={listingHref} className="bd-btn bd-btn-primary text-center">View listing</Link>
-              {order.buyerId === user.id ? (
+              {(order.buyerId === user.id || order.listing?.sellerId === user.id) ? (
                 <Link href={feedbackHref} className="bd-btn bd-btn-primary text-center">Leave feedback</Link>
               ) : null}
             </div>

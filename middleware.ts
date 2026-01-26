@@ -20,6 +20,8 @@ function isPublic(pathname: string) {
     pathname.startsWith("/reset-password") ||
     pathname.startsWith("/legal") ||
     pathname.startsWith("/support") ||
+    pathname.startsWith("/contact") ||
+    pathname.startsWith("/feedback") ||
     pathname === "/" ||
     pathname.startsWith("/listings")
   );
