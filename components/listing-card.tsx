@@ -86,12 +86,12 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
           <WatchButton listingId={listing.id} initialWatched={initiallyWatched} compact />
         </div>
         {hasMulti ? (
-          <ListingThumbCarousel images={listing.images} title={listing.title} />
+          <ListingThumbCarousel images={listing.images} title={String((listing as any)?.title ?? (listing as any)?.title ?? "").replace(/\s+/g, " ").trim()} />
         ) : (
           <>
             <Image
               src={fallback}
-              alt={listing.title}
+              alt={String((listing as any)?.title ?? (listing as any)?.title ?? "").replace(/\s+/g, " ").trim()}
               fill
               sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
               className={isNoPhotos ? "select-none object-contain p-10 opacity-90" : "select-none object-cover"}
@@ -121,7 +121,7 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
             overflow: "hidden",
           } as any}
         >
-          {listing.title}
+          {String((listing as any)?.title ?? "").replace(/\s+/g, " ").trim()}
         </div>
 
         <div className="mb-1">

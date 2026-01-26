@@ -114,7 +114,7 @@ export default async function WatchlistPage() {
             <div className="bd-card p-6">
               <div className="text-base font-semibold bd-ink">No watched listings yet.</div>
               <div className="mt-1 text-sm bd-ink2">
-                Tap the heart on a listing to save it here.
+                Tip: tap the ♥ (heart) on any listing to save it here.
               </div>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link href="/listings" className="bd-btn bd-btn-primary">Browse listings</Link>

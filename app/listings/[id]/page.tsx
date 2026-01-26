@@ -191,7 +191,8 @@ const offerState: "NONE" | "TOP" | "OUTOFFERED" =
     !viewerId
       ? "NONE"
       : (topBidderId === viewerId ? "TOP" : (viewerHasMax ? "OUTOFFERED" : "NONE"));
-  const guideExceeded = hasAnyOffer && guidePriceCents > 0 && highestOfferCents >= guidePriceCents;
+    const guideExceeded = hasAnyOffer && guidePriceCents > 0 && highestOfferCents >= guidePriceCents;
+  const normalizedTitle = String((listing as any)?.title ?? "").replace(/\s+/g, " ").trim();
 
   const sellerName =
     (listing.seller as any)?.username ?? (listing.seller as any)?.name ?? (listing.seller as any)?.email ?? "Seller";
