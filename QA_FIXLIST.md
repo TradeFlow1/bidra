@@ -47,7 +47,7 @@
 - [x] P1 | Logged-out | /legal/terms | Awkward wording in offers section ('Bidra may show "top offer" and timed offers mechanics')
 - [x] P1 | Logged-out | /legal/privacy | Misphrased bullet: 'No collecting sensitive traits (religion, politics, health, etc.)'
 - [x] P1 | Logged-out | /listings | Unstyled 'Show results' / 'Clear' labels; should be buttons or auto-submit on Enter
-- [ ] P1 | Logged-out | /contact & /feedback | Links redirect to login with no explanation; should show friendly message requiring sign-in
+- [x] P1 | Logged-out | /contact & /feedback | Links redirect to login with no explanation; should show friendly message requiring sign-in
 - [ ] P1 | Logged-out | / | Implausible top-offer values displayed on some listing cards (e.g., $7.5m); needs moderation
 - [ ] P1 | Logged-out | / | Category dropdown covers hero image and is unwieldy on mobile/desktop
 - [ ] P1 | Logged-out | / | Obvious typos in listing names (e.g., 'Fish tand') should be flagged or corrected
