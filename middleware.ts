@@ -2,7 +2,7 @@
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-function isPublic(pathname: string) {
+function isProtected(pathname: string) {
   // Static + always-public routes
   if (
     pathname.startsWith("/_next") ||
@@ -27,8 +27,8 @@ function isPublic(pathname: string) {
     return true;
   }
 
-  // Protected app areas (everything else is public, including unknown routes → proper 404)
-  return !(
+  // Protected app areas (explicit). Everything else is public (including unknown routes → proper 404)
+  return (
     pathname.startsWith("/sell") ||
     pathname.startsWith("/messages") ||
     pathname.startsWith("/dashboard") ||
@@ -87,7 +87,7 @@ export async function middleware(req: NextRequest) {
 
   // 3) Phone verification gate (STEP 1E)
   const pathname = url.pathname;
-  if (isPublic(pathname)) return NextResponse.next();
+  if (!isProtected(pathname)) return NextResponse.next();
 
   const token: any = await getToken({ req });
   if (!token) {
