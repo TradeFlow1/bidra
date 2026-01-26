@@ -368,12 +368,12 @@ const scrubbedDescriptionText = rawDescriptionText
                     {buyNowVisible ? (
                       <div className="pt-3">
                         <BuyNowButton listingId={(listing as any).id} />
-<div className="mt-1 text-xs text-neutral-600">Buy Now is a binding purchase. Seller has pre-authorised this sale. You'll be asked to pay after continuing.</div>
+<div className="mt-1 text-xs text-neutral-600">Buy Now is a binding purchase. If you continue, you'll create an order and go to payment.</div>
                       </div>
                     ) : (
                       <>
                       <div className="pt-3 text-xs text-neutral-600">Buy Now may appear in the final 24 hours.</div>
-                      <div className="mt-2 text-xs text-neutral-600">Seller decides at the end. Highest offer is not an automatic sale.</div>
+                      <div className="mt-2 text-xs text-neutral-600">Offers are not an automatic sale. After this listing ends, the seller may accept an offer (usually the highest).</div>
                       </>
                     )}
                   </div>
@@ -396,7 +396,7 @@ const scrubbedDescriptionText = rawDescriptionText
                   <div className="bd-card p-4">
                     <div className="text-sm font-semibold">Offers closed</div>
                     <div className="mt-2 text-xs text-neutral-600">Listing ended — seller reviewing offers.</div>
-                    <div className="mt-2 text-xs text-neutral-600">Seller decides at the end. Highest offer is not an automatic sale.</div>
+                    <div className="mt-2 text-xs text-neutral-600">Offers are not an automatic sale. After this listing ends, the seller may accept an offer (usually the highest).</div>
                   </div>
                 ) : (
                   <div className="bd-card p-4">
@@ -411,7 +411,7 @@ const scrubbedDescriptionText = rawDescriptionText
                         disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."}
                       />
                       <div className="mt-2 text-xs text-neutral-600">
-                        Seller decides at the end. Highest offer is not an automatic sale.
+                        Offers are not an automatic sale. After this listing ends, the seller may accept an offer (usually the highest).
                       </div>
                     </div>
                   </div>
@@ -424,7 +424,7 @@ const scrubbedDescriptionText = rawDescriptionText
                 {buyNowVisible ? (
                   <div className="space-y-1">
                     <BuyNowButton listingId={(listing as any).id} />
-                    <div className="text-xs text-neutral-600">Buy Now is a binding purchase. Seller has pre-authorised this sale. You'll be asked to pay after continuing.</div>
+                    <div className="text-xs text-neutral-600">Buy Now is a binding purchase. If you continue, you'll create an order and go to payment.</div>
                   </div>
                 ) : null}
               </div>
