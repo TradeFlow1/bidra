@@ -59,12 +59,12 @@
 - [x] P0 | Buyer | /listings/[id] | Offer submission provides no confirmation or success feedback
 - [x] P0 | Buyer | /listings/[id] | Highest offer incorrectly labelled as 'You'
 - [x] P0 | Buyer | /browse | Search input Enter key inconsistently submits query
-- [ ] P1 | Buyer | /browse | Watchlist (heart) affordance missing or undiscoverable
+- [x] P1 | Buyer | /browse | Watchlist (heart) affordance missing or undiscoverable
 - [ ] P1 | Buyer | /listings/[id] | Buy Now vs Offer language unclear and inconsistent
-- [ ] P1 | Buyer | /orders/[id]/feedback | Leave feedback redirects to wrong page
+- [x] P1 | Buyer | /orders/[id]/feedback | Leave feedback redirects to wrong page
 - [x] P1 | Buyer | /messages/[thread] | Safety copy insufficient (missing phone/email warnings)
 - [ ] P2 | Buyer | /browse | Listing title typos visible to buyers
-- [ ] P2 | Buyer | /browse | Long listing titles break card layout
+- [x] P2 | Buyer | /browse | Long listing titles break card layout
 - [ ] P2 | Buyer | /watchlist | Empty state lacks guidance
 - [ ] P2 | Buyer | Global | Capitalisation inconsistencies in CTAs
 - [ ] P2 | Buyer | Global | Native browser alerts used instead of styled dialogs
