@@ -60,7 +60,7 @@
 - [x] P0 | Buyer | /listings/[id] | Highest offer incorrectly labelled as 'You'
 - [x] P0 | Buyer | /browse | Search input Enter key inconsistently submits query
 - [x] P1 | Buyer | /browse | Watchlist (heart) affordance missing or undiscoverable
-- [ ] P1 | Buyer | /listings/[id] | Buy Now vs Offer language unclear and inconsistent
+- [x] P1 | Buyer | /listings/[id] | Buy Now vs Offer language unclear and inconsistent
 - [x] P1 | Buyer | /orders/[id]/feedback | Leave feedback redirects to wrong page
 - [x] P1 | Buyer | /messages/[thread] | Safety copy insufficient (missing phone/email warnings)
 - [ ] P2 | Buyer | /browse | Listing title typos visible to buyers
