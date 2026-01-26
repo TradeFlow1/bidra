@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   orderId: string;
@@ -25,6 +26,7 @@ export default function FeedbackClient({
     alreadySubmitted ? "done" : "idle"
   );
   const [error, setError] = useState<string>("");
+  const router = useRouter();
 
   async function submit() {
     setStatus("saving");
@@ -43,6 +45,13 @@ export default function FeedbackClient({
         // Duplicate feedback (already submitted) should not look like a failure
         if (res.status === 409) {
           setStatus("done");
+      // Redirect back to the order page (fix wrong-page redirect)
+      setTimeout(() => {
+        try {
+          router.push(`/orders/${orderId}`);
+          router.refresh();
+        } catch {}
+      }, 800);
           setError("");
           return;
         }

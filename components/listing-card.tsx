@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import ListingThumbCarousel from "@/components/listing-thumb-carousel";
+import WatchButton from "@/components/watch-button";
 import { isTimedOffersType } from "@/lib/listing-type";
 import { formatTimeRemaining } from "@/lib/time-remaining";
 
@@ -39,7 +40,7 @@ function endsLabel(endsAt: any) {
   return `Ends in ${t}`;
 }
 
-export default function ListingCard({ listing }: ListingCardProps) {
+export default function ListingCard({ listing, initiallyWatched }: ListingCardProps) {
   const imgs = Array.isArray(listing.images) ? listing.images : null;
   const hasMulti = !!(imgs && imgs.length > 1);
 
@@ -67,6 +68,23 @@ export default function ListingCard({ listing }: ListingCardProps) {
       className="group block overflow-hidden rounded-xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-[1px] hover:shadow-md"
     >
       <div className="relative aspect-[3/4] w-full bg-neutral-100">
+        <div
+          className="absolute top-2 right-2 z-10"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          onTouchStart={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <WatchButton listingId={listing.id} initialWatched={initiallyWatched} compact />
+        </div>
         {hasMulti ? (
           <ListingThumbCarousel images={listing.images} title={listing.title} />
         ) : (
@@ -94,7 +112,15 @@ export default function ListingCard({ listing }: ListingCardProps) {
       </div>
 
       <div className="space-y-1.5 p-3">
-        <div className="/* STEP3_TITLE_BUMP */ text-[20px] font-extrabold leading-snug text-[#0b1220] line-clamp-2">
+        <div
+          className="/* STEP3_TITLE_BUMP */ text-[20px] font-extrabold leading-snug text-[#0b1220] line-clamp-2"
+          style={{
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          } as any}
+        >
           {listing.title}
         </div>
 
