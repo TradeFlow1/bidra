@@ -5,6 +5,8 @@ import { requireAdult } from "@/lib/require-adult";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+const MAX_PRICE_CENTS = 1000000 * 100; // $1,000,000 AUD sanity cap (cents)
+
 function norm(s: any) {
   return String(s ?? "").trim().toLowerCase();
 }
@@ -75,6 +77,9 @@ export async function GET(req: Request) {
         images: { isEmpty: false },
         // Safety: never return listings that already have an order
         orders: { none: {} },
+        // Sanity: hide implausible prices from public feeds
+        price: { lte: MAX_PRICE_CENTS },
+        OR: [{ buyNowPrice: null }, { buyNowPrice: { lte: MAX_PRICE_CENTS } }],
         NOT: [
           { title: { equals: "test", mode: "insensitive" } },
           { title: { startsWith: "test", mode: "insensitive" } },
