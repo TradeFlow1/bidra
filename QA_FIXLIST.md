@@ -67,4 +67,4 @@
 - [x] P2 | Buyer | /browse | Long listing titles break card layout
 - [ ] P2 | Buyer | /watchlist | Empty state lacks guidance
 - [ ] P2 | Buyer | Global | Capitalisation inconsistencies in CTAs
-- [ ] P2 | Buyer | Global | Native browser alerts used instead of styled dialogs
+- [x] P2 | Buyer | Global | Native browser alerts used instead of styled dialogs
