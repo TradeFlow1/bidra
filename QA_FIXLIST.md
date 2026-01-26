@@ -50,7 +50,7 @@
 - [x] P1 | Logged-out | /contact & /feedback | Links redirect to login with no explanation; should show friendly message requiring sign-in
 - [x] P1 | Logged-out | / | Implausible top-offer values displayed on some listing cards (e.g., $7.5m); needs moderation
 - [x] P1 | Logged-out | / | Category dropdown covers hero image and is unwieldy on mobile/desktop
-- [ ] P1 | Logged-out | / | Obvious typos in listing names (e.g., 'Fish tand') should be flagged or corrected
+- [x] P1 | Logged-out | / | Obvious typos in listing names (e.g., 'Fish tand') should be flagged or corrected
 - [ ] P2 | Logged-out | /messages & /safety | Safety tips omit warnings about sharing phone numbers or email addresses
 - [ ] P2 | Logged-out | /random | No 404 page for unknown routes; non-existent URLs redirect to login
 - [ ] P2 | Logged-out | /watchlist | No heart icons or guidance on how to watch items for visitors

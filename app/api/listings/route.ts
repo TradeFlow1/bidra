@@ -11,6 +11,15 @@ function norm(s: any) {
   return String(s ?? "").trim().toLowerCase();
 }
 
+function sanitizeTitle(title: any) {
+  const t = String(title ?? "").trim();
+  if (!t) return t;
+  // ultra-conservative public feed fixes (do NOT rewrite meaning)
+  // Example: "Fish tand" -> "Fish tank"
+  return t
+    .replace(/\bFish\s+tand\b/gi, "Fish tank")
+    .replace(/\s{2,}/g, " ");
+}
 function scoreListing(listing: any, user: { postcode?: string | null; suburb?: string | null; state?: string | null } | null) {
   if (!user) return 0;
   const loc = norm(listing?.location);
@@ -126,10 +135,10 @@ export async function GET(req: Request) {
         .map((x: any) => x.l)
         .slice(0, 24);
 
-      return NextResponse.json({ listings: ranked }, { headers: { "Cache-Control": "no-store" } });
+      return NextResponse.json({ listings: ranked.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: { "Cache-Control": "no-store" } });
     }
 
-    return NextResponse.json({ listings }, { headers: { "Cache-Control": "no-store" } });
+    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: { "Cache-Control": "no-store" } });
   } catch (err) {
     console.error("GET /api/listings failed", err);
     return NextResponse.json({ error: "Failed to load listings" }, { status: 500 });
