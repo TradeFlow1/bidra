@@ -65,7 +65,13 @@ export default async function MessagesInboxPage() {
 
     return (
       <main>
-        <div className="bd-container">
+        <div className="bd-card mt-4">
+  <div className="text-sm bd-ink">
+    <span className="font-semibold">Safety tip:</span>{" "}
+    Do not share your phone number or email address in messages. Keep communication on Bidra so there's a record if something goes wrong.
+  </div>
+</div>
+<div className="bd-container">
           <div className="container">
             <section className="py-10">
               <InboxAutoRefresh />
@@ -153,7 +159,13 @@ export default async function MessagesInboxPage() {
   } catch (_e) {
     return (
       <main>
-        <div className="bd-container">
+        <div className="bd-card mt-4">
+  <div className="text-sm bd-ink">
+    <span className="font-semibold">Safety tip:</span>{" "}
+    Do not share your phone number or email address in messages. Keep communication on Bidra so there's a record if something goes wrong.
+  </div>
+</div>
+<div className="bd-container">
           <div className="container">
             <section className="py-10">
               <h1 className="text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)]">Messages</h1>
