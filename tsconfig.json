@@ -1,4 +1,4 @@
-{
+﻿{
   "compilerOptions": {
     "target": "ES2017",
     "lib": [
@@ -30,6 +30,8 @@
   },
   "include": [
     "next-env.d.ts",
+      "types/**/*.d.ts",
+      "**/*.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
