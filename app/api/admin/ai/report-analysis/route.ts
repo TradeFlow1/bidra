@@ -135,8 +135,8 @@ export async function POST(req: Request) {
   const sellerId = listing?.sellerId || null;
 
   const [listingReportCount, sellerReportCount] = await Promise.all([
-    listingId ? prisma.report.count({ where: { listingId } as any }) : Promise.resolve(0),
-    sellerId ? prisma.report.count({ where: { listing: { sellerId } } as any }) : Promise.resolve(0)
+    listingId ? prisma.report.count({ where: { listingId } }) : Promise.resolve(0),
+    sellerId ? prisma.report.count({ where: { listing: { is: { sellerId } } } }) : Promise.resolve(0)
   ]);
 
   const analysis = analyzeReportDeterministic({
