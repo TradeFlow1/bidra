@@ -41,8 +41,8 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
   }
 
   // ===== AI Analysis (deterministic stub) =====
-  const listingAny: any = (report as any).listing || null;
-  const listingId = listingAny?.id || (report as any).listingId || null;
+  const listingAny = (report as unknown as { listing?: { id?: string; sellerId?: string; title?: string } | null }).listing ?? null;
+  const listingId = listingAny?.id || (report as unknown as { listingId?: string | null }).listingId || null;
   const sellerIdForAi = listingAny?.sellerId || "";
 
   const [listingReportCount, sellerReportCount] = await Promise.all([
@@ -51,8 +51,8 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
   ]);
 
   const ai = analyzeReportDeterministic({
-    reason: (report as any).reason ?? (report as any).type ?? null,
-    details: (report as any).details ?? (report as any).message ?? (report as any).description ?? null,
+    reason: (report as unknown as { reason?: string | null; type?: string | null }).reason ?? (report as unknown as { reason?: string | null; type?: string | null }).type ?? null,
+    details: (report as unknown as { details?: string | null; message?: string | null; description?: string | null }).details ?? (report as unknown as { details?: string | null; message?: string | null; description?: string | null }).message ?? (report as unknown as { details?: string | null; message?: string | null; description?: string | null }).description ?? null,
     title: listingAny?.title ?? null,
     description: null,
     sellerReportCount,
@@ -86,7 +86,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
   const returnTo = encodeURIComponent(`/admin/reports/${report.id}`);
   const listingHref = report.listing?.id ? `/listings/${report.listing.id}` : null;
 
-  const blockedUntilMs = seller?.policyBlockedUntil ? new Date(seller.policyBlockedUntil as any).getTime() : null;
+  const blockedUntilMs = seller?.policyBlockedUntil ? new Date(seller.policyBlockedUntil as Date | string | number).getTime() : null;
   const isBlocked = blockedUntilMs ? blockedUntilMs > Date.now() : false;
 
   const card: React.CSSProperties = { border: "1px solid #e5e5e5", borderRadius: 12, padding: 14, marginTop: 14 };
@@ -99,7 +99,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
         <div>
           <h1 style={{ fontSize: 28, margin: 0 }}>Report</h1>
           <div style={{ marginTop: 6, fontSize: 12, opacity: 0.8 }}>
-            Created: <DateTimeText value={report.createdAt as any} />
+            Created: <DateTimeText value={report.createdAt} />
           </div>
         </div>
 
