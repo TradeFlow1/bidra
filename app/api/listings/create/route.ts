@@ -226,7 +226,7 @@ if (images.length > 10) return NextResponse.json({ error: "Too many images (max 
         category,
         condition,
         location,
-        price: priceForRules,images,
+        price: priceForRules, images,
         reservePrice: reserveToSave,
         buyNowPrice: buyNowToSave,
         buyNowEnabled: isFixedNow ? true : false,
