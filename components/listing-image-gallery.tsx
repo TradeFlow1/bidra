@@ -93,7 +93,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
-      el.removeEventListener("scroll", onScroll as any);
+      el.removeEventListener("scroll", onScroll as EventListener);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imgs.length]);
@@ -118,7 +118,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
           onMouseUp={endDrag}
           onMouseLeave={endDrag}
           className="flex w-full overflow-x-auto scroll-smooth snap-x snap-mandatory select-none"
-          style={{ scrollbarWidth: "none" as any, userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none", cursor: isMulti ? (dragging.current ? "grabbing" : "grab") : "default" } as any }
+          style={{ scrollbarWidth: "none", userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none", cursor: isMulti ? (dragging.current ? "grabbing" : "grab") : "default" } as React.CSSProperties }
         >
           {imgs.map((src, i) => (
             <div key={i} className="relative w-full flex-shrink-0 snap-start">
@@ -150,7 +150,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
               type="button"
               onClick={prev}
               className="absolute left-2 top-1/2 z-50 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/20"
-              style={{ backgroundColor: "#ffffff", opacity: 1 } as any }
+              style={{ backgroundColor: "#ffffff", opacity: 1 } as React.CSSProperties }
               aria-label="Previous photo"
             >
               <span className="text-[20px] leading-none">‹</span>
@@ -159,7 +159,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
               type="button"
               onClick={next}
               className="absolute right-2 top-1/2 z-50 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/20"
-              style={{ backgroundColor: "#ffffff", opacity: 1 } as any }
+              style={{ backgroundColor: "#ffffff", opacity: 1 } as React.CSSProperties }
               aria-label="Next photo"
             >
               <span className="text-[20px] leading-none">›</span>
