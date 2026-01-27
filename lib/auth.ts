@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
             data: { isActive: true },
           });
           // keep local value consistent for this login
-          (user as any).isActive = true;
+          (user as unknown as { isActive?: boolean }).isActive = true;
         }
         if (!ok) return null;
 
@@ -78,23 +78,23 @@ export const authOptions: NextAuthOptions = {
     },
 async jwt({ token, user }) {
       if (user) {
-        token.id = (user as any).id;
-        (token as any).role = (user as any).role;
-        (token as any).dob = (user as any).dob ?? null;
-        (token as any).ageVerified = (user as any).ageVerified ?? false;
-        (token as any).emailVerified = (user as any).emailVerified ?? false;
-        (token as any).phoneVerified = (user as any).phoneVerified ?? false;
+        token.id = (user as unknown as { id: string }).id;
+        (token as unknown as { role?: string }).role = (user as unknown as { role?: string }).role;
+        (token as unknown as { dob?: unknown }).dob = (user as unknown as { dob?: unknown }).dob ?? null;
+        (token as unknown as { ageVerified?: boolean }).ageVerified = (user as unknown as { ageVerified?: boolean }).ageVerified ?? false;
+        (token as unknown as { emailVerified?: boolean }).emailVerified = (user as unknown as { emailVerified?: boolean }).emailVerified ?? false;
+        (token as unknown as { phoneVerified?: boolean }).phoneVerified = (user as unknown as { phoneVerified?: boolean }).phoneVerified ?? false;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as any).id = (token as any).id;
-        (session.user as any).role = (token as any).role;
-        (session.user as any).dob = (token as any).dob ?? null;
-        (session.user as any).ageVerified = (token as any).ageVerified ?? false;
-        (session.user as any).emailVerified = (token as any).emailVerified ?? false;
-        (session.user as any).phoneVerified = (token as any).phoneVerified ?? false;
+        (session.user as unknown as { id?: string }).id = (token as unknown as { id?: string }).id;
+        (session.user as unknown as { role?: string }).role = (token as unknown as { role?: string }).role;
+        (session.user as unknown as { dob?: unknown }).dob = (token as unknown as { dob?: unknown }).dob ?? null;
+        (session.user as unknown as { ageVerified?: boolean }).ageVerified = (token as unknown as { ageVerified?: boolean }).ageVerified ?? false;
+        (session.user as unknown as { emailVerified?: boolean }).emailVerified = (token as unknown as { emailVerified?: boolean }).emailVerified ?? false;
+        (session.user as unknown as { phoneVerified?: boolean }).phoneVerified = (token as unknown as { phoneVerified?: boolean }).phoneVerified ?? false;
       }
       return session;
     },
