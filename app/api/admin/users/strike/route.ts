@@ -1,6 +1,7 @@
 ﻿import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { ListingStatus, PolicyStrikeAction } from "@prisma/client";
 
 const STRIKE_THRESHOLD = 3;
 const BLOCK_DAYS = 14;
@@ -51,10 +52,8 @@ export async function POST(req: Request) {
 
   if (!userId) return NextResponse.json({ ok: false, error: "Missing userId" }, { status: 400 });
 
-  const action =
-    actionRaw === "WARN" || actionRaw === "SUSPEND" || actionRaw === "DELETE"
-      ? (actionRaw as any)
-      : ("WARN" as any);
+  const requestedAction = actionRaw;
+  const action = PolicyStrikeAction.WARN;
 
   const expiresAt = new Date(Date.now() + STRIKE_TTL_DAYS * 24 * 60 * 60 * 1000);
 
@@ -82,7 +81,7 @@ export async function POST(req: Request) {
       userId,
       reportId: reportId,
       listingId: listingId,
-      meta: { strikeAction: action, reason },
+      meta: { strikeAction: action, requestedAction, reason },
     },
   });// 3) If threshold reached, block + suspend ACTIVE listings
   if (activeStrikes >= STRIKE_THRESHOLD) {
@@ -93,8 +92,8 @@ export async function POST(req: Request) {
       data: { policyBlockedUntil: blockedUntil },
     });
 await prisma.listing.updateMany({
-      where: { sellerId: userId, status: "ACTIVE" as any },
-      data: { status: "SUSPENDED" as any },
+      where: { sellerId: userId, status: ListingStatus.ACTIVE },
+      data: { status: ListingStatus.SUSPENDED },
     });
   }
 
