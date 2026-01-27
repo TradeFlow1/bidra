@@ -86,7 +86,28 @@ export async function middleware(req: NextRequest) {
 
   // 3) Phone verification gate (STEP 1E)
   const pathname = url.pathname;
-  if (!isProtected(pathname)) return NextResponse.next();
+
+// NEVER redirect/gate auth pages or NextAuth
+if (pathname.startsWith("/auth")) return NextResponse.next();
+if (pathname.startsWith("/api/auth")) return NextResponse.next();
+
+// NEVER redirect/gate API routes (APIs enforce auth/18+ internally)
+if (pathname.startsWith("/api")) return NextResponse.next();
+
+// NEVER touch static / brand assets
+if (
+  pathname.startsWith("/_next") ||
+  pathname === "/favicon.ico" ||
+  pathname === "/icon.png" ||
+  pathname === "/robots.txt" ||
+  pathname === "/sitemap.xml" ||
+  pathname.startsWith("/brand")
+) {
+  return NextResponse.next();
+}
+
+// Only gate real app pages that need auth/18+
+if (!isProtected(pathname)) return NextResponse.next();
 
   const token: any = await getToken({ req });
   if (!token) {
@@ -110,5 +131,7 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|favicon.ico|icon.png|robots.txt|sitemap.xml).*)"],
+  matcher: [
+    "/((?!_next|favicon.ico|icon.png|robots.txt|sitemap.xml|brand|auth|api).*)",
+  ],
 };
