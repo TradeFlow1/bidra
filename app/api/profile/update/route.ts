@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
 
 
-        const gate = await requireAdult(session as any);
+        const gate = await requireAdult(session);
     if (!gate.ok) {
       return NextResponse.json({ ok: false, error: gate.reason || "Adult required" }, { status: 403 });
     }

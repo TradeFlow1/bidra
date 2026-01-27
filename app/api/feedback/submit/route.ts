@@ -16,7 +16,7 @@ export async function POST(req: Request) {
   }
 
   // Gate: must be 18+. Policy-block normally blocks actions, BUT feedback is allowed to prevent trust deadlocks.
-  const gate = await requireAdult(session as any);
+  const gate = await requireAdult(session);
   const gateReason = (gate as any)?.reason ? String((gate as any).reason) : "";
 
   if (!(gate as any)?.ok) {

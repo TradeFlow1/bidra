@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
   // If logged in, enforce 18+ (anonymous FT feedback stays allowed)
   if (userId) {
-    const gate = await requireAdult(session as any);
+    const gate = await requireAdult(session);
     if (!gate.ok) return NextResponse.json({ ok: false, reason: gate.reason || "ADULT_REQUIRED" }, { status: 403 });
   }
 

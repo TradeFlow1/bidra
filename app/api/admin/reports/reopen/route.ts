@@ -6,7 +6,7 @@ import { requireAdult } from "@/lib/require-adult";
 export async function POST(req: Request) {
   const session = await auth();
 
-  const gate = await requireAdult(session as any);
+  const gate = await requireAdult(session);
   if (!gate.ok) return NextResponse.redirect(new URL("/account/restrictions", req.url));
   const user = session?.user;
 

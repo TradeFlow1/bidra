@@ -18,7 +18,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const user = session?.user;
   if (!user) redirect(`/auth/login?next=/orders/${params.id}`);
 
-  const gate = await requireAdult(session as any);
+  const gate = await requireAdult(session);
   if (!gate.ok) redirect("/account/restrictions");
 
   const orderId = params.id;

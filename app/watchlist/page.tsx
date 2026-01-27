@@ -48,7 +48,7 @@ export default async function WatchlistPage() {
     );
   }
 
-  const gate = await requireAdult(session as any);
+  const gate = await requireAdult(session);
   if (!gate.ok && (gate as any).reason === "UNDER_18") redirect("/account/restrictions");
   if (!gate.ok) redirect("/account");
 

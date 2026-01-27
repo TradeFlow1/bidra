@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   }
 
   // Enforce 18+ (browse-only for under-18)
-  const gate = await requireAdult(session as any);
+  const gate = await requireAdult(session);
   if (!gate.ok) {
     return NextResponse.json({ ok: false, reason: gate.reason || "UNDER_18" }, {
       status: 403,

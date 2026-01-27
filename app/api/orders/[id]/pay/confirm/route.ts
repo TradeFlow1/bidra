@@ -11,7 +11,7 @@ export async function POST(_: Request, { params }: { params: { id: string } }) {
   const user = session?.user;
   if (!user) return NextResponse.json({ ok: false, error: "Not signed in." }, { status: 401 });
 
-  const gate = await requireAdult(session as any);
+  const gate = await requireAdult(session);
   if (!gate.ok) {
     return NextResponse.json({ ok: false, error: String((gate as any)?.reason || "Not allowed") }, { status: (gate as any)?.status || 403 });
   }

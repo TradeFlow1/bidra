@@ -18,7 +18,7 @@ export default async function FeedbackPage({
     redirect(`/auth/login?next=/orders/${params.id}/feedback`);
   }
 
-  const gate = await requireAdult(session as any);
+  const gate = await requireAdult(session);
   if (!gate.ok) {
     redirect("/account/restrictions");
   }

@@ -25,7 +25,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
   const user = session?.user;
   if (!user) redirect(`/auth/login?next=/orders/${params.id}/pay`);
 
-  const gate = await requireAdult(session as any);
+  const gate = await requireAdult(session);
   if (!gate.ok) {
     return (
       <main className="bd-container py-10">
