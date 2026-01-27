@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { Prisma, ListingType } from "@prisma/client";
 import { FULL_CATEGORIES, CATEGORY_GROUPS , joinCategory} from "@/lib/categories";
 import WatchButton from "@/components/watch-button";
 import ListingCard from "@/components/listing-card";
@@ -75,12 +76,13 @@ export default async function ListingsPage({
   const minCents = parseMoneyToCents(searchParams?.min);
   const maxCents = parseMoneyToCents(searchParams?.max);
 
-  const moneyErr = Number.isNaN(minCents as any) || Number.isNaN(maxCents as any);
+  const moneyErr = Number.isNaN(Number(minCents)) || Number.isNaN(Number(maxCents));
 
-  const where: any = { AND: [] as any[] };
+  const and: Prisma.ListingWhereInput[] = [];
+  const where: Prisma.ListingWhereInput = { AND: and };
 
   // BUCKET_A_P0: hide obvious test/gibberish listings from public browse
-  where.AND.push({
+  and.push({
     NOT: [
       { title: { equals: "test", mode: "insensitive" } },
       { title: { startsWith: "test", mode: "insensitive" } },
@@ -93,17 +95,17 @@ export default async function ListingsPage({
   });
 
   // Always hide DELETED/SUSPENDED/etc from public browse
-  where.AND.push({ status: "ACTIVE" });
+  and.push({ status: "ACTIVE" });
   // Hide expired timed-offer listings from public browse
-  where.AND.push({ OR: [{ endsAt: null }, { endsAt: { gt: new Date() } }] });
+  and.push({ OR: [{ endsAt: null }, { endsAt: { gt: new Date() } }] });
 
   // Safety: if an order exists for a listing, it must not be publicly browseable
-  where.AND.push({ orders: { none: {} } });
+  and.push({ orders: { none: {} } });
 
 // NOTE: do NOT hide no-photo listings; UI already shows 'Photos coming soon'.
 
   if (q) {
-    where.AND.push({
+    and.push({
       OR: [
         { title: { contains: q, mode: "insensitive" } },
         { description: { contains: q, mode: "insensitive" } },
@@ -114,7 +116,7 @@ export default async function ListingsPage({
     if (category) {
     const isParent = CATEGORY_GROUPS.some((g) => g.parent === category);
     if (isParent) {
-      where.AND.push({
+      and.push({
         OR: [
           { category: category },
           { category: { startsWith: category + " › " } },
@@ -122,7 +124,7 @@ export default async function ListingsPage({
       });
     } else {
       const legacyChild = category.includes(" › ") ? category.split(" › ").pop() : category;
-      where.AND.push({
+      and.push({
         OR: [
           { category: category },
           { category: legacyChild },
@@ -130,21 +132,21 @@ export default async function ListingsPage({
       });
     }
   }
-  if (type) where.AND.push({ type });
-  if (condition) where.AND.push({ condition });
+  if (type) and.push({ type: type as ListingType });
+  if (condition) and.push({ condition });
 
   if (location) {
-    where.AND.push({
+    and.push({
       location: { contains: location, mode: "insensitive" },
     });
   }
 
   if (!moneyErr) {
-    if (typeof minCents === "number") where.AND.push({ price: { gte: minCents } });
-    if (typeof maxCents === "number") where.AND.push({ price: { lte: maxCents } });
+    if (typeof minCents === "number") and.push({ price: { gte: minCents } });
+    if (typeof maxCents === "number") and.push({ price: { lte: maxCents } });
   }
 
-  const finalWhere = where.AND.length ? where : undefined;
+  const finalWhere = and.length ? where : undefined;
 
   const orderBy: any =
     sort === "price_asc"
@@ -453,14 +455,14 @@ export default async function ListingsPage({
                     price: (isTimedOffersType(l.type)
                       ? ((l.bids && l.bids.length ? l.bids[0].amount : null) ?? l.price)
                       : (l.buyNowPrice ?? l.price)
-                    ) as any,
+                    ) as number,
                     buyNowPrice: l.buyNowPrice,
                     type: l.type,
                     category: l.category,
                     location: l.location,
-                    images: (l as any).images ?? null,
-                    endsAt: (l as any).endsAt ?? null,
-                    status: (l as any).status ?? "ACTIVE",
+                    images: (l as unknown as { images?: unknown[] | null }).images ?? null,
+                    endsAt: (l as unknown as { endsAt?: Date | string | null }).endsAt ?? null,
+                    status: (l as unknown as { status?: string | null }).status ?? "ACTIVE",
                   }}
                   initiallyWatched={typeof watchedSet !== "undefined" ? watchedSet.has(l.id) : false}
                 />
