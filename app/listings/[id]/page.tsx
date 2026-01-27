@@ -77,7 +77,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
     );
   }
 
-  const sellerId = (listing.seller as any)?.id as string;
+  const sellerId = (listing.seller as unknown as { id?: string })?.id as string;
 
 
 
@@ -85,7 +85,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const session = await getServerSession(authOptions);
   const role = session?.user?.role;
   const isAdmin = role === "ADMIN";
-  const isSeller = !!(session?.user?.id && session.user.id === (listing as any).sellerId);
+  const isSeller = !!(session?.user?.id && session.user.id === (listing as unknown as { sellerId?: string }).sellerId);
 
   if (!isSeller && !isAdmin && listing.status !== "ACTIVE") {
     const viewerId = session?.user?.id ?? null;
@@ -120,7 +120,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
     where: { sellerId, status: "ACTIVE" },
   });
 
-  const highestOfferCents = listing.bids && listing.bids.length ? Number((listing.bids[0] as any).amount ?? 0) : 0;
+  const highestOfferCents = listing.bids && listing.bids.length ? Number((listing.bids[0] as unknown as { amount?: number }).amount ?? 0) : 0;
 
   const isTimedOffers = isTimedOffersType(listing.type);
 
@@ -143,27 +143,31 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const minOfferCents = roundUpToInc(minOfferBase, 1000);
 const hasAnyOffer = highestOfferCents > 0;
 
-  const offersCount = (listing as any)?._count?.bids ?? 0;
+  const offersCount = (listing as unknown as { _count?: { bids?: number } })?._count?.bids ?? 0;
 
 // Ladder display should show unique buyers (proxy offers may create multiple offer rows per buyer)
-const ladderRows = (((listing as any).bids as any[]) ?? [])
-  .reduce((acc: Record<string, any>, b: any) => {
-    const id = String(b?.bidderId ?? "");
+type LadderBid = { bidderId?: string; amount?: number; createdAt?: Date | string | number };
+
+const ladderRows = ((((listing as unknown as { bids?: unknown[] }).bids) as unknown[]) ?? [])
+  .reduce((acc: Record<string, LadderBid>, b: unknown) => {
+    const bb = (b as LadderBid) ?? {};
+    const id = String(bb.bidderId ?? "");
     if (!id) return acc;
+
     const cur = acc[id];
-    if (!cur) acc[id] = b;
+    if (!cur) acc[id] = bb;
     else {
       const curAmt = Number(cur.amount ?? 0);
-      const bAmt = Number(b.amount ?? 0);
+      const bAmt = Number(bb.amount ?? 0);
       const curT = new Date(cur.createdAt ?? 0).getTime();
-      const bT = new Date(b.createdAt ?? 0).getTime();
-      if (bAmt > curAmt || (bAmt === curAmt && bT > curT)) acc[id] = b;
+      const bT = new Date(bb.createdAt ?? 0).getTime();
+      if (bAmt > curAmt || (bAmt === curAmt && bT > curT)) acc[id] = bb;
     }
     return acc;
-  }, {} as Record<string, any>);
+  }, {} as Record<string, LadderBid>);
 
 const ladderTop = Object.values(ladderRows)
-  .sort((a: any, b: any) => {
+  .sort((a: LadderBid, b: LadderBid) => {
     const da = Number(a?.amount ?? 0);
     const db = Number(b?.amount ?? 0);
     if (db !== da) return db - da;
@@ -176,26 +180,26 @@ const ladderTop = Object.values(ladderRows)
 
 
 
-  const topBidderId = (ladderTop && (ladderTop as any[]).length) ? String(((ladderTop as any[])[0] as any).bidderId ?? "") : null;
+  const topBidderId = (ladderTop && (ladderTop as unknown as Array<{ bidderId?: string }>).length) ? String((ladderTop as unknown as Array<{ bidderId?: string }>)[0]?.bidderId ?? "") : null;
   const viewerId = session?.user?.id ?? null;
   const viewerHasMax = viewerId
     ? !!(await prisma.offerMax.findUnique({
-        where: { listingId_bidderId: { listingId: (listing as any).id, bidderId: viewerId } },
+        where: { listingId_bidderId: { listingId: (listing as unknown as { id: string }).id, bidderId: viewerId } },
         select: { id: true },
       }))
     : false;
     const viewerHasAnyOffer = viewerId
-    ? (viewerHasMax || (((listing as any).bids as any[]) ?? []).some((b: any) => String(b?.bidderId ?? "") === String(viewerId)))
+    ? (viewerHasMax || ((((listing as unknown as { bids?: unknown[] }).bids) as unknown[]) ?? []).some((b: unknown) => String((b as { bidderId?: string } | null | undefined)?.bidderId ?? "") === String(viewerId)))
     : false;
 const offerState: "NONE" | "TOP" | "OUTOFFERED" =
     !viewerId
       ? "NONE"
       : (topBidderId === viewerId ? "TOP" : (viewerHasMax ? "OUTOFFERED" : "NONE"));
     const guideExceeded = hasAnyOffer && guidePriceCents > 0 && highestOfferCents >= guidePriceCents;
-  const normalizedTitle = String((listing as any)?.title ?? "").replace(/\s+/g, " ").trim();
+  const normalizedTitle = String((listing as unknown as { title?: string })?.title ?? "").replace(/\s+/g, " ").trim();
 
   const sellerName =
-    (listing.seller as any)?.username ?? (listing.seller as any)?.name ?? (listing.seller as any)?.email ?? "Seller";
+    (listing.seller as unknown as { username?: string; name?: string; email?: string })?.username ?? (listing.seller as unknown as { username?: string; name?: string; email?: string })?.name ?? (listing.seller as unknown as { username?: string; name?: string; email?: string })?.email ?? "Seller";
 
   const rawDescriptionText = String(listing.description ?? "").trim();
 
@@ -209,8 +213,8 @@ const scrubbedDescriptionText = rawDescriptionText
   .replace(/\bExample:\b.*$/gmi, "")
   .trim();
 
-  const rawBuyNow = (listing as any).buyNowPrice;
-  const buyNowEnabled = Boolean((listing as any).buyNowEnabled);
+  const rawBuyNow = (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice;
+  const buyNowEnabled = Boolean((listing as unknown as { buyNowEnabled?: unknown }).buyNowEnabled);
   const buyNowHasPrice = typeof rawBuyNow === "number";
   const buyNowPriceCents =
     listing.type === "FIXED_PRICE"
@@ -220,7 +224,7 @@ const scrubbedDescriptionText = rawDescriptionText
   // - No Buy Now shown initially on timed offers.
   // - Buy Now may be revealed late-stage (final 24h), seller-controlled by setting buyNowPrice.
   // For FIXED_PRICE, Buy Now remains the primary path.
-  const hoursLeft = hoursUntil((listing as any).endsAt);
+  const hoursLeft = hoursUntil(((listing as unknown as { endsAt?: Date | null | undefined }).endsAt) ?? undefined);
   const isFinalWindow = typeof hoursLeft === "number" ? hoursLeft <= 24 : false;
   const isEnded = listing.status !== "ACTIVE" || (typeof hoursLeft === "number" && hoursLeft <= 0);
   const urgencyText =
@@ -234,8 +238,8 @@ const scrubbedDescriptionText = rawDescriptionText
       ? "Ending soon — seller reviewing offers"
       : null;
 
-  const showCountdown = Boolean((listing as any).endsAt) && listing.status === "ACTIVE";
-  const endsAtIso = (listing as any).endsAt ? new Date((listing as any).endsAt).toISOString() : null;
+  const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
+  const endsAtIso = (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null;
   const buyNowVisible =
     listing.status === "ACTIVE" &&
     !isSeller &&
@@ -257,13 +261,13 @@ const scrubbedDescriptionText = rawDescriptionText
           <Link href="/listings" className="bd-link text-sm">
             ← Back
           </Link>
-          <h1 className="text-2xl font-bold">{String((listing as any)?.title ?? "")}</h1>
+          <h1 className="text-2xl font-bold">{String((listing as unknown as { title?: string })?.title ?? "")}</h1>
         </div>
 
         <div className="mt-4 sm:grid sm:grid-cols-3 sm:gap-6">
           {/* Left column */}
           <div className="sm:col-span-2 space-y-4">
-            <ListingImageGallery images={(listing as any).images ?? []} title={String((listing as any)?.title ?? "")} />
+            <ListingImageGallery images={(listing as unknown as { images?: unknown[] }).images ?? []} title={String((listing as unknown as { title?: string })?.title ?? "")} />
 
             <div className="text-sm text-neutral-600">
               Seller:{" "}
@@ -274,9 +278,9 @@ const scrubbedDescriptionText = rawDescriptionText
 
             <TrustPanel
               username={sellerName}
-              suburb={(listing.seller as any)?.suburb}
-              state={(listing.seller as any)?.state}
-              joinedAt={(listing.seller as any)?.createdAt}
+              suburb={(listing.seller as unknown as { suburb?: string })?.suburb}
+              state={(listing.seller as unknown as { state?: string })?.state}
+              joinedAt={(listing.seller as unknown as { createdAt?: Date | string })?.createdAt}
               activeCount={activeCount}
               soldCount={soldCount}
             />
@@ -295,27 +299,27 @@ const scrubbedDescriptionText = rawDescriptionText
             </div>
 
             <div className="pt-2 space-y-3">
-              <ReportListingButton listingId={(listing as any).id} />
+              <ReportListingButton listingId={(listing as unknown as { id: string }).id} />
 
               <div>
-                {session?.user?.id === (listing as any).sellerId ? null : <MessageSellerButton listingId={(listing as any).id} />}
+                {session?.user?.id === (listing as unknown as { sellerId?: string }).sellerId ? null : <MessageSellerButton listingId={(listing as unknown as { id: string }).id} />}
               </div>
 
-              {session?.user?.id && (isAdmin || (listing as any).sellerId === session.user.id) ? <DeleteListingButton id={(listing as any).id} /> : null}
+              {session?.user?.id && (isAdmin || (listing as unknown as { sellerId?: string }).sellerId === session.user.id) ? <DeleteListingButton id={(listing as unknown as { id: string }).id} /> : null}
 
               {isSeller ? (
                 <div className="mt-3 space-y-2">
                   <div className="flex flex-wrap gap-2">
                     <div>
-                      <Link href={`/sell/edit/${(listing as any).id}`} className="bd-btn bd-btn-primary" prefetch={false}>
+                      <Link href={`/sell/edit/${(listing as unknown as { id: string }).id}`} className="bd-btn bd-btn-primary" prefetch={false}>
                         Edit listing
                       </Link>
                       <div className="mt-1 text-xs bd-ink2">Edit title, price, description, and photos.</div>
                     </div>
                   </div>
-{(listing as any).status === "ENDED" ? (
+{listing.status === "ENDED" ? (
   <div>
-    <RelistButton listingId={(listing as any).id} />
+    <RelistButton listingId={(listing as unknown as { id: string }).id} />
   </div>
 ) : null}
                 </div>
@@ -338,14 +342,14 @@ const scrubbedDescriptionText = rawDescriptionText
                       {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet."}
                     </div>
                     <div className="text-xs text-neutral-600">Highest offer</div>
-                    {(listing as any).bids && (listing as any).bids.length ? (
+                    {listing.bids && listing.bids.length ? (
                       <div className="pt-3">
                         <div className="text-xs text-neutral-600">Offer ladder (top buyers)</div>
                         <div className="mt-2 space-y-1">
-                          {(ladderTop as any[]).map((b, idx) => (
+                          {(ladderTop as unknown as Array<{ bidderId?: string; amount?: number }>).map((b, idx) => (
                             <div key={`${b.bidderId}-${b.amount}-${idx}`} className={`flex items-center justify-between text-xs rounded-lg px-2 py-1 ${viewerId && b.bidderId === viewerId ? "bg-[var(--bidra-link)]/10" : ""}`}>
                               <div className="text-neutral-600">{viewerHasAnyOffer && viewerId && b.bidderId === viewerId ? "You" : `#${idx + 1}`}</div>
-                              <div className="font-semibold text-neutral-900">{formatMoney(b.amount)}</div>
+                              <div className="font-semibold text-neutral-900">{formatMoney(Number(b.amount ?? 0))}</div>
                             </div>
                           ))}
                         </div>
@@ -368,7 +372,7 @@ const scrubbedDescriptionText = rawDescriptionText
 
                     {buyNowVisible ? (
                       <div className="pt-3">
-                        <BuyNowButton listingId={(listing as any).id} />
+                        <BuyNowButton listingId={(listing as unknown as { id: string }).id} />
 <div className="mt-1 text-xs text-neutral-600">Buy Now is a binding purchase. If you continue, you'll create an order and go to payment.</div>
                       </div>
                     ) : (
@@ -385,7 +389,7 @@ const scrubbedDescriptionText = rawDescriptionText
                     <div className="text-sm font-semibold">Seller action</div>
                     <div className="mt-2">
                       {isEnded && hasAnyOffer ? (
-                        <AcceptHighestOfferButton listingId={(listing as any).id} />
+                        <AcceptHighestOfferButton listingId={(listing as unknown as { id: string }).id} />
                       ) : (
                         <div className="text-xs text-neutral-600">
                           You can proceed with the highest offer after the listing ends and at least one offer exists.
@@ -404,7 +408,7 @@ const scrubbedDescriptionText = rawDescriptionText
                     <div className="text-sm font-semibold">Place an offer</div>
                     <div className="mt-2">
                       <PlaceOfferClient
-                        listingId={(listing as any).id}
+                        listingId={(listing as unknown as { id: string }).id}
                         minOfferCents={minOfferCents}
                         offerState={(offerState === "OUTOFFERED" ? "OUTBID" : offerState)}
                         viewerHasAnyOffer={viewerHasAnyOffer}
@@ -424,7 +428,7 @@ const scrubbedDescriptionText = rawDescriptionText
                 <div className="text-2xl font-extrabold">{formatMoney(listing.type === "FIXED_PRICE" ? (buyNowPriceCents ?? guidePriceCents) : guidePriceCents)}</div>
                 {buyNowVisible ? (
                   <div className="space-y-1">
-                    <BuyNowButton listingId={(listing as any).id} />
+                    <BuyNowButton listingId={(listing as unknown as { id: string }).id} />
                     <div className="text-xs text-neutral-600">Buy Now is a binding purchase. If you continue, you'll create an order and go to payment.</div>
                   </div>
                 ) : null}
