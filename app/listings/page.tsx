@@ -94,6 +94,8 @@ export default async function ListingsPage({
 
   // Always hide DELETED/SUSPENDED/etc from public browse
   where.AND.push({ status: "ACTIVE" });
+  // Hide expired timed-offer listings from public browse
+  where.AND.push({ OR: [{ endsAt: null }, { endsAt: { gt: new Date() } }] });
 
   // Safety: if an order exists for a listing, it must not be publicly browseable
   where.AND.push({ orders: { none: {} } });

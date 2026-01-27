@@ -80,15 +80,26 @@ export async function GET(req: Request) {
 
     const baseTake = wantLocal && meUserId ? 60 : 24;
 
+    const now = new Date();
+    // Self-heal: expire timed-offer listings that passed their end time (keeps public feeds clean without cron)
+    await prisma.listing.updateMany({
+      where: { status: "ACTIVE", endsAt: { lt: now } },
+      data: { status: "ENDED" },
+    });
+
     const listings = await prisma.listing.findMany({
       where: {
         status: "ACTIVE",
+        
         images: { isEmpty: false },
         // Safety: never return listings that already have an order
         orders: { none: {} },
         // Sanity: hide implausible prices from public feeds
         price: { lte: MAX_PRICE_CENTS },
-        OR: [{ buyNowPrice: null }, { buyNowPrice: { lte: MAX_PRICE_CENTS } }],
+        AND: [
+          { OR: [{ buyNowPrice: null }, { buyNowPrice: { lte: MAX_PRICE_CENTS } }] },
+          { OR: [{ endsAt: null }, { endsAt: { gt: now } }] },
+        ],
         NOT: [
           { title: { equals: "test", mode: "insensitive" } },
           { title: { startsWith: "test", mode: "insensitive" } },
