@@ -2,6 +2,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 import ConfirmSubmitButton from "@/components/confirm-submit-button";
 import AiRecommendActions from "@/components/ai-recommend-actions";
 import { analyzeReportDeterministic } from "@/lib/ai/analyze";
@@ -45,8 +46,8 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
   const sellerIdForAi = listingAny?.sellerId || "";
 
   const [listingReportCount, sellerReportCount] = await Promise.all([
-    listingId ? prisma.report.count({ where: { listingId } as any }) : Promise.resolve(0),
-    sellerIdForAi ? prisma.report.count({ where: { listing: { sellerId: sellerIdForAi } } as any }) : Promise.resolve(0),
+    listingId ? prisma.report.count({ where: ({ listingId } as Prisma.ReportWhereInput) }) : Promise.resolve(0),
+    sellerIdForAi ? prisma.report.count({ where: ({ listing: { sellerId: sellerIdForAi } } as Prisma.ReportWhereInput) }) : Promise.resolve(0),
   ]);
 
   const ai = analyzeReportDeterministic({
