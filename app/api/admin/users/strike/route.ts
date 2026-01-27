@@ -31,7 +31,7 @@ return activeCount;
 
 export async function POST(req: Request) {
   const session = await auth();
-  const admin = session?.user as any;
+  const admin = session?.user;
 
   if (!admin) return NextResponse.json({ ok: false, error: "Not signed in" }, { status: 401 });
   if (admin.role !== "ADMIN") return NextResponse.json({ ok: false, error: "Forbidden" }, { status: 403 });

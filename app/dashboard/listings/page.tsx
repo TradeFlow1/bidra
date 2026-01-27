@@ -19,7 +19,7 @@ function safeErr(s: unknown): string {
 
 export default async function MyListingsPage({ searchParams }: PageProps) {
   const session = await auth();
-  const userId = (session?.user as any)?.id ? String((session?.user as any).id) : "";
+  const userId = session?.user?.id ? String(session.user.id) : "";
   if (!userId) redirect("/auth/login");
 
   const err = searchParams?.err ? decodeURIComponent(String(searchParams.err)) : "";

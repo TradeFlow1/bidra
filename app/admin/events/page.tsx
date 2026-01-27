@@ -20,7 +20,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
   }
 
   const session = await auth();
-  const role = (session?.user as any)?.role;
+  const role = session?.user?.role;
   const isAdmin = role === "ADMIN";
   if (!isAdmin) {
     return (

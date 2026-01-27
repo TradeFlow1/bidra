@@ -20,7 +20,7 @@ export default async function AdminReports({
   searchParams?: { status?: string };
 }) {
   const session = await auth();
-  const user = session?.user as any;
+  const user = session?.user;
   if (!user) redirect("/auth/login");
   if (user.role !== "ADMIN") redirect("/");
 

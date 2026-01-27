@@ -8,7 +8,7 @@ export const revalidate = 0;
 
 export async function POST(_: Request, { params }: { params: { id: string } }) {
   const session = await auth();
-  const user = session?.user as any;
+  const user = session?.user;
   if (!user) return NextResponse.json({ ok: false, error: "Not signed in." }, { status: 401 });
 
   const gate = await requireAdult(session as any);

@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
   try {
     const session = await auth().catch(() => null);
-    const role = (session?.user as any)?.role;
+    const role = session?.user?.role;
 
     const body = await req.json().catch(() => ({}));
     const userId = typeof body?.userId === "string" ? body.userId : "";

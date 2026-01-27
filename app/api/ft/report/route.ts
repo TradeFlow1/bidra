@@ -19,7 +19,7 @@ export async function POST(req: Request) {
   }
 
   const session = await auth();
-  const userId = (session?.user as any)?.id as string | undefined;
+  const userId = session?.user?.id as string | undefined;
 
   let body: any = null;
   try {

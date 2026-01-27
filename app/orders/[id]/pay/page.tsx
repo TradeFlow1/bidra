@@ -22,7 +22,7 @@ function formatPayidMobile(digits: string) {
 
 export default async function OrderPayPage({ params }: { params: { id: string } }) {
   const session = await auth();
-  const user = session?.user as any;
+  const user = session?.user;
   if (!user) redirect(`/auth/login?next=/orders/${params.id}/pay`);
 
   const gate = await requireAdult(session as any);

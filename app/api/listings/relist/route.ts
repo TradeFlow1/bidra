@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
   const session = (gate as any)?.session;
   const userId = session?.user?.id as string | undefined;
-  const role = (session?.user as any)?.role as string | undefined;
+  const role = session?.user?.role as string | undefined;
   const isAdmin = role === "ADMIN";
 
   if (!userId) {

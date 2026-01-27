@@ -19,8 +19,8 @@ function e164ish(raw: string) {
 
 export async function POST(req: Request) {
   const session = await auth();
-  const userId = (session?.user as any)?.id ?? null;
-  const emailVerified = Boolean((session?.user as any)?.emailVerified);
+  const userId = session?.user?.id ?? null;
+  const emailVerified = Boolean(session?.user?.emailVerified);
 
   if (!userId) return NextResponse.json({ error: "Not signed in" }, { status: 401 });
   if (!emailVerified) return NextResponse.json({ error: "Verify email first" }, { status: 403 });

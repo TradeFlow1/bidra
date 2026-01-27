@@ -15,7 +15,7 @@ export const revalidate = 0;
 
 export default async function OrderDetailPage({ params }: { params: { id: string } }) {
   const session = await auth();
-  const user = session?.user as any;
+  const user = session?.user;
   if (!user) redirect(`/auth/login?next=/orders/${params.id}`);
 
   const gate = await requireAdult(session as any);

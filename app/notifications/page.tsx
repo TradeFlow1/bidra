@@ -9,7 +9,7 @@ import { getNotificationCounts } from "@/lib/notifications";
 
 export default async function NotificationsPage() {
   const session = await auth();
-  const user = session?.user as any;
+  const user = session?.user;
   if (!user?.id) redirect("/auth/login?next=/notifications");
 
   const counts = await getNotificationCounts(user.id);

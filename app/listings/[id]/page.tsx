@@ -83,7 +83,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
 
   // Item 2: hide non-active listings from public direct view
   const session = await getServerSession(authOptions);
-  const role = (session?.user as any)?.role;
+  const role = session?.user?.role;
   const isAdmin = role === "ADMIN";
   const isSeller = !!(session?.user?.id && session.user.id === (listing as any).sellerId);
 

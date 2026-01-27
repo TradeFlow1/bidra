@@ -7,7 +7,7 @@ import DateTimeText from "@/components/date-time-text";
 
 export default async function RestrictionsPage() {
   const session = await auth();
-  const user = session?.user as any;
+  const user = session?.user;
 
   if (!user) redirect("/auth/login");
 

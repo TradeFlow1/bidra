@@ -107,7 +107,7 @@ function buildDeterministicAnalysis(input: {
 // POST { reportId: string }
 export async function POST(req: Request) {
   const session = await auth();
-  const user = session?.user as any;
+  const user = session?.user;
 
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   if (user.role !== "ADMIN") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
