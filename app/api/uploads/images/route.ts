@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server";
+﻿import crypto from "crypto";
+import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
