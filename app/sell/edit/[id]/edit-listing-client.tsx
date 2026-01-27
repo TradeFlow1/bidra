@@ -74,14 +74,14 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
 
   // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
-  const isTimedOffers = isTimedOffersType((listing as any).type);
-  const hoursLeft = useMemo(() => hoursUntilIso((listing as any).endsAt ?? null), [listing]);
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
   const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
 
   const [buyNow, setBuyNow] = useState<string>(
-  (listing as any).buyNowPriceDollars != null ? String((listing as any).buyNowPriceDollars) : ""
+  (listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars != null ? String((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) : ""
 );
-const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>((listing as any).buyNowPriceDollars != null);
+const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) != null);
 // Existing saved images
   const [existingImages, setExistingImages] = useState<string[]>(
     Array.isArray(listing.images) ? listing.images.filter(Boolean).slice(0, 10) : []
@@ -213,7 +213,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>((listing as any).buy
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(String((data as any)?.error || `End failed (HTTP ${res.status})`));
+        setError(String((data as unknown as { error?: string })?.error || `End failed (HTTP ${res.status})`));
         return;
       }
 
@@ -237,7 +237,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>((listing as any).buy
       const res = await fetch(`/api/listings/${listing.id}/delete`, { method: "POST" });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setError(String((data as any)?.error || `Delete failed (HTTP ${res.status})`));
+        setError(String((data as unknown as { error?: string })?.error || `Delete failed (HTTP ${res.status})`));
         return;
       }
 
@@ -360,7 +360,7 @@ buyNowPrice:
 
                   const data = await res.json().catch(() => ({}));
                   if (!res.ok) {
-                    setError(String((data as any)?.error || `Update failed (HTTP ${res.status})`));
+                    setError(String((data as unknown as { error?: string })?.error || `Update failed (HTTP ${res.status})`));
                     return;
                   }
 
@@ -483,7 +483,7 @@ buyNowPrice:
                     {isTimedOffers ? (
                       <div className="text-xs bd-ink2">
                         Current highest offer:{" "}
-                        <span className="font-semibold bd-ink">{new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD" }).format(Number((listing as any).highestOfferCents ?? 0) / 100)}</span>
+                        <span className="font-semibold bd-ink">{new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD" }).format(Number((listing as unknown as { highestOfferCents?: number | null }).highestOfferCents ?? 0) / 100)}</span>
                       </div>
                     ) : null}
                     {!inFinal24h ? (
