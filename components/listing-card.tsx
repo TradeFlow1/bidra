@@ -86,19 +86,19 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
           <WatchButton listingId={listing.id} initialWatched={initiallyWatched} compact />
         </div>
         {hasMulti ? (
-          <ListingThumbCarousel images={listing.images} title={String((listing as any)?.title ?? (listing as any)?.title ?? "").replace(/\s+/g, " ").trim()} />
+          <ListingThumbCarousel images={listing.images} title={String((listing as unknown as { title?: string })?.title ?? "").replace(/\s+/g, " ").trim()} />
         ) : (
           <>
             <Image
               src={fallback}
-              alt={String((listing as any)?.title ?? (listing as any)?.title ?? "").replace(/\s+/g, " ").trim()}
+              alt={String((listing as unknown as { title?: string })?.title ?? "").replace(/\s+/g, " ").trim()}
               fill
               sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
               className={isNoPhotos ? "select-none object-contain p-10 opacity-90" : "select-none object-cover"}
               draggable={false}
               onDragStart={(e) => e.preventDefault()}
               onContextMenu={(e) => e.preventDefault()}
-              style={{ userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none" } as any}
+              style={{ userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none" } as React.CSSProperties}
               unoptimized
             />
 
@@ -119,9 +119,9 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
-          } as any}
+          } as React.CSSProperties}
         >
-          {String((listing as any)?.title ?? "").replace(/\s+/g, " ").trim()}
+          {String((listing as unknown as { title?: string })?.title ?? "").replace(/\s+/g, " ").trim()}
         </div>
 
         <div className="mb-1">
