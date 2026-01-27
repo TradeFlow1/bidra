@@ -19,7 +19,7 @@ export default async function RestrictionsPage() {
   });
 
   // Self-heal: if the block has expired (or date is invalid), clear it here too.
-  let blockedUntil = dbUser?.policyBlockedUntil ? new Date(dbUser.policyBlockedUntil as any) : null;
+  let blockedUntil = dbUser?.policyBlockedUntil ? new Date(dbUser.policyBlockedUntil) : null;
   if (blockedUntil) {
     const ms = blockedUntil.getTime();
     const now = Date.now();

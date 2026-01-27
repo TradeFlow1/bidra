@@ -36,7 +36,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
 
   const recentText = recent
     .reverse()
-    .map((m) => `${new Date(m.createdAt as any).toISOString()} ${m.userId}: ${String(m.body || "").slice(0, 240)}`)
+    .map((m) => `${new Date(m.createdAt).toISOString()} ${m.userId}: ${String(m.body || "").slice(0, 240)}`)
     .join("\n")
 
   const details = [

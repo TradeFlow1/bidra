@@ -24,8 +24,8 @@ export default function ContactFormClient({ defaultEmail }: { defaultEmail: stri
           });
 
           const data = await r.json().catch((): unknown => ({}));
-          if (!r.ok || !(data as any)?.ok) {
-            alert(String((data as any)?.error || "Failed to send message."));
+          if (!r.ok || !(data as { ok?: boolean })?.ok) {
+            alert(String((data as { error?: string })?.error || "Failed to send message."));
             return;
           }
 

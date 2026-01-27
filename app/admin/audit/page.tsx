@@ -7,7 +7,7 @@ import DateTimeText from "@/components/date-time-text";
 function fmt(dt: Date | string | null | undefined) {
   if (!dt) return "";
   const d = typeof dt === "string" ? new Date(dt) : dt;
-  return <DateTimeText value={d as any} />;
+  return <DateTimeText value={d} />;
 }
 
 export default async function AdminAuditPage({
