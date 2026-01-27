@@ -115,7 +115,14 @@ const images = imagesRaw
   .slice(0, 10);
 
 // Hard guard: we only accept upload-style URLs. Block insecure http://.
-if (images.some((u: string) => u.toLowerCase().startsWith("http://"))) {
+// Hard guard: we only accept upload-style URLs (Vercel Blob).
+// Require https:// and vercel-storage.com host for every image URL.
+if (images.some((u: string) => {
+  const s = String(u || "").toLowerCase();
+  if (!s.startsWith("https://")) return true;
+  if (!s.includes("vercel-storage.com/")) return true;
+  return false;
+})) {
   return NextResponse.json({ error: "Images must be uploaded via Bidra (invalid image URL)." }, { status: 400 });
 }
 
