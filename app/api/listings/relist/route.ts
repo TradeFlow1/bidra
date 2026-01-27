@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     });
   }
 
-  const body = await req.json().catch(() => ({} as any));
+  const body = await req.json().catch((): unknown => ({}));
   const listingId = String(body?.listingId ?? "");
   if (!listingId) {
     return NextResponse.json({ ok: false, error: "Missing listingId." }, {

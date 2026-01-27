@@ -21,7 +21,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     return NextResponse.json({ error: "Thread id is required" }, { status: 400 });
   }
 
-  const bodyJson = await req.json().catch(() => ({} as any));
+  const bodyJson = await req.json().catch((): unknown => ({}));
   const text = String((bodyJson as any)?.body || "").trim();
 
   if (!text) {

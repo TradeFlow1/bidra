@@ -14,7 +14,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
   const id = String(ctx?.params?.id || "").trim()
   if (!id) return NextResponse.json({ error: "Thread id is required" }, { status: 400 })
 
-  const body = await req.json().catch(() => ({} as any))
+  const body = await req.json().catch((): unknown => ({}))
   const userDetails = String((body as any)?.details || "").trim()
   if (!userDetails) return NextResponse.json({ error: "Details are required" }, { status: 400 })
   if (userDetails.length > 2000) return NextResponse.json({ error: "Details too long" }, { status: 400 })
