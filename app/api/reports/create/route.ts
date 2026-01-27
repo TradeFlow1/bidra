@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   const reporterId = (session as any)?.user?.id as string | undefined;
 
   if (!reporterId) {
-    return new Response(JSON.stringify({ ok: false, reason: "NOT_AUTHENTICATED" }), {
+    return NextResponse.json({ ok: false, reason: "NOT_AUTHENTICATED" }, {
       status: 401,
       headers: { "content-type": "application/json" },
     });
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
   // Enforce 18+ (browse-only for under-18)
   const gate = await requireAdult(session as any);
   if (!gate.ok) {
-    return new Response(JSON.stringify({ ok: false, reason: gate.reason || "UNDER_18" }), {
+    return NextResponse.json({ ok: false, reason: gate.reason || "UNDER_18" }, {
       status: 403,
       headers: { "content-type": "application/json" },
     });

@@ -45,7 +45,7 @@ export async function POST(req: Request) {
   
   const gate = await requireAdult();
   if (!gate.ok) {
-    return new Response(JSON.stringify({ ok: false, reason: gate.reason }), {
+    return NextResponse.json({ ok: false, reason: gate.reason }, {
       status: gate.status,
       headers: { "content-type": "application/json" },
     });

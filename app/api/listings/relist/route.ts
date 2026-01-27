@@ -1,10 +1,11 @@
-﻿import { prisma } from "@/lib/prisma";
+﻿import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
 
 export async function POST(req: Request) {
   const gate = await requireAdult();
   if (!gate.ok) {
-    return new Response(JSON.stringify({ ok: false, reason: gate.reason }), {
+    return NextResponse.json({ ok: false, reason: gate.reason }, {
       status: gate.status,
       headers: { "content-type": "application/json" },
     });
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
   const isAdmin = role === "ADMIN";
 
   if (!userId) {
-    return new Response(JSON.stringify({ ok: false, error: "Not signed in." }), {
+    return NextResponse.json({ ok: false, error: "Not signed in." }, {
       status: 401,
       headers: { "content-type": "application/json" },
     });
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
   const body = await req.json().catch(() => ({} as any));
   const listingId = String(body?.listingId ?? "");
   if (!listingId) {
-    return new Response(JSON.stringify({ ok: false, error: "Missing listingId." }), {
+    return NextResponse.json({ ok: false, error: "Missing listingId." }, {
       status: 400,
       headers: { "content-type": "application/json" },
     });
@@ -69,18 +70,18 @@ export async function POST(req: Request) {
     });
 
     if (!(updated as any).ok) {
-      return new Response(JSON.stringify({ ok: false, error: (updated as any).error }), {
+      return NextResponse.json({ ok: false, error: (updated as any).error }, {
         status: (updated as any).status ?? 400,
         headers: { "content-type": "application/json" },
       });
     }
 
-    return new Response(JSON.stringify({ ok: true, listingId: (updated as any).listingId }), {
+    return NextResponse.json({ ok: true, listingId: (updated as any).listingId }, {
       status: 200,
       headers: { "content-type": "application/json" },
     });
   } catch {
-    return new Response(JSON.stringify({ ok: false, error: "Relist failed." }), {
+    return NextResponse.json({ ok: false, error: "Relist failed." }, {
       status: 500,
       headers: { "content-type": "application/json" },
     });
