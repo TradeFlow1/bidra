@@ -92,7 +92,8 @@ export async function POST(req: Request) {
       }
 
       const safeName = (rawName || "image").replace(/[^a-zA-Z0-9._-]/g, "_");
-      const key = `listings/${Date.now()}-${Math.random().toString(16).slice(2)}-${safeName}`;
+      const id = (crypto as any).randomUUID ? (crypto as any).randomUUID() : crypto.randomBytes(16).toString("hex");
+      const key = `listings/${Date.now()}-${id}-${safeName}`;
 
       const blob = await put(key, f, { token, contentType: f.type, access: "public" });
       urls.push(blob.url);
