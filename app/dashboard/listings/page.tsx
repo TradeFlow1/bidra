@@ -1,6 +1,7 @@
 ﻿import { labelCategory } from "@/lib/labels";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
+import type { ListingStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Card, Button, Badge } from "@/components/ui";
@@ -61,9 +62,11 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
 
       if (!SELLER_ALLOWED.includes(status)) { redirect("/dashboard/listings?err=" + safe("Invalid status")); return; }
 
+      const nextStatus: ListingStatus = status as ListingStatus;
+
       await prisma.listing.update({
         where: { id },
-        data: { status: status as any },
+        data: { status: nextStatus },
       });
 
       redirect("/dashboard/listings?ok=1");

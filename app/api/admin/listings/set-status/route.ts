@@ -1,8 +1,12 @@
 ﻿import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import type { ListingStatus } from "@prisma/client";
 
-const ALLOWED = new Set(["ACTIVE", "SUSPENDED"]);
+const ALLOWED = ["ACTIVE", "SUSPENDED"] as const;
+
+type AllowedStatus = typeof ALLOWED[number];
+const isAllowedStatus = (v: string): v is AllowedStatus => (ALLOWED as readonly string[]).includes(v);
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -16,11 +20,13 @@ export async function POST(req: Request) {
   const status = String(form.get("status") || "");
 
   if (!listingId) return NextResponse.json({ ok: false, error: "Missing listingId" }, { status: 400 });
-  if (!ALLOWED.has(status)) return NextResponse.json({ ok: false, error: "Invalid status" }, { status: 400 });
+  if (!isAllowedStatus(status)) return NextResponse.json({ ok: false, error: "Invalid status" }, { status: 400 });
+
+  const nextStatus: ListingStatus = status;
 
   await prisma.listing.update({
     where: { id: listingId },
-    data: { status: status as any },
+    data: { status: nextStatus },
   });
 
   
@@ -32,9 +38,11 @@ export async function POST(req: Request) {
       entityType: "LISTING",
       entityId: listingId,
       listingId,
-meta: { toStatus: status || null },
+      meta: { toStatus: status || null },
     },
-  });const backTo = String(form.get("backTo") || "");
+  });
+
+  const backTo = String(form.get("backTo") || "");
   if (backTo) return NextResponse.redirect(new URL(backTo, req.url));
 
   return NextResponse.json({ ok: true });
