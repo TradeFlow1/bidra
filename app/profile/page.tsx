@@ -27,7 +27,8 @@ export default async function ProfilePage({
     const { redirect } = await import("next/navigation");
 
     const s = await auth();
-    const u = s?.user as any;
+    const u = s?.user;
+    if (!u?.id) redirect("/auth/login");
     if (!u?.id) redirect("/auth/login");
 
     const name = String(formData.get("name") ?? "").trim().slice(0, 60);
@@ -97,8 +98,9 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
       }
     }
 
+    const userId = u?.id; if (!userId) redirect("/auth/login");
     await prisma.user.update({
-      where: { id: u.id },
+      where: { id: userId },
       data: {
         name: name || null,
         bio: bio || null,

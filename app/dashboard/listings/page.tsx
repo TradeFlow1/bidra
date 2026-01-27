@@ -37,7 +37,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
     const { redirect } = await import("next/navigation");
 
     const s = await auth();
-    const uid = (s?.user as any)?.id ? String((s?.user as any).id) : "";
+    const uid = s?.user?.id ? String(s.user.id) : "";
     if (!uid) redirect("/auth/login");
 
     const safe = (m: string) => encodeURIComponent(String(m || "").slice(0, 180));
