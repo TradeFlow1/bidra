@@ -72,7 +72,7 @@ export default function ListingThumbCarousel(props: { images: any; title: string
   }
 
     function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
-    const el = scroller.current as any;
+    const el = scroller.current;
     if (!el) return;
     dragging.current = true;
     dragStartX.current = e.clientX;
@@ -80,7 +80,7 @@ export default function ListingThumbCarousel(props: { images: any; title: string
   }
 
   function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const el = scroller.current as any;
+    const el = scroller.current;
     if (!el || !dragging.current) return;
     const dx = e.clientX - dragStartX.current;
     el.scrollLeft = dragStartLeft.current - dx;
@@ -92,7 +92,7 @@ export default function ListingThumbCarousel(props: { images: any; title: string
 
   function onWheel(e: React.WheelEvent<HTMLDivElement>) {
     // Trackpads already work; mouse wheels should scroll horizontally too
-    const el = scroller.current as any;
+    const el = scroller.current;
     if (!el) return;
     if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
       el.scrollLeft += e.deltaY;
@@ -117,14 +117,14 @@ function scrollTo(i: number) {
     const onScroll = () => syncIndex();
     const onEnd = () => setTimeout(syncIndex, 80);
 
-    el.addEventListener("scroll", onScroll, { passive: true } as any);
-    el.addEventListener("touchend", onEnd, { passive: true } as any);
-    el.addEventListener("mouseup", onEnd, { passive: true } as any);
+    el.addEventListener("scroll", onScroll, { passive: true } as AddEventListenerOptions);
+    el.addEventListener("touchend", onEnd, { passive: true } as AddEventListenerOptions);
+    el.addEventListener("mouseup", onEnd, { passive: true } as AddEventListenerOptions);
 
     return () => {
-      el.removeEventListener("scroll", onScroll as any);
-      el.removeEventListener("touchend", onEnd as any);
-      el.removeEventListener("mouseup", onEnd as any);
+      el.removeEventListener("scroll", onScroll as EventListener);
+      el.removeEventListener("touchend", onEnd as EventListener);
+      el.removeEventListener("mouseup", onEnd as EventListener);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imgs.length]);
@@ -158,7 +158,7 @@ function scrollTo(i: number) {
     
       onDragStartCapture={(e) => { e.preventDefault(); e.stopPropagation(); }}
       onContextMenuCapture={(e) => { e.preventDefault(); e.stopPropagation(); }}
-      onMouseDownCapture={(e) => { if ((e as any).button === 0) { (e as any).preventDefault?.(); } }}
+      onMouseDownCapture={(e) => { if (e.button === 0) { e.preventDefault(); } }}
     >
       <div
         ref={scroller}
@@ -171,17 +171,16 @@ function scrollTo(i: number) {
         style={{ userSelect: "none", WebkitUserSelect: "none",
           cursor: (dragging.current ? "grabbing" : "grab"), 
           WebkitOverflowScrolling: "touch",
-          scrollbarWidth: "none" as any,
-          msOverflowStyle: "none" as any,
+          scrollbarWidth: "none",
           touchAction: "pan-y",
 }}
         onPointerDown={(e) => {
           const el = scroller.current;
           if (!el) return;
-          (e as any).preventDefault?.();
+          e.preventDefault();
           drag.current = { down: true, startX: e.clientX, startLeft: el.scrollLeft };
           moved.current = false;
-          (e.currentTarget as any).setPointerCapture?.(e.pointerId);
+          e.currentTarget.setPointerCapture(e.pointerId);
         }}
         onPointerMove={(e) => {
           const el = scroller.current;
@@ -231,7 +230,7 @@ function scrollTo(i: number) {
           <button
             type="button"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); moved.current = true; scrollTo(idx - 1); }}
-            className="absolute left-2 top-1/2 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/15 z-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" style={{ backgroundColor: "#ffffff", opacity: 0.95 } as any }
+            className="absolute left-2 top-1/2 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/15 z-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" style={{ backgroundColor: "#ffffff", opacity: 0.95 }}
             aria-label="Prev photo"
           >
             <span className="text-[20px] leading-none">‹</span>
@@ -240,7 +239,7 @@ function scrollTo(i: number) {
             type="button"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); moved.current = true; scrollTo(idx + 1); }}
             className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/15 z-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
-            style={{ backgroundColor: "#ffffff", opacity: 0.95 } as any }
+            style={{ backgroundColor: "#ffffff", opacity: 0.95 }}
             aria-label="Next photo"
           >
             <span className="text-[20px] leading-none">›</span>
