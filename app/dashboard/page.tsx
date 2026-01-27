@@ -60,7 +60,7 @@ export default async function DashboardPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/auth/login?next=/dashboard");
 
-  const role = (session.user as any)?.role;
+  const role = session.user.role;
   const isAdmin = role === "ADMIN";
 
   const adult = await requireAdult(session);

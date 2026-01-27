@@ -12,7 +12,7 @@ export default async function AdminHome() {
   const adult = await requireAdult(session)
   if (!adult.ok) redirect("/account/restrictions")
 
-  const role = (session.user as any).role
+  const role = session.user.role
   if (role !== "ADMIN") redirect("/")
 
   const card = "rounded-xl border border-black/10 bg-white p-4 shadow-sm"

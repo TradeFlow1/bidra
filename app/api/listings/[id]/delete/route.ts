@@ -27,7 +27,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
-    const role = (session.user as any).role;
+    const role = session.user.role;
     const isAdmin = role === "ADMIN";
     const isOwner = listing.sellerId === session.user.id;
 

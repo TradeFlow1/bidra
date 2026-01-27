@@ -12,7 +12,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const adult = await requireAdult(session)
   if (!adult.ok) redirect("/account/restrictions")
 
-  const role = (session.user as any).role
+  const role = session.user.role
   if (role !== "ADMIN") redirect("/")
 
   return (
