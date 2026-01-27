@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     );
   }
 
-  const userId = gate?.session?.user?.id as string | undefined;
+  const userId = gate?.session?.user?.id ? String(gate.session.user.id) : undefined;
   if (!userId) {
     return NextResponse.json({ ok: false, error: "Not signed in" }, { status: 401 });
   }

@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   }
 
   const session = await auth();
-  const userId = session?.user?.id as string | undefined;
+  const userId = session?.user?.id ? String(session.user.id) : undefined;
 
   // If logged in, enforce 18+ (anonymous FT feedback stays allowed)
   if (userId) {

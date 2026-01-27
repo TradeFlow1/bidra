@@ -14,7 +14,7 @@ const ALLOWED_REASONS = new Set([
 
 export async function POST(req: Request) {
   const session = await auth();
-  const reporterId = session?.user?.id as string | undefined;
+  const reporterId = session?.user?.id ? String(session.user.id) : undefined;
 
   if (!reporterId) {
     return NextResponse.json({ ok: false, reason: "NOT_AUTHENTICATED" }, {

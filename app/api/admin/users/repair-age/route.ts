@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-function isAdmin(session: any) {
+function isAdmin(session: { user?: { role?: string | null; isAdmin?: boolean | null } } | null) {
   return Boolean(session?.user?.role === "ADMIN" || session?.user?.isAdmin === true);
 }
 

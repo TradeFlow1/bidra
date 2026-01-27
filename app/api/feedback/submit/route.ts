@@ -9,7 +9,7 @@ export const fetchCache = "force-no-store";
 
 export async function POST(req: Request) {
   const session = await auth();
-  const userId = session?.user?.id as string | undefined;
+  const userId = session?.user?.id ? String(session.user.id) : undefined;
 
   if (!userId) {
     return NextResponse.json({ error: "Not signed in." }, { status: 401 });

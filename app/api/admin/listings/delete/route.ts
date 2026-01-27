@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   const session = await auth();
-  const user: any = session?.user;
+  const user = session?.user;
 
   if (!user) return NextResponse.redirect(new URL("/auth/login", req.url));
   if (user.role !== "ADMIN") return NextResponse.redirect(new URL("/", req.url));
