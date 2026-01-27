@@ -18,7 +18,7 @@ export default function AcceptHighestOfferButton(props: { listingId: string }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       })
-      const data = await res.json().catch(() => ({} as any))
+      const data = await res.json().catch((): unknown => ({}))
       if (!res.ok) {
         setErr(String(data?.error || "Unable to proceed with the highest offer."))
         setLoading(false)

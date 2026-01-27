@@ -29,7 +29,7 @@ export default function PhoneVerifyPage() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ phone }),
       });
-      const data = await res.json().catch(() => ({} as any));
+      const data = await res.json().catch((): unknown => ({}));
       if (!res.ok) throw new Error(data?.error || "Failed to send code");
       setSent(true);
     } catch (e: any) {
@@ -48,7 +48,7 @@ export default function PhoneVerifyPage() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ phone, code }),
       });
-      const data = await res.json().catch(() => ({} as any));
+      const data = await res.json().catch((): unknown => ({}));
       if (!res.ok) throw new Error(data?.error || "Failed to verify code");
       setOk(true);
       setTimeout(() => {

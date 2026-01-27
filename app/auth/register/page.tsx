@@ -185,7 +185,7 @@ export default function RegisterPage() {
       body: JSON.stringify(payload),
     });
 
-    const data = await res.json().catch(() => ({} as any));
+    const data = await res.json().catch((): unknown => ({}));
     if (!res.ok) {
       setError(data?.error || "Registration failed");
       setLoading(false);

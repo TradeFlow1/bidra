@@ -39,7 +39,7 @@ export default function ForgotPasswordPage() {
         body: JSON.stringify({ email: v }),
       });
 
-      const data = await res.json().catch(() => ({} as any));
+      const data = await res.json().catch((): unknown => ({}));
 
       // Always show success (non-enumerating)
       setDone(true);

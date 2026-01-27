@@ -11,7 +11,7 @@ export default function PayConfirmClient({ orderId }: { orderId: string }) {
     setLoading(true);
     try {
       const res = await fetch(`/api/orders/${orderId}/pay/confirm`, { method: "POST" });
-      const data = await res.json().catch(() => ({} as any));
+      const data = await res.json().catch((): unknown => ({}));
       if (!res.ok || !data?.ok) throw new Error(data?.error || "Unable to confirm payment.");
       window.location.href = `/orders/${orderId}?paid=1`;
     } catch (e: any) {

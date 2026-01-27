@@ -23,7 +23,7 @@ export default function ContactFormClient({ defaultEmail }: { defaultEmail: stri
             body: JSON.stringify({ email, message }),
           });
 
-          const data = await r.json().catch(() => ({} as any));
+          const data = await r.json().catch((): unknown => ({}));
           if (!r.ok || !(data as any)?.ok) {
             alert(String((data as any)?.error || "Failed to send message."));
             return;

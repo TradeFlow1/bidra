@@ -62,7 +62,7 @@ export default function ResetPasswordPage({
         body: JSON.stringify({ token, newPassword: pw }),
       });
 
-      const data = await res.json().catch(() => ({} as any));
+      const data = await res.json().catch((): unknown => ({}));
       if (!res.ok || !data?.ok) {
         setError(String(data?.error || "Unable to reset password. Please request a new link."));
         return;

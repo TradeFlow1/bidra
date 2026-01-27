@@ -13,7 +13,7 @@ export default function SellerConfirmReceived({ orderId }: { orderId: string }) 
     setOkMsg(null);
     try {
       const res = await fetch(`/api/orders/${orderId}/complete`, { method: "POST" });
-      const data = await res.json().catch(() => ({} as any));
+      const data = await res.json().catch((): unknown => ({}));
       if (!res.ok || !data?.ok) throw new Error(data?.error || "Unable to confirm.");
       setOkMsg("Marked as completed.");
       window.location.href = `/orders/${orderId}?completed=1`;
