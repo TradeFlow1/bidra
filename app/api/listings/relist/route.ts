@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     });
   }
 
-  const session = (gate as any)?.session;
+  const session = gate?.session;
   const userId = session?.user?.id as string | undefined;
   const role = session?.user?.role as string | undefined;
   const isAdmin = role === "ADMIN";

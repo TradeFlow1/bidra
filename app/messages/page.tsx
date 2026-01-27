@@ -17,7 +17,7 @@ export default async function MessagesInboxPage() {
   if (!session?.user?.id) redirect("/auth/login?next=/messages")
 
   const gate = await requireAdult(session)
-  if (!gate.ok && (gate as any).reason === "UNDER_18") redirect("/account/restrictions")
+  if (!gate.ok && gate.reason === "UNDER_18") redirect("/account/restrictions")
   if (!gate.ok) redirect("/account")
 
   const me = session.user.id

@@ -13,7 +13,7 @@ export async function POST(_: Request, { params }: { params: { id: string } }) {
 
   const gate = await requireAdult(session);
   if (!gate.ok) {
-    return NextResponse.json({ ok: false, error: String((gate as any)?.reason || "Not allowed") }, { status: (gate as any)?.status || 403 });
+    return NextResponse.json({ ok: false, error: String(gate?.reason || "Not allowed") }, { status: gate?.status || 403 });
   }
 
   const orderId = String(params?.id || "").trim();

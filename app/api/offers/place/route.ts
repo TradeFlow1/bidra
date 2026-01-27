@@ -11,12 +11,12 @@ export async function POST(req: Request) {
   const gate = await requireAdult();
   if (!gate.ok) {
     return NextResponse.json(
-      { ok: false, error: String((gate as any)?.reason || "Not allowed") },
-      { status: (gate as any)?.status || 403 }
+      { ok: false, error: String(gate?.reason || "Not allowed") },
+      { status: gate?.status || 403 }
     );
   }
 
-  const userId = (gate as any)?.session?.user?.id as string | undefined;
+  const userId = gate?.session?.user?.id as string | undefined;
   if (!userId) {
     return NextResponse.json({ ok: false, error: "Not signed in" }, { status: 401 });
   }

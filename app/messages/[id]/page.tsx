@@ -28,7 +28,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
   }
 
   const gate = await requireAdult(session)
-  if (!gate.ok && (gate as any).reason === "UNDER_18") redirect("/account/restrictions")
+  if (!gate.ok && gate.reason === "UNDER_18") redirect("/account/restrictions")
   if (!gate.ok) redirect("/account")
 
   const me = session.user.id

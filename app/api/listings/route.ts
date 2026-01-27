@@ -67,8 +67,8 @@ export async function GET(req: Request) {
 
     if (wantLocal) {
       const gate = await requireAdult();
-      if ((gate as any)?.ok) {
-        meUserId = ((gate as any)?.session?.user?.id as string | undefined) || null;
+      if (gate?.ok) {
+        meUserId = (gate?.session?.user?.id as string | undefined) || null;
         if (meUserId) {
           userLoc = await prisma.user.findUnique({
             where: { id: meUserId },

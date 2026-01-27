@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     });
   }
 try {
-    const session = (gate as any).session;
+    const session = gate.session;
     if (!session?.user?.id) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
