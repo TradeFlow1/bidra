@@ -26,17 +26,30 @@ function money(cents: number) {
 
 function getRequestBaseUrl() {
   const h = headers();
-  const host = h.get("host") || "localhost:3000";
-  const proto = h.get("x-forwarded-proto") || (host.includes("localhost") ? "http" : "https");
-  return `${proto}://${host}`;
+
+  const env = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_SITE_URL;
+  if (env && env.startsWith("http")) return env.replace(/\/$/, "");
+
+  const xfHost = h.get("x-forwarded-host");
+  const rawHost = (xfHost || h.get("host") || "localhost:3000").split(",")[0].trim();
+  const rawProto = (h.get("x-forwarded-proto") || (rawHost.includes("localhost") ? "http" : "https")).split(",")[0].trim();
+
+  let host = rawHost;
+  if (host === "bidra.com.au") host = "www.bidra.com.au";
+
+  return `${rawProto}://${host}`;
 }
 
 async function getLatestListings(): Promise<ListingLite[]> {
-  const baseUrl = getRequestBaseUrl();
-  const res = await fetch(`${baseUrl}/api/listings?local=1`, { cache: "no-store" });
-  if (!res.ok) return [];
-  const data = (await res.json()) as { listings?: ListingLite[] };
-  return Array.isArray(data?.listings) ? data.listings.slice(0, 12) : [];
+  try {
+    const baseUrl = getRequestBaseUrl();
+    const res = await fetch(`${baseUrl}/api/listings?local=1`, { cache: "no-store" });
+    if (!res.ok) return [];
+    const data = (await res.json()) as { listings?: ListingLite[] };
+    return Array.isArray(data?.listings) ? data.listings.slice(0, 12) : [];
+  } catch {
+    return [];
+  }
 }
 
 const LOGO_SRC = "/brand/bidra-kangaroo-logo.png";
