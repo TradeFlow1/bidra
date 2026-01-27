@@ -318,7 +318,7 @@ function dollarsToCentsOrNull(v: string): number | null {
   const cleaned = raw.replace(/[$,\s]/g, "");
   const n = Number(cleaned);
 
-  if (!Number.isFinite(n)) return NaN as any;
+  if (!Number.isFinite(n)) return NaN;
   return Math.round(n * 100);
 }
 
@@ -337,8 +337,8 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     let old: any = undefined;
     try {
       if ("scrollRestoration" in window.history) {
-        old = (window.history as any).scrollRestoration;
-        (window.history as any).scrollRestoration = "manual";
+        old = (window.history as unknown as { scrollRestoration?: string }).scrollRestoration;
+        (window.history as unknown as { scrollRestoration?: string }).scrollRestoration = "manual";
       }
     } catch {}
 
@@ -347,7 +347,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     return () => {
       try {
         if (old !== undefined && "scrollRestoration" in window.history) {
-          (window.history as any).scrollRestoration = old;
+          (window.history as unknown as { scrollRestoration?: string }).scrollRestoration = old as string;
         }
       } catch {}
     };
@@ -432,7 +432,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   useEffect(() => {
     if (categoryTouched) return;
     if (category) return;
-    if (suggestedCategory) setCategory(suggestedCategory as any);
+    if (suggestedCategory) setCategory(String(suggestedCategory));
   }, [suggestedCategory, categoryTouched, category]);
 
   const previews = useMemo(() => {
@@ -679,7 +679,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               <button
                 type="button"
                 className="bd-btn bd-btn-ghost py-1 px-2 text-xs"
-                onClick={() => { setCategoryTouched(true); setCategory(suggestedCategory as any); }}
+                onClick={() => { setCategoryTouched(true); setCategory(String(suggestedCategory)); }}
               >
                 Use suggestion
               </button>
@@ -688,7 +688,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           <select
             className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
             value={category}
-            onChange={(e) => { setCategoryTouched(true); setCategory(e.target.value as any); }}
+            onChange={(e) => { setCategoryTouched(true); setCategory(e.target.value); }}
           >
             <option value="">Select a category…</option>
             {CATEGORY_GROUPS.map((g) => (
