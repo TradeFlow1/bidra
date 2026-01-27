@@ -41,7 +41,7 @@ dob: true,
       ageVerified: true,
       policyBlockedUntil: true,
       policyStrikes: true,
-    } as any,
+    },
   });
 
   const dob = getDob(dbUser);
@@ -49,7 +49,7 @@ dob: true,
     return { ok: false as const, status: 403, reason: "MISSING_AGE_VERIFICATION" };
   }
 
-  let ageVerified = Boolean((dbUser as any)?.ageVerified);
+  let ageVerified = Boolean((dbUser as unknown as { ageVerified?: boolean } | null | undefined)?.ageVerified);
   const age = yearsOld(dob);
 
   // Self-heal legacy accounts: if DOB exists and user is 18+, but ageVerified is false,
@@ -61,7 +61,7 @@ dob: true,
         data: { ageVerified: true },
       });
       ageVerified = true;
-      (dbUser as any).ageVerified = true;
+      (dbUser as unknown as { ageVerified?: boolean }).ageVerified = true;
     } catch (e) {
       // If DB update fails, still block (safer than allowing)
       return { ok: false as const, status: 403, reason: "AGE_NOT_VERIFIED" };
@@ -78,7 +78,7 @@ dob: true,
 
   // Policy block auto-end
   const now = Date.now();
-  const blockedUntil = (dbUser as any)?.policyBlockedUntil ? new Date((dbUser as any).policyBlockedUntil) : null;
+  const blockedUntil = (dbUser as unknown as { policyBlockedUntil?: unknown } | null | undefined)?.policyBlockedUntil ? new Date((dbUser as unknown as { policyBlockedUntil?: any }).policyBlockedUntil) : null;
 
   if (blockedUntil) {
     const ms = blockedUntil.getTime();
@@ -90,7 +90,7 @@ dob: true,
         status: 403,
         reason: "POLICY_BLOCKED",
         blockedUntil,
-        policyStrikes: (dbUser as any)?.policyStrikes ?? 0,
+        policyStrikes: (dbUser as unknown as { policyStrikes?: number } | null | undefined)?.policyStrikes ?? 0,
       };
     }
 
@@ -101,7 +101,7 @@ dob: true,
     });
 
     // Keep return shape consistent, but ensure policyBlockedUntil is cleared in the returned dbUser
-    (dbUser as any).policyBlockedUntil = null;
+    (dbUser as unknown as { policyBlockedUntil?: unknown }).policyBlockedUntil = null;
   }
 
   return { ok: true as const, session, dbUser };
