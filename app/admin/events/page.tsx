@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import DateTimeText from "@/components/date-time-text";
@@ -33,18 +34,18 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
 
   const q = String(searchParams?.q || "").trim().slice(0, 80);
 
-  const where = q
+  const where: Prisma.AdminEventWhereInput | undefined = q
     ? {
         OR: [
-          { type: { contains: q, mode: "insensitive" } },
-          { userId: { contains: q, mode: "insensitive" } },
-          { orderId: { contains: q, mode: "insensitive" } },
+          { type: { contains: q, mode: "insensitive" as const } },
+          { userId: { contains: q, mode: "insensitive" as const } },
+          { orderId: { contains: q, mode: "insensitive" as const } },
         ],
       }
     : undefined;
 
   const rows = await prisma.adminEvent.findMany({
-    where: where as any,
+    where,
     orderBy: { createdAt: "desc" },
     take: 200,
   });
