@@ -7,7 +7,7 @@ export default async function SiteHeader() {
 
   let notificationCount = 0;
   try {
-    const userId = (session?.user as any)?.id;
+    const userId = (session as unknown as { user?: { id?: string } })?.user?.id;
     if (userId) {
       const counts = await getNotificationCounts(userId);
       notificationCount = Number(counts.total || 0);
