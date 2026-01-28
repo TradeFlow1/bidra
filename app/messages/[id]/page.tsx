@@ -71,7 +71,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
     const other = thread.buyerId === me ? thread.seller : thread.buyer
 
-    const anyListing: any = thread.listing as any
+    const anyListing = thread.listing as unknown as { id?: string | null; title?: string | null; images?: unknown; photos?: unknown } | null
     const imgs =
       (anyListing && Array.isArray(anyListing.images) && anyListing.images.length)
         ? anyListing.images
