@@ -100,7 +100,7 @@ export default function SiteHeaderClient({
     ) : null;
 
   return (
-    <header ref={headerRef as any} className="bd-header border-b border-black/10">
+    <header ref={headerRef as React.RefObject<HTMLElement>} className="bd-header border-b border-black/10">
       {/* Top bar */}
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Left: Home */}
@@ -179,7 +179,7 @@ export default function SiteHeaderClient({
                       Orders
                     </Link>
 
-                    {(session?.user as any)?.role === "ADMIN" ? (
+                    {((session as unknown as { user?: { role?: string } })?.user?.role === "ADMIN") ? (
                       <Link
                         href="/admin"
                         className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain}
@@ -274,7 +274,7 @@ export default function SiteHeaderClient({
                     Orders
                   </Link>
 
-                  {(session?.user as any)?.role === "ADMIN" ? (
+                  {((session as unknown as { user?: { role?: string } })?.user?.role === "ADMIN") ? (
                     <Link href="/admin" onClick={closeAll} className={pill}>
                       Admin
                     </Link>
