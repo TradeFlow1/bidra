@@ -180,7 +180,7 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
 
             <div>
               <label className="text-sm font-medium">Bio (optional)</label>
-              <Input name="bio" defaultValue={(dbUser as any).bio ?? ""} placeholder="A short intro (optional)" />
+              <Input name="bio" defaultValue={(dbUser as unknown as { bio?: string }).bio ?? ""} placeholder="A short intro (optional)" />
             </div>
 
             <div className="bd-card p-5">
@@ -193,7 +193,7 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-end">
                 <div className="sm:col-span-1">
                   <label className="text-sm font-medium">Postcode</label>
-                  <Input name="postcode" defaultValue={(dbUser as any).postcode ?? ""} placeholder="e.g. 4301" />
+                  <Input name="postcode" defaultValue={(dbUser as unknown as { postcode?: string }).postcode ?? ""} placeholder="e.g. 4301" />
                 </div>
 
                 <div className="hidden sm:flex items-center justify-center text-xs bd-ink2">
@@ -203,14 +203,14 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
                 <div className="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="text-sm font-medium">Suburb</label>
-                    <Input name="suburb" defaultValue={(dbUser as any).suburb ?? ""} placeholder="e.g. Redbank Plains" />
+                    <Input name="suburb" defaultValue={(dbUser as unknown as { suburb?: string }).suburb ?? ""} placeholder="e.g. Redbank Plains" />
                   </div>
 
                   <div>
                     <label className="text-sm font-medium">State</label>
                     <select
                       name="state"
-                      defaultValue={(dbUser as any).state ?? ""}
+                      defaultValue={(dbUser as unknown as { state?: string }).state ?? ""}
                       className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm bd-ink"
                     >
                       <option value="">Select state</option>
@@ -236,13 +236,13 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
   <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
     <div>
       <label className="text-sm font-medium">PayID email (optional)</label>
-      <Input name="payidEmail" defaultValue={(dbUser as any).payidEmail ?? ""} placeholder="e.g. you@example.com" />
+      <Input name="payidEmail" defaultValue={(dbUser as unknown as { payidEmail?: string }).payidEmail ?? ""} placeholder="e.g. you@example.com" />
       <div className="mt-1 text-xs bd-ink2">Use this if you receive PayID payments to your email.</div>
     </div>
 
     <div>
       <label className="text-sm font-medium">PayID mobile (optional)</label>
-      <Input name="payidMobile" defaultValue={(dbUser as any).payidMobile ?? ""} placeholder="e.g. 04xx xxx xxx" />
+      <Input name="payidMobile" defaultValue={(dbUser as unknown as { payidMobile?: string }).payidMobile ?? ""} placeholder="e.g. 04xx xxx xxx" />
       <div className="mt-1 text-xs bd-ink2">Most Australians use mobile PayID — add it here if preferred.</div>
     </div>
   </div>
@@ -253,17 +253,17 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
     <div className="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-3">
       <div className="sm:col-span-1">
         <label className="text-sm font-medium">Bank name</label>
-        <Input name="bankName" defaultValue={(dbUser as any).bankName ?? ""} placeholder="e.g. Commonwealth Bank" />
+        <Input name="bankName" defaultValue={(dbUser as unknown as { bankName?: string }).bankName ?? ""} placeholder="e.g. Commonwealth Bank" />
       </div>
 
       <div className="sm:col-span-1">
         <label className="text-sm font-medium">BSB</label>
-        <Input name="bankBsb" defaultValue={(dbUser as any).bankBsb ?? ""} placeholder="e.g. 062-000" />
+        <Input name="bankBsb" defaultValue={(dbUser as unknown as { bankBsb?: string }).bankBsb ?? ""} placeholder="e.g. 062-000" />
       </div>
 
       <div className="sm:col-span-1">
         <label className="text-sm font-medium">Account number</label>
-        <Input name="bankAccount" defaultValue={(dbUser as any).bankAccount ?? ""} placeholder="e.g. 12345678" />
+        <Input name="bankAccount" defaultValue={(dbUser as unknown as { bankAccount?: string }).bankAccount ?? ""} placeholder="e.g. 12345678" />
       </div>
     </div>
 
