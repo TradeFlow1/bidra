@@ -60,7 +60,7 @@ export async function POST(req: Request) {
       }
 
       // ---- POLICY ENFORCEMENT (upload filename keywords) ----
-      const rawName = String((f as any).name ?? "");
+      const rawName = typeof (f as File)?.name === "string" ? (f as File).name : "";
       if (rawName && textLooksProhibited(rawName)) {
         const strike = await applyPolicyStrike(session.user.id);
 
@@ -92,7 +92,7 @@ export async function POST(req: Request) {
       }
 
       const safeName = (rawName || "image").replace(/[^a-zA-Z0-9._-]/g, "_");
-      const id = (crypto as any).randomUUID ? (crypto as any).randomUUID() : crypto.randomBytes(16).toString("hex");
+      const id = (typeof crypto.randomUUID === "function") ? crypto.randomUUID() : crypto.randomBytes(16).toString("hex");
       const key = `listings/${Date.now()}-${id}-${safeName}`;
 
       const blob = await put(key, f, { token, contentType: f.type, access: "public" });
