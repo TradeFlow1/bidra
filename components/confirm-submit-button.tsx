@@ -35,7 +35,7 @@ export default function ConfirmSubmitButton({
 
         if (form) {
           try {
-            (form as any).requestSubmit ? (form as any).requestSubmit() : form.submit();
+            ((form as unknown as { requestSubmit?: () => void })?.requestSubmit) ? (form as unknown as { requestSubmit: () => void }).requestSubmit() : form.submit();
           } catch {
             try { form.submit(); } catch {}
           }
