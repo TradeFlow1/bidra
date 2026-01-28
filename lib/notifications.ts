@@ -9,11 +9,11 @@ export async function getNotificationCounts(userId: string) {
         {
           buyerId: userId,
           lastMessageAt: { gt: prisma.messageThread.fields.buyerLastReadAt },
-        } as any,
+        },
         {
           sellerId: userId,
           lastMessageAt: { gt: prisma.messageThread.fields.sellerLastReadAt },
-        } as any,
+        },
       ],
     },
   }).catch(async () => {
