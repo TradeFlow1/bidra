@@ -29,7 +29,7 @@ function uniq(list: string[]) {
 }
 
 export default function HomeCategorySelect() {
-  const popular = uniq(POPULAR).filter((c) => FULL_CATEGORIES.includes(c as any));
+  const popular = uniq(POPULAR).filter((c) => FULL_CATEGORIES.includes(c as string));
   const all = FULL_CATEGORIES.filter((c) => !popular.includes(c));
 
   return (
