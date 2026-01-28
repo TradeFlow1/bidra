@@ -34,9 +34,10 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json().catch(() => ({}));
-    const listingId = String((body as any)?.listingId || "").trim();
-    const reason = String((body as any)?.reason || "").trim();
-    const details = String((body as any)?.details || "").trim();
+    const b = body as { listingId?: unknown; reason?: unknown; details?: unknown };
+    const listingId = String(b.listingId ?? "").trim();
+    const reason = String(b.reason ?? "").trim();
+    const details = String(b.details ?? "").trim();
 
     if (!listingId) return NextResponse.json({ error: "listingId required" }, { status: 400 });
     if (!reason) return NextResponse.json({ error: "Reason required" }, { status: 400 });

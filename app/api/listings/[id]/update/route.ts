@@ -169,7 +169,7 @@ if (images.some((u: string) => {
 
 // Timed-offers Buy Now: only allow for schema type AUCTION listings. Ignore for other types.
 if (hasBuyNowField) {
-  const isTimedOffers = String((existing as any).type || "").toUpperCase() === "AUCTION";
+  const isTimedOffers = String((existing as { type?: unknown }).type || "").toUpperCase() === "AUCTION";
 
 // FIXED_PRICE: keep canonical price aligned (prevents drift between price and buyNowPrice)
 if (!isTimedOffers) {
@@ -182,7 +182,8 @@ if (!isTimedOffers) {
     // ignore silently (do not error) to avoid breaking older clients
   } else {
     // Server guard: only allow setting Buy Now in the final 24h window of a timed-offers listing.
-    const endsAt = (existing as any)?.endsAt ? new Date((existing as any).endsAt).getTime() : null;
+    const endsAtVal = (existing as { endsAt?: unknown })?.endsAt;
+    const endsAt = endsAtVal ? new Date(endsAtVal as Date | string | number).getTime() : null;
     const hoursLeft = endsAt == null ? null : (endsAt - Date.now()) / (1000 * 60 * 60);
     const inFinalWindow = typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24;
 

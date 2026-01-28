@@ -101,13 +101,13 @@ try {
     const typeRaw = body.type;
     const type: ListingTypeIn = isAllowedType(typeRaw) ? typeRaw : "FIXED_PRICE";
 
-    const durationDaysRaw = (body as any).durationDays;
+    const durationDaysRaw = (body as { durationDays?: unknown }).durationDays;
     const durationDaysNum = Number(durationDaysRaw);
     const allowedDurations = new Set([3, 5, 7, 10, 14]);
     const durationDays = allowedDurations.has(durationDaysNum) ? durationDaysNum : 7;
 
         const priceIn = toIntOrNull(body.price); // cents or null
-    const startingOfferIn = toIntOrNull((body as any).startingOffer ?? (body as any).startingBid ?? (body as any).startingPrice); // cents or null
+    const startingOfferIn = toIntOrNull((body as { startingOffer?: unknown; startingBid?: unknown; startingPrice?: unknown }).startingOffer ?? (body as { startingOffer?: unknown; startingBid?: unknown; startingPrice?: unknown }).startingBid ?? (body as { startingOffer?: unknown; startingBid?: unknown; startingPrice?: unknown }).startingPrice); // cents or null
     const imagesRaw = Array.isArray(body.images) ? body.images : [];
 const images = imagesRaw
   .map((v: any) => String(v ?? "").trim())
