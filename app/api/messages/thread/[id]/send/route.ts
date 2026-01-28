@@ -22,7 +22,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   }
 
   const bodyJson = await req.json().catch((): unknown => ({}));
-  const text = String((bodyJson as any)?.body || "").trim();
+  const text = String((bodyJson as unknown as { body?: unknown } | null | undefined)?.body || "").trim();
 
   if (!text) {
     return NextResponse.json({ error: "Message body is required" }, { status: 400 });
