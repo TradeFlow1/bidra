@@ -107,7 +107,7 @@ export default async function MessagesInboxPage() {
                     const otherLabel = other.username || other.name || other.email || "User"
                     const last = it.messages[0]?.body ? maskContactInfo(it.messages[0].body) : "No messages yet."
 
-                    const anyListing: any = it.listing as any
+                    const anyListing = it.listing as unknown as { id?: string | null; title?: string | null; images?: unknown; photos?: unknown } | null
                     const imgs =
                       (anyListing && Array.isArray(anyListing.images) && anyListing.images.length)
                         ? anyListing.images
