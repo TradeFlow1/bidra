@@ -12,7 +12,7 @@ export default async function EditListingPage({ params }: { params: { id: string
 
   if (listing.sellerId !== session.user.id) redirect(`/listings/${listing.id}`);
 
-  const images = Array.isArray((listing as any).images) ? ((listing as any).images as string[]) : [];
+  const images = Array.isArray((listing as unknown as { images?: unknown }).images) ? (((listing as unknown as { images?: unknown }).images) as string[]) : [];
 
 
   const highest = await prisma.bid.findFirst({
@@ -32,12 +32,12 @@ export default async function EditListingPage({ params }: { params: { id: string
         location: listing.location || "",
         priceDollars: Number(listing.price || 0) / 100,
         images,
-        status: String((listing as any).status || "DRAFT"),
+        status: String((listing as unknown as { status?: unknown }).status || "DRAFT"),
 
         // Kevin timed-offers support (seller-controlled, late-stage only)
-        type: String((listing as any).type || "FIXED_PRICE"),
-        endsAt: (listing as any).endsAt ? new Date((listing as any).endsAt).toISOString() : null,
-        buyNowPriceDollars: (listing as any).buyNowPrice != null ? Number((listing as any).buyNowPrice) / 100 : null,
+        type: String((listing as unknown as { type?: unknown }).type || "FIXED_PRICE"),
+        endsAt: (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null,
+        buyNowPriceDollars: (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice != null ? Number((listing as unknown as { buyNowPrice?: unknown }).buyNowPrice as number) / 100 : null,
         highestOfferCents,
       }}
     />
