@@ -209,7 +209,6 @@ const scrubbedDescriptionText = rawDescriptionText
   .replace(/\(add what's included\)/gi, "")
   .replace(/included:\s*\(.*?\)/gi, "Included:")
   .replace(/\bTBD\b/gi, "")
-  .replace(/\bTODO\b/gi, "")
   .replace(/\bExample:\b.*$/gmi, "")
   .trim();
 
