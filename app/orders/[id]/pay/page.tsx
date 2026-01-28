@@ -65,7 +65,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
 
   // buyer OR seller can view, but only buyer can confirm payment
   const isBuyer = order.buyerId === user.id;
-  const isSeller = (order.listing as any)?.sellerId === user.id;
+  const isSeller = (order.listing as unknown as { sellerId?: string } | null | undefined)?.sellerId === user.id;
   if (!isBuyer && !isSeller) {
     return (
       <main className="bd-container py-10">
@@ -82,7 +82,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
     );
   }
 
-  const sellerId = (order.listing as any)?.sellerId as string | undefined;
+  const sellerId = (order.listing as unknown as { sellerId?: string } | null | undefined)?.sellerId;
   const seller = sellerId
     ? await prisma.user.findUnique({
         where: { id: sellerId },
