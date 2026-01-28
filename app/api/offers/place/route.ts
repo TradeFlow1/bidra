@@ -203,7 +203,7 @@ const top = await tx.offerMax.findMany({
         await sendNewTopOfferEmail({
           to,
           listingId: listing.id,
-          listingTitle: (listing as any)?.title || null,
+          listingTitle: (listing as unknown as { title?: string | null } | null | undefined)?.title || null,
           amountCents: Number(result.highestAmt || 0),
         });
       }
