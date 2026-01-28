@@ -65,10 +65,10 @@ export default function ReportListing({
         return;
       }
 
-      const data = await res.json().catch(() => ({} as any));
+      const data = await res.json().catch(() => ({} as unknown));
 
       if (!res.ok) {
-        const reasonCode = String((data as any)?.reason || "").toUpperCase();
+        const reasonCode = String((data as unknown as { reason?: unknown })?.reason ?? "").toUpperCase();
         if (
           reasonCode.includes("AGE") ||
           reasonCode.includes("UNDER") ||
@@ -79,7 +79,7 @@ export default function ReportListing({
           return;
         }
 
-        const errMsg = String((data as any)?.error || "");
+        const errMsg = String((data as unknown as { error?: unknown })?.error ?? "");
         throw new Error(errMsg ? errMsg : "Report failed (" + String(res.status) + ")");
       }
 
