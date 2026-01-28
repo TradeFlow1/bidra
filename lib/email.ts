@@ -69,12 +69,12 @@ async function sendEmail(args: { to: string; subject: string; text: string }) {
   try {
     const out = await sesClient().send(cmd);
     if (process.env.NODE_ENV !== "production") {
-      console.log("[Bidra][EMAIL:SENT]", { to, messageId: (out as any)?.MessageId });
+      console.log("[Bidra][EMAIL:SENT]", { to, messageId: (out as unknown as { MessageId?: string } | null | undefined)?.MessageId });
     }
   } catch (e: unknown) {
     const msg =
       typeof e === "object" && e && "message" in e
-        ? String((e as any).message)
+        ? String((e as unknown as { message?: unknown }).message)
         : String(e);
     console.error("[Bidra][SES ERROR]", { to, err: msg });
     throw e;
