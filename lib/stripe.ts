@@ -1,4 +1,4 @@
-import Stripe from "stripe";
+﻿import Stripe from "stripe";
 
 let _stripe: Stripe | null = null;
 
@@ -29,7 +29,7 @@ export function getStripe(): Stripe {
  */
 export const stripe: Stripe = new Proxy({} as Stripe, {
   get(_target, prop) {
-    const client = getStripe() as any;
+    const client = getStripe() as unknown as Record<PropertyKey, unknown>;
     return client[prop];
   },
 }) as Stripe;
