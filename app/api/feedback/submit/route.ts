@@ -64,12 +64,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Order not found." }, { status: 404 });
   }
 
-  if (!order.listing || !(order.listing as any).sellerId) {
+  const sellerId = (order.listing as unknown as { sellerId?: string | null } | null | undefined)?.sellerId;
+if (!order.listing || !sellerId) {
     return NextResponse.json({ error: "Order listing is unavailable." }, { status: 409 });
   }
 
-  const sellerId = order.listing.sellerId;
-  const buyerId = order.buyerId;
+    const buyerId = order.buyerId;
 
   let role: "BUYER" | "SELLER";
   let toUserId: string;
