@@ -34,5 +34,5 @@ export async function isPolicyBlocked(userId: string) {
   if (me?.policyBlockedUntil && me.policyBlockedUntil.getTime() > Date.now()) {
     return { blocked: true as const, until: me.policyBlockedUntil };
   }
-  return { blocked: false as const, until: null as any };
+  return { blocked: false as const, until: null as Date | null };
 }
