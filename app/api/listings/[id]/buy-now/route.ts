@@ -51,7 +51,7 @@ if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this t
 
     // Timed offers (schema type: AUCTION): Kevin model
     if (listing.type === "AUCTION") {
-      if (!(listing as any).buyNowEnabled) return jsonError("Buy Now is not enabled for this timed-offers listing.", 400)
+      if (!Boolean((listing as unknown as { buyNowEnabled?: unknown }).buyNowEnabled)) return jsonError("Buy Now is not enabled for this timed-offers listing.", 400)
       const h = hoursUntil(listing.endsAt)
       const isFinalWindow = typeof h === "number" ? h <= 24 : false
       if (!isFinalWindow) return jsonError("Buy Now may be enabled late-stage on timed offers.", 400)
@@ -139,7 +139,7 @@ return { order }
           await sendBuyNowPlacedEmail({
             to: buyerEmail,
             orderId,
-            listingTitle: (listing as any)?.title || null,
+            listingTitle: (listing as unknown as { title?: string })?.title || null,
             amountCents: amount,
             role: "BUYER",
           })
@@ -149,7 +149,7 @@ return { order }
           await sendBuyNowPlacedEmail({
             to: sellerEmail,
             orderId,
-            listingTitle: (listing as any)?.title || null,
+            listingTitle: (listing as unknown as { title?: string })?.title || null,
             amountCents: amount,
             role: "SELLER",
           })
