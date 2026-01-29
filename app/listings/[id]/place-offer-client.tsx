@@ -26,11 +26,13 @@ export default function PlaceOfferClient({
   const [amount, setAmount] = useState<string>(minDollars ? minDollars.toFixed(2) : "");
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<string>("");
+  const [needAuth, setNeedAuth] = useState(false);
   const [lastResult, setLastResult] = useState<null | {
     submittedCents: number;
     currentCents: number | null;
     isTop: boolean;
   }>(null);
+
   const router = useRouter();
 
   // Client-side stale-tab guard: once endsAt passes, disable offers without requiring refresh
@@ -51,7 +53,9 @@ export default function PlaceOfferClient({
   async function submit() {
     if (hardDisabled) { setMsg(hardDisabledText); return; }
     if (loading) { return; }
+
     setMsg("");
+    setNeedAuth(false);
     setLastResult(null);
 
     const value = Number(amount);
@@ -68,6 +72,7 @@ export default function PlaceOfferClient({
 
     try {
       setLoading(true);
+
       const res = await fetch(`/api/offers/place`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -76,20 +81,28 @@ export default function PlaceOfferClient({
       });
 
       const data = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        setMsg(data?.error || data?.reason || "Offer failed.");
+        const raw = String(data?.error || data?.reason || "");
+
+        if (raw === "NOT_AUTHENTICATED") {
+          setNeedAuth(true);
+          setMsg("");
+          return;
+        }
+
+        setMsg(raw || "Offer failed.");
         return;
       }
 
       const isTop = data?.status === "TOP" || data?.status === "HIGHEST" || data?.status === "WINNING"; // backward compat
-      const status = isTop ? "You are the highest offer" : "You have been out-offered";
-      const current = typeof data?.currentOfferCents === "number" ? (data.currentOfferCents / 100).toFixed(2) : null;
 
       setLastResult({
         submittedCents: cents,
         currentCents: (typeof data?.currentOfferCents === "number") ? data.currentOfferCents : null,
         isTop,
       });
+
       setMsg("");
       router.refresh();
     } catch {
@@ -99,19 +112,42 @@ export default function PlaceOfferClient({
     }
   }
 
+  if (needAuth) {
+    return (
+      <div className="space-y-3">
+        <div className="rounded-xl border border-black/10 bg-white p-4">
+          <div className="text-sm font-extrabold text-neutral-900">Sign in to make an offer</div>
+          <div className="mt-1 text-xs text-neutral-700">
+            You need an account to place offers on Bidra.
+          </div>
+          <button
+            type="button"
+            onClick={() => router.push(`/auth/login?next=${encodeURIComponent(`/listings/${listingId}`)}`)}
+            className="mt-3 w-full rounded-xl bg-[var(--bidra-link)] px-4 py-2.5 text-sm font-semibold text-[#0B0E11] transition hover:opacity-90"
+          >
+            Log in
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-        <div className="space-y-3">
+    <div className="space-y-3">
       {lastResult ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2">
-          <div className="text-sm font-extrabold text-neutral-900">
-            Offer submitted ✅
-          </div>
+          <div className="text-sm font-extrabold text-neutral-900">Offer submitted ✅</div>
           <div className="mt-0.5 text-xs text-neutral-700">
-            Max offer: <span className="font-semibold text-neutral-900">${(lastResult.submittedCents / 100).toFixed(2)}</span>
+            Max offer:{" "}
+            <span className="font-semibold text-neutral-900">
+              ${(lastResult.submittedCents / 100).toFixed(2)}
+            </span>
             {lastResult.currentCents !== null ? (
               <>
                 {" "}• Current visible top offer:{" "}
-                <span className="font-semibold text-neutral-900">${(lastResult.currentCents / 100).toFixed(2)}</span>
+                <span className="font-semibold text-neutral-900">
+                  ${(lastResult.currentCents / 100).toFixed(2)}
+                </span>
               </>
             ) : null}
           </div>
@@ -124,6 +160,7 @@ export default function PlaceOfferClient({
           </div>
         </div>
       ) : null}
+
       {viewerHasAnyOffer && offerState === "TOP" ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900">
           You are the highest offer.
@@ -134,6 +171,7 @@ export default function PlaceOfferClient({
           <div className="mt-0.5 text-xs text-neutral-700">Increase your offer to stay on top.</div>
         </div>
       ) : null}
+
       <div className="text-xs text-[var(--bidra-muted)]">
         Minimum offer:{" "}
         <span className="font-semibold text-[var(--bidra-fg)]">
