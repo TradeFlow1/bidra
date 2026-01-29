@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import SearchBar from "./search-bar";
 
 type SessionLike =
   | {
@@ -110,17 +111,13 @@ export default function SiteHeaderClient({
           </Link>
         </div>
 
-        {/* Center: Desktop search (locked) */}
+        {/* Center: Desktop search */}
         <div className="hidden flex-1 items-center justify-center md:flex">
-          <form action="/listings" method="get" className="w-full max-w-md" onSubmit={closeAll}>
-            <input
-              name="q"
-               defaultValue={q}
-              placeholder="Search listings"
-              className="w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm text-black placeholder:text-black/50 outline-none focus:border-black/20"
-              style={{ backgroundColor: "#ffffff", color: "#000000" }}
-            />
-          </form>
+          <SearchBar
+            className="w-full max-w-md"
+            inputClassName="w-full rounded-md border border-black/10 bg-white px-3 py-2 text-sm text-black placeholder:text-black/50 outline-none focus:border-black/20"
+            placeholder="Search listings"
+          />
         </div>
 
         {/* Right: Desktop nav */}
