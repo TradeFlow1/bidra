@@ -83,13 +83,13 @@ export default async function ListingPage({ params }: { params: { id: string } }
 
   // Item 2: hide non-active listings from public direct view
   const session = await getServerSession(authOptions);
+  const viewerId = session?.user?.id ?? null;
   const role = session?.user?.role;
   const isAdmin = role === "ADMIN";
   const isSeller = !!(session?.user?.id && session.user.id === (listing as unknown as { sellerId?: string }).sellerId);
 
   if (!isSeller && !isAdmin && listing.status !== "ACTIVE") {
-    const viewerId = session?.user?.id ?? null;
-    const viewerOrder = viewerId
+      const viewerOrder = viewerId
       ? await prisma.order.findFirst({
           where: { listingId: listing.id, buyerId: viewerId },
           select: { id: true, status: true, outcome: true },
@@ -181,7 +181,6 @@ const ladderTop = Object.values(ladderRows)
 
 
   const topBidderId = (ladderTop && (ladderTop as unknown as Array<{ bidderId?: string }>).length) ? String((ladderTop as unknown as Array<{ bidderId?: string }>)[0]?.bidderId ?? "") : null;
-  const viewerId = session?.user?.id ?? null;
   const viewerHasMax = viewerId
     ? !!(await prisma.offerMax.findUnique({
         where: { listingId_bidderId: { listingId: (listing as unknown as { id: string }).id, bidderId: viewerId } },
@@ -404,20 +403,37 @@ const scrubbedDescriptionText = rawDescriptionText
                   </div>
                 ) : (
                   <div className="bd-card p-4">
-                    <div className="text-sm font-semibold">Place an offer</div>
-                    <div className="mt-2">
-                      <PlaceOfferClient
-                        listingId={(listing as unknown as { id: string }).id}
-                        minOfferCents={minOfferCents}
-                        offerState={(offerState === "OUTOFFERED" ? "OUTBID" : offerState)}
-                        viewerHasAnyOffer={viewerHasAnyOffer}
-                        disabled={isEnded || isSeller}
-                        disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."}
-                      />
-                      <div className="mt-2 text-xs text-neutral-600">
-                        Offers are not an automatic sale. After this listing ends, the seller may accept an offer (usually the highest).
-                      </div>
-                    </div>
+                    {viewerId ? (
+                      <>
+                        <div className="text-sm font-semibold">Place an offer</div>
+                        <div className="mt-2">
+                          <PlaceOfferClient
+                            listingId={(listing as unknown as { id: string }).id}
+                            minOfferCents={minOfferCents}
+                            offerState={(offerState === "OUTOFFERED" ? "OUTBID" : offerState)}
+                            viewerHasAnyOffer={viewerHasAnyOffer}
+                            disabled={isEnded || isSeller}
+                            disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."}
+                          />
+                          <div className="mt-2 text-xs text-neutral-600">
+                            Offers are not an automatic sale. After this listing ends, the seller may accept an offer (usually the highest).
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="text-sm font-semibold">Log in to place an offer</div>
+                        <div className="mt-2 text-xs text-neutral-600">
+                          Offers are not an automatic sale. After this listing ends, the seller may accept an offer (usually the highest).
+                        </div>
+                        <Link
+                          href={`/auth/login?next=/listings/${(listing as unknown as { id: string }).id}`}
+                          className="bd-btn bd-btn-primary mt-3 inline-flex"
+                        >
+                          Log in
+                        </Link>
+                      </>
+                    )}
                   </div>
                 )}
               </>
