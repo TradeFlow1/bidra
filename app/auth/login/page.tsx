@@ -3,7 +3,7 @@
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Button, Input } from "@/components/ui";
 
 function friendlyAuthError(raw: string) {
@@ -20,6 +20,36 @@ export default function Login() {
   const router = useRouter();
   const sp = useSearchParams();
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+
+  // Show friendly messages when we arrive from auth flows (/auth/login?error=..., ?verify=..., ?resend=...)
+  useEffect(() => {
+    const err = (sp?.get("error") || "").toString().trim();
+    const verify = (sp?.get("verify") || "").toString().trim();
+    const resend = (sp?.get("resend") || "").toString().trim();
+
+    // Reset first so we never show stale text after navigation
+    setError(null);
+    setNotice(null);
+
+    if (verify) {
+      if (verify === "ok") setNotice("Email verified — you can log in now.");
+      else if (verify === "missing") setError("Verification link is missing or invalid.");
+      else if (verify === "expired") setError("That verification link has expired. Please request a new one.");
+      else setError("Verification failed. Please try again.");
+      return;
+    }
+
+    if (resend) {
+      // /api/auth/resend-verification redirects to /auth/login?resend=1
+      setNotice("Verification email resent. Please check your inbox.");
+      return;
+    }
+
+    if (err) {
+      setError(friendlyAuthError(err));
+    }
+  }, [sp]);
 
   return (
     <main className="bd-container py-6 pb-14">
@@ -34,6 +64,7 @@ export default function Login() {
             onSubmit={async (e) => {
               e.preventDefault();
               setError(null);
+              setNotice(null);
 
               const fd = new FormData(e.currentTarget);
               const email = String(fd.get("email") ?? "");
@@ -76,6 +107,12 @@ export default function Login() {
             <Button type="submit" className="bd-btn bd-btn-primary">
               Log in
             </Button>
+
+            {notice ? (
+              <div className="text-sm text-green-700 break-words">
+                {notice}
+              </div>
+            ) : null}
 
             {/* Bottom-of-form friendly error (no raw auth codes) */}
             {error ? (
