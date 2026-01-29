@@ -12,7 +12,8 @@ function friendlyAuthError(raw: string) {
   if (s === "CredentialsSignin") return "Incorrect email or password.";
   if (s.toLowerCase().includes("credentials")) return "Incorrect email or password.";
   if (s.toLowerCase().includes("signin")) return "Incorrect email or password.";
-  return "Couldn’t log you in. Please check your details and try again.";
+  if (s.toLowerCase().includes("too many login attempts")) return "Too many login attempts. Please wait 15 minutes and try again.";
+    return "Couldn’t log you in. Please check your details and try again.";
 }
 
 export default function Login() {

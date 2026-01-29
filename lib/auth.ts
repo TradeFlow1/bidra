@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
 import { getBaseUrl } from "@/lib/base-url";
+import { rateLimit } from "@/lib/rate-limit";
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -17,11 +18,37 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null;
 
+        const email = String(credentials.email).trim().toLowerCase();
+
+        // P0: login rate-limit + temporary lockout (in-memory, per-instance)
+        const windowMs = 15 * 60 * 1000;
+
+        const headersAny = (req as any)?.headers;
+        const xf =
+          typeof headersAny?.get === "function"
+            ? String(headersAny.get("x-forwarded-for") || "")
+            : String((headersAny && (headersAny["x-forwarded-for"] || headersAny["X-Forwarded-For"])) || "");
+
+        const xr =
+          typeof headersAny?.get === "function"
+            ? String(headersAny.get("x-real-ip") || "")
+            : String((headersAny && (headersAny["x-real-ip"] || headersAny["X-Real-Ip"])) || "");
+
+        const ipRaw = (xf.split(",")[0] || xr || "").trim();
+        const ip = ipRaw || "unknown";
+
+        const okIp = rateLimit(`login:ip:${ip}`, 20, windowMs);
+        const okEmail = rateLimit(`login:email:${email}`, 8, windowMs);
+
+        if (!okIp || !okEmail) {
+          throw new Error("Too many login attempts. Please wait 15 minutes and try again.");
+        }
+
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email },
         });
 
         if (!user || !user.passwordHash) return null;
