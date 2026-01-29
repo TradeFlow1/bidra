@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 function isProtected(pathname: string) {
-  // Static + always-public routes
+  // Public routes + static assets are NOT protected (middleware should not redirect them)
   if (
     pathname.startsWith("/_next") ||
     pathname === "/favicon.ico" ||
@@ -12,11 +12,7 @@ function isProtected(pathname: string) {
     pathname === "/sitemap.xml" ||
     pathname.startsWith("/brand") ||
     pathname.startsWith("/api") ||
-    pathname.startsWith("/auth/login") ||
-    pathname.startsWith("/auth/register") ||
-    pathname.startsWith("/auth/register/") ||
-    pathname.startsWith("/auth/verify") ||
-    pathname.startsWith("/auth/phone-verify") ||
+    pathname.startsWith("/auth") ||
     pathname.startsWith("/forgot-password") ||
     pathname.startsWith("/reset-password") ||
     pathname.startsWith("/legal") ||
@@ -24,7 +20,7 @@ function isProtected(pathname: string) {
     pathname.startsWith("/contact") ||
     pathname.startsWith("/feedback")
   ) {
-    return true;
+    return false;
   }
 
   // Protected app areas (explicit). Everything else is public (including unknown routes → proper 404)
@@ -34,7 +30,7 @@ function isProtected(pathname: string) {
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/account") ||
     pathname.startsWith("/orders") ||
-pathname.startsWith("/profile") ||
+    pathname.startsWith("/profile") ||
     pathname.startsWith("/notifications") ||
     pathname.startsWith("/admin")
   );
