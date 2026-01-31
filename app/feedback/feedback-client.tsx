@@ -13,7 +13,11 @@ export default function FeedbackClient() {
 
   const [category, setCategory] = useState("");
   const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
   const [status, setStatus] = useState<string>("");
+
+  // honeypot
+  const [website, setWebsite] = useState("");
 
   const pageUrl = useMemo(() => {
     try { return window.location.href; } catch { return ""; }
@@ -57,7 +61,13 @@ export default function FeedbackClient() {
       const res = await fetch("/api/feedback/site", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category, message: msg, pageUrl }),
+        body: JSON.stringify({
+          category,
+          message: msg,
+          pageUrl,
+          email: signedIn ? "" : (email || "").trim(),
+          website, // honeypot
+        }),
       });
 
       const j = await res.json().catch(() => null as any);
@@ -67,7 +77,8 @@ export default function FeedbackClient() {
       }
 
       setMessage("");
-      setStatus("Thanks — your feedback was sent.");
+      setEmail("");
+      setStatus("Thanks — we received your feedback.");
     } catch {
       setStatus("Failed to send feedback.");
     }
@@ -79,7 +90,7 @@ export default function FeedbackClient() {
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Feedback</h1>
           <p className="mt-2 bd-ink2">
-            Help us improve Bidra. Messages submitted here are recorded in the admin portal.
+            Tell us what’s confusing, broken, or missing. Include steps to reproduce if you can.
           </p>
         </div>
 
@@ -92,15 +103,18 @@ export default function FeedbackClient() {
       </div>
 
       <div className="mt-6 rounded-xl border bd-bd bg-white p-5">
-        <div className="text-sm font-extrabold bd-ink">Product feedback</div>
-        <p className="mt-2 text-sm bd-ink2">
-          Tell us what’s confusing, broken, or missing. Include steps to reproduce if you can.
-        </p>
+        <div className="text-sm font-extrabold bd-ink">Send feedback</div>
 
         {loading ? (
-          <div className="mt-4 text-sm bd-ink2">Checking sign-in…</div>
-        ) : signedIn ? (
+          <div className="mt-4 text-sm bd-ink2">Loading…</div>
+        ) : (
           <div className="mt-4 space-y-3">
+            {/* Honeypot (hidden) */}
+            <div style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }} aria-hidden="true">
+              <label>Website</label>
+              <input value={website} onChange={(e) => setWebsite(e.target.value)} />
+            </div>
+
             <div>
               <label className="text-xs font-semibold bd-ink">Category (optional)</label>
               <select
@@ -118,6 +132,18 @@ export default function FeedbackClient() {
                 <option value="Other">Other</option>
               </select>
             </div>
+
+            {!signedIn ? (
+              <div>
+                <label className="text-xs font-semibold bd-ink">Email (optional)</label>
+                <input
+                  className="mt-1 w-full rounded-xl border bd-bd px-3 py-2"
+                  placeholder="If you want a reply"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+            ) : null}
 
             <div>
               <label className="text-xs font-semibold bd-ink">Message</label>
@@ -141,29 +167,7 @@ export default function FeedbackClient() {
               <div className="text-sm bd-ink2" aria-live="polite">{status}</div>
             ) : null}
           </div>
-        ) : (
-          <div className="mt-4 rounded-xl border bd-bd bg-white/60 p-4">
-            <div className="text-sm font-extrabold bd-ink">Sign in required</div>
-            <p className="mt-2 text-sm bd-ink2">
-              Sign in to send product feedback so we can follow up if needed.
-            </p>
-            <div className="mt-3 flex flex-wrap gap-2">
-              <Link href="/auth/login?next=/feedback" className="bd-btn bd-btn-solid">Sign in</Link>
-              <Link href="/auth/register" className="bd-btn bd-btn-outline">Create account</Link>
-            </div>
-          </div>
         )}
-      </div>
-
-      <div className="mt-6 rounded-xl border bd-bd bg-white p-5">
-        <div className="text-sm font-extrabold bd-ink">Feedback on a purchase</div>
-        <p className="mt-2 text-sm bd-ink2">
-          Buyer/seller feedback is left from completed orders.
-        </p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <Link href="/orders" className="bd-btn bd-btn-outline">Go to orders</Link>
-          <Link href="/how-it-works" className="bd-btn bd-btn-outline">How it works</Link>
-        </div>
       </div>
 
       <div className="mt-4 text-xs bd-ink2">

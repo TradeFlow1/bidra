@@ -2,12 +2,12 @@
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t bg-white mt-12 bd-ink2">
-      <div className="mx-auto max-w-7xl px-4 py-8 grid gap-6 md:grid-cols-3 text-sm text-gray-600">
+    <footer className="border-t bg-white mt-8 bd-ink2">
+      <div className="mx-auto max-w-7xl px-4 py-5 grid gap-6 md:grid-cols-3 text-sm text-gray-600">
         <div>
           <div className="font-semibold text-gray-900 mb-2">Bidra</div>
-          <p>
-            Bidra is an Australian online marketplace where individuals list items for sale or receive offers.
+          <p className="leading-5">
+            An Australian marketplace where individuals list items for sale or receive offers.
             Bidra is a platform only and is not the seller of items listed.
           </p>
         </div>
@@ -15,40 +15,26 @@ export default function SiteFooter() {
         <div>
           <div className="font-semibold text-gray-900 mb-2">Trust &amp; Safety</div>
           <ul className="space-y-1">
-            <li>
-              <Link href="/how-it-works" className="bd-link font-semibold block leading-6">How it works</Link>
-            </li>
-            <li>
-              <Link href="/legal/privacy" className="bd-link font-semibold block leading-6">Privacy Policy</Link>
-            </li>
-            <li>
-              <Link href="/legal/terms" className="bd-link font-semibold block leading-6">Terms of Service</Link>
-            </li>
-            <li>
-              <Link href="/legal/prohibited-items" className="bd-link font-semibold block leading-6">Prohibited Items</Link>
-            </li>
-            <li>
-              <Link href="/support" className="bd-link font-semibold block leading-6">Support &amp; Safety</Link>
-            </li>
-            <li>
-              <Link href="/contact" className="bd-link font-semibold block leading-6">Contact</Link>
-            </li>
-            <li>
-              <Link href="/feedback" className="bd-link font-semibold block leading-6">Feedback</Link>
-            </li>
+            <li><Link href="/how-it-works" className="bd-link font-semibold block leading-6">How it works</Link></li>
+            <li><Link href="/legal/privacy" className="bd-link font-semibold block leading-6">Privacy Policy</Link></li>
+            <li><Link href="/legal/terms" className="bd-link font-semibold block leading-6">Terms of Service</Link></li>
+            <li><Link href="/legal/prohibited-items" className="bd-link font-semibold block leading-6">Prohibited Items</Link></li>
+            <li><Link href="/support" className="bd-link font-semibold block leading-6">Support &amp; Safety</Link></li>
+            <li><Link href="/contact" className="bd-link font-semibold block leading-6">Contact</Link></li>
+            <li><Link href="/feedback" className="bd-link font-semibold block leading-6">Feedback</Link></li>
           </ul>
         </div>
 
         <div>
           <div className="font-semibold text-gray-900 mb-2">Buy &amp; Sell Safely</div>
-          <p>
-            Always meet in public places, inspect items before completing a transaction, and use Bidra messaging
+          <p className="leading-5">
+            Meet in public places, inspect items before completing a transaction, and use Bidra messaging
             to keep records of communication.
           </p>
         </div>
       </div>
 
-      <div className="border-t py-4 text-center text-xs text-gray-500">
+      <div className="border-t py-3 text-center text-xs text-gray-500">
         © {new Date().getFullYear()} Bidra. All rights reserved.
       </div>
     </footer>
