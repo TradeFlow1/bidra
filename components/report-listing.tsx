@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import Link from "next/link";
+import { ClickableLink } from "@/components/clickable-link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
