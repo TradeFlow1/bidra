@@ -24,7 +24,7 @@ export default function PayConfirmClient({ orderId }: { orderId: string }) {
     <div className="grid gap-2">
       <button
         type="button"
-        className="bd-btn bd-btn-primary text-center"
+        className="bd-btn bd-btn-primary w-full sm:w-auto text-center py-3 focus:outline-none focus:ring-2 focus:ring-black/20"
         onClick={confirmPaid}
         disabled={loading}
       >

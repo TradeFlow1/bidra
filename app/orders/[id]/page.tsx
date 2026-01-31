@@ -102,7 +102,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               {(order.status === "PENDING" && order.buyerId === user.id) ? (
                 <div className="pt-2">
-                  <Link href={`/orders/${order.id}/pay`} className="bd-btn bd-btn-primary text-center">
+                  <Link
+                    href={`/orders/${order.id}/pay`}
+                    className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-black/20"
+                  >
                     <span className="block">Pay now</span>
                     <span className="mt-1 block text-xs bd-ink2">Binding order — please pay to proceed.</span>
                   </Link>
