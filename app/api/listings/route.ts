@@ -7,6 +7,15 @@ export const revalidate = 0;
 
 const MAX_PRICE_CENTS = 1000000 * 100; // $1,000,000 AUD sanity cap (cents)
 
+const __g: any = globalThis as any;
+function shouldRunExpirySweep(nowMs: number, minEveryMs: number) {
+  const k = "__bidra_expiry_sweep_ms";
+  const last = typeof __g[k] === "number" ? __g[k] : 0;
+  if (last && nowMs - last < minEveryMs) return false;
+  __g[k] = nowMs;
+  return true;
+}
+
 function norm(s: any) {
   return String(s ?? "").trim().toLowerCase();
 }
@@ -81,11 +90,15 @@ export async function GET(req: Request) {
     const baseTake = wantLocal && meUserId ? 60 : 24;
 
     const now = new Date();
-    // Self-heal: expire timed-offer listings that passed their end time (keeps public feeds clean without cron)
-    await prisma.listing.updateMany({
-      where: { status: "ACTIVE", endsAt: { lt: now } },
-      data: { status: "ENDED" },
-    });
+
+    // Self-heal: expire timed-offer listings that passed their end time.
+    // IMPORTANT: throttle this so bursts don't hammer DB with updateMany on every request.
+    if (shouldRunExpirySweep(Date.now(), 60000)) {
+      await prisma.listing.updateMany({
+        where: { status: "ACTIVE", endsAt: { lt: now } },
+        data: { status: "ENDED" },
+      });
+    }
 
     const listings = await prisma.listing.findMany({
       where: {
@@ -149,7 +162,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ listings: ranked.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: { "Cache-Control": "no-store" } });
     }
 
-    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: { "Cache-Control": "no-store" } });
+    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: { "Cache-Control": "public, s-maxage=10, stale-while-revalidate=60" } });
   } catch (err) {
     console.error("GET /api/listings failed", err);
     return NextResponse.json({ error: "Failed to load listings" }, { status: 500 });
