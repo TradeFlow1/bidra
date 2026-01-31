@@ -718,7 +718,10 @@ const imagesToSend = uploadedUrls;
 
         <div>
           <label className="text-sm font-medium">Location</label>
-          <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Suburb, State" />
+          <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="4000 Brisbane, QLD" />
+          <p className="mt-1 text-xs text-black/60">
+            Defaults to your Account location. Change it for this listing if needed (e.g. selling for family). Format: 4000 Brisbane, QLD.
+          </p>
         </div>
 
         {!isTimedOffers && (
