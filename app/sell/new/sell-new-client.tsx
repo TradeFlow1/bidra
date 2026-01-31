@@ -500,24 +500,26 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
       // 1) Upload selected files (preferred)
       let uploadedUrls: string[] = [];
       if (files.length > 0) {
-        const fd = new FormData();
-        for (const f of files.slice(0, 10)) fd.append("files", f);
+        for (const f of files.slice(0, 10)) {
+          const fd = new FormData();
+          fd.append("files", f);
 
-        const up = await fetch("/api/uploads/images", { method: "POST", body: fd });
-        const upText = await up.text();
-        let upData: any = null;
-        try { upData = JSON.parse(upText); } catch { upData = null; }
+          const up = await fetch("/api/uploads/images", { method: "POST", body: fd });
+          const upText = await up.text();
+          let upData: any = null;
+          try { upData = JSON.parse(upText); } catch { upData = null; }
 
-        if (!up.ok) {
-          const msg = (upData && upData.error) ? String(upData.error) : upText || "Image upload failed.";
-          setErr(msg);
-          return;
+          if (!up.ok) {
+            const msg = (upData && upData.error) ? String(upData.error) : upText || "Image upload failed.";
+            setErr(msg);
+            return;
+          }
+
+          const one = Array.isArray(upData?.urls) ? upData.urls[0] : null;
+          if (one) uploadedUrls.push(String(one));
         }
-
-        uploadedUrls = Array.isArray(upData?.urls) ? upData.urls : [];
       }
-
-      const imagesToSend = uploadedUrls;
+const imagesToSend = uploadedUrls;
 
       // 2) Create listing
       const res = await fetch("/api/listings/create", {
