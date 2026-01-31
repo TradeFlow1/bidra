@@ -2,43 +2,45 @@
   title: "Prohibited Items — Bidra",
 };
 
+function LI({ children }: { children: any }) {
+  return <li className="leading-6">{children}</li>;
+}
+
 export default function ProhibitedItemsPage() {
   return (
-    <main className="bd-container py-10">
-      <div className="mx-auto max-w-3xl space-y-6">
-        <header className="space-y-2">
-          <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Prohibited items</h1>
-          <p className="text-sm bd-ink2">
-            Bidra is an Australian marketplace. Some items and content are not allowed on Bidra — under any circumstances.
-            Prohibited items are blocked at listing creation (server-side). There is no “review to publish” path.
-          </p>
-        </header>
+    <main className="bd-shell py-10">
+      <div className="mx-auto max-w-3xl">
+        <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Prohibited items</h1>
 
-        <div className="bd-card p-6 space-y-4">
-          <h2 className="text-lg font-extrabold bd-ink">Not allowed (examples)</h2>
-          <ul className="list-disc pl-6 space-y-2 text-sm bd-ink2">
-            <li>Illegal items or services under Australian law</li>
-            <li>Drugs, drug paraphernalia, or controlled substances</li>
-            <li>Weapons, firearms, ammunition, weapon parts, or instructions enabling harm</li>
-            <li>Stolen property or items suspected to be stolen</li>
-            <li>Counterfeit, replica, or infringing goods</li>
-            <li>Hazardous materials, explosives, unsafe chemicals</li>
-            <li><strong>Vapes / nicotine products</strong> and related accessories</li>
-            <li><strong>Alcohol</strong> and alcohol supply</li>
-            <li><strong>Adult sexual content, fetish content, or sexual services</strong></li>
-            <li>Listings that promote violence, hate, exploitation, or harassment</li>
-            <li>Misleading, deceptive, or fraudulent listings</li>
-            <li>Live animals</li>
+        <p className="mt-3 text-sm bd-ink2 leading-6">
+          Bidra is a local Australian marketplace. Some items and services are not allowed on Bidra — under any circumstances.
+          Prohibited items are blocked at listing creation (server-side). There is no “review” path for prohibited items.
+        </p>
+
+        <div className="mt-6 rounded-xl border bd-bd bg-white p-6">
+          <h2 className="text-lg font-extrabold bd-ink">Not allowed on Bidra</h2>
+
+          <ul className="mt-3 list-disc pl-6 space-y-2 text-sm bd-ink2">
+            <LI><strong>Illegal items or services</strong> under Australian law.</LI>
+            <LI><strong>Drugs</strong>, drug paraphernalia, or controlled substances.</LI>
+            <LI><strong>Weapons</strong>, firearms, ammunition, or weapon components.</LI>
+            <LI><strong>Stolen property</strong> or items suspected to be stolen.</LI>
+            <LI><strong>Counterfeit/replica/infringing goods</strong> (including fake branded items).</LI>
+            <LI><strong>Hazardous materials</strong>, explosives, unsafe chemicals.</LI>
+            <LI><strong>Live animals</strong>.</LI>
+            <LI><strong>Adult sexual services</strong> or explicit/sexual/fetish content.</LI>
+            <LI><strong>Vapes / nicotine products</strong> (including e-cigarettes, nicotine liquid, and related supply items).</LI>
+            <LI><strong>Alcohol</strong> listings.</LI>
+            <LI><strong>Violence, hate, or exploitation</strong> content.</LI>
+            <LI><strong>Misleading, deceptive, or fraudulent listings</strong> (including scams).</LI>
           </ul>
 
-          <div className="rounded-xl border bd-bd bg-white/60 p-4">
-            <div className="text-sm font-extrabold bd-ink">What happens if someone tries?</div>
-            <p className="mt-2 text-sm bd-ink2">
-              The listing is rejected. Repeated attempts may lead to account restrictions. If you see something unsafe, use the report feature.
-            </p>
-          </div>
+          <p className="mt-6 text-sm bd-ink2 leading-6">
+            Listings that violate these rules may be removed and accounts may be restricted or suspended.
+            If you see a listing that appears unsafe or prohibited, use the <strong>Report</strong> button on the listing page.
+          </p>
 
-          <p className="text-sm bd-ink2">
+          <p className="mt-4 text-sm bd-ink2">
             Need help? Visit{" "}
             <a className="bd-link font-semibold" href="/support">Support &amp; Safety</a>{" "}
             or{" "}

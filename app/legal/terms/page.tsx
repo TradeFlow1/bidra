@@ -1,127 +1,186 @@
 ﻿export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Bidra | Terms of Use",
+  title: "Terms of Use — Bidra",
 };
+
+function L({ children }: { children: any }) {
+  return <p className="text-sm bd-ink2 leading-6">{children}</p>;
+}
+
+function H2({ children }: { children: any }) {
+  return <h2 className="text-lg font-extrabold bd-ink">{children}</h2>;
+}
 
 export default function TermsPage() {
   return (
-    <main className="bd-container py-6 pb-14">
-      <div className="bd-card p-6 space-y-6">
-        <header className="space-y-2">
-          <h1 className="text-3xl font-extrabold tracking-tight">Terms of Use</h1>
-          <p className="text-sm text-black/70">
-            These Terms apply to your use of Bidra (the “Platform”). Bidra is an Australian marketplace platform that provides
-            tools for people to post listings, discover items, communicate, make offers, and create orders.{" "}
-            <strong>Bidra is not the seller of items listed by users.</strong>
-          </p>
-          <p className="text-xs text-black/50">
-            Effective: {new Date().getFullYear()} • Plain-language summary for convenience only. If anything is unclear, contact us via{" "}
-            <a className="bd-link font-semibold" href="/contact">Contact</a>.
-          </p>
-        </header>
+    <main className="bd-shell py-10">
+      <div className="mx-auto max-w-3xl">
+        <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Terms of Use</h1>
+        <p className="mt-2 text-sm bd-ink2">
+          These Terms apply to your use of Bidra (including browsing, creating an account, listing, offers, messaging,
+          and any order flows). Bidra is an Australian marketplace platform. Bidra is not the seller of items listed by users.
+        </p>
 
-        <section className="space-y-2">
-          <h2 className="text-lg font-extrabold">1) Eligibility and accounts</h2>
-          <ul className="list-disc pl-5 text-sm text-black/70 space-y-1">
-            <li><strong>Adults only:</strong> Bidra accounts are for adults (18+). Under 18s may browse publicly but cannot create accounts, list, offer, message, or transact.</li>
-            <li>You must provide accurate information and keep your account secure.</li>
-            <li>We may restrict, suspend, or terminate accounts to protect the platform or comply with law.</li>
-          </ul>
-        </section>
+        <div className="mt-6 rounded-xl border bd-bd bg-white p-6 space-y-6">
+          <section className="space-y-2">
+            <H2>1) Who can use Bidra</H2>
+            <L>
+              Bidra accounts are for adults (18+). Under 18s may browse publicly, but cannot create accounts, list items,
+              place offers, message, or transact on Bidra.
+            </L>
+            <L>
+              You must provide accurate information and keep your account details up to date. You are responsible for activity
+              on your account.
+            </L>
+          </section>
 
-        <section className="space-y-2">
-          <h2 className="text-lg font-extrabold">2) Bidra’s role (platform only)</h2>
-          <p className="text-sm text-black/70">
-            Listings are created by users. You are responsible for verifying item details, condition, authenticity, legality, and suitability
-            before proceeding. Any deal is between the buyer and the seller.
-          </p>
-          <ul className="list-disc pl-5 text-sm text-black/70 space-y-1">
-            <li>Bidra does not guarantee listings, users, delivery, payment, or outcomes.</li>
-            <li>Bidra is not an auctioneer and does not automatically “award” a winner.</li>
-          </ul>
-        </section>
+          <section className="space-y-2">
+            <H2>2) Bidra’s role (platform only)</H2>
+            <L>
+              Bidra provides tools to publish listings, search, message, make offers, and create orders. Listings are created by users.
+              Bidra is not a party to your deal unless a Bidra feature explicitly says otherwise.
+            </L>
+            <L>
+              You are responsible for verifying item details, condition, authenticity, legality, suitability, and safe exchange arrangements.
+            </L>
+          </section>
 
-        <section className="space-y-2">
-          <h2 className="text-lg font-extrabold">3) Listings, content, and rules</h2>
-          <p className="text-sm text-black/70">
-            You must not post prohibited items or use Bidra for scams, harassment, unlawful activity, or attempts to bypass safety systems.
-            Prohibited items are blocked at listing creation.
-          </p>
-          <p className="text-sm">
-            See:{" "}
-            <a className="bd-link font-semibold" href="/legal/prohibited-items">
-              Prohibited items
+          <section className="space-y-2">
+            <H2>3) Listings, accuracy, and prohibited items</H2>
+            <L>
+              Listings must be accurate and not misleading. You must not list prohibited items or use Bidra for scams, harassment,
+              unlawful activity, or attempts to evade platform rules.
+            </L>
+            <L>
+              Prohibited items are blocked at listing creation. Repeated attempts may result in restrictions.
+            </L>
+            <p className="text-sm">
+              See:{" "}
+              <a className="bd-link font-semibold" href="/legal/prohibited-items">
+                Prohibited items
+              </a>
+              .
+            </p>
+          </section>
+
+          <section className="space-y-2">
+            <H2>4) Messaging and conduct</H2>
+            <L>
+              Use Bidra messaging to keep a clear record and to help safety reviews if needed. Do not harass, threaten, or pressure others.
+              Do not request verification codes or passwords. Do not attempt to circumvent safety systems.
+            </L>
+            <L>
+              You may report listings or message threads. We may review and take action to keep the platform safe.
+            </L>
+          </section>
+
+          <section className="space-y-2">
+            <H2>5) Two sales models: Buy Now vs Timed Offers</H2>
+            <L>
+              <strong>Timed Offers:</strong> Timed Offers are non-binding offers. At the end of the offer period, the highest offer may be shown
+              to the seller, but the seller must explicitly accept to form a sale. There is no automatic “winner”.
+            </L>
+            <L>
+              <strong>Buy Now:</strong> Buy Now is a binding purchase path. The seller pre-authorises the sale at the Buy Now price. When a buyer uses
+              Buy Now, an order is created and the buyer is expected to pay using the payment options shown for that order.
+            </L>
+            <L>
+              Bidra uses neutral marketplace language and does not act as an auctioneer. Bidra does not automatically “award” items.
+            </L>
+          </section>
+
+          <section className="space-y-2">
+            <H2>6) Orders, payment, cancellations, refunds</H2>
+            <L>
+              When an order is created (via Buy Now or seller acceptance of an offer), the buyer is expected to pay using the payment options provided for that order.
+              Sellers should only enable Buy Now if ready to sell at that price.
+            </L>
+            <L>
+              Unless a specific Bidra feature says otherwise, buyers and sellers arrange pickup/postage, inspection, and any refunds between themselves.
+              Bidra may record confirmations and enforce platform rules, but does not guarantee outcomes.
+            </L>
+            <L>
+              Cancellations are not guaranteed and depend on seller agreement and circumstances. Where a refund is agreed, it should be made using the same method
+              the buyer used, unless Bidra provides a dedicated refund feature.
+            </L>
+          </section>
+
+          <section className="space-y-2">
+            <H2>7) Fees and pricing</H2>
+            <L>
+              Some features may carry fees (for example, listing upgrades or transaction-related fees). Fees will be shown before you commit.
+              If a fee applies, you agree to pay it as described.
+            </L>
+            <p className="text-sm">
+              See:{" "}
+              <a className="bd-link font-semibold" href="/legal/fees">
+                Fees
+              </a>
+              .
+            </p>
+          </section>
+
+          <section className="space-y-2">
+            <H2>8) Safety and risk</H2>
+            <L>
+              Marketplace transactions carry risk. Use common sense: meet in public, verify identity where appropriate,
+              inspect items before paying, and avoid pressure or urgency. If something feels wrong, report it and step away.
+            </L>
+            <p className="text-sm">
+              See:{" "}
+              <a className="bd-link font-semibold" href="/support">
+                Support &amp; Safety
+              </a>
+              .
+            </p>
+          </section>
+
+          <section className="space-y-2">
+            <H2>9) Content, intellectual property</H2>
+            <L>
+              You retain ownership of content you create, but you grant Bidra a licence to host, display, and distribute it as needed
+              to operate the service (for example, showing your listing to other users). You must not upload content you don’t have rights to use.
+            </L>
+          </section>
+
+          <section className="space-y-2">
+            <H2>10) Enforcement, restrictions, termination</H2>
+            <L>
+              We may remove content, restrict accounts, or suspend access to keep Bidra safe and compliant. Restrictions may be temporary or permanent depending on severity and history.
+            </L>
+            <L>
+              You can stop using Bidra at any time. We may retain certain records for legal, safety, and fraud-prevention reasons.
+            </L>
+          </section>
+
+          <section className="space-y-2">
+            <H2>11) Disclaimers and liability (platform only)</H2>
+            <L>
+              Bidra does not verify every listing or user. To the maximum extent permitted by law, Bidra is not responsible for user content, conduct,
+              or outcomes of transactions between users. Nothing in these Terms excludes rights you have under Australian Consumer Law.
+            </L>
+          </section>
+
+          <section className="space-y-2">
+            <H2>12) Governing law</H2>
+            <L>
+              These Terms are governed by the laws of Australia. Where disputes arise, we encourage users to first try to resolve issues directly and respectfully.
+            </L>
+          </section>
+
+          <p className="text-xs bd-ink2">
+            Questions? Use{" "}
+            <a className="bd-link font-semibold" href="/contact">
+              Contact
+            </a>{" "}
+            or{" "}
+            <a className="bd-link font-semibold" href="/feedback">
+              Feedback
             </a>
             .
           </p>
-          <ul className="list-disc pl-5 text-sm text-black/70 space-y-1">
-            <li>You grant Bidra a non-exclusive licence to host and display your content to operate the platform.</li>
-            <li>We may remove content or limit visibility to keep the platform safe or compliant.</li>
-          </ul>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="text-lg font-extrabold">4) Two sales models (Timed Offers vs Buy Now)</h2>
-          <div className="rounded-xl border bd-bd bg-white/60 p-4 space-y-3">
-            <div>
-              <div className="font-extrabold">Timed Offers (non-binding until seller accepts)</div>
-              <p className="mt-1 text-sm text-black/70">
-                Offers placed during a timed period are not binding. When the timer ends, the seller may choose to proceed with the highest offer
-                (which creates an order), or decline/relist. Bidra does not automatically select a buyer or complete a sale.
-              </p>
-            </div>
-            <div>
-              <div className="font-extrabold">Buy Now (binding purchase)</div>
-              <p className="mt-1 text-sm text-black/70">
-                If a listing shows Buy Now, the seller has pre-authorised a binding sale at that price. When a buyer selects Buy Now, an order is created
-                and the buyer is expected to pay using the payment options provided for that order.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="text-lg font-extrabold">5) Payments, cancellations, refunds</h2>
-          <ul className="list-disc pl-5 text-sm text-black/70 space-y-1">
-            <li>Where Bidra provides a Pay Now flow for an order, it is the canonical place to follow payment steps and confirm payment.</li>
-            <li><strong>Buy Now:</strong> creating an order via Buy Now is binding; buyers are expected to pay and sellers are expected to supply the item as described.</li>
-            <li><strong>Timed Offers:</strong> offers are non-binding until the seller proceeds and an order is created; then the order is binding.</li>
-            <li>Cancellations and refunds depend on the seller’s agreement and circumstances, unless Bidra provides a specific feature or policy for the order.</li>
-            <li>Bidra may apply platform enforcement (e.g., restrictions) for repeated non-payment, scams, or abuse.</li>
-          </ul>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="text-lg font-extrabold">6) Safety, messaging, and reporting</h2>
-          <ul className="list-disc pl-5 text-sm text-black/70 space-y-1">
-            <li>Use Bidra messaging to keep a record of communication.</li>
-            <li>Do not harass, threaten, or pressure others. Do not request verification codes or sensitive personal info.</li>
-            <li>Use reporting tools for suspicious listings or messages.</li>
-          </ul>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="text-lg font-extrabold">7) Disclaimers and limitation</h2>
-          <p className="text-sm text-black/70">
-            To the extent permitted by law, Bidra provides the platform “as is” and is not liable for user content, user conduct, or outcomes of transactions.
-            Nothing in these Terms excludes non-excludable rights under the Australian Consumer Law.
-          </p>
-        </section>
-
-        <section className="space-y-2">
-          <h2 className="text-lg font-extrabold">8) Changes</h2>
-          <p className="text-sm text-black/70">
-            We may update these Terms to improve safety, clarity, or compliance. Continued use of Bidra after an update means you accept the updated Terms.
-          </p>
-        </section>
-
-        <p className="text-xs text-black/50">
-          Questions? Use the{" "}
-          <a className="bd-link font-semibold" href="/contact">Contact page</a>{" "}
-          or read{" "}
-          <a className="bd-link font-semibold" href="/support">Support &amp; Safety</a>.
-        </p>
+        </div>
       </div>
     </main>
   );
