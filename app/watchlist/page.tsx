@@ -62,6 +62,9 @@ export default async function WatchlistPage() {
     const session2 = await auth();
     if (!session2?.user?.id) return;
 
+    const gate2 = await requireAdult(session2);
+    if (!gate2.ok) return;
+
     await prisma.watchlist.deleteMany({
       where: { userId: session2.user.id, listingId },
     });
