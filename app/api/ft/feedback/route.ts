@@ -7,55 +7,45 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
-const FT_ENABLED = process.env.FT_ENABLED === "1";
-
-
 export async function POST(req: Request) {
-  if (!FT_ENABLED) {
-    return new Response("Friend Test feedback disabled", { status: 404 });
-  }
-
-
-  // FT routes must never run in production.
-  if (process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "not_found" }, { status: 404 });
-  }
-
   const session = await auth();
   const userId = session?.user?.id ? String(session.user.id) : undefined;
 
-  // If logged in, enforce 18+ (anonymous FT feedback stays allowed)
-  if (userId) {
-    const gate = await requireAdult(session);
-    if (!gate.ok) return NextResponse.json({ ok: false, reason: gate.reason || "ADULT_REQUIRED" }, { status: 403 });
+  if (!userId) {
+    return NextResponse.json({ error: "Not signed in." }, { status: 401 });
   }
 
+  const gate = await requireAdult(session);
+  const gateReason = gate?.reason ? String(gate.reason) : "";
+  if (!gate?.ok) {
+    const isPolicyBlock =
+      gateReason.toUpperCase().includes("BLOCK") ||
+      gateReason.toUpperCase().includes("RESTRICT") ||
+      gateReason.toUpperCase().includes("POLICY");
+
+    if (!isPolicyBlock) {
+      return NextResponse.json({ error: `Not allowed: ${gateReason || "Restricted"}` }, { status: 403 });
+    }
+  }
 
   let body: any = null;
-  try {
-    body = await req.json();
-  } catch {
-    body = null;
-  }
+  try { body = await req.json(); } catch { body = null; }
 
-  const message = String(body?.message ?? "").trim().slice(0, 4000);
-  const email = String(body?.email ?? "").trim().slice(0, 320);
-  const source = String(body?.source ?? "FT").trim().slice(0, 64);
+  const message = String(body?.message ?? "").trim().slice(0, 2000);
+  const pageUrl = String(body?.pageUrl ?? "").trim().slice(0, 500);
 
   if (!message) {
-    return NextResponse.json({ error: "Missing message." }, { status: 400 });
+    return NextResponse.json({ error: "Message is required." }, { status: 400 });
   }
 
-  // Store as an admin-visible event (no new tables needed)
   await prisma.adminEvent.create({
     data: {
-      type: "FT_FEEDBACK_SUBMITTED",
-      userId: userId || null,
+      type: "FT_FEEDBACK",
+      userId,
       data: {
-        source,
-        email: email || null,
         message,
-        ua: req.headers.get("user-agent") || null,
+        pageUrl: pageUrl || null,
+        userAgent: req.headers.get("user-agent") || null,
       },
     },
   });
