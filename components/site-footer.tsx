@@ -2,8 +2,6 @@
 
 const links: Array<{ href: string; label: string }> = [
   { href: "/how-it-works", label: "How it works" },
-  { href: "/browse", label: "Browse" },
-  { href: "/listings", label: "Listings" },
   { href: "/support", label: "Support & Safety" },
   { href: "/contact", label: "Contact" },
   { href: "/feedback", label: "Feedback" },
