@@ -19,6 +19,8 @@ function isProtected(pathname: string) {
     pathname.startsWith("/support") ||
     pathname.startsWith("/contact") ||
     pathname.startsWith("/feedback") ||
+    pathname.startsWith("/privacy") ||
+    pathname.startsWith("/terms") ||
     pathname.startsWith("/how-it-works") ||
     pathname.startsWith("/about") ||
     pathname.startsWith("/pricing") ||
