@@ -1,5 +1,6 @@
 ﻿import { labelCategory, labelCondition } from "@/lib/labels";
 import Link from "next/link";
+import { ClickableLink } from "@/components/clickable-link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
