@@ -7,40 +7,43 @@ export default function SiteFooter() {
         <div>
           <div className="font-semibold text-gray-900 mb-2">Bidra</div>
           <p>
-            Bidra is an Australian online marketplace where individuals list
-            items for sale or receive offers. Bidra is a platform only and is
-            not the seller of items listed.
+            Bidra is an Australian online marketplace where individuals list items for sale or receive offers.
+            Bidra is a platform only and is not the seller of items listed.
           </p>
         </div>
 
         <div>
-          <div className="font-semibold text-gray-900 mb-2">Trust & Safety</div>
+          <div className="font-semibold text-gray-900 mb-2">Trust &amp; Safety</div>
           <ul className="space-y-1">
-  <li>
-    <Link href="/how-it-works" className="bd-link font-semibold">How it works</Link><Link href="/legal/privacy" className="bd-link font-semibold">Privacy Policy</Link>
-  </li>
-  <li>
-    <Link href="/legal/terms" className="bd-link font-semibold">Terms of Service</Link>
-  </li>
-  <li>
-    <Link href="/legal/prohibited-items" className="bd-link font-semibold">Prohibited Items</Link>
-  </li>
-  <li>
-    <Link href="/support" className="bd-link font-semibold">Support & Safety</Link>
-<Link href="/contact" className="bd-link font-semibold">Contact</Link>
-  </li>
-  <li>
-    <Link href="/feedback" className="bd-link font-semibold">Feedback</Link>
-  </li>
-</ul>
+            <li>
+              <Link href="/how-it-works" className="bd-link font-semibold">How it works</Link>
+            </li>
+            <li>
+              <Link href="/legal/privacy" className="bd-link font-semibold">Privacy Policy</Link>
+            </li>
+            <li>
+              <Link href="/legal/terms" className="bd-link font-semibold">Terms of Service</Link>
+            </li>
+            <li>
+              <Link href="/legal/prohibited-items" className="bd-link font-semibold">Prohibited Items</Link>
+            </li>
+            <li>
+              <Link href="/support" className="bd-link font-semibold">Support &amp; Safety</Link>
+            </li>
+            <li>
+              <Link href="/contact" className="bd-link font-semibold">Contact</Link>
+            </li>
+            <li>
+              <Link href="/feedback" className="bd-link font-semibold">Feedback</Link>
+            </li>
+          </ul>
         </div>
 
         <div>
-          <div className="font-semibold text-gray-900 mb-2">Buy & Sell Safely</div>
+          <div className="font-semibold text-gray-900 mb-2">Buy &amp; Sell Safely</div>
           <p>
-            Always meet in public places, inspect items before completing a
-            transaction, and use Bidra messaging to keep records of
-            communication.
+            Always meet in public places, inspect items before completing a transaction, and use Bidra messaging
+            to keep records of communication.
           </p>
         </div>
       </div>
