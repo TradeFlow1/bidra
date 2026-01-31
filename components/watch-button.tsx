@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -25,6 +25,12 @@ export default function WatchButton({
     // If we got an initial value (server-side), don't fetch.
     if (typeof initialWatched === "boolean") return;
 
+    // Logged out / loading: do not hit watchlist APIs.
+    if (status !== "authenticated") {
+      setWatched(false);
+      return;
+    }
+
     let cancelled = false;
     fetch(`/api/watchlist/status?listingId=${encodeURIComponent(listingId)}`)
       .then((r) => r.json())
@@ -35,7 +41,7 @@ export default function WatchButton({
     return () => {
       cancelled = true;
     };
-  }, [listingId, initialWatched]);
+  }, [listingId, initialWatched, status]);
 
   const toggle = async () => {
     if (status !== "authenticated") {
@@ -52,6 +58,14 @@ export default function WatchButton({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ listingId }),
       });
+
+      // If auth expired / gated, bounce to login.
+      if (res.status === 401 || res.status === 403) {
+        const qs = searchParams?.toString();
+        const nextUrl = qs ? `${pathname}?${qs}` : pathname;
+        router.push(`/auth/login?next=${encodeURIComponent(nextUrl || "/listings")}`);
+        return;
+      }
 
       const data = await res.json().catch(() => ({}));
       if (res.ok) {
