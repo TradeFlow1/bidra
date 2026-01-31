@@ -1,14 +1,40 @@
-﻿export const metadata = {
-  title: "How Bidra Works — Bidra",
-};
+﻿import Link from "next/link";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export const metadata = { title: "How it works — Bidra" };
 
 function H2({ children }: { children: any }) {
   return <h2 className="text-lg font-extrabold bd-ink">{children}</h2>;
 }
+
 function Callout({ children }: { children: any }) {
   return (
     <div className="rounded-xl border bd-bd bg-white p-4 text-sm bd-ink2 leading-7">
       {children}
+    </div>
+  );
+}
+
+function Step({
+  n,
+  title,
+  children,
+}: {
+  n: string;
+  title: string;
+  children: any;
+}) {
+  return (
+    <div className="rounded-2xl border bd-bd bg-white p-5 space-y-2">
+      <div className="flex items-center gap-3">
+        <div className="h-8 w-8 rounded-full border bd-bd bg-white flex items-center justify-center text-sm font-extrabold bd-ink">
+          {n}
+        </div>
+        <div className="text-sm font-extrabold bd-ink">{title}</div>
+      </div>
+      <div className="text-sm bd-ink2 leading-7">{children}</div>
     </div>
   );
 }
@@ -18,83 +44,90 @@ export default function HowItWorksPage() {
     <main className="bd-shell py-10">
       <div className="mx-auto max-w-3xl space-y-6">
         <header className="space-y-3">
-          <h1 className="text-3xl font-extrabold tracking-tight bd-ink">How Bidra works</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight bd-ink">
+            How Bidra works
+          </h1>
           <p className="bd-ink2 leading-7">
-            Bidra is an Australian marketplace where people list items and connect directly. We provide tools to browse,
-            message safely, make offers, and complete purchases with clear order flows.
+            Bidra is an Australian marketplace platform. People list items, make offers, and create orders.
+            Bidra is not the seller of items listed by users.
           </p>
+
           <Callout>
-            <strong className="bd-ink">Important:</strong> Bidra is a platform only. Items are sold by users. We are not the seller or an auctioneer.
+            <strong className="bd-ink">Two ways to buy:</strong>{" "}
+            <span className="bd-ink2">
+              <strong className="bd-ink">Buy Now</strong> creates an order immediately (binding), and{" "}
+              <strong className="bd-ink">Timed Offers</strong> are not binding until a seller accepts.
+            </span>
           </Callout>
         </header>
 
         <div className="rounded-2xl border bd-bd bg-white p-6 space-y-8">
-          <section className="space-y-2">
-            <H2>1) Browse & search</H2>
-            <ul className="mt-2 list-disc pl-6 bd-ink2 text-sm leading-7 space-y-1">
-              <li>Search listings by keyword and filter by location, price, and category.</li>
-              <li>Open a listing to see photos, details, condition, and the available purchase options.</li>
-              <li>Use Watchlist to save items and come back later.</li>
-            </ul>
-          </section>
-
-          <section className="space-y-2">
-            <H2>2) Sell: create a listing</H2>
-            <ul className="mt-2 list-disc pl-6 bd-ink2 text-sm leading-7 space-y-1">
-              <li>Add clear photos and an honest description (include defects).</li>
-              <li>Include your suburb/state/postcode so buyers can make informed decisions.</li>
-              <li>Choose a sale type: Buy Now or Timed Offers.</li>
-            </ul>
-            <p className="mt-3 text-sm bd-ink2 leading-7">
-              Prohibited items are blocked at listing creation — if something is unsafe or prohibited, it cannot be listed.
-            </p>
+          <section className="space-y-3">
+            <H2>Buy Now (instant order)</H2>
+            <div className="grid gap-3">
+              <Step n="1" title="Buyer clicks Buy Now">
+                An order is created immediately. The buyer agrees to complete payment in the order flow.
+              </Step>
+              <Step n="2" title="Payment and confirmation">
+                Bidra shows the payment instructions and any fees (if applicable) before the buyer confirms.
+              </Step>
+              <Step n="3" title="Pickup or delivery">
+                Buyers and sellers coordinate pickup/delivery details. Keep conversations respectful and safe.
+              </Step>
+              <Step n="4" title="Complete the order">
+                Once the exchange is done, mark the order complete and leave feedback.
+              </Step>
+            </div>
           </section>
 
           <section className="space-y-3">
-            <H2>3) Choose a sale type</H2>
-
-            <div className="space-y-2">
-              <h3 className="font-extrabold bd-ink">Buy Now</h3>
-              <p className="text-sm bd-ink2 leading-7">
-                Buy Now is designed for an immediate purchase at a fixed price. When a buyer uses Buy Now, an order is created
-                and the buyer is expected to complete payment as directed.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              <h3 className="font-extrabold bd-ink">Timed Offers</h3>
-              <p className="text-sm bd-ink2 leading-7">
-                Timed Offers allows buyers to submit offers during the offer period. Offers are not final until the seller explicitly accepts.
-                At the end of the offer period, the seller may accept the highest offer (or decline/relist).
-              </p>
+            <H2>Timed Offers (seller decides)</H2>
+            <div className="grid gap-3">
+              <Step n="1" title="Buyer places an offer">
+                Buyers can place offers while the listing is active. This does not create an order yet.
+              </Step>
+              <Step n="2" title="Seller reviews offers">
+                The seller can accept the highest offer (or decline/relist). The seller is always in control.
+              </Step>
+              <Step n="3" title="If accepted, an order is created">
+                When the seller accepts an offer, Bidra creates an order and the buyer proceeds to payment.
+              </Step>
             </div>
           </section>
 
           <section className="space-y-2">
-            <H2>4) Messaging & meetups</H2>
-            <ul className="mt-2 list-disc pl-6 bd-ink2 text-sm leading-7 space-y-1">
-              <li>Use Bidra messages to confirm details, pickup times, and questions about the item.</li>
-              <li>Meet in a public place when possible and inspect items before confirming completion.</li>
-              <li>If anything feels suspicious, report the listing or message thread.</li>
-            </ul>
-          </section>
-
-          <section className="space-y-2">
-            <H2>5) Orders, completion, and feedback</H2>
-            <ul className="mt-2 list-disc pl-6 bd-ink2 text-sm leading-7 space-y-1">
-              <li>When a purchase is made (Buy Now) or an offer is accepted, an order is created.</li>
-              <li>After the exchange, complete the order so both sides have a clear record.</li>
-              <li>Leave feedback to help build trust in the marketplace.</li>
-            </ul>
-          </section>
-
-          <section className="space-y-2">
-            <H2>6) Safety and moderation</H2>
+            <H2>Messaging</H2>
             <p className="text-sm bd-ink2 leading-7">
-              Bidra uses reporting, moderation, and enforcement to keep the platform safe. If you see a prohibited item, harassment,
-              or a scam attempt, report it — we review reports and take action when needed.
+              Use messages to ask questions, confirm pickup, and coordinate. Never share passwords or verification codes.
+              If something feels suspicious, use the report tools or contact support.
             </p>
           </section>
+
+          <section className="space-y-2">
+            <H2>Safety basics</H2>
+            <ul className="mt-2 list-disc pl-6 text-sm bd-ink2 leading-7 space-y-1">
+              <li>Meet in public places when possible.</li>
+              <li>Inspect items before handing over money (or before marking complete).</li>
+              <li>Be cautious of urgent pressure, unusual requests, or “too good to be true” deals.</li>
+            </ul>
+            <p className="text-sm mt-2">
+              <Link href="/support" className="bd-link font-semibold">Support &amp; Safety →</Link>
+            </p>
+          </section>
+
+          <section className="space-y-2">
+            <H2>Prohibited items</H2>
+            <p className="text-sm bd-ink2 leading-7">
+              Some items can’t be listed on Bidra. Attempts to list prohibited items may be blocked.
+            </p>
+            <p className="text-sm">
+              <Link href="/legal/prohibited-items" className="bd-link font-semibold">Prohibited Items →</Link>
+            </p>
+          </section>
+
+          <p className="text-xs bd-ink2 opacity-70">
+            This page is a plain-language summary for Australia. For the full rules, read Terms and Privacy.
+          </p>
         </div>
       </div>
     </main>
