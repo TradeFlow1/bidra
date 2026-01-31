@@ -77,6 +77,12 @@ export async function GET(req: Request) {
       ? "no-store"
       : "public, s-maxage=10, stale-while-revalidate=60";
 
+    const respHeaders: Record<string, string> = {
+      "Cache-Control": cacheControl,
+      "Vary": "Cookie, Authorization",
+    };
+
+
     // If local requested, try to get adult session.
     // If not signed in / not adult, we silently fall back to normal ordering.
     let meUserId: string | null = null;
@@ -167,10 +173,10 @@ export async function GET(req: Request) {
         .map((x: any) => x.l)
         .slice(0, 24);
 
-      return NextResponse.json({ listings: ranked.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: { "Cache-Control": cacheControl } });
+      return NextResponse.json({ listings: ranked.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: respHeaders });
     }
 
-    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: { "Cache-Control": cacheControl } });
+    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: respHeaders });
   } catch (err) {
     console.error("GET /api/listings failed", err);
     return NextResponse.json({ error: "Failed to load listings" }, { status: 500 });
