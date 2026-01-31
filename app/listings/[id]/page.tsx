@@ -301,7 +301,12 @@ const scrubbedDescriptionText = rawDescriptionText
               <ReportListingButton listingId={(listing as unknown as { id: string }).id} />
 
               <div>
-                {session?.user?.id === (listing as unknown as { sellerId?: string }).sellerId ? null : (
+                {session?.user?.id === (listing as unknown as { sellerId?: string }).sellerId ? (
+                  <div className="bd-card p-4">
+                    <div className="text-sm font-semibold">This is your listing</div>
+                    <div className="mt-2 text-xs text-neutral-600">Buyers can message you from this page.</div>
+                  </div>
+                ) : (
                   viewerId ? (
                     <MessageSellerButton listingId={(listing as unknown as { id: string }).id} />
                   ) : (
@@ -314,6 +319,9 @@ const scrubbedDescriptionText = rawDescriptionText
                       >
                         Log in
                       </ClickableLink>
+                      <div className="mt-3 text-xs text-black/60">
+                        Tip: keep personal info minimal until you&apos;re confident.
+                      </div>
                     </div>
                   )
                 )}
