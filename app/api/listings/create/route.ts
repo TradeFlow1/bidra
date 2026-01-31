@@ -56,6 +56,20 @@ try {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
+    // LOC-01: listings must always have a location.
+    // Default to the seller's saved profile location (postcode + suburb + state).
+    const me = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { postcode: true, suburb: true, state: true },
+    });
+
+    const mePostcode = String(me?.postcode ?? "").trim();
+    const meSuburb   = String(me?.suburb ?? "").trim();
+    const meState    = String(me?.state ?? "").trim();
+
+    const defaultLocation =
+      mePostcode && meSuburb && meState ? `${mePostcode} ${meSuburb}, ${meState}` : "";
+
     // If currently blocked (policy ladder)
     const pb = await isPolicyBlocked(session.user.id);
     if (pb.blocked) {
@@ -96,7 +110,15 @@ try {
 
       return s;
     }
-    const location = normalizeLocation(String(body.location || ""));
+    const rawLocationIn = String(body.location || "").trim();
+    const location = normalizeLocation(rawLocationIn || defaultLocation);
+
+    if (!location) {
+      return NextResponse.json(
+        { error: "Location is required. Please set your Account location (postcode + suburb + state) and try again." },
+        { status: 400 }
+      );
+    }
 
     const typeRaw = body.type;
     const type: ListingTypeIn = isAllowedType(typeRaw) ? typeRaw : "FIXED_PRICE";
