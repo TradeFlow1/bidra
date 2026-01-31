@@ -71,6 +71,12 @@ export default async function ListingsPage({
   const location = cleanStr(searchParams?.location);
   const sort = cleanStr(searchParams?.sort);
 
+  // PERF: if no filters are set, use the cached public feed API (CDN) instead of Prisma.
+  const hasAnyFilters =
+    !!q || !!category || !!type || !!condition || !!location || !!searchParams?.min || !!searchParams?.max || !!sort;
+
+  const baseUrl = (process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/+$/, "");
+
   const minCents = parseMoneyToCents(searchParams?.min);
   const maxCents = parseMoneyToCents(searchParams?.max);
 
@@ -155,7 +161,26 @@ export default async function ListingsPage({
       ? { endsAt: "asc" }
       : { createdAt: "desc" };
 
-  const listings = await prisma.listing.findMany({
+  let listings: any[] = [];
+
+  if (!hasAnyFilters) {
+    try {
+      const res = await fetch(`${baseUrl}/api/listings`, {
+        // Ensure we benefit from Vercel CDN caching rules set on the API route
+        cache: "force-cache",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const arr = Array.isArray(data?.listings) ? data.listings : [];
+        listings = arr;
+      }
+    } catch {
+      // If API fetch fails, fall back to Prisma below (best effort)
+    }
+  }
+
+  if (hasAnyFilters || !listings.length) {
+  listings = await prisma.listing.findMany({
     where: finalWhere,
     orderBy,
     take: 50,
@@ -183,6 +208,7 @@ export default async function ListingsPage({
       },
     },
   });
+  }
 
   // Watch status (single query)
   const session = await getServerSession(authOptions);
