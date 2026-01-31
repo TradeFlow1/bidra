@@ -17,7 +17,7 @@ How to use:
 - [ ] Mobile layout not broken
 - [ ] Buttons/links clickable and not overlapping
 - [ ] Copy is professional (no placeholder/beta/unfinished wording)
-- [ ] No mojibake (â€™, Ã—, etc.)
+- [ ] No mojibake (e.g., encoding artifacts like broken apostrophes/dashes)
 
 ## Route checklist
 
