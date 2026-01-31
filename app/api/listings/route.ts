@@ -69,6 +69,14 @@ export async function GET(req: Request) {
     const url = new URL(req.url);
     const wantLocal = url.searchParams.get("local") === "1";
 
+    // Caching rule:
+    // - If local=1 was requested, NEVER allow caching (even if user isn't signed in),
+    //   because the intent is personalised/local ordering.
+    // - Otherwise allow short CDN caching for the public feed.
+    const cacheControl = wantLocal
+      ? "no-store"
+      : "public, s-maxage=10, stale-while-revalidate=60";
+
     // If local requested, try to get adult session.
     // If not signed in / not adult, we silently fall back to normal ordering.
     let meUserId: string | null = null;
@@ -159,10 +167,10 @@ export async function GET(req: Request) {
         .map((x: any) => x.l)
         .slice(0, 24);
 
-      return NextResponse.json({ listings: ranked.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: { "Cache-Control": "no-store" } });
+      return NextResponse.json({ listings: ranked.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: { "Cache-Control": cacheControl } });
     }
 
-    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: { "Cache-Control": "public, s-maxage=10, stale-while-revalidate=60" } });
+    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: { "Cache-Control": cacheControl } });
   } catch (err) {
     console.error("GET /api/listings failed", err);
     return NextResponse.json({ error: "Failed to load listings" }, { status: 500 });
