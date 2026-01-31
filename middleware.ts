@@ -18,7 +18,16 @@ function isProtected(pathname: string) {
     pathname.startsWith("/legal") ||
     pathname.startsWith("/support") ||
     pathname.startsWith("/contact") ||
-    pathname.startsWith("/feedback")
+    pathname.startsWith("/feedback") ||
+    pathname.startsWith("/how-it-works") ||
+    pathname.startsWith("/about") ||
+    pathname.startsWith("/pricing") ||
+    pathname.startsWith("/browse") ||
+    pathname.startsWith("/listings") ||
+    pathname === "/" ||
+    pathname === "/terms" ||
+    pathname === "/privacy" ||
+    pathname === "/prohibited-items"
   ) {
     return false;
   }
@@ -32,7 +41,8 @@ function isProtected(pathname: string) {
     pathname.startsWith("/orders") ||
     pathname.startsWith("/profile") ||
     pathname.startsWith("/notifications") ||
-    pathname.startsWith("/admin")
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/watchlist")
   );
 }
 
@@ -51,12 +61,33 @@ function needsPhoneGate(pathname: string) {
 }
 
 export async function middleware(req: NextRequest) {
-  const host = (req.headers.get("host") || "").toLowerCase();
   const url = req.nextUrl;
+  const pathname = url.pathname;
+
+  // NEVER redirect/gate auth pages or NextAuth
+  if (pathname.startsWith("/auth")) return NextResponse.next();
+  if (pathname.startsWith("/api/auth")) return NextResponse.next();
+
+  // NEVER redirect/gate API routes (APIs enforce auth/18+ internally)
+  if (pathname.startsWith("/api")) return NextResponse.next();
+
+  // NEVER touch static / brand assets
+  if (
+    pathname.startsWith("/_next") ||
+    pathname === "/favicon.ico" ||
+    pathname === "/icon.png" ||
+    pathname === "/robots.txt" ||
+    pathname === "/sitemap.xml" ||
+    pathname.startsWith("/brand")
+  ) {
+    return NextResponse.next();
+  }
+
+  const host = ((req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? "")).toLowerCase();
 
   const canonical = (process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || "").replace(/\/$/, "");
   if (canonical) {
-    // 1) Force apex -> www (or whatever canonical host is)
+    // 1) Force apex -> canonical host (prevents host-only cookie mismatch)
     try {
       const canon = new URL(canonical);
       const canonHost = canon.host.toLowerCase();
@@ -80,30 +111,8 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // 3) Phone verification gate (STEP 1E)
-  const pathname = url.pathname;
-
-// NEVER redirect/gate auth pages or NextAuth
-if (pathname.startsWith("/auth")) return NextResponse.next();
-if (pathname.startsWith("/api/auth")) return NextResponse.next();
-
-// NEVER redirect/gate API routes (APIs enforce auth/18+ internally)
-if (pathname.startsWith("/api")) return NextResponse.next();
-
-// NEVER touch static / brand assets
-if (
-  pathname.startsWith("/_next") ||
-  pathname === "/favicon.ico" ||
-  pathname === "/icon.png" ||
-  pathname === "/robots.txt" ||
-  pathname === "/sitemap.xml" ||
-  pathname.startsWith("/brand")
-) {
-  return NextResponse.next();
-}
-
-// Only gate real app pages that need auth/18+
-if (!isProtected(pathname)) return NextResponse.next();
+  // Only gate real app pages that need auth/18+
+  if (!isProtected(pathname)) return NextResponse.next();
 
   const token: any = await getToken({ req });
   if (!token) {
