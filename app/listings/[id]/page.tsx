@@ -308,12 +308,12 @@ const scrubbedDescriptionText = rawDescriptionText
                     <div className="bd-card p-4">
                       <div className="text-sm font-semibold">Log in to message seller</div>
                       <div className="mt-2 text-xs text-neutral-600">Messaging is available after you log in.</div>
-                      <Link
+                      <ClickableLink
                         href={`/auth/login?next=/listings/${(listing as unknown as { id: string }).id}`}
-                        className="bd-btn bd-btn-primary mt-3 inline-flex"
+                        className="mt-3 inline-flex text-xs"
                       >
                         Log in
-                      </Link>
+                      </ClickableLink>
                     </div>
                   )
                 )}
@@ -441,12 +441,12 @@ const scrubbedDescriptionText = rawDescriptionText
                         <div className="mt-2 text-xs text-neutral-600">
                           Offers are not an automatic sale. After this listing ends, the seller may accept an offer (usually the highest).
                         </div>
-                        <Link
+                        <ClickableLink
                           href={`/auth/login?next=/listings/${(listing as unknown as { id: string }).id}`}
-                          className="bd-btn bd-btn-primary mt-3 inline-flex"
+                          className="mt-3 inline-flex text-xs"
                         >
                           Log in
-                        </Link>
+                        </ClickableLink>
                       </>
                     )}
                   </div>
