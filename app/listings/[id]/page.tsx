@@ -300,9 +300,23 @@ const scrubbedDescriptionText = rawDescriptionText
               <ReportListingButton listingId={(listing as unknown as { id: string }).id} />
 
               <div>
-                {session?.user?.id === (listing as unknown as { sellerId?: string }).sellerId ? null : <MessageSellerButton listingId={(listing as unknown as { id: string }).id} />}
+                {session?.user?.id === (listing as unknown as { sellerId?: string }).sellerId ? null : (
+                  viewerId ? (
+                    <MessageSellerButton listingId={(listing as unknown as { id: string }).id} />
+                  ) : (
+                    <div className="bd-card p-4">
+                      <div className="text-sm font-semibold">Log in to message seller</div>
+                      <div className="mt-2 text-xs text-neutral-600">Messaging is available after you log in.</div>
+                      <Link
+                        href={`/auth/login?next=/listings/${(listing as unknown as { id: string }).id}`}
+                        className="bd-btn bd-btn-primary mt-3 inline-flex"
+                      >
+                        Log in
+                      </Link>
+                    </div>
+                  )
+                )}
               </div>
-
               {session?.user?.id && (isAdmin || (listing as unknown as { sellerId?: string }).sellerId === session.user.id) ? <DeleteListingButton id={(listing as unknown as { id: string }).id} /> : null}
 
               {isSeller ? (
