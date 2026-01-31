@@ -83,9 +83,29 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  const host = ((req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? "")).toLowerCase();
+  const proto = String(req.headers.get("x-forwarded-proto") ?? url.protocol.replace(":", "")).toLowerCase();
+  const host = String(req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? "").toLowerCase();
 
   const canonical = (process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || "").replace(/\/$/, "");
+
+  // 0) Force HTTPS (prefer canonical to avoid double redirects)
+  if (proto === "http") {
+    if (canonical) {
+      try {
+        const target = new URL(canonical);
+        target.protocol = "https:";
+        target.pathname = url.pathname;
+        target.search = url.search;
+        return NextResponse.redirect(target, 308);
+      } catch {
+        // ignore malformed canonical; fall through to same-host https redirect
+      }
+    }
+    const target = url.clone();
+    target.protocol = "https:";
+    return NextResponse.redirect(target, 308);
+  }
+
   if (canonical) {
     // 1) Force apex -> canonical host (prevents host-only cookie mismatch)
     try {
