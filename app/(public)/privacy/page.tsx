@@ -1,7 +1,7 @@
 ﻿import { redirect } from "next/navigation";
 
-export const metadata = { title: "Bidra | Privacy Policy" };
+export const dynamic = "force-dynamic";
 
-export default function Page() {
+export default function RedirectPage() {
   redirect("/legal/privacy");
 }
