@@ -98,8 +98,33 @@ function sanitizeDescription(input: string): string {
 
       return s;
     }
+    function isValidAuLocation(s: string): boolean {
+      const v = String(s || "").trim();
+      if (!v) return false;
+      const m = v.match(/^(\d{4})\s+(.+?),\s*([A-Za-z]{2,3})$/);
+      if (!m) return false;
+      const st = m[3].toUpperCase();
+      const ok = new Set(["NSW","VIC","QLD","WA","SA","TAS","ACT","NT"]);
+      if (!ok.has(st)) return false;
+      return true;
+    }
+
     const rawLocationIn = String(body.location || "").trim();
     const location = normalizeLocation(rawLocationIn || defaultLocation);
+
+    if (!location) {
+      return NextResponse.json(
+        { error: "Location is required. Please set your Account location (postcode + suburb + state) and try again." },
+        { status: 400 }
+      );
+    }
+
+    if (!isValidAuLocation(location)) {
+      return NextResponse.json(
+        { error: "Invalid location. Use format like: 4000 Brisbane, QLD (postcode + suburb + state)." },
+        { status: 400 }
+      );
+    }
 
     if (!location) {
       return NextResponse.json(
