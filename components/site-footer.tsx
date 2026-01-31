@@ -17,7 +17,7 @@ export default function SiteFooter() {
           <div className="font-semibold text-gray-900 mb-2">Trust & Safety</div>
           <ul className="space-y-1">
   <li>
-    <Link href="/legal/privacy" className="bd-link font-semibold">Privacy Policy</Link>
+    <Link href="/how-it-works" className="bd-link font-semibold">How it works</Link><Link href="/legal/privacy" className="bd-link font-semibold">Privacy Policy</Link>
   </li>
   <li>
     <Link href="/legal/terms" className="bd-link font-semibold">Terms of Service</Link>
@@ -27,6 +27,7 @@ export default function SiteFooter() {
   </li>
   <li>
     <Link href="/support" className="bd-link font-semibold">Support & Safety</Link>
+<Link href="/contact" className="bd-link font-semibold">Contact</Link>
   </li>
   <li>
     <Link href="/feedback" className="bd-link font-semibold">Feedback</Link>
