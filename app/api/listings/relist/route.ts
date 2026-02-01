@@ -1,5 +1,7 @@
 ﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { listingLooksProhibited } from "@/lib/prohibited-items";
+import { applyPolicyStrike } from "@/lib/policy-strike";
 import { requireAdult } from "@/lib/require-adult";
 
 type RelistTxResult =
@@ -40,7 +42,7 @@ export async function POST(req: Request) {
     const updated: RelistTxResult = await prisma.$transaction(async (tx) => {
       const listing = await tx.listing.findUnique({
         where: { id: listingId },
-        select: { id: true, sellerId: true, status: true },
+        select: { id: true, sellerId: true, status: true, title: true, description: true, category: true, images: true },
       });
 
       if (!listing) return { ok: false, status: 404 as const, error: "Listing not found." };
@@ -63,6 +65,37 @@ export async function POST(req: Request) {
       if (paidOrCompleted) {
         return { ok: false, status: 409 as const, error: "This listing has been paid for and cannot be relisted." };
       }
+      
+      // Fix 13: prohibited items are blocked at relist (server-side)
+      if (listingLooksProhibited({
+        title: (listing as any)?.title,
+        description: (listing as any)?.description,
+        category: (listing as any)?.category,
+        images: (listing as any)?.images ?? null,
+      })) {
+        const strike = await applyPolicyStrike(userId);
+      
+        // audit (best-effort)
+        try {
+          await tx.adminEvent.create({
+            data: {
+              type: "LISTING_POLICY_BLOCKED_RELIST",
+              userId,
+              data: {
+                strikes: strike.strikes,
+                blockedUntil: strike.blockedUntil ? new Date(strike.blockedUntil).toISOString() : null,
+                listingId: listing.id,
+                title: (listing as any)?.title ?? "",
+                category: (listing as any)?.category ?? "",
+                at: new Date().toISOString(),
+              },
+            },
+          });
+        } catch (_e) {}
+      
+        return { ok: false, status: 400 as const, error: "This item is not permitted to be listed." };
+      }
+      
 
       const next = await tx.listing.update({
         where: { id: listingId },

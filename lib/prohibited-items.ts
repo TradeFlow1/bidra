@@ -1,82 +1,67 @@
-﻿export const PROHIBITED_KEYWORDS: string[] = [
-  // --- Nicotine / vapes ---
-  "vape","vaping","vapes","e-cig","ecig","e cig","e-cigarette","ecigarette",
-  "nicotine","nic salts","nic-salts","nicotine pouches","nicotine pouch",
-  "juul","iqos","heat not burn","pod system","vape juice","e-liquid","eliquid",
-  "disposable vape","vape pen","mods","coil","atomizer",
+﻿export type ProhibitedMatch = {
+  blocked: boolean;
+  category?: "NICOTINE_VAPE" | "ALCOHOL" | "SEXUAL_FETISH";
+  evidence?: string[];
+};
 
-  // --- Alcohol ---
-  "alcohol","booze","beer","wine","spirits","liquor","vodka","whisky","whiskey","rum","gin","tequila",
-  "champagne","prosecco","cider","seltzer",
+function norm(s: any): string {
+  return String(s ?? "").toLowerCase();
+}
 
-  // --- Sexual / fetish / porn (platform-wide prohibited) ---
-  "porn","porno","pornography","sex toy","sex toys","dildo","vibrator","butt plug","anal plug",
-  "fleshlight","masturbator","bdsm","bondage","fetish","kink","dominatrix",
-  "onlyfans","only fans","escort","prostitute","sex work","adult content","xxx",
+export function checkProhibitedListing(input: {
+  title?: string;
+  description?: string;
+  category?: string;
+  tags?: string[] | null;
+  images?: Array<string | { url?: string | null; key?: string | null }> | null;
+}): ProhibitedMatch {
+  const title = norm(input.title);
+  const desc = norm(input.description);
+  const cat = norm(input.category);
+  const tags = (input.tags ?? []).map(norm).join(" ");
+  const img = (input.images ?? [])
+    .map((x) => {
+      if (typeof x === "string") return norm(x);
+      return norm(x?.url) + " " + norm(x?.key);
+    })
+    .join(" ");
 
-  // --- Weapons / restricted ---
-  "gun","firearm","ammo","ammunition","rifle","pistol","shotgun","silencer","suppressor",
-  "switchblade","brass knuckles","knuckleduster","knuckle duster","taser","stun gun",
-  "combat knife","butterfly knife","balisong",
+  const text = [title, desc, cat, tags, img].filter(Boolean).join(" \n");
 
-  // --- Drugs / controlled ---
-  "cocaine","meth","ice","heroin","mdma","ecstasy","weed","marijuana","thc","cbd","magic mushrooms","psilocybin",
-  "steroids","anabolic","ketamine","lsd","dmt","oxy","oxycodone","fentanyl",
+  // 1) Nicotine / vapes
+  const nicotineRe =
+    /\b(vape|vaping|e-?cig|ecig|e\s*cig|nicotine|pouch(es)?|snus|juul|i(get)?\b|elf\s*bar|relx|pod\s*system)\b/i;
 
-  // --- Live animals (intent keywords only; avoid blocking pet supplies) ---
-  "puppy","puppies","kitten","kittens",
-  "live animal","live animals","live puppy","live puppies","live kitten","live kittens",
+  // 2) Alcohol
+  const alcoholRe =
+    /\b(alcohol|beer|wine|whisk(e)?y|vodka|rum|gin|tequila|champagne|bourbon|scotch|lager|cider)\b/i;
 
-  // --- Counterfeit / stolen / illegal services ---
-  "fake id","counterfeit","replica","knockoff","stolen","pirated","cracked account","hacked account"
-];
+  // 3) Sexual / fetish content (keep broad but not insane; we only need to block explicit/fetish commerce)
+  const sexualRe =
+    /\b(sex\s*toy|dildo|vibrator|butt\s*plug|anal\s*plug|bdsm|bondage|fetish|kink|lingerie\s*(for\s*sex)?|porn|onlyfans|escort|adult\s*toy)\b/i;
 
-function escapeRegex(s: string) {
-  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (nicotineRe.test(text)) return { blocked: true, category: "NICOTINE_VAPE", evidence: ["nicotine/vape keywords"] };
+  if (alcoholRe.test(text)) return { blocked: true, category: "ALCOHOL", evidence: ["alcohol keywords"] };
+  if (sexualRe.test(text)) return { blocked: true, category: "SEXUAL_FETISH", evidence: ["sexual/fetish keywords"] };
+
+  return { blocked: false };
+}
+
+/**
+ * Compatibility exports (routes expect these names)
+ * Keep logic centralized in checkProhibitedListing.
+ */
+export function listingLooksProhibited(input: {
+  title?: string;
+  description?: string;
+  category?: string;
+  tags?: string[] | null;
+  images?: Array<string | { url?: string | null; key?: string | null }> | null;
+}): boolean {
+  return checkProhibitedListing(input).blocked === true;
 }
 
 export function textLooksProhibited(text: string): boolean {
-  const t = String(text || "").toLowerCase();
-
-  return PROHIBITED_KEYWORDS.some((k) => {
-    const key = String(k || "").toLowerCase().trim();
-    if (!key) return false;
-
-    const isPhrase = /\s/.test(key);
-    const pattern = isPhrase
-      ? `(^|[^a-z0-9])${escapeRegex(key)}($|[^a-z0-9])`
-      : `\\b${escapeRegex(key)}\\b`;
-
-    try {
-      const re = new RegExp(pattern, "i");
-      return re.test(t);
-    } catch {
-      return false;
-    }
-  });
+  return checkProhibitedListing({ title: text }).blocked === true;
 }
 
-export function imagesLookProhibited(images: string[]): boolean {
-  const joined = (images || []).map((u) => String(u || "").toLowerCase()).join(" ");
-  if (!joined) return false;
-  // scan URLs/filenames/paths for blocked words (blob URLs include sanitized file name)
-  return textLooksProhibited(joined);
-}
-
-export function listingLooksProhibited(args: {
-  title: string;
-  description: string;
-  category?: string;
-  images?: string[];
-}): boolean {
-  const title = String(args.title || "");
-  const desc = String(args.description || "");
-  const cat = String(args.category || "");
-  const images = Array.isArray(args.images) ? args.images : [];
-
-  const text = `${title} ${desc} ${cat}`.toLowerCase();
-  if (textLooksProhibited(text)) return true;
-  if (imagesLookProhibited(images)) return true;
-
-  return false;
-}

@@ -211,6 +211,27 @@ if (images.length > 10) return NextResponse.json({ error: "Too many images (max 
 
     // ---- POLICY ENFORCEMENT (with strikes) ----
     if (listingLooksProhibited({ title, description, category, images })) {
+    // Fix 13: prohibited escalation (log + rate-limit repeat attempts)
+    try {
+      const prevCount = await prisma.adminEvent.count({
+        where: { type: "PROHIBITED_LISTING_BLOCKED", userId: session.user.id },
+      });
+
+      await prisma.adminEvent.create({
+        data: {
+          type: "PROHIBITED_LISTING_BLOCKED",
+          userId: session.user.id,
+          data: { titleLen: String(title ?? "").length, category: String(category ?? "") },
+        },
+      });
+
+      if (prevCount >= 2) {
+        return NextResponse.json(
+          { error: "Too many prohibited listing attempts. Please review Bidra’s prohibited items policy or contact support." },
+          { status: 429 }
+        );
+      }
+    } catch (_e) {}
       const strike = await applyPolicyStrike(session.user.id);
 
       // audit (best-effort)
