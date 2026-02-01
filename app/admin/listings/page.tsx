@@ -16,6 +16,8 @@ type AdminListingRow = {
   price: number;
   createdAt: Date;
 };
+import { formatAud } from "@/lib/money";
+
 
 export default async function AdminListings() {
   const session = await auth();
@@ -57,7 +59,7 @@ export default async function AdminListings() {
                 <div className="mt-2 flex gap-2 flex-wrap">
                   <Badge>{l.type}</Badge>
                   <Badge>{l.status}</Badge>
-                  <Badge>${(l.price / 100).toFixed(2)}</Badge>
+                  <Badge>{formatAud(l.price)}</Badge>
                 </div>
               </div>
 

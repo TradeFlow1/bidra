@@ -2,6 +2,8 @@
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
 import { sendNewTopOfferEmail } from "@/lib/email";
+import { formatAud } from "@/lib/money";
+
 
 export const dynamic = "force-dynamic";
 
@@ -70,7 +72,7 @@ export async function POST(req: Request) {
 
   if (maxCents < minNext) {
     return NextResponse.json(
-      { ok: false, error: `Offer must be at least $${(minNext / 100).toFixed(2)}.` },
+      { ok: false, error: `Offer must be at least .` },
       { status: 400 }
     );
   }
