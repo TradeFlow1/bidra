@@ -89,7 +89,13 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
 
   // New uploads (files)
   const [files, setFiles] = useState<File[]>([]);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const cameraInputRef = useRef<HTMLInputElement | null>(null);
+  const galleryInputRef = useRef<HTMLInputElement | null>(null);
+
+  const addPicked = (picked: File[]) => {
+    if (!picked || picked.length === 0) return;
+    setFiles((prev) => [...prev, ...picked].slice(0, 10));
+  };
 
   function moveImage(from: number, to: number) {
     setExistingImages((cur) => {
@@ -151,7 +157,8 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
     } finally {
       previews.forEach((p) => URL.revokeObjectURL(p.url));
       setFiles([]);
-      if (fileInputRef.current) fileInputRef.current.value = "";
+            if (cameraInputRef.current) cameraInputRef.current.value = "";
+      if (galleryInputRef.current) galleryInputRef.current.value = "";
       setIsSaving(false);
     }
   }
@@ -550,17 +557,45 @@ buyNowPrice:
                     <button
                       type="button"
                       className="bd-btn bd-btn-primary"
-                      onClick={() => fileInputRef.current?.click()}
+                      onClick={() => cameraInputRef.current?.click()}
+                      disabled={isSaving || (existingImages?.length || 0) >= 10}
+                    >
+                      Take photo
+                    </button>
+
+                    <button
+                      type="button"
+                      className="bd-btn bd-btn-primary"
+                      onClick={() => galleryInputRef.current?.click()}
                       disabled={isSaving || (existingImages?.length || 0) >= 10}
                     >
                       Add photos
                     </button>
+
                     <div className="text-xs bd-ink2">{(existingImages?.length || 0)}/10 used</div>
                   </div>
 
-                  {/* Hidden real input (no ugly "no file chosen") */}
+                  {/* Hidden inputs (separate camera vs gallery for better Samsung behavior) */}
                   <input
-                    ref={fileInputRef}
+                    ref={cameraInputRef}
+                    className="hidden"
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    onChange={(e) => {
+                      const picked = Array.from(e.target.files || []);
+                      const remaining = Math.max(0, 10 - (existingImages?.length || 0));
+                      const toAdd = picked.slice(0, Math.min(1, remaining));
+
+                      setFiles((prev) => [...prev, ...toAdd].slice(0, 10));
+                      uploadAndAppend(toAdd);
+
+                      e.currentTarget.value = "";
+                    }}
+                  />
+
+                  <input
+                    ref={galleryInputRef}
                     className="hidden"
                     type="file"
                     accept="image/*"
