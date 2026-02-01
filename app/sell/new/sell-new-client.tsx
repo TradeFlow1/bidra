@@ -641,9 +641,30 @@ const imagesToSend = uploadedUrls;
             value={type}
             onChange={(e) => setType(e.target.value as ListingTypeUI)}
           >
-            <option value="FIXED_PRICE">Fixed price</option>
-            <option value="TIMED_OFFERS">Timed offers</option>
+            <option value="FIXED_PRICE">Fixed price (Buy Now)</option>
+            <option value="TIMED_OFFERS">Timed offers (seller decides at end)</option>
           </select>
+<div className="mt-2 text-xs bd-ink2" data-testid="listing-type-help">
+  {isTimedOffers ? (
+    <>
+      <div className="font-medium text-[var(--bidra-ink)]">Timed offers (not automatic)</div>
+      <div className="mt-1">
+        Buyers can place offers until the timer ends. When it ends, you choose whether to proceed with the highest offer — nothing is sold automatically.
+        You can also add an optional <span className="font-medium">Buy Now</span> price.
+      </div>
+    </>
+  ) : (
+    <>
+      <div className="font-medium text-[var(--bidra-ink)]">Fixed price (Buy Now)</div>
+      <div className="mt-1">
+        You set a price buyers can purchase for immediately via <span className="font-medium">Buy Now</span>. You can still message buyers, but Buy Now is the fastest path to a sale.
+      </div>
+    </>
+  )}
+  <div className="mt-1">
+    <Link href="/how-it-works" className="underline underline-offset-2">How it works</Link>
+  </div>
+</div>
           <div className="mt-1 text-xs bd-ink2">
           </div>
         </div>
@@ -710,6 +731,27 @@ const imagesToSend = uploadedUrls;
               </optgroup>
             ))}
           </select>
+<div className="mt-2 text-xs bd-ink2" data-testid="listing-type-help">
+  {isTimedOffers ? (
+    <>
+      <div className="font-medium text-[var(--bidra-ink)]">Timed offers (not automatic)</div>
+      <div className="mt-1">
+        Buyers can place offers until the timer ends. When it ends, you choose whether to proceed with the highest offer — nothing is sold automatically.
+        You can also add an optional <span className="font-medium">Buy Now</span> price.
+      </div>
+    </>
+  ) : (
+    <>
+      <div className="font-medium text-[var(--bidra-ink)]">Fixed price (Buy Now)</div>
+      <div className="mt-1">
+        You set a price buyers can purchase for immediately via <span className="font-medium">Buy Now</span>. You can still message buyers, but Buy Now is the fastest path to a sale.
+      </div>
+    </>
+  )}
+  <div className="mt-1">
+    <Link href="/how-it-works" className="underline underline-offset-2">How it works</Link>
+  </div>
+</div>
         </div>
 
         <div>
@@ -720,6 +762,27 @@ const imagesToSend = uploadedUrls;
             <option value="USED">Used</option>
             <option value="FOR_PARTS">For parts</option>
           </select>
+<div className="mt-2 text-xs bd-ink2" data-testid="listing-type-help">
+  {isTimedOffers ? (
+    <>
+      <div className="font-medium text-[var(--bidra-ink)]">Timed offers (not automatic)</div>
+      <div className="mt-1">
+        Buyers can place offers until the timer ends. When it ends, you choose whether to proceed with the highest offer — nothing is sold automatically.
+        You can also add an optional <span className="font-medium">Buy Now</span> price.
+      </div>
+    </>
+  ) : (
+    <>
+      <div className="font-medium text-[var(--bidra-ink)]">Fixed price (Buy Now)</div>
+      <div className="mt-1">
+        You set a price buyers can purchase for immediately via <span className="font-medium">Buy Now</span>. You can still message buyers, but Buy Now is the fastest path to a sale.
+      </div>
+    </>
+  )}
+  <div className="mt-1">
+    <Link href="/how-it-works" className="underline underline-offset-2">How it works</Link>
+  </div>
+</div>
         </div>
 
         <div>
@@ -765,6 +828,27 @@ const imagesToSend = uploadedUrls;
                 <option value="10">10 days</option>
                 <option value="14">14 days</option>
               </select>
+<div className="mt-2 text-xs bd-ink2" data-testid="listing-type-help">
+  {isTimedOffers ? (
+    <>
+      <div className="font-medium text-[var(--bidra-ink)]">Timed offers (not automatic)</div>
+      <div className="mt-1">
+        Buyers can place offers until the timer ends. When it ends, you choose whether to proceed with the highest offer — nothing is sold automatically.
+        You can also add an optional <span className="font-medium">Buy Now</span> price.
+      </div>
+    </>
+  ) : (
+    <>
+      <div className="font-medium text-[var(--bidra-ink)]">Fixed price (Buy Now)</div>
+      <div className="mt-1">
+        You set a price buyers can purchase for immediately via <span className="font-medium">Buy Now</span>. You can still message buyers, but Buy Now is the fastest path to a sale.
+      </div>
+    </>
+  )}
+  <div className="mt-1">
+    <Link href="/how-it-works" className="underline underline-offset-2">How it works</Link>
+  </div>
+</div>
             </div>
           </>
         )}
