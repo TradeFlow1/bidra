@@ -11,125 +11,195 @@ function H2({ children }: { children: any }) {
 function H3({ children }: { children: any }) {
   return <h3 className="text-base font-extrabold bd-ink">{children}</h3>;
 }
-function Bullet({ children }: { children: any }) {
+function P({ children }: { children: any }) {
+  return <p className="text-sm bd-ink2 leading-7">{children}</p>;
+}
+function Li({ children }: { children: any }) {
   return <li className="text-sm bd-ink2 leading-7">{children}</li>;
 }
-function Callout({ children }: { children: any }) {
-  return (
-    <div className="rounded-xl border bd-bd bg-white p-4 text-sm bd-ink2 leading-7">
-      {children}
-    </div>
-  );
-}
 
-export default function PrivacyPage() {
+const SUPPORT_EMAIL = "support@bidra.com.au";
+
+export default function PrivacyPolicyPage() {
+  const today = new Date().toISOString().slice(0, 10);
+
   return (
     <main className="bd-shell py-10">
       <div className="mx-auto max-w-3xl space-y-6">
         <header className="space-y-3">
           <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Privacy Policy</h1>
-          <p className="bd-ink2 leading-7">
-            This policy explains how Bidra collects, uses, stores, and shares information when you browse or use the marketplace.
-            Bidra is an Australian platform marketplace; items are listed and sold by users.
-          </p>
-          <Callout>
-            <strong className="bd-ink">Plain-language summary:</strong>{" "}
-            <span className="bd-ink2">
-              We collect only what we need to run the platform (accounts, listings, messages, orders, safety).
-              We don’t sell your personal information.
-            </span>
-          </Callout>
+          <P>
+            Bidra is an Australian marketplace platform. This Privacy Policy explains how we collect, use, disclose, and store
+            personal information when you use Bidra.
+          </P>
+          <div className="rounded-xl border bd-bd bg-white p-4 text-sm bd-ink2 leading-7">
+            <div>
+              <span className="font-semibold bd-ink">Effective:</span> {today}
+            </div>
+            <div className="mt-1">
+              <span className="font-semibold bd-ink">Contact:</span>{" "}
+              <a className="bd-link font-semibold" href={`mailto:${SUPPORT_EMAIL}`}>
+                {SUPPORT_EMAIL}
+              </a>
+            </div>
+          </div>
         </header>
 
         <div className="rounded-2xl border bd-bd bg-white p-6 space-y-8">
           <section className="space-y-2">
-            <H2>1) What we collect</H2>
-            <ul className="mt-2 list-disc pl-6 space-y-1">
-              <Bullet><strong className="bd-ink">Account data</strong> (e.g., email, username/display name, password hash, verification status).</Bullet>
-              <Bullet><strong className="bd-ink">Profile/location</strong> (e.g., suburb/state/postcode) used to show approximate location and improve local browsing.</Bullet>
-              <Bullet><strong className="bd-ink">Listings</strong> (photos, title, description, condition, price, category, location shown on the listing).</Bullet>
-              <Bullet><strong className="bd-ink">Messages</strong> between users (used to operate chat, moderation, and safety enforcement).</Bullet>
-              <Bullet><strong className="bd-ink">Orders and activity</strong> (order events, offer events, basic logs needed for platform integrity).</Bullet>
-              <Bullet><strong className="bd-ink">Technical data</strong> (IP address, device/browser data, cookies/session data, and diagnostic logs to prevent fraud and keep the service stable).</Bullet>
+            <H2>1) Who we are</H2>
+            <P>
+              “Bidra”, “we”, “us”, or “our” refers to the Bidra platform. Bidra provides tools for listings, messaging, offers, and orders.
+              Items are sold by users. Unless clearly stated otherwise, Bidra is not the seller of items listed by users.
+            </P>
+          </section>
+
+          <section className="space-y-3">
+            <H2>2) What we collect</H2>
+            <div className="space-y-2">
+              <H3>Information you provide</H3>
+              <ul className="list-disc pl-6 space-y-1">
+                <Li>Account details: email, password (stored as a secure hash), and profile details you choose to provide.</Li>
+                <Li>Age eligibility: date of birth or other signals used to enforce Bidra’s 18+ account policy.</Li>
+                <Li>Location details: suburb, state, and postcode (used to show listings and help buyers/sellers coordinate).</Li>
+                <Li>Listings content: titles, descriptions, categories, photos, and related listing details.</Li>
+                <Li>Messages: content you send in Bidra message threads.</Li>
+                <Li>Orders and offers: actions you take (e.g., placing offers, Buy Now purchases, accepting offers).</Li>
+                <Li>Reports and feedback: reports you submit, and any feedback/reviews you choose to leave.</Li>
+              </ul>
+            </div>
+
+            <div className="space-y-2">
+              <H3>Information collected automatically</H3>
+              <ul className="list-disc pl-6 space-y-1">
+                <Li>Device and log data: IP address, browser type, pages viewed, timestamps, and basic diagnostic events.</Li>
+                <Li>Cookies and similar technologies: used for login sessions, security, and performance.</Li>
+              </ul>
+              <P>
+                We try to minimise collection and only collect what we need to operate Bidra safely and reliably.
+              </P>
+            </div>
+          </section>
+
+          <section className="space-y-2">
+            <H2>3) How we use personal information</H2>
+            <ul className="list-disc pl-6 space-y-1">
+              <Li>To create and manage accounts and enforce eligibility (including 18+ accounts).</Li>
+              <Li>To provide platform features (listings, messaging, offers, orders, watchlist).</Li>
+              <Li>To prevent fraud, abuse, prohibited items, and unsafe behaviour.</Li>
+              <Li>To respond to support requests and investigate reports.</Li>
+              <Li>To maintain system security, performance, and debugging.</Li>
+              <Li>To comply with legal obligations and respond to lawful requests.</Li>
             </ul>
           </section>
 
           <section className="space-y-2">
-            <H2>2) Why we collect it</H2>
-            <ul className="mt-2 list-disc pl-6 space-y-1">
-              <Bullet>To create and manage accounts, authentication, and security.</Bullet>
-              <Bullet>To publish listings, enable messaging, offers, and orders.</Bullet>
-              <Bullet>To prevent fraud, detect abuse, and enforce prohibited items and safety rules.</Bullet>
-              <Bullet>To provide customer support and respond to reports.</Bullet>
-              <Bullet>To improve the product (performance, reliability, usability) using aggregated diagnostics.</Bullet>
+            <H2>4) When we share information</H2>
+            <P>We may share limited personal information in the following circumstances:</P>
+            <ul className="list-disc pl-6 space-y-1">
+              <Li>
+                <span className="font-semibold bd-ink">Between buyers and sellers:</span> information shown in listings and messages,
+                and information needed to complete an order (for example, arranging pickup/delivery).
+              </Li>
+              <Li>
+                <span className="font-semibold bd-ink">Service providers:</span> infrastructure, hosting, analytics, and email services
+                that support Bidra (they process data on our instructions).
+              </Li>
+              <Li>
+                <span className="font-semibold bd-ink">Safety and legal:</span> where required by law, to enforce our Terms, to protect users,
+                or to respond to safety incidents.
+              </Li>
+            </ul>
+            <P>
+              We do not sell personal information.
+            </P>
+          </section>
+
+          <section className="space-y-2">
+            <H2>5) Messages and moderation</H2>
+            <P>
+              Messages are stored to deliver the messaging feature, investigate reports, and enforce platform safety.
+              We may review messages and listings content where needed to respond to reports, suspected scams, harassment, or prohibited items.
+            </P>
+            <P>
+              If you see suspicious behaviour, report the listing or message thread. See{" "}
+              <Link href="/support" className="bd-link font-semibold">
+                Support &amp; Safety →
+              </Link>
+              .
+            </P>
+          </section>
+
+          <section className="space-y-2">
+            <H2>6) Cookies</H2>
+            <P>
+              Bidra uses cookies (or similar technologies) to keep you signed in, protect your account, and help the site work correctly.
+              You can usually control cookies through your browser settings, but some site features may not work without them.
+            </P>
+          </section>
+
+          <section className="space-y-2">
+            <H2>7) Data storage, security, and retention</H2>
+            <P>
+              We store personal information using reputable infrastructure and apply reasonable safeguards (access controls, encryption in transit,
+              and secure password hashing). No online service is 100% secure, but we work to protect your data.
+            </P>
+            <P>
+              We retain information only as long as needed to operate Bidra, comply with legal obligations, resolve disputes, and enforce safety.
+              We may keep logs and audit events for longer where needed for security and abuse prevention.
+            </P>
+          </section>
+
+          <section className="space-y-2">
+            <H2>8) Access, correction, and complaints</H2>
+            <P>
+              You can request access to, or correction of, your personal information. If you have a privacy concern or complaint, contact us at{" "}
+              <a className="bd-link font-semibold" href={`mailto:${SUPPORT_EMAIL}`}>
+                {SUPPORT_EMAIL}
+              </a>
+              . We’ll respond within a reasonable time.
+            </P>
+          </section>
+
+          <section className="space-y-2">
+            <H2>9) Under 18s</H2>
+            <P>
+              Bidra accounts are for users aged 18+. Under 18s may be able to browse public pages but cannot create accounts or transact.
+              If you believe a minor has created an account, contact us.
+            </P>
+          </section>
+
+          <section className="space-y-2">
+            <H2>10) Changes to this policy</H2>
+            <P>
+              We may update this Privacy Policy from time to time. We’ll post the updated version on this page and update the effective date.
+            </P>
+          </section>
+
+          <section className="space-y-2">
+            <H2>Related pages</H2>
+            <ul className="list-disc pl-6 space-y-1">
+              <Li>
+                <Link href="/legal/terms" className="bd-link font-semibold">
+                  Terms →
+                </Link>
+              </Li>
+              <Li>
+                <Link href="/legal/prohibited-items" className="bd-link font-semibold">
+                  Prohibited Items →
+                </Link>
+              </Li>
+              <Li>
+                <Link href="/contact" className="bd-link font-semibold">
+                  Contact →
+                </Link>
+              </Li>
             </ul>
           </section>
-
-          <section className="space-y-2">
-            <H2>3) What we share (and what we don’t)</H2>
-            <p className="text-sm bd-ink2 leading-7">
-              We share only what is necessary to operate the marketplace and meet safety/legal requirements.
-            </p>
-            <ul className="mt-2 list-disc pl-6 space-y-1">
-              <Bullet><strong className="bd-ink">Public content:</strong> listings and seller display name are visible to users.</Bullet>
-              <Bullet><strong className="bd-ink">Service providers:</strong> hosting, database, email delivery, analytics/monitoring (as needed to operate the site).</Bullet>
-              <Bullet><strong className="bd-ink">Safety/legal:</strong> we may disclose information if required by law or to protect users (e.g., responding to lawful requests).</Bullet>
-            </ul>
-            <p className="text-sm bd-ink2 leading-7">
-              <strong className="bd-ink">We do not sell personal information.</strong>
-            </p>
-          </section>
-
-          <section className="space-y-2">
-            <H2>4) Cookies and tracking</H2>
-            <p className="text-sm bd-ink2 leading-7">
-              We use cookies and similar technologies for login sessions, security, and site functionality.
-              We may also use limited analytics to understand usage and improve performance.
-            </p>
-          </section>
-
-          <section className="space-y-2">
-            <H2>5) Data retention</H2>
-            <p className="text-sm bd-ink2 leading-7">
-              We keep information only as long as needed for platform operation, safety enforcement, dispute handling, and legal obligations.
-              Some logs or records may be retained longer where required for fraud prevention or compliance.
-            </p>
-          </section>
-
-          <section className="space-y-2">
-            <H2>6) Your choices and rights</H2>
-            <ul className="mt-2 list-disc pl-6 space-y-1">
-              <Bullet>You can update your profile information in your account settings.</Bullet>
-              <Bullet>You can request access to, correction of, or deletion of certain personal information (subject to legal/safety retention requirements).</Bullet>
-              <Bullet>You can choose what you include in listings and messages — avoid sharing sensitive information.</Bullet>
-            </ul>
-          </section>
-
-          <section className="space-y-2">
-            <H2>7) Children</H2>
-            <p className="text-sm bd-ink2 leading-7">
-              Bidra accounts are for adults aged 18+. Under 18s may browse publicly but cannot create accounts, list items, message, make offers, or transact.
-            </p>
-          </section>
-
-          <section className="space-y-2">
-            <H2>8) Contact</H2>
-            <p className="text-sm bd-ink2 leading-7">
-              For privacy questions or requests, contact us via the Contact page.
-            </p>
-            <p className="text-sm">
-              <Link href="/contact" className="bd-link font-semibold">Contact →</Link>
-            </p>
-          </section>
-
-          <p className="text-xs bd-ink2 opacity-70">
-            This policy is intended for use in Australia. We may update it over time — the latest version is always posted here.
-          </p>
         </div>
 
         <p className="text-xs bd-ink2 opacity-70">
-          Related: <Link href="/legal/terms" className="bd-link font-semibold">Terms</Link> ·{" "}
-          <Link href="/support" className="bd-link font-semibold">Support &amp; Safety</Link>
+          This Privacy Policy is general information about how Bidra handles personal information on the platform.
         </p>
       </div>
     </main>
