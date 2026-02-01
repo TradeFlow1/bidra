@@ -3,26 +3,30 @@
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const metadata = { title: "Legal — Bidra" };
+export const metadata = { title: "Legal & Policies — Bidra" };
 
-function Tile({
-  href,
+function H2({ children }: { children: any }) {
+  return <h2 className="text-lg font-extrabold bd-ink">{children}</h2>;
+}
+function Card({
   title,
   desc,
+  href,
 }: {
-  href: string;
   title: string;
   desc: string;
+  href: string;
 }) {
   return (
-    <Link
-      href={href}
-      className="block rounded-2xl border bd-bd bg-white p-5 hover:shadow-sm transition-shadow"
-    >
+    <div className="rounded-2xl border bd-bd bg-white p-5">
       <div className="text-sm font-extrabold bd-ink">{title}</div>
-      <div className="mt-1 text-sm bd-ink2 leading-6">{desc}</div>
-      <div className="mt-3 text-sm font-semibold bd-link">Open →</div>
-    </Link>
+      <div className="mt-1 text-sm bd-ink2 leading-7">{desc}</div>
+      <div className="mt-3">
+        <Link className="bd-link font-semibold" href={href}>
+          Open →
+        </Link>
+      </div>
+    </div>
   );
 }
 
@@ -31,48 +35,62 @@ export default function LegalHubPage() {
     <main className="bd-shell py-10">
       <div className="mx-auto max-w-3xl space-y-6">
         <header className="space-y-3">
-          <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Legal</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Legal &amp; Policies</h1>
           <p className="bd-ink2 leading-7">
-            Bidra is an Australian marketplace platform. Bidra is not the seller of items listed by users.
+            These pages explain how Bidra works, what’s allowed, and how we handle privacy, fees, and safety.
+            Bidra is a platform marketplace — items are listed and sold by users.
           </p>
-
           <div className="rounded-xl border bd-bd bg-white p-4 text-sm bd-ink2 leading-7">
-            <strong className="bd-ink">Plain-English note:</strong> These pages explain how Bidra works, what’s allowed,
-            and what users agree to when using the platform.
+            <strong className="bd-ink">Quick start:</strong>{" "}
+            New here? Read{" "}
+            <Link href="/how-it-works" className="bd-link font-semibold">How it works</Link>, then{" "}
+            <Link href="/legal/terms" className="bd-link font-semibold">Terms</Link> and{" "}
+            <Link href="/legal/privacy" className="bd-link font-semibold">Privacy</Link>.
           </div>
         </header>
 
-        <div className="grid gap-4">
-          <Tile
-            href="/legal/terms"
-            title="Terms of Use"
-            desc="Rules for using Bidra, including accounts, listings, messaging, and orders."
-          />
-          <Tile
-            href="/legal/privacy"
-            title="Privacy Policy"
-            desc="How Bidra collects and uses information, and your privacy choices."
-          />
-          <Tile
-            href="/legal/prohibited-items"
-            title="Prohibited Items"
-            desc="What can’t be listed. Attempted prohibited listings may be blocked."
-          />
-          <Tile
-            href="/legal/fees"
-            title="Fees"
-            desc="What’s free and when fees may apply. No hidden fees."
-          />
-          <Tile
-            href="/support"
-            title="Support & Safety"
-            desc="Safety guidance, scam awareness, and how to get help."
-          />
-        </div>
+        <div className="rounded-2xl border bd-bd bg-white p-6 space-y-6">
+          <section className="space-y-3">
+            <H2>Core documents</H2>
+            <div className="grid gap-3">
+              <Card
+                title="Terms of Use"
+                href="/legal/terms"
+                desc="Rules for using Bidra, eligibility (18+), platform-only role, and the two sale models (Buy Now and Timed Offers)."
+              />
+              <Card
+                title="Privacy Policy"
+                href="/legal/privacy"
+                desc="What data we collect, why we collect it, who we share it with, how long we retain it, and your rights in Australia."
+              />
+              <Card
+                title="Fees"
+                href="/legal/fees"
+                desc="How fees work (if applicable), when they apply, and examples of how totals are calculated."
+              />
+              <Card
+                title="Prohibited Items"
+                href="/legal/prohibited-items"
+                desc="Items that cannot be listed. Prohibited items are blocked at listing creation and repeated attempts may lead to restrictions."
+              />
+            </div>
+          </section>
 
-        <p className="text-xs bd-ink2 opacity-70">
-          If something here is unclear, contact Support.
-        </p>
+          <section className="space-y-2">
+            <H2>Help & safety</H2>
+            <p className="text-sm bd-ink2 leading-7">
+              If you feel unsafe, stop engaging and report the listing or message thread.
+              For emergencies, contact local authorities.
+            </p>
+            <p className="text-sm">
+              <Link href="/support" className="bd-link font-semibold">Support &amp; Safety →</Link>
+            </p>
+          </section>
+
+          <p className="text-xs bd-ink2 opacity-70">
+            Plain-language summaries for Australia. We may update policies over time — the latest version is always posted here.
+          </p>
+        </div>
       </div>
     </main>
   );
