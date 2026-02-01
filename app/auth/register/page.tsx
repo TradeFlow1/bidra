@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import LocationSuggest from "./location-suggest";
 
 type FormState = {
   email: string;
@@ -424,6 +425,15 @@ export default function RegisterPage() {
                     <p className={helper}>Example: QLD, NSW, VIC</p>
                   </div>
                 </div>
+
+                <LocationSuggest
+                  query={`${form.postcode} ${form.suburb} ${form.state}`.trim()}
+                  onPick={(x) => {
+                    set("postcode", x.postcode);
+                    set("suburb", x.suburb);
+                    set("state", x.state);
+                  }}
+                />
               </div>
 
               <label className="flex items-start gap-3 rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-[#0b1220]">
