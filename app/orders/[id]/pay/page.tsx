@@ -34,7 +34,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
             <h1 className="text-3xl font-extrabold tracking-tight">Pay</h1>
             <p className="mt-2 text-sm bd-ink2">This page is restricted.</p>
             <div className="mt-5">
-              <Link className="bd-link font-semibold" href="/account">Back to account</Link>
+               <Link href="/account" className="bd-btn bd-btn-ghost">Back to account</Link>
             </div>
           </Card>
         </div>
@@ -55,7 +55,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
             <h1 className="text-3xl font-extrabold tracking-tight">Pay</h1>
             <p className="mt-2 text-sm bd-ink2">Order not found.</p>
             <div className="mt-5">
-              <Link className="bd-link font-semibold" href="/orders">Back to Orders</Link>
+               <Link href="/orders" className="bd-btn bd-btn-ghost">Back to Orders</Link>
             </div>
           </Card>
         </div>
@@ -74,7 +74,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
             <h1 className="text-3xl font-extrabold tracking-tight">Pay</h1>
             <p className="mt-2 text-sm bd-ink2">You do not have access to this order.</p>
             <div className="mt-5">
-              <Link className="bd-link font-semibold" href="/orders">Back to Orders</Link>
+               <Link href="/orders" className="bd-btn bd-btn-ghost">Back to Orders</Link>
             </div>
           </Card>
         </div>
@@ -218,7 +218,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
 
                 <div className="mt-2 text-xs bd-ink2">
                   If you're the seller and these details are wrong or blank, update them in{" "}
-                  <Link className="bd-link font-semibold" href="/profile">Account Settings</Link>.
+                  <Link href="/profile" className="bd-btn bd-btn-ghost bd-btn-sm align-middle">Account Settings</Link>.
                 </div>
               </div>
 

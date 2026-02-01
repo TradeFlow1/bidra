@@ -70,9 +70,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
       <main className="bd-container py-6 pb-14">
         <div className="bd-card p-6 space-y-3">
           <div className="text-lg font-semibold">Listing not found.</div>
-          <Link href="/listings" className="bd-link text-sm">
-            ← Back to listings
-          </Link>
+          <Link href="/listings" className="bd-btn bd-btn-ghost">← Back to listings</Link>
         </div>
       </main>
     );
@@ -103,9 +101,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
         <main className="bd-container py-6 pb-14">
           <div className="bd-card p-6 space-y-3">
             <div className="text-lg font-semibold">This listing is not available.</div>
-            <Link href="/listings" className="bd-link text-sm">
-              ← Back to listings
-            </Link>
+            <Link href="/listings" className="bd-btn bd-btn-ghost">← Back to listings</Link>
           </div>
         </main>
       );
@@ -257,9 +253,7 @@ const scrubbedDescriptionText = rawDescriptionText
     <main className="bd-container py-6 pb-14">
       <div className="bd-card p-5 max-w-6xl mx-auto">
         <div className="space-y-3">
-          <Link href="/listings" className="bd-link text-sm">
-            ← Back
-          </Link>
+          <Link href="/listings" className="bd-btn bd-btn-ghost">← Back</Link>
           <h1 className="text-2xl font-bold">{String((listing as unknown as { title?: string })?.title ?? "")}</h1>
         </div>
 
