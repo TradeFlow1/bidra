@@ -105,6 +105,16 @@ export default function SupportPage() {
 
           <section className="space-y-2">
             <H2>Need help?</H2>
+            <div className="mt-2 rounded-xl border bd-bd bg-white p-4 text-sm bd-ink2 leading-7">
+              <div className="font-semibold bd-ink">Contact Bidra Support</div>
+              <div className="mt-1">
+                Email us at <a className="bd-link font-semibold" href="mailto:support@bidra.com.au">support@bidra.com.au</a>{" "}
+                or use the <Link href="/contact" className="bd-link font-semibold">Contact form →</Link>.
+              </div>
+              <div className="mt-2 text-xs bd-ink2">
+                Include links to the listing/order/thread and any screenshots. Never share passwords or verification codes.
+              </div>
+            </div>
             <p className="text-sm bd-ink2 leading-7">
               If you need help with a listing, an order, or a safety concern, contact us and include any relevant links or screenshots.
             </p>

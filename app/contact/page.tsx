@@ -1,9 +1,13 @@
 ﻿import Link from "next/link";
+import { auth } from "@/lib/auth";
+import ContactForm from "./contact-form";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata = { title: "Contact — Bidra" };
+
+const SUPPORT_EMAIL = "support@bidra.com.au";
 
 function H2({ children }: { children: any }) {
   return <h2 className="text-lg font-extrabold bd-ink">{children}</h2>;
@@ -32,7 +36,12 @@ function Row({
   );
 }
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const session = await auth();
+  const user = session?.user;
+
+  const defaultEmail = String((user as any)?.email || "").trim();
+
   return (
     <main className="bd-shell py-10">
       <div className="mx-auto max-w-3xl space-y-6">
@@ -43,10 +52,24 @@ export default function ContactPage() {
           </p>
 
           <Callout>
+            <strong className="bd-ink">Fastest option:</strong>{" "}
+            <span className="bd-ink2">
+              Email us at{" "}
+              <a className="bd-link font-semibold" href={`mailto:${SUPPORT_EMAIL}`}>
+                {SUPPORT_EMAIL}
+              </a>
+              .
+            </span>
+          </Callout>
+
+          <Callout>
             <strong className="bd-ink">Safety first:</strong>{" "}
             <span className="bd-ink2">
               If you feel unsafe, stop engaging and report the listing or thread. For emergencies, contact local authorities.
-              See <Link href="/support" className="bd-link font-semibold">Support &amp; Safety →</Link>
+              See{" "}
+              <Link href="/support" className="bd-link font-semibold">
+                Support &amp; Safety →
+              </Link>
             </span>
           </Callout>
         </header>
@@ -91,19 +114,65 @@ export default function ContactPage() {
           <section className="space-y-2">
             <H2>Response times</H2>
             <p className="text-sm bd-ink2 leading-7">
-              We aim to respond as soon as possible. Some issues (like safety reports) are prioritised.
-              Complex investigations may take longer if we need to review logs and report history.
+              We aim to respond as soon as possible. Safety reports are prioritised. Complex investigations may take longer if we need
+              to review logs and report history.
             </p>
+          </section>
+
+          <section className="space-y-2">
+            <H2>Send a support message</H2>
+
+            {!user ? (
+              <div className="rounded-2xl border bd-bd bg-white p-5">
+                <div className="text-sm bd-ink2 leading-7">
+                  To reduce spam, the support form requires you to be signed in. You can still email us at{" "}
+                  <a className="bd-link font-semibold" href={`mailto:${SUPPORT_EMAIL}`}>
+                    {SUPPORT_EMAIL}
+                  </a>
+                  .
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Link href="/auth/login?next=/contact" className="bd-btn bd-btn-primary text-center">
+                    Log in to use the form
+                  </Link>
+                  <Link href="/auth/register" className="bd-btn text-center">
+                    Create account
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <ContactForm defaultEmail={defaultEmail} />
+            )}
           </section>
 
           <section className="space-y-2">
             <H2>Other useful pages</H2>
             <ul className="mt-2 list-disc pl-6 text-sm bd-ink2 leading-7 space-y-1">
-              <li><Link href="/how-it-works" className="bd-link font-semibold">How it works →</Link></li>
-              <li><Link href="/legal" className="bd-link font-semibold">Legal hub →</Link></li>
-              <li><Link href="/legal/prohibited-items" className="bd-link font-semibold">Prohibited items →</Link></li>
-              <li><Link href="/legal/terms" className="bd-link font-semibold">Terms →</Link></li>
-              <li><Link href="/legal/privacy" className="bd-link font-semibold">Privacy →</Link></li>
+              <li>
+                <Link href="/how-it-works" className="bd-link font-semibold">
+                  How it works →
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal" className="bd-link font-semibold">
+                  Legal hub →
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/prohibited-items" className="bd-link font-semibold">
+                  Prohibited items →
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/terms" className="bd-link font-semibold">
+                  Terms →
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/privacy" className="bd-link font-semibold">
+                  Privacy →
+                </Link>
+              </li>
             </ul>
           </section>
 
