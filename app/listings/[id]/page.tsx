@@ -244,7 +244,7 @@ const scrubbedDescriptionText = rawDescriptionText
     !isSeller &&
     (
       // FIXED_PRICE: primary path (fallback to price when buyNowPrice not set)
-      (listing.type === "FIXED_PRICE" && guidePriceCents > 0) ||
+      (listing.type === "FIXED_PRICE" && buyNowPriceCents != null && buyNowPriceCents > 0) ||
       // Timed offers: Buy Now is ONLY late-stage AND must be ABOVE current highest offer.
       (isTimedOffers && isFinalWindow && buyNowEnabled && buyNowPriceCents != null && buyNowPriceCents > highestOfferCents)
     );
