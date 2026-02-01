@@ -148,17 +148,23 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                 </div>
 
                 <div className="mt-3 grid gap-2 text-sm">
-                  {sellerPayidEmail ? (
-                    <div><span className="bd-ink2">PayID (email):</span> <b>{sellerPayidEmail}</b></div>
+                  {(sellerPayidEmail || sellerPayidMobile) ? (
+                    <>
+                      {sellerPayidEmail ? (
+                        <div><span className="bd-ink2">PayID (email):</span> <b>{sellerPayidEmail}</b></div>
+                      ) : null}
+
+                      {sellerPayidMobile ? (
+                        <div><span className="bd-ink2">PayID (mobile):</span> <b>{sellerPayidMobile}</b></div>
+                      ) : null}
+                    </>
                   ) : (
                     <div className="text-xs bd-ink2">
                       Seller payout details are missing. Please message the seller to add PayID/bank details.
                     </div>
                   )}
 
-                  {sellerPayidMobile ? (
-                    <div><span className="bd-ink2">PayID (mobile):</span> <b>{sellerPayidMobile}</b></div>
-                  ) : null}
+                  
 
                   <div><span className="bd-ink2">Reference:</span> <b>{order.id}</b></div>
                   <div><span className="bd-ink2">Amount:</span> <b>{money(order.amount)}</b></div>
@@ -178,6 +184,21 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
 
                 <div className="mt-3 text-xs bd-ink2">
                   Tip: include the reference exactly so the seller can match your payment quickly.
+                  </div>
+
+                  <div className="mt-3 bd-card p-4">
+                    <div className="text-sm font-extrabold bd-ink">Payment steps</div>
+                    <ol className="mt-2 list-decimal pl-5 text-sm bd-ink2 space-y-1">
+                      <li>Open your banking app and send <b>{money(order.amount)}</b> to the seller using PayID (preferred) or bank transfer.</li>
+                      <li>Set the payment <b>reference</b> to <b>{order.id}</b> exactly.</li>
+                      <li>After you’ve paid, press <b>I’ve paid</b> below to notify the seller.</li>
+                    </ol>
+                    <div className="mt-2 text-xs bd-ink2">
+                      Note: Bidra doesn’t verify the transfer instantly. This confirmation records your claim and helps the seller match the payment.
+                    </div>
+                  </div>
+
+                  <div className="mt-3 text-xs bd-ink2">
 
                 {!hasPayDetails ? (
                   <div className="mt-3 bd-card p-4">
