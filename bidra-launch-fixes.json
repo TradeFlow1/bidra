@@ -1,0 +1,152 @@
+﻿[
+    {
+        "Done":  true,
+        "Id":  1,
+        "Text":  "Add clear \u0027Pay now\u0027 / \u0027I\u0027ve paid\u0027 CTA for pending orders"
+    },
+    {
+        "Done":  true,
+        "Id":  2,
+        "Text":  "Force HTTPS across entire site (redirect HTTP → HTTPS)"
+    },
+    {
+        "Done":  true,
+        "Id":  3,
+        "Text":  "Fix Feedback page routing bug (must not load Privacy first)"
+    },
+    {
+        "Done":  true,
+        "Id":  4,
+        "Text":  "Show Buy Now button on fixed-price listings"
+    },
+    {
+        "Done":  true,
+        "Id":  5,
+        "Text":  "Add explicit payment instructions (bank details + steps)"
+    },
+    {
+        "Done":  true,
+        "Id":  6,
+        "Text":  "Clearly explain email verification requirement on signup + login"
+    },
+    {
+        "Done":  true,
+        "Id":  7,
+        "Text":  "Add real support contact method (email or form)"
+    },
+    {
+        "Done":  true,
+        "Id":  8,
+        "Text":  "Expand Privacy Policy and Terms to production-grade legal docs"
+    },
+    {
+        "Done":  true,
+        "Id":  9,
+        "Text":  "Improve registration UX (date picker, suburb/postcode autocomplete)"
+    },
+    {
+        "Done":  true,
+        "Id":  10,
+        "Text":  "Differentiate login errors (unverified vs wrong password)"
+    },
+    {
+        "Done":  true,
+        "Id":  11,
+        "Text":  "Allow phone + bank details in messages (add safety warning + logging + feature-flag for revert when Bidra Pay is live)"
+    },
+    {
+        "Done":  true,
+        "Id":  12,
+        "Text":  "Clarify listing types (Fixed Price vs Timed Offers) during creation"
+    },
+    {
+        "Done":  true,
+        "Id":  13,
+        "Text":  "Add report button to all listings + enforce prohibited items"
+    },
+    {
+        "Done":  true,
+        "Id":  14,
+        "Text":  "Make Bidra clearly Australian (AUD labels, AU indicators)"
+    },
+    {
+        "Done":  true,
+        "Id":  15,
+        "Text":  "Standardise all CTAs as real buttons (no text-only actions)"
+    },
+    {
+        "Done":  false,
+        "Id":  16,
+        "Text":  "Improve browse filters layout and symmetry"
+    },
+    {
+        "Done":  false,
+        "Id":  17,
+        "Text":  "Add timestamps and read clarity to messages"
+    },
+    {
+        "Done":  false,
+        "Id":  18,
+        "Text":  "Add clear order status timeline (Placed → Paid → Completed)"
+    },
+    {
+        "Done":  false,
+        "Id":  19,
+        "Text":  "Surface safety warnings near payment and messaging actions"
+    },
+    {
+        "Done":  false,
+        "Id":  20,
+        "Text":  "Clean up admin listings layout (truncate titles, align badges)"
+    },
+    {
+        "Done":  false,
+        "Id":  21,
+        "Text":  "Polish admin audit log UI (tabs, spacing, row clarity)"
+    },
+    {
+        "Done":  false,
+        "Id":  22,
+        "Text":  "Unify messages list cards (title + preview + timestamp)"
+    },
+    {
+        "Done":  false,
+        "Id":  23,
+        "Text":  "Redesign chat UI (message bubbles, send button)"
+    },
+    {
+        "Done":  false,
+        "Id":  24,
+        "Text":  "Upgrade notifications UI (real buttons, less dead space)"
+    },
+    {
+        "Done":  false,
+        "Id":  25,
+        "Text":  "Make order list actions prominent buttons"
+    },
+    {
+        "Done":  false,
+        "Id":  26,
+        "Text":  "Replace \u0027Confirm payment received\u0027 heading with real CTA"
+    },
+    {
+        "Done":  false,
+        "Id":  27,
+        "Text":  "Fix account settings layout (remove OR text, align fields)"
+    },
+    {
+        "Done":  false,
+        "Id":  28,
+        "Text":  "Standardise admin action buttons (delete, resolve, block)"
+    },
+    {
+        "Done":  false,
+        "Id":  29,
+        "Text":  "Improve admin table hierarchy (headers, spacing, tooltips)"
+    },
+    {
+        "Done":  false,
+        "Id":  30,
+        "Text":  "Add active state styling to top navigation"
+    }
+]
