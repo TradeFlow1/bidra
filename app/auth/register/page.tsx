@@ -36,10 +36,6 @@ export default function RegisterPage() {
     suburb: "",
     state: "",
   });
-  // DOB spinner state (mobile-friendly). We keep form.dob as YYYY-MM-DD.
-  const [dobDay, setDobDay] = useState("");
-  const [dobMonth, setDobMonth] = useState("");
-  const [dobYear, setDobYear] = useState("");
 
   function pad2(n: string) {
     const d = String(n || "").trim();
@@ -50,63 +46,6 @@ export default function RegisterPage() {
     // m: 1-12
     return new Date(y, m, 0).getDate();
   }
-
-  const dobYearOptions = useMemo(() => {
-    const now = new Date();
-    const max = now.getFullYear() - 18; // latest year to be 18+
-    const min = max - 100;
-    const yrs: string[] = [];
-    for (let y = max; y >= min; y--) yrs.push(String(y));
-    return yrs;
-  }, []);
-
-  const dobMonthOptions = useMemo(() => {
-    return [
-      { value: "1", label: "Jan" },
-      { value: "2", label: "Feb" },
-      { value: "3", label: "Mar" },
-      { value: "4", label: "Apr" },
-      { value: "5", label: "May" },
-      { value: "6", label: "Jun" },
-      { value: "7", label: "Jul" },
-      { value: "8", label: "Aug" },
-      { value: "9", label: "Sep" },
-      { value: "10", label: "Oct" },
-      { value: "11", label: "Nov" },
-      { value: "12", label: "Dec" },
-    ];
-  }, []);
-
-  const dobDayOptions = useMemo(() => {
-    const y = Number(dobYear || "0");
-    const m = Number(dobMonth || "0");
-    const maxD = y > 0 && m > 0 ? daysInMonth(y, m) : 31;
-    const ds: string[] = [];
-    for (let d = 1; d <= maxD; d++) ds.push(String(d));
-    return ds;
-  }, [dobYear, dobMonth]);
-
-  // Keep form.dob in sync once all three selectors are chosen.
-  useEffect(() => {
-    const y = String(dobYear || "").trim();
-    const m = String(dobMonth || "").trim();
-    const d = String(dobDay || "").trim();
-
-    let nextDob = "";
-    if (y && m && d) {
-      const yN = Number(y);
-      const mN = Number(m);
-      const dN = Number(d);
-      if (yN > 0 && mN >= 1 && mN <= 12) {
-        const maxD = daysInMonth(yN, mN);
-        if (dN >= 1 && dN <= maxD) {
-          nextDob = `${y}-${pad2(m)}-${pad2(d)}`;
-        }
-      }
-    }
-
-    setForm((p) => (p.dob === nextDob ? p : { ...p, dob: nextDob }));
-  }, [dobYear, dobMonth, dobDay]);
 
   const hasPostcode = useMemo(() => form.postcode.trim().length > 0, [form.postcode]);  
   const locationQuery = useMemo(() => {
@@ -331,57 +270,15 @@ export default function RegisterPage() {
                 <p className={helper}>Letters, numbers, underscore, dot.</p>
               </div>
 
-              <div>
-                <label className={label}>Date of birth</label>
-
-                <div className="mt-1 grid grid-cols-3 gap-2">
-                  <div>
-                    <label className="sr-only">Day</label>
-                    <select
-                      className={cx(input, "appearance-none pr-8")}
-                      value={dobDay}
-                      onChange={(e) => setDobDay(e.target.value)}
-                      required
-                    >
-                      <option value="">Day</option>
-                      {dobDayOptions.map((d) => (
-                        <option key={d} value={d}>{d}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="sr-only">Month</label>
-                    <select
-                      className={cx(input, "appearance-none pr-8")}
-                      value={dobMonth}
-                      onChange={(e) => setDobMonth(e.target.value)}
-                      required
-                    >
-                      <option value="">Month</option>
-                      {dobMonthOptions.map((m) => (
-                        <option key={m.value} value={m.value}>{m.label}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="sr-only">Year</label>
-                    <select
-                      className={cx(input, "appearance-none pr-8")}
-                      value={dobYear}
-                      onChange={(e) => setDobYear(e.target.value)}
-                      required
-                    >
-                      <option value="">Year</option>
-                      {dobYearOptions.map((y) => (
-                        <option key={y} value={y}>{y}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <input type="hidden" name="dob" value={form.dob} />
+              <div><label className={label}>Date of birth</label>
+<input
+  className={input}
+  type="date"
+  value={form.dob}
+  onChange={(e) => set("dob", e.target.value)}
+  required
+/>
+<p className="mt-1 text-sm text-black/60">You must be <span className="font-semibold">18+</span> to create an account.</p>
 
                 <p className={helper}>Used only to enforce 18+.</p>
               </div>
