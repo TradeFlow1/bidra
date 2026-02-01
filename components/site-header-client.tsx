@@ -105,8 +105,8 @@ export default function SiteHeaderClient({
       {/* Top bar */}
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Left: Home */}
-        <div className="flex items-center gap-3">
-          <Link href="/" className={pill} onClick={closeAll}>
+        <div className="flex items-center gap-3" onClickCapture={(e) => { const t = e.target as HTMLElement; if (t.closest("a")) closeAll(); }}>
+          <Link href="/" className={pill}>
             Home
           </Link>
         </div>
@@ -121,21 +121,21 @@ export default function SiteHeaderClient({
         </div>
 
         {/* Right: Desktop nav */}
-        <nav className="relative hidden items-center gap-3 text-sm md:flex">
-          <Link href="/listings" className={pill} onClick={closeAll}>
+        <nav className="relative hidden items-center gap-3 text-sm md:flex" onClickCapture={(e) => { const t = e.target as HTMLElement; if (t.closest("a")) closeAll(); }}>
+          <Link href="/listings" className={pill}>
             Browse
           </Link>
-          <Link href="/sell" className={pill} onClick={closeAll}>
+          <Link href="/sell" className={pill}>
             Sell
           </Link>
 
           {isAuthed ? (
             <>
-              <Link href="/notifications" className={pill} onClick={closeAll}>
+              <Link href="/notifications" className={pill}>
                 Notifications{badge}
               </Link>
 
-              <Link href="/messages" className={pill} onClick={closeAll}>
+              <Link href="/messages" className={pill}>
                 Messages
               </Link>
 
@@ -153,25 +153,22 @@ export default function SiteHeaderClient({
                   className="absolute right-0 top-12 z-50 w-56 rounded-xl border border-black/10 bg-white text-black shadow-lg p-2"
                   style={{ backgroundColor: "#ffffff", color: "#000000" }}
                 >
-                  <div className="flex flex-col text-sm">
+                  <div className="flex flex-col text-sm" onClickCapture={(e) => { const t = e.target as HTMLElement; if (t.closest("a")) closeAll(); }}>
                     <Link
                       href="/profile"
                       className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain}
-                      onClick={closeAll}
                     >
                       Account settings
                     </Link>
                     <Link
                       href="/dashboard"
                       className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain}
-                      onClick={closeAll}
                     >
                       Dashboard
                     </Link>
                     <Link
                       href="/orders"
                       className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain}
-                      onClick={closeAll}
                     >
                       Orders
                     </Link>
@@ -180,7 +177,6 @@ export default function SiteHeaderClient({
                       <Link
                         href="/admin"
                         className={"rounded-md px-3 py-2 text-black hover:bg-black/5 " + linkPlain}
-                        onClick={closeAll}
                       >
                         Admin
                       </Link>
@@ -191,7 +187,6 @@ export default function SiteHeaderClient({
                     <Link
                       href="/logout"
                       className={"rounded-md px-3 py-2 text-black hover:bg-black/5 text-left " + linkPlain}
-                      onClick={closeAll}
                     >
                       Sign out
                     </Link>
@@ -201,10 +196,10 @@ export default function SiteHeaderClient({
             </>
           ) : (
             <>
-              <Link href="/auth/login" className={pill} onClick={closeAll}>
+              <Link href="/auth/login" className={pill}>
                 Sign in
               </Link>
-              <Link href="/auth/register" className={pill} onClick={closeAll}>
+              <Link href="/auth/register" className={pill}>
                 Create account
               </Link>
             </>
@@ -244,49 +239,49 @@ export default function SiteHeaderClient({
       {/* Mobile menu */}
       {open ? (
         <div id="mobile-nav" className="md:hidden border-t border-black/10 bd-header">
-          <div className="mx-auto w-full max-w-6xl px-4 py-3">
+          <div className="mx-auto w-full max-w-6xl px-4 py-3" onClickCapture={(e) => { const t = e.target as HTMLElement; if (t.closest("a")) closeAll(); }}>
             <div className="flex flex-col gap-3 text-sm">
-              <Link href="/listings" onClick={closeAll} className={pill}>
+              <Link href="/listings" className={pill}>
                 Browse
               </Link>
-              <Link href="/sell" onClick={closeAll} className={pill}>
+              <Link href="/sell" className={pill}>
                 Sell
               </Link>
 
               {isAuthed ? (
                 <>
-                  <Link href="/notifications" onClick={closeAll} className={pill}>
+                  <Link href="/notifications" className={pill}>
                     Notifications{badge}
                   </Link>
-                  <Link href="/messages" onClick={closeAll} className={pill}>
+                  <Link href="/messages" className={pill}>
                     Messages
                   </Link>
-                  <Link href="/profile" onClick={closeAll} className={pill}>
+                  <Link href="/profile" className={pill}>
                     Account settings
                   </Link>
-                  <Link href="/dashboard" onClick={closeAll} className={pill}>
+                  <Link href="/dashboard" className={pill}>
                     Dashboard
                   </Link>
-                  <Link href="/orders" onClick={closeAll} className={pill}>
+                  <Link href="/orders" className={pill}>
                     Orders
                   </Link>
 
                   {((session as unknown as { user?: { role?: string } })?.user?.role === "ADMIN") ? (
-                    <Link href="/admin" onClick={closeAll} className={pill}>
+                    <Link href="/admin" className={pill}>
                       Admin
                     </Link>
                   ) : null}
 
-                  <Link href="/logout" onClick={closeAll} className={pill}>
+                  <Link href="/logout" className={pill}>
                     Sign out
                   </Link>
                 </>
               ) : (
                 <>
-                  <Link href="/auth/login" onClick={closeAll} className={pill}>
+                  <Link href="/auth/login" className={pill}>
                     Sign in
                   </Link>
-                  <Link href="/auth/register" onClick={closeAll} className={pill}>
+                  <Link href="/auth/register" className={pill}>
                     Create account
                   </Link>
                 </>
