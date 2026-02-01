@@ -94,7 +94,7 @@ export default function LocationSuggest(props: {
             const suburb = String(it?.name || "").trim();
             const postcode = String(it?.postcode ?? "").trim();
             const st = String(it?.state?.abbreviation || "").trim().toUpperCase();
-            const label = `${suburb} ${postcode}${st ? `, ${st}` : ""}`;
+            // (removed unused label)
 
             return (
               <button

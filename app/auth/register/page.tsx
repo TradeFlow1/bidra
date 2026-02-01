@@ -108,7 +108,19 @@ export default function RegisterPage() {
     setForm((p) => (p.dob === nextDob ? p : { ...p, dob: nextDob }));
   }, [dobYear, dobMonth, dobDay]);
 
-  const hasPostcode = useMemo(() => form.postcode.trim().length > 0, [form.postcode]);
+  const hasPostcode = useMemo(() => form.postcode.trim().length > 0, [form.postcode]);  
+  const locationQuery = useMemo(() => {
+    const pc = form.postcode.trim();
+    const sb = form.suburb.trim();
+    const st = form.state.trim();
+
+    // Best match quality: postcode (4 digits) OR suburb (>=3 chars)
+    const digits = pc.replace(/\D/g, "");
+    if (digits.length === 4) return digits;
+    if (sb.length >= 3) return sb;
+
+    return `${pc} ${sb} ${st}`.trim();
+  }, [form.postcode, form.suburb, form.state]);
   const pwTooShort = useMemo(() => form.password.length > 0 && form.password.length < 8, [form.password]);
   const pwMismatch = useMemo(
     () => form.confirmPassword.length > 0 && form.password !== form.confirmPassword,
@@ -427,7 +439,7 @@ export default function RegisterPage() {
                 </div>
 
                 <LocationSuggest
-                  query={`${form.postcode} ${form.suburb} ${form.state}`.trim()}
+                  query={locationQuery}
                   onPick={(x) => {
                     set("postcode", x.postcode);
                     set("suburb", x.suburb);
