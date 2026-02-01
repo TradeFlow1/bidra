@@ -1,5 +1,5 @@
 ﻿import Image from "next/image";
-import { maskContactInfo } from "@/lib/message-safety"
+import { allowContactDetailsInMessages, maskContactInfo } from "@/lib/message-safety"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
@@ -139,7 +139,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                     {messages.map((m) => (
                       <div key={m.id} className="text-sm">
                         <span className="text-[var(--bidra-ink-2)]">{formatAuDateTime(m.createdAt)} {" · "}</span>
-                        <b>{m.userId === me ? "You" : displayName(other)}</b>: {maskContactInfo(m.body)}
+                        <b>{m.userId === me ? "You" : displayName(other)}</b>: {allowContactDetailsInMessages() ? m.body : maskContactInfo(m.body)}
                       </div>
                     ))}
                   </div>
@@ -151,7 +151,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               <div className="mt-4 bd-card p-4">
                 <SendBox threadId={thread.id} />
                 <div className="mt-3 text-xs text-[var(--bidra-ink-2)]">
-  Tip: Keep chats about the listing. For safety, do not share your phone number or email address, and avoid sharing PayID/BSB, cash pickup details, or other personal info in messages. If you’re buying, you can always complete payment securely via your Bidra order page.
+  Tip: Keep chats about the listing. Be careful sharing contact or payment details — never share passwords or verification codes. When Bidra Pay is live, we’ll recommend paying via your Bidra order page.
 </div>
               </div>
             </section>
