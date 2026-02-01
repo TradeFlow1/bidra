@@ -58,7 +58,7 @@ export const authOptions: NextAuthOptions = {
 
         // STEP 1D: Email verification gate (no login until verified)
         if (!user.emailVerified) {
-          throw new Error("Please verify your email to activate your account.");
+          throw new Error("EMAIL_NOT_VERIFIED");
         }
         // Matchbox: legacy-heal activation (older users may be verified but not active)
         if (user.emailVerified && user.isActive === false) {

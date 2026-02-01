@@ -9,6 +9,7 @@ import { Card, Button, Input } from "@/components/ui";
 function friendlyAuthError(raw: string) {
   const s = String(raw || "");
   // NextAuth common codes:
+  if (s === "EMAIL_NOT_VERIFIED") return "Please verify your email before logging in. Use the resend link above if you can’t find it.";
   if (s === "CredentialsSignin") return "Incorrect email or password.";
   if (s.toLowerCase().includes("credentials")) return "Incorrect email or password.";
   if (s.toLowerCase().includes("signin")) return "Incorrect email or password.";
