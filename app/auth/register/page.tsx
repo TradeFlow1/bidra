@@ -209,6 +209,17 @@ export default function RegisterPage() {
     <main className={shell}>
       <div className={card}>
         <h1 className="text-2xl font-extrabold tracking-tight">Create account</h1>
+
+        <div className="mt-3 bd-card p-4">
+          <div className="text-sm font-extrabold bd-ink">Email verification required</div>
+          <div className="mt-1 text-sm bd-ink2">
+            After you sign up, we'll email you a verification link. <b>Verify your email before you can log in.</b>
+          </div>
+          <div className="mt-2 text-xs bd-ink2">
+            Didn't get the email? You can resend it on the{" "}
+            <Link className="bd-link font-semibold" href="/auth/verify">Verify email</Link> page.
+          </div>
+        </div>
         <p className="mt-1 text-sm text-black/60">
           Bidra accounts are <span className="font-semibold text-[#0b1220]">18+</span>. Under 18s may browse but
           cannot create accounts.

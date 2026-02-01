@@ -57,6 +57,17 @@ export default function Login() {
         <h1 className="text-2xl font-bold">Log in</h1>
         <p className="mt-1 text-sm text-neutral-700">Use your email and password.</p>
 
+        <div className="mt-3 bd-card p-4">
+          <div className="text-sm font-extrabold bd-ink">New account?</div>
+          <div className="mt-1 text-sm bd-ink2">
+            You must <b>verify your email</b> before you can log in. Check your inbox for the verification link.
+          </div>
+          <div className="mt-2 text-xs bd-ink2">
+            Didn't get it?{" "}
+            <Link className="bd-link font-semibold" href="/auth/verify">Resend verification email</Link>.
+          </div>
+        </div>
+
         <Card className="mt-4">
           <form
             noValidate
