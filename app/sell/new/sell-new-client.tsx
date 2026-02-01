@@ -329,7 +329,13 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     feedbackUrl: string | null;
   }>(null);
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const cameraInputRef = useRef<HTMLInputElement | null>(null);
+  const galleryInputRef = useRef<HTMLInputElement | null>(null);
+
+  const addPicked = (picked: File[]) => {
+    if (!picked || picked.length === 0) return;
+    setFiles((prev) => [...prev, ...picked].slice(0, 10));
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -769,21 +775,39 @@ const imagesToSend = uploadedUrls;
             <button
               type="button"
               className="bd-btn bd-btn-primary"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => cameraInputRef.current?.click()}
+            >
+              Take photo
+            </button>
+
+            <button
+              type="button"
+              className="bd-btn bd-btn-primary"
+              onClick={() => galleryInputRef.current?.click()}
             >
               Add photos
             </button>
+
             <div className="text-xs bd-ink2">{files.length}/10 selected (max 8MB each)</div>
           </div>
 
-          {/* Hidden real input (no ugly "no file chosen") */}
+          {/* Hidden inputs (separate camera vs gallery for better Samsung behavior) */}
           <input
-            ref={fileInputRef}
+            ref={cameraInputRef}
+            className="hidden"
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={(e) => { addPicked(Array.from(e.target.files || [])); e.currentTarget.value = ""; }}
+          />
+
+          <input
+            ref={galleryInputRef}
             className="hidden"
             type="file"
             accept="image/*"
             multiple
-            onChange={(e) => { const picked = Array.from(e.target.files || []); setFiles((prev) => [...prev, ...picked].slice(0, 10)); e.currentTarget.value = ""; }}
+            onChange={(e) => { addPicked(Array.from(e.target.files || [])); e.currentTarget.value = ""; }}
           />
 
           {previews.length > 0 && (
