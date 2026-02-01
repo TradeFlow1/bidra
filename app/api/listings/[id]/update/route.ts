@@ -81,6 +81,7 @@ function sanitizeDescription(input: string): string {
 
     const description = sanitizeDescription(String(body.description || "").trim());
     const category = String(body.category || "").trim();
+  const tags = (Array.isArray((body as any)?.tags) ? (body as any).tags : null);
     const condition = String(body.condition || "Used").trim();
     function normalizeLocation(input: string) {
       const raw = String(input ?? "");
@@ -140,7 +141,7 @@ const images = imagesRaw
   .slice(0, 10);
 
 // ---- POLICY ENFORCEMENT (with strikes) ----
-if (listingLooksProhibited({ title, description, category, images })) {
+if (listingLooksProhibited({ title, description, category, tags, images })) {
     // Fix 13: prohibited escalation (log + rate-limit repeat attempts)
     try {
       const prevCount = await prisma.adminEvent.count({

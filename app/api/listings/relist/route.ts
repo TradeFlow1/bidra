@@ -71,11 +71,31 @@ export async function POST(req: Request) {
         title: (listing as any)?.title,
         description: (listing as any)?.description,
         category: (listing as any)?.category,
+        tags: null,
         images: (listing as any)?.images ?? null,
       })) {
+        // Fix 13: prohibited escalation (log + rate-limit repeat attempts)
+        try {
+          const prevCount = await tx.adminEvent.count({
+            where: { type: "PROHIBITED_LISTING_BLOCKED", userId },
+          });
+
+          await tx.adminEvent.create({
+            data: {
+              type: "PROHIBITED_LISTING_BLOCKED",
+              userId,
+              data: { listingId: listing.id, titleLen: String((listing as any)?.title ?? "").length, category: String((listing as any)?.category ?? "") },
+            },
+          });
+
+          if (prevCount >= 2) {
+            return { ok: false, status: 429 as const, error: "Too many prohibited listing attempts. Please review Bidra’s prohibited items policy or contact support." };
+          }
+        } catch (_e) {}
+
+
         const strike = await applyPolicyStrike(userId);
-      
-        // audit (best-effort)
+// audit (best-effort)
         try {
           await tx.adminEvent.create({
             data: {
