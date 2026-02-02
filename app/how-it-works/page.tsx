@@ -1,136 +1,93 @@
-﻿import Link from "next/link";
-
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
-export const metadata = { title: "How it works — Bidra" };
-
-function H2({ children }: { children: any }) {
-  return <h2 className="text-lg font-extrabold bd-ink">{children}</h2>;
-}
-function Step({
-  n,
-  title,
-  children,
-}: {
-  n: string;
-  title: string;
-  children: any;
-}) {
+﻿export default function HowItWorksPage() {
   return (
-    <div className="rounded-2xl border bd-bd bg-white p-5">
-      <div className="flex items-center gap-3">
-        <div className="h-8 w-8 rounded-full border bd-bd flex items-center justify-center text-sm font-extrabold bd-ink">
-          {n}
-        </div>
-        <div className="text-sm font-extrabold bd-ink">{title}</div>
-      </div>
-      <div className="mt-3 text-sm bd-ink2 leading-7">{children}</div>
-    </div>
-  );
-}
-function Callout({ children }: { children: any }) {
-  return (
-    <div className="rounded-xl border bd-bd bg-white p-4 text-sm bd-ink2 leading-7">
-      {children}
-    </div>
-  );
-}
+    <main className="mx-auto w-full max-w-4xl px-4 py-10">
+      <h1 className="text-3xl font-semibold tracking-tight">How Bidra works</h1>
+      <p className="mt-3 text-base text-black/70">
+        Bidra is an Australian marketplace where people list items and connect directly.
+        We’re the platform — we’re not the seller, and we don’t automatically “award a winner”.
+      </p>
 
-export default function HowItWorksPage() {
-  return (
-    <main className="bd-shell py-10">
-      <div className="mx-auto max-w-3xl space-y-6">
-        <header className="space-y-3">
-          <h1 className="text-3xl font-extrabold tracking-tight bd-ink">How Bidra works</h1>
-          <p className="bd-ink2 leading-7">
-            Bidra is an Australian marketplace platform where people list items, message each other, make offers,
-            and create orders. Items are sold by users — Bidra is the platform only.
-          </p>
-          <Callout>
-            <strong className="bd-ink">Two sale models:</strong>{" "}
-            <span className="bd-ink2">
-              Bidra supports <strong className="bd-ink">Buy Now</strong> (binding purchase) and{" "}
-              <strong className="bd-ink">Timed Offers</strong> (offers are not binding until the seller accepts).
-              Bidra is not an auctioneer and does not conduct auctions.
-            </span>
-          </Callout>
-        </header>
+      <section className="mt-8 rounded-2xl border border-black/10 bg-white p-6">
+        <h2 className="text-xl font-semibold">1) Create an account</h2>
+        <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
+          <li><strong>18+ only:</strong> accounts are for adults. Under 18s can browse publicly but can’t transact or message.</li>
+          <li>Set your <strong>location</strong> (suburb, state, postcode) so buyers see realistic pickup/postage context.</li>
+          <li>Keep your profile accurate — it helps trust and reduces disputes.</li>
+        </ul>
+      </section>
 
-        <div className="rounded-2xl border bd-bd bg-white p-6 space-y-6">
-          <section className="space-y-3">
-            <H2>For buyers</H2>
-            <div className="grid gap-3">
-              <Step n="1" title="Browse and compare">
-                Use search and filters to find listings near you. Check photos, condition, and location. If anything looks unsafe or prohibited, report it.
-              </Step>
-              <Step n="2" title="Message or act">
-                You can message a seller to ask questions, or you can use the listing actions (Buy Now or place an offer) depending on the listing type.
-              </Step>
-              <Step n="3" title="Buy Now (binding purchase)">
-                If the seller enabled Buy Now, using it creates an order immediately. Only use Buy Now if you intend to complete payment as directed in the order flow.
-              </Step>
-              <Step n="4" title="Timed Offers (seller decides)">
-                You can place offers during the offer period. Offers are not binding until the seller accepts.
-                At the end of the offer period, the seller may accept the highest offer, decline, or relist.
-              </Step>
-              <Step n="5" title="Pay and complete safely">
-                If payment instructions are provided for an order, follow the on-platform order flow.
-                For bank transfers (PayID/Osko), treat it like cash — only pay when you’re confident and have clear handover terms.
-              </Step>
-            </div>
-          </section>
+      <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
+        <h2 className="text-xl font-semibold">2) List an item</h2>
+        <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
+          <li>Add a clear title, honest description, condition, and photos (use real photos of the actual item).</li>
+          <li>Choose the sale format that matches how you want to sell:</li>
+        </ul>
 
-          <section className="space-y-3">
-            <H2>For sellers</H2>
-            <div className="grid gap-3">
-              <Step n="1" title="Create a listing">
-                Add clear photos and an honest description (condition, defects, and what’s included). Prohibited items are blocked at listing creation.
-              </Step>
-              <Step n="2" title="Choose how you want to sell">
-                <strong className="bd-ink">Buy Now</strong>: you’re pre-authorising a binding purchase at your set price.
-                <br />
-                <strong className="bd-ink">Timed Offers</strong>: buyers submit offers; you decide whether to accept.
-              </Step>
-              <Step n="3" title="Communicate and confirm">
-                Use Bidra messages to coordinate questions, pickup details, and order steps. Keep records inside Bidra where possible.
-              </Step>
-              <Step n="4" title="Accept an offer (when you’re ready)">
-                For Timed Offers, you explicitly accept an offer to create an order. There is no automatic “winner” language — you remain in control.
-              </Step>
-              <Step n="5" title="Complete the order">
-                After payment and handover, mark the order complete. Use reporting tools if you see abuse, scams, or prohibited behaviour.
-              </Step>
-            </div>
-          </section>
-
-          <section className="space-y-2">
-            <H2>Fees, safety, and rules</H2>
-            <ul className="mt-2 list-disc pl-6 text-sm bd-ink2 leading-7 space-y-1">
-              <li>Fees (if applicable) are shown clearly before you confirm actions in the product flow.</li>
-              <li>Prohibited items are blocked at listing creation and repeated attempts may lead to restrictions.</li>
-              <li>Report scams, harassment, threats, and unsafe listings directly from the listing or message thread.</li>
-            </ul>
-            <p className="text-sm mt-3">
-              <Link href="/legal/fees" className="bd-link font-semibold">Fees →</Link>{" "}
-              <span className="bd-ink2">·</span>{" "}
-              <Link href="/legal/prohibited-items" className="bd-link font-semibold">Prohibited items →</Link>{" "}
-              <span className="bd-ink2">·</span>{" "}
-              <Link href="/support" className="bd-link font-semibold">Support &amp; Safety →</Link>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <div className="rounded-xl border border-black/10 p-4">
+            <h3 className="font-semibold">Buy Now (binding)</h3>
+            <p className="mt-2 text-sm text-black/70">
+              You set a fixed price. When a buyer clicks Buy Now, it’s an instant sale.
+              This is the fastest path to a completed deal.
             </p>
-          </section>
+            <ul className="mt-3 list-disc pl-5 text-sm text-black/70 space-y-1">
+              <li>Seller pre-authorises the sale by listing with Buy Now enabled.</li>
+              <li>Buyer commits to pay and complete the purchase under Bidra’s rules.</li>
+            </ul>
+          </div>
 
-          <p className="text-xs bd-ink2 opacity-70">
-            Plain-language overview for Australia. For full rules, see Terms and Privacy.
-          </p>
+          <div className="rounded-xl border border-black/10 p-4">
+            <h3 className="font-semibold">Timed Offers (seller chooses)</h3>
+            <p className="mt-2 text-sm text-black/70">
+              Buyers place offers during the listing period. When the timer ends, the seller can choose what to do.
+              A sale only forms if the seller explicitly accepts the highest offer (or any offer).
+            </p>
+            <ul className="mt-3 list-disc pl-5 text-sm text-black/70 space-y-1">
+              <li>No automatic “winner”. Seller controls acceptance.</li>
+              <li>Seller may decline, counter, or relist.</li>
+            </ul>
+          </div>
         </div>
+      </section>
 
-        <div className="flex flex-wrap gap-2">
-          <Link href="/sell/new" className="bd-btn bd-btn-primary">Create a listing</Link>
-          <Link href="/browse" className="bd-btn bd-btn-outline">Browse listings</Link>
-          <Link href="/legal/terms" className="bd-btn bd-btn-outline">Read Terms</Link>
-        </div>
-      </div>
+      <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
+        <h2 className="text-xl font-semibold">3) Messaging and arranging pickup/postage</h2>
+        <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
+          <li>Use Messages to confirm details (pickup time, postage method, what’s included, etc.).</li>
+          <li>For safety, keep your communication respectful and clear. If anything feels off, report it.</li>
+          <li>Never send ID photos or sensitive information you wouldn’t want exposed.</li>
+        </ul>
+      </section>
+
+      <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
+        <h2 className="text-xl font-semibold">4) Paying and completing the order</h2>
+        <p className="mt-3 text-black/75">
+          For Buy Now purchases, Bidra provides a Pay Now page with the current payment instructions and confirmation steps.
+          Always follow the on-screen flow for your order.
+        </p>
+        <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
+          <li>After payment and handover/postage, mark the order complete inside Bidra.</li>
+          <li>Leave feedback to help the community make better decisions.</li>
+        </ul>
+      </section>
+
+      <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
+        <h2 className="text-xl font-semibold">5) Disputes, reporting, and safety</h2>
+        <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
+          <li>If a listing breaks rules, use <strong>Report</strong> on the listing or message thread.</li>
+          <li>If something goes wrong, keep records (screenshots, messages, postage receipts) and contact Support.</li>
+          <li>Bidra may remove listings, restrict accounts, or investigate patterns of abuse to keep the marketplace safe.</li>
+        </ul>
+      </section>
+
+      <section className="mt-10 text-sm text-black/60">
+        <p>
+          Want the fine print? Read our <a className="underline" href="/legal/terms">Terms</a>,{" "}
+          <a className="underline" href="/legal/privacy">Privacy</a>,{" "}
+          <a className="underline" href="/legal/fees">Fees</a>, and{" "}
+          <a className="underline" href="/legal/prohibited-items">Prohibited items</a>.
+        </p>
+      </section>
     </main>
   );
 }
