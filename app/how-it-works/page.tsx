@@ -80,6 +80,15 @@
         </ul>
       </section>
 
+      <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
+        <h2 className="text-xl font-semibold">Important notes</h2>
+        <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
+          <li><strong>Bidra is the platform only</strong> — items are sold by users, and we’re not an auctioneer or escrow holder.</li>
+          <li>Use the in-app order flow and keep records (messages, receipts, tracking) for smoother resolution if something goes wrong.</li>
+          <li>Fees (if any) are shown before you confirm actions. See <a className="underline" href="/legal/fees">Fees</a>.</li>
+          <li>Listings must follow our rules. Prohibited items are blocked. See <a className="underline" href="/legal/prohibited-items">Prohibited items</a>.</li>
+        </ul>
+      </section>
       <section className="mt-10 text-sm text-black/60">
         <p>
           Want the fine print? Read our <a className="underline" href="/legal/terms">Terms</a>,{" "}

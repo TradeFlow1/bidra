@@ -5,6 +5,8 @@ const links: Array<{ href: string; label: string }> = [
   { href: "/support", label: "Support & Safety" },
   { href: "/contact", label: "Contact" },
   { href: "/feedback", label: "Feedback" },
+  { href: "/legal", label: "Legal" },
+  { href: "/legal/fees", label: "Fees" },
   { href: "/legal/privacy", label: "Privacy" },
   { href: "/legal/terms", label: "Terms" },
   { href: "/legal/prohibited-items", label: "Prohibited items" },
@@ -18,8 +20,7 @@ export default function SiteFooter() {
           <div className="md:max-w-md">
             <div className="font-semibold text-gray-900">Bidra</div>
             <p className="mt-1 text-xs leading-5 text-gray-600">
-              An Australian marketplace where people list items for sale or receive offers. Bidra is a platform only
-              and is not the seller of items listed.
+              An Australian marketplace where people list items for sale or receive offers. Bidra is a platform only and is not the seller of items listed.
             </p>
           </div>
 
@@ -34,7 +35,7 @@ export default function SiteFooter() {
               ))}
             </ul>
             <p className="mt-1 text-[11px] leading-5 text-gray-500">
-              Safety: meet in public, inspect items before paying, and keep communication on Bidra.
+              Safety: meet in public where possible, inspect items before paying, and keep communication on Bidra.
             </p>
           </nav>
         </div>
