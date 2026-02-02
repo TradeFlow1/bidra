@@ -117,7 +117,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               ) : null}
 
               <div className="pt-2">
-                <p className="text-xs bd-ink2">
+                <div className="text-xs bd-ink2">
                   
                   <Card className="bd-card p-6">
                     <div className="grid gap-2">
@@ -149,7 +149,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   </Card>
                   
                   For timed offers, the seller decides whether to proceed. If an order exists (like this one), it is binding and payment is expected. Bidra records confirmations but does not process payments or guarantee outcomes.
-                </p>
+                </div>
               </div>
             </div>
           </Card>
