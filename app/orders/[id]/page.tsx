@@ -6,6 +6,7 @@ import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
+import SafetyCallout from "../../../components/safety-callout";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -102,19 +103,30 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               {(order.status === "PENDING" && order.buyerId === user.id) ? (
                 <div className="pt-2">
-                  <Link
-                    href={`/orders/${order.id}/pay`}
-                    className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-black/20"
-                  >
-                    <span className="block">Pay now</span>
-                    <span className="mt-1 block text-xs bd-ink2">Binding order — please pay to proceed.</span>
-                  </Link>
+                  <SafetyCallout title="Safety">
+                    <ul className="list-disc pl-5">
+                      <li>Keep communication on Bidra via Messages.</li>
+                      <li>Confirm item details and pickup/postage plan before you pay.</li>
+                      <li>If anything feels suspicious, stop and report it.</li>
+                    </ul>
+                  </SafetyCallout>
+
+                  <div className="mt-3">
+                    <Link
+                      href={`/orders/${order.id}/pay`}
+                      className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-black/20"
+                    >
+                      <span className="block">Pay now</span>
+                      <span className="mt-1 block text-xs bd-ink2">Binding order — please pay to proceed.</span>
+                    </Link>
+                  </div>
                 </div>
               ) : null}
 
               {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
                 <SellerConfirmReceived orderId={order.id} />
               ) : null}
+
 
               <div className="pt-2">
                 <div className="text-xs bd-ink2">

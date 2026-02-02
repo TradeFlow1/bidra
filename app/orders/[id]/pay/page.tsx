@@ -8,6 +8,7 @@ import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import PayConfirmClient from "./pay-confirm-client";
+import SafetyCallout from "../../../../components/safety-callout";
 
 function money(cents: number) {
   return (cents / 100).toLocaleString("en-AU", { style: "currency", currency: "AUD" });
@@ -30,6 +31,13 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
     return (
       <main className="bd-container py-10">
         <div className="container max-w-3xl">
+          <SafetyCallout title="Payment safety">
+            <ul className="list-disc pl-5">
+              <li>Only pay using the details shown here or confirmed in Bidra messages.</li>
+              <li>Verify the seller and listing before sending money (especially for high-value items).</li>
+              <li>Meet in public where possible and inspect items before paying.</li>
+            </ul>
+          </SafetyCallout>
           <Card className="bd-card p-6">
             <h1 className="text-3xl font-extrabold tracking-tight">Pay</h1>
             <p className="mt-2 text-sm bd-ink2">This page is restricted.</p>
@@ -51,6 +59,13 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
     return (
       <main className="bd-container py-10">
         <div className="container max-w-3xl">
+          <SafetyCallout title="Payment safety">
+            <ul className="list-disc pl-5">
+              <li>Only pay using the details shown here or confirmed in Bidra messages.</li>
+              <li>Verify the seller and listing before sending money (especially for high-value items).</li>
+              <li>Meet in public where possible and inspect items before paying.</li>
+            </ul>
+          </SafetyCallout>
           <Card className="bd-card p-6">
             <h1 className="text-3xl font-extrabold tracking-tight">Pay</h1>
             <p className="mt-2 text-sm bd-ink2">Order not found.</p>
@@ -70,6 +85,13 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
     return (
       <main className="bd-container py-10">
         <div className="container max-w-3xl">
+          <SafetyCallout title="Payment safety">
+            <ul className="list-disc pl-5">
+              <li>Only pay using the details shown here or confirmed in Bidra messages.</li>
+              <li>Verify the seller and listing before sending money (especially for high-value items).</li>
+              <li>Meet in public where possible and inspect items before paying.</li>
+            </ul>
+          </SafetyCallout>
           <Card className="bd-card p-6">
             <h1 className="text-3xl font-extrabold tracking-tight">Pay</h1>
             <p className="mt-2 text-sm bd-ink2">You do not have access to this order.</p>
@@ -141,6 +163,13 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
             </div>
           </div>
 
+          <SafetyCallout title="Payment safety">
+            <ul className="list-disc pl-5">
+              <li>Only pay using the details shown here or confirmed in Bidra messages.</li>
+              <li>Verify the seller and listing before sending money (especially for high-value items).</li>
+              <li>Meet in public where possible and inspect items before paying.</li>
+            </ul>
+          </SafetyCallout>
           <Card className="bd-card p-6">
             <div className="grid gap-3">
               <div className="text-lg font-extrabold">{order.listing?.title ?? "Listing"}</div>

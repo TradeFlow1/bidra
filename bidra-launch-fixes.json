@@ -90,7 +90,7 @@
         "Text":  "Add clear order status timeline (Placed → Paid → Completed)"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  19,
         "Text":  "Surface safety warnings near payment and messaging actions"
     },

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import SafetyCallout from "../../../components/safety-callout"
 
 export default function MessageSellerButton(props: { listingId: string }) {
   const router = useRouter()
@@ -87,9 +88,13 @@ export default function MessageSellerButton(props: { listingId: string }) {
 
       {err ? <div className="text-sm text-red-700">{err}</div> : null}
 
-      <div className="text-xs text-black/60">
-        Tip: keep personal info minimal until you&apos;re confident.
-      </div>
+      <SafetyCallout title="Messaging safety">
+        <ul className="list-disc pl-5">
+          <li>Don’t share unnecessary personal info until you’re confident.</li>
+          <li>Verify the item and seller details before paying.</li>
+          <li>If something feels wrong, stop and report it.</li>
+        </ul>
+      </SafetyCallout>
     </div>
   )
 }
