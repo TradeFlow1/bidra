@@ -80,7 +80,7 @@
         "Text":  "Improve browse filters layout and symmetry"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  17,
         "Text":  "Add timestamps and read clarity to messages"
     },
