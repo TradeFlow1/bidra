@@ -119,7 +119,15 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight">Pay now</h1>
                <div className="mt-2 text-sm bd-ink2">
-                 <b>This is a binding purchase.</b> You created this order by using Buy Now (or the seller accepted your offer). You're expected to complete payment using the details below.
+                 {isBuyer ? (
+                   <>
+                     <b>This is a binding purchase.</b> You created this order by using Buy Now (or the seller accepted your offer). You're expected to complete payment using the details below.
+                   </>
+                 ) : (
+                   <>
+                     <b>This is a binding sale.</b> The buyer is expected to complete payment using the details below. After the buyer marks “I’ve paid”, you’ll confirm whether you received it.
+                   </>
+                 )}
                </div>
               <div className="text-sm bd-ink2 mt-1">
                 <Badge>{order.status}</Badge>{" "}
