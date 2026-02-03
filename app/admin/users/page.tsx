@@ -76,7 +76,7 @@ export default async function AdminUsers() {
                     <input type="hidden" name="backTo" value={backTo} />
                     <button
                       type="submit"
-                      className="rounded-md border px-3 py-1 text-sm hover:bg-neutral-50"
+                      className="bd-btn bd-btn-ghost"
                       title="Remove one policy strike"
                     >
                       Unstrike
