@@ -120,7 +120,7 @@
         "Text":  "Upgrade notifications UI (real buttons, less dead space)"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  25,
         "Text":  "Make order list actions prominent buttons"
     },
