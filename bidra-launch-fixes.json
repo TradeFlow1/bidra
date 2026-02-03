@@ -145,7 +145,7 @@
         "Text":  "Improve admin table hierarchy (headers, spacing, tooltips)"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  30,
         "Text":  "Add active state styling to top navigation"
     }
