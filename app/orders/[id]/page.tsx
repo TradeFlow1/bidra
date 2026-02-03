@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
 import SafetyCallout from "../../../components/safety-callout";
+import OrderStatusTimeline from "../../../components/order-status-timeline";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -100,6 +101,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <div className="text-sm bd-ink2">
                 Amount: <b>${(order.amount / 100).toFixed(2)}</b> AUD
               </div>
+
+              <OrderStatusTimeline status={order.status} outcome={order.outcome} className="mt-3" />
+
 
               {(order.status === "PENDING" && order.buyerId === user.id) ? (
                 <div className="pt-2">

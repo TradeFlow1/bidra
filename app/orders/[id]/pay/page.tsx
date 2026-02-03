@@ -9,6 +9,7 @@ import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import PayConfirmClient from "./pay-confirm-client";
 import SafetyCallout from "../../../../components/safety-callout";
+import OrderStatusTimeline from "../../../../components/order-status-timeline";
 
 function money(cents: number) {
   return (cents / 100).toLocaleString("en-AU", { style: "currency", currency: "AUD" });
@@ -177,6 +178,9 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
               <div className="text-sm bd-ink2">
                 Amount due: <b>{money(order.amount)}</b>
               </div>
+
+              <OrderStatusTimeline status={order.status} outcome={order.outcome} className="mt-3" />
+
 
               <div className="mt-2 bd-card p-4">
                 <div className="text-sm font-extrabold bd-ink">Pay the seller (PayID / Osko)</div>
