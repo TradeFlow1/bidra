@@ -152,7 +152,7 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
       {failed ? (
         <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900">
           <div className="font-semibold">Please fix your location.</div>
-          <div className="mt-1">Enter <strong>postcode</strong> OR <strong>suburb + state</strong>. (No street address)</div>
+          <div className="mt-1">Enter your <strong>postcode</strong>, <strong>suburb</strong>, and <strong>state</strong>. (No street address)</div>
         </div>
       ) : null}
 
@@ -185,9 +185,9 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
 
             <div className="bd-card p-5">
               <div className="text-sm font-semibold">Location</div>
-<div className="mt-1 text-xs bd-ink2">Use your <strong>postcode</strong> (fastest) OR your <strong>suburb + state</strong>. If you enter a suburb, you must choose a state.</div>
+<div className="mt-1 text-xs bd-ink2">Enter your <strong>postcode</strong>, <strong>suburb</strong>, and <strong>state</strong>. (No street address)</div>
               <div className="mt-1 text-sm bd-ink2">
-                Use <span className="font-semibold">postcode</span> OR <span className="font-semibold">suburb + state</span>. (No street address)
+                Use <span className="font-semibold">postcode</span>, <span className="font-semibold">suburb</span>, and <span className="font-semibold">state</span>. (No street address)
               </div>
 
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-end">
@@ -197,7 +197,6 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
                 </div>
 
                 <div className="hidden sm:flex items-center justify-center text-xs bd-ink2">
-                  OR
                 </div>
 
                 <div className="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
