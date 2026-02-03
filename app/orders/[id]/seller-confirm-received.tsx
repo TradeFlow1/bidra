@@ -31,7 +31,7 @@ export default function SellerConfirmReceived({ orderId }: { orderId: string }) 
         disabled={loading}
         className="bd-btn bd-btn-primary w-full text-center disabled:opacity-60"
       >
-        {loading ? "Confirming..." : "Confirm payment received"}
+        {loading ? "Confirming..." : "Mark as received"}
       </button>
 
       <div className="mt-2 text-xs bd-ink2">
