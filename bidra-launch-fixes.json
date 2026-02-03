@@ -110,7 +110,7 @@
         "Text":  "Unify messages list cards (title + preview + timestamp)"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  23,
         "Text":  "Redesign chat UI (message bubbles, send button)"
     },
