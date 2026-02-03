@@ -58,6 +58,53 @@ export default async function AdminAuditPage({
   const card: React.CSSProperties = { border: "1px solid #e5e5e5", borderRadius: 12, padding: 14, marginTop: 14 };
   const pill: React.CSSProperties = { fontSize: 12, fontWeight: 800, border: "1px solid #ddd", borderRadius: 999, padding: "3px 8px", display: "inline-block" };
 
+  const tabBase: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+    padding: "8px 12px",
+    borderRadius: 999,
+    border: "1px solid #e5e5e5",
+    fontWeight: 900,
+    textDecoration: "none",
+    lineHeight: 1,
+    background: "#fff",
+  };
+
+  const tabActive: React.CSSProperties = {
+    border: "1px solid #111",
+    background: "#111",
+    color: "#fff",
+  };
+
+  const th: React.CSSProperties = {
+    padding: "10px 8px",
+    borderBottom: "1px solid #eaeaea",
+    fontSize: 12,
+    letterSpacing: 0.2,
+    textTransform: "uppercase",
+    opacity: 0.85,
+    whiteSpace: "nowrap",
+  };
+
+  const td: React.CSSProperties = {
+    padding: "10px 8px",
+    borderBottom: "1px solid #f1f1f1",
+    verticalAlign: "top",
+  };
+
+  const chip: React.CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    padding: "6px 10px",
+    borderRadius: 999,
+    border: "1px solid #e5e5e5",
+    fontWeight: 900,
+    textDecoration: "none",
+    lineHeight: 1,
+    background: "#fff",
+  };
+
   const qp = (k: string, v: string) => {
     const sp = new URLSearchParams();
     if (type) sp.set("type", type);
@@ -82,10 +129,34 @@ export default async function AdminAuditPage({
           <span style={pill}>Query: {q || "—"}</span>
 
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <Link href="/admin/audit" style={{ fontWeight: 900, textDecoration: "none" }}>All</Link>
-            <Link href={qp("type", "REPORT")} style={{ fontWeight: 900, textDecoration: "none" }}>Reports</Link>
-            <Link href={qp("type", "LISTING")} style={{ fontWeight: 900, textDecoration: "none" }}>Listings</Link>
-            <Link href={qp("type", "USER")} style={{ fontWeight: 900, textDecoration: "none" }}>Users</Link>
+            <Link
+              href="/admin/audit"
+              style={Object.assign({}, tabBase, (!type ? tabActive : null))}
+              aria-current={!type ? "page" : undefined}
+            >
+              All
+            </Link>
+            <Link
+              href={qp("type", "REPORT")}
+              style={Object.assign({}, tabBase, (type === "REPORT" ? tabActive : null))}
+              aria-current={type === "REPORT" ? "page" : undefined}
+            >
+              Reports
+            </Link>
+            <Link
+              href={qp("type", "LISTING")}
+              style={Object.assign({}, tabBase, (type === "LISTING" ? tabActive : null))}
+              aria-current={type === "LISTING" ? "page" : undefined}
+            >
+              Listings
+            </Link>
+            <Link
+              href={qp("type", "USER")}
+              style={Object.assign({}, tabBase, (type === "USER" ? tabActive : null))}
+              aria-current={type === "USER" ? "page" : undefined}
+            >
+              Users
+            </Link>
           </div>
         </div>
 
@@ -108,37 +179,37 @@ export default async function AdminAuditPage({
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ textAlign: "left" }}>
-                <th style={{ padding: "10px 8px", borderBottom: "1px solid #eee" }}>When</th>
-                <th style={{ padding: "10px 8px", borderBottom: "1px solid #eee" }}>Action</th>
-                <th style={{ padding: "10px 8px", borderBottom: "1px solid #eee" }}>Type</th>
-                <th style={{ padding: "10px 8px", borderBottom: "1px solid #eee" }}>Entity</th>
-                <th style={{ padding: "10px 8px", borderBottom: "1px solid #eee" }}>Links</th>
-                <th style={{ padding: "10px 8px", borderBottom: "1px solid #eee" }}>Meta</th>
+                <th style={th}>When</th>
+                <th style={th}>Action</th>
+                <th style={th}>Type</th>
+                <th style={th}>Entity</th>
+                <th style={th}>Links</th>
+                <th style={th}>Meta</th>
               </tr>
             </thead>
             <tbody>
-              {rows.map((r) => {
-                const links: any[] = [];
-                if (r.reportId) links.push(<Link key="rep" href={"/admin/reports/" + r.reportId} style={{ fontWeight: 900, textDecoration: "none" }}>Report</Link>);
-                if (r.listingId) links.push(<Link key="lst" href={"/listings/" + r.listingId} style={{ fontWeight: 900, textDecoration: "none" }}>Listing</Link>);
-                if (r.userId) links.push(<Link key="usr" href={"/seller/" + r.userId} style={{ fontWeight: 900, textDecoration: "none" }}>User</Link>);
+              {rows.map((r, i) => {
+                                const links: any[] = [];
+                if (r.reportId) links.push(<Link key="rep" href={"/admin/reports/" + r.reportId} style={chip}>Report</Link>);
+                if (r.listingId) links.push(<Link key="lst" href={"/listings/" + r.listingId} style={chip}>Listing</Link>);
+                if (r.userId) links.push(<Link key="usr" href={"/seller/" + r.userId} style={chip}>User</Link>);
                 return (
-                  <tr key={r.id}>
-                    <td style={{ padding: "10px 8px", borderBottom: "1px solid #f3f3f3", whiteSpace: "nowrap" }}>{fmt(r.createdAt)}</td>
-                    <td style={{ padding: "10px 8px", borderBottom: "1px solid #f3f3f3" }}>
+                  <tr key={r.id} style={{ background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
+                    <td style={Object.assign({}, td, { whiteSpace: "nowrap" })}>{fmt(r.createdAt)}</td>
+                    <td style={td}>
                       <div style={{ fontWeight: 900 }}>{r.action}</div>
                       <div style={{ fontSize: 12, opacity: 0.8 }}>admin: {r.adminId}</div>
                     </td>
-                    <td style={{ padding: "10px 8px", borderBottom: "1px solid #f3f3f3" }}>{r.entityType}</td>
-                    <td style={{ padding: "10px 8px", borderBottom: "1px solid #f3f3f3" }}>
+                    <td style={td}>{r.entityType}</td>
+                    <td style={td}>
                       <div style={{ fontFamily: "monospace" }}>{r.entityId}</div>
                     </td>
-                    <td style={{ padding: "10px 8px", borderBottom: "1px solid #f3f3f3" }}>
+                    <td style={td}>
                       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>{links.length ? links : <span style={{ opacity: 0.6 }}>—</span>}</div>
                     </td>
-                    <td style={{ padding: "10px 8px", borderBottom: "1px solid #f3f3f3", maxWidth: 420 }}>
+                    <td style={Object.assign({}, td, { maxWidth: 420 })}>
                       <div style={{ fontFamily: "monospace", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
-                        {r.meta ? JSON.stringify(r.meta) : "—"}
+                        {r.meta ? JSON.stringify(r.meta, null, 2) : "—"}
                       </div>
                     </td>
                   </tr>
