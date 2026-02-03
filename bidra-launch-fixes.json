@@ -140,7 +140,7 @@
         "Text":  "Standardise admin action buttons (delete, resolve, block)"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  29,
         "Text":  "Improve admin table hierarchy (headers, spacing, tooltips)"
     },
