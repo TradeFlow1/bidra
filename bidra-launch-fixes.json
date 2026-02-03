@@ -75,7 +75,7 @@
         "Text":  "Standardise all CTAs as real buttons (no text-only actions)"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  16,
         "Text":  "Improve browse filters layout and symmetry"
     },
@@ -85,7 +85,7 @@
         "Text":  "Add timestamps and read clarity to messages"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  18,
         "Text":  "Add clear order status timeline (Placed → Paid → Completed)"
     },
