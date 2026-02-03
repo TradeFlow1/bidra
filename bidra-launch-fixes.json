@@ -135,7 +135,7 @@
         "Text":  "Fix account settings layout (remove OR text, align fields)"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  28,
         "Text":  "Standardise admin action buttons (delete, resolve, block)"
     },
