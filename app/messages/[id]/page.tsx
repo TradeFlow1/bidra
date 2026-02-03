@@ -87,6 +87,17 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
       select: { id: true, body: true, createdAt: true, userId: true },
     })
 
+    // Read receipts (UI): show "Seen" on your latest message once the other party has opened the thread after it was sent.
+    const otherLastReadAt = (thread.buyerId === me ? thread.sellerLastReadAt : thread.buyerLastReadAt) || null
+
+    const myMessages = messages.filter((x) => x.userId === me)
+    const lastMyMessageAt = myMessages.length ? myMessages[myMessages.length - 1].createdAt : null
+    const lastMyMessageId = myMessages.length ? myMessages[myMessages.length - 1].id : null
+
+    const seenLastMyMessage =
+      !!(lastMyMessageAt && otherLastReadAt && new Date(otherLastReadAt).getTime() >= new Date(lastMyMessageAt).getTime())
+
+
     return (
       <main>
         <div className="bd-container">
@@ -133,20 +144,44 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                 </div>
               </div>
 
-              <div className="mt-6 bd-card p-4 max-h-[55vh] overflow-auto">
-                {messages.length ? (
-                  <div className="flex flex-col gap-2">
-                    {messages.map((m) => (
-                      <div key={m.id} className="text-sm">
-                        <span className="text-[var(--bidra-ink-2)]">{formatAuDateTime(m.createdAt)} {" · "}</span>
-                        <b>{m.userId === me ? "You" : displayName(other)}</b>: {allowContactDetailsInMessages() ? m.body : maskContactInfo(m.body)}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-sm text-[var(--bidra-ink-2)]">No messages yet. Say hello to get started.</div>
-                )}
+              <div className="mt-6 bd-card p-4 max-h-[60vh] overflow-auto">
+  {messages.length ? (
+    <div className="flex flex-col gap-3">
+      {messages.map((m) => {
+        const mine = m.userId === me
+        const body = allowContactDetailsInMessages() ? m.body : maskContactInfo(m.body)
+        const isLastMine = mine && lastMyMessageId && m.id === lastMyMessageId
+
+        return (
+          <div key={m.id} className={"flex " + (mine ? "justify-end" : "justify-start")}>
+            <div className={"max-w-[85%] sm:max-w-[70%]"}>
+              <div
+                className={
+                  "rounded-2xl px-4 py-2.5 text-sm leading-relaxed border " +
+                  (mine
+                    ? "bg-[var(--bidra-ink)] text-white border-black/10"
+                    : "bg-white/5 text-[var(--bidra-ink)] border-white/10")
+                }
+              >
+                {body}
               </div>
+
+              <div className={"mt-1 flex items-center gap-2 text-[11px] " + (mine ? "justify-end" : "justify-start")}>
+                <span className="text-[var(--bidra-ink-2)]">{formatAuDateTime(m.createdAt)}</span>
+
+                {isLastMine ? (
+                  <span className="text-[var(--bidra-ink-2)]">{seenLastMyMessage ? "Seen" : "Sent"}</span>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  ) : (
+    <div className="text-sm text-[var(--bidra-ink-2)]">No messages yet. Say hello to get started.</div>
+  )}
+</div>
 
               <div className="mt-4 bd-card p-4">
                 <SendBox threadId={thread.id} />
