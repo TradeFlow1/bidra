@@ -242,6 +242,110 @@ export default async function ListingsPage({
 
   /* STEP3_FILTERS_CLEAN: replace inline filter styles with bd-input / bd-label */
 
+  const FiltersForm = () => (
+    <form action="/listings" method="get">
+      <div className="grid gap-3 md:grid-cols-12">
+        <div className="md:col-span-3">
+          <div className="bd-label text-xs">Search</div>
+          <input name="q" type="search" enterKeyHint="search" defaultValue={q} placeholder="Search listings" className="bd-input" />
+          <button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Search</button>
+        </div>
+
+        <div className="md:col-span-3">
+          <div className="bd-label text-xs">Category</div>
+          <select name="category" defaultValue={category} className="bd-input">
+            <option value="">All categories</option>
+            {CATEGORY_GROUPS.map((g) => (
+              <optgroup key={g.parent} label={g.parent}>
+                <option value={g.parent}>{g.parent}</option>
+                {g.children.map((c) => (
+                  <option key={`${g.parent}:${c}`} value={joinCategory(g.parent, c)}>
+                    {c}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </div>
+
+        <div className="md:col-span-2">
+          <div className="bd-label text-xs">Sale type</div>
+          <select name="type" defaultValue={type} className="bd-input">
+            <option value="">Any</option>
+            <option value="BUY_NOW">Buy Now</option>
+            <option value="FIXED_PRICE">Fixed price</option>
+          </select>
+        </div>
+
+        <div className="md:col-span-2">
+          <div className="bd-label text-xs">Condition</div>
+          <select name="condition" defaultValue={condition} className="bd-input">
+            <option value="">Any</option>
+            <option value="New">New</option>
+            <option value="Used - Like New">Used - Like New</option>
+            <option value="Used - Good">Used - Good</option>
+            <option value="Used - Fair">Used - Fair</option>
+          </select>
+        </div>
+
+        <div className="md:col-span-2">
+          <div className="bd-label text-xs">Sort</div>
+          <select name="sort" defaultValue={sort} className="bd-input">
+            <option value="">Newest</option>
+            <option value="ending_soon">Ending soon</option>
+            <option value="price_asc">Price: low to high</option>
+            <option value="price_desc">Price: high to low</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="mt-3 grid gap-3 md:grid-cols-12">
+        <div className="md:col-span-6">
+          <div className="bd-label text-xs">Location</div>
+          <input name="location" defaultValue={location} placeholder="Suburb, State" className="bd-input" />
+        </div>
+
+        <div className="md:col-span-3">
+          <div className="bd-label text-xs">Min price (AUD)</div>
+          <input
+            name="min"
+            defaultValue={(searchParams?.min ?? "").trim()}
+            placeholder="Min price"
+            className="bd-input"
+            inputMode="decimal"
+          />
+        </div>
+
+        <div className="md:col-span-3">
+          <div className="bd-label text-xs">Max price (AUD)</div>
+          <input
+            name="max"
+            defaultValue={(searchParams?.max ?? "").trim()}
+            placeholder="Max price"
+            className="bd-input"
+            inputMode="decimal"
+          />
+        </div>
+      </div>
+
+      {moneyErr ? (
+        <div style={{ color: "#b91c1c", fontWeight: 900, fontSize: 13, marginTop: 10 }}>
+          Price filters must be numbers (example: 10 or 10.50).
+        </div>
+      ) : null}
+
+      <div className="mt-3 flex flex-wrap items-center gap-2">
+        <button type="submit" className="bd-btn bd-btn-primary">
+          {showResultsText}
+        </button>
+        {hasAnyFilter ? (
+          <Link href="/listings" className="bd-btn bd-btn-secondary">{clearText}</Link>
+        ) : null}
+      </div>
+    </form>
+  );
+
+
   return (
     <main>
       <div className="bd-container">
@@ -257,210 +361,12 @@ export default async function ListingsPage({
 
           <div className="bd-card p-4 mt-3">
             <MobileFiltersToggle>
-<form action="/listings" method="get">
-  <div className="grid gap-3 md:grid-cols-12">
-    <div className="md:col-span-3">
-      <div className="bd-label text-xs">Search</div>
-      <input name="q" type="search" enterKeyHint="search" defaultValue={q} placeholder="Search listings" className="bd-input" />
-<button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Search</button>
-    </div>
+              <FiltersForm />
+            </MobileFiltersToggle>
 
-    <div className="md:col-span-3">
-      <div className="bd-label text-xs">Category</div>
-      <select name="category" defaultValue={category} className="bd-input">
-        <option value="">All categories</option>
-        {CATEGORY_GROUPS.map((g) => (
-          <optgroup key={g.parent} label={g.parent}>
-            <option value={g.parent}>{g.parent}</option>
-            {g.children.map((c) => (
-              <option key={`${g.parent}:${c}`} value={joinCategory(g.parent, c)}>
-                {c}
-              </option>
-            ))}
-          </optgroup>
-        ))}
-      </select>
-    </div>
-
-    <div className="md:col-span-2">
-      <div className="bd-label text-xs">Sale type</div>
-      <select name="type" defaultValue={type} className="bd-input">
-        <option value="">Any</option>
-        <option value="BUY_NOW">Buy Now</option>
-        <option value="FIXED_PRICE">Fixed price</option>
-      </select>
-    </div>
-
-    <div className="md:col-span-2">
-      <div className="bd-label text-xs">Condition</div>
-      <select name="condition" defaultValue={condition} className="bd-input">
-        <option value="">Any</option>
-        <option value="New">New</option>
-        <option value="Used - Like New">Used - Like New</option>
-        <option value="Used - Good">Used - Good</option>
-        <option value="Used - Fair">Used - Fair</option>
-      </select>
-    </div>
-
-    <div className="md:col-span-2">
-      <div className="bd-label text-xs">Sort</div>
-      <select name="sort" defaultValue={sort} className="bd-input">
-        <option value="">Newest</option>
-        <option value="ending_soon">Ending soon</option>
-        <option value="price_asc">Price: low to high</option>
-        <option value="price_desc">Price: high to low</option>
-      </select>
-    </div>
-  </div>
-
-  <div className="mt-3 grid gap-3 md:grid-cols-12">
-    <div className="md:col-span-6">
-      <div className="bd-label text-xs">Location</div>
-      <input name="location" defaultValue={location} placeholder="Suburb, State" className="bd-input" />
-    </div>
-
-    <div className="md:col-span-3">
-      <div className="bd-label text-xs">Min price (AUD)</div>
-      <input
-        name="min"
-        defaultValue={(searchParams?.min ?? "").trim()}
-        placeholder="Min price"
-        className="bd-input"
-        inputMode="decimal"
-      />
-    </div>
-
-    <div className="md:col-span-3">
-      <div className="bd-label text-xs">Max price (AUD)</div>
-      <input
-        name="max"
-        defaultValue={(searchParams?.max ?? "").trim()}
-        placeholder="Max price"
-        className="bd-input"
-        inputMode="decimal"
-      />
-    </div>
-  </div>
-
-  {moneyErr ? (
-    <div style={{ color: "#b91c1c", fontWeight: 900, fontSize: 13, marginTop: 10 }}>
-      Price filters must be numbers (example: 10 or 10.50).
-    </div>
-  ) : null}
-
-  <div className="mt-3 flex flex-wrap items-center gap-2">
-    <button type="submit" className="bd-btn bd-btn-primary">
-      {showResultsText}
-    </button>
-    {hasAnyFilter ? (
-      <Link href="/listings" className="bd-btn bd-btn-secondary">{clearText}</Link>
-    ) : null}
-  </div>
-</form>
-</MobileFiltersToggle>
-
-<div className="hidden md:block">
-<form action="/listings" method="get">
-  <div className="grid gap-3 md:grid-cols-12">
-    <div className="md:col-span-3">
-      <div className="bd-label text-xs">Search</div>
-      <input name="q" type="search" enterKeyHint="search" defaultValue={q} placeholder="Search listings" className="bd-input" />
-<button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Search</button>
-    </div>
-
-    <div className="md:col-span-3">
-      <div className="bd-label text-xs">Category</div>
-      <select name="category" defaultValue={category} className="bd-input">
-        <option value="">All categories</option>
-        {CATEGORY_GROUPS.map((g) => (
-          <optgroup key={g.parent} label={g.parent}>
-            <option value={g.parent}>{g.parent}</option>
-            {g.children.map((c) => (
-              <option key={`${g.parent}:${c}`} value={joinCategory(g.parent, c)}>
-                {c}
-              </option>
-            ))}
-          </optgroup>
-        ))}
-      </select>
-    </div>
-
-    <div className="md:col-span-2">
-      <div className="bd-label text-xs">Sale type</div>
-      <select name="type" defaultValue={type} className="bd-input">
-        <option value="">Any</option>
-        <option value="BUY_NOW">Buy Now</option>
-        <option value="FIXED_PRICE">Fixed price</option>
-      </select>
-    </div>
-
-    <div className="md:col-span-2">
-      <div className="bd-label text-xs">Condition</div>
-      <select name="condition" defaultValue={condition} className="bd-input">
-        <option value="">Any</option>
-        <option value="New">New</option>
-        <option value="Used - Like New">Used - Like New</option>
-        <option value="Used - Good">Used - Good</option>
-        <option value="Used - Fair">Used - Fair</option>
-      </select>
-    </div>
-
-    <div className="md:col-span-2">
-      <div className="bd-label text-xs">Sort</div>
-      <select name="sort" defaultValue={sort} className="bd-input">
-        <option value="">Newest</option>
-        <option value="ending_soon">Ending soon</option>
-        <option value="price_asc">Price: low to high</option>
-        <option value="price_desc">Price: high to low</option>
-      </select>
-    </div>
-  </div>
-
-  <div className="mt-3 grid gap-3 md:grid-cols-12">
-    <div className="md:col-span-6">
-      <div className="bd-label text-xs">Location</div>
-      <input name="location" defaultValue={location} placeholder="Suburb, State" className="bd-input" />
-    </div>
-
-    <div className="md:col-span-3">
-      <div className="bd-label text-xs">Min price (AUD)</div>
-      <input
-        name="min"
-        defaultValue={(searchParams?.min ?? "").trim()}
-        placeholder="Min price"
-        className="bd-input"
-        inputMode="decimal"
-      />
-    </div>
-
-    <div className="md:col-span-3">
-      <div className="bd-label text-xs">Max price (AUD)</div>
-      <input
-        name="max"
-        defaultValue={(searchParams?.max ?? "").trim()}
-        placeholder="Max price"
-        className="bd-input"
-        inputMode="decimal"
-      />
-    </div>
-  </div>
-
-  {moneyErr ? (
-    <div style={{ color: "#b91c1c", fontWeight: 900, fontSize: 13, marginTop: 10 }}>
-      Price filters must be numbers (example: 10 or 10.50).
-    </div>
-  ) : null}
-
-  <div className="mt-3 flex flex-wrap items-center gap-2">
-    <button type="submit" className="bd-btn bd-btn-primary">
-      {showResultsText}
-    </button>
-    {hasAnyFilter ? (
-      <Link href="/listings" className="bd-btn bd-btn-secondary">{clearText}</Link>
-    ) : null}
-  </div>
-</form>
-</div>
+          <div className="hidden md:block">
+            <FiltersForm />
+          </div>
           </div>
 
           <div className="browseList w-full grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
