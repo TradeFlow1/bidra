@@ -95,7 +95,7 @@
         "Text":  "Surface safety warnings near payment and messaging actions"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  20,
         "Text":  "Clean up admin listings layout (truncate titles, align badges)"
     },

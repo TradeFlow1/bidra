@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { Card, Badge } from "@/components/ui";
 import { labelCategory } from "@/lib/labels";
 import DateTimeText from "@/components/date-time-text";
+import { formatAud } from "@/lib/money";
 
 type AdminListingRow = {
   id: string;
@@ -16,8 +17,6 @@ type AdminListingRow = {
   price: number;
   createdAt: Date;
 };
-import { formatAud } from "@/lib/money";
-
 
 export default async function AdminListings() {
   const session = await auth();
@@ -43,28 +42,35 @@ export default async function AdminListings() {
   return (
     <div className="flex flex-col gap-3">
       <h1 className="text-2xl font-bold">Listings</h1>
+
       <div className="grid gap-3">
         {listings.map((l: AdminListingRow) => (
           <Card key={l.id}>
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <div className="text-sm text-neutral-600">
-                  {labelCategory(l.category)} • {l.location}
+            <div className="p-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm text-neutral-600 truncate">
+                    {labelCategory(l.category)} • {l.location}
+                  </div>
+
+                  <Link
+                    className="mt-1 block font-semibold hover:underline truncate"
+                    href={"/listings/" + l.id}
+                    title={l.title}
+                  >
+                    {l.title}
+                  </Link>
+
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <Badge>{l.type}</Badge>
+                    <Badge>{l.status}</Badge>
+                    <Badge>{formatAud(l.price)}</Badge>
+                  </div>
                 </div>
 
-                <Link className="font-semibold hover:underline" href={"/listings/" + l.id}>
-                  {l.title}
-                </Link>
-
-                <div className="mt-2 flex gap-2 flex-wrap">
-                  <Badge>{l.type}</Badge>
-                  <Badge>{l.status}</Badge>
-                  <Badge>{formatAud(l.price)}</Badge>
+                <div className="text-xs text-neutral-600 whitespace-nowrap sm:pt-1">
+                  Created <DateTimeText value={l.createdAt} />
                 </div>
-              </div>
-
-              <div className="text-xs text-neutral-600">
-                Created <DateTimeText value={l.createdAt} />
               </div>
             </div>
           </Card>
