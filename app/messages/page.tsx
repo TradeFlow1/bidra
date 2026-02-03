@@ -121,7 +121,7 @@ export default async function MessagesInboxPage() {
                         key={it.id}
                         href={`/messages/${it.id}`}
                         className={`block rounded-2xl bd-card p-6 transition hover:bg-black/[0.02] hover:shadow-sm ${
-                          it.unread ? "bg-black/[0.03] border-black/15" : ""
+                          it.unread ? "bg-[var(--bidra-blue)]/10 border-[var(--bidra-blue)]/30 ring-1 ring-[var(--bidra-blue)]/10" : ""
                         }`}
                       >
                         <div className="flex items-start gap-4">
@@ -137,13 +137,18 @@ export default async function MessagesInboxPage() {
 
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between gap-3">
-                              <div className="min-w-0 font-extrabold truncate">{it.listing?.title || "Listing"}</div>
-                              <div className="shrink-0 text-xs text-[var(--bidra-ink-2)]">
+                              <div className={"min-w-0 truncate " + (it.unread ? "font-extrabold text-[var(--bidra-ink)]" : "font-bold text-[var(--bidra-ink)]")}>{it.listing?.title || "Listing"}</div>
+                              <div className="shrink-0 flex items-center gap-2">
+                                {it.unread ? (
+                                  <span className="inline-flex items-center rounded-full border border-[var(--bidra-blue)]/30 bg-[var(--bidra-blue)]/15 px-2 py-0.5 text-[10px] font-extrabold text-[var(--bidra-ink)]">
+                                    Unread
+                                  </span>
+                                ) : null}
                                 <DateTimeText className="text-xs text-[var(--bidra-ink-2)]" value={it.lastMessageAt} />
                               </div>
                             </div>
                             <div className="mt-1 text-sm text-[var(--bidra-ink-2)] truncate">With: {otherLabel}</div>
-                            <div className="mt-2 text-sm text-[var(--bidra-ink-2)] line-clamp-2">{last}</div>
+                            <div className={"mt-2 text-sm line-clamp-2 " + (it.unread ? "text-[var(--bidra-ink)] font-semibold" : "text-[var(--bidra-ink-2)]")}>{last}</div>
                           </div>
                         </div>
                       </Link>
