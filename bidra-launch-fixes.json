@@ -100,7 +100,7 @@
         "Text":  "Clean up admin listings layout (truncate titles, align badges)"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  21,
         "Text":  "Polish admin audit log UI (tabs, spacing, row clarity)"
     },
