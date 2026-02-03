@@ -42,7 +42,21 @@ export default function SiteHeaderClient({
   const pill =
     "inline-flex items-center rounded-md border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-black hover:bg-black/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--bidra-link)] focus-visible:ring-offset-2 focus-visible:ring-offset-white";
 
-  const linkPlain = "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--bidra-link)] focus-visible:ring-offset-2 focus-visible:ring-offset-white";
+  const linkPlain = "focus:outline-none focus-visible:ring-2 focus-visible:ring-\[var\(--bidra-link\)\] focus-visible:ring-offset-2 focus-visible:ring-offset-white";
+
+  const pillActive =
+    "inline-flex items-center rounded-md border border-black bg-black px-3 py-2 text-sm font-extrabold text-white hover:bg-black/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--bidra-link)] focus-visible:ring-offset-2 focus-visible:ring-offset-white";
+
+  function isActivePath(href: string) {
+    if (!pathname) return false;
+    if (href === "/") return pathname === "/";
+    if (pathname === href) return true;
+    return pathname.startsWith(href + "/");
+  }
+
+  function navPill(href: string) {
+    return isActivePath(href) ? pillActive : pill;
+  }
 
   function closeAll() {
     setOpen(false);
@@ -106,7 +120,7 @@ export default function SiteHeaderClient({
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3">
         {/* Left: Home */}
         <div className="flex items-center gap-3" onClickCapture={(e) => { const t = e.target as HTMLElement; if (t.closest("a")) closeAll(); }}>
-          <Link href="/" className={pill}>
+          <Link href="/" className={navPill("/")}>
             Home
           </Link>
         </div>
@@ -122,27 +136,27 @@ export default function SiteHeaderClient({
 
         {/* Right: Desktop nav */}
         <nav className="relative hidden items-center gap-3 text-sm md:flex" onClickCapture={(e) => { const t = e.target as HTMLElement; if (t.closest("a")) closeAll(); }}>
-          <Link href="/listings" className={pill}>
+          <Link href="/listings" className={navPill("/listings")}>
             Browse
           </Link>
-          <Link href="/sell" className={pill}>
+          <Link href="/sell" className={navPill("/sell")}>
             Sell
           </Link>
 
           {isAuthed ? (
             <>
-              <Link href="/notifications" className={pill}>
+              <Link href="/notifications" className={navPill("/notifications")}>
                 Notifications{badge}
               </Link>
 
-              <Link href="/messages" className={pill}>
+              <Link href="/messages" className={navPill("/messages")}>
                 Messages
               </Link>
 
               <button
                 type="button"
                 onClick={() => setAcctOpen((v) => !v)}
-                className={pill}
+                className={(pathname && (pathname === "/profile" || pathname.startsWith("/account") || pathname.startsWith("/dashboard") || pathname.startsWith("/orders") || pathname.startsWith("/watchlist"))) ? pillActive : pill}
                 style={{ backgroundColor: "#ffffff", color: "#000000" }}
               >
                 {displayName}
@@ -241,19 +255,19 @@ export default function SiteHeaderClient({
         <div id="mobile-nav" className="md:hidden border-t border-black/10 bd-header">
           <div className="mx-auto w-full max-w-6xl px-4 py-3" onClickCapture={(e) => { const t = e.target as HTMLElement; if (t.closest("a")) closeAll(); }}>
             <div className="flex flex-col gap-3 text-sm">
-              <Link href="/listings" className={pill}>
+              <Link href="/listings" className={navPill("/listings")}>
                 Browse
               </Link>
-              <Link href="/sell" className={pill}>
+              <Link href="/sell" className={navPill("/sell")}>
                 Sell
               </Link>
 
               {isAuthed ? (
                 <>
-                  <Link href="/notifications" className={pill}>
+                  <Link href="/notifications" className={navPill("/notifications")}>
                     Notifications{badge}
                   </Link>
-                  <Link href="/messages" className={pill}>
+                  <Link href="/messages" className={navPill("/messages")}>
                     Messages
                   </Link>
                   <Link href="/profile" className={pill}>
