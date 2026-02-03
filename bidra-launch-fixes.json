@@ -105,7 +105,7 @@
         "Text":  "Polish admin audit log UI (tabs, spacing, row clarity)"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  22,
         "Text":  "Unify messages list cards (title + preview + timestamp)"
     },
