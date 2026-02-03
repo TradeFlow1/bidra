@@ -125,7 +125,7 @@
         "Text":  "Make order list actions prominent buttons"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  26,
         "Text":  "Replace \u0027Confirm payment received\u0027 heading with real CTA"
     },
