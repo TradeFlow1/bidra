@@ -130,7 +130,7 @@
         "Text":  "Replace \u0027Confirm payment received\u0027 heading with real CTA"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  27,
         "Text":  "Fix account settings layout (remove OR text, align fields)"
     },
