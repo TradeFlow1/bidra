@@ -76,23 +76,6 @@ export default async function AdminAuditPage({
     background: "#111",
     color: "#fff",
   };
-
-  const th: React.CSSProperties = {
-    padding: "10px 8px",
-    borderBottom: "1px solid #eaeaea",
-    fontSize: 12,
-    letterSpacing: 0.2,
-    textTransform: "uppercase",
-    opacity: 0.85,
-    whiteSpace: "nowrap",
-  };
-
-  const td: React.CSSProperties = {
-    padding: "10px 8px",
-    borderBottom: "1px solid #f1f1f1",
-    verticalAlign: "top",
-  };
-
   const chip: React.CSSProperties = {
     display: "inline-flex",
     alignItems: "center",
@@ -176,15 +159,15 @@ export default async function AdminAuditPage({
 
       <div style={card}>
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+          <div className="mt-4 rounded-xl border bd-bd bg-white overflow-x-auto"><table className="w-full text-sm">
             <thead>
               <tr style={{ textAlign: "left" }}>
-                <th style={th}>When</th>
-                <th style={th}>Action</th>
-                <th style={th}>Type</th>
-                <th style={th}>Entity</th>
-                <th style={th}>Links</th>
-                <th style={th}>Meta</th>
+                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="When the audit event occurred">When</th>
+                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Action performed">Action</th>
+                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Entity type affected">Type</th>
+                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Entity id">Entity</th>
+                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Quick links to related pages">Links</th>
+                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Extra metadata captured">Meta</th>
               </tr>
             </thead>
             <tbody>
@@ -194,20 +177,20 @@ export default async function AdminAuditPage({
                 if (r.listingId) links.push(<Link key="lst" href={"/listings/" + r.listingId} style={chip}>Listing</Link>);
                 if (r.userId) links.push(<Link key="usr" href={"/seller/" + r.userId} style={chip}>User</Link>);
                 return (
-                  <tr key={r.id} style={{ background: i % 2 === 0 ? "#fff" : "#fafafa" }}>
-                    <td style={Object.assign({}, td, { whiteSpace: "nowrap" })}>{fmt(r.createdAt)}</td>
-                    <td style={td}>
+                  <tr key={r.id} className={i % 2 === 0 ? "bg-white" : "bg-neutral-50"}>
+                    <td className="px-4 py-3 bd-ink2 whitespace-nowrap">{fmt(r.createdAt)}</td>
+                    <td className="px-4 py-3 bd-ink2">
                       <div style={{ fontWeight: 900 }}>{r.action}</div>
                       <div style={{ fontSize: 12, opacity: 0.8 }}>admin: {r.adminId}</div>
                     </td>
-                    <td style={td}>{r.entityType}</td>
-                    <td style={td}>
+                    <td className="px-4 py-3 bd-ink2">{r.entityType}</td>
+                    <td className="px-4 py-3 bd-ink2">
                       <div style={{ fontFamily: "monospace" }}>{r.entityId}</div>
                     </td>
-                    <td style={td}>
+                    <td className="px-4 py-3 bd-ink2">
                       <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>{links.length ? links : <span style={{ opacity: 0.6 }}>—</span>}</div>
                     </td>
-                    <td style={Object.assign({}, td, { maxWidth: 420 })}>
+                    <td className="px-4 py-3 bd-ink2 max-w-[420px]">
                       <div style={{ fontFamily: "monospace", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
                         {r.meta ? JSON.stringify(r.meta, null, 2) : "—"}
                       </div>
@@ -223,7 +206,7 @@ export default async function AdminAuditPage({
                 </tr>
               ) : null}
             </tbody>
-          </table>
+          </table></div>
         </div>
       </div>
     </div>

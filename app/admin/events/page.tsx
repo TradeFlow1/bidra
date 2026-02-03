@@ -79,25 +79,25 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
         ) : null}
       </form>
 
-      <div style={{ marginTop: 14, border: "1px solid rgba(0,0,0,0.10)", borderRadius: 12, overflow: "hidden" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <div className="mt-4 rounded-xl border bd-bd bg-white overflow-x-auto">
+        <table className="w-full text-sm">
           <thead>
-            <tr style={{ background: "rgba(0,0,0,0.03)" }}>
-              <th style={{ textAlign: "left", padding: 10, fontSize: 12 }}>Time</th>
-              <th style={{ textAlign: "left", padding: 10, fontSize: 12 }}>Type</th>
-              <th style={{ textAlign: "left", padding: 10, fontSize: 12 }}>User</th>
-              <th style={{ textAlign: "left", padding: 10, fontSize: 12 }}>Order</th>
-              <th style={{ textAlign: "left", padding: 10, fontSize: 12 }}>Data</th>
+            <tr className="bg-white/60 border-b bd-bd text-left">
+              <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="When the event was recorded">Time</th>
+              <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Event type">Type</th>
+              <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="User id involved">User</th>
+              <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Order id if relevant">Order</th>
+              <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Event payload / details">Data</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.id} style={{ borderTop: "1px solid rgba(0,0,0,0.08)" }}>
-                <td style={{ padding: 10, fontSize: 12, whiteSpace: "nowrap" }}><DateTimeText value={r.createdAt} /></td>
-                <td style={{ padding: 10, fontSize: 12, fontWeight: 800 }}>{r.type}</td>
+              <tr key={r.id} className="border-t bd-bd hover:bg-neutral-50">
+                <td className="px-4 py-3 bd-ink2 text-xs whitespace-nowrap"><DateTimeText value={r.createdAt} /></td>
+                <td className="px-4 py-3 bd-ink text-xs font-extrabold whitespace-nowrap">{r.type}</td>
                 <td style={{ padding: 10, fontSize: 12, fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" }}>{r.userId || "-"}</td>
                 <td style={{ padding: 10, fontSize: 12, fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" }}>{r.orderId || "-"}</td>
-                <td style={{ padding: 10, fontSize: 12 }}>
+                <td className="px-4 py-3 bd-ink2 text-xs">
                   <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>{r.data ? JSON.stringify(r.data, null, 2) : "-"}</pre>
                 </td>
               </tr>
