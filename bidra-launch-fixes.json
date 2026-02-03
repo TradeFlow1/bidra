@@ -115,7 +115,7 @@
         "Text":  "Redesign chat UI (message bubbles, send button)"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  24,
         "Text":  "Upgrade notifications UI (real buttons, less dead space)"
     },
