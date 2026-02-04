@@ -180,7 +180,7 @@
         "Text":  "P0-04 Buyers cannot mark payment as made: After Buy Now, order page instructs payment but no \u0027I\u0027ve paid\u0027 / confirm payment action to advance order lifecycle. Implement buyer payment confirmation and status advance."
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  37,
         "Text":  "P0-05 Missing \u0027Pay now\u0027 CTA in orders list: Buyer sees \u0027Pay now binding order — please pay to proceed\u0027 but no actionable button/link to payment page. Add prominent Pay now button to reach /orders/[id]/pay (and confirm)."
     },
