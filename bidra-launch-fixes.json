@@ -175,7 +175,7 @@
         "Text":  "P0-03 No way for sellers to complete orders: After buyers pay, orders can remain stuck at \u0027Paid\u0027 with no clear seller action to mark received/handed-over/completed. Add seller controls to confirm handover and complete order."
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  36,
         "Text":  "P0-04 Buyers cannot mark payment as made: After Buy Now, order page instructs payment but no \u0027I\u0027ve paid\u0027 / confirm payment action to advance order lifecycle. Implement buyer payment confirmation and status advance."
     },
