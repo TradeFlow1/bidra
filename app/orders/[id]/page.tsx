@@ -1,5 +1,6 @@
 ﻿import Link from "next/link";
 import SellerConfirmReceived from "./seller-confirm-received";
+import BuyerConfirmPaid from "./buyer-confirm-paid";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -123,6 +124,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                       <span className="block">Pay now</span>
                       <span className="mt-1 block text-xs bd-ink2">Binding order — please pay to proceed.</span>
                     </Link>
+                      <div className="mt-2">
+                        <BuyerConfirmPaid orderId={order.id} />
+                      </div>
                   </div>
                 </div>
               ) : null}
