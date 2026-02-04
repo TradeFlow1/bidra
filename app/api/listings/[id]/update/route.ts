@@ -237,15 +237,15 @@ if (images.some((u: string) => {
     const data: any = { title, description, category, condition, location, price, images };
 
 // Timed-offers Buy Now: only allow for schema type AUCTION listings. Ignore for other types.
-if (hasBuyNowField) {
+    // FIXED_PRICE: keep canonical Buy Now aligned to price on every edit (prevents stale Buy Now display)
+    const isTimedOffersType = String((existing as { type?: unknown }).type || "").toUpperCase() === "AUCTION";
+    if (!isTimedOffersType) {
+      data.buyNowPrice = price;
+      data.buyNowEnabled = true;
+      data.reservePrice = null;
+    }
+    if (hasBuyNowField) {
   const isTimedOffers = String((existing as { type?: unknown }).type || "").toUpperCase() === "AUCTION";
-
-// FIXED_PRICE: keep canonical price aligned (prevents drift between price and buyNowPrice)
-if (!isTimedOffers) {
-  data.buyNowPrice = price;
-  data.buyNowEnabled = true;
-  data.reservePrice = null;
-}
 
   if (!isTimedOffers) {
     // ignore silently (do not error) to avoid breaking older clients
