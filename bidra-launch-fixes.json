@@ -195,7 +195,7 @@
         "Text":  "P0-07 Reporting a chat shows no immediate confirmation: After submitting report, user sees no feedback until attempting delete. Must show success toast/message immediately upon report submit."
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  40,
         "Text":  "P0-08 Messages sometimes duplicate: After sending, chat may show two identical copies. Ensure message append happens once (dedupe by id/client nonce) and UI renders exactly one per send."
     },
