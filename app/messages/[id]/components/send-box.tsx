@@ -7,13 +7,15 @@ export default function SendBox({ threadId }: { threadId: string }) {
   const router = useRouter()
   const [body, setBody] = useState("")
   const [busy, setBusy] = useState(false)
+  const [inFlight, setInFlight] = useState(false)
   const [err, setErr] = useState<string | null>(null)
 
   async function send() {
     setErr(null)
     const text = body.trim()
-    if (!text || busy) return
+    if (!text || busy || inFlight) return
     setBusy(true)
+    setInFlight(true)
     try {
       const res = await fetch(`/api/messages/thread/${threadId}/send`, {
         method: "POST",
@@ -28,6 +30,7 @@ export default function SendBox({ threadId }: { threadId: string }) {
       setErr(e?.message || "Failed to send message")
     } finally {
       setBusy(false)
+      setInFlight(false)
     }
   }
 

@@ -61,6 +61,19 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   const now = new Date();
 
   const msg = await prisma.$transaction(async (tx) => {
+    // Fix 40: Deduplicate accidental double-sends (same user+thread+body in last 10s)
+    const since = new Date(now.getTime() - 10 * 1000)
+    const existing = await tx.message.findFirst({
+      where: {
+        threadId: thread.id,
+        userId: me,
+        body: text,
+        createdAt: { gte: since },
+      },
+      orderBy: { createdAt: "desc" },
+      select: { id: true, body: true, createdAt: true, userId: true, threadId: true, listingId: true },
+    })
+    if (existing) return existing
     const created = await tx.message.create({
       data: {
         threadId: thread.id,
