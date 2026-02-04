@@ -213,7 +213,7 @@ const scrubbedDescriptionText = rawDescriptionText
   const buyNowHasPrice = typeof rawBuyNow === "number";
   const buyNowPriceCents =
     listing.type === "FIXED_PRICE"
-      ? (buyNowHasPrice ? (rawBuyNow as number) : guidePriceCents)
+      ? guidePriceCents
       : (buyNowHasPrice ? (rawBuyNow as number) : null);
   // Kevin model:
   // - No Buy Now shown initially on timed offers.
@@ -456,7 +456,7 @@ const scrubbedDescriptionText = rawDescriptionText
             ) : (
               <div className="bd-card p-4 space-y-3">
                 <div className="text-sm font-semibold">Price</div>
-                <div className="text-2xl font-extrabold">{formatMoney(listing.type === "FIXED_PRICE" ? (buyNowPriceCents ?? guidePriceCents) : guidePriceCents)}</div>
+                <div className="text-2xl font-extrabold">{formatMoney(guidePriceCents)}</div>
                 {buyNowVisible ? (
                   <div className="space-y-1">
                     <BuyNowButton listingId={(listing as unknown as { id: string }).id} />
