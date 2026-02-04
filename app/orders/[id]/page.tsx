@@ -83,9 +83,34 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div className="flex flex-wrap gap-2">
               <Link href="/orders" className="bd-btn bd-btn-primary text-center">Orders</Link>
               <Link href={listingHref} className="bd-btn bd-btn-primary text-center">View listing</Link>
-              {(order.buyerId === user.id) ? (
-                <Link href={feedbackHref} className="bd-btn bd-btn-primary text-center">Leave feedback</Link>
-              ) : null}
+              {(() => {
+                const isBuyer = order.buyerId === user.id
+                const isSeller = order.listing?.sellerId === user.id
+                const canLeave =
+                  order.outcome === "COMPLETED" &&
+                  ((isBuyer && !order.buyerFeedbackAt) || (isSeller && !order.sellerFeedbackAt))
+                const alreadyLeft =
+                  order.outcome === "COMPLETED" &&
+                  ((isBuyer && !!order.buyerFeedbackAt) || (isSeller && !!order.sellerFeedbackAt))
+
+                if (canLeave) {
+                  return (
+                    <Link href={feedbackHref} className="bd-btn bd-btn-primary text-center">
+                      Leave feedback
+                    </Link>
+                  )
+                }
+
+                if (alreadyLeft) {
+                  return (
+                    <span className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white/5 px-4 py-2.5 text-sm font-semibold bd-ink">
+                      Feedback submitted
+                    </span>
+                  )
+                }
+
+                return null
+              })()}
             </div>
           </div>
 
