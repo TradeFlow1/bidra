@@ -205,7 +205,7 @@
         "Text":  "P0-09 Leaving feedback doesn’t update order status: Orders list still shows Leave feedback after feedback submitted, allowing duplicates. Update status/CTA to reflect completed and prevent multiple submissions."
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  42,
         "Text":  "P0-10 Self-reporting possible: Report button appears on seller’s own listing. Hide/disable report on own listing (seller view)."
     },
