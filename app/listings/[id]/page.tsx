@@ -86,6 +86,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const role = session?.user?.role;
   const isAdmin = role === "ADMIN";
   const isSeller = !!(session?.user?.id && session.user.id === (listing as unknown as { sellerId?: string }).sellerId);
+  const showReport = !!viewerId && !isSeller;
 
   if (!isSeller && !isAdmin && listing.status !== "ACTIVE") {
       const viewerOrder = viewerId
@@ -291,7 +292,7 @@ const scrubbedDescriptionText = rawDescriptionText
             </div>
 
             <div className="pt-2 space-y-3">
-              <ReportListingButton listingId={(listing as unknown as { id: string }).id} />
+              {showReport ? <ReportListingButton listingId={(listing as unknown as { id: string }).id} /> : null}
 
               <div>
                 {session?.user?.id === (listing as unknown as { sellerId?: string }).sellerId ? (
