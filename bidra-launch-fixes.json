@@ -160,7 +160,7 @@
         "Text":  null
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  33,
         "Text":  "P0-01 Unauthenticated Buy Now silent failure: On listing pages, logged-out users can click Buy Now and see a brief \u0027Not authenticated\u0027 flash then remain on page. Must disable Buy Now when logged out OR redirect to /auth/login (with ?next=...) and show clear message."
     },
