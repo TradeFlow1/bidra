@@ -170,7 +170,7 @@
         "Text":  "P0-02 Editing a listing does not update the price: Seller edits price, Save changes shows new value in form but public listing remains unchanged. Ensure edits propagate and public listing reflects updated price."
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  35,
         "Text":  "P0-03 No way for sellers to complete orders: After buyers pay, orders can remain stuck at \u0027Paid\u0027 with no clear seller action to mark received/handed-over/completed. Add seller controls to confirm handover and complete order."
     },
