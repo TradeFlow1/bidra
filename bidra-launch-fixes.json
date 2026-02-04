@@ -215,7 +215,7 @@
         "Text":  "P0-11 \u0027View order\u0027 link tiny/truncated: Orders list \u0027View order – [ID]\u0027 is small, blends into text, truncates ID. Make it a distinct button/link with clear spacing and readable ID."
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  44,
         "Text":  "P1-12 Wrong date format + buried 18+ requirement: Sign-up uses mm/dd/yyyy; AU expects dd/mm/yyyy. Make 18+ prominent on signup, not tiny. Fix DOB input UX to AU format."
     },
