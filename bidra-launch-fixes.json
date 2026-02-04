@@ -162,126 +162,126 @@
     {
         "Done":  false,
         "Id":  33,
-        "Text":  null
+        "Text":  "P0-01 Unauthenticated Buy Now silent failure: On listing pages, logged-out users can click Buy Now and see a brief \u0027Not authenticated\u0027 flash then remain on page. Must disable Buy Now when logged out OR redirect to /auth/login (with ?next=...) and show clear message."
     },
     {
         "Done":  false,
         "Id":  34,
-        "Text":  null
+        "Text":  "P0-02 Editing a listing does not update the price: Seller edits price, Save changes shows new value in form but public listing remains unchanged. Ensure edits propagate and public listing reflects updated price."
     },
     {
         "Done":  false,
         "Id":  35,
-        "Text":  null
+        "Text":  "P0-03 No way for sellers to complete orders: After buyers pay, orders can remain stuck at \u0027Paid\u0027 with no clear seller action to mark received/handed-over/completed. Add seller controls to confirm handover and complete order."
     },
     {
         "Done":  false,
         "Id":  36,
-        "Text":  null
+        "Text":  "P0-04 Buyers cannot mark payment as made: After Buy Now, order page instructs payment but no \u0027I\u0027ve paid\u0027 / confirm payment action to advance order lifecycle. Implement buyer payment confirmation and status advance."
     },
     {
         "Done":  false,
         "Id":  37,
-        "Text":  null
+        "Text":  "P0-05 Missing \u0027Pay now\u0027 CTA in orders list: Buyer sees \u0027Pay now binding order — please pay to proceed\u0027 but no actionable button/link to payment page. Add prominent Pay now button to reach /orders/[id]/pay (and confirm)."
     },
     {
         "Done":  false,
         "Id":  38,
-        "Text":  null
+        "Text":  "P0-06 Confusing duplication on sell/listing forms: Repeated explanatory text about sale types appears under multiple sections. Remove duplication; show each instruction once near the relevant inputs."
     },
     {
         "Done":  false,
         "Id":  39,
-        "Text":  null
+        "Text":  "P0-07 Reporting a chat shows no immediate confirmation: After submitting report, user sees no feedback until attempting delete. Must show success toast/message immediately upon report submit."
     },
     {
         "Done":  false,
         "Id":  40,
-        "Text":  null
+        "Text":  "P0-08 Messages sometimes duplicate: After sending, chat may show two identical copies. Ensure message append happens once (dedupe by id/client nonce) and UI renders exactly one per send."
     },
     {
         "Done":  false,
         "Id":  41,
-        "Text":  null
+        "Text":  "P0-09 Leaving feedback doesn’t update order status: Orders list still shows Leave feedback after feedback submitted, allowing duplicates. Update status/CTA to reflect completed and prevent multiple submissions."
     },
     {
         "Done":  false,
         "Id":  42,
-        "Text":  null
+        "Text":  "P0-10 Self-reporting possible: Report button appears on seller’s own listing. Hide/disable report on own listing (seller view)."
     },
     {
         "Done":  false,
         "Id":  43,
-        "Text":  null
+        "Text":  "P0-11 \u0027View order\u0027 link tiny/truncated: Orders list \u0027View order – [ID]\u0027 is small, blends into text, truncates ID. Make it a distinct button/link with clear spacing and readable ID."
     },
     {
         "Done":  false,
         "Id":  44,
-        "Text":  null
+        "Text":  "P1-12 Wrong date format + buried 18+ requirement: Sign-up uses mm/dd/yyyy; AU expects dd/mm/yyyy. Make 18+ prominent on signup, not tiny. Fix DOB input UX to AU format."
     },
     {
         "Done":  false,
         "Id":  45,
-        "Text":  null
+        "Text":  "P1-13 Location input restrictive/unclear: Requires exact \u0027postcode suburb, state\u0027 string; no dropdown/autocomplete. Add state dropdown + clear examples and friendlier validation guidance."
     },
     {
         "Done":  false,
         "Id":  46,
-        "Text":  null
+        "Text":  "P1-14 Weak password guidance: No visible strength/min requirements. Add minimum length and basic complexity guidance + strength indicator."
     },
     {
         "Done":  false,
         "Id":  47,
-        "Text":  null
+        "Text":  "P1-15 Messaging navigation bugs: Inbox/back inside a thread sometimes needs double click; inconsistent back nav. Ensure single click reliably returns to messages list."
     },
     {
         "Done":  false,
         "Id":  48,
-        "Text":  null
+        "Text":  "P1-16 Generic auth errors: \u0027Incorrect email or password\u0027/\u0027Not authenticated\u0027 even for unverified email or other causes. Show specific guidance (verify email, restricted account, etc.)."
     },
     {
         "Done":  false,
         "Id":  49,
-        "Text":  null
+        "Text":  "P1-17 Contact form inaccessible when logged out: Logged-out users can’t submit support. Provide contact option without login."
     },
     {
         "Done":  false,
         "Id":  50,
-        "Text":  null
+        "Text":  "P1-18 Fees page lacks concrete numbers: Mentions example 7% but not actual current fees. Publish current success fee and any listing/payment fees plainly."
     },
     {
         "Done":  false,
         "Id":  51,
-        "Text":  null
+        "Text":  "P1-19 Watch button provides no feedback: Watch action doesn’t change label/style. After click, show \u0027Watching\u0027 + visible state change."
     },
     {
         "Done":  false,
         "Id":  52,
-        "Text":  null
+        "Text":  "P1-20 No direct Message seller button on order page: Buyer told to message seller but must navigate manually. Add Message seller CTA on order page."
     },
     {
         "Done":  false,
         "Id":  53,
-        "Text":  null
+        "Text":  "P1-21 Truncated order IDs/spacing: Long IDs wrap/truncate unpredictably in orders list. Redesign layout so ID + actions remain readable on small screens."
     },
     {
         "Done":  false,
         "Id":  54,
-        "Text":  null
+        "Text":  "P2-22 Placeholder text truncates on smaller screens AND P2-23 Homepage value proposition weak: Fix responsive placeholder truncation; strengthen homepage hero/value proposition + trust cues (AU identity, fees transparency, safety/prohibited items, etc.)."
     },
     {
         "Done":  false,
         "Id":  55,
-        "Text":  null
+        "Text":  "P2-24 Duplicate category labels on listings AND P2-25 Show/hide password toggle missing: Remove duplicate category breadcrumb/labels; add password visibility toggle on sign-in/sign-up."
     },
     {
         "Done":  false,
         "Id":  56,
-        "Text":  null
+        "Text":  "P2-26 No visible success indicators for completed orders: After completion/feedback, add clear \u0027Completed\u0027 badges/status for both parties."
     },
     {
         "Done":  false,
         "Id":  57,
-        "Text":  null
+        "Text":  "P2-27 Watchlist + notification integration: Provide a central watchlist page/dashboard and notification/updates for watched listings/offers (engagement polish)."
     }
 ]
