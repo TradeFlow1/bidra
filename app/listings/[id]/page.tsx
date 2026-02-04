@@ -236,8 +236,7 @@ const scrubbedDescriptionText = rawDescriptionText
   const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
   const endsAtIso = (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null;
   const buyNowVisible =
-    listing.status === "ACTIVE" &&
-    !isSeller &&
+    listing.status === "ACTIVE" && Boolean(viewerId) && !isSeller &&
     (
       // FIXED_PRICE: primary path (fallback to price when buyNowPrice not set)
       (listing.type === "FIXED_PRICE" && buyNowPriceCents != null && buyNowPriceCents > 0) ||
