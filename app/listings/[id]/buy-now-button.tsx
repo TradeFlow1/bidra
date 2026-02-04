@@ -17,6 +17,15 @@ export default function BuyNowButton({ listingId }: { listingId: string }) {
       });
 
       const data = await res.json().catch(() => ({}));
+
+      // Professional UX: if logged out, send user to sign-in with a return path.
+      if (res.status === 401) {
+        setMsg("Please sign in to Buy Now.");
+        const next = encodeURIComponent(`/listings/${listingId}`);
+        window.location.href = `/auth/login?next=${next}`;
+        return;
+      }
+
       if (!res.ok) {
         setMsg(data?.error || "Buy Now failed.");
         return;
