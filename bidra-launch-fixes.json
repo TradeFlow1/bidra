@@ -210,7 +210,7 @@
         "Text":  "P0-10 Self-reporting possible: Report button appears on seller’s own listing. Hide/disable report on own listing (seller view)."
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  43,
         "Text":  "P0-11 \u0027View order\u0027 link tiny/truncated: Orders list \u0027View order – [ID]\u0027 is small, blends into text, truncates ID. Make it a distinct button/link with clear spacing and readable ID."
     },
