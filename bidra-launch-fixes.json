@@ -190,7 +190,7 @@
         "Text":  "P0-06 Confusing duplication on sell/listing forms: Repeated explanatory text about sale types appears under multiple sections. Remove duplication; show each instruction once near the relevant inputs."
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  39,
         "Text":  "P0-07 Reporting a chat shows no immediate confirmation: After submitting report, user sees no feedback until attempting delete. Must show success toast/message immediately upon report submit."
     },
