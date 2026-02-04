@@ -19,6 +19,49 @@ function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
 }
 
+function DobSelect(props: { value: string; onChange: (v: string) => void }) {
+  const v = String(props.value ?? "");
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
+  const y0 = m ? m[1] : "";
+  const mo0 = m ? m[2] : "";
+  const d0 = m ? m[3] : "";
+
+  const now = new Date();
+  const maxYear = now.getFullYear() - 18; // UX hint only; server still enforces
+  const minYear = maxYear - 120;
+
+  const days = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, "0"));
+  const months = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
+  const years = Array.from({ length: (maxYear - minYear + 1) }, (_, i) => String(maxYear - i));
+
+  function setPart(part: "d" | "m" | "y", next: string) {
+    const yy = part === "y" ? next : y0;
+    const mm = part === "m" ? next : mo0;
+    const dd = part === "d" ? next : d0;
+    if (yy && mm && dd) props.onChange(`${yy}-${mm}-${dd}`);
+    else props.onChange("");
+  }
+
+  return (
+    <div className="mt-3 grid grid-cols-3 gap-2">
+      <select className="bd-input" value={d0} onChange={(e) => setPart("d", e.target.value)} aria-label="Day">
+        <option value="">DD</option>
+        {days.map((d) => (<option key={d} value={d}>{d}</option>))}
+      </select>
+
+      <select className="bd-input" value={mo0} onChange={(e) => setPart("m", e.target.value)} aria-label="Month">
+        <option value="">MM</option>
+        {months.map((m2) => (<option key={m2} value={m2}>{m2}</option>))}
+      </select>
+
+      <select className="bd-input" value={y0} onChange={(e) => setPart("y", e.target.value)} aria-label="Year">
+        <option value="">YYYY</option>
+        {years.map((y) => (<option key={y} value={y}>{y}</option>))}
+      </select>
+    </div>
+  );
+}
+
 export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
@@ -270,17 +313,20 @@ export default function RegisterPage() {
                 <p className={helper}>Letters, numbers, underscore, dot.</p>
               </div>
 
-              <div><label className={label}>Date of birth</label>
-<input
-  className={input}
-  type="date"
-  value={form.dob}
-  onChange={(e) => set("dob", e.target.value)}
-  required
-/>
-<p className="mt-1 text-sm text-black/60">You must be <span className="font-semibold">18+</span> to create an account.</p>
-
-                <p className={helper}>Used only to enforce 18+.</p>
+              <div>
+                <label className={label}>Date of birth</label>
+                <div className="mt-2 rounded-xl border border-black/10 bg-white p-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="text-sm">
+                      <div className="font-semibold text-[#0b1220]">18+ only</div>
+                      <div className="text-black/60">Under 18s may browse, but cannot create an account.</div>
+                    </div>
+                    <div className="text-xs text-black/60">Used only to enforce 18+.</div>
+                  </div>
+              
+                  <DobSelect value={form.dob} onChange={(v) => set("dob", v)} />
+                  <p className="mt-2 text-xs text-black/60">Format: <span className="font-semibold">DD/MM/YYYY</span></p>
+                </div>
               </div>
 
               <div className="rounded-2xl border border-black/10 bg-white p-5">
