@@ -150,7 +150,7 @@
         "Text":  "Add active state styling to top navigation"
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  31,
         "Text":  null
     },
