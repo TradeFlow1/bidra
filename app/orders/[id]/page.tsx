@@ -74,7 +74,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight">Order</h1>
               <div className="text-sm bd-ink2 mt-1">
-                <Badge>{order.status}</Badge>{" "}
+                <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
                 <span className="ml-2">Created <DateTimeText value={order.createdAt} /></span>
               </div>
             </div>

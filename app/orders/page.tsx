@@ -47,7 +47,7 @@ export default async function OrdersPage() {
               >
                 <div>
                   <div className="text-sm bd-ink2">
-                    <Badge>{o.status}</Badge>{" "}
+                    <Badge>{o.outcome === "COMPLETED" ? "COMPLETED" : o.status}</Badge>{" "}
                     <span className="ml-2">
                       Created <DateTimeText value={o.createdAt} />
                     </span>
