@@ -165,7 +165,7 @@
         "Text":  "P0-01 Unauthenticated Buy Now silent failure: On listing pages, logged-out users can click Buy Now and see a brief \u0027Not authenticated\u0027 flash then remain on page. Must disable Buy Now when logged out OR redirect to /auth/login (with ?next=...) and show clear message."
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  34,
         "Text":  "P0-02 Editing a listing does not update the price: Seller edits price, Save changes shows new value in form but public listing remains unchanged. Ensure edits propagate and public listing reflects updated price."
     },
