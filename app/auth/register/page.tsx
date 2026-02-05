@@ -368,16 +368,23 @@ export default function RegisterPage() {
                     />
 
                     <label className={cx(label, "mt-3 block")}>State</label>
-                    <input
+                    <select
                       className={input}
                       value={form.state}
-                      onChange={(e) => {
-                        const v = e.target.value.toUpperCase();
-                        set("state", v);
-                      }}
-                      placeholder="e.g. QLD"
-                    />
-                    <p className={helper}>Example: QLD, NSW, VIC</p>
+                      onChange={(e) => set("state", e.target.value)}
+                      autoComplete="address-level1"
+                    >
+                      <option value="">Select state/territory…</option>
+                      <option value="QLD">QLD</option>
+                      <option value="NSW">NSW</option>
+                      <option value="VIC">VIC</option>
+                      <option value="WA">WA</option>
+                      <option value="SA">SA</option>
+                      <option value="TAS">TAS</option>
+                      <option value="ACT">ACT</option>
+                      <option value="NT">NT</option>
+                    </select>
+                    <p className={helper}>Choose your state/territory (AU).</p>
                   </div>
                 </div>
 
