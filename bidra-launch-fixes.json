@@ -220,7 +220,7 @@
         "Text":  "P1-12 Wrong date format + buried 18+ requirement: Sign-up uses mm/dd/yyyy; AU expects dd/mm/yyyy. Make 18+ prominent on signup, not tiny. Fix DOB input UX to AU format."
     },
     {
-        "Done":  false,
+        "Done":  true,
         "Id":  45,
         "Text":  "P1-13 Location input restrictive/unclear: Requires exact \u0027postcode suburb, state\u0027 string; no dropdown/autocomplete. Add state dropdown + clear examples and friendlier validation guidance."
     },
