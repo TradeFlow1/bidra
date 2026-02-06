@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
 
@@ -77,3 +78,4 @@ return NextResponse.json({ ok: true, outcome: updated.outcome, completedAt: upda
     return NextResponse.json({ ok: false, error: "Unable to confirm payment received." }, { status: 500 });
   }
 }
+

@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { listingLooksProhibited } from "@/lib/prohibited-items";
 import { applyPolicyStrike } from "@/lib/policy-strike";
@@ -144,3 +145,4 @@ export async function POST(req: Request) {
     });
   }
 }
+

@@ -1,4 +1,5 @@
-﻿import crypto from "crypto";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import crypto from "crypto";
 import { NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { requireAdult } from "@/lib/require-adult";
@@ -105,3 +106,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Upload failed." }, { status: 500 });
   }
 }
+

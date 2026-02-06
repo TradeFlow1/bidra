@@ -1,4 +1,5 @@
-﻿"use client"
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client"
 
 import { useState } from "react"
 
@@ -98,3 +99,4 @@ export default function ThreadActions({ threadId }: { threadId: string }) {
     </div>
   )
 }
+

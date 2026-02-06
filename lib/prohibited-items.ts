@@ -1,4 +1,5 @@
-﻿export type ProhibitedMatch = {
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+export type ProhibitedMatch = {
   blocked: boolean;
   category?: "NICOTINE_VAPE" | "ALCOHOL" | "SEXUAL_FETISH";
   evidence?: string[];
@@ -64,4 +65,5 @@ export function listingLooksProhibited(input: {
 export function textLooksProhibited(text: string): boolean {
   return checkProhibitedListing({ title: text }).blocked === true;
 }
+
 

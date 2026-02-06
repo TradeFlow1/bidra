@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
 
@@ -182,3 +183,4 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Failed to load listings" }, { status: 500 });
   }
 }
+

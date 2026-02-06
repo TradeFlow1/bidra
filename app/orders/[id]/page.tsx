@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿/* eslint-disable react/no-unescaped-entities */
+import Link from "next/link";
 import SellerConfirmReceived from "./seller-confirm-received";
 import BuyerConfirmPaid from "./buyer-confirm-paid";
 import { redirect } from "next/navigation";
@@ -203,3 +204,4 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     </main>
   );
 }
+

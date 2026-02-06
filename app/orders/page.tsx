@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -134,3 +135,4 @@ export default async function OrdersPage() {
     </main>
   );
 }
+

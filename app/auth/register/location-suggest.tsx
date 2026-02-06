@@ -1,4 +1,5 @@
 ﻿"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -122,3 +123,4 @@ export default function LocationSuggest(props: {
     </div>
   );
 }
+

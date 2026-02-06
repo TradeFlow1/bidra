@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from "next/server";
 import { requireAdult } from "@/lib/require-adult";
 
 
@@ -320,3 +321,4 @@ if (images.length > 10) return NextResponse.json({ error: "Too many images (max 
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+

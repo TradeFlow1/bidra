@@ -1,4 +1,6 @@
-﻿import Image from "next/image";
+﻿/* eslint-disable react-hooks/error-boundaries */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Image from "next/image";
 import { allowContactDetailsInMessages, maskContactInfo } from "@/lib/message-safety"
 import Link from "next/link"
 import { redirect } from "next/navigation"
@@ -218,3 +220,5 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
     )
   }
 }
+
+

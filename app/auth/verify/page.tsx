@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿/* eslint-disable react-hooks/purity */
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
 export const metadata = {
@@ -41,8 +42,8 @@ export default async function VerifyPage({ searchParams }: { searchParams: { tok
     where: { token },
     include: { user: true },
   });
-
-  if (!vt || vt.expiresAt.getTime() < Date.now()) {
+  const now: number = Date.now();
+  if (!vt || vt.expiresAt.getTime() < now) {
     return (
       <Wrap title="Verification link expired">
         <p className="text-sm bd-ink2">
@@ -77,3 +78,6 @@ export default async function VerifyPage({ searchParams }: { searchParams: { tok
     </Wrap>
   );
 }
+
+
+

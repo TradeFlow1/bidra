@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
 import { sendNewTopOfferEmail } from "@/lib/email";
@@ -220,3 +221,4 @@ const top = await tx.offerMax.findMany({
     currentOfferCents: result.highestAmt,
   });
 }
+

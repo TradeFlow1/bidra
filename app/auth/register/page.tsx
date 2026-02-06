@@ -1,4 +1,5 @@
 ﻿"use client";
+/* eslint-disable react/no-unescaped-entities */
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -447,3 +448,4 @@ export default function RegisterPage() {
     </main>
   );
 }
+

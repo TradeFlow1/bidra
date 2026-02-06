@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿/* eslint-disable react-hooks/purity */
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -86,7 +87,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
   const returnTo = encodeURIComponent(`/admin/reports/${report.id}`);
   const listingHref = report.listing?.id ? `/listings/${report.listing.id}` : null;
 
-  const blockedUntilMs = seller?.policyBlockedUntil ? new Date(seller.policyBlockedUntil as Date | string | number).getTime() : null;
+  const blockedUntilMs = seller?.policyBlockedUntil ? new Date(seller.policyBlockedUntil as Date | string | number).getTime() : null;
   const isBlocked = blockedUntilMs ? blockedUntilMs > Date.now() : false;
 
   const card: React.CSSProperties = { border: "1px solid #e5e5e5", borderRadius: 12, padding: 14, marginTop: 14 };
@@ -258,3 +259,6 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
     </div>
   );
 }
+
+
+

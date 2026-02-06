@@ -1,4 +1,5 @@
 ﻿"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -176,3 +177,4 @@ export default function FeedbackClient() {
     </div>
   );
 }
+

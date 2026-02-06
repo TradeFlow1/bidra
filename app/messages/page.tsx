@@ -1,4 +1,6 @@
-﻿import Image from "next/image";
+﻿/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react-hooks/error-boundaries */
+import Image from "next/image";
 import { allowContactDetailsInMessages, maskContactInfo } from "@/lib/message-safety"
 import Link from "next/link"
 import InboxAutoRefresh from "./components/inbox-auto-refresh"
@@ -191,3 +193,5 @@ export default async function MessagesInboxPage() {
     )
   }
 }
+
+

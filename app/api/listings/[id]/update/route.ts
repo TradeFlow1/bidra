@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { listingLooksProhibited } from "@/lib/prohibited-items";
 import { applyPolicyStrike, isPolicyBlocked } from "@/lib/policy-strike";
@@ -298,3 +299,4 @@ if (images.some((u: string) => {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+

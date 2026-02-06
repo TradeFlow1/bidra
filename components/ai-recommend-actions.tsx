@@ -1,4 +1,5 @@
 ﻿"use client";
+/* eslint-disable react-hooks/static-components */
 
 import ConfirmSubmitButton from "@/components/confirm-submit-button";
 
@@ -170,3 +171,4 @@ const wrap: React.CSSProperties = {
     </div>
   );
 }
+

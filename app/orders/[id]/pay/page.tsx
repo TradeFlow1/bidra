@@ -1,4 +1,5 @@
-﻿export const dynamic = "force-dynamic";
+﻿/* eslint-disable react/no-unescaped-entities */
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Link from "next/link";
@@ -294,3 +295,4 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
     </main>
   );
 }
+

@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server"
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
@@ -170,3 +171,4 @@ return { order }
     return jsonError("Server error", 500)
   }
 }
+

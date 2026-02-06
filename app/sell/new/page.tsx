@@ -1,4 +1,5 @@
 ﻿import SellNewClient from "./sell-new-client";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getFeedbackGate } from "@/lib/feedback-gate";
@@ -42,13 +43,13 @@ export default async function SellNewPage() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <a href={gate.feedbackUrl || "/orders"} className="bd-btn bd-btn-primary">
+            <Link href={gate.feedbackUrl || "/orders"} className="bd-btn bd-btn-primary">
               Complete feedback
-            </a>
+            </Link>
 
-            <a href="/orders" className="bd-btn bd-btn-ghost">
+            <Link href="/orders">
               View orders
-            </a>
+            </Link>
           </div>
         </div>
       </main>
@@ -77,3 +78,10 @@ export default async function SellNewPage() {
     </main>
   );
 }
+
+
+
+
+
+
+

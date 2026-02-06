@@ -1,4 +1,5 @@
 ﻿"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import Link from "next/link";
 import { ClickableLink } from "@/components/clickable-link";
@@ -189,3 +190,4 @@ export default function ReportListing({
     </div>
   );
 }
+

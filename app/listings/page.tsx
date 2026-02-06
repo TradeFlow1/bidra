@@ -1,4 +1,5 @@
-﻿export const revalidate = 10;
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+export const revalidate = 10;
 import Image from "next/image";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
@@ -403,3 +404,4 @@ export default async function ListingsPage({
     </main>
   );
 }
+

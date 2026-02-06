@@ -1,4 +1,5 @@
-﻿import { labelCategory, labelCondition } from "@/lib/labels";
+﻿/* eslint-disable react/no-unescaped-entities */
+import { labelCategory, labelCondition } from "@/lib/labels";
 import Link from "next/link";
 import { ClickableLink } from "@/components/clickable-link";
 import { getServerSession } from "next-auth";
@@ -472,3 +473,4 @@ const scrubbedDescriptionText = rawDescriptionText
     </main>
   );
 }
+

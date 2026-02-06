@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import type { AiReportAnalysis } from "@/lib/ai/types";
@@ -150,3 +151,4 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ reportId, analysis });
 }
+

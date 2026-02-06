@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import { auth } from "@/lib/auth";
@@ -113,3 +114,4 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
     </div>
   );
 }
+

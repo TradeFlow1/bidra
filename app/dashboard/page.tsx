@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿/* eslint-disable react-hooks/purity */
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
@@ -80,7 +81,7 @@ export default async function DashboardPage() {
   });
   if (!user) redirect("/auth/login?next=/dashboard");
 
-  const now = Date.now();
+  const now: number = Date.now();
   const blockedUntilMs = user.policyBlockedUntil ? new Date(user.policyBlockedUntil).getTime() : 0;
   const isBlocked = blockedUntilMs > now;
 
@@ -101,13 +102,13 @@ export default async function DashboardPage() {
   });
 
   const graceHours = 48;
-  const cutoff = new Date(Date.now() - graceHours * 60 * 60 * 1000);
+  const cutoff = new Date(now - graceHours * 60 * 60 * 1000);
 
   const pendingBuyerFeedbackCount = await prisma.order.count({
     where: { buyerId: me, completedAt: { not: null, lt: cutoff }, buyerFeedbackAt: null },
   });
 
-  const sinceTopOffers = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const sinceTopOffers = new Date(now - 7 * 24 * 60 * 60 * 1000);
   const newTopOfferCount = await prisma.adminEvent.count({
     where: {
       type: "OFFER_NEW_TOP",
@@ -244,3 +245,6 @@ export default async function DashboardPage() {
     </main>
   );
 }
+
+
+

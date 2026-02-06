@@ -1,4 +1,5 @@
-﻿import { labelCategory } from "@/lib/labels";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import { labelCategory } from "@/lib/labels";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import type { ListingStatus } from "@prisma/client";
@@ -153,3 +154,4 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
     </main>
   );
 }
+

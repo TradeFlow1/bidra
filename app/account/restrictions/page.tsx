@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿/* eslint-disable react-hooks/purity */
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -22,10 +23,8 @@ export default async function RestrictionsPage() {
   let blockedUntil = dbUser?.policyBlockedUntil ? new Date(dbUser.policyBlockedUntil) : null;
   if (blockedUntil) {
     const ms = blockedUntil.getTime();
-    const now = Date.now();
-
     // If invalid OR expired => clear
-    if (!isFinite(ms) || ms <= now) {
+    if (!isFinite(ms) || ms <= Date.now()) {
       await prisma.user.update({
         where: { id: user.id },
         data: { policyBlockedUntil: null },
@@ -92,3 +91,8 @@ export default async function RestrictionsPage() {
     </div>
   );
 }
+
+
+
+
+

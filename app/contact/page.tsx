@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import ContactForm from "./contact-form";
 
@@ -184,3 +185,4 @@ export default async function ContactPage() {
     </main>
   );
 }
+

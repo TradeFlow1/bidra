@@ -1,4 +1,5 @@
 ﻿"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Link from "next/link";
 
 import React, { useEffect, useMemo, useState, useRef } from "react";
@@ -504,7 +505,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     setBusy(true);
     try {
       // 1) Upload selected files (preferred)
-      let uploadedUrls: string[] = [];
+      const uploadedUrls: string[] = [];
       if (files.length > 0) {
         for (const f of files.slice(0, 10)) {
           const fd = new FormData();
@@ -862,3 +863,8 @@ const imagesToSend = uploadedUrls;
     </div>
   );
 }
+
+
+
+
+

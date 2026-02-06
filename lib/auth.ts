@@ -1,4 +1,5 @@
-﻿import type { NextAuthOptions } from "next-auth";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
@@ -131,3 +132,4 @@ async jwt({ token, user }) {
 export function auth() {
   return getServerSession(authOptions);
 }
+

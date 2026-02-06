@@ -36,8 +36,8 @@ function shouldSendPing(nowMs: number, minIntervalMs: number): boolean {
 
 export default function ActivityPinger() {
   const sessionIdRef = useRef<string | null>(null);
-  const lastTickRef = useRef<number>(Date.now());
-  const lastActiveInputRef = useRef<number>(Date.now());
+  const lastTickRef = useRef<number>(0);
+  const lastActiveInputRef = useRef<number>(0);
   const visibleRef = useRef<boolean>(true);
 
   useEffect(() => {
@@ -118,3 +118,4 @@ export default function ActivityPinger() {
 
   return null;
 }
+

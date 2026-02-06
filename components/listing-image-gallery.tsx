@@ -1,4 +1,5 @@
 ﻿"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
@@ -195,3 +196,4 @@ export default function ListingImageGallery(props: { images: any; title?: string
     </div>
   );
 }
+

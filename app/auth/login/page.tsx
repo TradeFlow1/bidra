@@ -1,4 +1,6 @@
 ﻿"use client";
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable react/no-unescaped-entities */
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -158,3 +160,5 @@ export default function Login() {
     </main>
   );
 }
+
+

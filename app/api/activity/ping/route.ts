@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server";
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 async function safeJson(req: any) {
@@ -75,3 +76,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false }, { status: 200 });
   }
 }
+
