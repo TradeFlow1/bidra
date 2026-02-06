@@ -30,24 +30,15 @@ const eslintConfig = defineConfig([
     // Generated / patch artifacts (your Wave 1 scans, etc.)
     "docs/bidra_v2_*",
   ]),
-
-  // Baseline: keep lint runnable. We treat these as warnings for now
-  // and will tighten later once V2 Wave 1 is shipping cleanly.
+  // Baseline: keep lint runnable. Keep as warnings so we still see issues.
   {
     rules: {
-  "react-hooks/purity": "off",
-  "react-hooks/error-boundaries": "off",
-  "react-hooks/set-state-in-effect": "off",
-  "react-hooks/static-components": "off",
-  "@typescript-eslint/no-explicit-any": "off",
-  "@typescript-eslint/no-unused-vars": "off",
-  "@typescript-eslint/no-unused-expressions": "off",
-  "react/no-unescaped-entities": "off",
       "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-expressions": "warn",
       "react/no-unescaped-entities": "warn",
 
-      // Strict React “purity” rules are currently blocking baseline.
-      // Keep as warnings so we still see them.
+      // React purity / render-stability guidance: warn for now (we’ll harden later).
       "react-hooks/purity": "warn",
       "react-hooks/error-boundaries": "warn",
       "react-hooks/set-state-in-effect": "warn",
@@ -57,5 +48,3 @@ const eslintConfig = defineConfig([
 ]);
 
 export default eslintConfig;
-
-
