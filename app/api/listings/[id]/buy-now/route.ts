@@ -40,15 +40,19 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     if (listing.status !== "ACTIVE") return jsonError("Listing is not active.", 400)
 
     // Buy Now price is stored in cents as listing.buyNowPrice
-    const isTimedOffers = listing.type === "AUCTION"
-const hasBuyNow = typeof listing.buyNowPrice === "number"
-if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this timed-offers listing.", 400)
+const isTimedOffers = listing.type === "AUCTION"
+const buyNowEnabled = Boolean((listing as unknown as { buyNowEnabled?: unknown }).buyNowEnabled)
+const buyNowPriceCents = (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : null)
 
-    const highestOffer = listing.bids?.length ? listing.bids[0].amount : 0
-
+// Timed offers must have Buy Now explicitly enabled + set
+if (isTimedOffers) {
+  if (!buyNowEnabled) return jsonError("Buy Now is not enabled for this timed-offers listing.", 400)
+  if (buyNowPriceCents == null) return jsonError("Buy Now is not set for this timed-offers listing.", 400)
+}
+const highestOffer = listing.bids?.length ? listing.bids[0].amount : 0
     const amount = isTimedOffers
-      ? (listing.buyNowPrice as number)
-      : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price)
+  ? (buyNowPriceCents as number)
+  : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price)
 
     // Timed offers (schema type: AUCTION): Kevin model
     if (listing.type === "AUCTION") {
@@ -77,13 +81,13 @@ if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this t
       // Race-safe: only the first request that flips ACTIVE->SOLD may create an order
       const updated = await tx.listing.updateMany({
         where: { id: listing.id, status: "ACTIVE" },
-        data: { status: "SOLD" },
+        data: { status: "SOLD", previousStatus: "ACTIVE" },
       })
 
       if (updated.count !== 1) {
         // Idempotency: if this buyer already created an order for this listing, return it
         const existing = await tx.order.findFirst({
-          where: { listingId: listing.id, buyerId: session.user.id, status: "PENDING" },
+          where: { listingId: listing.id, buyerId: session.user.id, status: { in: ["PENDING","PAID"] } },
           orderBy: { createdAt: "desc" },
           select: { id: true },
         })
@@ -171,4 +175,6 @@ return { order }
     return jsonError("Server error", 500)
   }
 }
+
+
 

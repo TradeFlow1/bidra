@@ -40,6 +40,7 @@ export async function POST(req: Request) {
     where: { id: listingId },
     select: {
       id: true,
+      title: true,
       sellerId: true,
       status: true,
       type: true,
@@ -221,4 +222,6 @@ const top = await tx.offerMax.findMany({
     currentOfferCents: result.highestAmt,
   });
 }
+
+
 
