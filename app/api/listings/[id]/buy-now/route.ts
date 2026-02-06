@@ -55,7 +55,7 @@ const highestOffer = listing.bids?.length ? listing.bids[0].amount : 0
   : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price)
 
     // Timed offers (schema type: AUCTION): Kevin model
-    if (listing.type === "AUCTION") {
+    if (isTimedOffers) {
       if (!Boolean((listing as unknown as { buyNowEnabled?: unknown }).buyNowEnabled)) return jsonError("Buy Now is not enabled for this timed-offers listing.", 400)
       const h = hoursUntil(listing.endsAt)
       const isFinalWindow = typeof h === "number" ? h <= 24 : false
@@ -175,6 +175,7 @@ return { order }
     return jsonError("Server error", 500)
   }
 }
+
 
 
 
