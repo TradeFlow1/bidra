@@ -95,3 +95,7 @@ tmp/
 # Bidra fix ledger (track this file)
 !bidra-launch-fixes.json
 
+
+# Local dev wrapper (machine-specific)
+tools/bidra.ps1
+
