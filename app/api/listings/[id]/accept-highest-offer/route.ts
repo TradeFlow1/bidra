@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server"
+import { NextResponse } from "next/server"
+import { OrderStatus } from "@prisma/client"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
@@ -64,7 +65,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
           where: {
               listingId: listing.id,
               OR: [
-                { status: "PENDING" },
+                { status: OrderStatus.PICKUP_REQUIRED },
                 { status: "PAID" },
                 { outcome: "COMPLETED" },
               ],
@@ -80,7 +81,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       const order = await tx.order.create({
         data: {
           amount,
-          status: "PENDING",
+          status: OrderStatus.PICKUP_REQUIRED,
           outcome: "PENDING",
           buyerId,
           listingId: listing.id,
@@ -121,3 +122,4 @@ return { order }
     return jsonError("Server error", 500)
   }
 }
+

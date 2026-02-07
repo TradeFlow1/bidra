@@ -107,6 +107,8 @@ model Listing {
   policyStrikes  PolicyStrike[]
   reports        Report[]
   watchlist      Watchlist[]
+  pickupAvailability Json?
+  pickupTimezone     String @default("Australia/Brisbane")
 }
 
 model Bid {
@@ -212,6 +214,8 @@ model Order {
 
   @@index([buyerId])
   @@index([listingId])
+  pickupScheduledAt       DateTime?
+  pickupScheduleLockedAt  DateTime?
 }
 
 model playing_with_neon {
@@ -359,6 +363,8 @@ enum OrderStatus {
   PENDING
   PAID
   CANCELLED
+  PICKUP_REQUIRED
+  PICKUP_SCHEDULED
 }
 
 enum FeedbackRole {
@@ -445,3 +451,4 @@ model OfferDecision {
   @@index([sellerId])
   @@index([decision])
 }
+

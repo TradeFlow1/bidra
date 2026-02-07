@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server"
+import { NextResponse } from "next/server"
+import { OrderStatus } from "@prisma/client"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
@@ -82,7 +83,7 @@ if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this t
       if (updated.count !== 1) {
         // Idempotency: if this buyer already created an order for this listing, return it
         const existing = await tx.order.findFirst({
-          where: { listingId: listing.id, buyerId: session.user.id, status: "PENDING" },
+          where: { listingId: listing.id, buyerId: session.user.id, status: OrderStatus.PICKUP_REQUIRED },
           orderBy: { createdAt: "desc" },
           select: { id: true },
         })
@@ -94,7 +95,7 @@ if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this t
       const order = await tx.order.create({
         data: {
           amount,
-          status: "PENDING",
+          status: OrderStatus.PICKUP_REQUIRED,
           outcome: "PENDING",
           buyerId: session.user.id,
           listingId: listing.id,
@@ -170,3 +171,4 @@ return { order }
     return jsonError("Server error", 500)
   }
 }
+
