@@ -34,7 +34,7 @@ export async function getNotificationCounts(userId: string) {
     return c;
   });
 
-  // 2) Pending feedback tasks (same gate used to block listing creation)
+  // 2) Feedback tasks (same gate used to block listing creation)
   const gate = await getFeedbackGate(userId, 48);
   const pendingFeedback = gate?.blocked ? Number(gate.pendingCount || 0) : 0;
 

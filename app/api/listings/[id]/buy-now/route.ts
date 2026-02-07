@@ -96,7 +96,7 @@ if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this t
         data: {
           amount,
           status: OrderStatus.PICKUP_REQUIRED,
-          outcome: "PENDING",
+          outcome: "PICKUP_REQUIRED",
           buyerId: session.user.id,
           listingId: listing.id,
         },

@@ -71,12 +71,12 @@ export default async function OrdersPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-2 flex-wrap justify-end w-full md:w-auto">
-                  {(o.status === "PENDING" && o.buyerId === user.id) ? (
+                  {(o.status === "PICKUP_REQUIRED" && o.buyerId === user.id) ? (
                     <Link
                       href={`/orders/${o.id}/pay`}
                       className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px] focus:outline-none focus:ring-2 focus:ring-black/20"
                     >
-                      <span className="block">Pay now</span>
+                      <span className="block">Confirm payment</span>
                       <span className="mt-1 block text-xs bd-ink2">Binding order — please pay to proceed.</span>
                     </Link>
                   ) : null}

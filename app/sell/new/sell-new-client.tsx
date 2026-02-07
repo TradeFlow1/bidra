@@ -304,7 +304,7 @@ function suggestDescriptionDraft(args: {
     lines.push("Pickup location: (your suburb).");
   }
 
-  lines.push("Pickup preferred. If you need delivery, message me to discuss.");
+  lines.push("Pickup only. Please choose a pickup time in the app.");
   return lines.join("\n");
 }
 

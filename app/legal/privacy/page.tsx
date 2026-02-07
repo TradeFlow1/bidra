@@ -32,7 +32,7 @@
         <h2 className="text-xl font-semibold">Sharing and disclosure</h2>
         <p className="mt-3 text-black/75">
           We do not sell personal information. We may share information with trusted service providers only where needed
-          to operate Bidra (for example, hosting, email delivery, analytics, and spam prevention). We may also disclose information where
+          to operate Bidra (for example, hosting, email sending, analytics, and spam prevention). We may also disclose information where
           required by law or where reasonably necessary to protect users and the platform from harm, fraud, or security incidents.
         </p>
       </section>

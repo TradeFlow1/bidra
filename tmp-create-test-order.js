@@ -12,10 +12,10 @@ async function main() {
     const order = await p.order.create({
       data: {
         amount: listing.price,
-        status: "PENDING",
+        status: "PICKUP_REQUIRED",
         buyerId: buyer.id,
         listingId: listing.id,
-        outcome: "PENDING",
+        outcome: "PICKUP_REQUIRED",
       },
       select: { id: true, buyerId: true, listingId: true, amount: true, outcome: true, createdAt: true },
     });
