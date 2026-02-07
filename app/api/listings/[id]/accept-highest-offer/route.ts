@@ -82,7 +82,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
         data: {
           amount,
           status: OrderStatus.PICKUP_REQUIRED,
-          outcome: "PICKUP_REQUIRED",
+          outcome: "PENDING",
           buyerId,
           listingId: listing.id,
         },

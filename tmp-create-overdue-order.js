@@ -42,7 +42,7 @@ async function main() {
         buyerId: buyer.id,
         listingId: listing.id,
         amount: typeof listing.price === "number" ? listing.price : 100,
-        outcome: "PICKUP_REQUIRED",
+        outcome: "PENDING",
         buyerFeedbackAt: null,
         sellerFeedbackAt: null,
         completedAt: null,

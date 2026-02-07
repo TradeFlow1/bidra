@@ -15,7 +15,7 @@ async function main() {
         status: "PICKUP_REQUIRED",
         buyerId: buyer.id,
         listingId: listing.id,
-        outcome: "PICKUP_REQUIRED",
+        outcome: "PENDING",
       },
       select: { id: true, buyerId: true, listingId: true, amount: true, outcome: true, createdAt: true },
     });
