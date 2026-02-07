@@ -49,8 +49,27 @@ $root = Find-RepoRoot
 Set-Location $root
 
 $bidra = Join-Path $root "tools\bidra.ps1"
-if (!(Test-Path $bidra)) { throw "Missing tools\bidra.ps1 at: $bidra" }
+function Invoke-Tool {
+  param(
+    [Parameter(Mandatory=$true)][string[]]$Args
+  )
 
+  # If the local wrapper exists, use it.
+  if (Test-Path $bidra) {
+    & $bidra @Args
+    return
+  }
+
+  # Otherwise run the real tools directly (CI-safe).
+  $exe = $Args[0]
+  $rest = @()
+  if ($Args.Length -gt 1) { $rest = $Args[1..($Args.Length-1)] }
+
+  if ($exe -ieq "powershell") { & powershell.exe @rest; return }
+  if ($exe -ieq "npm")       { & npm.cmd @rest;       return }
+
+  & $exe @rest
+}
 # Patches that must exist when patch modes run
 $patchLint = Join-Path $root "tools\patch-eslint-relax-v2d.ps1"
 $patchBom  = Join-Path $root "tools\patch-packagejson-bom.ps1"
@@ -67,9 +86,9 @@ try {
       if (!(Test-Path $patchLint)) { throw "Missing patch script: $patchLint" }
 
       Invoke-Step 1 $total "Patch (package.json BOM + ESLint relax + V2 copy cleanup)" {
-        & $bidra powershell -NoProfile -ExecutionPolicy Bypass -File $patchBom
+Invoke-Tool @("powershell","-NoProfile","-ExecutionPolicy","Bypass","-File",$patchBom)
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-        & $bidra powershell -NoProfile -ExecutionPolicy Bypass -File $patchLint
+Invoke-Tool @("powershell","-NoProfile","-ExecutionPolicy","Bypass","-File",$patchLint)
       }
 
       Invoke-Step 2 $total "Lint (truth gate)" { & $bidra npm run lint }
@@ -83,9 +102,9 @@ try {
       if (!(Test-Path $patchLint)) { throw "Missing patch script: $patchLint" }
 
       Invoke-Step 1 $total "Patch (package.json BOM + ESLint relax + V2 copy cleanup)" {
-        & $bidra powershell -NoProfile -ExecutionPolicy Bypass -File $patchBom
+Invoke-Tool @("powershell","-NoProfile","-ExecutionPolicy","Bypass","-File",$patchBom)
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-        & $bidra powershell -NoProfile -ExecutionPolicy Bypass -File $patchLint
+Invoke-Tool @("powershell","-NoProfile","-ExecutionPolicy","Bypass","-File",$patchLint)
       }
 
       Invoke-Step 2 $total "Lint (truth gate)"  { & $bidra npm run lint }

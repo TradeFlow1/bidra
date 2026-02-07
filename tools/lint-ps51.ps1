@@ -20,16 +20,34 @@ $root = Find-RepoRoot
 Set-Location $root
 
 $bidra = Join-Path $root "tools\bidra.ps1"
-if (!(Test-Path $bidra)) { throw "Missing tools\bidra.ps1 at: $bidra" }
+function Invoke-Tool {
+  param(
+    [Parameter(Mandatory=$true)][string[]]$Args
+  )
 
+  # If the local wrapper exists, use it.
+  if (Test-Path $bidra) {
+    & $bidra @Args
+    return
+  }
+
+  # Otherwise run the real tools directly (CI-safe).
+  $exe = $Args[0]
+  $rest = @()
+  if ($Args.Length -gt 1) { $rest = $Args[1..($Args.Length-1)] }
+
+  if ($exe -ieq "powershell") { & powershell.exe @rest; return }
+  if ($exe -ieq "npm")       { & npm.cmd @rest;       return }
+
+  & $exe @rest
+}
 $patch = Join-Path $root "tools\patch-eslint-relax-v2d.ps1"
 if (!(Test-Path $patch)) { throw "Missing patch script at: $patch" }
 
 try {
-  & $bidra powershell -NoProfile -ExecutionPolicy Bypass -File $patch
+Invoke-Tool @("powershell","-NoProfile","-ExecutionPolicy","Bypass","-File",$patch)
   if ($LASTEXITCODE -ne 0) { throw "Patch script failed (exit $LASTEXITCODE)" }
-
-  & $bidra npm run lint
+Invoke-Tool @("npm","run","lint")
   if ($LASTEXITCODE -ne 0) { throw "Lint failed (exit $LASTEXITCODE)" }
 
   Write-Host "OK: patch + lint passed." -ForegroundColor Green
