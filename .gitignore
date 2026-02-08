@@ -103,3 +103,6 @@ tools/bidra.ps1
 # v2 scan outputs
 tools/v2-scan-report.txt
 tools/v2-scan-contradictions-report.txt
+# Bidra V2 patch scratch scripts
+/tools/patch-v2-46-*.ps1
+/tools/bidra-launch-fixes.json
