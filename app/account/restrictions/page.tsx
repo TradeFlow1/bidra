@@ -51,7 +51,7 @@ export default async function RestrictionsPage() {
           <div style={{ marginTop: 10, color: "#444", display: "grid", gap: 6 }}>
             <div>
               Bidra is 18+ for accounts. If you’re under 18, you can browse public listings but you can’t create listings,
-              message, bid, or transact.
+              message, offer, or transact.
             </div>
             <div style={{ color: "#666", fontSize: 13 }}>
               If you believe this is incorrect, contact support and we’ll help you review your details.
@@ -92,3 +92,4 @@ export default async function RestrictionsPage() {
     </div>
   );
 }
+

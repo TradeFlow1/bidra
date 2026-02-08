@@ -267,7 +267,7 @@ if (images.some((u: string) => {
       }
 
       // Must be above current highest offer at time of save.
-      const highest = await prisma.bid.findFirst({
+      const highest = await prisma.offer.findFirst({
         where: { listingId: id },
         orderBy: { amount: "desc" },
         select: { amount: true },
@@ -298,3 +298,4 @@ if (images.some((u: string) => {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+

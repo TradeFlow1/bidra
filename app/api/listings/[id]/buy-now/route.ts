@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+﻿import { NextResponse } from "next/server"
 import { OrderStatus } from "@prisma/client"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
@@ -32,7 +32,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     const listing = await prisma.listing.findUnique({
       where: { id },
       include: {
-        bids: { orderBy: { amount: "desc" }, take: 1 },
+        offers: { orderBy: { amount: "desc" }, take: 1 },
       },
     })
     if (!listing) return jsonError("Listing not found", 404)
@@ -44,7 +44,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
 const hasBuyNow = typeof listing.buyNowPrice === "number"
 if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this timed-offers listing.", 400)
 
-    const highestOffer = listing.bids?.length ? listing.bids[0].amount : 0
+    const highestOffer = listing.offers?.length ? listing.offers[0].amount : 0
 
     const amount = isTimedOffers
       ? (listing.buyNowPrice as number)
@@ -171,4 +171,5 @@ return { order }
     return jsonError("Server error", 500)
   }
 }
+
 
