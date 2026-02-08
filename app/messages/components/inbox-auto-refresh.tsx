@@ -1,17 +1,8 @@
-﻿"use client"
-
-import { useEffect, useRef } from "react"
-import { useRouter } from "next/navigation"
+"use client"
 
 export default function InboxAutoRefresh() {
-  const router = useRouter()
-  const ran = useRef(false)
-
-  useEffect(() => {
-    if (ran.current) return
-    ran.current = true
-    router.refresh()
-  }, [router])
-
+  // Intentionally no-op. The inbox route is already dynamic;
+  // a mount-time router.refresh() can cause back/navigation glitches.
   return null
 }
+
