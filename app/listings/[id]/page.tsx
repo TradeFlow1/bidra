@@ -60,8 +60,8 @@ export default async function ListingPage({ params }: { params: { id: string } }
           createdAt: true,
         },
       },
-      bids: { orderBy: [{ amount: "desc" }, { createdAt: "desc" }], take: 10, select: { amount: true, bidderId: true, createdAt: true } },
-      _count: { select: { bids: true } },
+      offers: { orderBy: [{ amount: "desc" }, { createdAt: "desc" }], take: 10, select: { amount: true, bidderId: true, createdAt: true } },
+      _count: { select: { offers: true } },
     },
   });
 
@@ -118,7 +118,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
     where: { sellerId, status: "ACTIVE" },
   });
 
-  const highestOfferCents = listing.bids && listing.bids.length ? Number((listing.bids[0] as unknown as { amount?: number }).amount ?? 0) : 0;
+  const highestOfferCents = listing.offers && listing.offers.length ? Number((listing.offers[0] as unknown as { amount?: number }).amount ?? 0) : 0;
 
   const isTimedOffers = isTimedOffersType(listing.type);
 
@@ -141,12 +141,12 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const minOfferCents = roundUpToInc(minOfferBase, 1000);
 const hasAnyOffer = highestOfferCents > 0;
 
-  const offersCount = (listing as unknown as { _count?: { bids?: number } })?._count?.bids ?? 0;
+  const offersCount = (listing as unknown as { _count?: { offers?:  number } })?._count?.offers ?? 0;
 
 // Ladder display should show unique buyers (proxy offers may create multiple offer rows per buyer)
 type LadderBid = { bidderId?: string; amount?: number; createdAt?: Date | string | number };
 
-const ladderRows = ((((listing as unknown as { bids?: unknown[] }).bids) as unknown[]) ?? [])
+const ladderRows = ((((listing as unknown as { offers?: unknown[] }).offers) as unknown[]) ?? [])
   .reduce((acc: Record<string, LadderBid>, b: unknown) => {
     const bb = (b as LadderBid) ?? {};
     const id = String(bb.bidderId ?? "");
@@ -186,7 +186,7 @@ const ladderTop = Object.values(ladderRows)
       }))
     : false;
     const viewerHasAnyOffer = viewerId
-    ? (viewerHasMax || ((((listing as unknown as { bids?: unknown[] }).bids) as unknown[]) ?? []).some((b: unknown) => String((b as { bidderId?: string } | null | undefined)?.bidderId ?? "") === String(viewerId)))
+    ? (viewerHasMax || ((((listing as unknown as { offers?: unknown[] }).offers) as unknown[]) ?? []).some((b: unknown) => String((b as { bidderId?: string } | null | undefined)?.bidderId ?? "") === String(viewerId)))
     : false;
 const offerState: "NONE" | "TOP" | "OUTOFFERED" =
     !viewerId
@@ -357,7 +357,7 @@ const scrubbedDescriptionText = rawDescriptionText
                       {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet."}
                     </div>
                     <div className="text-xs text-neutral-600">Highest offer</div>
-                    {listing.bids && listing.bids.length ? (
+                    {listing.offers && listing.offers.length ? (
                       <div className="pt-3">
                         <div className="text-xs text-neutral-600">Offer ladder (top buyers)</div>
                         <div className="mt-2 space-y-1">
@@ -472,3 +472,8 @@ const scrubbedDescriptionText = rawDescriptionText
     </main>
   );
 }
+
+
+
+
+
