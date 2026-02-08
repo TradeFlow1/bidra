@@ -44,7 +44,7 @@
             </p>
             <ul className="mt-3 list-disc pl-5 text-sm text-black/70 space-y-1">
               <li>No automatic “winner”. Seller controls acceptance.</li>
-              <li>Seller may decline, counter, or relist.</li>
+              <li>Seller may decline or relist.</li>
             </ul>
           </div>
         </div>
@@ -100,3 +100,4 @@
     </main>
   );
 }
+

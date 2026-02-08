@@ -92,7 +92,7 @@ const listings = await getLatestListings();
     </div>
 
     <div className="mt-7 text-sm text-white/70">
-      Bidra is a marketplace for listings and offers — sellers can accept, decline, or counter.
+      Bidra is a marketplace for listings and offers — sellers can accept or decline.
     </div>
   </div>
 </section>
@@ -192,3 +192,4 @@ const listings = await getLatestListings();
     </main>
   );
 }
+
