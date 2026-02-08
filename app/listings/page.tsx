@@ -198,13 +198,13 @@ export default async function ListingsPage({
       endsAt: true,
       createdAt: true,
       images: true,
-      bids: {
+      offers: {
         orderBy: { amount: "desc" },
         take: 1,
         select: { amount: true },
       },
       _count: {
-        select: { bids: true },
+        select: { offers: true },
       },
     },
   });
@@ -383,7 +383,7 @@ export default async function ListingsPage({
                     title: l.title,
                     description: l.description,
                     price: (isTimedOffersType(l.type)
-                      ? ((l.bids && l.bids.length ? l.bids[0].amount : null) ?? l.price)
+                      ? ((l.offers && l.offers.length ? l.offers[0].amount : null) ?? l.price)
                       : (l.buyNowPrice ?? l.price)
                     ) as number,
                     buyNowPrice: l.buyNowPrice,
@@ -403,3 +403,5 @@ export default async function ListingsPage({
     </main>
   );
 }
+
+

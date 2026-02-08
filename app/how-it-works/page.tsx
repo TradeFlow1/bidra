@@ -11,7 +11,7 @@
         <h2 className="text-xl font-semibold">1) Create an account</h2>
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
           <li><strong>18+ only:</strong> accounts are for adults. Under 18s can browse publicly but can’t transact or message.</li>
-          <li>Set your <strong>location</strong> (suburb, state, postcode) so buyers see realistic pickup/postage context.</li>
+          <li>Set your <strong>location</strong> (suburb, state, postcode) so buyers see realistic pickup context.</li>
           <li>Keep your profile accurate — it helps trust and reduces disputes.</li>
         </ul>
       </section>
@@ -44,16 +44,16 @@
             </p>
             <ul className="mt-3 list-disc pl-5 text-sm text-black/70 space-y-1">
               <li>No automatic “winner”. Seller controls acceptance.</li>
-              <li>Seller may decline, counter, or relist.</li>
+              <li>Seller may decline or relist.</li>
             </ul>
           </div>
         </div>
       </section>
 
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
-        <h2 className="text-xl font-semibold">3) Messaging and arranging pickup/postage</h2>
+        <h2 className="text-xl font-semibold">3) Messaging and scheduling pickup</h2>
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
-          <li>Use Messages to confirm details (pickup time, postage method, what’s included, etc.).</li>
+          <li>Use Messages only to confirm item details (what is included, condition, access). Pickup time is scheduled in-app.</li>
           <li>For safety, keep your communication respectful and clear. If anything feels off, report it.</li>
           <li>Never send ID photos or sensitive information you wouldn’t want exposed.</li>
         </ul>
@@ -62,11 +62,11 @@
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
         <h2 className="text-xl font-semibold">4) Paying and completing the order</h2>
         <p className="mt-3 text-black/75">
-          For Buy Now purchases, Bidra provides a Pay Now page with the current payment instructions and confirmation steps.
+          For Buy Now purchases, pickup is scheduled in-app first. After pickup is scheduled, you can confirm payment in the app.
           Always follow the on-screen flow for your order.
         </p>
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
-          <li>After payment and handover/postage, mark the order complete inside Bidra.</li>
+          <li>After in-person handover, mark the order complete inside Bidra.</li>
           <li>Leave feedback to help the community make better decisions.</li>
         </ul>
       </section>
@@ -75,7 +75,7 @@
         <h2 className="text-xl font-semibold">5) Disputes, reporting, and safety</h2>
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
           <li>If a listing breaks rules, use <strong>Report</strong> on the listing or message thread.</li>
-          <li>If something goes wrong, keep records (screenshots, messages, postage receipts) and contact Support.</li>
+          <li>If something goes wrong, keep records (screenshots, messages, photos) and contact Support.</li>
           <li>Bidra may remove listings, restrict accounts, or investigate patterns of abuse to keep the marketplace safe.</li>
         </ul>
       </section>
@@ -100,3 +100,4 @@
     </main>
   );
 }
+

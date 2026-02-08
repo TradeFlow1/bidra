@@ -10,7 +10,7 @@ function stepIndex(status: string, outcome?: string | null) {
 
   if (o === "COMPLETED" || s === "COMPLETED") return 2;
   if (s === "PAID") return 1;
-  return 0; // PENDING / default
+  return 0; // default
 }
 
 export default function OrderStatusTimeline({ status, outcome, className = "" }: Props) {

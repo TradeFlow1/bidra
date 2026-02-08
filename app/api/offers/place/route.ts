@@ -44,7 +44,7 @@ export async function POST(req: Request) {
       type: true,
       price: true,
       endsAt: true,
-      bids: { orderBy: { amount: "desc" }, take: 1, select: { amount: true, bidderId: true } },
+      offers: { orderBy: { amount: "desc" }, take: 1, select: { amount: true, bidderId: true } },
     },
   });
 
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "You can’t make an offer on your own listing." }, { status: 400 });
   }
 
-  const currentHighest = listing.bids && listing.bids.length ? listing.bids[0].amount : 0;
+  const currentHighest = listing.offers && listing.offers.length ? listing.offers[0].amount : 0;
   const startOffer = listing.price || 0;
   // Visible offer ladder: do NOT force offers up to guide price.
   // If no offers yet: allow opening at $10. Otherwise: +$10 above highest.
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
   // Auto-offers (keeps you on top up to your limit):
   // - store max in OfferMax
   // - compute visible offer based on top-2 maxes
-  // - write visible offer to Bid ladder if it increases
+  // - write visible offer to Offer ladder if it increases
   let result: any = null;
   try {
       result = await prisma.$transaction(async (tx) => {
@@ -122,7 +122,7 @@ const top = await tx.offerMax.findMany({
         const runnerCap = runner ? Math.floor(runner.maxAmount / INC_CENTS) * INC_CENTS : 0;
     
         // Re-check highest inside txn
-        const nowHighest = await tx.bid.findFirst({
+        const nowHighest = await tx.offer.findFirst({
           where: { listingId: listing.id },
           orderBy: { amount: "desc" },
           select: { amount: true, bidderId: true },
@@ -153,7 +153,7 @@ const top = await tx.offerMax.findMany({
     
         // Only write a new ladder row if it actually increases the visible highest
         if (newVisible > highestAmt) {
-          await tx.bid.create({
+          await tx.offer.create({
             data: {
               amount: newVisible,
               bidderId: leader.bidderId,
@@ -220,3 +220,6 @@ const top = await tx.offerMax.findMany({
     currentOfferCents: result.highestAmt,
   });
 }
+
+
+

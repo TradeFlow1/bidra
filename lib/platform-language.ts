@@ -6,7 +6,7 @@
   outcome: "outcome",
   notParty: "Bidra is not a party to the transaction.",
   noGuarantee:
-    "Bidra does not guarantee authenticity, quality, or delivery. Users are responsible for their own decisions and arrangements.",
+    "Bidra does not guarantee authenticity, quality, or completion. Users are responsible for their own decisions and arrangements.",
   payments:
     "Payments are handled via licensed payment providers. Bidra does not hold pooled customer funds.",
 };

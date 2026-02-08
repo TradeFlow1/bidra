@@ -131,12 +131,12 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <OrderStatusTimeline status={order.status} outcome={order.outcome} className="mt-3" />
 
 
-              {(order.status === "PENDING" && order.buyerId === user.id) ? (
+              {(order.status === "PICKUP_REQUIRED" && order.buyerId === user.id) ? (
                 <div className="pt-2">
                   <SafetyCallout title="Safety">
                     <ul className="list-disc pl-5">
                       <li>Keep communication on Bidra via Messages.</li>
-                      <li>Confirm item details and pickup/postage plan before you pay.</li>
+                      <li>Confirm item details and schedule pickup in-app before you confirm payment.</li>
                       <li>If anything feels suspicious, stop and report it.</li>
                     </ul>
                   </SafetyCallout>
@@ -146,7 +146,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                       href={`/orders/${order.id}/pay`}
                       className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-black/20"
                     >
-                      <span className="block">Pay now</span>
+                      <span className="block">Confirm payment</span>
                       <span className="mt-1 block text-xs bd-ink2">Binding order — please pay to proceed.</span>
                     </Link>
                       <div className="mt-2">
@@ -167,16 +167,16 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   <Card className="bd-card p-6">
                     <div className="grid gap-2">
                       <div className="text-sm font-extrabold bd-ink">What happens next</div>
-                      {order.status === "PENDING" ? (
+                      {order.status === "PICKUP_REQUIRED" ? (
                         <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
-                          <li><b>Pay now</b> to continue. This order is binding.</li>
+                          <li><b>Confirm payment</b> to continue. This order is binding. Pickup must be scheduled first.</li>
                           <li>After you submit "I've paid", the seller will verify they received payment.</li>
-                          <li>Once verified, arrange pickup/shipping in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+                          <li>Once verified, schedule pickup in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
                         </ul>
                       ) : order.status === "PAID" ? (
                         <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
                           <li>Your payment is marked as <b>PAID</b>.</li>
-                          <li>The seller will confirm receipt, then coordinate pickup/shipping in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+                          <li>The seller will confirm receipt, then keep pickup scheduled in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
                           <li>After the handover, leave feedback to help build trust.</li>
                         </ul>
                       ) : order.outcome === "COMPLETED" ? (

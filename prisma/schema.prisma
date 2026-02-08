@@ -42,7 +42,7 @@ model User {
   bio                   String?
   activitySessions      ActivitySession[]
   adminActionLogs       AdminActionLog[]
-  bids                  Bid[]
+  offers                  Offer[]
   offerMaxes OfferMax[]
   feedbackGiven         Feedback[]           @relation("FeedbackFrom")
   feedbackReceived      Feedback[]           @relation("FeedbackTo")
@@ -98,7 +98,7 @@ model Listing {
   buyNowEnabled Boolean @default(false)
   reservePrice   Int?
   previousStatus ListingStatus?
-  bids           Bid[]
+  offers           Offer[]
   offerMaxes OfferMax[]
   seller         User              @relation("SellerListings", fields: [sellerId], references: [id])
   questions      ListingQuestion[]
@@ -107,9 +107,11 @@ model Listing {
   policyStrikes  PolicyStrike[]
   reports        Report[]
   watchlist      Watchlist[]
+  pickupAvailability Json?
+  pickupTimezone     String @default("Australia/Brisbane")
 }
 
-model Bid {
+model Offer {
   offerDecision OfferDecision?
   id        String   @id @default(cuid())
   amount    Int
@@ -121,6 +123,7 @@ model Bid {
 
   @@index([listingId])
   @@index([bidderId])
+  @@map("Bid")
 }
 
 model MessageThread {
@@ -212,6 +215,8 @@ model Order {
 
   @@index([buyerId])
   @@index([listingId])
+  pickupScheduledAt       DateTime?
+  pickupScheduleLockedAt  DateTime?
 }
 
 model playing_with_neon {
@@ -359,6 +364,8 @@ enum OrderStatus {
   PENDING
   PAID
   CANCELLED
+  PICKUP_REQUIRED
+  PICKUP_SCHEDULED
 }
 
 enum FeedbackRole {
@@ -421,7 +428,7 @@ model OfferDecision {
   createdAt DateTime          @default(now())
 
   listingId String
-  bidId     String @unique
+  offerId String @map("bidId") @unique
 
   sellerId  String
   buyerId   String
@@ -432,16 +439,17 @@ model OfferDecision {
   orderId   String? @unique
 
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  bid     Bid     @relation(fields: [bidId], references: [id], onDelete: Cascade)
+  Offer     Offer     @relation(fields: [offerId], references: [id], onDelete: Cascade)
 
   seller  User   @relation("OfferDecisionSeller", fields: [sellerId], references: [id], onDelete: Cascade)
   buyer   User   @relation("OfferDecisionBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
 
   order   Order? @relation(fields: [orderId], references: [id])
 
-  @@unique([listingId, bidId])
+  @@unique([listingId, offerId])
   @@index([listingId])
   @@index([buyerId])
   @@index([sellerId])
   @@index([decision])
 }
+

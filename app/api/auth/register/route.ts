@@ -2,6 +2,7 @@
 import { prisma } from "@/lib/prisma";
 import { sendVerifyEmail } from "@/lib/email";
 import bcrypt from "bcryptjs";
+import { checkPasswordPolicy } from "@/lib/password-policy";
 import { rateLimit } from "@/lib/rate-limit";
 import crypto from "crypto";
 
@@ -53,7 +54,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Password must be at least 8 characters." }, { status: 400 });
   }
 
-  // Fix encoding issue: use plain hyphen
+  const pw = checkPasswordPolicy(passwordStr);
+  if (!pw.ok) {
+    return NextResponse.json({ error: pw.reason || "Password is too weak." }, { status: 400 });
+  }
+
+
   if (username.length < 3 || username.length > 24) {
     return NextResponse.json({ error: "Username must be 3-24 characters" }, { status: 400 });
   }

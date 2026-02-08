@@ -15,7 +15,7 @@ export default async function EditListingPage({ params }: { params: { id: string
   const images = Array.isArray((listing as unknown as { images?: unknown }).images) ? (((listing as unknown as { images?: unknown }).images) as string[]) : [];
 
 
-  const highest = await prisma.bid.findFirst({
+  const highest = await prisma.offer.findFirst({
     where: { listingId: listing.id },
     orderBy: { amount: "desc" },
     select: { amount: true },
@@ -43,3 +43,4 @@ export default async function EditListingPage({ params }: { params: { id: string
     />
   );
 }
+

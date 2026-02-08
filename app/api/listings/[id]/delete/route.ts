@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
 
-// Soft delete: never hard-delete Listings (FKs: watchlist, bids, reports, orders, messages, audit)
+// Soft delete: never hard-delete Listings (FKs: watchlist, offers, reports, orders, messages, audit)
 export async function POST(req: Request, ctx: { params: { id: string } }) {
   try {
     const session = await auth();
@@ -53,3 +53,4 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
+

@@ -19,7 +19,7 @@ export default function HelpPage() {
           <li>Create a listing (fixed price).</li>
           <li>Connect with buyers locally.</li>
           <li>
-            After a sale, buyer & seller arrange pickup or postage directly. Bidra records outcomes and helps enforce policy if needed.
+            After a sale, pickup is scheduled in-app. Messages are for clarification only. Bidra records outcomes and enforces reliability.
           </li>
           <li>Feedback is required to complete a sale.</li>
         </ol>

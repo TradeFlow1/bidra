@@ -75,7 +75,7 @@
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
           <li>When an order exists, it represents a binding commitment under the relevant flow (e.g., Buy Now).</li>
           <li>Bidra may show payment instructions and confirmation steps on an order, but <strong>Bidra does not hold funds</strong> and <strong>does not guarantee outcomes</strong>.</li>
-          <li>Buyers and sellers should verify payment and complete handover/postage carefully and keep records (receipts, tracking, photos).</li>
+          <li>Buyers and sellers should verify payment and complete handover carefully and keep records (messages, photos).</li>
           <li>Disputes are usually resolved between buyer and seller. Bidra may take platform actions (e.g., restrictions) where misuse or fraud is detected.</li>
         </ul>
       </section>

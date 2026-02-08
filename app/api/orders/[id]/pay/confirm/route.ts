@@ -1,4 +1,5 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { OrderStatus } from "@prisma/client"
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
@@ -24,22 +25,25 @@ export async function POST(_: Request, { params }: { params: { id: string } }) {
     include: { listing: true },
   });
 
+
+  // Bidra V2: payment confirmation is blocked until pickup is scheduled.
+  if (!order) {
+    return NextResponse.json({ error: "Order not found" }, { status: 404 })
+  }
+
+  // Idempotency: if already paid, return OK.
+  if (order.status === OrderStatus.PAID) {
+    return NextResponse.json({ ok: true, status: OrderStatus.PAID })
+  }
+  if (order.status !== OrderStatus.PICKUP_SCHEDULED) {
+    return NextResponse.json({ error: "Pickup must be scheduled before payment can be confirmed" }, { status: 409 })
+  }
   if (!order) return NextResponse.json({ ok: false, error: "Order not found." }, { status: 404 });
 
   // Buyer-only confirmation
   if (order.buyerId !== user.id) {
     return NextResponse.json({ ok: false, error: "Only the buyer can confirm payment." }, { status: 403 });
   }
-
-  if (order.status === "PAID") return NextResponse.json({ ok: true, status: "PAID" });
-
-  if (order.status !== "PENDING") {
-    return NextResponse.json(
-      { ok: false, error: "This order cannot be confirmed in its current state.", status: order.status },
-      { status: 400 }
-    );
-  }
-
   await prisma.$transaction(async (tx) => {
     await tx.order.update({
       where: { id: order.id },
@@ -73,3 +77,4 @@ export async function POST(_: Request, { params }: { params: { id: string } }) {
 
   return NextResponse.json({ ok: true, status: "PAID" });
 }
+

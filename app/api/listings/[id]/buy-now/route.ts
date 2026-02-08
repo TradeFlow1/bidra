@@ -1,4 +1,5 @@
 ﻿import { NextResponse } from "next/server"
+import { OrderStatus } from "@prisma/client"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
@@ -31,7 +32,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     const listing = await prisma.listing.findUnique({
       where: { id },
       include: {
-        bids: { orderBy: { amount: "desc" }, take: 1 },
+        offers: { orderBy: { amount: "desc" }, take: 1 },
       },
     })
     if (!listing) return jsonError("Listing not found", 404)
@@ -43,7 +44,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
 const hasBuyNow = typeof listing.buyNowPrice === "number"
 if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this timed-offers listing.", 400)
 
-    const highestOffer = listing.bids?.length ? listing.bids[0].amount : 0
+    const highestOffer = listing.offers?.length ? listing.offers[0].amount : 0
 
     const amount = isTimedOffers
       ? (listing.buyNowPrice as number)
@@ -82,7 +83,7 @@ if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this t
       if (updated.count !== 1) {
         // Idempotency: if this buyer already created an order for this listing, return it
         const existing = await tx.order.findFirst({
-          where: { listingId: listing.id, buyerId: session.user.id, status: "PENDING" },
+          where: { listingId: listing.id, buyerId: session.user.id, status: OrderStatus.PICKUP_REQUIRED },
           orderBy: { createdAt: "desc" },
           select: { id: true },
         })
@@ -94,7 +95,7 @@ if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this t
       const order = await tx.order.create({
         data: {
           amount,
-          status: "PENDING",
+          status: OrderStatus.PICKUP_REQUIRED,
           outcome: "PENDING",
           buyerId: session.user.id,
           listingId: listing.id,
@@ -170,3 +171,5 @@ return { order }
     return jsonError("Server error", 500)
   }
 }
+
+

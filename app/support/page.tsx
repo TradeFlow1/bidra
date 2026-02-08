@@ -22,7 +22,7 @@
           <li>Meet in a public place for pickups. Bring a friend if possible.</li>
           <li>Inspect items before handing over money (especially electronics, bikes, high-value goods).</li>
           <li>Be cautious of unrealistic prices, urgency pressure, or requests to “move fast” off-platform.</li>
-          <li>For postage, use tracked shipping and keep receipts.</li>
+          <li>Pickup is scheduled in-app. No-shows and repeat reschedules affect reliability.</li>
         </ul>
       </section>
 
@@ -31,7 +31,7 @@
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
           <li>Use clear photos and honest descriptions to reduce disputes.</li>
           <li>Don’t accept suspicious “proof of payment” screenshots — verify funds properly.</li>
-          <li>For postage, pack carefully, use tracking, and keep lodgement receipts.</li>
+          <li>If something changes, request a reschedule in-app. Messages are for clarification only.</li>
           <li>Never share your passwords, one-time codes, or other sensitive login details.</li>
         </ul>
       </section>

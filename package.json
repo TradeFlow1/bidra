@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint \"{app,components,lib}/**/*.{ts,tsx,js,jsx}\" --max-warnings=0",
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
@@ -51,3 +51,4 @@
     "node": "20.x"
   }
 }
+

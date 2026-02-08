@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { checkPasswordPolicy, passwordGuidanceText } from "@/lib/password-policy";
 import LocationSuggest from "./location-suggest";
 
 type FormState = {
@@ -104,6 +105,7 @@ export default function RegisterPage() {
     return `${pc} ${sb} ${st}`.trim();
   }, [form.postcode, form.suburb, form.state]);
   const pwTooShort = useMemo(() => form.password.length > 0 && form.password.length < 8, [form.password]);
+  const pwPolicy = useMemo(() => checkPasswordPolicy(form.password), [form.password]);
   const pwMismatch = useMemo(
     () => form.confirmPassword.length > 0 && form.password !== form.confirmPassword,
     [form.password, form.confirmPassword]
@@ -273,9 +275,17 @@ export default function RegisterPage() {
                     placeholder="At least 8 characters"
                     autoComplete="new-password"
                   />
-                  <p className={helper}>Use 8+ characters.</p>
+                  <p className={helper}>{passwordGuidanceText()}</p>
                   {pwTooShort ? (
                     <p className="mt-1 text-xs font-semibold text-red-700">Must be at least 8 characters.</p>
+                  ) : null}
+                  {(!pwTooShort && form.password.length > 0 && pwPolicy && pwPolicy.warning) ? (
+                    <p className="mt-1 text-xs font-semibold text-amber-800">
+                      {pwPolicy.label ? ("Password strength: " + pwPolicy.label.toUpperCase() + ". ") : ""}{pwPolicy.warning}
+                    </p>
+                  ) : null}
+                  {(!pwTooShort && form.password.length > 0 && pwPolicy && !pwPolicy.ok && pwPolicy.reason) ? (
+                    <p className="mt-1 text-xs font-semibold text-red-700">{pwPolicy.reason}</p>
                   ) : null}
                 </div>
 

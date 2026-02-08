@@ -304,7 +304,7 @@ function suggestDescriptionDraft(args: {
     lines.push("Pickup location: (your suburb).");
   }
 
-  lines.push("Pickup preferred. If you need delivery, message me to discuss.");
+  lines.push("Pickup only. Please choose a pickup time in the app.");
   return lines.join("\n");
 }
 
@@ -578,7 +578,7 @@ const imagesToSend = uploadedUrls;
         const msg =
           reason === "MISSING_AGE_VERIFICATION" ? "Please add your date of birth in Account settings (18+ required) to list items." :
           reason === "AGE_NOT_VERIFIED" ? "Your account isn’t age-verified yet. Please complete age verification to list items." :
-          reason === "UNDER_18" ? "Bidra accounts are 18+ only. You can browse publicly, but you can’t list or bid." :
+          reason === "UNDER_18" ? "Bidra accounts are 18+ only. You can browse publicly, but you can’t list or make offers." :
           reason === "POLICY_BLOCKED" ? "Your account is temporarily restricted. Please try again later." :
           "You can’t create a listing right now.";
         setErr(msg);
@@ -862,3 +862,4 @@ const imagesToSend = uploadedUrls;
     </div>
   );
 }
+
