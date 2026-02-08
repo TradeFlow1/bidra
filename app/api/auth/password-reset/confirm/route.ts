@@ -2,6 +2,7 @@
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
+import { checkPasswordPolicy } from "@/lib/password-policy";
 
 function bad(msg: string, code = 400) {
   return NextResponse.json({ ok: false, error: msg }, { status: code });
@@ -15,6 +16,11 @@ export async function POST(req: Request) {
 
   if (!token || newPassword.length < 8) {
     return bad("Invalid token or password too short.");
+  }
+
+  const pw = checkPasswordPolicy(newPassword);
+  if (!pw.ok) {
+    return bad(pw.reason || "Password is too weak.");
   }
 
   const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
