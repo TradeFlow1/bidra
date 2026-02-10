@@ -1,0 +1,11 @@
+# Default owners for everything in the repo
+* @TradeFlow1
+
+# Critical areas (explicit for clarity)
+/.github/ @TradeFlow1
+/tools/ @TradeFlow1
+/prisma/ @TradeFlow1
+/app/ @TradeFlow1
+/lib/ @TradeFlow1
+/components/ @TradeFlow1
+
