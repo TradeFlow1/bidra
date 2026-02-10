@@ -1,4 +1,4 @@
-#Requires -Version 5.1
+﻿#Requires -Version 5.1
 $ErrorActionPreference = 'Stop'
 
 function Find-RepoRoot {
@@ -12,23 +12,25 @@ function Find-RepoRoot {
   throw 'Not at Bidra repo root (package.json not found)'
 }
 
+function Backup-File {
+  param([string]$File)
+  $bak = "$File.bak_v2_62_rewrite_v2_60_protect_main"
+  if (Test-Path -LiteralPath $File) {
+    if (-not (Test-Path -LiteralPath $bak)) { Copy-Item -LiteralPath $File -Destination $bak }
+  }
+}
+
+function Write-Utf8NoBomLines {
+  param([string]$File,[string[]]$Lines)
+  $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+  $full = [System.IO.Path]::GetFullPath($File)
+  [System.IO.File]::WriteAllLines($full, $Lines, $utf8NoBom)
+}
+
 function Require-Command {
   param([string]$Name)
   $c = Get-Command $Name -ErrorAction SilentlyContinue
   if (-not $c) { throw "Missing required command: $Name" }
-}
-
-function Invoke-Gh {
-  param([Parameter(Mandatory=$true)][string[]]$Args)
-  $old = $global:LASTEXITCODE
-  $out = & gh @Args 2>&1
-  $code = $global:LASTEXITCODE
-  if ($code -ne 0) {
-    $msg = ($out | Out-String).Trim()
-    if (-not $msg) { $msg = ("gh failed with exit code {0}" -f $code) }
-    throw $msg
-  }
-  return $out
 }
 
 function Get-OwnerRepoFromOrigin {
@@ -42,8 +44,8 @@ function Get-OwnerRepoFromOrigin {
 
 function Get-LatestSuccessfulCiHeadSha {
   param([string]$OwnerRepo)
-  $runsJson = Invoke-Gh -Args @("api", ("repos/{0}/actions/workflows/ci.yml/runs?branch=main&per_page=20" -f $OwnerRepo))
-  $runs = ($runsJson | Out-String) | ConvertFrom-Json
+  $runsJson = gh api ("repos/{0}/actions/workflows/ci.yml/runs?branch=main&per_page=20" -f $OwnerRepo)
+  $runs = $runsJson | ConvertFrom-Json
   if (-not $runs -or -not $runs.workflow_runs) { throw 'No workflow runs found for ci.yml.' }
   foreach ($r in $runs.workflow_runs) {
     if ($r.conclusion -eq 'success' -and $r.head_sha) { return [string]$r.head_sha }
@@ -53,8 +55,8 @@ function Get-LatestSuccessfulCiHeadSha {
 
 function Get-CheckRunNameFromSha {
   param([string]$OwnerRepo,[string]$Sha)
-  $checksJson = Invoke-Gh -Args @("api", ("repos/{0}/commits/{1}/check-runs?per_page=100" -f $OwnerRepo, $Sha))
-  $checks = ($checksJson | Out-String) | ConvertFrom-Json
+  $checksJson = gh api ("repos/{0}/commits/{1}/check-runs?per_page=100" -f $OwnerRepo, $Sha)
+  $checks = $checksJson | ConvertFrom-Json
   if (-not $checks -or -not $checks.check_runs) { throw 'No check-runs found for derived SHA.' }
   foreach ($cr in $checks.check_runs) {
     if ($cr.app -and $cr.app.slug -eq 'github-actions' -and $cr.name -eq 'build') { return [string]$cr.name }
@@ -91,15 +93,19 @@ $body = $bodyObj | ConvertTo-Json -Depth 6
 
 Write-Host 'Applying branch protection to main...'
 try {
-  Invoke-Gh -Args @("api","-X","PUT",("repos/{0}/branches/main/protection" -f $ownerRepo),"-H","Accept: application/vnd.github+json","-f",("body={0}" -f $body)) | Out-Null
+  gh api -X PUT ("repos/{0}/branches/main/protection" -f $ownerRepo) -H "Accept: application/vnd.github+json" -f body="$body" | Out-Null
 } catch {
   Write-Host 'Branch protection API call failed. If this repo is private, this may require GitHub Pro (or make repo public).'
   throw
 }
 
 Write-Host 'Verifying protection...'
-$pJson = Invoke-Gh -Args @("api",("repos/{0}/branches/main/protection" -f $ownerRepo))
-$p = ($pJson | Out-String) | ConvertFrom-Json
+try {
+  $p = gh api ("repos/{0}/branches/main/protection" -f $ownerRepo) | ConvertFrom-Json
+} catch {
+  Write-Host 'Could not read branch protection settings back (likely plan limitation).'
+  throw
+}
+
 Write-Host ("Protection enabled. Required contexts: {0}" -f (($p.required_status_checks.contexts) -join ', '))
 Write-Host 'Done.'
-
