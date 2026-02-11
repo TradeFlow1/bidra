@@ -1,108 +1,15 @@
-﻿import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 
-/**
- * Enforces 18+ policy for sensitive actions.
- * IMPORTANT: Do NOT rely on session.user containing DOB/ageVerified.
- * We always fall back to the DB user record (source of truth).
- *
- * ALSO enforces temporary policy blocks (policyBlockedUntil):
- * - If expired: auto-clear (set null)
- * - If active: block with reason POLICY_BLOCKED
- */
-function getDob(user: any): Date | null {
-  const raw = user?.dob ?? null;
-  if (!raw) return null;
-  const d = new Date(raw);
-  return isNaN(d.getTime()) ? null : d;
-}
+export async function requireAdult() {
+  const session = await auth();
 
-export function yearsOld(dob: Date, now = new Date()): number {
-  let age = now.getFullYear() - dob.getFullYear();
-  const m = now.getMonth() - dob.getMonth();
-  if (m < 0 || (m === 0 && now.getDate() < dob.getDate())) age--;
-  return age;
-}
-
-export async function requireAdult(sessionArg?: any) {
-  const session = sessionArg ?? (await auth());
-  const userId = session?.user?.id;
-
-  if (!userId) {
-    return { ok: false as const, status: 401, reason: "NOT_AUTHENTICATED" };
+  if (!session?.user) {
+    redirect("/auth/login");
   }
 
-  // Source of truth: DB user
-  const dbUser = await prisma.user.findUnique({
-    where: { id: userId },
-    select: {
-      id: true,
-dob: true,
-      ageVerified: true,
-      policyBlockedUntil: true,
-      policyStrikes: true,
-    },
-  });
-
-  const dob = getDob(dbUser);
-  if (!dob) {
-    return { ok: false as const, status: 403, reason: "MISSING_AGE_VERIFICATION" };
+  const age = session.user.age;
+  if (!age || age < 18) {
+    redirect("/");
   }
-
-  let ageVerified = Boolean((dbUser as unknown as { ageVerified?: boolean } | null | undefined)?.ageVerified);
-  const age = yearsOld(dob);
-
-  // Self-heal legacy accounts: if DOB exists and user is 18+, but ageVerified is false,
-  // promote them once so they don't get stuck behind an "age not verified" gate forever.
-  if (!ageVerified && age >= 18) {
-    try {
-      await prisma.user.update({
-        where: { id: userId },
-        data: { ageVerified: true },
-      });
-      ageVerified = true;
-      (dbUser as unknown as { ageVerified?: boolean }).ageVerified = true;
-    } catch (e) {
-      // If DB update fails, still block (safer than allowing)
-      return { ok: false as const, status: 403, reason: "AGE_NOT_VERIFIED" };
-    }
-  }
-
-  if (!ageVerified) {
-    return { ok: false as const, status: 403, reason: "AGE_NOT_VERIFIED" };
-  }
-
-  if (age < 18) {
-    return { ok: false as const, status: 403, reason: "UNDER_18" };
-  }
-
-  // Policy block auto-end
-  const now = Date.now();
-  const blockedUntil = (dbUser as unknown as { policyBlockedUntil?: unknown } | null | undefined)?.policyBlockedUntil ? new Date((dbUser as unknown as { policyBlockedUntil?: any }).policyBlockedUntil) : null;
-
-  if (blockedUntil) {
-    const ms = blockedUntil.getTime();
-
-    // If still blocked
-    if (isFinite(ms) && ms > now) {
-      return {
-        ok: false as const,
-        status: 403,
-        reason: "POLICY_BLOCKED",
-        blockedUntil,
-        policyStrikes: (dbUser as unknown as { policyStrikes?: number } | null | undefined)?.policyStrikes ?? 0,
-      };
-    }
-
-    // If expired (or invalid date), clear it
-    await prisma.user.update({
-      where: { id: userId },
-      data: { policyBlockedUntil: null },
-    });
-
-    // Keep return shape consistent, but ensure policyBlockedUntil is cleared in the returned dbUser
-    (dbUser as unknown as { policyBlockedUntil?: unknown }).policyBlockedUntil = null;
-  }
-
-  return { ok: true as const, session, dbUser };
 }
