@@ -1,28 +1,65 @@
 ﻿import { prisma } from "@/lib/prisma";
+import { ListingStatus, PolicyStrikeAction } from "@prisma/client";
 
-export async function applyPolicyStrike(userId: string) {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { policyStrikes: true, policyBlockedUntil: true },
-  });
+// Canonical rules (match /api/admin/users/strike)
+const STRIKE_THRESHOLD = 3;
+const STRIKE_TTL_DAYS = 30;
+const BLOCK_DAYS = 14;
 
-  const strikes = (user?.policyStrikes ?? 0) + 1;
-
-  // Block ladder:
-  // 3 strikes -> 24 hours
-  // 5 strikes -> 7 days
-  let blockedUntil: Date | null = user?.policyBlockedUntil ?? null;
+async function recalcActiveStrikes(userId: string) {
   const now = new Date();
-
-  if (strikes >= 5) blockedUntil = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-  else if (strikes >= 3) blockedUntil = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-
+  const activeCount = await prisma.policyStrike.count({
+    where: {
+      userId,
+      clearedAt: null,
+      expiresAt: { gt: now },
+    },
+  });
   await prisma.user.update({
     where: { id: userId },
-    data: { policyStrikes: strikes, policyBlockedUntil: blockedUntil },
+    data: { policyStrikes: activeCount },
+  });
+  return activeCount;
+}
+
+export async function applyPolicyStrike(userId: string) {
+  if (!userId) throw new Error("applyPolicyStrike: missing userId");
+
+  const expiresAt = new Date(Date.now() + STRIKE_TTL_DAYS * 24 * 60 * 60 * 1000);
+
+  // 1) Create auditable strike event (default WARN)
+  await prisma.policyStrike.create({
+    data: {
+      userId,
+      action: PolicyStrikeAction.WARN,
+      reason: "Policy strike",
+      expiresAt,
+    },
   });
 
-  return { strikes, blockedUntil };
+  // 2) Recalculate active strikes and sync counter on User
+  const strikes = await recalcActiveStrikes(userId);
+
+  // 3) If threshold reached, block + suspend ACTIVE listings
+  if (strikes >= STRIKE_THRESHOLD) {
+    const blockedUntil = new Date(Date.now() + BLOCK_DAYS * 24 * 60 * 60 * 1000);
+    await prisma.user.update({
+      where: { id: userId },
+      data: { policyBlockedUntil: blockedUntil },
+    });
+    await prisma.listing.updateMany({
+      where: { sellerId: userId, status: ListingStatus.ACTIVE },
+      data: { status: ListingStatus.SUSPENDED },
+    });
+    return { strikes, blockedUntil };
+  }
+
+  // Return current block value (if any) for convenience
+  const me = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { policyBlockedUntil: true },
+  });
+  return { strikes, blockedUntil: me?.policyBlockedUntil ?? null };
 }
 
 export async function isPolicyBlocked(userId: string) {
@@ -36,3 +73,4 @@ export async function isPolicyBlocked(userId: string) {
   }
   return { blocked: false as const, until: null as Date | null };
 }
+
