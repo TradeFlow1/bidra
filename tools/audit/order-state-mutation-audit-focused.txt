@@ -1,0 +1,285 @@
+BIDRA V2 - ORDER STATE MUTATION AUDIT (FOCUSED)
+Generated (local): 2026-02-12 16:34:19
+Repo root: C:\dev\bidra-main
+
+=== UNIQUE HITS ===
+- C:\dev\bidra-main\app\api\admin\listings\delete\route.ts:20
+  data: { status: "DELETED" },
+- C:\dev\bidra-main\app\api\admin\listings\set-status\route.ts:29
+  data: { status: nextStatus },
+- C:\dev\bidra-main\app\api\admin\listings\suspend\route.ts:20
+  data: { status: "SUSPENDED" },
+- C:\dev\bidra-main\app\api\admin\listings\unsuspend\route.ts:22
+  data: { status: "ACTIVE" },
+- C:\dev\bidra-main\app\api\admin\users\strike\route.ts:96
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts:128
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts:142
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts.bak:128
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts.bak:142
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak:58
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_accept_offerdecision:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_offerdecision_amount:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_rewrite_accept_route:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2copy:59
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2saleoutcome:59
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2scan:59
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak:79
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2_48_offer_rename:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2copy:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2saleoutcome:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2scan:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\relist\route.ts:122
+  data: { status: "ACTIVE", previousStatus: listing.status },
+- C:\dev\bidra-main\app\api\listings\relist\route.ts.bak:122
+  data: { status: "ACTIVE", previousStatus: listing.status },
+- C:\dev\bidra-main\app\api\listings\route.ts:113
+  data: { status: "ENDED" },
+- C:\dev\bidra-main\app\api\listings\route.ts.bak:113
+  data: { status: "ENDED" },
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:58
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:60
+  data: { outcome: "COMPLETED", completedAt: new Date() },
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts.bak:44
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:54
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:56
+  data: { status: OrderStatus.PAID },
+- C:\dev\bidra-main\app\api\orders\[id]\pickup\schedule\route.ts:91
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\dashboard\listings\page.tsx:69
+  data: { status: nextStatus },
+- C:\dev\bidra-main\app\dashboard\listings\page.tsx.bak:69
+  data: { status: nextStatus },
+- C:\dev\bidra-main\bidra-launch-fixes.json:205
+  "Text":  "P0-09 Leaving feedback doesn’t update order status: Orders list still shows Leave feedback after feedback submitted, allowing duplicates. Update status/CTA to reflect completed and prevent multiple submissions."
+- C:\dev\bidra-main\lib\policy-strike.ts:52
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:46
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:57
+  await prisma.order.update({ where: { id: orderId }, data: { buyerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:65
+  await prisma.order.update({ where: { id: orderId }, data: { sellerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\_force-overdue-feedback.js:13
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-fix-accept-offerdecision.ps1:78
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-fix-auth-import.ps1:79
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-rewrite-accept-highest-offer-route.ps1:79
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_repair_orders_active_listings.js:33
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:238
+  === Prisma or ORM updates and data:{ status/outcome } ===
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:240
+  data: { status: "DELETED" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:242
+  data: { status: nextStatus },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:244
+  data: { status: "SUSPENDED" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:246
+  data: { status: "ACTIVE" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:248
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:250
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:252
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:254
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:256
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:258
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:260
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:262
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:264
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:266
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:268
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:270
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:272
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:274
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:276
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:278
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:280
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:282
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:284
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:286
+  data: { status: "ACTIVE", previousStatus: listing.status },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:288
+  data: { status: "ACTIVE", previousStatus: listing.status },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:290
+  data: { status: "ENDED" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:292
+  data: { status: "ENDED" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:294
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:296
+  data: { outcome: "COMPLETED", completedAt: new Date() },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:298
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:300
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:302
+  data: { status: OrderStatus.PAID },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:304
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:306
+  data: { status: nextStatus },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:308
+  data: { status: nextStatus },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:310
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:312
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:314
+  await prisma.order.update({ where: { id: orderId }, data: { buyerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:316
+  await prisma.order.update({ where: { id: orderId }, data: { sellerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:318
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:320
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:322
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:324
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:326
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:328
+  Add-Section "Prisma or ORM updates and data:{ status/outcome }" $prisma
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:334
+  "Text":  "P0-09 Leaving feedback doesn’t update order status: Orders list still shows Leave feedback after feedback submitted, allowing duplicates. Update status/CTA to reflect completed and prevent multiple submissions."
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:348
+  data: { status: "DELETED" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:354
+  data: { status: nextStatus },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:358
+  data: { status: "SUSPENDED" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:362
+  data: { status: "ACTIVE" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:384
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:416
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:418
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:420
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:422
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:426
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:430
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:434
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:440
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:444
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:448
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:452
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:456
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:460
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:464
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:468
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:472
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:476
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:480
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:514
+  data: { status: "ACTIVE", previousStatus: listing.status },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:518
+  data: { status: "ACTIVE", previousStatus: listing.status },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:522
+  data: { status: "ENDED" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:526
+  data: { status: "ENDED" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:542
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:544
+  data: { outcome: "COMPLETED", completedAt: new Date() },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:548
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:554
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:556
+  data: { status: OrderStatus.PAID },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:562
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:574
+  data: { status: nextStatus },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:578
+  data: { status: nextStatus },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:762
+  "Text":  "P0-09 Leaving feedback doesn’t update order status: Orders list still shows Leave feedback after feedback submitted, allowing duplicates. Update status/CTA to reflect completed and prevent multiple submissions."
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:784
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:802
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:804
+  await prisma.order.update({ where: { id: orderId }, data: { buyerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:806
+  await prisma.order.update({ where: { id: orderId }, data: { sellerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:808
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:812
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:816
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:822
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:828
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit\order-state-mutation-audit.txt:830
+  Add-Section "Prisma or ORM updates and data:{ status/outcome }" $prisma
+- C:\dev\bidra-main\tools\audit-v2-order-state-mutations.ps1:114
+  Add-Section "Prisma or ORM updates and data:{ status/outcome }" $prisma
+
+Total unique hits: 139

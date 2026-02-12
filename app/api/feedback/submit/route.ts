@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -109,6 +109,37 @@ if (!order.listing || !sellerId) {
   }
 
   try {
+    
+  // V2 enforcement: feedback only allowed after completion; only participants; no dispute/cancelled.
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+    select: {
+      id: true,
+      status: true,
+      outcome: true,
+      completedAt: true,
+      buyerId: true,
+      buyerFeedbackAt: true,
+      sellerFeedbackAt: true,
+      listing: { select: { sellerId: true } },
+    },
+  });
+  if (!order) { return NextResponse.json({ error: "Order not found." }, { status: 404 }); }
+  const sellerId2 = (order.listing as any) ? String((((order.listing as any).sellerId) || "")) : "";
+  const buyerId2 = String(((order as any).buyerId) || "");
+  const isBuyer = buyerId2 && buyerId2 === userId;
+  const isSeller = sellerId2 && sellerId2 === userId;
+  if (!isBuyer && !isSeller) { return NextResponse.json({ error: "Not permitted." }, { status: 403 }); }
+  if (role === "BUYER" && !isBuyer) { return NextResponse.json({ error: "Role mismatch." }, { status: 403 }); }
+  if (role === "SELLER" && !isSeller) { return NextResponse.json({ error: "Role mismatch." }, { status: 403 }); }
+  if (order.outcome === "DISPUTED" || order.outcome === "CANCELLED") {
+    return NextResponse.json({ error: "Feedback is not available for this order." }, { status: 409 });
+  }
+  if (order.outcome !== "COMPLETED") {
+    return NextResponse.json({ error: "Feedback is only available after completion." }, { status: 409 });
+  }
+  if (role === "BUYER" && order.buyerFeedbackAt) { return NextResponse.json({ ok: true, alreadySubmitted: true }); }
+  if (role === "SELLER" && order.sellerFeedbackAt) { return NextResponse.json({ ok: true, alreadySubmitted: true }); }
     await prisma.feedback.create({
       data: {
         orderId,
@@ -123,15 +154,7 @@ if (!order.listing || !sellerId) {
     // Duplicate feedback (Prisma unique constraint) -> treat as "already submitted"
     const code = e?.code ? String(e.code) : "";
     if (code === "P2002") {
-      // Idempotent submit: if feedback already exists, still ensure the order timestamp is set so gates unblock immediately.
-      try {
-        await prisma.order.update({
-          where: { id: orderId },
-          data: role === "BUYER" ? { buyerFeedbackAt: new Date() } : { sellerFeedbackAt: new Date() },
-        });
-      } catch (e2) {
-        console.error("order.update failed after duplicate feedback submit", e2);
-      }
+      // Duplicate feedback - idempotent success (no order mutation here).
       return NextResponse.json({ ok: true, alreadySubmitted: true });
     }
     console.error("feedback.create failed", e);

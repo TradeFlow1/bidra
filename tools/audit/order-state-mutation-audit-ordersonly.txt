@@ -1,0 +1,63 @@
+BIDRA V2 - ORDER STATE MUTATION AUDIT (ORDERS ONLY)
+Generated (local): 2026-02-12 16:39:57
+Repo root: C:\dev\bidra-main
+
+=== UNIQUE HITS ===
+- C:\dev\bidra-main\app\api\admin\listings\delete\route.ts:20
+  data: { status: "DELETED" },
+- C:\dev\bidra-main\app\api\admin\listings\set-status\route.ts:29
+  data: { status: nextStatus },
+- C:\dev\bidra-main\app\api\admin\listings\suspend\route.ts:20
+  data: { status: "SUSPENDED" },
+- C:\dev\bidra-main\app\api\admin\listings\unsuspend\route.ts:22
+  data: { status: "ACTIVE" },
+- C:\dev\bidra-main\app\api\admin\users\strike\route.ts:96
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts:128
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts:142
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\relist\route.ts:122
+  data: { status: "ACTIVE", previousStatus: listing.status },
+- C:\dev\bidra-main\app\api\listings\route.ts:113
+  data: { status: "ENDED" },
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:58
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:60
+  data: { outcome: "COMPLETED", completedAt: new Date() },
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:54
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:56
+  data: { status: OrderStatus.PAID },
+- C:\dev\bidra-main\app\api\orders\[id]\pickup\schedule\route.ts:91
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\dashboard\listings\page.tsx:69
+  data: { status: nextStatus },
+- C:\dev\bidra-main\bidra-launch-fixes.json:205
+  "Text":  "P0-09 Leaving feedback doesn’t update order status: Orders list still shows Leave feedback after feedback submitted, allowing duplicates. Update status/CTA to reflect completed and prevent multiple submissions."
+- C:\dev\bidra-main\lib\policy-strike.ts:52
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:46
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:57
+  await prisma.order.update({ where: { id: orderId }, data: { buyerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:65
+  await prisma.order.update({ where: { id: orderId }, data: { sellerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\_force-overdue-feedback.js:13
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-fix-accept-offerdecision.ps1:78
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-fix-auth-import.ps1:79
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-rewrite-accept-highest-offer-route.ps1:79
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_repair_orders_active_listings.js:33
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit-v2-order-state-mutations.ps1:114
+  Add-Section "Prisma or ORM updates and data:{ status/outcome }" $prisma
+
+Total unique hits: 28

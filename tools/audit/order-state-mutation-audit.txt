@@ -1,0 +1,838 @@
+BIDRA V2 - ORDER STATE MUTATION AUDIT
+Generated (local): 2026-02-12 16:32:21
+Repo root: C:\dev\bidra-main
+
+This report lists ANY file and line that might mutate order.status or order.outcome.
+Next step: inspect each hit and classify as allowed / needs guard / illegal bypass.
+
+=== Direct status or outcome assignments (high risk) ===
+- C:\dev\bidra-main\app\api\listings\[id]\delete\route.ts:38
+  if (listing.status === "DELETED") {
+- C:\dev\bidra-main\app\api\listings\[id]\delete\route.ts.bak:38
+  if (listing.status === "DELETED") {
+- C:\dev\bidra-main\app\api\listings\[id]\delete\route.ts.bak_v2_48_fix_remaining_bids:38
+  if (listing.status === "DELETED") {
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts:213
+  const statusRaw = body?.status == null ? "" : String(body.status).trim();
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts:288
+  if (status) data.status = status;
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts.bak:213
+  const statusRaw = body?.status == null ? "" : String(body.status).trim();
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts.bak:288
+  if (status) data.status = status;
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts.bak_v2_48_offer_rename:213
+  const statusRaw = body?.status == null ? "" : String(body.status).trim();
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts.bak_v2_48_offer_rename:288
+  if (status) data.status = status;
+- C:\dev\bidra-main\app\api\messages\thread\route.ts:22
+  if (listing.status === "DELETED") return NextResponse.json({ error: "Listing unavailable" }, { status: 400 })
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:41
+  if (order.outcome === "COMPLETED") {
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:46
+  if (order.outcome === "CANCELLED" || order.outcome === "DISPUTED") {
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts.bak:40
+  if (order.outcome === "COMPLETED") {
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:37
+  if (order.outcome === "CANCELLED" || order.outcome === "DISPUTED") {
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:42
+  if (order.status === OrderStatus.PAID) {
+- C:\dev\bidra-main\app\api\orders\[id]\pickup\schedule\route.ts:70
+  if (order.status === OrderStatus.PICKUP_SCHEDULED) {
+- C:\dev\bidra-main\app\listings\[id]\buy-now-button.tsx:22
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\listings\[id]\message-seller-button.tsx:24
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\listings\[id]\message-seller-button.tsx:33
+  if (res.status === 403) {
+- C:\dev\bidra-main\app\listings\[id]\page.tsx:237
+  const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
+- C:\dev\bidra-main\app\listings\[id]\page.tsx:240
+  listing.status === "ACTIVE" && Boolean(viewerId) && !isSeller &&
+- C:\dev\bidra-main\app\listings\[id]\page.tsx:335
+  {listing.status === "ENDED" ? (
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak:237
+  const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak:240
+  listing.status === "ACTIVE" && Boolean(viewerId) && !isSeller &&
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak:335
+  {listing.status === "ENDED" ? (
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits:237
+  const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits:240
+  listing.status === "ACTIVE" && Boolean(viewerId) && !isSeller &&
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits:335
+  {listing.status === "ENDED" ? (
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits_v2:237
+  const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits_v2:240
+  listing.status === "ACTIVE" && Boolean(viewerId) && !isSeller &&
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits_v2:335
+  {listing.status === "ENDED" ? (
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_offer_rename:237
+  const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_offer_rename:240
+  listing.status === "ACTIVE" && Boolean(viewerId) && !isSeller &&
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_offer_rename:335
+  {listing.status === "ENDED" ? (
+- C:\dev\bidra-main\app\listings\[id]\place-offer-client.tsx:98
+  const isTop = data?.status === "TOP" || data?.status === "HIGHEST" || data?.status === "WINNING"; // backward compat
+- C:\dev\bidra-main\app\orders\[id]\feedback\feedback-client.tsx:46
+  if (res.status === 409) {
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:78
+  <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:90
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:93
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:134
+  {(order.status === "PICKUP_REQUIRED" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:159
+  {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:170
+  {order.status === "PICKUP_REQUIRED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:176
+  ) : order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:182
+  ) : order.outcome === "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:78
+  <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:90
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:93
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:134
+  {(order.status === "PENDING" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:159
+  {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:170
+  {order.status === "PENDING" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:176
+  ) : order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:182
+  ) : order.outcome === "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:78
+  <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:90
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:93
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:134
+  {(order.status === "PENDING" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:159
+  {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:170
+  {order.status === "PENDING" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:176
+  ) : order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:182
+  ) : order.outcome === "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:78
+  <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:90
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:93
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:134
+  {(order.status === "PICKUP_REQUIRED" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:159
+  {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:170
+  {order.status === "PICKUP_REQUIRED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:176
+  ) : order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:182
+  ) : order.outcome === "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:78
+  <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:90
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:93
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:134
+  {(order.status === "PICKUP_REQUIRED" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:159
+  {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:170
+  {order.status === "PICKUP_REQUIRED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:176
+  ) : order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:182
+  ) : order.outcome === "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\pay\page.tsx:266
+  {order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\pay\page.tsx.bak:266
+  {order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\pay\page.tsx.bak_v2paynow:266
+  {order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\page.tsx:50
+  <Badge>{o.outcome === "COMPLETED" ? "COMPLETED" : o.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\page.tsx:74
+  {(o.status === "PICKUP_REQUIRED" && o.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\page.tsx:86
+  {(o.status === "PAID" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
+- C:\dev\bidra-main\app\orders\page.tsx:107
+  {(o.outcome === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak:50
+  <Badge>{o.outcome === "COMPLETED" ? "COMPLETED" : o.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\page.tsx.bak:74
+  {(o.status === "PENDING" && o.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak:86
+  {(o.status === "PAID" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak:107
+  {(o.outcome === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2copy:50
+  <Badge>{o.outcome === "COMPLETED" ? "COMPLETED" : o.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2copy:74
+  {(o.status === "PENDING" && o.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2copy:86
+  {(o.status === "PAID" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2copy:107
+  {(o.outcome === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2paynow:50
+  <Badge>{o.outcome === "COMPLETED" ? "COMPLETED" : o.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2paynow:74
+  {(o.status === "PICKUP_REQUIRED" && o.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2paynow:86
+  {(o.status === "PAID" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2paynow:107
+  {(o.outcome === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx:556
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx:567
+  if (res.status === 403) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak:556
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak:567
+  if (res.status === 403) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak_v2_48_fix_last_2_scan_hits:556
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak_v2_48_fix_last_2_scan_hits:567
+  if (res.status === 403) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak_v2scan:556
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak_v2scan:567
+  if (res.status === 403) {
+- C:\dev\bidra-main\app\watchlist\page.tsx:97
+  const active = items.filter((w) => w.listing?.status === "ACTIVE");
+- C:\dev\bidra-main\components\report-listing.tsx:59
+  if (res.status === 401) {
+- C:\dev\bidra-main\components\report-listing.tsx:64
+  if (res.status === 403) {
+- C:\dev\bidra-main\components\report-listing.tsx.bak:59
+  if (res.status === 401) {
+- C:\dev\bidra-main\components\report-listing.tsx.bak:64
+  if (res.status === 403) {
+- C:\dev\bidra-main\components\watch-button.tsx:63
+  if (res.status === 401 || res.status === 403) {
+- C:\dev\bidra-main\tools\_check_orders_with_active_listing.js:16
+  const bad = rows.filter(r => r.listing && r.listing.status === "ACTIVE");
+- C:\dev\bidra-main\tools\_repair_orders_active_listings.js:17
+  const bad = rows.filter(r => r.listing && r.listing.status === "ACTIVE");
+- C:\dev\bidra-main\tools\v2-scan-report.txt:18
+  C:\dev\bidra-main\app\orders\[id]\page.tsx:134  [PICKUP_REQUIRED]  {(order.status === "PICKUP_REQUIRED" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\tools\v2-scan-report.txt:19
+  C:\dev\bidra-main\app\orders\[id]\page.tsx:170  [PICKUP_REQUIRED]  {order.status === "PICKUP_REQUIRED" ? (
+- C:\dev\bidra-main\tools\v2-scan-report.txt:20
+  C:\dev\bidra-main\app\orders\page.tsx:74  [PICKUP_REQUIRED]  {(o.status === "PICKUP_REQUIRED" && o.buyerId === user.id) ? (
+
+=== Prisma or ORM updates and data:{ status/outcome } ===
+- C:\dev\bidra-main\app\api\admin\listings\delete\route.ts:20
+  data: { status: "DELETED" },
+- C:\dev\bidra-main\app\api\admin\listings\set-status\route.ts:29
+  data: { status: nextStatus },
+- C:\dev\bidra-main\app\api\admin\listings\suspend\route.ts:20
+  data: { status: "SUSPENDED" },
+- C:\dev\bidra-main\app\api\admin\listings\unsuspend\route.ts:22
+  data: { status: "ACTIVE" },
+- C:\dev\bidra-main\app\api\admin\users\strike\route.ts:96
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts:128
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts:142
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts.bak:128
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts.bak:142
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak:58
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_accept_offerdecision:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_offerdecision_amount:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_rewrite_accept_route:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2copy:59
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2saleoutcome:59
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2scan:59
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak:79
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2_48_offer_rename:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2copy:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2saleoutcome:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2scan:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\relist\route.ts:122
+  data: { status: "ACTIVE", previousStatus: listing.status },
+- C:\dev\bidra-main\app\api\listings\relist\route.ts.bak:122
+  data: { status: "ACTIVE", previousStatus: listing.status },
+- C:\dev\bidra-main\app\api\listings\route.ts:113
+  data: { status: "ENDED" },
+- C:\dev\bidra-main\app\api\listings\route.ts.bak:113
+  data: { status: "ENDED" },
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:58
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:60
+  data: { outcome: "COMPLETED", completedAt: new Date() },
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts.bak:44
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:54
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:56
+  data: { status: OrderStatus.PAID },
+- C:\dev\bidra-main\app\api\orders\[id]\pickup\schedule\route.ts:91
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\dashboard\listings\page.tsx:69
+  data: { status: nextStatus },
+- C:\dev\bidra-main\app\dashboard\listings\page.tsx.bak:69
+  data: { status: nextStatus },
+- C:\dev\bidra-main\lib\policy-strike.ts:52
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:46
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:57
+  await prisma.order.update({ where: { id: orderId }, data: { buyerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:65
+  await prisma.order.update({ where: { id: orderId }, data: { sellerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\_force-overdue-feedback.js:13
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-fix-accept-offerdecision.ps1:78
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-fix-auth-import.ps1:79
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-rewrite-accept-highest-offer-route.ps1:79
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_repair_orders_active_listings.js:33
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit-v2-order-state-mutations.ps1:114
+  Add-Section "Prisma or ORM updates and data:{ status/outcome }" $prisma
+
+=== SQL-ish updates touching orders/status/outcome ===
+- C:\dev\bidra-main\app\api\orders\[id]\pickup\schedule\route.ts:79
+  return NextResponse.json({ ok: false, error: "Seller has not set pickup availability windows yet." }, { status: 409 });
+- C:\dev\bidra-main\bidra-launch-fixes.json:205
+  "Text":  "P0-09 Leaving feedback doesn’t update order status: Orders list still shows Leave feedback after feedback submitted, allowing duplicates. Update status/CTA to reflect completed and prevent multiple submissions."
+- C:\dev\bidra-main\tmp-fix-feedback-enums.js:39
+  SET outcome = 'PENDING'
+
+=== FULL UNIQUE HIT LIST (for manual review) ===
+- C:\dev\bidra-main\app\account\restrictions\page.tsx:29
+  await prisma.user.update({
+- C:\dev\bidra-main\app\account\restrictions\page.tsx.bak:27
+  await prisma.user.update({
+- C:\dev\bidra-main\app\account\restrictions\page.tsx.bak_v2_48_offer_rename:29
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\admin\listings\delete\route.ts:18
+  await prisma.listing.update({
+- C:\dev\bidra-main\app\api\admin\listings\delete\route.ts:20
+  data: { status: "DELETED" },
+- C:\dev\bidra-main\app\api\admin\listings\delete\route.ts:34
+  });await prisma.report.updateMany({
+- C:\dev\bidra-main\app\api\admin\listings\set-status\route.ts:27
+  await prisma.listing.update({
+- C:\dev\bidra-main\app\api\admin\listings\set-status\route.ts:29
+  data: { status: nextStatus },
+- C:\dev\bidra-main\app\api\admin\listings\suspend\route.ts:18
+  await prisma.listing.update({
+- C:\dev\bidra-main\app\api\admin\listings\suspend\route.ts:20
+  data: { status: "SUSPENDED" },
+- C:\dev\bidra-main\app\api\admin\listings\unsuspend\route.ts:20
+  await prisma.listing.update({
+- C:\dev\bidra-main\app\api\admin\listings\unsuspend\route.ts:22
+  data: { status: "ACTIVE" },
+- C:\dev\bidra-main\app\api\admin\reports\reopen\route.ts:22
+  await prisma.report.update({
+- C:\dev\bidra-main\app\api\admin\reports\resolve\route.ts:22
+  await prisma.report.update({
+- C:\dev\bidra-main\app\api\admin\users\block\route.ts:25
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\admin\users\repair-age\route.ts:39
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\admin\users\repair-age\route.ts.bak:39
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\admin\users\strike\clear\route.ts:16
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\admin\users\strike\clear\route.ts:47
+  await prisma.policyStrike.update({
+- C:\dev\bidra-main\app\api\admin\users\strike\route.ts:26
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\admin\users\strike\route.ts:90
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\admin\users\strike\route.ts:94
+  await prisma.listing.updateMany({
+- C:\dev\bidra-main\app\api\admin\users\strike\route.ts:96
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\app\api\admin\users\unblock\route.ts:18
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\admin\users\unstrike\route.ts:32
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\auth\password-reset\confirm\route.ts:26
+  const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+- C:\dev\bidra-main\app\api\auth\password-reset\confirm\route.ts:40
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\auth\password-reset\confirm\route.ts.bak_v2_46:20
+  const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+- C:\dev\bidra-main\app\api\auth\password-reset\confirm\route.ts.bak_v2_46:34
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\auth\password-reset\confirm\route.ts.bak_v2_46_cleanup:16
+  if (!token || newPassword.length < 8) {\r\n    return bad("Invalid token or password too short.");\r\n  }\r\n\r\n  const pw = checkPasswordPolicy(newPassword);\r\n  if (!pw.ok) {\r\n    return bad(pw.reason || "Password is too weak.");\r\n  }\r\n  const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+- C:\dev\bidra-main\app\api\auth\password-reset\confirm\route.ts.bak_v2_46_cleanup:30
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\auth\password-reset\confirm\route.ts.bak_v2_46_literal_crlf_fix:16
+  if (!token || newPassword.length < 8) {`r`n    return bad("Invalid token or password too short.");`r`n  }`r`n`r`n  const pw = checkPasswordPolicy(newPassword);`r`n  if (!pw.ok) {`r`n    return bad(pw.reason || "Password is too weak.");`r`n  }`r`n`r`n  const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+- C:\dev\bidra-main\app\api\auth\password-reset\confirm\route.ts.bak_v2_46_literal_crlf_fix:30
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\auth\password-reset\request\route.ts:18
+  const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+- C:\dev\bidra-main\app\api\auth\phone\confirm\route.ts:72
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\auth\phone\confirm\route.ts.bak:72
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\auth\phone\request\route.ts:65
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\auth\verify\route.ts:22
+  prisma.user.update({
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts:128
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts:142
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts.bak:128
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\feedback\submit\route.ts.bak:142
+  await prisma.order.update({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts:48
+  const updated = await prisma.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak:56
+  const updated = await tx.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak:58
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_accept_offerdecision:48
+  const updated = await prisma.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_accept_offerdecision:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_accept_offerdecision:57
+  await prisma.offer.update({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_offerdecision_amount:48
+  const updated = await prisma.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_offerdecision_amount:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_rewrite_accept_route:48
+  const updated = await prisma.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2_48_rewrite_accept_route:50
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2copy:57
+  const updated = await tx.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2copy:59
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2saleoutcome:57
+  const updated = await tx.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2saleoutcome:59
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2scan:57
+  const updated = await tx.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\accept-highest-offer\route.ts.bak_v2scan:59
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts:78
+  const updated = await tx.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak:77
+  const updated = await tx.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak:79
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2_48_offer_rename:78
+  const updated = await tx.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2_48_offer_rename:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2copy:78
+  const updated = await tx.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2copy:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2saleoutcome:78
+  const updated = await tx.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2saleoutcome:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2scan:78
+  const updated = await tx.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\[id]\buy-now\route.ts.bak_v2scan:80
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\app\api\listings\[id]\delete\route.ts:38
+  if (listing.status === "DELETED") {
+- C:\dev\bidra-main\app\api\listings\[id]\delete\route.ts:42
+  await prisma.listing.update({
+- C:\dev\bidra-main\app\api\listings\[id]\delete\route.ts.bak:38
+  if (listing.status === "DELETED") {
+- C:\dev\bidra-main\app\api\listings\[id]\delete\route.ts.bak:42
+  await prisma.listing.update({
+- C:\dev\bidra-main\app\api\listings\[id]\delete\route.ts.bak_v2_48_fix_remaining_bids:38
+  if (listing.status === "DELETED") {
+- C:\dev\bidra-main\app\api\listings\[id]\delete\route.ts.bak_v2_48_fix_remaining_bids:42
+  await prisma.listing.update({
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts:213
+  const statusRaw = body?.status == null ? "" : String(body.status).trim();
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts:288
+  if (status) data.status = status;
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts:290
+  const listing = await prisma.listing.update({
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts.bak:213
+  const statusRaw = body?.status == null ? "" : String(body.status).trim();
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts.bak:288
+  if (status) data.status = status;
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts.bak:290
+  const listing = await prisma.listing.update({
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts.bak_v2_48_offer_rename:213
+  const statusRaw = body?.status == null ? "" : String(body.status).trim();
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts.bak_v2_48_offer_rename:288
+  if (status) data.status = status;
+- C:\dev\bidra-main\app\api\listings\[id]\update\route.ts.bak_v2_48_offer_rename:290
+  const listing = await prisma.listing.update({
+- C:\dev\bidra-main\app\api\listings\relist\route.ts:120
+  const next = await tx.listing.update({
+- C:\dev\bidra-main\app\api\listings\relist\route.ts:122
+  data: { status: "ACTIVE", previousStatus: listing.status },
+- C:\dev\bidra-main\app\api\listings\relist\route.ts.bak:120
+  const next = await tx.listing.update({
+- C:\dev\bidra-main\app\api\listings\relist\route.ts.bak:122
+  data: { status: "ACTIVE", previousStatus: listing.status },
+- C:\dev\bidra-main\app\api\listings\route.ts:111
+  await prisma.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\route.ts:113
+  data: { status: "ENDED" },
+- C:\dev\bidra-main\app\api\listings\route.ts.bak:111
+  await prisma.listing.updateMany({
+- C:\dev\bidra-main\app\api\listings\route.ts.bak:113
+  data: { status: "ENDED" },
+- C:\dev\bidra-main\app\api\messages\thread\[id]\delete\route.ts:29
+  await prisma.messageThread.update({ where: { id: thread.id }, data })
+- C:\dev\bidra-main\app\api\messages\thread\[id]\delete\route.ts.bak:29
+  await prisma.messageThread.update({ where: { id: thread.id }, data })
+- C:\dev\bidra-main\app\api\messages\thread\[id]\send\route.ts:93
+  await tx.messageThread.update({
+- C:\dev\bidra-main\app\api\messages\thread\[id]\send\route.ts.bak:93
+  await tx.messageThread.update({
+- C:\dev\bidra-main\app\api\messages\thread\route.ts:22
+  if (listing.status === "DELETED") return NextResponse.json({ error: "Listing unavailable" }, { status: 400 })
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:41
+  if (order.outcome === "COMPLETED") {
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:46
+  if (order.outcome === "CANCELLED" || order.outcome === "DISPUTED") {
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:58
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts:60
+  data: { outcome: "COMPLETED", completedAt: new Date() },
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts.bak:40
+  if (order.outcome === "COMPLETED") {
+- C:\dev\bidra-main\app\api\orders\[id]\complete\route.ts.bak:44
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:37
+  if (order.outcome === "CANCELLED" || order.outcome === "DISPUTED") {
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:42
+  if (order.status === OrderStatus.PAID) {
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:54
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\orders\[id]\pay\confirm\route.ts:56
+  data: { status: OrderStatus.PAID },
+- C:\dev\bidra-main\app\api\orders\[id]\pickup\schedule\route.ts:70
+  if (order.status === OrderStatus.PICKUP_SCHEDULED) {
+- C:\dev\bidra-main\app\api\orders\[id]\pickup\schedule\route.ts:79
+  return NextResponse.json({ ok: false, error: "Seller has not set pickup availability windows yet." }, { status: 409 });
+- C:\dev\bidra-main\app\api\orders\[id]\pickup\schedule\route.ts:91
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\app\api\profile\update\route.ts:45
+  await prisma.user.update({
+- C:\dev\bidra-main\app\api\profile\update\route.ts.bak:45
+  await prisma.user.update({
+- C:\dev\bidra-main\app\auth\verify\page.tsx:63
+  await prisma.user.update({ where: { id: vt.userId }, data: { emailVerified: true, isActive: true } });
+- C:\dev\bidra-main\app\auth\verify\page.tsx.bak:63
+  await prisma.user.update({ where: { id: vt.userId }, data: { emailVerified: true, isActive: true } });
+- C:\dev\bidra-main\app\dashboard\listings\page.tsx:67
+  await prisma.listing.update({
+- C:\dev\bidra-main\app\dashboard\listings\page.tsx:69
+  data: { status: nextStatus },
+- C:\dev\bidra-main\app\dashboard\listings\page.tsx.bak:67
+  await prisma.listing.update({
+- C:\dev\bidra-main\app\dashboard\listings\page.tsx.bak:69
+  data: { status: nextStatus },
+- C:\dev\bidra-main\app\listings\[id]\buy-now-button.tsx:22
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\listings\[id]\message-seller-button.tsx:24
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\listings\[id]\message-seller-button.tsx:33
+  if (res.status === 403) {
+- C:\dev\bidra-main\app\listings\[id]\page.tsx:237
+  const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
+- C:\dev\bidra-main\app\listings\[id]\page.tsx:240
+  listing.status === "ACTIVE" && Boolean(viewerId) && !isSeller &&
+- C:\dev\bidra-main\app\listings\[id]\page.tsx:335
+  {listing.status === "ENDED" ? (
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak:237
+  const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak:240
+  listing.status === "ACTIVE" && Boolean(viewerId) && !isSeller &&
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak:335
+  {listing.status === "ENDED" ? (
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits:237
+  const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits:240
+  listing.status === "ACTIVE" && Boolean(viewerId) && !isSeller &&
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits:335
+  {listing.status === "ENDED" ? (
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits_v2:237
+  const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits_v2:240
+  listing.status === "ACTIVE" && Boolean(viewerId) && !isSeller &&
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_fix_5_scan_hits_v2:335
+  {listing.status === "ENDED" ? (
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_offer_rename:237
+  const showCountdown = Boolean((listing as unknown as { endsAt?: unknown }).endsAt) && listing.status === "ACTIVE";
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_offer_rename:240
+  listing.status === "ACTIVE" && Boolean(viewerId) && !isSeller &&
+- C:\dev\bidra-main\app\listings\[id]\page.tsx.bak_v2_48_offer_rename:335
+  {listing.status === "ENDED" ? (
+- C:\dev\bidra-main\app\listings\[id]\place-offer-client.tsx:98
+  const isTop = data?.status === "TOP" || data?.status === "HIGHEST" || data?.status === "WINNING"; // backward compat
+- C:\dev\bidra-main\app\messages\[id]\page.tsx:65
+  await prisma.messageThread.update({
+- C:\dev\bidra-main\app\messages\[id]\page.tsx.bak:66
+  await prisma.messageThread.update({
+- C:\dev\bidra-main\app\orders\[id]\feedback\feedback-client.tsx:46
+  if (res.status === 409) {
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:78
+  <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:90
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:93
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:134
+  {(order.status === "PICKUP_REQUIRED" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:159
+  {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:170
+  {order.status === "PICKUP_REQUIRED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:176
+  ) : order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx:182
+  ) : order.outcome === "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:78
+  <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:90
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:93
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:134
+  {(order.status === "PENDING" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:159
+  {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:170
+  {order.status === "PENDING" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:176
+  ) : order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak:182
+  ) : order.outcome === "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:78
+  <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:90
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:93
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:134
+  {(order.status === "PENDING" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:159
+  {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:170
+  {order.status === "PENDING" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:176
+  ) : order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2copy:182
+  ) : order.outcome === "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:78
+  <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:90
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:93
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:134
+  {(order.status === "PICKUP_REQUIRED" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:159
+  {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:170
+  {order.status === "PICKUP_REQUIRED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:176
+  ) : order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2paynow:182
+  ) : order.outcome === "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:78
+  <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:90
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:93
+  order.outcome === "COMPLETED" &&
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:134
+  {(order.status === "PICKUP_REQUIRED" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:159
+  {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:170
+  {order.status === "PICKUP_REQUIRED" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:176
+  ) : order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\page.tsx.bak_v2scan:182
+  ) : order.outcome === "COMPLETED" ? (
+- C:\dev\bidra-main\app\orders\[id]\pay\page.tsx:266
+  {order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\pay\page.tsx.bak:266
+  {order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\[id]\pay\page.tsx.bak_v2paynow:266
+  {order.status === "PAID" ? (
+- C:\dev\bidra-main\app\orders\page.tsx:50
+  <Badge>{o.outcome === "COMPLETED" ? "COMPLETED" : o.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\page.tsx:74
+  {(o.status === "PICKUP_REQUIRED" && o.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\page.tsx:86
+  {(o.status === "PAID" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
+- C:\dev\bidra-main\app\orders\page.tsx:107
+  {(o.outcome === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak:50
+  <Badge>{o.outcome === "COMPLETED" ? "COMPLETED" : o.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\page.tsx.bak:74
+  {(o.status === "PENDING" && o.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak:86
+  {(o.status === "PAID" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak:107
+  {(o.outcome === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2copy:50
+  <Badge>{o.outcome === "COMPLETED" ? "COMPLETED" : o.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2copy:74
+  {(o.status === "PENDING" && o.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2copy:86
+  {(o.status === "PAID" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2copy:107
+  {(o.outcome === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2paynow:50
+  <Badge>{o.outcome === "COMPLETED" ? "COMPLETED" : o.status}</Badge>{" "}
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2paynow:74
+  {(o.status === "PICKUP_REQUIRED" && o.buyerId === user.id) ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2paynow:86
+  {(o.status === "PAID" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
+- C:\dev\bidra-main\app\orders\page.tsx.bak_v2paynow:107
+  {(o.outcome === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
+- C:\dev\bidra-main\app\profile\page.tsx:102
+  await prisma.user.update({
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx:556
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx:567
+  if (res.status === 403) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak:556
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak:567
+  if (res.status === 403) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak_v2_48_fix_last_2_scan_hits:556
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak_v2_48_fix_last_2_scan_hits:567
+  if (res.status === 403) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak_v2scan:556
+  if (res.status === 401) {
+- C:\dev\bidra-main\app\sell\new\sell-new-client.tsx.bak_v2scan:567
+  if (res.status === 403) {
+- C:\dev\bidra-main\app\watchlist\page.tsx:97
+  const active = items.filter((w) => w.listing?.status === "ACTIVE");
+- C:\dev\bidra-main\bidra-launch-fixes.json:205
+  "Text":  "P0-09 Leaving feedback doesn’t update order status: Orders list still shows Leave feedback after feedback submitted, allowing duplicates. Update status/CTA to reflect completed and prevent multiple submissions."
+- C:\dev\bidra-main\components\report-listing.tsx:59
+  if (res.status === 401) {
+- C:\dev\bidra-main\components\report-listing.tsx:64
+  if (res.status === 403) {
+- C:\dev\bidra-main\components\report-listing.tsx.bak:59
+  if (res.status === 401) {
+- C:\dev\bidra-main\components\report-listing.tsx.bak:64
+  if (res.status === 403) {
+- C:\dev\bidra-main\components\watch-button.tsx:63
+  if (res.status === 401 || res.status === 403) {
+- C:\dev\bidra-main\lib\auth.ts:65
+  await prisma.user.update({
+- C:\dev\bidra-main\lib\auth.ts.bak:65
+  await prisma.user.update({
+- C:\dev\bidra-main\lib\policy-strike.ts:18
+  await prisma.user.update({
+- C:\dev\bidra-main\lib\policy-strike.ts:46
+  await prisma.user.update({
+- C:\dev\bidra-main\lib\policy-strike.ts:50
+  await prisma.listing.updateMany({
+- C:\dev\bidra-main\lib\policy-strike.ts:52
+  data: { status: ListingStatus.SUSPENDED },
+- C:\dev\bidra-main\lib\reputation\badges.ts:108
+  await prisma.user.update({
+- C:\dev\bidra-main\lib\require-adult.ts.bak:59
+  await prisma.user.update({
+- C:\dev\bidra-main\lib\require-adult.ts.bak:98
+  await prisma.user.update({
+- C:\dev\bidra-main\tmp-fix-feedback-enums.js:39
+  SET outcome = 'PENDING'
+- C:\dev\bidra-main\tools\_check_orders_with_active_listing.js:16
+  const bad = rows.filter(r => r.listing && r.listing.status === "ACTIVE");
+- C:\dev\bidra-main\tools\_dev-activate-user.js:10
+  const u = await p.user.update({
+- C:\dev\bidra-main\tools\_dev-set-password.js:17
+  const u = await p.user.update({
+- C:\dev\bidra-main\tools\_dev-verify-gates.js:11
+  const u = await p.user.update({
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:46
+  await prisma.order.update({
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:57
+  await prisma.order.update({ where: { id: orderId }, data: { buyerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\_feedback_lifecycle_test.js:65
+  await prisma.order.update({ where: { id: orderId }, data: { sellerFeedbackAt: new Date() } });
+- C:\dev\bidra-main\tools\_force-overdue-feedback.js:13
+  const updated = await prisma.order.update({
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-fix-accept-offerdecision.ps1:76
+  '    const updated = await prisma.listing.updateMany({',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-fix-accept-offerdecision.ps1:78
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-fix-auth-import.ps1:77
+  '    const updated = await prisma.listing.updateMany({',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-fix-auth-import.ps1:79
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-fix-auth-import.ps1:86
+  '    await prisma.offer.update({',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-rewrite-accept-highest-offer-route.ps1:77
+  '    const updated = await prisma.listing.updateMany({',
+- C:\dev\bidra-main\tools\_patch-archive\2026-02-08\patch-v2-48-rewrite-accept-highest-offer-route.ps1:79
+  '      data: { status: "SOLD" },',
+- C:\dev\bidra-main\tools\_repair_orders_active_listings.js:17
+  const bad = rows.filter(r => r.listing && r.listing.status === "ACTIVE");
+- C:\dev\bidra-main\tools\_repair_orders_active_listings.js:31
+  const res = await prisma.listing.updateMany({
+- C:\dev\bidra-main\tools\_repair_orders_active_listings.js:33
+  data: { status: "SOLD" },
+- C:\dev\bidra-main\tools\audit-v2-order-state-mutations.ps1:114
+  Add-Section "Prisma or ORM updates and data:{ status/outcome }" $prisma
+- C:\dev\bidra-main\tools\v2-scan-report.txt:18
+  C:\dev\bidra-main\app\orders\[id]\page.tsx:134  [PICKUP_REQUIRED]  {(order.status === "PICKUP_REQUIRED" && order.buyerId === user.id) ? (
+- C:\dev\bidra-main\tools\v2-scan-report.txt:19
+  C:\dev\bidra-main\app\orders\[id]\page.tsx:170  [PICKUP_REQUIRED]  {order.status === "PICKUP_REQUIRED" ? (
+- C:\dev\bidra-main\tools\v2-scan-report.txt:20
+  C:\dev\bidra-main\app\orders\page.tsx:74  [PICKUP_REQUIRED]  {(o.status === "PICKUP_REQUIRED" && o.buyerId === user.id) ? (
+
+Total unique hits: 249
