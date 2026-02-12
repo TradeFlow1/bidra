@@ -43,16 +43,17 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       return NextResponse.json({ ok: true, status: "PAID" });
     }
 
-    // Only allow transition into PAID from PENDING
-    if (order.status !== OrderStatus.PENDING) {
-      return NextResponse.json({ ok: false, error: "Payment confirmation is not available for this order status." }, { status: 409 });
+    // Bidra V2: schedule-first. Payment confirmation is only allowed after pickup is scheduled.
+    if (order.status !== OrderStatus.PICKUP_SCHEDULED) {
+      return NextResponse.json({ ok: false, error: "Pickup must be scheduled before payment can be confirmed." }, { status: 409 });
+    }
+    if (!order.pickupScheduledAt) {
+      return NextResponse.json({ ok: false, error: "Pickup time is missing for this order." }, { status: 409 });
     }
 
     const updated = await prisma.order.update({
       where: { id: order.id },
-      data: {
-        status: OrderStatus.PAID,
-      },
+      data: { status: OrderStatus.PAID },
       select: { status: true },
     });
 
@@ -82,4 +83,3 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     return NextResponse.json({ ok: false, error: "Unable to confirm payment." }, { status: 500 });
   }
 }
-
