@@ -1,60 +1,44 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 
 export async function GET(_req: Request, ctx: { params: { id: string } }) {
-  const session = await getServerSession(authOptions);
-  const userId = session?.user?.id;
-  if (!userId) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+  try {
+    const orderId = String(ctx && ctx.params ? ctx.params.id : "").trim();
+    if (!orderId) return NextResponse.json({ ok: false, error: "Missing order id." }, { status: 400 });
 
-  const gate = await requireAdult(session);
-  if (!gate.ok) return NextResponse.json({ error: gate.reason }, { status: gate.status });
+    const gate = await requireAdult();
+    if (!gate.ok) return NextResponse.json({ ok: false, error: gate.reason }, { status: gate.status });
+    const userId = String(gate.dbUser && gate.dbUser.id ? gate.dbUser.id : "");
+    if (!userId) return NextResponse.json({ ok: false, error: "Not signed in." }, { status: 401 });
 
-  const id = ctx?.params?.id;
-  if (!id) return NextResponse.json({ error: "Missing id" }, { status: 400 });
-
-  const order = await prisma.order.findUnique({
-    where: { id },
-    include: {
-      listing: { include: { seller: { select: { id: true, username: true, name: true } } } },
-      buyer: { select: { id: true, username: true, name: true } },
-      feedback: true,
-    },
-  });
-
-  if (!order) return NextResponse.json({ error: "Order not found" }, { status: 404 });
-
-  const isBuyer = order.buyerId === userId;
-  const isSeller = order.listing?.sellerId === userId;
-  if (!isBuyer && !isSeller) return NextResponse.json({ error: "Not authorized" }, { status: 403 });
-
-  const myFeedbackAt = isBuyer ? order.buyerFeedbackAt : order.sellerFeedbackAt;
-  const otherFeedbackAt = isBuyer ? order.sellerFeedbackAt : order.buyerFeedbackAt;
-
-  return NextResponse.json({
-    order: {
-      id: order.id,
-      amount: order.amount,
-      status: order.status,
-      outcome: order.outcome,
-      createdAt: order.createdAt,
-      buyerFeedbackAt: order.buyerFeedbackAt,
-      sellerFeedbackAt: order.sellerFeedbackAt,
-      completedAt: order.completedAt,
-      listing: {
-        id: order.listingId,
-        title: order.listing?.title,
-        sellerId: order.listing?.sellerId,
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
+      select: {
+        id: true,
+        status: true,
+        outcome: true,
+        buyerId: true,
+        listingId: true,
+        pickupScheduledAt: true,
+        pickupScheduleLockedAt: true,
+        completedAt: true,
+        listing: { select: { sellerId: true, title: true, price: true } },
       },
-      buyerId: order.buyerId,
-    },
-    viewer: { isBuyer, isSeller },
-    feedback: {
-      mySubmitted: !!myFeedbackAt,
-      otherSubmitted: !!otherFeedbackAt,
-      required: !(order.buyerFeedbackAt && order.sellerFeedbackAt),
-    },
-  });
+    });
+
+    if (!order) return NextResponse.json({ ok: false, error: "Order not found." }, { status: 404 });
+
+    const sellerId = (order.listing as any) ? String(((order.listing as any).sellerId) || "") : "";
+    const buyerId = String(order.buyerId || "");
+    if (userId !== buyerId && userId !== sellerId) {
+      return NextResponse.json({ ok: false, error: "Not allowed." }, { status: 403 });
+    }
+
+    return NextResponse.json({ ok: true, order });
+  } catch (e: any) {
+    console.error("order.get failed", e);
+    return NextResponse.json({ ok: false, error: "Unable to load order." }, { status: 500 });
+  }
 }
+

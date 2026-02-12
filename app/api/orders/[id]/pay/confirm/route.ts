@@ -1,80 +1,85 @@
 import { NextResponse } from "next/server";
-import { OrderStatus } from "@prisma/client"
-import { auth } from "@/lib/auth";
-import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
+import { requireAdult } from "@/lib/require-adult";
+import { OrderStatus } from "@prisma/client";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export async function POST(_req: Request, ctx: { params: { id: string } }) {
+  try {
+    const orderId = String(ctx && ctx.params ? ctx.params.id : "").trim();
+    if (!orderId) return NextResponse.json({ ok: false, error: "Missing order id." }, { status: 400 });
 
-export async function POST(_: Request, { params }: { params: { id: string } }) {
-  const session = await auth();
-  const user = session?.user;
-  if (!user) return NextResponse.json({ ok: false, error: "Not signed in." }, { status: 401 });
+    const gate = await requireAdult();
+    if (!gate.ok) return NextResponse.json({ ok: false, error: gate.reason }, { status: gate.status });
+    const userId = String(gate.dbUser && gate.dbUser.id ? gate.dbUser.id : "");
+    if (!userId) return NextResponse.json({ ok: false, error: "Not signed in." }, { status: 401 });
 
-  const gate = await requireAdult(session);
-  if (!gate.ok) {
-    return NextResponse.json({ ok: false, error: String(gate?.reason || "Not allowed") }, { status: gate?.status || 403 });
-  }
-
-  const orderId = String(params?.id || "").trim();
-  if (!orderId) return NextResponse.json({ ok: false, error: "Missing order id." }, { status: 400 });
-
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: { listing: true },
-  });
-
-
-  // Bidra V2: payment confirmation is blocked until pickup is scheduled.
-  if (!order) {
-    return NextResponse.json({ error: "Order not found" }, { status: 404 })
-  }
-
-  // Idempotency: if already paid, return OK.
-  if (order.status === OrderStatus.PAID) {
-    return NextResponse.json({ ok: true, status: OrderStatus.PAID })
-  }
-  if (order.status !== OrderStatus.PICKUP_SCHEDULED) {
-    return NextResponse.json({ error: "Pickup must be scheduled before payment can be confirmed" }, { status: 409 })
-  }
-  if (!order) return NextResponse.json({ ok: false, error: "Order not found." }, { status: 404 });
-
-  // Buyer-only confirmation
-  if (order.buyerId !== user.id) {
-    return NextResponse.json({ ok: false, error: "Only the buyer can confirm payment." }, { status: 403 });
-  }
-  await prisma.$transaction(async (tx) => {
-    await tx.order.update({
-      where: { id: order.id },
-      data: { status: "PAID" },
-    });
-
-    // Safety: if a listing somehow remained ACTIVE even though an order exists, force it to SOLD.
-    // This is idempotent and only affects listings tied to this order.
-    if (order?.listingId) {
-      await tx.listing.updateMany({
-        where: { id: order.listingId, status: "ACTIVE" },
-        data: { status: "SOLD" },
-      });
-    }
-    // Audit log: buyer confirmed Osko/PayID payment
-    await tx.adminEvent.create({
-      data: {
-        type: "ORDER_PAY_CONFIRMED",
-        userId: user.id,
-        orderId: order.id,
-        data: {
-          listingId: order.listingId,
-          buyerId: order.buyerId,
-          sellerId: order.listing?.sellerId,
-          prevStatus: order.status,
-          newStatus: "PAID",
-        },
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
+      select: {
+        id: true,
+        status: true,
+        outcome: true,
+        buyerId: true,
+        listingId: true,
+        pickupScheduledAt: true,
+        listing: { select: { sellerId: true } },
       },
     });
-  });
 
-  return NextResponse.json({ ok: true, status: "PAID" });
+    if (!order) return NextResponse.json({ ok: false, error: "Order not found." }, { status: 404 });
+
+    // Buyer-only: buyer confirms payment has been made
+    if (String(order.buyerId || "") !== userId) {
+      return NextResponse.json({ ok: false, error: "Only the buyer can confirm payment." }, { status: 403 });
+    }
+
+    // Terminal outcome guard
+    if (order.outcome === "CANCELLED" || order.outcome === "DISPUTED") {
+      return NextResponse.json({ ok: false, error: "Order cannot be paid in its current state." }, { status: 409 });
+    }
+
+    // Idempotent
+    if (order.status === OrderStatus.PAID) {
+      return NextResponse.json({ ok: true, status: "PAID" });
+    }
+
+    // Only allow transition into PAID from PENDING
+    if (order.status !== OrderStatus.PENDING) {
+      return NextResponse.json({ ok: false, error: "Payment confirmation is not available for this order status." }, { status: 409 });
+    }
+
+    const updated = await prisma.order.update({
+      where: { id: order.id },
+      data: {
+        status: OrderStatus.PAID,
+      },
+      select: { status: true },
+    });
+
+    // Audit log: buyer confirmed payment
+    try {
+      await prisma.adminEvent.create({
+        data: {
+          type: "ORDER_PAID_CONFIRMED",
+          userId: String(userId),
+          orderId: order.id,
+          data: {
+            listingId: order.listingId ?? null,
+            buyerId: order.buyerId ?? null,
+            sellerId: (order.listing as any) ? String(((order.listing as any).sellerId) || "") : null,
+            prevStatus: order.status ?? null,
+            newStatus: "PAID",
+          },
+        },
+      });
+    } catch (e) {
+      console.warn("[ADMIN_AUDIT] Failed to log ORDER_PAID_CONFIRMED", e);
+    }
+
+    return NextResponse.json({ ok: true, status: updated.status });
+  } catch (e: any) {
+    console.error("order.pay.confirm failed", e);
+    return NextResponse.json({ ok: false, error: "Unable to confirm payment." }, { status: 500 });
+  }
 }
 
