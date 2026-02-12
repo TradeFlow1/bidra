@@ -48,8 +48,8 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     }
 
     // Must be pickup-scheduled before completing
-    if (order.status !== OrderStatus.PICKUP_SCHEDULED) {
-      return NextResponse.json({ ok: false, error: "Pickup must be scheduled before completing the order." }, { status: 409 });
+    if (order.status !== OrderStatus.PAID) {
+      return NextResponse.json({ ok: false, error: "Buyer must confirm payment before completing the order." }, { status: 409 });
     }
     if (!order.pickupScheduledAt) {
       return NextResponse.json({ ok: false, error: "Pickup time is missing for this order." }, { status: 409 });
@@ -57,10 +57,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
 
     const updated = await prisma.order.update({
       where: { id: order.id },
-      data: {
-        outcome: "COMPLETED",
-        completedAt: order.completedAt ?? new Date(),
-      },
+      data: { outcome: "COMPLETED", completedAt: new Date() },
       select: { outcome: true, completedAt: true },
     });
 
@@ -91,4 +88,3 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     return NextResponse.json({ ok: false, error: "Unable to complete order." }, { status: 500 });
   }
 }
-
