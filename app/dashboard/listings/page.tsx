@@ -62,9 +62,16 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
 
       if (!SELLER_ALLOWED.includes(status)) { redirect("/dashboard/listings?err=" + safe("Invalid status")); return; }
 
-      const nextStatus: ListingStatus = status as ListingStatus;
+      const statusUpper = String(status || "").toUpperCase();
+// V2 enforcement lock: sellers must not set SOLD/COMPLETE directly (enforcement routes only).
+// Keep seller-controlled transitions minimal.
+const allowed: Record<string, boolean> = { ACTIVE: true, SUSPENDED: true, DELETED: true };
+if (!allowed[statusUpper]) {
+  throw new Error("Invalid status");
+}
+const nextStatus: ListingStatus = statusUpper as ListingStatus;
 
-      await prisma.listing.update({
+await prisma.listing.update({
         where: { id },
         data: { status: nextStatus },
       });

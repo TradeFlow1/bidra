@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { OrderStatus } from "@prisma/client";
 import { auth } from "@/lib/auth";
@@ -47,9 +47,10 @@ export async function POST(
 
     // V2: acceptance converts to SOLD and MUST create an Order (pending pickup) atomically.
     const result = await prisma.$transaction(async (tx) => {
+      const now = new Date();
       // Race-safe SOLD transition
       const updated = await tx.listing.updateMany({
-        where: { id: listingId, status: "ACTIVE" },
+        where: { id: listingId, status: "ACTIVE", OR: [{ endsAt: null }, { endsAt: { gt: now } }] },
         data: { status: "SOLD" },
       });
 

@@ -63,8 +63,10 @@ export async function POST(req: Request) {
   if (listing.sellerId === userId) {
     return NextResponse.json({ ok: false, error: "You can’t make an offer on your own listing." }, { status: 400 });
   }
+const currentHighest = listing.offers && listing.offers.length ? listing.offers[0].amount : 0;
 
-  const currentHighest = listing.offers && listing.offers.length ? listing.offers[0].amount : 0;
+  const expiresAt = listing.endsAt ? new Date(listing.endsAt) : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // fallback
+
   const startOffer = listing.price || 0;
   // Visible offer ladder: do NOT force offers up to guide price.
   // If no offers yet: allow opening at $10. Otherwise: +$10 above highest.
@@ -86,8 +88,8 @@ export async function POST(req: Request) {
       result = await prisma.$transaction(async (tx) => {
         await tx.offerMax.upsert({
           where: { listingId_bidderId: { listingId: listing.id, bidderId: userId } },
-          update: { maxAmount: maxCents },
-          create: { listingId: listing.id, bidderId: userId, maxAmount: maxCents },
+          update: { maxAmount: maxCents, expiresAt: expiresAt },
+          create: { listingId: listing.id, bidderId: userId, maxAmount: maxCents, expiresAt: expiresAt },
         });
     
          
@@ -158,6 +160,7 @@ const top = await tx.offerMax.findMany({
               amount: newVisible,
               bidderId: leader.bidderId,
               listingId: listing.id,
+              expiresAt: expiresAt,
             },
           });
     

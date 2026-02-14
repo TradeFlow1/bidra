@@ -16,7 +16,7 @@
     "db:seed": "prisma db seed"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "node prisma/seed.cjs"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.966.0",

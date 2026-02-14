@@ -24,7 +24,14 @@ export async function POST(req: Request) {
 
   const nextStatus: ListingStatus = status;
 
-  await prisma.listing.update({
+// V2 enforcement lock: SOLD/COMPLETE transitions must only be created by the enforcement routes
+// (Buy Now + Accept Offer). Admin tools may suspend/delete/restore, but must not bypass.
+const statusUpper = String(status || "").toUpperCase();
+if (statusUpper === "SOLD" || statusUpper === "COMPLETE" || statusUpper === "COMPLETED") {
+  return NextResponse.json({ ok: false, error: "Forbidden status transition" }, { status: 403 });
+}
+
+await prisma.listing.update({
     where: { id: listingId },
     data: { status: nextStatus },
   });

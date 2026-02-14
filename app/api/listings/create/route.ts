@@ -153,7 +153,7 @@ try {
 
     const durationDaysRaw = (body as { durationDays?: unknown }).durationDays;
     const durationDaysNum = Number(durationDaysRaw);
-    const allowedDurations = new Set([3, 5, 7, 10, 14]);
+    const allowedDurations = new Set([3, 5, 7]);
     const durationDays = allowedDurations.has(durationDaysNum) ? durationDaysNum : 7;
 
         const priceIn = toIntOrNull(body.price); // cents or null

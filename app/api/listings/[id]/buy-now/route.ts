@@ -41,8 +41,10 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
 
     // Buy Now price is stored in cents as listing.buyNowPrice
     const isTimedOffers = listing.type === "AUCTION"
-const hasBuyNow = typeof listing.buyNowPrice === "number"
-if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this timed-offers listing.", 400)
+    const hasBuyNow = typeof listing.buyNowPrice === "number"
+    if (isTimedOffers && !hasBuyNow) {
+      return jsonError("Buy Now is not set for this timed-offers listing.", 400)
+    }
 
     const highestOffer = listing.offers?.length ? listing.offers[0].amount : 0
 
@@ -70,13 +72,14 @@ if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this t
     }
 
     // Seller can't buy their own item
-    if (listing.sellerId === session.user.id) return jsonError("You can’t Buy Now your own listing.", 400)
+    if (listing.sellerId === session.user.id) return jsonError("You canÃ¢â‚¬â„¢t Buy Now your own listing.", 400)
 
 
     const result = await prisma.$transaction(async (tx) => {
+      const now = new Date();
       // Race-safe: only the first request that flips ACTIVE->SOLD may create an order
       const updated = await tx.listing.updateMany({
-        where: { id: listing.id, status: "ACTIVE" },
+        where: { id: listing.id, status: "ACTIVE", OR: [{ endsAt: null }, { endsAt: { gt: now } }] },
         data: { status: "SOLD" },
       })
 
@@ -121,7 +124,7 @@ if (isTimedOffers && !hasBuyNow) return jsonError("Buy Now is not set for this t
       } catch (e) {
         console.warn("[ADMIN_AUDIT] Failed to log BUY_NOW_PLACED", e);
       }
-return { order }
+      return { order }
     })
 
     // Email notify buyer + seller (SES-gated; dev logs when disabled)
@@ -171,5 +174,3 @@ return { order }
     return jsonError("Server error", 500)
   }
 }
-
-

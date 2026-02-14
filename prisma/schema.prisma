@@ -8,61 +8,60 @@ datasource db {
 }
 
 model User {
-  offerDecisionsAsBuyer  OfferDecision[] @relation("OfferDecisionBuyer")
-  offerDecisionsAsSeller OfferDecision[] @relation("OfferDecisionSeller")
-  sellerThreads         MessageThread[]      @relation("SellerThreads")
-  buyerThreads          MessageThread[]      @relation("BuyerThreads")
-  id                    String               @id @default(cuid())
-  email                 String               @unique
-  passwordHash          String
-  emailVerified         Boolean              @default(false)
-  role                  Role                 @default(USER)
-  name                  String?
-  avatarUrl             String?
-  location              String?
-  createdAt             DateTime             @default(now())
-  updatedAt             DateTime             @updatedAt
-  ageVerified           Boolean              @default(false)
-  country               String?              @default("AU")
-  dob                   DateTime?
-  isActive              Boolean              @default(false)
-  phone                 String?
-  phoneVerified         Boolean              @default(false)
-  postcode              String?
-  state                 String?
-  suburb                String?
-  username              String?              @unique
-  termsAcceptedAt       DateTime?
-  termsVersion          String?
-  policyBlockedUntil    DateTime?
-  policyStrikes         Int                  @default(0)
-  badgeConsistentSeller Boolean              @default(false)
-  badgeFastResponder    Boolean              @default(false)
-  badgeNewSeller        Boolean              @default(false)
-  bio                   String?
-  activitySessions      ActivitySession[]
-  adminActionLogs       AdminActionLog[]
-  offers                  Offer[]
-  offerMaxes OfferMax[]
-  feedbackGiven         Feedback[]           @relation("FeedbackFrom")
-  feedbackReceived      Feedback[]           @relation("FeedbackTo")
-  listings              Listing[]            @relation("SellerListings")
-  listingAnswers        ListingAnswer[]
-  listingQuestions      ListingQuestion[]
-  messages              Message[]
-  orders                Order[]              @relation("BuyerOrders")
-  passwordResetTokens   PasswordResetToken[]
-  clearedStrikes        PolicyStrike[]       @relation("ClearedStrikes")
-  policyStrikeEvents    PolicyStrike[]       @relation("UserPolicyStrikes")
-  reports               Report[]             @relation("ReporterReports")
-  verificationTokens    VerificationToken[]
-  watchlist             Watchlist[]
-  // Payout details (Osko/PayID + bank). Optional; shown on /orders/[id]/pay
-  payidEmail   String?
-  payidMobile  String?
-  bankName     String?
-  bankBsb      String?
-  bankAccount  String?
+  policyStrikes          Int                  @default(0)
+  policyBlockedUntil     DateTime?
+  termsAcceptedAt        DateTime?
+  termsVersion           String?
+  id                     String               @id @default(cuid())
+  email                  String               @unique
+  username               String?              @unique
+  dob                    DateTime?
+  country                String?              @default("AU")
+  state                  String?
+  suburb                 String?
+  postcode               String?
+  phone                  String?
+  phoneVerified          Boolean              @default(false)
+  ageVerified            Boolean              @default(false)
+  isActive               Boolean              @default(false)
+  passwordHash           String
+  emailVerified          Boolean              @default(false)
+  role                   Role                 @default(USER)
+  name                   String?
+  avatarUrl              String?
+  location               String?
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+  badgeConsistentSeller  Boolean              @default(false)
+  badgeFastResponder     Boolean              @default(false)
+  badgeNewSeller         Boolean              @default(false)
+  bankAccount            String?
+  bankBsb                String?
+  bankName               String?
+  bio                    String?
+  payidEmail             String?
+  payidMobile            String?
+  activitySessions       ActivitySession[]
+  adminActionLogs        AdminActionLog[]
+  offers                 Offer[]
+  feedbackGiven          Feedback[]           @relation("FeedbackFrom")
+  feedbackReceived       Feedback[]           @relation("FeedbackTo")
+  listings               Listing[]            @relation("SellerListings")
+  listingAnswers         ListingAnswer[]
+  listingQuestions       ListingQuestion[]
+  messages               Message[]
+  buyerThreads           MessageThread[]      @relation("BuyerThreads")
+  sellerThreads          MessageThread[]      @relation("SellerThreads")
+  offerDecisionsAsBuyer  OfferDecision[]      @relation("OfferDecisionBuyer")
+  offerDecisionsAsSeller OfferDecision[]      @relation("OfferDecisionSeller")
+  offerMaxes             OfferMax[]
+  orders                 Order[]              @relation("BuyerOrders")
+  passwordResetTokens    PasswordResetToken[]
+  clearedStrikes         PolicyStrike[]       @relation("ClearedStrikes")
+  policyStrikeEvents     PolicyStrike[]       @relation("UserPolicyStrikes")
+  reports                Report[]             @relation("ReporterReports")
+  verificationTokens     VerificationToken[]
+  watchlist              Watchlist[]
 }
 
 model VerificationToken {
@@ -77,49 +76,50 @@ model VerificationToken {
 }
 
 model Listing {
-  offerDecisions OfferDecision[]
-  photos String[] @default([])
-  threads        MessageThread[]
-  id             String            @id @default(cuid())
-  title          String
-  description    String
-  category       String
-  type           ListingType
-  status         ListingStatus     @default(DRAFT)
-  condition      String
-  price          Int
-  images         String[]
-  location       String
-  endsAt         DateTime?
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
-  sellerId       String
-  buyNowPrice    Int?
-  buyNowEnabled Boolean @default(false)
-  reservePrice   Int?
-  previousStatus ListingStatus?
-  offers           Offer[]
-  offerMaxes OfferMax[]
-  seller         User              @relation("SellerListings", fields: [sellerId], references: [id])
-  questions      ListingQuestion[]
-  messages       Message[]
-  orders         Order[]
-  policyStrikes  PolicyStrike[]
-  reports        Report[]
-  watchlist      Watchlist[]
+  reservePrice       Int?
+  buyNowPrice        Int?
+  id                 String            @id @default(cuid())
+  title              String
+  description        String
+  category           String
+  type               ListingType
+  status             ListingStatus     @default(DRAFT)
+  condition          String
+  price              Int
+  images             String[]
+  location           String
+  endsAt             DateTime?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  sellerId           String
+  buyNowEnabled      Boolean           @default(false)
+  photos             String[]          @default([])
+  previousStatus     ListingStatus?
   pickupAvailability Json?
-  pickupTimezone     String @default("Australia/Brisbane")
+  pickupTimezone     String            @default("Australia/Brisbane")
+  offers             Offer[]
+  seller             User              @relation("SellerListings", fields: [sellerId], references: [id])
+  questions          ListingQuestion[]
+  messages           Message[]
+  threads            MessageThread[]
+  offerDecisions     OfferDecision[]
+  offerMaxes         OfferMax[]
+  orders             Order[]
+  policyStrikes      PolicyStrike[]
+  reports            Report[]
+  watchlist          Watchlist[]
 }
 
 model Offer {
+  id            String         @id @default(cuid())
+  amount        Int
+  createdAt     DateTime       @default(now())
+  bidderId      String
+  listingId     String
+  expiresAt     DateTime
+  bidder        User           @relation(fields: [bidderId], references: [id])
+  listing       Listing        @relation(fields: [listingId], references: [id])
   offerDecision OfferDecision?
-  id        String   @id @default(cuid())
-  amount    Int
-  createdAt DateTime @default(now())
-  bidderId  String
-  listingId String
-  bidder    User     @relation(fields: [bidderId], references: [id])
-  listing   Listing  @relation(fields: [listingId], references: [id])
 
   @@index([listingId])
   @@index([bidderId])
@@ -127,22 +127,21 @@ model Offer {
 }
 
 model MessageThread {
-  id            String   @id @default(cuid())
-  listingId     String
-  buyerId       String
-  sellerId      String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  lastMessageAt DateTime @default(now())
-  buyerLastReadAt      DateTime?
-sellerLastReadAt     DateTime?
-  buyerDeletedAt      DateTime?
-  sellerDeletedAt     DateTime?
-
-  listing  Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  buyer    User      @relation("BuyerThreads", fields: [buyerId], references: [id])
-  seller   User      @relation("SellerThreads", fields: [sellerId], references: [id])
-  messages Message[]
+  id               String    @id @default(cuid())
+  listingId        String
+  buyerId          String
+  sellerId         String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  lastMessageAt    DateTime  @default(now())
+  buyerLastReadAt  DateTime?
+  sellerLastReadAt DateTime?
+  buyerDeletedAt   DateTime?
+  sellerDeletedAt  DateTime?
+  messages         Message[]
+  buyer            User      @relation("BuyerThreads", fields: [buyerId], references: [id])
+  listing          Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  seller           User      @relation("SellerThreads", fields: [sellerId], references: [id])
 
   @@unique([listingId, buyerId])
   @@index([buyerId])
@@ -151,16 +150,15 @@ sellerLastReadAt     DateTime?
 }
 
 model Message {
-  id        String   @id @default(cuid())
+  id        String         @id @default(cuid())
   body      String
-  createdAt DateTime @default(now())
+  createdAt DateTime       @default(now())
   userId    String
   listingId String
   threadId  String?
-
-  listing Listing        @relation(fields: [listingId], references: [id])
-  user    User           @relation(fields: [userId], references: [id])
-  thread  MessageThread? @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  listing   Listing        @relation(fields: [listingId], references: [id])
+  thread    MessageThread? @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  user      User           @relation(fields: [userId], references: [id])
 
   @@index([listingId])
   @@index([userId])
@@ -196,27 +194,27 @@ model Report {
 }
 
 model Order {
-  offerDecision OfferDecision?
-  id               String      @id @default(cuid())
-  amount           Int
-  status           OrderStatus @default(PENDING)
-  stripeSessionId  String?
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-  buyerId          String
-  listingId        String
-  outcome          SaleOutcome @default(PENDING)
-  buyerFeedbackAt  DateTime?
-  sellerFeedbackAt DateTime?
-  completedAt      DateTime?
-  feedback         Feedback[]
-  buyer            User        @relation("BuyerOrders", fields: [buyerId], references: [id])
-  listing          Listing     @relation(fields: [listingId], references: [id])
+  id                     String         @id @default(cuid())
+  amount                 Int
+  status                 OrderStatus    @default(PENDING)
+  stripeSessionId        String?
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+  buyerId                String
+  listingId              String
+  outcome                SaleOutcome    @default(PENDING)
+  buyerFeedbackAt        DateTime?
+  sellerFeedbackAt       DateTime?
+  completedAt            DateTime?
+  pickupScheduleLockedAt DateTime?
+  pickupScheduledAt      DateTime?
+  feedback               Feedback[]
+  offerDecision          OfferDecision?
+  buyer                  User           @relation("BuyerOrders", fields: [buyerId], references: [id])
+  listing                Listing        @relation(fields: [listingId], references: [id])
 
   @@index([buyerId])
   @@index([listingId])
-  pickupScheduledAt       DateTime?
-  pickupScheduleLockedAt  DateTime?
 }
 
 model playing_with_neon {
@@ -340,6 +338,55 @@ model ListingAnswer {
   @@index([userId])
 }
 
+model AdminEvent {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  type      String
+  userId    String?
+  orderId   String?
+  data      Json?
+}
+
+model OfferMax {
+  id        String   @id @default(cuid())
+  listingId String
+  bidderId  String
+  maxAmount Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  expiresAt DateTime
+  bidder    User     @relation(fields: [bidderId], references: [id], onDelete: Cascade)
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([listingId, bidderId])
+  @@index([listingId])
+  @@index([bidderId])
+  @@index([expiresAt])
+}
+
+model OfferDecision {
+  id        String            @id @default(cuid())
+  createdAt DateTime          @default(now())
+  listingId String
+  offerId   String            @unique @map("bidId")
+  sellerId  String
+  buyerId   String
+  amount    Int
+  decision  OfferDecisionKind
+  orderId   String?           @unique
+  Offer     Offer             @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  buyer     User              @relation("OfferDecisionBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
+  listing   Listing           @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  order     Order?            @relation(fields: [orderId], references: [id])
+  seller    User              @relation("OfferDecisionSeller", fields: [sellerId], references: [id], onDelete: Cascade)
+
+  @@unique([listingId, offerId])
+  @@index([listingId])
+  @@index([buyerId])
+  @@index([sellerId])
+  @@index([decision])
+}
+
 enum Role {
   USER
   ADMIN
@@ -383,73 +430,8 @@ enum SaleOutcome {
 enum PolicyStrikeAction {
   WARN
 }
-model AdminEvent {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-
-  // e.g. "FEEDBACK_SUBMITTED_WHILE_BLOCKED"
-  type      String
-
-  // actor user id
-  userId    String?
-
-  // useful linkage (optional)
-  orderId   String?
-
-  // structured payload
-  data      Json?
-}
-
-
-model OfferMax {
-  id        String   @id @default(cuid())
-  listingId String
-  bidderId  String
-  maxAmount Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  bidder  User    @relation(fields: [bidderId], references: [id], onDelete: Cascade)
-
-  @@unique([listingId, bidderId])
-  @@index([listingId])
-  @@index([bidderId])
-}
-
 
 enum OfferDecisionKind {
   ACCEPTED
   REJECTED
 }
-
-model OfferDecision {
-  id        String            @id @default(cuid())
-  createdAt DateTime          @default(now())
-
-  listingId String
-  offerId String @map("bidId") @unique
-
-  sellerId  String
-  buyerId   String
-
-  amount    Int
-  decision  OfferDecisionKind
-
-  orderId   String? @unique
-
-  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  Offer     Offer     @relation(fields: [offerId], references: [id], onDelete: Cascade)
-
-  seller  User   @relation("OfferDecisionSeller", fields: [sellerId], references: [id], onDelete: Cascade)
-  buyer   User   @relation("OfferDecisionBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
-
-  order   Order? @relation(fields: [orderId], references: [id])
-
-  @@unique([listingId, offerId])
-  @@index([listingId])
-  @@index([buyerId])
-  @@index([sellerId])
-  @@index([decision])
-}
-
