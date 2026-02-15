@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 
@@ -91,8 +91,13 @@ export async function middleware(req: NextRequest) {
 
   const canonical = (process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || "").replace(/\/$/, "");
 
+  // Local dev: allow plain HTTP on localhost/loopback (avoid https://localhost redirects)
+  const isDev = process.env.NODE_ENV !== "production";
+  const isLocalHost = host.startsWith("localhost") || host.startsWith("127.0.0.1") || host.startsWith("[::1]") || host.startsWith("::1");
+  const allowHttpLocalDev = isDev && isLocalHost;
+
   // 0) Force HTTPS (prefer canonical to avoid double redirects)
-  if (proto === "http") {
+  if (proto === "http" && !allowHttpLocalDev) {
     if (canonical) {
       try {
         const target = new URL(canonical);
