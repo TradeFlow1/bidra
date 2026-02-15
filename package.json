@@ -1,54 +1,53 @@
 {
-  "name": "bidra-tmp",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "prisma:generate": "prisma generate",
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint \"{app,components,lib}/**/*.{ts,tsx,js,jsx}\" --max-warnings=0",
-    "postinstall": "prisma generate",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:deploy": "prisma migrate deploy",
-    "db:studio": "prisma studio",
-    "db:seed": "prisma db seed"
-  },
-  "prisma": {
-    "seed": "node prisma/seed.cjs"
-  },
-  "dependencies": {
-    "@aws-sdk/client-ses": "^3.966.0",
-    "@aws-sdk/client-sts": "^3.971.0",
-    "@prisma/client": "^5.22.0",
-    "@vercel/blob": "^2.0.0",
-    "bcryptjs": "^3.0.3",
-    "next": "14.2.35",
-    "next-auth": "^4.24.13",
-    "nodemailer": "^7.0.12",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "resend": "^6.7.0",
-    "stripe": "^20.1.0"
-  },
-  "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "babel-plugin-react-compiler": "1.0.0",
-    "dotenv-cli": "^11.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.0",
-    "prisma": "^5.22.0",
-    "sharp": "^0.34.5",
-    "tailwindcss": "^4.1.18",
-    "ts-node": "^10.9.2",
-    "typescript": "^5"
-  },
-  "engines": {
-    "node": "20.x"
-  }
+    "name":  "bidra-tmp",
+    "version":  "0.1.0",
+    "private":  true,
+    "scripts":  {
+                    "prisma:generate":  "prisma generate",
+                    "dev":  "next dev",
+                    "build":  "next build",
+                    "start":  "next start",
+                    "lint":  "eslint \"{app,components,lib}/**/*.{ts,tsx,js,jsx}\" --max-warnings=0",
+                    "postinstall":  "prisma generate",
+                    "db:generate":  "prisma generate",
+                    "db:migrate":  "prisma migrate dev",
+                    "db:deploy":  "prisma migrate deploy",
+                    "db:studio":  "prisma studio",
+                    "db:seed":  "prisma db seed"
+                },
+    "prisma":  {
+                   "seed":  "node prisma/seed.cjs"
+               },
+    "dependencies":  {
+                         "@aws-sdk/client-ses":  "^3.966.0",
+                         "@aws-sdk/client-sts":  "^3.971.0",
+                         "@prisma/client":  "6.19.0",
+                         "@vercel/blob":  "^2.0.0",
+                         "bcryptjs":  "^3.0.3",
+                         "next":  "14.2.35",
+                         "next-auth":  "^4.24.13",
+                         "nodemailer":  "^7.0.12",
+                         "react":  "18.2.0",
+                         "react-dom":  "18.2.0",
+                         "resend":  "^6.7.0",
+                         "stripe":  "^20.1.0"
+                     },
+    "devDependencies":  {
+                            "@tailwindcss/postcss":  "^4",
+                            "@types/node":  "^20",
+                            "@types/react":  "^19",
+                            "@types/react-dom":  "^19",
+                            "babel-plugin-react-compiler":  "1.0.0",
+                            "dotenv-cli":  "^11.0.0",
+                            "eslint":  "^9",
+                            "eslint-config-next":  "16.1.0",
+                            "prisma":  "6.19.0",
+                            "sharp":  "^0.34.5",
+                            "tailwindcss":  "^4.1.18",
+                            "ts-node":  "^10.9.2",
+                            "typescript":  "^5"
+                        },
+    "engines":  {
+                    "node":  "20.x"
+                }
 }
-

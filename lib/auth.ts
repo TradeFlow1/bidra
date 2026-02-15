@@ -1,4 +1,4 @@
-﻿import type { NextAuthOptions } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
@@ -9,7 +9,7 @@ import { rateLimit } from "@/lib/rate-limit";
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
 
-  useSecureCookies: process.env.NODE_ENV === "production",
+  useSecureCookies: process.env.NODE_ENV === "production" && !/^http:\/\/(localhost|127\.0\.0\.1|\[::1\])(?::\d+)?(\/|$)/i.test(String(process.env.NEXTAUTH_URL || "")),
 
   providers: [
     CredentialsProvider({
