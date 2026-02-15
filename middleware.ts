@@ -92,12 +92,14 @@ export async function middleware(req: NextRequest) {
   const canonical = (process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXTAUTH_URL || "").replace(/\/$/, "");
 
   // Local dev: allow plain HTTP on localhost/loopback (avoid https://localhost redirects)
-  const isDev = process.env.NODE_ENV !== "production";
-  const isLocalHost = host.startsWith("localhost") || host.startsWith("127.0.0.1") || host.startsWith("[::1]") || host.startsWith("::1");
-  const allowHttpLocalDev = isDev && isLocalHost;
+  const isDev = process.env.NODE_ENV !== "production"; // retained (unused) for clarity
+  const reqHost = String((url as any).host ?? "").toLowerCase();
+const reqHostname = String((url as any).hostname ?? "").toLowerCase();
+const isLocalHost = host.startsWith("localhost") || host.startsWith("127.0.0.1") || host.startsWith("[::1]") || host.startsWith("::1") || reqHost.startsWith("localhost") || reqHost.startsWith("127.0.0.1") || reqHostname === "localhost" || reqHostname === "127.0.0.1" || reqHostname === "::1";
+  const allowHttpLocal = isLocalHost;
 
   // 0) Force HTTPS (prefer canonical to avoid double redirects)
-  if (proto === "http" && !allowHttpLocalDev) {
+  if (proto === "http" && !allowHttpLocal) {
     if (canonical) {
       try {
         const target = new URL(canonical);
