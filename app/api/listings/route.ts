@@ -1,6 +1,7 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
+import { auth } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -89,7 +90,8 @@ export async function GET(req: Request) {
     let userLoc: { postcode?: string | null; suburb?: string | null; state?: string | null } | null = null;
 
     if (wantLocal) {
-      const gate = await requireAdult();
+      const session = await auth();
+      const gate = await requireAdult(session);
       if (gate?.ok) {
         meUserId = gate?.session?.user?.id ? String(gate.session.user.id) : null;
         if (meUserId) {

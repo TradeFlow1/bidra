@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
+import { auth } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export async function GET(_req: Request) {
   try {
-    const gate = await requireAdult();
+    const session = await auth();
+    const gate = await requireAdult(session);
     if (!gate.ok) return NextResponse.json({ ok: false, error: gate.reason }, { status: gate.status });
     const userId = String(gate.dbUser && gate.dbUser.id ? gate.dbUser.id : "");
     if (!userId) return NextResponse.json({ ok: false, error: "Not signed in." }, { status: 401 });
