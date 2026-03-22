@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import SellerConfirmReceived from "./seller-confirm-received";
 import BuyerConfirmPaid from "./buyer-confirm-paid";
 import { redirect } from "next/navigation";
@@ -156,7 +156,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                 </div>
               ) : null}
 
-              {order.listing?.sellerId === user.id && order.status === "PAID" && order.outcome !== "COMPLETED" ? (
+              {order.listing?.sellerId === user.id && order.status === "PICKUP_SCHEDULED" && order.outcome !== "COMPLETED" ? (
                 <SellerConfirmReceived orderId={order.id} />
               ) : null}
 
@@ -173,7 +173,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                           <li>After you submit "I've paid", the seller will verify they received payment.</li>
                           <li>Once verified, schedule pickup in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
                         </ul>
-                      ) : order.status === "PAID" ? (
+                      ) : order.status === "PICKUP_SCHEDULED" ? (
                         <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
                           <li>Your payment is marked as <b>PAID</b>.</li>
                           <li>The seller will confirm receipt, then keep pickup scheduled in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>

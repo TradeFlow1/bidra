@@ -1,4 +1,4 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Link from "next/link";
@@ -263,9 +263,9 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                 </div>
               </div>
 
-              {order.status === "PAID" ? (
+              {order.status === "PICKUP_SCHEDULED" ? (
                 <div className="mt-2 text-sm bd-ink2">
-                  This order is marked as <b>PAID</b>.
+                  This order is marked as <b>PICKUP SCHEDULED</b>.
                 </div>
               ) : (
                 <div className="mt-2 grid gap-2">

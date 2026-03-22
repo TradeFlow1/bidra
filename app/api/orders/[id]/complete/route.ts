@@ -43,13 +43,13 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     }
 
     // Guard against invalid terminal outcomes
-    if (order.outcome === "CANCELLED" || order.outcome === "DISPUTED") {
+    if (order.outcome === "CANCELLED") {
       return NextResponse.json({ ok: false, error: "Order cannot be completed in its current state." }, { status: 409 });
     }
 
     // Must be pickup-scheduled before completing
-    if (order.status !== OrderStatus.PAID) {
-      return NextResponse.json({ ok: false, error: "Buyer must confirm payment before completing the order." }, { status: 409 });
+    if (order.status !== OrderStatus.PICKUP_SCHEDULED) {
+      return NextResponse.json({ ok: false, error: "Pickup must be scheduled before completing the order." }, { status: 409 });
     }
     if (!order.pickupScheduledAt) {
       return NextResponse.json({ ok: false, error: "Pickup time is missing for this order." }, { status: 409 });

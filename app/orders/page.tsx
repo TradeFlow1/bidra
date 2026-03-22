@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -83,7 +83,7 @@ export default async function OrdersPage() {
 
                   
 
-                  {(o.status === "PAID" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
+                  {(o.status === "PICKUP_SCHEDULED" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
 
                     <SellerConfirmReceived orderId={o.id} />
 

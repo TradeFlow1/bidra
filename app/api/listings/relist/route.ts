@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { listingLooksProhibited } from "@/lib/prohibited-items";
 import { applyPolicyStrike } from "@/lib/policy-strike";
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
       const paidOrCompleted = await tx.order.findFirst({
         where: {
           listingId: listing.id,
-          OR: [{ status: "PAID" }, { outcome: "COMPLETED" }],
+          outcome: "COMPLETED",
         },
         select: { id: true },
       });
@@ -144,3 +144,4 @@ export async function POST(req: Request) {
     });
   }
 }
+

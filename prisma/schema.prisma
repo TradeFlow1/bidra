@@ -54,7 +54,7 @@ model User {
   sellerThreads          MessageThread[]      @relation("SellerThreads")
   offerDecisionsAsBuyer  OfferDecision[]      @relation("OfferDecisionBuyer")
   offerDecisionsAsSeller OfferDecision[]      @relation("OfferDecisionSeller")
-  offerMaxes             OfferMax[]
+  // V2: no auto-bidding / proxy maxima
   orders                 Order[]              @relation("BuyerOrders")
   passwordResetTokens    PasswordResetToken[]
   clearedStrikes         PolicyStrike[]       @relation("ClearedStrikes")
@@ -76,8 +76,6 @@ model VerificationToken {
 }
 
 model Listing {
-  reservePrice       Int?
-  buyNowPrice        Int?
   id                 String            @id @default(cuid())
   title              String
   description        String
@@ -86,9 +84,9 @@ model Listing {
   status             ListingStatus     @default(DRAFT)
   condition          String
   price              Int
+  buyNowPrice        Int?
   images             String[]
   location           String
-  endsAt             DateTime?
   createdAt          DateTime          @default(now())
   updatedAt          DateTime          @updatedAt
   sellerId           String
@@ -103,7 +101,6 @@ model Listing {
   messages           Message[]
   threads            MessageThread[]
   offerDecisions     OfferDecision[]
-  offerMaxes         OfferMax[]
   orders             Order[]
   policyStrikes      PolicyStrike[]
   reports            Report[]
@@ -114,16 +111,15 @@ model Offer {
   id            String         @id @default(cuid())
   amount        Int
   createdAt     DateTime       @default(now())
-  bidderId      String
+  buyerId       String
   listingId     String
   expiresAt     DateTime
-  bidder        User           @relation(fields: [bidderId], references: [id])
+  buyer         User           @relation(fields: [buyerId], references: [id])
   listing       Listing        @relation(fields: [listingId], references: [id])
   offerDecision OfferDecision?
 
   @@index([listingId])
-  @@index([bidderId])
-  @@map("Bid")
+  @@index([buyerId])
 }
 
 model MessageThread {
@@ -197,7 +193,6 @@ model Order {
   id                     String         @id @default(cuid())
   amount                 Int
   status                 OrderStatus    @default(PENDING)
-  stripeSessionId        String?
   createdAt              DateTime       @default(now())
   updatedAt              DateTime       @updatedAt
   buyerId                String
@@ -215,12 +210,6 @@ model Order {
 
   @@index([buyerId])
   @@index([listingId])
-}
-
-model playing_with_neon {
-  id    Int    @id @default(autoincrement())
-  name  String
-  value Float? @db.Real
 }
 
 model Feedback {
@@ -347,34 +336,17 @@ model AdminEvent {
   data      Json?
 }
 
-model OfferMax {
-  id        String   @id @default(cuid())
-  listingId String
-  bidderId  String
-  maxAmount Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  expiresAt DateTime
-  bidder    User     @relation(fields: [bidderId], references: [id], onDelete: Cascade)
-  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
-
-  @@unique([listingId, bidderId])
-  @@index([listingId])
-  @@index([bidderId])
-  @@index([expiresAt])
-}
-
 model OfferDecision {
   id        String            @id @default(cuid())
   createdAt DateTime          @default(now())
   listingId String
-  offerId   String            @unique @map("bidId")
+  offerId   String            @unique
   sellerId  String
   buyerId   String
   amount    Int
   decision  OfferDecisionKind
   orderId   String?           @unique
-  Offer     Offer             @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  offer     Offer             @relation(fields: [offerId], references: [id], onDelete: Cascade)
   buyer     User              @relation("OfferDecisionBuyer", fields: [buyerId], references: [id], onDelete: Cascade)
   listing   Listing           @relation(fields: [listingId], references: [id], onDelete: Cascade)
   order     Order?            @relation(fields: [orderId], references: [id])
@@ -393,9 +365,8 @@ enum Role {
 }
 
 enum ListingType {
-  AUCTION
   BUY_NOW
-  FIXED_PRICE
+  OFFERABLE
 }
 
 enum ListingStatus {
@@ -409,10 +380,10 @@ enum ListingStatus {
 
 enum OrderStatus {
   PENDING
-  PAID
   CANCELLED
   PICKUP_REQUIRED
   PICKUP_SCHEDULED
+  COMPLETED
 }
 
 enum FeedbackRole {
@@ -424,7 +395,6 @@ enum SaleOutcome {
   PENDING
   COMPLETED
   CANCELLED
-  DISPUTED
 }
 
 enum PolicyStrikeAction {

@@ -1,4 +1,4 @@
-﻿type Props = {
+type Props = {
   status: string;
   outcome?: string | null;
   className?: string;
@@ -9,7 +9,7 @@ function stepIndex(status: string, outcome?: string | null) {
   const o = String(outcome || "").toUpperCase();
 
   if (o === "COMPLETED" || s === "COMPLETED") return 2;
-  if (s === "PAID") return 1;
+  if (s === "PICKUP_SCHEDULED") return 1;
   return 0; // default
 }
 
@@ -18,7 +18,7 @@ export default function OrderStatusTimeline({ status, outcome, className = "" }:
 
   const steps = [
     { key: "PLACED", label: "Placed" },
-    { key: "PAID", label: "Paid" },
+    { key: "PICKUP_SCHEDULED", label: "Pickup scheduled" },
     { key: "COMPLETED", label: "Completed" },
   ];
 

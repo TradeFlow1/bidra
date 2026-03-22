@@ -105,17 +105,6 @@ export async function GET(req: Request) {
 
     const baseTake = wantLocal && meUserId ? 60 : 24;
 
-    const now = new Date();
-
-    // Self-heal: expire timed-offer listings that passed their end time.
-    // IMPORTANT: throttle this so bursts don't hammer DB with updateMany on every request.
-    if (shouldRunExpirySweep(Date.now(), 60000)) {
-      await prisma.listing.updateMany({
-        where: { status: "ACTIVE", endsAt: { lt: now } },
-        data: { status: "ENDED" },
-      });
-    }
-
     const listings = await prisma.listing.findMany({
       where: {
         status: "ACTIVE",
@@ -127,7 +116,6 @@ export async function GET(req: Request) {
         price: { lte: MAX_PRICE_CENTS },
         AND: [
           { OR: [{ buyNowPrice: null }, { buyNowPrice: { lte: MAX_PRICE_CENTS } }] },
-          { OR: [{ endsAt: null }, { endsAt: { gt: now } }] },
         ],
         NOT: [
           { title: { equals: "test", mode: "insensitive" } },
