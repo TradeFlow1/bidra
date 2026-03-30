@@ -148,7 +148,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                    </>
                  ) : (
                    <>
-                     <b>This is a binding sale.</b> The buyer is expected to complete payment using the details below. After the buyer marks “I’ve paid”, you’ll confirm whether you received it.
+                     <b>This is a binding sale.</b> The buyer is expected to complete payment using the details below. After the buyer confirms payment sent, you will verify receipt and continue with pickup.
                    </>
                  )}
                </div>
@@ -232,7 +232,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
                     <ol className="mt-2 list-decimal pl-5 text-sm bd-ink2 space-y-1">
                       <li>Open your banking app and send <b>{money(order.amount)}</b> to the seller using PayID (preferred) or bank transfer.</li>
                       <li>Set the payment <b>reference</b> to <b>{order.id}</b> exactly.</li>
-                      <li>After you’ve paid, press <b>I’ve paid</b> below to notify the seller.</li>
+                      <li>After payment, press <b>Confirm payment sent</b> below to notify the seller.</li>
                     </ol>
                     <div className="mt-2 text-xs bd-ink2">
                       Note: Bidra doesn’t verify the transfer instantly. This confirmation records your claim and helps the seller match the payment.
@@ -265,7 +265,7 @@ export default async function OrderPayPage({ params }: { params: { id: string } 
 
               {order.status === "PICKUP_SCHEDULED" ? (
                 <div className="mt-2 text-sm bd-ink2">
-                  This order is marked as <b>PICKUP SCHEDULED</b>.
+                  This order is ready for the scheduled pickup step.
                 </div>
               ) : (
                 <div className="mt-2 grid gap-2">

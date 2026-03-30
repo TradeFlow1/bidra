@@ -129,10 +129,27 @@ export async function POST(req: Request) {
   });
 
   const verifyUrl = `${baseUrl()}/auth/verify?token=${token}`;
-  await sendVerifyEmail({ to: emailNorm, verifyUrl });
-  if (process.env.NODE_ENV !== "production") {
 
+  try {
+    await sendVerifyEmail({ to: emailNorm, verifyUrl });
+  } catch (e) {
+    console.error("REGISTER_VERIFY_EMAIL_ERR", e);
+
+    await prisma.verificationToken.deleteMany({
+      where: { userId: user.id }
+    });
+
+    await prisma.user.delete({
+      where: { id: user.id }
+    });
+
+    return NextResponse.json(
+      { error: "We could not send your verification email. Please try again in a moment." },
+      { status: 503 }
+    );
   }
 
   return NextResponse.json({ ok: true });
 }
+
+

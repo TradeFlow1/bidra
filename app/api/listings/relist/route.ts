@@ -53,8 +53,8 @@ export async function POST(req: Request) {
       if (listing.status !== "ENDED")
         return { ok: false, status: 400 as const, error: "Relist is only available for ended listings." };
 
-      // Hard block: if a listing has a PAID or COMPLETED order, it must never be relisted
-      const paidOrCompleted = await tx.order.findFirst({
+      // Hard block: if a listing has a completed order, it must never be relisted
+      const completedOrder = await tx.order.findFirst({
         where: {
           listingId: listing.id,
           outcome: "COMPLETED",
@@ -62,8 +62,8 @@ export async function POST(req: Request) {
         select: { id: true },
       });
 
-      if (paidOrCompleted) {
-        return { ok: false, status: 409 as const, error: "This listing has been paid for and cannot be relisted." };
+      if (completedOrder) {
+        return { ok: false, status: 409 as const, error: "This listing has been completed and cannot be relisted." };
       }
       
       // Fix 13: prohibited items are blocked at relist (server-side)

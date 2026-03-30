@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import Image from "next/image";
@@ -12,7 +12,7 @@ type ListingLite = {
   description?: string | null;
   price: number;
   buyNowPrice?: number | null;
-  type?: "FIXED_PRICE" | "BUY_NOW" | string;
+  type?: "OFFERABLE" | "BUY_NOW" | string;
   category?: string | null;
   condition?: string | null;
   location?: string | null;

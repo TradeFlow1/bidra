@@ -1,4 +1,4 @@
-﻿import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import EditListingClient from "./edit-listing-client";
@@ -35,7 +35,7 @@ export default async function EditListingPage({ params }: { params: { id: string
         status: String((listing as unknown as { status?: unknown }).status || "DRAFT"),
 
         // Kevin timed-offers support (seller-controlled, late-stage only)
-        type: String((listing as unknown as { type?: unknown }).type || "FIXED_PRICE"),
+        type: String((listing as unknown as { type?: unknown }).type || "BUY_NOW"),
         endsAt: (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null,
         buyNowPriceDollars: (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice != null ? Number((listing as unknown as { buyNowPrice?: unknown }).buyNowPrice as number) / 100 : null,
         highestOfferCents,

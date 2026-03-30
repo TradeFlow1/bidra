@@ -21,11 +21,18 @@ function cx(...classes: Array<string | false | null | undefined>) {
 }
 
 function DobSelect(props: { value: string; onChange: (v: string) => void }) {
-  const v = String(props.value ?? "");
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v);
-  const y0 = m ? m[1] : "";
-  const mo0 = m ? m[2] : "";
-  const d0 = m ? m[3] : "";
+  const parsed = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(props.value ?? ""));
+
+  const [yy, setYy] = useState(parsed ? parsed[1] : "");
+  const [mm, setMm] = useState(parsed ? parsed[2] : "");
+  const [dd, setDd] = useState(parsed ? parsed[3] : "");
+
+  useEffect(() => {
+    const next = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(props.value ?? ""));
+    setYy(next ? next[1] : "");
+    setMm(next ? next[2] : "");
+    setDd(next ? next[3] : "");
+  }, [props.value]);
 
   const now = new Date();
   const maxYear = now.getFullYear() - 18; // UX hint only; server still enforces
@@ -35,27 +42,51 @@ function DobSelect(props: { value: string; onChange: (v: string) => void }) {
   const months = Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, "0"));
   const years = Array.from({ length: (maxYear - minYear + 1) }, (_, i) => String(maxYear - i));
 
-  function setPart(part: "d" | "m" | "y", next: string) {
-    const yy = part === "y" ? next : y0;
-    const mm = part === "m" ? next : mo0;
-    const dd = part === "d" ? next : d0;
-    if (yy && mm && dd) props.onChange(`${yy}-${mm}-${dd}`);
+  function emit(nextY: string, nextM: string, nextD: string) {
+    if (nextY && nextM && nextD) props.onChange(`${nextY}-${nextM}-${nextD}`);
     else props.onChange("");
   }
 
   return (
-    <div className="mt-3 grid grid-cols-3 gap-2">
-      <select className="bd-input" value={d0} onChange={(e) => setPart("d", e.target.value)} aria-label="Day">
+    <div className="relative z-20 mt-3 grid grid-cols-3 gap-2 pointer-events-auto">
+      <select
+        className="bd-input relative z-20 pointer-events-auto appearance-auto"
+        value={dd}
+        onChange={(e) => {
+          const next = e.target.value;
+          setDd(next);
+          emit(yy, mm, next);
+        }}
+        aria-label="Day"
+      >
         <option value="">DD</option>
         {days.map((d) => (<option key={d} value={d}>{d}</option>))}
       </select>
 
-      <select className="bd-input" value={mo0} onChange={(e) => setPart("m", e.target.value)} aria-label="Month">
+      <select
+        className="bd-input relative z-20 pointer-events-auto appearance-auto"
+        value={mm}
+        onChange={(e) => {
+          const next = e.target.value;
+          setMm(next);
+          emit(yy, next, dd);
+        }}
+        aria-label="Month"
+      >
         <option value="">MM</option>
         {months.map((m2) => (<option key={m2} value={m2}>{m2}</option>))}
       </select>
 
-      <select className="bd-input" value={y0} onChange={(e) => setPart("y", e.target.value)} aria-label="Year">
+      <select
+        className="bd-input relative z-20 pointer-events-auto appearance-auto"
+        value={yy}
+        onChange={(e) => {
+          const next = e.target.value;
+          setYy(next);
+          emit(next, mm, dd);
+        }}
+        aria-label="Year"
+      >
         <option value="">YYYY</option>
         {years.map((y) => (<option key={y} value={y}>{y}</option>))}
       </select>
@@ -457,3 +488,6 @@ export default function RegisterPage() {
     </main>
   );
 }
+
+
+

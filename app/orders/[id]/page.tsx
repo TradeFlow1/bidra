@@ -1,6 +1,6 @@
 import Link from "next/link";
 import SellerConfirmReceived from "./seller-confirm-received";
-import BuyerConfirmPaid from "./buyer-confirm-paid";
+import BuyerConfirmPaymentSent from "./buyer-confirm-paid";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -150,7 +150,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                       <span className="mt-1 block text-xs bd-ink2">Binding order — please pay to proceed.</span>
                     </Link>
                       <div className="mt-2">
-                        <BuyerConfirmPaid orderId={order.id} />
+                        <BuyerConfirmPaymentSent orderId={order.id} />
                       </div>
                   </div>
                 </div>
@@ -170,12 +170,12 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                       {order.status === "PICKUP_REQUIRED" ? (
                         <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
                           <li><b>Confirm payment</b> to continue. This order is binding. Pickup must be scheduled first.</li>
-                          <li>After you submit "I've paid", the seller will verify they received payment.</li>
+                          <li>After you confirm payment sent, the seller will verify receipt.</li>
                           <li>Once verified, schedule pickup in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
                         </ul>
                       ) : order.status === "PICKUP_SCHEDULED" ? (
                         <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
-                          <li>Your payment is marked as <b>PAID</b>.</li>
+                          <li>This order is now in the <b>pickup scheduled</b> stage.</li>
                           <li>The seller will confirm receipt, then keep pickup scheduled in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
                           <li>After the handover, leave feedback to help build trust.</li>
                         </ul>

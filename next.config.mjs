@@ -14,7 +14,21 @@ const nextConfig = {
     ],
   },
   output: "standalone",
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "bidra.com.au",
+          },
+        ],
+        destination: "https://www.bidra.com.au/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
-

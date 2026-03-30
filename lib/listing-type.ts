@@ -1,4 +1,4 @@
-﻿export function isTimedOffersType(type: any): boolean {
+export function isTimedOffersType(type: any): boolean {
   const t = String(type ?? "").toUpperCase().trim();
-  return t === "AUCTION"; // schema enum value, UI name is "Timed offers"
+  return t === "OFFERABLE" || t === "AUCTION"; // accept legacy alias while UI uses timed offers wording
 }

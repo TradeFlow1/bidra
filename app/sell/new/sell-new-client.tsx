@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import Link from "next/link";
 
 import React, { useEffect, useMemo, useState, useRef } from "react";
@@ -270,7 +270,7 @@ function suggestDescriptionDraft(args: {
   title: string;
   category: string;
   condition: string;
-  type: "FIXED_PRICE" | "TIMED_OFFERS";
+  type: "BUY_NOW" | "TIMED_OFFERS";
   priceLabel: string;
   location: string;
 }): string {
@@ -308,7 +308,7 @@ function suggestDescriptionDraft(args: {
   return lines.join("\n");
 }
 
-type ListingTypeUI = "FIXED_PRICE" | "TIMED_OFFERS";
+type ListingTypeUI = "BUY_NOW" | "TIMED_OFFERS";
 
 function dollarsToCentsOrNull(v: string): number | null {
   const raw = (v ?? "").trim();
@@ -359,7 +359,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     };
   }, []);
 
-  const [type, setType] = useState<ListingTypeUI>("FIXED_PRICE");
+  const [type, setType] = useState<ListingTypeUI>("BUY_NOW");
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -368,7 +368,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   const [condition, setCondition] = useState("USED");
   const [location, setLocation] = useState((defaultLocation || "").trim());
 
-  // FIXED_PRICE dollars
+  // BUY_NOW dollars
   const [price, setPrice] = useState("");
 
   // Timed offers dollars
@@ -532,7 +532,7 @@ const imagesToSend = uploadedUrls;
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          type: isTimedOffers ? "AUCTION" : "FIXED_PRICE",
+          type: isTimedOffers ? "OFFERABLE" : "BUY_NOW",
           title: t,
           description: d,
           category,
@@ -641,7 +641,7 @@ const imagesToSend = uploadedUrls;
             value={type}
             onChange={(e) => setType(e.target.value as ListingTypeUI)}
           >
-            <option value="FIXED_PRICE">Fixed price (Buy Now)</option>
+            <option value="BUY_NOW">Buy Now</option>
             <option value="TIMED_OFFERS">Timed offers (seller decides at end)</option>
           </select>
 <div className="mt-2 text-xs bd-ink2" data-testid="listing-type-help">

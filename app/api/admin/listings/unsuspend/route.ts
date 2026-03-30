@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
   if (!listingId) return NextResponse.redirect(new URL(backTo, req.url));
 
-  // If you prefer restoring to ENDED/COMPLETED based on auction end state later, we can improve this.
+  // If you prefer restoring to ENDED or COMPLETED based on offer-window end state later, we can improve this.
   // For now, unsuspend returns listing to ACTIVE.
   await prisma.listing.update({
     where: { id: listingId },

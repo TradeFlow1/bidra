@@ -23,7 +23,7 @@ function sanitizeDescription(desc: string): string {
 
 function normalizeType(raw: any): "BUY_NOW" | "OFFERABLE" {
   const t = String(raw || "").trim().toUpperCase();
-  if (t === "OFFERABLE" || t === "AUCTION" || t === "FIXED_PRICE") return "OFFERABLE";
+  if (t === "OFFERABLE") return "OFFERABLE";
   return "BUY_NOW";
 }
 
