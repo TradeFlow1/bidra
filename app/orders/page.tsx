@@ -71,15 +71,16 @@ export default async function OrdersPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-2 flex-wrap justify-end w-full md:w-auto">
-                  {(o.status === "PICKUP_REQUIRED" && o.buyerId === user.id) ? (
-                    <Link
-                      href={`/orders/${o.id}/pay`}
-                      className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px] focus:outline-none focus:ring-2 focus:ring-black/20"
-                    >
-                      <span className="block">Confirm payment</span>
-                      <span className="mt-1 block text-xs bd-ink2">Binding order — please pay to proceed.</span>
-                    </Link>
-                  ) : null}
+{(o.status === "PICKUP_REQUIRED" && o.listing?.sellerId === user.id) ? (
+  <Link
+    href={`/orders/${o.id}`}
+    className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px]"
+  >
+    <span className="block">Add pickup options</span>
+    <span className="mt-1 block text-xs bd-ink2">Set 3 time slots for buyer</span>
+  </Link>
+) : null}
+                  
 
                   
 
@@ -94,7 +95,7 @@ export default async function OrdersPage() {
   className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px] whitespace-nowrap"
 >
     <span className="block">View order</span>
-    <span className="mt-1 block text-xs bd-ink2">Order ID · {String(o.id).slice(-6)}</span>
+    <span className="mt-1 block text-xs bd-ink2">Order ID Ã‚Â· {String(o.id).slice(-6)}</span>
 </Link>
 
                   <Link
