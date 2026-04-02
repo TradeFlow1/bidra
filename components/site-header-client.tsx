@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import SearchBar from "./search-bar";
 
 type SessionLike = {
@@ -20,14 +20,13 @@ export default function SiteHeaderClient({
   notificationCount?: number;
 }) {
   const pathname = usePathname();
-  const router = useRouter();
   const [acctOpen, setAcctOpen] = useState(false);
   const accountRef = useRef<HTMLDivElement | null>(null);
 
   const isAuthed = !!session?.user?.id;
 
   useEffect(() => {
-    function onDocMouseDown(e: MouseEvent) {
+    function onDocClick(e: MouseEvent) {
       if (!accountRef.current) { return; }
       const target = e.target as Node | null;
       if (target && !accountRef.current.contains(target)) {
@@ -41,62 +40,53 @@ export default function SiteHeaderClient({
       }
     }
 
-    document.addEventListener("mousedown", onDocMouseDown);
+    document.addEventListener("mousedown", onDocClick);
     document.addEventListener("keydown", onDocKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", onDocMouseDown);
+      document.removeEventListener("mousedown", onDocClick);
       document.removeEventListener("keydown", onDocKeyDown);
     };
   }, []);
-
-  function go(href: string) {
-    setAcctOpen(false);
-    router.push(href);
-  }
 
   async function handleSignOut() {
     setAcctOpen(false);
     await signOut({ callbackUrl: "/" });
   }
 
-  const textIdle = "text-[13px] font-medium text-white/78 transition hover:text-white";
-  const textActive = "text-[13px] font-semibold text-white";
-  const pillIdle = "inline-flex items-center rounded-xl border border-white/14 bg-white/10 px-3 py-2 text-[13px] font-medium text-white transition hover:bg-white/14";
-  const pillActive = "inline-flex items-center rounded-xl border border-white/20 bg-white px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-[0_4px_20px_rgba(0,0,0,0.35)]";
+  
+  
+  
   const dropdownItem = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
-  const searchInputClass = "w-full rounded-xl border border-white/10 bg-white px-4 py-2.5 text-sm text-black outline-none border border-black/10 placeholder:text-neutral-500 focus:border-black/25";
+  const searchInputClass = "w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm text-black outline-none placeholder:text-neutral-500 focus:border-black/20";
 
-  function textNavClass(href: string) {
-    if (!pathname) { return textIdle; }
+  function navPillClass(href: string) {
+    if (!pathname) { return "text-white/70 hover:text-white transition"; }
     if (pathname === href || pathname.startsWith(href + "/")) {
-      return textActive;
+      return "text-white font-semibold border-b-2 border-white pb-1";
     }
-    return textIdle;
+    return "text-white/70 hover:text-white transition";
   }
 
-  function pillNavClass(href: string) {
-    if (!pathname) { return pillIdle; }
-    if (pathname === href || pathname.startsWith(href + "/")) {
-      return pillActive;
-    }
-    return pillIdle;
-  }
-
-  const accountBadge = notificationCount > 0 ? (
+  const badge = notificationCount > 0 ? (
     <span className="ml-2 inline-flex min-w-[20px] items-center justify-center rounded-full bg-[#2563EB] px-1.5 py-0.5 text-[11px] font-bold text-white">
       {notificationCount > 99 ? "99+" : notificationCount}
     </span>
   ) : null;
 
   return (
-    <header className="relative z-[80] overflow-visible border-b border-white/10 bg-[linear-gradient(180deg,#0B1220_0%,#18243D_100%)] text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)]">
-      <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-3.5">
-        <div className="min-w-0 shrink-0">
+    <header className="relative z-[80] border-b border-white/10 bg-[linear-gradient(180deg,#0B1220_0%,#18243D_100%)] text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)]">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-6 px-4 py-3">
+        <div className="shrink-0">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 text-white transition hover:opacity-95">
-            <span className="text-[20px] font-semibold tracking-tight">Bidra</span>
+            <span className="text-[22px] font-bold tracking-tight">Bidra</span>
           </Link>
         </div>
+
+        <nav className="hidden items-center gap-3 md:flex">
+          <Link href="/listings" className={navPillClass("/listings")}>Browse</Link>
+          <Link href="/sell" className={navPillClass("/sell")}>Sell</Link>
+        </nav>
 
         <div className="hidden min-w-0 flex-1 md:flex md:justify-center">
           <SearchBar
@@ -106,37 +96,34 @@ export default function SiteHeaderClient({
           />
         </div>
 
-        <nav className="hidden items-center gap-4 md:flex">
-          <Link href="/listings" className={textNavClass("/listings")}>Browse</Link>
-          <Link href="/sell" className={pillNavClass("/sell")}>Sell</Link>
-
+        <div className="ml-auto hidden md:flex md:items-center">
           {isAuthed ? (
             <div ref={accountRef} className="relative">
               <button
                 type="button"
                 onClick={() => setAcctOpen(!acctOpen)}
-                className={pillIdle}
+                className="inline-flex items-center rounded-lg bg-white text-[#0B1220] px-4 py-2 text-[13px] font-semibold hover:bg-white/90 transition"
                 aria-haspopup="menu"
                 aria-expanded={acctOpen ? "true" : "false"}
               >
                 Account
-                {accountBadge}
+                {badge}
               </button>
 
               {acctOpen ? (
-                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
-                  <button type="button" className={dropdownItem} onClick={() => go("/dashboard")}>
+                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0B1220] font-semibold shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+                  <Link href="/dashboard" className={dropdownItem}>
                     Dashboard
-                  </button>
-                  <button type="button" className={dropdownItem} onClick={() => go("/orders")}>
+                  </Link>
+                  <Link href="/orders" className={dropdownItem}>
                     Orders
-                  </button>
-                  <button type="button" className={dropdownItem} onClick={() => go("/messages")}>
+                  </Link>
+                  <Link href="/messages" className={dropdownItem}>
                     Messages
-                  </button>
-                  <button type="button" className={dropdownItem} onClick={() => go("/notifications")}>
+                  </Link>
+                  <Link href="/notifications" className={dropdownItem}>
                     Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
-                  </button>
+                  </Link>
                   <div className="border-t border-black/10">
                     <button type="button" className={dropdownItem} onClick={handleSignOut}>
                       Sign out
@@ -146,44 +133,44 @@ export default function SiteHeaderClient({
               ) : null}
             </div>
           ) : (
-            <>
-              <Link href="/auth/login" className={textNavClass("/auth/login")}>Sign in</Link>
-              <Link href="/auth/register" className={pillNavClass("/auth/register")}>Create account</Link>
-            </>
+            <div className="flex items-center gap-3">
+              <Link href="/auth/login" className={navPillClass("/auth/login")}>Sign in</Link>
+              <Link href="/auth/register" className={navPillClass("/auth/register")}>Create account</Link>
+            </div>
           )}
-        </nav>
+        </div>
 
         <div className="ml-auto flex items-center gap-2 md:hidden">
-          <Link href="/listings" className={textNavClass("/listings")}>Browse</Link>
-          <Link href="/sell" className={pillNavClass("/sell")}>Sell</Link>
+          <Link href="/listings" className={navPillClass("/listings")}>Browse</Link>
+          <Link href="/sell" className={navPillClass("/sell")}>Sell</Link>
 
           {isAuthed ? (
             <div ref={accountRef} className="relative">
               <button
                 type="button"
                 onClick={() => setAcctOpen(!acctOpen)}
-                className={pillIdle}
+                className="inline-flex items-center rounded-lg bg-white text-[#0B1220] px-4 py-2 text-[13px] font-semibold hover:bg-white/90 transition"
                 aria-haspopup="menu"
                 aria-expanded={acctOpen ? "true" : "false"}
               >
-                Menu
-                {accountBadge}
+                Account
+                {badge}
               </button>
 
               {acctOpen ? (
-                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
-                  <button type="button" className={dropdownItem} onClick={() => go("/dashboard")}>
+                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0B1220] font-semibold shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+                  <Link href="/dashboard" className={dropdownItem}>
                     Dashboard
-                  </button>
-                  <button type="button" className={dropdownItem} onClick={() => go("/orders")}>
+                  </Link>
+                  <Link href="/orders" className={dropdownItem}>
                     Orders
-                  </button>
-                  <button type="button" className={dropdownItem} onClick={() => go("/messages")}>
+                  </Link>
+                  <Link href="/messages" className={dropdownItem}>
                     Messages
-                  </button>
-                  <button type="button" className={dropdownItem} onClick={() => go("/notifications")}>
+                  </Link>
+                  <Link href="/notifications" className={dropdownItem}>
                     Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
-                  </button>
+                  </Link>
                   <div className="border-t border-black/10">
                     <button type="button" className={dropdownItem} onClick={handleSignOut}>
                       Sign out
@@ -193,7 +180,7 @@ export default function SiteHeaderClient({
               ) : null}
             </div>
           ) : (
-            <Link href="/auth/login" className={pillIdle}>Sign in</Link>
+            <Link href="/auth/login" className={navPillClass("/auth/login")}>Sign in</Link>
           )}
         </div>
       </div>
@@ -210,6 +197,10 @@ export default function SiteHeaderClient({
     </header>
   );
 }
+
+
+
+
 
 
 
