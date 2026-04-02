@@ -98,6 +98,7 @@ export async function sendEmail(args: { to: string; subject: string; text: strin
       Subject: { Data: args.subject, Charset: "UTF-8" },
       Body: {
         Text: { Data: args.text, Charset: "UTF-8" },
+        Html: args.html ? { Data: args.html, Charset: "UTF-8" } : undefined,
       },
     },
   });
@@ -189,6 +190,8 @@ export async function sendNewTopOfferEmail(args: {
       url,
   });
 }
+
+
 
 
 
