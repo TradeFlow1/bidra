@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import SearchBar from "./search-bar";
 
 type SessionLike = {
@@ -20,13 +20,14 @@ export default function SiteHeaderClient({
   notificationCount?: number;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [acctOpen, setAcctOpen] = useState(false);
   const accountRef = useRef<HTMLDivElement | null>(null);
 
   const isAuthed = !!session?.user?.id;
 
   useEffect(() => {
-    function onDocClick(e: MouseEvent) {
+    function onDocMouseDown(e: MouseEvent) {
       if (!accountRef.current) { return; }
       const target = e.target as Node | null;
       if (target && !accountRef.current.contains(target)) {
@@ -40,32 +41,42 @@ export default function SiteHeaderClient({
       }
     }
 
-    document.addEventListener("mousedown", onDocClick);
+    document.addEventListener("mousedown", onDocMouseDown);
     document.addEventListener("keydown", onDocKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", onDocClick);
+      document.removeEventListener("mousedown", onDocMouseDown);
       document.removeEventListener("keydown", onDocKeyDown);
     };
   }, []);
 
+  function isActive(href: string) {
+    if (!pathname) { return false; }
+    return pathname === href || pathname.startsWith(href + "/");
+  }
+
+  function navButtonClass(href: string) {
+    if (isActive(href)) {
+      return "inline-flex items-center justify-center rounded-xl border border-white/18 bg-white/14 px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-white/18";
+    }
+    return "inline-flex items-center justify-center rounded-xl border border-white/12 bg-white/8 px-4 py-2 text-[13px] font-medium text-white/92 transition hover:bg-white/12 hover:text-white";
+  }
+
+  const accountButtonClass = acctOpen
+    ? "inline-flex items-center justify-center rounded-xl border border-white/18 bg-white px-4 py-2 text-[13px] font-semibold text-[#0B1220] transition hover:bg-white/92"
+    : "inline-flex items-center justify-center rounded-xl border border-white/12 bg-white/8 px-4 py-2 text-[13px] font-medium text-white/92 transition hover:bg-white/12 hover:text-white";
+
+  const searchInputClass = "w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm text-black outline-none placeholder:text-neutral-500 focus:border-black/20";
+  const menuButtonClass = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
+
+  function go(href: string) {
+    setAcctOpen(false);
+    router.push(href);
+  }
+
   async function handleSignOut() {
     setAcctOpen(false);
     await signOut({ callbackUrl: "/" });
-  }
-
-  
-  
-  
-  const dropdownItem = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
-  const searchInputClass = "w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm text-black outline-none placeholder:text-neutral-500 focus:border-black/20";
-
-  function navPillClass(href: string) {
-    if (!pathname) { return "text-white/70 hover:text-white transition"; }
-    if (pathname === href || pathname.startsWith(href + "/")) {
-      return "text-white font-semibold border-b-2 border-white pb-1";
-    }
-    return "text-white/70 hover:text-white transition";
   }
 
   const badge = notificationCount > 0 ? (
@@ -84,13 +95,13 @@ export default function SiteHeaderClient({
         </div>
 
         <nav className="hidden items-center gap-3 md:flex">
-          <Link href="/listings" className={navPillClass("/listings")}>Browse</Link>
-          <Link href="/sell" className={navPillClass("/sell")}>Sell</Link>
+          <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
+          <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
         </nav>
 
         <div className="hidden min-w-0 flex-1 md:flex md:justify-center">
           <SearchBar
-            className="w-full max-w-md"
+            className="w-full max-w-sm"
             inputClassName={searchInputClass}
             placeholder="Search listings"
           />
@@ -102,7 +113,7 @@ export default function SiteHeaderClient({
               <button
                 type="button"
                 onClick={() => setAcctOpen(!acctOpen)}
-                className="inline-flex items-center rounded-lg bg-white text-[#0B1220] px-4 py-2 text-[13px] font-semibold hover:bg-white/90 transition"
+                className={accountButtonClass}
                 aria-haspopup="menu"
                 aria-expanded={acctOpen ? "true" : "false"}
               >
@@ -111,21 +122,21 @@ export default function SiteHeaderClient({
               </button>
 
               {acctOpen ? (
-                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0B1220] font-semibold shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
-                  <Link href="/dashboard" className={dropdownItem}>
+                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+                  <button type="button" className={menuButtonClass} onClick={() => go("/dashboard")}>
                     Dashboard
-                  </Link>
-                  <Link href="/orders" className={dropdownItem}>
+                  </button>
+                  <button type="button" className={menuButtonClass} onClick={() => go("/orders")}>
                     Orders
-                  </Link>
-                  <Link href="/messages" className={dropdownItem}>
+                  </button>
+                  <button type="button" className={menuButtonClass} onClick={() => go("/messages")}>
                     Messages
-                  </Link>
-                  <Link href="/notifications" className={dropdownItem}>
+                  </button>
+                  <button type="button" className={menuButtonClass} onClick={() => go("/notifications")}>
                     Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
-                  </Link>
+                  </button>
                   <div className="border-t border-black/10">
-                    <button type="button" className={dropdownItem} onClick={handleSignOut}>
+                    <button type="button" className={menuButtonClass} onClick={handleSignOut}>
                       Sign out
                     </button>
                   </div>
@@ -134,22 +145,22 @@ export default function SiteHeaderClient({
             </div>
           ) : (
             <div className="flex items-center gap-3">
-              <Link href="/auth/login" className={navPillClass("/auth/login")}>Sign in</Link>
-              <Link href="/auth/register" className={navPillClass("/auth/register")}>Create account</Link>
+              <Link href="/auth/login" className={navButtonClass("/auth/login")}>Sign in</Link>
+              <Link href="/auth/register" className={navButtonClass("/auth/register")}>Create account</Link>
             </div>
           )}
         </div>
 
         <div className="ml-auto flex items-center gap-2 md:hidden">
-          <Link href="/listings" className={navPillClass("/listings")}>Browse</Link>
-          <Link href="/sell" className={navPillClass("/sell")}>Sell</Link>
+          <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
+          <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
 
           {isAuthed ? (
             <div ref={accountRef} className="relative">
               <button
                 type="button"
                 onClick={() => setAcctOpen(!acctOpen)}
-                className="inline-flex items-center rounded-lg bg-white text-[#0B1220] px-4 py-2 text-[13px] font-semibold hover:bg-white/90 transition"
+                className={accountButtonClass}
                 aria-haspopup="menu"
                 aria-expanded={acctOpen ? "true" : "false"}
               >
@@ -158,21 +169,21 @@ export default function SiteHeaderClient({
               </button>
 
               {acctOpen ? (
-                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0B1220] font-semibold shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
-                  <Link href="/dashboard" className={dropdownItem}>
+                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+                  <button type="button" className={menuButtonClass} onClick={() => go("/dashboard")}>
                     Dashboard
-                  </Link>
-                  <Link href="/orders" className={dropdownItem}>
+                  </button>
+                  <button type="button" className={menuButtonClass} onClick={() => go("/orders")}>
                     Orders
-                  </Link>
-                  <Link href="/messages" className={dropdownItem}>
+                  </button>
+                  <button type="button" className={menuButtonClass} onClick={() => go("/messages")}>
                     Messages
-                  </Link>
-                  <Link href="/notifications" className={dropdownItem}>
+                  </button>
+                  <button type="button" className={menuButtonClass} onClick={() => go("/notifications")}>
                     Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
-                  </Link>
+                  </button>
                   <div className="border-t border-black/10">
-                    <button type="button" className={dropdownItem} onClick={handleSignOut}>
+                    <button type="button" className={menuButtonClass} onClick={handleSignOut}>
                       Sign out
                     </button>
                   </div>
@@ -180,7 +191,7 @@ export default function SiteHeaderClient({
               ) : null}
             </div>
           ) : (
-            <Link href="/auth/login" className={navPillClass("/auth/login")}>Sign in</Link>
+            <Link href="/auth/login" className={navButtonClass("/auth/login")}>Sign in</Link>
           )}
         </div>
       </div>
@@ -197,10 +208,3 @@ export default function SiteHeaderClient({
     </header>
   );
 }
-
-
-
-
-
-
-
