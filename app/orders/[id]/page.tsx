@@ -9,9 +9,7 @@ import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
 import SafetyCallout from "../../../components/safety-callout";
-import OrderStatusTimeline from "../../../components/order-status-timeline";
-
-export const dynamic = "force-dynamic";
+import OrderStatusTimeline from "../../../components/order-status-timeline";export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function OrderDetailPage({ params }: { params: { id: string } }) {
@@ -120,6 +118,15 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               <OrderStatusTimeline status={order.status} outcome={order.outcome} className="mt-3" />
 
+{order.pickupScheduledAt ? (
+  <div className="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
+    <div className="font-semibold">Pickup scheduled</div>
+    <div className="mt-1">
+      {new Date(order.pickupScheduledAt).toLocaleString()}
+    </div>
+  </div>
+) : null}
+
               {(order.status === "PICKUP_REQUIRED" && isBuyer) ? (
                 <div className="pt-2">
                   <SafetyCallout title="Safety">
@@ -133,7 +140,15 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   <div className="mt-3 rounded-xl border border-black/10 bg-white/5 px-4 py-3 text-sm bd-ink2">
                     {pickupOptions.length ? "Choose one of the pickup options below." : "Waiting for seller to provide pickup options."}
                   </div>
-                  <BuyerPickupSelect orderId={order.id} options={pickupOptions} />
+                  {(order.status === "PICKUP_REQUIRED" && isBuyer && pickupOptions.length > 0) ? (
+  <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+    <div className="font-semibold">Action required</div>
+    <div className="mt-1">
+      Choose a pickup time to complete scheduling.
+    </div>
+  </div>
+) : null}
+<BuyerPickupSelect orderId={order.id} options={pickupOptions} />
                 </div>
               ) : null}
 
@@ -146,7 +161,15 @@ export default async function OrderDetailPage({ params }: { params: { id: string
       </ul>
     </SafetyCallout>
 
-    <SellerPickupOptionsForm orderId={order.id} />
+    {(order.status === "PICKUP_REQUIRED" && isSeller) ? (
+  <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+    <div className="font-semibold">Action required</div>
+    <div className="mt-1">
+      Add pickup options for the buyer to choose from.
+    </div>
+  </div>
+) : null}
+<SellerPickupOptionsForm orderId={order.id} />
   </div>
 ) : null}
 

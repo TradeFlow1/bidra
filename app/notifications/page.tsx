@@ -1,4 +1,4 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Link from "next/link";
@@ -65,6 +65,40 @@ export default async function NotificationsPage() {
                 <div className="shrink-0 flex flex-col items-end gap-2">
                   <span className="bd-btn bd-btn-primary">Open inbox</span>
                   <span className="text-[11px] bd-ink2">Go to /messages →</span>
+                </div>
+              </div>
+            </Card>
+          </Link>
+
+          <Link href="/orders" className="block">
+            <Card className="bd-card p-5 transition hover:shadow-sm hover:bg-black/[0.02]">
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2">
+                    <div className="text-lg font-extrabold bd-ink">Orders</div>
+                    {counts.actionOrders > 0 ? (
+                      <span className="inline-flex items-center rounded-full border border-[var(--bidra-blue)]/30 bg-[var(--bidra-blue)]/15 px-2 py-0.5 text-[10px] font-extrabold text-[var(--bidra-ink)]">
+                        {counts.actionOrders} need action
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] font-semibold bd-ink2">
+                        No action needed
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="mt-1 text-sm bd-ink2">
+                    Open orders that need pickup scheduling or confirmation.
+                  </div>
+
+                  <div className="mt-2 text-xs bd-ink2">
+                    This is the fastest place to continue order actions without relying on email.
+                  </div>
+                </div>
+
+                <div className="shrink-0 flex flex-col items-end gap-2">
+                  <span className="bd-btn bd-btn-primary">Open orders</span>
+                  <span className="text-[11px] bd-ink2">Go to /orders →</span>
                 </div>
               </div>
             </Card>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { sendEmail } from "@/lib/email";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const session = await auth();
@@ -41,6 +42,22 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       status: "PICKUP_SCHEDULED",
     },
   });
+
+    // Notify seller
+  if (order.listing?.sellerId) {
+    const seller = await prisma.user.findUnique({ where: { id: order.listing.sellerId } });
+    if (seller?.email) {
+      await sendEmail({
+        to: seller.email,
+        subject: "Pickup time confirmed",
+        text:
+          "The buyer has selected a pickup time.\n\n" +
+          "View details here:\n" +
+          (process.env.NEXTAUTH_URL || "https://www.bidra.com.au") +
+          "/orders/" + order.id
+      });
+    }
+  }
 
   return NextResponse.json({ ok: true, order: updated });
 }

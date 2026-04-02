@@ -1,9 +1,10 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import DateTimeText from "@/components/date-time-text";
+import { getNotificationCounts } from "@/lib/notifications";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -80,6 +81,8 @@ export default async function DashboardPage() {
   });
   if (!user) redirect("/auth/login?next=/dashboard");
 
+  const counts = await getNotificationCounts(me);
+
   const now = Date.now();
   const blockedUntilMs = user.policyBlockedUntil ? new Date(user.policyBlockedUntil).getTime() : 0;
   const isBlocked = blockedUntilMs > now;
@@ -154,7 +157,18 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        {/* Attention (only render if needed) */}
+        {counts.actionOrders > 0 ? (
+  <div className="mt-6 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+    <div className="font-semibold">Action required</div>
+    <div className="mt-1">
+      You have {counts.actionOrders} order(s) that need your attention.
+    </div>
+    <div className="mt-2">
+      <Link href="/orders" className="underline font-semibold">Go to orders -&gt;</Link>
+    </div>
+  </div>
+) : null}
+{/* Attention (only render if needed) */}
         {hasAttention ? (
           <div className="mt-6">
             <Card title="Needs attention" tone="attention">
@@ -173,7 +187,7 @@ export default async function DashboardPage() {
                   <div className="bd-ink2">
                     Temporarily blocked until{" "}
                     <span className="font-semibold bd-ink">
-                      {user.policyBlockedUntil ? <DateTimeText value={user.policyBlockedUntil} /> : "—"}
+                      {user.policyBlockedUntil ? <DateTimeText value={user.policyBlockedUntil} /> : "--"}
                     </span>
                     .
                   </div>

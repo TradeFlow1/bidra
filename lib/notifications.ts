@@ -1,4 +1,5 @@
-﻿import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 
 export async function getNotificationCounts(userId: string) {
@@ -38,7 +39,25 @@ export async function getNotificationCounts(userId: string) {
   const gate = await getFeedbackGate(userId, 48);
   const pendingFeedback = gate?.blocked ? Number(gate.pendingCount || 0) : 0;
 
-  const total = Number(unreadThreads || 0) + pendingFeedback;
+  
+  // 3) Orders requiring action
+  const actionOrders = await prisma.order.count({
+    where: {
+      OR: [
+        {
+          buyerId: userId,
+          status: "PICKUP_REQUIRED",
+          pickupOptions: { not: Prisma.JsonNull },
+        },
+        {
+          listing: { sellerId: userId },
+          status: "PICKUP_REQUIRED",
+        },
+      ],
+    },
+  });
 
-  return { total, unreadThreads: Number(unreadThreads || 0), pendingFeedback };
+  const total = actionOrders + Number(unreadThreads || 0) + pendingFeedback;
+
+  return { total, unreadThreads: Number(unreadThreads || 0), pendingFeedback, actionOrders };
 }

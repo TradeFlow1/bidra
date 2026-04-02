@@ -25,7 +25,10 @@ export default async function OrdersPage() {
       ],
     },
     include: { listing: true },
-    orderBy: { createdAt: "desc" },
+    orderBy: [
+  { status: "asc" },
+  { createdAt: "desc" }
+],
   });
 
   return (
@@ -33,7 +36,8 @@ export default async function OrdersPage() {
       <div className="container max-w-4xl">
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-extrabold tracking-tight">Orders</h1>
+            <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Orders</h1>
+<p className="mt-2 text-sm text-blue-700 font-semibold">Action required orders appear first</p>
             <Link href="/listings" className="bd-btn bd-btn-primary text-center">
               Browse
             </Link>
@@ -43,7 +47,7 @@ export default async function OrdersPage() {
             {orders.map((o: any) => (
               <Card
                 key={o.id}
-                className="bd-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-3"
+                className={`bd-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-3 ${o.status === "PICKUP_REQUIRED" ? "border-blue-300 bg-blue-50/40" : ""}`}
               >
                 <div>
                   <div className="text-sm bd-ink2">
@@ -95,7 +99,7 @@ export default async function OrdersPage() {
   className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px] whitespace-nowrap"
 >
     <span className="block">View order</span>
-    <span className="mt-1 block text-xs bd-ink2">Order ID Ã‚Â· {String(o.id).slice(-6)}</span>
+    <span className="mt-1 block text-xs bd-ink2">Order ID · {String(o.id).slice(-6)}</span>
 </Link>
 
                   <Link
