@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -61,6 +61,27 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
               <Link href="/messages" className={navPill("/messages")}>Messages</Link>
               <Link href="/dashboard" className={navPill("/dashboard")}>Dashboard</Link>
               <Link href="/orders" className={navPill("/orders")}>Orders</Link>
+              <div className="relative">
+                <button
+                  onClick={() => setAcctOpen(!acctOpen)}
+                  className=""
+                >
+                  Account
+                </button>
+
+                {acctOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white border border-black/10 rounded-md shadow-md">
+                    <Link href="/dashboard" className="block px-3 py-2 text-sm hover:bg-black/5">
+                      Dashboard
+                    </Link>
+                    <form action="/api/auth/signout" method="post">
+                      <button type="submit" className="w-full text-left px-3 py-2 text-sm hover:bg-black/5">
+                        Sign out
+                      </button>
+                    </form>
+                  </div>
+                )}
+              </div>
             </>
           )}
 
@@ -76,3 +97,4 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
     </header>
   );
 }
+

@@ -128,12 +128,18 @@ export async function sendPasswordResetEmail(args: { to: string; resetUrl: strin
 }
 
 export async function sendVerifyEmail(args: { to: string; verifyUrl: string }) {
+  const html = renderEmailTemplate({
+    title: "Verify your email",
+    body: "Click the button below to verify your Bidra email address.",
+    ctaLabel: "Verify email",
+    ctaUrl: args.verifyUrl,
+  });
+
   await sendEmail({
     to: args.to,
     subject: "Verify your Bidra email",
-    text:
-      "Verify your Bidra email:\n\n" +
-      args.verifyUrl,
+    text: "Verify your Bidra email:\n\n" + args.verifyUrl,
+    html,
   });
 }
 
@@ -144,6 +150,17 @@ export async function sendNewMessageEmail(args: {
 }) {
   const url = siteUrl() + "/messages/" + encodeURIComponent(args.threadId);
 
+  const body = args.listingTitle
+    ? "You have a new message about " + args.listingTitle + ". Click below to view it."
+    : "You have a new message on Bidra. Click below to view it.";
+
+  const html = renderEmailTemplate({
+    title: "New message",
+    body,
+    ctaLabel: "View message",
+    ctaUrl: url,
+  });
+
   await sendEmail({
     to: args.to,
     subject: "New message on Bidra",
@@ -151,6 +168,7 @@ export async function sendNewMessageEmail(args: {
       "You have a new message.\n\n" +
       (args.listingTitle ? "Listing: " + args.listingTitle + "\n\n" : "") +
       url,
+    html,
   });
 }
 
@@ -164,6 +182,17 @@ export async function sendBuyNowPlacedEmail(args: {
   const url = siteUrl() + "/orders/" + encodeURIComponent(args.orderId);
   const dollars = "$" + (args.amountCents / 100).toFixed(2);
 
+  const body = args.listingTitle
+    ? "Buy Now placed for " + args.listingTitle + " at " + dollars + "."
+    : "Buy Now placed at " + dollars + ".";
+
+  const html = renderEmailTemplate({
+    title: "Buy Now placed",
+    body,
+    ctaLabel: "View order",
+    ctaUrl: url,
+  });
+
   await sendEmail({
     to: args.to,
     subject: "Buy Now placed",
@@ -171,6 +200,7 @@ export async function sendBuyNowPlacedEmail(args: {
       (args.listingTitle ? "Listing: " + args.listingTitle + "\n" : "") +
       "Amount: " + dollars + "\n\n" +
       url,
+    html,
   });
 }
 
@@ -183,6 +213,17 @@ export async function sendNewTopOfferEmail(args: {
   const url = siteUrl() + "/listings/" + encodeURIComponent(args.listingId);
   const dollars = "$" + (args.amountCents / 100).toFixed(2);
 
+  const body = args.listingTitle
+    ? "New top offer of " + dollars + " on " + args.listingTitle + "."
+    : "New top offer of " + dollars + ".";
+
+  const html = renderEmailTemplate({
+    title: "New top offer",
+    body,
+    ctaLabel: "View listing",
+    ctaUrl: url,
+  });
+
   await sendEmail({
     to: args.to,
     subject: "New top offer",
@@ -190,19 +231,6 @@ export async function sendNewTopOfferEmail(args: {
       (args.listingTitle ? "Listing: " + args.listingTitle + "\n" : "") +
       "Top offer: " + dollars + "\n\n" +
       url,
+    html,
   });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

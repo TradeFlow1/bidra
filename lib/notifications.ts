@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 
@@ -57,7 +57,26 @@ export async function getNotificationCounts(userId: string) {
     },
   });
 
-  const total = actionOrders + Number(unreadThreads || 0) + pendingFeedback;
+  const unreadThreadCount = Number(unreadThreads || 0);
+const total = actionOrders + unreadThreadCount + pendingFeedback;
 
-  return { total, unreadThreads: Number(unreadThreads || 0), pendingFeedback, actionOrders };
+const hasCritical = actionOrders > 0 || pendingFeedback > 0;
+const hasMessages = unreadThreadCount > 0;
+const primaryType =
+  pendingFeedback > 0 ? "feedback" :
+  actionOrders > 0 ? "orders" :
+  unreadThreadCount > 0 ? "messages" :
+  "none";
+
+return {
+  total,
+  unreadThreads: unreadThreadCount,
+  pendingFeedback,
+  actionOrders,
+  hasCritical,
+  hasMessages,
+  primaryType,
+};
 }
+
+

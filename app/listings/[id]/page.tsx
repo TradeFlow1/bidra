@@ -1,4 +1,4 @@
-import { labelCategory, labelCondition } from "@/lib/labels";
+﻿import { labelCategory, labelCondition } from "@/lib/labels";
 import Link from "next/link";
 import { ClickableLink } from "@/components/clickable-link";
 import { getServerSession } from "next-auth";
@@ -72,7 +72,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
       <main className="bd-container py-6 pb-14">
         <div className="bd-card p-6 space-y-3">
           <div className="text-lg font-semibold">Listing not found.</div>
-          <Link href="/listings" className="bd-btn bd-btn-ghost">← Back to listings</Link>
+          <Link href="/listings" className="bd-btn bd-btn-ghost">â† Back to listings</Link>
         </div>
       </main>
     );
@@ -98,7 +98,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
         <main className="bd-container py-6 pb-14">
           <div className="bd-card p-6 space-y-3">
             <div className="text-lg font-semibold">This listing is not available.</div>
-            <Link href="/listings" className="bd-btn bd-btn-ghost">← Back to listings</Link>
+            <Link href="/listings" className="bd-btn bd-btn-ghost">â† Back to listings</Link>
           </div>
         </main>
       );
@@ -188,7 +188,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
     <main className="bd-container py-6 pb-14">
       <div className="bd-card p-5 max-w-6xl mx-auto">
         <div className="space-y-3">
-          <Link href="/listings" className="bd-btn bd-btn-ghost">← Back</Link>
+          <Link href="/listings" className="bd-btn bd-btn-ghost">â† Back</Link>
           <h1 className="text-2xl font-bold">{String(listing.title ?? "")}</h1>
         </div>
 
@@ -228,27 +228,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
             <div className="pt-2 space-y-3">
               {showReport ? <ReportListingButton listingId={listing.id} /> : null}
 
-              <div>
-                {isSeller ? (
-                  <div className="bd-card p-4">
-                    <div className="text-sm font-semibold">This is your listing</div>
-                    <div className="mt-2 text-xs text-neutral-600">Buyers can message you from this page.</div>
-                  </div>
-                ) : viewerId ? (
-                  <MessageSellerButton listingId={listing.id} />
-                ) : (
-                  <div className="bd-card p-4">
-                    <div className="text-sm font-semibold">Log in to message seller</div>
-                    <div className="mt-2 text-xs text-neutral-600">Messaging is available after you log in.</div>
-                    <ClickableLink
-                      href={`/auth/login?next=/listings/${listing.id}`}
-                      className="mt-3 inline-flex text-xs"
-                    >
-                      Log in
-                    </ClickableLink>
-                  </div>
-                )}
-              </div>
+
 
               {session?.user?.id && (isAdmin || listing.sellerId === session.user.id) ? <DeleteListingButton id={listing.id} /> : null}
 
@@ -312,39 +292,45 @@ export default async function ListingPage({ params }: { params: { id: string } }
                       <div className="text-neutral-900 text-right">{listing.status}</div>
                     </div>
 
-                    {buyNowVisible ? (
-                      <div className="pt-3">
-                        <BuyNowButton listingId={listing.id} />
-                        <div className="mt-1 text-xs text-neutral-600">Buy Now is a binding purchase. If you continue, you will create an order.</div>
-                      </div>
-                    ) : null}
+
                   </div>
                 </div>
 
-                {isSeller ? (
-                  <div className="bd-card p-4">
-                    <div className="text-sm font-semibold">Seller action</div>
-                    <div className="mt-2">
+                <div className="bd-card p-4">
+                  <div className="text-sm font-semibold tracking-tight">Next step</div>
+
+                  {isSeller ? (
+                    <div className="mt-2 space-y-2">
+                      <div className="text-xs text-neutral-600">This is your listing.</div>
+
                       {isEnded && hasAnyOffer ? (
                         <AcceptHighestOfferButton listingId={listing.id} />
                       ) : (
                         <div className="text-xs text-neutral-600">
-                          You can proceed with the highest offer after the listing ends and at least one offer exists.
+                          You can accept the highest offer once the listing ends.
                         </div>
                       )}
                     </div>
-                  </div>
-                ) : isEnded ? (
-                  <div className="bd-card p-4">
-                    <div className="text-sm font-semibold">Offers closed</div>
-                    <div className="mt-2 text-xs text-neutral-600">Listing ended — seller reviewing offers.</div>
-                  </div>
-                ) : (
-                  <div className="bd-card p-4">
-                    {viewerId ? (
-                      <>
-                        <div className="text-sm font-semibold">Place an offer</div>
-                        <div className="mt-2">
+                  ) : (
+                    <div className="mt-4 space-y-4">
+
+                      {buyNowVisible ? (
+                        <div className="space-y-1 p-3 rounded-lg border border-black/10 bg-white shadow-sm">
+                          <div className="text-xs font-semibold text-neutral-900 tracking-tight">Buy Now</div><div className="text-[11px] text-neutral-500">Secure this item instantly</div>
+                          <div className="mt-1"><BuyNowButton listingId={listing.id} /></div>
+                          <div className="text-xs text-neutral-600">
+                            Instant purchase. This item will be marked as sold.
+                          </div>
+                        </div>
+                      ) : null}
+
+                      {isEnded ? (
+                        <div className="text-xs text-neutral-600">
+                          This listing has ended. The seller is reviewing offers.
+                        </div>
+                      ) : viewerId ? (
+                        <div className="space-y-1 p-3 rounded-lg border border-black/10 bg-white shadow-sm">
+                          <div className="text-xs font-semibold text-neutral-900">Make an offer</div>
                           <PlaceOfferClient
                             listingId={listing.id}
                             minOfferCents={minOfferCents}
@@ -354,29 +340,44 @@ export default async function ListingPage({ params }: { params: { id: string } }
                             disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."}
                           />
                         </div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="text-sm font-semibold">Log in to place an offer</div>
-                        <ClickableLink
-                          href={`/auth/login?next=/listings/${listing.id}`}
-                          className="mt-3 inline-flex text-xs"
-                        >
-                          Log in
-                        </ClickableLink>
-                      </>
-                    )}
-                  </div>
-                )}
+                      ) : (
+                        <div className="space-y-1 p-3 rounded-lg border border-black/10 bg-white shadow-sm">
+                          <div className="text-xs font-semibold text-neutral-900">Make an offer</div>
+                          <ClickableLink
+                            href={`/auth/login?next=/listings/${listing.id}`}
+                            className="mt-2 inline-flex text-xs"
+                          >
+                            Log in
+                          </ClickableLink>
+                        </div>
+                      )}
+
+                      <div className="border-t border-black/10 pt-3 space-y-1">
+                        <div className="text-xs font-semibold text-neutral-900">Questions</div>
+                        {viewerId ? (
+                          <MessageSellerButton listingId={listing.id} />
+                        ) : (
+                          <ClickableLink
+                            href={`/auth/login?next=/listings/${listing.id}`}
+                            className="mt-2 inline-flex text-xs"
+                          >
+                            Log in to message seller
+                          </ClickableLink>
+                        )}
+                      </div>
+
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
               <div className="bd-card p-4 space-y-3">
                 <div className="text-sm font-semibold">Price</div>
                 <div className="text-2xl font-extrabold">{formatMoney(guidePriceCents)}</div>
                 {buyNowVisible ? (
-                  <div className="space-y-1">
-                    <BuyNowButton listingId={listing.id} />
-                    <div className="text-xs text-neutral-600">Buy Now is a binding purchase. If you continue, you will create an order.</div>
+                  <div className="space-y-1 p-3 rounded-lg border border-black/10 bg-white shadow-sm">
+                    <div className="mt-1"><BuyNowButton listingId={listing.id} /></div>
+                    <div className="text-xs text-neutral-600">Instant purchase. This item will be marked as sold. If you continue, you will create an order.</div>
                   </div>
                 ) : null}
               </div>
@@ -387,3 +388,9 @@ export default async function ListingPage({ params }: { params: { id: string } }
     </main>
   );
 }
+
+
+
+
+
+
