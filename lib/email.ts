@@ -47,7 +47,7 @@ function renderEmailTemplate(args: {
           <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;overflow:hidden;">
             <tr>
               <td style="background:#111;color:#fff;padding:16px;font-size:20px;font-weight:bold;">
-                <img src="https://www.bidra.com.au/brand/bidra-kangaroo-logo.png" alt="Bidra" style="height:32px;" />
+                <div style="text-align:center;"><img src="https://www.bidra.com.au/brand/bidra-kangaroo-logo.png" alt="Bidra" style="height:48px;" /></div>
               </td>
             </tr>
             <tr>
@@ -190,6 +190,7 @@ export async function sendNewTopOfferEmail(args: {
       url,
   });
 }
+
 
 
 
