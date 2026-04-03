@@ -19,6 +19,14 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  if (order.status === "PICKUP_SCHEDULED") {
+    return NextResponse.json({ error: "Pickup is already scheduled." }, { status: 409 });
+  }
+
+  if (order.status !== "PICKUP_REQUIRED") {
+    return NextResponse.json({ error: "Pickup selection is not available for this order status." }, { status: 409 });
+  }
+
   const body = await req.json();
   const selectedAt = body ? body.selectedAt : null;
 
