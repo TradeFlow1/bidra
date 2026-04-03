@@ -33,6 +33,10 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
   }
 
   const q = String(searchParams?.q || "").trim().slice(0, 80);
+  const chipBase: React.CSSProperties = { textDecoration: "none", padding: "6px 10px", borderRadius: 999, border: "1px solid rgba(0,0,0,0.15)", fontWeight: 800, background: "white", color: "inherit" };
+  function chipStyle(active: boolean): React.CSSProperties {
+    return active ? Object.assign({}, chipBase, { background: "#111", color: "white" }) : chipBase;
+  }
   const type = String(searchParams?.type || "").trim().slice(0, 80);
 
   const where: Prisma.AdminEventWhereInput | undefined = (q || type)
@@ -72,12 +76,19 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
         Shows internal events. Key one: <b>FEEDBACK_SUBMITTED_WHILE_BLOCKED</b>.
       </p>
 
+      <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+        <Link href="/admin/events" style={chipStyle(!type)}>All events</Link>
+        <Link href="/admin/events?type=ORDER_PICKUP_SCHEDULED" style={chipStyle(type === "ORDER_PICKUP_SCHEDULED")}>Pickup scheduled</Link>
+        <Link href="/admin/events?type=ORDER_RESCHEDULE_REQUESTED" style={chipStyle(type === "ORDER_RESCHEDULE_REQUESTED")}>Reschedule requested</Link>
+        <Link href="/admin/events?type=ORDER_NO_SHOW_REPORTED" style={chipStyle(type === "ORDER_NO_SHOW_REPORTED")}>No-show reported</Link>
+      </div>
+
       <form method="get" style={{ marginTop: 10, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
         <input type="hidden" name="type" value={type} />
         <input
           name="q"
           defaultValue={q}
-          placeholder='Filter (e.g. "MESSAGE_", userId, orderId)'
+          placeholder='Filter (e.g. "ORDER_", userId, orderId)'
           style={{ padding: "8px 10px", borderRadius: 10, border: "1px solid rgba(0,0,0,0.15)", minWidth: 280 }}
         />
         <button type="submit" style={{ padding: "8px 12px", borderRadius: 10, border: "1px solid rgba(0,0,0,0.2)", background: "white", fontWeight: 800 }}>
