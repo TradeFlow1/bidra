@@ -123,20 +123,20 @@ export default function SiteHeaderClient({
 
               {acctOpen ? (
                 <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
-                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/dashboard")}>
+                  <Link href="/dashboard" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
                     Dashboard
-                  </button>
-                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/orders")}>
+                  </Link>
+                  <Link href="/orders" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
                     Orders
-                  </button>
-                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/messages")}>
+                  </Link>
+                  <Link href="/messages" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
                     Messages
-                  </button>
-                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/notifications")}>
+                  </Link>
+                  <Link href="/notifications" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
                     Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
-                  </button>
+                  </Link>
                   <div className="border-t border-black/10">
-                    <button type="button" className={menuButtonClass} onClick={handleSignOut}>
+                    <button type="button" className={menuButtonClass} onMouseDown={handleSignOut}>
                       Sign out
                     </button>
                   </div>
@@ -170,20 +170,20 @@ export default function SiteHeaderClient({
 
               {acctOpen ? (
                 <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
-                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/dashboard")}>
+                  <Link href="/dashboard" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
                     Dashboard
-                  </button>
-                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/orders")}>
+                  </Link>
+                  <Link href="/orders" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
                     Orders
-                  </button>
-                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/messages")}>
+                  </Link>
+                  <Link href="/messages" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
                     Messages
-                  </button>
-                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/notifications")}>
+                  </Link>
+                  <Link href="/notifications" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
                     Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
-                  </button>
+                  </Link>
                   <div className="border-t border-black/10">
-                    <button type="button" className={menuButtonClass} onClick={handleSignOut}>
+                    <button type="button" className={menuButtonClass} onMouseDown={handleSignOut}>
                       Sign out
                     </button>
                   </div>
