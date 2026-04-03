@@ -19,23 +19,30 @@ export default function SiteHeaderClient({
   notificationCount?: number;
 }) {
   const pathname = usePathname();
-  const [acctOpen, setAcctOpen] = useState(false);
-  const accountRef = useRef<HTMLDivElement | null>(null);
+  const [desktopAcctOpen, setDesktopAcctOpen] = useState(false);
+  const [mobileAcctOpen, setMobileAcctOpen] = useState(false);
+  const desktopAccountRef = useRef<HTMLDivElement | null>(null);
+  const mobileAccountRef = useRef<HTMLDivElement | null>(null);
 
   const isAuthed = !!session?.user?.id;
 
   useEffect(() => {
     function onDocClick(e: MouseEvent) {
-      if (!accountRef.current) { return; }
       const target = e.target as Node | null;
-      if (target && !accountRef.current.contains(target)) {
-        setAcctOpen(false);
+
+      if (desktopAccountRef.current && target && !desktopAccountRef.current.contains(target)) {
+        setDesktopAcctOpen(false);
+      }
+
+      if (mobileAccountRef.current && target && !mobileAccountRef.current.contains(target)) {
+        setMobileAcctOpen(false);
       }
     }
 
     function onDocKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
-        setAcctOpen(false);
+        setDesktopAcctOpen(false);
+        setMobileAcctOpen(false);
       }
     }
 
@@ -60,9 +67,12 @@ export default function SiteHeaderClient({
     return "inline-flex items-center justify-center rounded-xl border border-white/12 bg-white/8 px-4 py-2 text-[13px] font-medium text-white/92 transition hover:bg-white/12 hover:text-white";
   }
 
-  const accountButtonClass = acctOpen
-    ? "inline-flex items-center justify-center rounded-xl border border-white/18 bg-white px-4 py-2 text-[13px] font-semibold text-[#0B1220] transition hover:bg-white/92"
-    : "inline-flex items-center justify-center rounded-xl border border-white/12 bg-white/8 px-4 py-2 text-[13px] font-medium text-white/92 transition hover:bg-white/12 hover:text-white";
+  function accountButtonClass(isOpen: boolean) {
+    if (isOpen) {
+      return "inline-flex items-center justify-center rounded-xl border border-white/18 bg-white px-4 py-2 text-[13px] font-semibold text-[#0B1220] transition hover:bg-white/92";
+    }
+    return "inline-flex items-center justify-center rounded-xl border border-white/12 bg-white/8 px-4 py-2 text-[13px] font-medium text-white/92 transition hover:bg-white/12 hover:text-white";
+  }
 
   const searchInputClass = "w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm text-black outline-none placeholder:text-neutral-500 focus:border-black/20";
   const menuLinkClass = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
@@ -73,31 +83,33 @@ export default function SiteHeaderClient({
     </span>
   ) : null;
 
-  const accountMenu = acctOpen ? (
-    <div
-      className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
-      role="menu"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <Link href="/dashboard" className={menuLinkClass} onClick={() => setAcctOpen(false)}>
-        Dashboard
-      </Link>
-      <Link href="/orders" className={menuLinkClass} onClick={() => setAcctOpen(false)}>
-        Orders
-      </Link>
-      <Link href="/messages" className={menuLinkClass} onClick={() => setAcctOpen(false)}>
-        Messages
-      </Link>
-      <Link href="/notifications" className={menuLinkClass} onClick={() => setAcctOpen(false)}>
-        Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
-      </Link>
-      <div className="border-t border-black/10">
-        <Link href="/logout" className={menuLinkClass} onClick={() => setAcctOpen(false)}>
-          Sign out
+  function renderAccountMenu(closeMenu: () => void) {
+    return (
+      <div
+        className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
+        role="menu"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>
+          Dashboard
         </Link>
+        <Link href="/orders" className={menuLinkClass} onClick={closeMenu}>
+          Orders
+        </Link>
+        <Link href="/messages" className={menuLinkClass} onClick={closeMenu}>
+          Messages
+        </Link>
+        <Link href="/notifications" className={menuLinkClass} onClick={closeMenu}>
+          Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
+        </Link>
+        <div className="border-t border-black/10">
+          <Link href="/logout" className={menuLinkClass} onClick={closeMenu}>
+            Sign out
+          </Link>
+        </div>
       </div>
-    </div>
-  ) : null;
+    );
+  }
 
   return (
     <header className="relative z-[80] border-b border-white/10 bg-[linear-gradient(180deg,#0B1220_0%,#18243D_100%)] text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)]">
@@ -123,21 +135,21 @@ export default function SiteHeaderClient({
 
         <div className="ml-auto hidden md:flex md:items-center">
           {isAuthed ? (
-            <div ref={accountRef} className="relative">
+            <div ref={desktopAccountRef} className="relative">
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setAcctOpen(!acctOpen);
+                  setDesktopAcctOpen(!desktopAcctOpen);
                 }}
-                className={accountButtonClass}
+                className={accountButtonClass(desktopAcctOpen)}
                 aria-haspopup="menu"
-                aria-expanded={acctOpen ? "true" : "false"}
+                aria-expanded={desktopAcctOpen ? "true" : "false"}
               >
                 Account
                 {badge}
               </button>
-              {accountMenu}
+              {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
             </div>
           ) : (
             <div className="flex items-center gap-3">
@@ -152,21 +164,21 @@ export default function SiteHeaderClient({
           <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
 
           {isAuthed ? (
-            <div ref={accountRef} className="relative">
+            <div ref={mobileAccountRef} className="relative">
               <button
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  setAcctOpen(!acctOpen);
+                  setMobileAcctOpen(!mobileAcctOpen);
                 }}
-                className={accountButtonClass}
+                className={accountButtonClass(mobileAcctOpen)}
                 aria-haspopup="menu"
-                aria-expanded={acctOpen ? "true" : "false"}
+                aria-expanded={mobileAcctOpen ? "true" : "false"}
               >
                 Account
                 {badge}
               </button>
-              {accountMenu}
+              {mobileAcctOpen ? renderAccountMenu(() => setMobileAcctOpen(false)) : null}
             </div>
           ) : (
             <Link href="/auth/login" className={navButtonClass("/auth/login")}>Sign in</Link>
