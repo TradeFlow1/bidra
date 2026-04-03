@@ -3,6 +3,7 @@ import SellerConfirmReceived from "./seller-confirm-received";
 import SellerPickupOptionsForm from "./seller-pickup-options-form";
 import BuyerPickupSelect from "./buyer-pickup-select";
 import RescheduleRequest from "./reschedule-request";
+import NoShowReport from "./no-show-report";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -129,7 +130,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 ) : null}
 
               {(order.status === "PICKUP_SCHEDULED" && isBuyer && order.outcome !== "COMPLETED") ? (
-                <RescheduleRequest orderId={order.id} />
+                <>
+                  <RescheduleRequest orderId={order.id} />
+                  <NoShowReport orderId={order.id} />
+                </>
               ) : null}
 
               {(order.status === "PICKUP_REQUIRED" && isBuyer) ? (
@@ -181,6 +185,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               {order.listing?.sellerId === user.id && order.status === "PICKUP_SCHEDULED" && order.outcome !== "COMPLETED" ? (
                 <>
                   <SellerConfirmReceived orderId={order.id} />
+                  <NoShowReport orderId={order.id} />
                   <RescheduleRequest orderId={order.id} />
                 </>
               ) : null}
