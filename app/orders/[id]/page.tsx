@@ -128,6 +128,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   </div>
 ) : null}
 
+              {(order.status === "PICKUP_SCHEDULED" && isBuyer && order.outcome !== "COMPLETED") ? (
+                <RescheduleRequest orderId={order.id} />
+              ) : null}
+
               {(order.status === "PICKUP_REQUIRED" && isBuyer) ? (
                 <div className="pt-2">
                   <SafetyCallout title="Safety">
