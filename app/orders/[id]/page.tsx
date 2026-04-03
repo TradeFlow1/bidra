@@ -2,6 +2,7 @@ import Link from "next/link";
 import SellerConfirmReceived from "./seller-confirm-received";
 import SellerPickupOptionsForm from "./seller-pickup-options-form";
 import BuyerPickupSelect from "./buyer-pickup-select";
+import RescheduleRequest from "./reschedule-request";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -174,7 +175,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 ) : null}
 
               {order.listing?.sellerId === user.id && order.status === "PICKUP_SCHEDULED" && order.outcome !== "COMPLETED" ? (
-                <SellerConfirmReceived orderId={order.id} />
+                <>
+                  <SellerConfirmReceived orderId={order.id} />
+                  <RescheduleRequest orderId={order.id} />
+                </>
               ) : null}
 
               <div className="pt-2">
