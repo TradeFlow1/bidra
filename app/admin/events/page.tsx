@@ -109,6 +109,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
               <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Order id if relevant">Order</th>
               <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Readable event summary">Summary</th>
               <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Event payload / details">Data</th>
+              <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Admin review actions">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -122,6 +123,9 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
               const whenText = currentScheduledAt || scheduledAt || null;
               const reasonText = d && typeof d["reason"] === "string" ? String(d["reason"]) : null;
 
+              const backTo = "/admin/events?type=" + encodeURIComponent(type || r.type);
+              const isRescheduleRequest = r.type === "ORDER_RESCHEDULE_REQUESTED";
+              const isNoShowReport = r.type === "ORDER_NO_SHOW_REPORTED";
               return (
                 <tr key={r.id} className="border-t bd-bd hover:bg-neutral-50">
                   <td className="px-4 py-3 bd-ink2 text-xs whitespace-nowrap"><DateTimeText value={r.createdAt} /></td>
@@ -140,12 +144,59 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
                   <td className="px-4 py-3 bd-ink2 text-xs">
                     <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>{r.data ? JSON.stringify(r.data, null, 2) : "-"}</pre>
                   </td>
+                  <td className="px-4 py-3 bd-ink2 text-xs">
+                    {isRescheduleRequest && r.orderId ? (
+                      <div className="grid gap-2">
+                        <form action="/api/admin/orders/reschedule-request/resolve" method="post" className="grid gap-2">
+                          <input type="hidden" name="orderId" value={r.orderId} />
+                          <input type="hidden" name="decision" value="APPROVE" />
+                          <input type="hidden" name="backTo" value={backTo} />
+                          <input name="scheduledAt" type="datetime-local" className="bd-input" />
+                          <input name="note" placeholder="Admin note (optional)" className="bd-input" />
+                          <button type="submit" className="bd-btn bd-btn-primary">Approve + reschedule</button>
+                        </form>
+                        <form action="/api/admin/orders/reschedule-request/resolve" method="post" className="grid gap-2">
+                          <input type="hidden" name="orderId" value={r.orderId} />
+                          <input type="hidden" name="decision" value="REJECT" />
+                          <input type="hidden" name="backTo" value={backTo} />
+                          <input name="note" placeholder="Admin note (optional)" className="bd-input" />
+                          <button type="submit" className="bd-btn bd-btn-ghost">Reject request</button>
+                        </form>
+                      </div>
+                    ) : null}
+
+                    {isNoShowReport && r.orderId ? (
+                      <div className="grid gap-2">
+                        <form action="/api/admin/orders/no-show-report/resolve" method="post" className="grid gap-2">
+                          <input type="hidden" name="orderId" value={r.orderId} />
+                          <input type="hidden" name="decision" value="REVIEWED_BUYER_AT_FAULT" />
+                          <input type="hidden" name="backTo" value={backTo} />
+                          <input name="note" placeholder="Admin note (optional)" className="bd-input" />
+                          <button type="submit" className="bd-btn bd-btn-primary">Buyer at fault</button>
+                        </form>
+                        <form action="/api/admin/orders/no-show-report/resolve" method="post" className="grid gap-2">
+                          <input type="hidden" name="orderId" value={r.orderId} />
+                          <input type="hidden" name="decision" value="REVIEWED_SELLER_AT_FAULT" />
+                          <input type="hidden" name="backTo" value={backTo} />
+                          <input name="note" placeholder="Admin note (optional)" className="bd-input" />
+                          <button type="submit" className="bd-btn bd-btn-primary">Seller at fault</button>
+                        </form>
+                        <form action="/api/admin/orders/no-show-report/resolve" method="post" className="grid gap-2">
+                          <input type="hidden" name="orderId" value={r.orderId} />
+                          <input type="hidden" name="decision" value="REVIEWED_INCONCLUSIVE" />
+                          <input type="hidden" name="backTo" value={backTo} />
+                          <input name="note" placeholder="Admin note (optional)" className="bd-input" />
+                          <button type="submit" className="bd-btn bd-btn-ghost">Inconclusive</button>
+                        </form>
+                      </div>
+                    ) : null}
+                  </td>
                 </tr>
               );
             })}
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={6} style={{ padding: 12, opacity: 0.7 }}>No events yet.</td>
+                <td colSpan={7} style={{ padding: 12, opacity: 0.7 }}>No events yet.</td>
               </tr>
             ) : null}
           </tbody>
