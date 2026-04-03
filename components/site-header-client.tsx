@@ -25,7 +25,7 @@ export default function SiteHeaderClient({
   const isAuthed = !!session?.user?.id;
 
   useEffect(() => {
-    function onDocMouseDown(e: MouseEvent) {
+    function onDocClick(e: MouseEvent) {
       if (!accountRef.current) { return; }
       const target = e.target as Node | null;
       if (target && !accountRef.current.contains(target)) {
@@ -39,11 +39,11 @@ export default function SiteHeaderClient({
       }
     }
 
-    document.addEventListener("mousedown", onDocMouseDown);
+    document.addEventListener("click", onDocClick);
     document.addEventListener("keydown", onDocKeyDown);
 
     return () => {
-      document.removeEventListener("mousedown", onDocMouseDown);
+      document.removeEventListener("click", onDocClick);
       document.removeEventListener("keydown", onDocKeyDown);
     };
   }, []);
@@ -112,7 +112,7 @@ export default function SiteHeaderClient({
               </button>
 
               {acctOpen ? (
-                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]" onClick={(e) => e.stopPropagation()}>
                   <Link href="/dashboard" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                     Dashboard
                   </Link>
@@ -159,7 +159,7 @@ export default function SiteHeaderClient({
               </button>
 
               {acctOpen ? (
-                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
+                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]" onClick={(e) => e.stopPropagation()}>
                   <Link href="/dashboard" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                     Dashboard
                   </Link>
