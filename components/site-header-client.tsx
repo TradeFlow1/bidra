@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { signOut } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import SearchBar from "./search-bar";
 
 type SessionLike = {
@@ -20,7 +19,6 @@ export default function SiteHeaderClient({
   notificationCount?: number;
 }) {
   const pathname = usePathname();
-  const router = useRouter();
   const [acctOpen, setAcctOpen] = useState(false);
   const accountRef = useRef<HTMLDivElement | null>(null);
 
@@ -69,15 +67,7 @@ export default function SiteHeaderClient({
   const searchInputClass = "w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm text-black outline-none placeholder:text-neutral-500 focus:border-black/20";
   const menuButtonClass = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
 
-  function go(href: string) {
-    setAcctOpen(false);
-    router.push(href);
-  }
 
-  async function handleSignOut() {
-    setAcctOpen(false);
-    await signOut({ callbackUrl: "/" });
-  }
 
   const badge = notificationCount > 0 ? (
     <span className="ml-2 inline-flex min-w-[20px] items-center justify-center rounded-full bg-[#2563EB] px-1.5 py-0.5 text-[11px] font-bold text-white">
@@ -123,22 +113,22 @@ export default function SiteHeaderClient({
 
               {acctOpen ? (
                 <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
-                  <Link href="/dashboard" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
+                  <Link href="/dashboard" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                     Dashboard
                   </Link>
-                  <Link href="/orders" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
+                  <Link href="/orders" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                     Orders
                   </Link>
-                  <Link href="/messages" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
+                  <Link href="/messages" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                     Messages
                   </Link>
-                  <Link href="/notifications" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
+                  <Link href="/notifications" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                     Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
                   </Link>
                   <div className="border-t border-black/10">
-                    <button type="button" className={menuButtonClass} onMouseDown={handleSignOut}>
+                    <Link href="/logout" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                       Sign out
-                    </button>
+                    </Link>
                   </div>
                 </div>
               ) : null}
@@ -170,22 +160,22 @@ export default function SiteHeaderClient({
 
               {acctOpen ? (
                 <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
-                  <Link href="/dashboard" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
+                  <Link href="/dashboard" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                     Dashboard
                   </Link>
-                  <Link href="/orders" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
+                  <Link href="/orders" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                     Orders
                   </Link>
-                  <Link href="/messages" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
+                  <Link href="/messages" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                     Messages
                   </Link>
-                  <Link href="/notifications" className={menuButtonClass} onMouseDown={() => setAcctOpen(false)}>
+                  <Link href="/notifications" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                     Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
                   </Link>
                   <div className="border-t border-black/10">
-                    <button type="button" className={menuButtonClass} onMouseDown={handleSignOut}>
+                    <Link href="/logout" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
                       Sign out
-                    </button>
+                    </Link>
                   </div>
                 </div>
               ) : null}
@@ -208,4 +198,3 @@ export default function SiteHeaderClient({
     </header>
   );
 }
-
