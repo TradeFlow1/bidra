@@ -32,7 +32,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     const sellerId = (order.listing as any) ? String(((order.listing as any).sellerId) || "") : "";
     if (!sellerId) return NextResponse.json({ ok: false, error: "Order listing is unavailable." }, { status: 409 });
 
-    // Seller-only: seller confirms pickup completed & payment received
+    // Seller-only: seller confirms the handover completed
     if (sellerId !== userId) {
       return NextResponse.json({ ok: false, error: "Only the seller can complete this order." }, { status: 403 });
     }

@@ -97,6 +97,24 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
       },
     });
 
+    try {
+      await prisma.adminEvent.create({
+        data: {
+          type: "ORDER_PICKUP_SCHEDULED",
+          userId: String(userId),
+          orderId: order.id,
+          data: {
+            listingId: order.listingId ?? null,
+            buyerId: (order as any).buyerId ?? null,
+            sellerId: (order.listing as any)?.sellerId ?? null,
+            scheduledAt: scheduledAt.toISOString(),
+          },
+        },
+      });
+    } catch (e) {
+      console.warn("[ADMIN_AUDIT] Failed to log ORDER_PICKUP_SCHEDULED", e);
+    }
+
     return NextResponse.json({ ok: true, order: updated });
   } catch (e: any) {
     return NextResponse.json({ ok: false, error: (e && e.message) ? e.message : "Failed to schedule pickup" }, { status: 500 });

@@ -43,6 +43,24 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     },
   });
 
+  try {
+    await prisma.adminEvent.create({
+      data: {
+        type: "ORDER_PICKUP_OPTION_SELECTED",
+        userId: String(user.id),
+        orderId: order.id,
+        data: {
+          listingId: order.listingId ?? null,
+          buyerId: order.buyerId ?? null,
+          sellerId: order.listing?.sellerId ?? null,
+          selectedAt: selectedAt,
+        },
+      },
+    });
+  } catch (e) {
+    console.warn("[ADMIN_AUDIT] Failed to log ORDER_PICKUP_OPTION_SELECTED", e);
+  }
+
     // Notify seller
   if (order.listing?.sellerId) {
     const seller = await prisma.user.findUnique({ where: { id: order.listing.sellerId } });
