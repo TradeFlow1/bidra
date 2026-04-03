@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import { auth } from "@/lib/auth";
@@ -33,13 +33,21 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
   }
 
   const q = String(searchParams?.q || "").trim().slice(0, 80);
+  const type = String(searchParams?.type || "").trim().slice(0, 80);
 
-  const where: Prisma.AdminEventWhereInput | undefined = q
+  const where: Prisma.AdminEventWhereInput | undefined = (q || type)
     ? {
-        OR: [
-          { type: { contains: q, mode: "insensitive" as const } },
-          { userId: { contains: q, mode: "insensitive" as const } },
-          { orderId: { contains: q, mode: "insensitive" as const } },
+        AND: [
+          type ? { type: type } : {},
+          q
+            ? {
+                OR: [
+                  { type: { contains: q, mode: "insensitive" as const } },
+                  { userId: { contains: q, mode: "insensitive" as const } },
+                  { orderId: { contains: q, mode: "insensitive" as const } },
+                ],
+              }
+            : {},
         ],
       }
     : undefined;
@@ -65,6 +73,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
       </p>
 
       <form method="get" style={{ marginTop: 10, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+        <input type="hidden" name="type" value={type} />
         <input
           name="q"
           defaultValue={q}
@@ -74,7 +83,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
         <button type="submit" style={{ padding: "8px 12px", borderRadius: 10, border: "1px solid rgba(0,0,0,0.2)", background: "white", fontWeight: 800 }}>
           Filter
         </button>
-        {q ? (
+        {q || type ? (
           <Link href="/admin/events" style={{ textDecoration: "underline", fontSize: 12 }}>Clear</Link>
         ) : null}
       </form>
