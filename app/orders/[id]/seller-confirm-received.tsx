@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 
@@ -35,7 +35,7 @@ export default function SellerConfirmReceived({ orderId }: { orderId: string }) 
       </button>
 
       <div className="mt-2 text-xs bd-ink2">
-        Only confirm once you have received payment and handed the item over. This marks the order as completed.
+        Only confirm once the item has been handed over as scheduled. This marks the order as completed.
       </div>
 
       {err ? <div className="mt-2 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div> : null}
