@@ -29,6 +29,15 @@ export async function POST(req: Request) {
   });
 
   if (!order) return NextResponse.redirect(new URL(backTo, req.url));
+ 
+  const existingReview = await prisma.adminEvent.findFirst({
+    where: {
+      orderId: order.id,
+      type: "ORDER_NO_SHOW_REPORT_REVIEWED"
+    },
+    select: { id: true },
+  });
+  if (existingReview) return NextResponse.redirect(new URL(backTo, req.url));
 
   await prisma.adminActionLog.create({
     data: {

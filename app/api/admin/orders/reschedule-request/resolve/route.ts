@@ -30,6 +30,15 @@ export async function POST(req: Request) {
 
   if (!order) return NextResponse.redirect(new URL(backTo, req.url));
   if (order.status !== OrderStatus.PICKUP_SCHEDULED) return NextResponse.redirect(new URL(backTo, req.url));
+ 
+  const existingReview = await prisma.adminEvent.findFirst({
+    where: {
+      orderId: order.id,
+      type: { in: ["ORDER_RESCHEDULE_REQUEST_APPROVED", "ORDER_RESCHEDULE_REQUEST_REJECTED"] },
+    },
+    select: { id: true },
+  });
+  if (existingReview) return NextResponse.redirect(new URL(backTo, req.url));
 
   let newScheduledAtIso: string | null = null;
   if (decision === "APPROVE") {
