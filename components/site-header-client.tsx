@@ -65,14 +65,38 @@ export default function SiteHeaderClient({
     : "inline-flex items-center justify-center rounded-xl border border-white/12 bg-white/8 px-4 py-2 text-[13px] font-medium text-white/92 transition hover:bg-white/12 hover:text-white";
 
   const searchInputClass = "w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm text-black outline-none placeholder:text-neutral-500 focus:border-black/20";
-  const menuButtonClass = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
-
-
+  const menuLinkClass = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
 
   const badge = notificationCount > 0 ? (
     <span className="ml-2 inline-flex min-w-[20px] items-center justify-center rounded-full bg-[#2563EB] px-1.5 py-0.5 text-[11px] font-bold text-white">
       {notificationCount > 99 ? "99+" : notificationCount}
     </span>
+  ) : null;
+
+  const accountMenu = acctOpen ? (
+    <div
+      className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
+      role="menu"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <Link href="/dashboard" className={menuLinkClass} onClick={() => setAcctOpen(false)}>
+        Dashboard
+      </Link>
+      <Link href="/orders" className={menuLinkClass} onClick={() => setAcctOpen(false)}>
+        Orders
+      </Link>
+      <Link href="/messages" className={menuLinkClass} onClick={() => setAcctOpen(false)}>
+        Messages
+      </Link>
+      <Link href="/notifications" className={menuLinkClass} onClick={() => setAcctOpen(false)}>
+        Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
+      </Link>
+      <div className="border-t border-black/10">
+        <Link href="/logout" className={menuLinkClass} onClick={() => setAcctOpen(false)}>
+          Sign out
+        </Link>
+      </div>
+    </div>
   ) : null;
 
   return (
@@ -102,7 +126,10 @@ export default function SiteHeaderClient({
             <div ref={accountRef} className="relative">
               <button
                 type="button"
-                onClick={() => setAcctOpen(!acctOpen)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setAcctOpen(!acctOpen);
+                }}
                 className={accountButtonClass}
                 aria-haspopup="menu"
                 aria-expanded={acctOpen ? "true" : "false"}
@@ -110,28 +137,7 @@ export default function SiteHeaderClient({
                 Account
                 {badge}
               </button>
-
-              {acctOpen ? (
-                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]" onClick={(e) => e.stopPropagation()}>
-                  <Link href="/dashboard" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
-                    Dashboard
-                  </Link>
-                  <Link href="/orders" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
-                    Orders
-                  </Link>
-                  <Link href="/messages" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
-                    Messages
-                  </Link>
-                  <Link href="/notifications" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
-                    Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
-                  </Link>
-                  <div className="border-t border-black/10">
-                    <Link href="/logout" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
-                      Sign out
-                    </Link>
-                  </div>
-                </div>
-              ) : null}
+              {accountMenu}
             </div>
           ) : (
             <div className="flex items-center gap-3">
@@ -149,7 +155,10 @@ export default function SiteHeaderClient({
             <div ref={accountRef} className="relative">
               <button
                 type="button"
-                onClick={() => setAcctOpen(!acctOpen)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setAcctOpen(!acctOpen);
+                }}
                 className={accountButtonClass}
                 aria-haspopup="menu"
                 aria-expanded={acctOpen ? "true" : "false"}
@@ -157,28 +166,7 @@ export default function SiteHeaderClient({
                 Account
                 {badge}
               </button>
-
-              {acctOpen ? (
-                <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]" onClick={(e) => e.stopPropagation()}>
-                  <Link href="/dashboard" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
-                    Dashboard
-                  </Link>
-                  <Link href="/orders" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
-                    Orders
-                  </Link>
-                  <Link href="/messages" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
-                    Messages
-                  </Link>
-                  <Link href="/notifications" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
-                    Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
-                  </Link>
-                  <div className="border-t border-black/10">
-                    <Link href="/logout" className={menuButtonClass} onClick={() => setAcctOpen(false)}>
-                      Sign out
-                    </Link>
-                  </div>
-                </div>
-              ) : null}
+              {accountMenu}
             </div>
           ) : (
             <Link href="/auth/login" className={navButtonClass("/auth/login")}>Sign in</Link>
