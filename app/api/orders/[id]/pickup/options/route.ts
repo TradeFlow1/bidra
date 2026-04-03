@@ -22,14 +22,37 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   const body = await req.json();
   const options = body ? body.options : null;
 
-  if (!options || !Array.isArray(options) || options.length === 0) {
-    return NextResponse.json({ error: "Invalid options" }, { status: 400 });
+  if (!options || !Array.isArray(options) || options.length !== 3) {
+    return NextResponse.json({ ok: false, error: "Provide exactly 3 pickup options." }, { status: 400 });
   }
 
+  const normalized = options.map(function (v: unknown) { return String(v || "").trim(); });
+  if (normalized.some(function (v: string) { return !v; })) {
+    return NextResponse.json({ ok: false, error: "Pickup options cannot be blank." }, { status: 400 });
+  }
+
+  const unique = Array.from(new Set(normalized));
+  if (unique.length !== 3) {
+    return NextResponse.json({ ok: false, error: "Pickup options must be different." }, { status: 400 });
+  }
+
+  const times = unique.map(function (v: string) { return new Date(v).getTime(); });
+  const now = Date.now();
+
+  if (times.some(function (t: number) { return !Number.isFinite(t) || t <= now; })) {
+    return NextResponse.json({ ok: false, error: "Pickup options must be in the future." }, { status: 400 });
+  }
+
+  const sorted = times.slice().sort(function (a: number, b: number) { return a - b; });
+  for (let i = 1; i < sorted.length; i += 1) {
+    if ((sorted[i] - sorted[i - 1]) < (60 * 60 * 1000)) {
+      return NextResponse.json({ ok: false, error: "Leave at least 1 hour between pickup options." }, { status: 400 });
+    }
+  }
   const updated = await prisma.order.update({
     where: { id: order.id },
     data: {
-      pickupOptions: options,
+      pickupOptions: unique,
       pickupOptionsSentAt: new Date(),
       status: "PICKUP_REQUIRED",
     },

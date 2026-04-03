@@ -28,6 +28,24 @@ export default function SellerPickupOptionsForm({ orderId }: { orderId: string }
         throw new Error("Please provide all 3 pickup options.");
       }
 
+      const uniqueOptions = Array.from(new Set(options));
+      if (uniqueOptions.length !== 3) {
+        throw new Error("Pickup options must be different.");
+      }
+
+      const times = uniqueOptions.map(function (v) { return new Date(v).getTime(); });
+      const now = Date.now();
+
+      if (times.some(function (t) { return !Number.isFinite(t) || t <= now; })) {
+        throw new Error("Pickup options must be in the future.");
+      }
+
+      const sorted = times.slice().sort(function (a, b) { return a - b; });
+      for (let j = 1; j < sorted.length; j += 1) {
+        if ((sorted[j] - sorted[j - 1]) < (60 * 60 * 1000)) {
+          throw new Error("Leave at least 1 hour between pickup options.");
+        }
+      }
       const res = await fetch(`/api/orders/${orderId}/pickup/options`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
