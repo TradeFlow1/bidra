@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 
-const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED", "SOLD", "SUSPENDED", "DELETED"] as const;
+const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
 
 function sanitizeDescription(input: string): string {
   const raw = String(input || "");
