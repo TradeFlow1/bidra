@@ -67,6 +67,10 @@ export async function POST(req: Request) {
   if (amountCents <= 0) {
     return NextResponse.json({ ok: false, error: "Offer must be greater than 0." }, { status: 400 });
   }
+
+  if (highest > 0 && amountCents <= highest) {
+    return NextResponse.json({ ok: false, error: "Offer must be higher than the current top offer." }, { status: 400 });
+  }
   try {
     const offer = await prisma.offer.create({
       data: {
