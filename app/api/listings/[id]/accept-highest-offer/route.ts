@@ -38,8 +38,8 @@ export async function POST(
       return NextResponse.json({ ok: false }, { status: 403 });
     }
 
-    if (listing.status !== "ACTIVE") {
-      return NextResponse.json({ ok: false }, { status: 409 });
+    if (listing.status !== "ENDED") {
+      return NextResponse.json({ ok: false, error: "Offers can only be accepted after the timed listing ends." }, { status: 409 });
     }
 
     const offer = listing.offers[0];
@@ -49,7 +49,7 @@ export async function POST(
 
     const result = await prisma.$transaction(async function (tx) {
       const updated = await tx.listing.updateMany({
-        where: { id: listingId, status: "ACTIVE" },
+        where: { id: listingId, status: "ENDED" },
         data: { status: "SOLD" },
       });
 

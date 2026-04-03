@@ -5,7 +5,6 @@ import { sendNewTopOfferEmail } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
-const MIN_INCREMENT_CENTS = 1000;
 
 export async function POST(req: Request) {
   const gate = await requireAdult();
@@ -64,12 +63,10 @@ export async function POST(req: Request) {
   }
 
   const highest = listing.offers && listing.offers.length ? listing.offers[0].amount : 0;
-  const minNext = highest > 0 ? (highest + MIN_INCREMENT_CENTS) : MIN_INCREMENT_CENTS;
 
-  if (amountCents < minNext) {
-    return NextResponse.json({ ok: false, error: "Offer is too low." }, { status: 400 });
+  if (amountCents <= 0) {
+    return NextResponse.json({ ok: false, error: "Offer must be greater than 0." }, { status: 400 });
   }
-
   try {
     const offer = await prisma.offer.create({
       data: {
