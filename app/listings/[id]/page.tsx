@@ -1,4 +1,4 @@
-﻿import { labelCategory, labelCondition } from "@/lib/labels";
+import { labelCategory, labelCondition } from "@/lib/labels";
 import Link from "next/link";
 import { ClickableLink } from "@/components/clickable-link";
 import { getServerSession } from "next-auth";
@@ -72,7 +72,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
       <main className="bd-container py-6 pb-14">
         <div className="bd-card p-6 space-y-3">
           <div className="text-lg font-semibold">Listing not found.</div>
-          <Link href="/listings" className="bd-btn bd-btn-ghost">â† Back to listings</Link>
+          <Link href="/listings" className="bd-btn bd-btn-ghost">Back to listings</Link>
         </div>
       </main>
     );
@@ -98,7 +98,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
         <main className="bd-container py-6 pb-14">
           <div className="bd-card p-6 space-y-3">
             <div className="text-lg font-semibold">This listing is not available.</div>
-            <Link href="/listings" className="bd-btn bd-btn-ghost">â† Back to listings</Link>
+          <Link href="/listings" className="bd-btn bd-btn-ghost">Back to listings</Link>
           </div>
         </main>
       );
@@ -119,41 +119,9 @@ export default async function ListingPage({ params }: { params: { id: string } }
   const isBuyNow = listing.type === "BUY_NOW";
   const isEnded = listing.status !== "ACTIVE";
 
-  const minOfferBase = highestOfferCents > 0 ? (highestOfferCents + 1000) : 1000;
-  const minOfferCents = roundUpToInc(minOfferBase, 1000);
+  const minOfferCents = highestOfferCents > 0 ? (highestOfferCents + 1) : 1;
 
-  const ladderRows = offers.reduce(function (acc: Record<string, OfferRow>, b: OfferRow) {
-    const id = String(b?.buyerId ?? "");
-    if (!id) return acc;
-
-    const cur = acc[id];
-    if (!cur) {
-      acc[id] = b;
-    } else {
-      const curAmt = Number(cur.amount ?? 0);
-      const nextAmt = Number(b.amount ?? 0);
-      const curT = new Date(cur.createdAt ?? 0).getTime();
-      const nextT = new Date(b.createdAt ?? 0).getTime();
-      if (nextAmt > curAmt || (nextAmt === curAmt && nextT > curT)) {
-        acc[id] = b;
-      }
-    }
-
-    return acc;
-  }, {} as Record<string, OfferRow>);
-
-  const ladderTop = Object.values(ladderRows)
-    .sort(function (a: OfferRow, b: OfferRow) {
-      const da = Number(a?.amount ?? 0);
-      const db = Number(b?.amount ?? 0);
-      if (db !== da) return db - da;
-      const ta = new Date(a?.createdAt ?? 0).getTime();
-      const tb = new Date(b?.createdAt ?? 0).getTime();
-      return tb - ta;
-    })
-    .slice(0, 6);
-
-  const topBuyerId = ladderTop.length ? String(ladderTop[0]?.buyerId ?? "") : null;
+  const topBuyerId = offers.length ? String(offers[0]?.buyerId ?? "") : null;
   const viewerHasAnyOffer = viewerId ? offers.some(function (b: OfferRow) { return String(b?.buyerId ?? "") === String(viewerId); }) : false;
 
   const offerState: "NONE" | "TOP" | "OUTBID" =
@@ -188,7 +156,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
     <main className="bd-container py-6 pb-14">
       <div className="bd-card p-5 max-w-6xl mx-auto">
         <div className="space-y-3">
-          <Link href="/listings" className="bd-btn bd-btn-ghost">â† Back</Link>
+          <Link href="/listings" className="bd-btn bd-btn-ghost">Back</Link>
           <h1 className="text-2xl font-bold">{String(listing.title ?? "")}</h1>
         </div>
 
@@ -267,22 +235,6 @@ export default async function ListingPage({ params }: { params: { id: string } }
                     </div>
                     <div className="text-xs text-neutral-600">Highest offer</div>
 
-                    {ladderTop.length ? (
-                      <div className="pt-3">
-                        <div className="text-xs text-neutral-600">Offer ladder</div>
-                        <div className="mt-2 space-y-1">
-                          {ladderTop.map(function (b, idx) {
-                            const isViewer = !!viewerId && String(b?.buyerId ?? "") === String(viewerId);
-                            return (
-                              <div key={`${String(b?.buyerId ?? "")}-${String(b?.amount ?? 0)}-${idx}`} className={`flex items-center justify-between text-xs rounded-lg px-2 py-1 ${isViewer ? "bg-[var(--bidra-link)]/10" : ""}`}>
-                                <div className="text-neutral-600">{isViewer ? "You" : `#${idx + 1}`}</div>
-                                <div className="font-semibold text-neutral-900">{formatMoney(Number(b?.amount ?? 0))}</div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ) : null}
 
                     <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
                       <div className="text-neutral-600">Offers</div>
