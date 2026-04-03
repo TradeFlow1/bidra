@@ -1,4 +1,4 @@
-﻿export default function HowItWorksPage() {
+export default function HowItWorksPage() {
   return (
     <main className="mx-auto w-full max-w-4xl px-4 py-10">
       <h1 className="text-3xl font-semibold tracking-tight">How Bidra works</h1>
@@ -62,7 +62,7 @@
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
         <h2 className="text-xl font-semibold">4) Paying and completing the order</h2>
         <p className="mt-3 text-black/75">
-          For Buy Now purchases, pickup is scheduled in-app first. After pickup is scheduled, you can confirm payment in the app.
+          For Buy Now purchases, pickup is scheduled in-app first. After Buy Now, the sale is binding and pickup must be scheduled in the app. Complete the order after the handover is finished.
           Always follow the on-screen flow for your order.
         </p>
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">

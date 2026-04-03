@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { signOut } from "next-auth/react";
@@ -123,16 +123,16 @@ export default function SiteHeaderClient({
 
               {acctOpen ? (
                 <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
-                  <button type="button" className={menuButtonClass} onClick={() => go("/dashboard")}>
+                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/dashboard")}>
                     Dashboard
                   </button>
-                  <button type="button" className={menuButtonClass} onClick={() => go("/orders")}>
+                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/orders")}>
                     Orders
                   </button>
-                  <button type="button" className={menuButtonClass} onClick={() => go("/messages")}>
+                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/messages")}>
                     Messages
                   </button>
-                  <button type="button" className={menuButtonClass} onClick={() => go("/notifications")}>
+                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/notifications")}>
                     Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
                   </button>
                   <div className="border-t border-black/10">
@@ -170,16 +170,16 @@ export default function SiteHeaderClient({
 
               {acctOpen ? (
                 <div className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
-                  <button type="button" className={menuButtonClass} onClick={() => go("/dashboard")}>
+                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/dashboard")}>
                     Dashboard
                   </button>
-                  <button type="button" className={menuButtonClass} onClick={() => go("/orders")}>
+                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/orders")}>
                     Orders
                   </button>
-                  <button type="button" className={menuButtonClass} onClick={() => go("/messages")}>
+                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/messages")}>
                     Messages
                   </button>
-                  <button type="button" className={menuButtonClass} onClick={() => go("/notifications")}>
+                  <button type="button" className={menuButtonClass} onMouseDown={() => go("/notifications")}>
                     Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
                   </button>
                   <div className="border-t border-black/10">
@@ -208,3 +208,4 @@ export default function SiteHeaderClient({
     </header>
   );
 }
+

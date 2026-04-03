@@ -131,7 +131,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                 <div className="pt-2">
                   <SafetyCallout title="Safety">
                     <ul className="list-disc pl-5">
-                      <li>Keep communication on Bidra via Messages.</li>
+                      <li>Keep communication on Bidra via Messages for clarification only.</li>
                       <li>Wait for the seller to provide pickup options, then choose one in-app.</li>
                       <li>If anything feels suspicious, stop and report it.</li>
                     </ul>
@@ -185,8 +185,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                       {order.status === "PICKUP_REQUIRED" ? (
                         <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
                           <li><b>Pickup options</b> should be provided by the seller.</li>
-                          <li>The buyer then chooses one option and the schedule is locked.</li>
-                          <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+                          <li>The buyer then chooses one option and the schedule is locked. Messages do not override the scheduled flow.</li>
+                          <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link> for clarification only.</li>
                         </ul>
                       ) : order.status === "PICKUP_SCHEDULED" ? (
                         <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
@@ -201,14 +201,14 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                         </ul>
                       ) : (
                         <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
-                          <li>Check the order status above for the current step.</li>
-                          <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+                          <li>Check the order status above for the current step. Follow the scheduled pickup flow shown in the order.</li>
+                          <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link> for clarification only.</li>
                         </ul>
                       )}
                     </div>
                   </Card>
 
-                  This order is binding. Bidra records confirmations and scheduling, but does not process payments or guarantee outcomes.
+                  This order is binding. Bidra records confirmations and scheduling. The scheduled pickup flow controls the order, and messages do not override it.
                 </div>
               </div>
             </div>
