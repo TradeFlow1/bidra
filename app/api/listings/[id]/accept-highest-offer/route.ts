@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { OrderStatus } from "@prisma/client";
 import { auth } from "@/lib/auth";
+import { requireAdult } from "@/lib/require-adult";
 
 export async function POST(
   _req: Request,
@@ -9,11 +10,16 @@ export async function POST(
 ) {
   try {
     const session = await auth();
-    const me = session?.user as unknown as { id?: string } | undefined;
-
-    if (!me || !me.id) {
-      return NextResponse.json({ ok: false }, { status: 401 });
+    if (!session?.user?.id) {
+      return NextResponse.json({ ok: false, error: "Not authenticated" }, { status: 401 });
     }
+
+    const adult = await requireAdult(session);
+    if (!adult.ok) {
+      return NextResponse.json({ ok: false, error: String(adult.reason || "Restricted") }, { status: adult.status || 403 });
+    }
+
+    const me = session.user as unknown as { id?: string } | undefined;
 
     const listingId = String(params?.id || "").trim();
     if (!listingId) {
@@ -34,7 +40,7 @@ export async function POST(
       return NextResponse.json({ ok: false }, { status: 404 });
     }
 
-    if (listing.sellerId !== me.id) {
+    if (listing.sellerId !== me?.id) {
       return NextResponse.json({ ok: false }, { status: 403 });
     }
 
