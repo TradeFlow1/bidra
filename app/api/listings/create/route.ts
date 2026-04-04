@@ -104,7 +104,11 @@ export async function POST(req: Request) {
     const location = normalizeLocation(String(body.location || "").trim() || defaultLocation);
     const type = normalizeType(body.type);
 
-    const priceIn = toIntOrNull(body.price);
+    const startingBidIn = toIntOrNull(body.startingBid);
+    const reservePriceIn = toIntOrNull(body.reservePrice);
+    const durationDaysIn = toIntOrNull(body.durationDays);
+    const rawPriceIn = toIntOrNull(body.price);
+    const priceIn = type === "OFFERABLE" ? startingBidIn : rawPriceIn;
     const buyNowPriceIn = toIntOrNull(body.buyNowPrice);
 
     const imagesRaw = Array.isArray(body.images) ? body.images : [];
@@ -115,9 +119,20 @@ export async function POST(req: Request) {
     if (!(FULL_CATEGORIES as readonly string[]).includes(category)) return NextResponse.json({ error: "Invalid category." }, { status: 400 });
     if (!location) return NextResponse.json({ error: "Location is required. Please set your Account location (postcode + suburb + state) and try again." }, { status: 400 });
     if (!isValidAuLocation(location)) return NextResponse.json({ error: "Invalid location. Use format like: 4000 Brisbane, QLD (postcode + suburb + state)." }, { status: 400 });
-    if (priceIn === null || Number.isNaN(priceIn) || priceIn <= 0) return NextResponse.json({ error: "Price must be greater than 0." }, { status: 400 });
-    if (Number.isNaN(buyNowPriceIn)) return NextResponse.json({ error: "Buy Now must be a number or blank." }, { status: 400 });
     if (images.length > 10) return NextResponse.json({ error: "Too many images (max 10)." }, { status: 400 });
+
+    if (type === "BUY_NOW") {
+      if (priceIn === null || Number.isNaN(priceIn) || priceIn <= 0) return NextResponse.json({ error: "Price must be greater than 0." }, { status: 400 });
+    } else {
+      if (priceIn === null || Number.isNaN(priceIn) || priceIn <= 0) return NextResponse.json({ error: "Starting offer must be greater than 0." }, { status: 400 });
+      if (Number.isNaN(reservePriceIn)) return NextResponse.json({ error: "Reserve must be a number or blank." }, { status: 400 });
+      if (reservePriceIn !== null) return NextResponse.json({ error: "Reserve is not supported in this launch version." }, { status: 400 });
+      if (durationDaysIn === null || Number.isNaN(durationDaysIn) || !(durationDaysIn === 3 || durationDaysIn === 5 || durationDaysIn === 7)) return NextResponse.json({ error: "Timed offers duration must be 3, 5, or 7 days." }, { status: 400 });
+    }
+
+    if (Number.isNaN(buyNowPriceIn)) return NextResponse.json({ error: "Buy Now must be a number or blank." }, { status: 400 });
+    if (type === "OFFERABLE" && buyNowPriceIn !== null && buyNowPriceIn <= 0) return NextResponse.json({ error: "Buy Now must be greater than 0 (or blank)." }, { status: 400 });
+    if (type === "OFFERABLE" && buyNowPriceIn !== null && buyNowPriceIn < priceIn) return NextResponse.json({ error: "Buy Now must be at least the starting offer." }, { status: 400 });
 
     if (images.some(function (u: string) {
       const s = String(u || "").toLowerCase();
@@ -161,7 +176,7 @@ export async function POST(req: Request) {
         category: category,
         condition: condition,
         location: location,
-        price: priceIn,
+        price: priceIn as number,
         images: images,
         buyNowPrice: buyNowToSave,
         buyNowEnabled: type === "BUY_NOW" ? true : (buyNowToSave !== null),
