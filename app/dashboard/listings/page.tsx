@@ -1,4 +1,4 @@
-﻿import { labelCategory } from "@/lib/labels";
+import { labelCategory } from "@/lib/labels";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import type { ListingStatus } from "@prisma/client";
@@ -65,7 +65,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
       const statusUpper = String(status || "").toUpperCase();
 // V2 enforcement lock: sellers must not set SOLD/COMPLETE directly (enforcement routes only).
 // Keep seller-controlled transitions minimal.
-const allowed: Record<string, boolean> = { ACTIVE: true, SUSPENDED: true, DELETED: true };
+const allowed: Record<string, boolean> = { DRAFT: true, ACTIVE: true, ENDED: true };
 if (!allowed[statusUpper]) {
   throw new Error("Invalid status");
 }
@@ -99,7 +99,7 @@ await prisma.listing.update({
 
           {err ? (
             <div className="bd-card p-4 border border-red-200 bg-red-50/50">
-              <div className="text-sm font-extrabold bd-ink">Couldn’t update</div>
+              <div className="text-sm font-extrabold bd-ink">Couldn't update</div>
               <div className="mt-1 text-sm bd-ink2">{err}</div>
             </div>
           ) : null}
@@ -112,7 +112,7 @@ await prisma.listing.update({
               >
                 <div className="min-w-0">
                   <div className="text-sm bd-ink2">
-                    {labelCategory(l.category)} • {l.location}
+                    {labelCategory(l.category)} - {l.location}
                   </div>
 
                   <Link
@@ -137,15 +137,15 @@ await prisma.listing.update({
                     View
                   </Link>
                   <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-primary text-center">
-                    Manage
+                    Edit
                   </Link>
                   {String(l.status) === "ACTIVE" ? (
                     <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-ghost text-center">
-                      End
+                      Edit status
                     </Link>
                   ) : null}
                   <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-ghost text-center">
-                    Delete
+                    Manage
                   </Link>
                 </div>
               </Card>

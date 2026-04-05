@@ -1,10 +1,10 @@
-﻿export default function TermsPage() {
+export default function TermsPage() {
   return (
     <main className="mx-auto w-full max-w-4xl px-4 py-10">
       <h1 className="text-3xl font-semibold tracking-tight">Terms</h1>
       <p className="mt-3 text-base text-black/70">
         These Terms govern your use of Bidra. By accessing or using Bidra, you agree to these Terms.
-        Bidra is a marketplace platform only — we are not the seller of items, not a payment provider, and not an auctioneer.
+        Bidra is a marketplace platform only ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â we are not the seller of items, not a payment provider, and not an auctioneer.
       </p>
 
       <section className="mt-8 rounded-2xl border border-black/10 bg-white p-6">
@@ -14,7 +14,7 @@
             <strong>18+ accounts only.</strong> Under 18s may browse publicly but may not create accounts, list items, place offers, message, or transact.
           </li>
           <li>You must provide accurate information and keep your account details reasonably current (including your location).</li>
-          <li>You’re responsible for keeping your login details secure and for all activity on your account.</li>
+          <li>YouÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢re responsible for keeping your login details secure and for all activity on your account.</li>
           <li>We may restrict or suspend accounts to protect the marketplace, comply with law, or investigate abuse.</li>
         </ul>
       </section>
@@ -50,7 +50,7 @@
             <h3 className="font-semibold">Buy Now (binding sale)</h3>
             <ul className="mt-2 list-disc pl-5 space-y-1">
               <li>When a seller enables Buy Now, they pre-authorise an immediate sale at the displayed price.</li>
-              <li>When a buyer clicks Buy Now, the buyer commits to complete payment and follow the order flow.</li>
+              <li>When a buyer clicks Buy Now, the buyer commits to complete the order and follow the scheduled pickup flow.</li>
               <li>Buy Now is designed for faster completion and clearer expectations.</li>
             </ul>
           </div>
@@ -71,11 +71,11 @@
       </section>
 
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
-        <h2 className="text-xl font-semibold">5) Orders, payments, and completion</h2>
+        <h2 className="text-xl font-semibold">5) Orders, pickup scheduling, and completion</h2>
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
           <li>When an order exists, it represents a binding commitment under the relevant flow (e.g., Buy Now).</li>
-          <li>Bidra may show payment instructions and confirmation steps on an order, but <strong>Bidra does not hold funds</strong> and <strong>does not guarantee outcomes</strong>.</li>
-          <li>Buyers and sellers should verify payment and complete handover carefully and keep records (messages, photos).</li>
+          <li>Bidra shows order status, pickup scheduling, and completion steps in-app, but <strong>Bidra does not hold funds</strong> and <strong>does not guarantee outcomes</strong>.</li>
+          <li>Buyers and sellers should follow the in-app order flow, complete pickup carefully, and keep records (messages, photos).</li>
           <li>Disputes are usually resolved between buyer and seller. Bidra may take platform actions (e.g., restrictions) where misuse or fraud is detected.</li>
         </ul>
       </section>
@@ -100,7 +100,7 @@
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
         <h2 className="text-xl font-semibold">8) Liability and service availability</h2>
         <p className="mt-3 text-black/75">
-          Bidra is provided “as is” to the extent permitted by law. We aim to keep the service reliable, but outages and errors can occur.
+          Bidra is provided ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œas isÃƒÂ¢Ã¢â€šÂ¬Ã‚Â to the extent permitted by law. We aim to keep the service reliable, but outages and errors can occur.
           Nothing in these Terms limits rights you may have under Australian Consumer Law where applicable.
         </p>
       </section>
@@ -108,7 +108,7 @@
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
         <h2 className="text-xl font-semibold">9) Changes to these Terms</h2>
         <p className="mt-3 text-black/75">
-          We may update these Terms from time to time. If changes are material, we’ll take reasonable steps to notify users.
+          We may update these Terms from time to time. If changes are material, weÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ll take reasonable steps to notify users.
         </p>
       </section>
 

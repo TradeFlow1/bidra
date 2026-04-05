@@ -1,4 +1,4 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Link from "next/link";
@@ -53,7 +53,7 @@ export default async function FeedbackPage({
               <h1 className="text-2xl font-extrabold tracking-tight">Leave feedback</h1>
               <p className="mt-2 text-black/70">Order not found.</p>
               <div className="mt-5">
-                <Link className="underline font-semibold" href="/account">
+                <Link className="bd-btn bd-btn-ghost text-center" href="/account">
                   Back to My account
                 </Link>
               </div>
@@ -76,7 +76,7 @@ export default async function FeedbackPage({
               <h1 className="text-2xl font-extrabold tracking-tight">Leave feedback</h1>
               <p className="mt-2 text-black/70">You do not have access to this order.</p>
               <div className="mt-5">
-                <Link className="underline font-semibold" href="/account">
+                <Link className="bd-btn bd-btn-ghost text-center" href="/account">
                   Back to My account
                 </Link>
               </div>
@@ -104,10 +104,10 @@ export default async function FeedbackPage({
             </div>
 
             <nav className="flex flex-wrap gap-3">
-              <Link className="underline font-semibold" href="/account">
+              <Link className="bd-btn bd-btn-ghost text-center" href="/account">
                 My account
               </Link>
-              <Link className="underline font-semibold" href={`/listings/${order.listing.id}`}>
+              <Link className="bd-btn bd-btn-ghost text-center" href={`/listings/${order.listing.id}`}>
                 View listing
               </Link>
             </nav>

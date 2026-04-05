@@ -1,0 +1,116 @@
+
+----- lines 25..40 -----
+    <EditListingClient
+      listing={{
+        id: listing.id,
+        title: listing.title,
+        description: listing.description || "",
+        category: listing.category || "General",
+        condition: listing.condition || "Used",
+        location: listing.location || "",
+        priceDollars: Number(listing.price || 0) / 100,
+        images,
+        status: String((listing as unknown as { status?: unknown }).status || "DRAFT"),
+
+        // Kevin timed-offers support (seller-controlled, late-stage only)
+        type: String((listing as unknown as { type?: unknown }).type || "BUY_NOW"),
+        endsAt: (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null,
+        buyNowPriceDollars: (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice != null ? Number((listing as unknown as { buyNowPrice?: unknown }).buyNowPrice as number) / 100 : null,
+
+----- lines 26..41 -----
+      listing={{
+        id: listing.id,
+        title: listing.title,
+        description: listing.description || "",
+        category: listing.category || "General",
+        condition: listing.condition || "Used",
+        location: listing.location || "",
+        priceDollars: Number(listing.price || 0) / 100,
+        images,
+        status: String((listing as unknown as { status?: unknown }).status || "DRAFT"),
+
+        // Kevin timed-offers support (seller-controlled, late-stage only)
+        type: String((listing as unknown as { type?: unknown }).type || "BUY_NOW"),
+        endsAt: (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null,
+        buyNowPriceDollars: (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice != null ? Number((listing as unknown as { buyNowPrice?: unknown }).buyNowPrice as number) / 100 : null,
+        highestOfferCents,
+
+----- lines 27..42 -----
+        id: listing.id,
+        title: listing.title,
+        description: listing.description || "",
+        category: listing.category || "General",
+        condition: listing.condition || "Used",
+        location: listing.location || "",
+        priceDollars: Number(listing.price || 0) / 100,
+        images,
+        status: String((listing as unknown as { status?: unknown }).status || "DRAFT"),
+
+        // Kevin timed-offers support (seller-controlled, late-stage only)
+        type: String((listing as unknown as { type?: unknown }).type || "BUY_NOW"),
+        endsAt: (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null,
+        buyNowPriceDollars: (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice != null ? Number((listing as unknown as { buyNowPrice?: unknown }).buyNowPrice as number) / 100 : null,
+        highestOfferCents,
+      }}
+
+----- lines 32..46 -----
+        location: listing.location || "",
+        priceDollars: Number(listing.price || 0) / 100,
+        images,
+        status: String((listing as unknown as { status?: unknown }).status || "DRAFT"),
+
+        // Kevin timed-offers support (seller-controlled, late-stage only)
+        type: String((listing as unknown as { type?: unknown }).type || "BUY_NOW"),
+        endsAt: (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null,
+        buyNowPriceDollars: (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice != null ? Number((listing as unknown as { buyNowPrice?: unknown }).buyNowPrice as number) / 100 : null,
+        highestOfferCents,
+      }}
+    />
+  );
+}
+
+
+----- lines 33..46 -----
+        priceDollars: Number(listing.price || 0) / 100,
+        images,
+        status: String((listing as unknown as { status?: unknown }).status || "DRAFT"),
+
+        // Kevin timed-offers support (seller-controlled, late-stage only)
+        type: String((listing as unknown as { type?: unknown }).type || "BUY_NOW"),
+        endsAt: (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null,
+        buyNowPriceDollars: (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice != null ? Number((listing as unknown as { buyNowPrice?: unknown }).buyNowPrice as number) / 100 : null,
+        highestOfferCents,
+      }}
+    />
+  );
+}
+
+
+----- lines 34..46 -----
+        images,
+        status: String((listing as unknown as { status?: unknown }).status || "DRAFT"),
+
+        // Kevin timed-offers support (seller-controlled, late-stage only)
+        type: String((listing as unknown as { type?: unknown }).type || "BUY_NOW"),
+        endsAt: (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null,
+        buyNowPriceDollars: (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice != null ? Number((listing as unknown as { buyNowPrice?: unknown }).buyNowPrice as number) / 100 : null,
+        highestOfferCents,
+      }}
+    />
+  );
+}
+
+
+----- lines 35..46 -----
+        status: String((listing as unknown as { status?: unknown }).status || "DRAFT"),
+
+        // Kevin timed-offers support (seller-controlled, late-stage only)
+        type: String((listing as unknown as { type?: unknown }).type || "BUY_NOW"),
+        endsAt: (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null,
+        buyNowPriceDollars: (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice != null ? Number((listing as unknown as { buyNowPrice?: unknown }).buyNowPrice as number) / 100 : null,
+        highestOfferCents,
+      }}
+    />
+  );
+}
+

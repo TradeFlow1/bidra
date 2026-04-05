@@ -1,0 +1,217 @@
+.next\standalone\node_modules\.prisma\client\schema.prisma:304: model ListingQuestion {
+.next\standalone\node_modules\.prisma\client\schema.prisma:319: model ListingAnswer {
+.next\standalone\node_modules\.prisma\client\schema.prisma:375: enum ListingStatus {
+.next\standalone\node_modules\.prisma\client\schema.prisma:78: model Listing {
+.next\standalone\node_modules\.prisma\client\schema.prisma:84: status             ListingStatus     @default(DRAFT)
+.next\standalone\node_modules\.prisma\client\schema.prisma:95: previousStatus     ListingStatus?
+.next\types\app\api\admin\listings\set-status\route.ts:1: // File: C:\dev\bidra-main\app\api\admin\listings\set-status\route.ts
+.next\types\app\api\admin\listings\set-status\route.ts:2: import * as entry from '../../../../../../../app/api/admin/listings/set-status/route.js'
+.next\types\app\api\admin\listings\set-status\route.ts:5: type TEntry = typeof import('../../../../../../../app/api/admin/listings/set-status/route.js')
+app\api\admin\listings\set-status\route.ts:25: const nextStatus: ListingStatus = status;
+app\api\admin\listings\set-status\route.ts:4: import type { ListingStatus } from "@prisma/client";
+app\api\admin\listings\unsuspend\route.ts:22: data: { status: "ACTIVE" },
+app\api\admin\listings\unsuspend\route.ts:34: meta: { toStatus: "ACTIVE" },
+app\api\admin\users\strike\route.ts:4: import { ListingStatus, PolicyStrikeAction } from "@prisma/client";
+app\api\admin\users\strike\route.ts:95: where: { sellerId: userId, status: ListingStatus.ACTIVE },
+app\api\admin\users\strike\route.ts:96: data: { status: ListingStatus.SUSPENDED },
+app\api\listings\create\route.ts:169: status: "ACTIVE",
+app\api\listings\relist\route.ts:122: data: { status: "ACTIVE", previousStatus: listing.status },
+app\api\listings\route.ts:110: status: "DRAFT",
+app\api\offers\place\route.ts:54: if (listing.status !== "ACTIVE") {
+app\dashboard\listings\page.tsx:4: import type { ListingStatus } from "@prisma/client";
+app\dashboard\listings\page.tsx:72: const nextStatus: ListingStatus = statusUpper as ListingStatus;
+app\dashboard\page.tsx:95: where: { sellerId: me, status: "ACTIVE" },
+app\listings\page.tsx:71: and.push({ status: "ACTIVE" });
+app\watchlist\page.tsx:97: const active = items.filter((w) => w.listing?.status === "ACTIVE");
+app\watchlist\page.tsx:98: const inactive = items.filter((w) => w.listing?.status !== "ACTIVE");
+lib\policy-strike.ts:2: import { ListingStatus, PolicyStrikeAction } from "@prisma/client";
+lib\policy-strike.ts:51: where: { sellerId: userId, status: ListingStatus.ACTIVE },
+lib\policy-strike.ts:52: data: { status: ListingStatus.SUSPENDED },
+node_modules\.prisma\client\index.d.ts:127: export const ListingStatus: {
+node_modules\.prisma\client\index.d.ts:136: export type ListingStatus = (typeof ListingStatus)[keyof typeof ListingStatus]
+node_modules\.prisma\client\index.d.ts:191: export type ListingStatus = $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:193: export const ListingStatus: typeof $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:20164: * Model ListingQuestion
+node_modules\.prisma\client\index.d.ts:21273: * Model ListingAnswer
+node_modules\.prisma\client\index.d.ts:24976: * Reference to a field of type 'ListingStatus'
+node_modules\.prisma\client\index.d.ts:24978: export type EnumListingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingStatus'>
+node_modules\.prisma\client\index.d.ts:24983: * Reference to a field of type 'ListingStatus[]'
+node_modules\.prisma\client\index.d.ts:24985: export type ListEnumListingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ListingStatus[]'>
+node_modules\.prisma\client\index.d.ts:25408: status?: EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:25419: previousStatus?: EnumListingStatusNullableFilter<"Listing"> | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:25475: status?: EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:25486: previousStatus?: EnumListingStatusNullableFilter<"Listing"> | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:25537: status?: EnumListingStatusWithAggregatesFilter<"Listing"> | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:25548: previousStatus?: EnumListingStatusNullableWithAggregatesFilter<"Listing"> | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:27: * Model Listing
+node_modules\.prisma\client\index.d.ts:27097: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:27107: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:27128: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:27139: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:27159: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:27169: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:27190: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:27201: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:27221: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:27232: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:27243: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:27253: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:27264: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:27275: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:28937: export type EnumListingStatusFilter<$PrismaModel = never> = {
+node_modules\.prisma\client\index.d.ts:28938: equals?: $Enums.ListingStatus | EnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:28939: in?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:28940: notIn?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:28941: not?: NestedEnumListingStatusFilter<$PrismaModel> | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:28963: export type EnumListingStatusNullableFilter<$PrismaModel = never> = {
+node_modules\.prisma\client\index.d.ts:28964: equals?: $Enums.ListingStatus | EnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:28965: in?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:28966: notIn?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:28967: not?: NestedEnumListingStatusNullableFilter<$PrismaModel> | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:29073: export type EnumListingStatusWithAggregatesFilter<$PrismaModel = never> = {
+node_modules\.prisma\client\index.d.ts:29074: equals?: $Enums.ListingStatus | EnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:29075: in?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:29076: notIn?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:29077: not?: NestedEnumListingStatusWithAggregatesFilter<$PrismaModel> | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:29079: _min?: NestedEnumListingStatusFilter<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:29080: _max?: NestedEnumListingStatusFilter<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:29099: export type EnumListingStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+node_modules\.prisma\client\index.d.ts:29100: equals?: $Enums.ListingStatus | EnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:29101: in?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:29102: notIn?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:29103: not?: NestedEnumListingStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:29105: _min?: NestedEnumListingStatusNullableFilter<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:29106: _max?: NestedEnumListingStatusNullableFilter<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:30860: export type EnumListingStatusFieldUpdateOperationsInput = {
+node_modules\.prisma\client\index.d.ts:30861: set?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:30882: export type NullableEnumListingStatusFieldUpdateOperationsInput = {
+node_modules\.prisma\client\index.d.ts:30883: set?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:32070: export type NestedEnumListingStatusFilter<$PrismaModel = never> = {
+node_modules\.prisma\client\index.d.ts:32071: equals?: $Enums.ListingStatus | EnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:32072: in?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:32073: notIn?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:32074: not?: NestedEnumListingStatusFilter<$PrismaModel> | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:32077: export type NestedEnumListingStatusNullableFilter<$PrismaModel = never> = {
+node_modules\.prisma\client\index.d.ts:32078: equals?: $Enums.ListingStatus | EnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:32079: in?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:32080: notIn?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:32081: not?: NestedEnumListingStatusNullableFilter<$PrismaModel> | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:32094: export type NestedEnumListingStatusWithAggregatesFilter<$PrismaModel = never> = {
+node_modules\.prisma\client\index.d.ts:32095: equals?: $Enums.ListingStatus | EnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:32096: in?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:32097: notIn?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:32098: not?: NestedEnumListingStatusWithAggregatesFilter<$PrismaModel> | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:32100: _min?: NestedEnumListingStatusFilter<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:32101: _max?: NestedEnumListingStatusFilter<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:32131: export type NestedEnumListingStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+node_modules\.prisma\client\index.d.ts:32132: equals?: $Enums.ListingStatus | EnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:32133: in?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:32134: notIn?: $Enums.ListingStatus[] | ListEnumListingStatusFieldRefInput<$PrismaModel> | null
+node_modules\.prisma\client\index.d.ts:32135: not?: NestedEnumListingStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:32137: _min?: NestedEnumListingStatusNullableFilter<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:32138: _max?: NestedEnumListingStatusNullableFilter<$PrismaModel>
+node_modules\.prisma\client\index.d.ts:32415: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:32425: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:32445: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:32455: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:33086: status?: EnumListingStatusFilter<"Listing"> | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:33097: previousStatus?: EnumListingStatusNullableFilter<"Listing"> | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:34505: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:34515: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:34535: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:34546: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:34729: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:34739: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:34759: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:34770: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:34963: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:34973: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:34993: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:35004: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:35291: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:35301: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:35321: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:35332: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:35472: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:35482: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:35502: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:35513: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:35696: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:35706: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:35726: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:35737: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:35916: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:35926: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:35946: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:35957: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:36107: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:36117: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:36137: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:36148: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:36324: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:36334: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:36354: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:36365: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:36531: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:36541: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:36561: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:36572: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:36884: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:36894: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:36914: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:36925: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:37130: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:37140: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:37160: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:37171: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:37873: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:37883: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:37903: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:37914: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:38210: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:38220: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:38240: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:38251: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:39156: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:39166: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:39186: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:39197: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:39363: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:39373: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:39393: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:39404: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:39970: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:39980: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:40000: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:40011: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:40356: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:40366: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:40386: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:40397: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:40642: status?: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:40652: previousStatus?: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:40972: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:40982: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:41002: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:41012: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:41032: status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:41042: previousStatus?: NullableEnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:6006: * Model Listing
+node_modules\.prisma\client\index.d.ts:6033: status: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:6042: previousStatus: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:6052: status: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:6061: previousStatus: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:6252: status: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:6263: previousStatus: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:6429: status: $Enums.ListingStatus
+node_modules\.prisma\client\index.d.ts:6440: previousStatus: $Enums.ListingStatus | null
+node_modules\.prisma\client\index.d.ts:6881: readonly status: FieldRef<"Listing", 'ListingStatus'>
+node_modules\.prisma\client\index.d.ts:6892: readonly previousStatus: FieldRef<"Listing", 'ListingStatus'>
+node_modules\.prisma\client\index.d.ts:87: * Model ListingQuestion
+node_modules\.prisma\client\index.d.ts:92: * Model ListingAnswer
+node_modules\.prisma\client\schema.prisma:304: model ListingQuestion {
+node_modules\.prisma\client\schema.prisma:319: model ListingAnswer {
+node_modules\.prisma\client\schema.prisma:375: enum ListingStatus {
+node_modules\.prisma\client\schema.prisma:78: model Listing {
+node_modules\.prisma\client\schema.prisma:84: status             ListingStatus     @default(DRAFT)
+node_modules\.prisma\client\schema.prisma:95: previousStatus     ListingStatus?

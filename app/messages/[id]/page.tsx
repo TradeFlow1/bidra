@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import { allowContactDetailsInMessages, maskContactInfo } from "@/lib/message-safety"
 import Link from "next/link"
 import { redirect } from "next/navigation"
@@ -186,7 +186,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               <div className="mt-4 bd-card p-4">
                 <SendBox threadId={thread.id} />
                 <div className="mt-3 text-xs text-[var(--bidra-ink-2)]">
-  Tip: Keep chats about the listing. Be careful sharing contact or payment details — never share passwords or verification codes. When Bidra Pay is live, we’ll recommend paying via your Bidra order page.
+  Tip: Keep chats about the listing. Use Messages for clarification only. Never share passwords or verification codes, and follow the order and pickup flow shown in-app.
 </div>
               </div>
             </section>

@@ -166,7 +166,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
 
             <div className="text-sm text-neutral-600">
               Seller{" "}
-              <Link href={`/seller/${sellerId}`} className="underline">
+              <Link href={`/seller/${sellerId}`} className="bd-btn bd-btn-ghost text-center">
                 {sellerName}
               </Link>
             </div>
@@ -297,7 +297,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
                           <div className="text-xs font-semibold text-neutral-900">Make an offer</div>
                           <ClickableLink
                             href={`/auth/login?next=/listings/${listing.id}`}
-                            className="mt-2 inline-flex text-xs"
+                            className="bd-btn bd-btn-primary text-center"
                           >
                             Log in
                           </ClickableLink>
@@ -311,7 +311,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
                         ) : (
                           <ClickableLink
                             href={`/auth/login?next=/listings/${listing.id}`}
-                            className="mt-2 inline-flex text-xs"
+                            className="bd-btn bd-btn-primary text-center"
                           >
                             Log in to message seller
                           </ClickableLink>

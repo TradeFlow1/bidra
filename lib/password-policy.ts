@@ -29,7 +29,7 @@ export function checkPasswordPolicy(password: string): PasswordPolicyResult {
   if (p.length >= 16 && variety >= 2) return { ok: true, label: "strong" };
   if (p.length >= 12 && variety >= 2) return { ok: true, label: "ok" };
 
-  const warning = "Tip: use a 12+ character passphrase (3â€“4 words). Avoid reused or common passwords.";
+  const warning = "Tip: use a 12+ character passphrase (3–4 words). Avoid reused or common passwords.";
   return { ok: true, warning, label: "weak" };
 }
 

@@ -37,7 +37,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <h1 className="text-3xl font-extrabold tracking-tight">Order</h1>
             <p className="mt-2 text-sm bd-ink2">Order not found.</p>
             <div className="mt-5">
-              <Link className="underline font-semibold" href="/orders">Back to Orders</Link>
+              <Link className="bd-btn bd-btn-ghost text-center" href="/orders">Back to Orders</Link>
             </div>
           </Card>
         </div>
@@ -53,7 +53,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <h1 className="text-3xl font-extrabold tracking-tight">Order</h1>
             <p className="mt-2 text-sm bd-ink2">You do not have access to this order.</p>
             <div className="mt-5">
-              <Link className="underline font-semibold" href="/orders">Back to Orders</Link>
+              <Link className="bd-btn bd-btn-ghost text-center" href="/orders">Back to Orders</Link>
             </div>
           </Card>
         </div>
@@ -147,7 +147,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   </SafetyCallout>
 
                   <div className="mt-3 rounded-xl border border-black/10 bg-white/5 px-4 py-3 text-sm bd-ink2">
-                    {pickupOptions.length ? "Choose one of the pickup options below." : "Waiting for seller to provide pickup options."}
+                    {pickupOptions.length ? "Choose one of the seller-defined pickup options below." : "Waiting for seller pickup availability."}
                   </div>
                   {(order.status === "PICKUP_REQUIRED" && isBuyer && pickupOptions.length > 0) ? (
   <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
@@ -166,7 +166,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     <SafetyCallout title="Next step">
       <ul className="list-disc pl-5">
         <li>This is a binding order.</li>
-        <li>Add a few pickup options for the buyer as the next step.</li>
+        <li>This listing should already have seller-defined pickup availability.</li>
       </ul>
     </SafetyCallout>
 
@@ -174,7 +174,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
     <div className="font-semibold">Action required</div>
     <div className="mt-1">
-      Add pickup options for the buyer to choose from.
+      Pickup availability should already be set from the listing. Add options here only if needed.
     </div>
   </div>
 ) : null}

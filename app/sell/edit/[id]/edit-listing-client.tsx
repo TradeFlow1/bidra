@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRouter } from "next/navigation";
 import React, { useMemo, useRef, useState } from "react";
@@ -72,6 +72,10 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const [location, setLocation] = useState(listing.location);
   const [price, setPrice] = useState(String(listing.priceDollars || ""));
   const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+  const seededPickup = Array.isArray((listing as any).pickupAvailability) ? (listing as any).pickupAvailability.map(function (x: any) { return String(x || ""); }) : ["", "", ""];
+  const [pickup1, setPickup1] = useState(seededPickup[0] || "");
+  const [pickup2, setPickup2] = useState(seededPickup[1] || "");
+  const [pickup3, setPickup3] = useState(seededPickup[2] || "");
 
   // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
   const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
@@ -171,6 +175,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
 
     const total = (existingImages?.length || 0) + (files?.length || 0);
     if (total > 10) return "Too many images (max 10 total).";
+    if (!pickup1.trim() || !pickup2.trim() || !pickup3.trim()) return "Please provide 3 pickup availability options.";
 
     // Late-stage Buy Now (timed offers only) — allow blank to clear, but validate if provided
     if (isTimedOffers) {
@@ -316,6 +321,14 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
             </div>
           </div>
 
+          <div className="grid gap-2">
+            <label className="text-sm font-semibold bd-ink">Pickup availability</label>
+            <div className="text-xs bd-ink2">Add 3 pickup options buyers can choose from after purchase.</div>
+            <input type="datetime-local" className="bd-input" value={pickup1} onChange={(e) => setPickup1(e.target.value)} />
+            <input type="datetime-local" className="bd-input" value={pickup2} onChange={(e) => setPickup2(e.target.value)} />
+            <input type="datetime-local" className="bd-input" value={pickup3} onChange={(e) => setPickup3(e.target.value)} />
+          </div>
+
           {error ? (
             <div className="bd-card p-4 border border-red-200 bg-red-50/50">
               <div className="text-sm font-extrabold bd-ink">Fix this first</div>
@@ -347,6 +360,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                     price: dollarsToCents(price),
                     images: (existingImages || []).filter(Boolean).slice(0, 10),
                     status,
+                    pickupAvailability: [pickup1, pickup2, pickup3].map(function (v) { return String(v || "").trim(); }).filter(Boolean),
 
                     // Kevin timed-offers: seller-controlled late Buy Now reveal
 buyNowPrice:

@@ -66,114 +66,114 @@ const CATEGORY_RULES: CatRule[] = [
 
 const KEYWORD_BUCKETS: { cat: string; kws: string[] }[] = [
   // Tech & Electronics
-  { cat: "Tech & Electronics ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Phones & Accessories", kws: ["iphone","android","samsung","pixel","phone","mobile","charger","case","airpods","sim","telstra","optus","vodafone"] },
-  { cat: "Tech & Electronics ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Computers", kws: ["laptop","notebook","macbook","imac","pc","desktop","computer","monitor","keyboard","mouse","ssd","hdd","hard drive","gpu","graphics card","ram","motherboard","windows","linux"] },
-  { cat: "Tech & Electronics ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Gaming", kws: ["playstation","ps4","ps5","xbox","nintendo","switch","controller","console","game console","steam deck"] },
-  { cat: "Tech & Electronics ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº TV & Audio", kws: ["tv","television","soundbar","speaker","speakers","subwoofer","headphones","earbuds","stereo","amplifier","receiver"] },
-  { cat: "Tech & Electronics ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Cameras", kws: ["camera","dslr","mirrorless","gopro","lens","tripod","canon","nikon","sony"] },
+  { cat: joinCategory("Tech & Electronics", "Phones & Accessories"), kws: ["iphone","android","samsung","pixel","phone","mobile","charger","case","airpods","sim","telstra","optus","vodafone"] },
+  { cat: joinCategory("Tech & Electronics", "Computers"), kws: ["laptop","notebook","macbook","imac","pc","desktop","computer","monitor","keyboard","mouse","ssd","hdd","hard drive","gpu","graphics card","ram","motherboard","windows","linux"] },
+  { cat: joinCategory("Tech & Electronics", "Gaming"), kws: ["playstation","ps4","ps5","xbox","nintendo","switch","controller","console","game console","steam deck"] },
+  { cat: joinCategory("Tech & Electronics", "TV & Audio"), kws: ["tv","television","soundbar","speaker","speakers","subwoofer","headphones","earbuds","stereo","amplifier","receiver"] },
+  { cat: joinCategory("Tech & Electronics", "Cameras"), kws: ["camera","dslr","mirrorless","gopro","lens","tripod","canon","nikon","sony"] },
 
   // Home & Furniture
-  { cat: "Home & Furniture ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Living Room", kws: ["sofa","couch","lounge","coffee table","tv unit","entertainment unit","recliner"] },
-  { cat: "Home & Furniture ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Bedroom", kws: ["bed","mattress","frame","wardrobe","dresser","drawers","bedside","nightstand"] },
-  { cat: "Home & Furniture ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Dining", kws: ["dining table","dining set","chairs","bar stools","buffet","sideboard"] },
-  { cat: "Home & Furniture ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Outdoor & Garden", kws: ["outdoor setting","patio","deck","bbq","grill","umbrella","gazebo"] },
-  { cat: "Home & Furniture ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Office Furniture", kws: ["desk","office chair","standing desk","filing cabinet"] },
-  { cat: "Home & Furniture ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Storage", kws: ["shelves","shelving","storage","cupboard","cabinet","rack"] },
-  { cat: "Home & Furniture ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Home Decor", kws: ["rug","curtains","blinds","lamp","mirror","artwork","vase","cushion"] },
+  { cat: joinCategory("Home & Furniture", "Living Room"), kws: ["sofa","couch","lounge","coffee table","tv unit","entertainment unit","recliner"] },
+  { cat: joinCategory("Home & Furniture", "Bedroom"), kws: ["bed","mattress","frame","wardrobe","dresser","drawers","bedside","nightstand"] },
+  { cat: joinCategory("Home & Furniture", "Dining"), kws: ["dining table","dining set","chairs","bar stools","buffet","sideboard"] },
+  { cat: joinCategory("Home & Furniture", "Outdoor & Garden"), kws: ["outdoor setting","patio","deck","bbq","grill","umbrella","gazebo"] },
+  { cat: joinCategory("Home & Furniture", "Office Furniture"), kws: ["desk","office chair","standing desk","filing cabinet"] },
+  { cat: joinCategory("Home & Furniture", "Storage"), kws: ["shelves","shelving","storage","cupboard","cabinet","rack"] },
+  { cat: joinCategory("Home & Furniture", "Home Decor"), kws: ["rug","curtains","blinds","lamp","mirror","artwork","vase","cushion"] },
 
   // Appliances
-  { cat: "Appliances ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Kitchen Appliances", kws: ["fridge","freezer","microwave","dishwasher","oven","cooktop","air fryer","kettle","toaster","coffee machine","mixer"] },
-  { cat: "Appliances ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Laundry Appliances", kws: ["washing machine","washer","dryer","tumble dryer"] },
-  { cat: "Appliances ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Heating & Cooling", kws: ["aircon","air conditioner","heater","fan","dehumidifier"] },
-  { cat: "Appliances ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Vacuums", kws: ["vacuum","dyson","robot vacuum","roomba","vacuum cleaner","stick vacuum","miele"] },
+  { cat: joinCategory("Appliances", "Kitchen Appliances"), kws: ["fridge","freezer","microwave","dishwasher","oven","cooktop","air fryer","kettle","toaster","coffee machine","mixer"] },
+  { cat: joinCategory("Appliances", "Laundry Appliances"), kws: ["washing machine","washer","dryer","tumble dryer"] },
+  { cat: joinCategory("Appliances", "Heating & Cooling"), kws: ["aircon","air conditioner","heater","fan","dehumidifier"] },
+  { cat: joinCategory("Appliances", "Vacuums"), kws: ["vacuum","dyson","robot vacuum","roomba","vacuum cleaner","stick vacuum","miele"] },
 
   // Tools & DIY
-  { cat: "Tools & DIY ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Power Tools", kws: ["drill","impact","driver","saw","circular","jigsaw","sander","grinder","router","nail gun","compressor","air compressor","makita","dewalt","milwaukee","ryobi","ozito"] },
-  { cat: "Tools & DIY ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Hand Tools", kws: ["spanner","wrench","socket","ratchet","hammer","screwdriver","pliers","allen","hex","chisel","clamp","vice","tape measure","level","stanley knife","utility knife","tool kit","toolbox"] },
-  { cat: "Tools & DIY ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Garden Tools", kws: ["lawn mower","mower","whipper","line trimmer","hedge trimmer","blower","leaf blower","chainsaw","edger","rake","shovel","spade","secateurs"] },
-  { cat: "Tools & DIY ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Building Materials", kws: ["timber","wood","plywood","mdf","gyprock","drywall","cement","concrete","bricks","pavers","steel","aluminium","insulation","paint","primer","tiles"] },
+  { cat: joinCategory("Tools & DIY", "Power Tools"), kws: ["drill","impact","driver","saw","circular","jigsaw","sander","grinder","router","nail gun","compressor","air compressor","makita","dewalt","milwaukee","ryobi","ozito"] },
+  { cat: joinCategory("Tools & DIY", "Hand Tools"), kws: ["spanner","wrench","socket","ratchet","hammer","screwdriver","pliers","allen","hex","chisel","clamp","vice","tape measure","level","stanley knife","utility knife","tool kit","toolbox"] },
+  { cat: joinCategory("Tools & DIY", "Garden Tools"), kws: ["lawn mower","mower","whipper","line trimmer","hedge trimmer","blower","leaf blower","chainsaw","edger","rake","shovel","spade","secateurs"] },
+  { cat: joinCategory("Tools & DIY", "Building Materials"), kws: ["timber","wood","plywood","mdf","gyprock","drywall","cement","concrete","bricks","pavers","steel","aluminium","insulation","paint","primer","tiles"] },
 
   // Sports & Outdoors
-  { cat: "Sports & Outdoors ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Fitness", kws: ["treadmill","weights","dumbbell","barbell","gym","exercise bike","rowing machine","bench press","kettlebell"] },
-  { cat: "Sports & Outdoors ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Camping", kws: ["tent","swag","sleeping bag","camping","esky","gazebo","camp chair"] },
-  { cat: "Sports & Outdoors ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Cycling", kws: ["bike","bicycle","helmet","mtb","road bike","bmx"] },
-  { cat: "Sports & Outdoors ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Fishing", kws: ["fishing","rod","reel","tackle","bait"] },
-  { cat: "Sports & Outdoors ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Water Sports", kws: ["surf","surfboard","sup","paddle board","kayak","wetsuit"] },
+  { cat: joinCategory("Sports & Outdoors", "Fitness"), kws: ["treadmill","weights","dumbbell","barbell","gym","exercise bike","rowing machine","bench press","kettlebell"] },
+  { cat: joinCategory("Sports & Outdoors", "Camping"), kws: ["tent","swag","sleeping bag","camping","esky","gazebo","camp chair"] },
+  { cat: joinCategory("Sports & Outdoors", "Cycling"), kws: ["bike","bicycle","helmet","mtb","road bike","bmx"] },
+  { cat: joinCategory("Sports & Outdoors", "Fishing"), kws: ["fishing","rod","reel","tackle","bait"] },
+  { cat: joinCategory("Sports & Outdoors", "Water Sports"), kws: ["surf","surfboard","sup","paddle board","kayak","wetsuit"] },
 
   // Kids & Toys
-  { cat: "Kids & Toys ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Toys", kws: ["lego","toy","doll","action figure","hot wheels","barbie"] },
-  { cat: "Kids & Toys ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Games", kws: ["board game","card game","puzzle"] },
-  { cat: "Kids & Toys ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Kids Clothing", kws: ["kids","kid's","child","children","size 4","size 6","size 8","size 10"] },
+  { cat: joinCategory("Kids & Toys", "Toys"), kws: ["lego","toy","doll","action figure","hot wheels","barbie"] },
+  { cat: joinCategory("Kids & Toys", "Games"), kws: ["board game","card game","puzzle"] },
+  { cat: joinCategory("Kids & Toys", "Kids Clothing"), kws: ["kids","kid's","child","children","size 4","size 6","size 8","size 10"] },
 
   // Books & Media
-  { cat: "Books & Media ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Books", kws: ["book","novel","textbook","paperback","hardcover"] },
-  { cat: "Books & Media ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Movies", kws: ["dvd","bluray","blu-ray","movie"] },
-  { cat: "Books & Media ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Music", kws: ["vinyl","record","cd","guitar","piano","keyboard instrument"] },
-  { cat: "Books & Media ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Games", kws: ["board game","card game","puzzle"] },
+  { cat: joinCategory("Books & Media", "Books"), kws: ["book","novel","textbook","paperback","hardcover"] },
+  { cat: joinCategory("Books & Media", "Movies"), kws: ["dvd","bluray","blu-ray","movie"] },
+  { cat: joinCategory("Books & Media", "Music"), kws: ["vinyl","record","cd","guitar","piano","keyboard instrument"] },
+  { cat: joinCategory("Books & Media", "Games"), kws: ["board game","card game","puzzle"] },
 
   // Collectibles & Vintage
-  { cat: "Collectibles & Vintage ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Coins", kws: ["coin","coins","currency"] },
-  { cat: "Collectibles & Vintage ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Trading Cards", kws: ["pokemon","mtg","magic the gathering","trading card"] },
-  { cat: "Collectibles & Vintage ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Memorabilia", kws: ["memorabilia","signed","autograph"] },
-  { cat: "Collectibles & Vintage ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Antiques", kws: ["antique","vintage"] },
+  { cat: joinCategory("Collectibles & Vintage", "Coins"), kws: ["coin","coins","currency"] },
+  { cat: joinCategory("Collectibles & Vintage", "Trading Cards"), kws: ["pokemon","mtg","magic the gathering","trading card"] },
+  { cat: joinCategory("Collectibles & Vintage", "Memorabilia"), kws: ["memorabilia","signed","autograph"] },
+  { cat: joinCategory("Collectibles & Vintage", "Antiques"), kws: ["antique","vintage"] },
 
   // Vehicles
-  { cat: "Vehicles ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Cars", kws: ["car","sedan","hatch","ute","4x4","4wd","ford","holden","toyota","mazda","hyundai","kia"] },
-  { cat: "Vehicles ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Motorcycles", kws: ["motorbike","motorcycle","helmet","yamaha","honda","kawasaki","ducati"] },
-  { cat: "Vehicles ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Vehicle Parts & Accessories", kws: ["tyres","tires","rim","wheels","car parts","towbar","roof rack","battery","dashcam"] },
-  { cat: "Vehicles ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Boats & Marine", kws: ["boat","marine","outboard","jetski","jet ski"] },
-  { cat: "Vehicles ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Caravans & Campers", kws: ["caravan","camper","campervan","rv"] },
+  { cat: joinCategory("Vehicles", "Cars"), kws: ["car","sedan","hatch","ute","4x4","4wd","ford","holden","toyota","mazda","hyundai","kia"] },
+  { cat: joinCategory("Vehicles", "Motorcycles"), kws: ["motorbike","motorcycle","helmet","yamaha","honda","kawasaki","ducati"] },
+  { cat: joinCategory("Vehicles", "Vehicle Parts & Accessories"), kws: ["tyres","tires","rim","wheels","car parts","towbar","roof rack","battery","dashcam"] },
+  { cat: joinCategory("Vehicles", "Boats & Marine"), kws: ["boat","marine","outboard","jetski","jet ski"] },
+  { cat: joinCategory("Vehicles", "Caravans & Campers"), kws: ["caravan","camper","campervan","rv"] },
 
   // Pet Supplies
   { cat: "Pet Supplies (NO LIVE ANIMALS)", kws: ["dog","cat","pet","leash","collar","litter","aquarium","kennel","harness","pet bed","crate","carrier","scratching post","cat tree","fish tank"] },
 
   // Fashion & Wearables
-  { cat: "Fashion & Wearables ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Men's Clothing", kws: ["mens","men's","shirt","tshirt","tee","hoodie","jumper","jacket","jeans","shorts","pants","suit","tie"] },
-  { cat: "Fashion & Wearables ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Women's Clothing", kws: ["womens","women's","dress","skirt","blouse","top","heels","cardigan","jacket","jeans","activewear","leggings"] },
-  { cat: "Fashion & Wearables ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Shoes", kws: ["shoes","sneakers","runners","boots","heels","sandals","thongs","nike","adidas","asics","new balance"] },
-  { cat: "Fashion & Wearables ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Bags", kws: ["bag","handbag","backpack","rucksack","wallet","purse","luggage","suitcase"] },
-  { cat: "Fashion & Wearables ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Jewellery & Watches", kws: ["watch","watches","rolex","seiko","casio","ring","necklace","bracelet","earrings","jewellery","jewelry"] },
+  { cat: joinCategory("Fashion & Wearables", "Men's Clothing"), kws: ["mens","men's","shirt","tshirt","tee","hoodie","jumper","jacket","jeans","shorts","pants","suit","tie"] },
+  { cat: joinCategory("Fashion & Wearables", "Women's Clothing"), kws: ["womens","women's","dress","skirt","blouse","top","heels","cardigan","jacket","jeans","activewear","leggings"] },
+  { cat: joinCategory("Fashion & Wearables", "Shoes"), kws: ["shoes","sneakers","runners","boots","heels","sandals","thongs","nike","adidas","asics","new balance"] },
+  { cat: joinCategory("Fashion & Wearables", "Bags"), kws: ["bag","handbag","backpack","rucksack","wallet","purse","luggage","suitcase"] },
+  { cat: joinCategory("Fashion & Wearables", "Jewellery & Watches"), kws: ["watch","watches","rolex","seiko","casio","ring","necklace","bracelet","earrings","jewellery","jewelry"] },
 
   // Beauty & Personal Care
-  { cat: "Beauty & Personal Care ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Skincare", kws: ["skincare","cleanser","moisturiser","moisturizer","serum","sunscreen","spf","retinol","toner"] },
-  { cat: "Beauty & Personal Care ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Hair Care", kws: ["shampoo","conditioner","hair dryer","hairdryer","straightener","curling iron","ghd","dyson airwrap"] },
-  { cat: "Beauty & Personal Care ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Fragrances", kws: ["perfume","cologne","fragrance","eau de parfum","aftershave"] },
-  { cat: "Beauty & Personal Care ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Grooming", kws: ["shaver","razor","clippers","trimmer","beard","grooming"] },
+  { cat: joinCategory("Beauty & Personal Care", "Skincare"), kws: ["skincare","cleanser","moisturiser","moisturizer","serum","sunscreen","spf","retinol","toner"] },
+  { cat: joinCategory("Beauty & Personal Care", "Hair Care"), kws: ["shampoo","conditioner","hair dryer","hairdryer","straightener","curling iron","ghd","dyson airwrap"] },
+  { cat: joinCategory("Beauty & Personal Care", "Fragrances"), kws: ["perfume","cologne","fragrance","eau de parfum","aftershave"] },
+  { cat: joinCategory("Beauty & Personal Care", "Grooming"), kws: ["shaver","razor","clippers","trimmer","beard","grooming"] },
 
   // Baby & Nursery
-  { cat: "Baby & Nursery ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Prams", kws: ["pram","stroller","pushchair","buggy"] },
-  { cat: "Baby & Nursery ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Car Seats", kws: ["car seat","baby seat","booster seat","capsule"] },
-  { cat: "Baby & Nursery ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Nursery Furniture", kws: ["cot","crib","bassinet","change table","change pad","high chair","nursery"] },
+  { cat: joinCategory("Baby & Nursery", "Prams"), kws: ["pram","stroller","pushchair","buggy"] },
+  { cat: joinCategory("Baby & Nursery", "Car Seats"), kws: ["car seat","baby seat","booster seat","capsule"] },
+  { cat: joinCategory("Baby & Nursery", "Nursery Furniture"), kws: ["cot","crib","bassinet","change table","change pad","high chair","nursery"] },
 
   // Art
-  { cat: "Art ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Paintings", kws: ["painting","canvas","acrylic","oil painting","watercolour","watercolor"] },
-  { cat: "Art ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Sculpture", kws: ["sculpture","statue","ceramic","clay","bronze"] },
-  { cat: "Art ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Photography", kws: ["photography","photo print","print","framed print"] },
+  { cat: joinCategory("Art", "Paintings"), kws: ["painting","canvas","acrylic","oil painting","watercolour","watercolor"] },
+  { cat: joinCategory("Art", "Sculpture"), kws: ["sculpture","statue","ceramic","clay","bronze"] },
+  { cat: joinCategory("Art", "Photography"), kws: ["photography","photo print","print","framed print"] },
 
   // Office & Business
-  { cat: "Office & Business ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Office Equipment", kws: ["printer","scanner","label printer","shredder","laminator","monitor arm","docking station"] },
-  { cat: "Office & Business ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Supplies", kws: ["stationery","paper","notebook","pens","labels","ink","toner"] },
-  { cat: "Office & Business ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº POS & Retail", kws: ["pos","eftpos","receipt printer","cash drawer","barcode scanner","square terminal"] },
+  { cat: joinCategory("Office & Business", "Office Equipment"), kws: ["printer","scanner","label printer","shredder","laminator","monitor arm","docking station"] },
+  { cat: joinCategory("Office & Business", "Supplies"), kws: ["stationery","paper","notebook","pens","labels","ink","toner"] },
+  { cat: joinCategory("Office & Business", "POS & Retail"), kws: ["pos","eftpos","receipt printer","cash drawer","barcode scanner","square terminal"] },
 
   // Industrial
-  { cat: "Industrial ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Machinery", kws: ["machinery","lathe","mill","press","forklift","generator","welder","welding"] },
-  { cat: "Industrial ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Electrical", kws: ["electrical","cable","conduit","switchboard","breaker","inverter"] },
-  { cat: "Industrial ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Safety Equipment", kws: ["safety","ppe","hi vis","high vis","helmet","gloves","goggles","earmuffs","respirator"] },
+  { cat: joinCategory("Industrial", "Machinery"), kws: ["machinery","lathe","mill","press","forklift","generator","welder","welding"] },
+  { cat: joinCategory("Industrial", "Electrical"), kws: ["electrical","cable","conduit","switchboard","breaker","inverter"] },
+  { cat: joinCategory("Industrial", "Safety Equipment"), kws: ["safety","ppe","hi vis","high vis","helmet","gloves","goggles","earmuffs","respirator"] },
 
   // Health & Medical (non-prescription)
-  { cat: "Health & Medical (non-prescription) ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Mobility", kws: ["wheelchair","walker","walking frame","mobility scooter","crutches","cane"] },
-  { cat: "Health & Medical (non-prescription) ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Monitoring Devices", kws: ["blood pressure","bp monitor","thermometer","pulse oximeter","oximeter","glucose monitor"] },
-  { cat: "Health & Medical (non-prescription) ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Wellness", kws: ["massage gun","foam roller","yoga mat","meditation","sauna blanket"] },
+  { cat: joinCategory("Health & Medical (non-prescription)", "Mobility"), kws: ["wheelchair","walker","walking frame","mobility scooter","crutches","cane"] },
+  { cat: joinCategory("Health & Medical (non-prescription)", "Monitoring Devices"), kws: ["blood pressure","bp monitor","thermometer","pulse oximeter","oximeter","glucose monitor"] },
+  { cat: joinCategory("Health & Medical (non-prescription)", "Wellness"), kws: ["massage gun","foam roller","yoga mat","meditation","sauna blanket"] },
 
   // Tickets (where permitted)
-  { cat: "Tickets (where permitted) ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Events", kws: ["tickets","event ticket","festival ticket","gig ticket"] },
-  { cat: "Tickets (where permitted) ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Sport", kws: ["match ticket","game ticket","sport ticket"] },
-  { cat: "Tickets (where permitted) ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Theatre", kws: ["theatre ticket","theater ticket","show ticket","musical"] },
+  { cat: joinCategory("Tickets (where permitted)", "Events"), kws: ["tickets","event ticket","festival ticket","gig ticket"] },
+  { cat: joinCategory("Tickets (where permitted)", "Sport"), kws: ["match ticket","game ticket","sport ticket"] },
+  { cat: joinCategory("Tickets (where permitted)", "Theatre"), kws: ["theatre ticket","theater ticket","show ticket","musical"] },
 
   // Services
-  { cat: "Services ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Trade Services", kws: ["plumber","electrician","tradie","handyman","tiling","painting service"] },
-  { cat: "Services ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Creative Services", kws: ["design","graphic design","photographer","videographer","logo"] },
-  { cat: "Services ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Lessons", kws: ["tutor","tutoring","lessons","guitar lessons","piano lessons","driving lessons"] },
+  { cat: joinCategory("Services", "Trade Services"), kws: ["plumber","electrician","tradie","handyman","tiling","painting service"] },
+  { cat: joinCategory("Services", "Creative Services"), kws: ["design","graphic design","photographer","videographer","logo"] },
+  { cat: joinCategory("Services", "Lessons"), kws: ["tutor","tutoring","lessons","guitar lessons","piano lessons","driving lessons"] },
 
   // Free items + Other
   { cat: "Free items", kws: ["free","giveaway","free to good home","no charge"] },
@@ -185,7 +185,7 @@ function normalizeSuggestedCategory(raw: string): string {
   // If it's already a valid FULL_CATEGORIES entry, keep it
   if (FULL_CATEGORIES.includes(v)) return v;
 
-  // If it's a child label, convert to "Parent ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Âº Child"
+  // If it's a child label, convert to "Parent > Child"
   for (const g of CATEGORY_GROUPS) {
     for (const c of g.children) {
       if (c === v) return joinCategory(g.parent, c);
@@ -285,7 +285,7 @@ function suggestDescriptionDraft(args: {
   if (category) lines.push(`Category: ${category}.`);
   if (condition) lines.push(`Condition: ${condition.replaceAll("_", " ").toLowerCase()}.`);
 
-  // Simple ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“AI-likeÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â structure: details + pickup + payment note
+  // Simple "AI-like" structure: details + pickup + payment note
   lines.push("");
   lines.push("Details:");
   lines.push("- Reason for selling: (optional)");
@@ -293,7 +293,7 @@ function suggestDescriptionDraft(args: {
 
   lines.push("");
   if (args.type === "TIMED_OFFERS") {
-    lines.push("Timed offers: IÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ll review offers when the time ends and decide whether to proceed with the highest offer.");
+    lines.push("Timed offers: I'll review offers when the time ends and decide whether to proceed with the highest offer.");
   } else if (priceLabel) {
     lines.push(`Price: ${priceLabel}.`);
   }
@@ -329,6 +329,9 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     feedbackUrl: string | null;
   }>(null);
   const router = useRouter();
+  const [pickup1, setPickup1] = useState("");
+  const [pickup2, setPickup2] = useState("");
+  const [pickup3, setPickup3] = useState("");
     const cameraInputRef = useRef<HTMLInputElement | null>(null);
   const galleryInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -487,7 +490,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
       if (buyNowCents !== null) {
         if (Number.isNaN(buyNowCents)) return setErr("Buy Now must be a number or blank.");
         if (buyNowCents <= 0) return setErr("Buy Now must be greater than 0 (or blank).");
-        if (buyNowCents < startBidCents) return setErr("Buy Now must be ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â°Ãƒâ€šÃ‚Â¥ starting offer.");
+        if (buyNowCents < startBidCents) return setErr("Buy Now must be >= starting offer.");
 
       }
     }
@@ -517,12 +520,19 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         }
       }
 const imagesToSend = uploadedUrls;
+      const pickupAvailability = [pickup1, pickup2, pickup3].map(function (v) { return String(v || "").trim(); }).filter(Boolean);
+
+      if (!pickup1.trim() || !pickup2.trim() || !pickup3.trim()) {
+        setErr("Please provide 3 pickup availability options.");
+        return;
+      }
 
       // 2) Create listing
       const res = await fetch("/api/listings/create", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
+          pickupAvailability: pickupAvailability,
           type: isTimedOffers ? "OFFERABLE" : "BUY_NOW",
           title: t,
           description: d,
@@ -568,10 +578,10 @@ const imagesToSend = uploadedUrls;
         const reason = (data && (data.reason || data.error)) ? String(data.reason || data.error) : "";
         const msg =
           reason === "MISSING_AGE_VERIFICATION" ? "Please add your date of birth in Account settings (18+ required) to list items." :
-          reason === "AGE_NOT_VERIFIED" ? "Your account isnÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢t age-verified yet. Please complete age verification to list items." :
-          reason === "UNDER_18" ? "Bidra accounts are 18+ only. You can browse publicly, but you canÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢t list or make offers." :
+          reason === "AGE_NOT_VERIFIED" ? "Your account isn't age-verified yet. Please complete age verification to list items." :
+          reason === "UNDER_18" ? "Bidra accounts are 18+ only. You can browse publicly, but you can't list or make offers." :
           reason === "POLICY_BLOCKED" ? "Your account is temporarily restricted. Please try again later." :
-          "You canÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢t create a listing right now.";
+          "You can't create a listing right now.";
         setErr(msg);
         return;
       }
@@ -594,8 +604,16 @@ const imagesToSend = uploadedUrls;
 
   return (
     <div className="bd-card p-5">
+      <div className="mt-4 grid gap-2">
+        <label className="text-sm font-semibold bd-ink">Pickup availability</label>
+        <div className="text-xs bd-ink2">Add 3 pickup options buyers can choose from after purchase.</div>
+        <input type="datetime-local" className="bd-input" value={pickup1} onChange={(e) => setPickup1(e.target.value)} />
+        <input type="datetime-local" className="bd-input" value={pickup2} onChange={(e) => setPickup2(e.target.value)} />
+        <input type="datetime-local" className="bd-input" value={pickup3} onChange={(e) => setPickup3(e.target.value)} />
+      </div>
+
 <p className="mt-2 text-sm bd-ink2">
-        Add the basics Ã¢â‚¬â€ title, description, category, condition, location, and pricing.
+        Add the basics - title, description, category, condition, location, and pricing.
       </p>
 
       {err && (
@@ -640,7 +658,7 @@ const imagesToSend = uploadedUrls;
     <>
       <div className="font-medium text-[var(--bidra-ink)]">Timed offers (not automatic)</div>
       <div className="mt-1">
-        Buyers can place offers until the timer ends. When it ends, you choose whether to proceed with the highest offer Ã¢â‚¬â€ nothing is sold automatically. Reserve is not part of this launch version.
+        Buyers can place offers until the timer ends. When it ends, you choose whether to proceed with the highest offer - nothing is sold automatically. Reserve is not part of this launch version.
         You can also add an optional <span className="font-medium">Buy Now</span> price.
       </div>
     </>
@@ -709,7 +727,7 @@ const imagesToSend = uploadedUrls;
             value={category}
             onChange={(e) => { setCategoryTouched(true); setCategory(e.target.value); }}
           >
-            <option value="">Select a categoryÃ¢â‚¬Â¦</option>
+            <option value="">Select a category...</option>
             {CATEGORY_GROUPS.map((g) => (
               <optgroup key={g.parent} label={g.parent}>
                 <option value={g.parent}>{g.parent}</option>
@@ -831,7 +849,7 @@ const imagesToSend = uploadedUrls;
                     className="absolute right-1 top-1 rounded-md bg-white/90 px-2 py-1 text-xs font-semibold bd-ink shadow"
                     onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
                   >
-                    Ã¢Å“â€¢
+                    -
                   </button>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={p.url} alt={p.name} className="h-24 w-full object-cover" />

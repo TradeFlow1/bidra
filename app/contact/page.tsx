@@ -1,11 +1,11 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import ContactForm from "./contact-form";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const metadata = { title: "Contact — Bidra" };
+export const metadata = { title: "Contact â€” Bidra" };
 
 const SUPPORT_EMAIL = "support@bidra.com.au";
 
@@ -68,7 +68,7 @@ export default async function ContactPage() {
               If you feel unsafe, stop engaging and report the listing or thread. For emergencies, contact local authorities.
               See{" "}
               <Link href="/support" className="bd-link font-semibold">
-                Support &amp; Safety →
+                Support &amp; Safety â†’
               </Link>
             </span>
           </Callout>
@@ -80,15 +80,15 @@ export default async function ContactPage() {
             <div className="grid gap-3">
               <Row
                 title="Listing help"
-                desc="Problems creating or editing a listing, photo uploads, category issues, or a listing that won’t publish."
+                desc="Problems creating or editing a listing, photo uploads, category issues, or a listing that wonâ€™t publish."
               />
               <Row
                 title="Messages & abuse"
                 desc="Harassment, threats, spam, impersonation, or suspicious behaviour in a message thread."
               />
               <Row
-                title="Orders & payments"
-                desc="Issues with an order status, Buy Now flow, accepted offers, or payment instructions shown in the order."
+                title="Orders & pickup flow"
+                desc="Issues with an order status, Buy Now flow, accepted offers, or pickup scheduling shown in the order."
               />
               <Row
                 title="Account & access"
@@ -96,7 +96,7 @@ export default async function ContactPage() {
               />
               <Row
                 title="Report follow-up"
-                desc="If you’ve submitted a report and need to add extra context, screenshots, or links."
+                desc="If youâ€™ve submitted a report and need to add extra context, screenshots, or links."
               />
             </div>
           </section>
@@ -150,27 +150,27 @@ export default async function ContactPage() {
             <ul className="mt-2 list-disc pl-6 text-sm bd-ink2 leading-7 space-y-1">
               <li>
                 <Link href="/how-it-works" className="bd-link font-semibold">
-                  How it works →
+                  How it works â†’
                 </Link>
               </li>
               <li>
                 <Link href="/legal" className="bd-link font-semibold">
-                  Legal hub →
+                  Legal hub â†’
                 </Link>
               </li>
               <li>
                 <Link href="/legal/prohibited-items" className="bd-link font-semibold">
-                  Prohibited items →
+                  Prohibited items â†’
                 </Link>
               </li>
               <li>
                 <Link href="/legal/terms" className="bd-link font-semibold">
-                  Terms →
+                  Terms â†’
                 </Link>
               </li>
               <li>
                 <Link href="/legal/privacy" className="bd-link font-semibold">
-                  Privacy →
+                  Privacy â†’
                 </Link>
               </li>
             </ul>

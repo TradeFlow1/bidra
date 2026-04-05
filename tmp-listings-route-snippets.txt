@@ -1,0 +1,190 @@
+
+----- lines 28..45 -----
+  // Example: "Fish tand" -> "Fish tank"
+  return t
+    .replace(/\bFish\s+tand\b/gi, "Fish tank")
+    .replace(/\s{2,}/g, " ");
+}
+function scoreListing(listing: any, user: { postcode?: string | null; suburb?: string | null; state?: string | null } | null) {
+  if (!user) return 0;
+  const loc = norm(listing?.location);
+  const pc = norm(user.postcode);
+  const sub = norm(user.suburb);
+  const st = norm(user.state);
+
+  let score = 0;
+  if (pc && loc.includes(pc)) score += 3;
+  if (sub && loc.includes(sub)) score += 2;
+  if (st && loc.includes(st)) score += 1;
+  return score;
+}
+
+----- lines 30..47 -----
+    .replace(/\bFish\s+tand\b/gi, "Fish tank")
+    .replace(/\s{2,}/g, " ");
+}
+function scoreListing(listing: any, user: { postcode?: string | null; suburb?: string | null; state?: string | null } | null) {
+  if (!user) return 0;
+  const loc = norm(listing?.location);
+  const pc = norm(user.postcode);
+  const sub = norm(user.suburb);
+  const st = norm(user.state);
+
+  let score = 0;
+  if (pc && loc.includes(pc)) score += 3;
+  if (sub && loc.includes(sub)) score += 2;
+  if (st && loc.includes(st)) score += 1;
+  return score;
+}
+
+function dailySeed(userId: string) {
+
+----- lines 103..120 -----
+      }
+    }
+
+    const baseTake = wantLocal && meUserId ? 60 : 24;
+
+    const listings = await prisma.listing.findMany({
+      where: {
+        status: "DRAFT",
+        
+        images: { isEmpty: false },
+        // Safety: never return listings that already have an order
+        orders: { none: {} },
+        // Sanity: hide implausible prices from public feeds
+        price: { lte: MAX_PRICE_CENTS },
+        AND: [
+          { OR: [{ buyNowPrice: null }, { buyNowPrice: { lte: MAX_PRICE_CENTS } }] },
+        ],
+        NOT: [
+
+----- lines 105..122 -----
+
+    const baseTake = wantLocal && meUserId ? 60 : 24;
+
+    const listings = await prisma.listing.findMany({
+      where: {
+        status: "DRAFT",
+        
+        images: { isEmpty: false },
+        // Safety: never return listings that already have an order
+        orders: { none: {} },
+        // Sanity: hide implausible prices from public feeds
+        price: { lte: MAX_PRICE_CENTS },
+        AND: [
+          { OR: [{ buyNowPrice: null }, { buyNowPrice: { lte: MAX_PRICE_CENTS } }] },
+        ],
+        NOT: [
+          { title: { equals: "test", mode: "insensitive" } },
+          { title: { startsWith: "test", mode: "insensitive" } },
+
+----- lines 108..125 -----
+    const listings = await prisma.listing.findMany({
+      where: {
+        status: "DRAFT",
+        
+        images: { isEmpty: false },
+        // Safety: never return listings that already have an order
+        orders: { none: {} },
+        // Sanity: hide implausible prices from public feeds
+        price: { lte: MAX_PRICE_CENTS },
+        AND: [
+          { OR: [{ buyNowPrice: null }, { buyNowPrice: { lte: MAX_PRICE_CENTS } }] },
+        ],
+        NOT: [
+          { title: { equals: "test", mode: "insensitive" } },
+          { title: { startsWith: "test", mode: "insensitive" } },
+          { title: { contains: "dfgh", mode: "insensitive" } },
+          { title: { contains: "asdf", mode: "insensitive" } },
+          { title: { contains: "qwer", mode: "insensitive" } },
+
+----- lines 146..163 -----
+
+    if (wantLocal && meUserId && userLoc) {
+      const seed = dailySeed(meUserId);
+      const rnd = seededRand(seed);
+
+      const ranked = listings
+        .map((l: any) => ({ l, s: scoreListing(l, userLoc) }))
+        .sort((a: any, b: any) => {
+          if (b.s !== a.s) return b.s - a.s;
+          // within same score, rotate daily
+          const ra = rnd();
+          const rb = rnd();
+          if (ra < rb) return -1;
+          if (ra > rb) return 1;
+          // final tie-breaker: newest first
+          return new Date(b.l.createdAt).getTime() - new Date(a.l.createdAt).getTime();
+        })
+        .map((x: any) => x.l)
+
+----- lines 147..164 -----
+    if (wantLocal && meUserId && userLoc) {
+      const seed = dailySeed(meUserId);
+      const rnd = seededRand(seed);
+
+      const ranked = listings
+        .map((l: any) => ({ l, s: scoreListing(l, userLoc) }))
+        .sort((a: any, b: any) => {
+          if (b.s !== a.s) return b.s - a.s;
+          // within same score, rotate daily
+          const ra = rnd();
+          const rb = rnd();
+          if (ra < rb) return -1;
+          if (ra > rb) return 1;
+          // final tie-breaker: newest first
+          return new Date(b.l.createdAt).getTime() - new Date(a.l.createdAt).getTime();
+        })
+        .map((x: any) => x.l)
+        .slice(0, 24);
+
+----- lines 161..174 -----
+          return new Date(b.l.createdAt).getTime() - new Date(a.l.createdAt).getTime();
+        })
+        .map((x: any) => x.l)
+        .slice(0, 24);
+
+      return NextResponse.json({ listings: ranked.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: respHeaders });
+    }
+
+    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: respHeaders });
+  } catch (err) {
+    console.error("GET /api/listings failed", err);
+    return NextResponse.json({ error: "Failed to load listings" }, { status: 500 });
+  }
+}
+
+----- lines 164..174 -----
+        .slice(0, 24);
+
+      return NextResponse.json({ listings: ranked.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: respHeaders });
+    }
+
+    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: respHeaders });
+  } catch (err) {
+    console.error("GET /api/listings failed", err);
+    return NextResponse.json({ error: "Failed to load listings" }, { status: 500 });
+  }
+}
+
+----- lines 166..174 -----
+      return NextResponse.json({ listings: ranked.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: respHeaders });
+    }
+
+    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: respHeaders });
+  } catch (err) {
+    console.error("GET /api/listings failed", err);
+    return NextResponse.json({ error: "Failed to load listings" }, { status: 500 });
+  }
+}
+
+----- lines 167..174 -----
+    }
+
+    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: respHeaders });
+  } catch (err) {
+    console.error("GET /api/listings failed", err);
+    return NextResponse.json({ error: "Failed to load listings" }, { status: 500 });
+  }
+}

@@ -1,0 +1,1500 @@
+
+----- lines 1..18 -----
+"use client";
+
+import { useRouter } from "next/navigation";
+import React, { useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { FULL_CATEGORIES, CATEGORY_GROUPS , joinCategory} from "@/lib/categories";
+import { isTimedOffersType } from "@/lib/listing-type";
+
+function sanitizeDescriptionDisplay(input: string): string {
+  const raw = String(input || "");
+  const lines = raw.split(/\r?\n/);
+  const keep: string[] = [];
+  for (const l of lines) {
+    const s = String(l || "").toLowerCase();
+    const isPlaceholder =
+      s.includes("included: (add") ||
+      s.includes("reason for selling") ||
+      s.includes("any marks or faults") ||
+
+----- lines 2..19 -----
+
+import { useRouter } from "next/navigation";
+import React, { useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { FULL_CATEGORIES, CATEGORY_GROUPS , joinCategory} from "@/lib/categories";
+import { isTimedOffersType } from "@/lib/listing-type";
+
+function sanitizeDescriptionDisplay(input: string): string {
+  const raw = String(input || "");
+  const lines = raw.split(/\r?\n/);
+  const keep: string[] = [];
+  for (const l of lines) {
+    const s = String(l || "").toLowerCase();
+    const isPlaceholder =
+      s.includes("included: (add") ||
+      s.includes("reason for selling") ||
+      s.includes("any marks or faults") ||
+      s.includes("pickup location: (your suburb)");
+
+----- lines 14..31 -----
+    const s = String(l || "").toLowerCase();
+    const isPlaceholder =
+      s.includes("included: (add") ||
+      s.includes("reason for selling") ||
+      s.includes("any marks or faults") ||
+      s.includes("pickup location: (your suburb)");
+    if (!isPlaceholder) keep.push(l);
+  }
+  return keep.join("\n").trim();
+}
+
+
+const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
+type SellerStatus = (typeof SELLER_ALLOWED_STATUSES)[number];
+
+type ListingSeed = {
+  id: string;
+  title: string;
+
+----- lines 22..39 -----
+  return keep.join("\n").trim();
+}
+
+
+const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
+type SellerStatus = (typeof SELLER_ALLOWED_STATUSES)[number];
+
+type ListingSeed = {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  condition: string;
+  location: string;
+  priceDollars: number;
+  images: string[];
+  status: string;
+
+
+----- lines 24..41 -----
+
+
+const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
+type SellerStatus = (typeof SELLER_ALLOWED_STATUSES)[number];
+
+type ListingSeed = {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  condition: string;
+  location: string;
+  priceDollars: number;
+  images: string[];
+  status: string;
+
+  // Kevin timed-offers support
+  type: string;
+
+----- lines 28..45 -----
+
+type ListingSeed = {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  condition: string;
+  location: string;
+  priceDollars: number;
+  images: string[];
+  status: string;
+
+  // Kevin timed-offers support
+  type: string;
+  endsAt: string | null;
+  buyNowPriceDollars: number | null;
+  highestOfferCents: number;
+};
+
+----- lines 29..46 -----
+type ListingSeed = {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  condition: string;
+  location: string;
+  priceDollars: number;
+  images: string[];
+  status: string;
+
+  // Kevin timed-offers support
+  type: string;
+  endsAt: string | null;
+  buyNowPriceDollars: number | null;
+  highestOfferCents: number;
+};
+
+
+----- lines 30..47 -----
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  condition: string;
+  location: string;
+  priceDollars: number;
+  images: string[];
+  status: string;
+
+  // Kevin timed-offers support
+  type: string;
+  endsAt: string | null;
+  buyNowPriceDollars: number | null;
+  highestOfferCents: number;
+};
+
+function dollarsToCents(v: string): number {
+
+----- lines 35..52 -----
+  location: string;
+  priceDollars: number;
+  images: string[];
+  status: string;
+
+  // Kevin timed-offers support
+  type: string;
+  endsAt: string | null;
+  buyNowPriceDollars: number | null;
+  highestOfferCents: number;
+};
+
+function dollarsToCents(v: string): number {
+  const n = Number((v ?? "").trim());
+  return Math.round(n * 100);
+}
+
+function hoursUntilIso(iso: string | null): number | null {
+
+----- lines 36..53 -----
+  priceDollars: number;
+  images: string[];
+  status: string;
+
+  // Kevin timed-offers support
+  type: string;
+  endsAt: string | null;
+  buyNowPriceDollars: number | null;
+  highestOfferCents: number;
+};
+
+function dollarsToCents(v: string): number {
+  const n = Number((v ?? "").trim());
+  return Math.round(n * 100);
+}
+
+function hoursUntilIso(iso: string | null): number | null {
+  if (!iso) return null;
+
+----- lines 37..54 -----
+  images: string[];
+  status: string;
+
+  // Kevin timed-offers support
+  type: string;
+  endsAt: string | null;
+  buyNowPriceDollars: number | null;
+  highestOfferCents: number;
+};
+
+function dollarsToCents(v: string): number {
+  const n = Number((v ?? "").trim());
+  return Math.round(n * 100);
+}
+
+function hoursUntilIso(iso: string | null): number | null {
+  if (!iso) return null;
+  const ms = new Date(iso).getTime() - Date.now();
+
+----- lines 38..55 -----
+  status: string;
+
+  // Kevin timed-offers support
+  type: string;
+  endsAt: string | null;
+  buyNowPriceDollars: number | null;
+  highestOfferCents: number;
+};
+
+function dollarsToCents(v: string): number {
+  const n = Number((v ?? "").trim());
+  return Math.round(n * 100);
+}
+
+function hoursUntilIso(iso: string | null): number | null {
+  if (!iso) return null;
+  const ms = new Date(iso).getTime() - Date.now();
+  if (!Number.isFinite(ms)) return null;
+
+----- lines 63..80 -----
+}
+
+export default function EditListingClient({ listing }: { listing: ListingSeed }) {
+  const router = useRouter();
+
+  const [title, setTitle] = useState(listing.title);
+  const [description, setDescription] = useState(sanitizeDescriptionDisplay(listing.description));
+  const [category, setCategory] = useState(listing.category);
+  const [condition, setCondition] = useState(listing.condition);
+  const [location, setLocation] = useState(listing.location);
+  const [price, setPrice] = useState(String(listing.priceDollars || ""));
+  const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+
+  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+
+----- lines 64..81 -----
+
+export default function EditListingClient({ listing }: { listing: ListingSeed }) {
+  const router = useRouter();
+
+  const [title, setTitle] = useState(listing.title);
+  const [description, setDescription] = useState(sanitizeDescriptionDisplay(listing.description));
+  const [category, setCategory] = useState(listing.category);
+  const [condition, setCondition] = useState(listing.condition);
+  const [location, setLocation] = useState(listing.location);
+  const [price, setPrice] = useState(String(listing.priceDollars || ""));
+  const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+
+  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+
+----- lines 65..82 -----
+export default function EditListingClient({ listing }: { listing: ListingSeed }) {
+  const router = useRouter();
+
+  const [title, setTitle] = useState(listing.title);
+  const [description, setDescription] = useState(sanitizeDescriptionDisplay(listing.description));
+  const [category, setCategory] = useState(listing.category);
+  const [condition, setCondition] = useState(listing.condition);
+  const [location, setLocation] = useState(listing.location);
+  const [price, setPrice] = useState(String(listing.priceDollars || ""));
+  const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+
+  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+  (listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars != null ? String((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) : ""
+
+----- lines 66..83 -----
+  const router = useRouter();
+
+  const [title, setTitle] = useState(listing.title);
+  const [description, setDescription] = useState(sanitizeDescriptionDisplay(listing.description));
+  const [category, setCategory] = useState(listing.category);
+  const [condition, setCondition] = useState(listing.condition);
+  const [location, setLocation] = useState(listing.location);
+  const [price, setPrice] = useState(String(listing.priceDollars || ""));
+  const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+
+  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+  (listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars != null ? String((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) : ""
+);
+
+----- lines 67..84 -----
+
+  const [title, setTitle] = useState(listing.title);
+  const [description, setDescription] = useState(sanitizeDescriptionDisplay(listing.description));
+  const [category, setCategory] = useState(listing.category);
+  const [condition, setCondition] = useState(listing.condition);
+  const [location, setLocation] = useState(listing.location);
+  const [price, setPrice] = useState(String(listing.priceDollars || ""));
+  const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+
+  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+  (listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars != null ? String((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) : ""
+);
+const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) != null);
+
+----- lines 68..85 -----
+  const [title, setTitle] = useState(listing.title);
+  const [description, setDescription] = useState(sanitizeDescriptionDisplay(listing.description));
+  const [category, setCategory] = useState(listing.category);
+  const [condition, setCondition] = useState(listing.condition);
+  const [location, setLocation] = useState(listing.location);
+  const [price, setPrice] = useState(String(listing.priceDollars || ""));
+  const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+
+  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+  (listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars != null ? String((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) : ""
+);
+const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) != null);
+// Existing saved images
+
+----- lines 71..88 -----
+  const [condition, setCondition] = useState(listing.condition);
+  const [location, setLocation] = useState(listing.location);
+  const [price, setPrice] = useState(String(listing.priceDollars || ""));
+  const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+
+  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+  (listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars != null ? String((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) : ""
+);
+const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) != null);
+// Existing saved images
+  const [existingImages, setExistingImages] = useState<string[]>(
+    Array.isArray(listing.images) ? listing.images.filter(Boolean).slice(0, 10) : []
+  );
+
+----- lines 72..89 -----
+  const [location, setLocation] = useState(listing.location);
+  const [price, setPrice] = useState(String(listing.priceDollars || ""));
+  const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+
+  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+  (listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars != null ? String((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) : ""
+);
+const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) != null);
+// Existing saved images
+  const [existingImages, setExistingImages] = useState<string[]>(
+    Array.isArray(listing.images) ? listing.images.filter(Boolean).slice(0, 10) : []
+  );
+
+
+----- lines 73..90 -----
+  const [price, setPrice] = useState(String(listing.priceDollars || ""));
+  const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+
+  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+  (listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars != null ? String((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) : ""
+);
+const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) != null);
+// Existing saved images
+  const [existingImages, setExistingImages] = useState<string[]>(
+    Array.isArray(listing.images) ? listing.images.filter(Boolean).slice(0, 10) : []
+  );
+
+  // New uploads (files)
+
+----- lines 74..91 -----
+  const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
+
+  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+  (listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars != null ? String((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) : ""
+);
+const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) != null);
+// Existing saved images
+  const [existingImages, setExistingImages] = useState<string[]>(
+    Array.isArray(listing.images) ? listing.images.filter(Boolean).slice(0, 10) : []
+  );
+
+  // New uploads (files)
+  const [files, setFiles] = useState<File[]>([]);
+
+----- lines 77..94 -----
+  const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
+  const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+  (listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars != null ? String((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) : ""
+);
+const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) != null);
+// Existing saved images
+  const [existingImages, setExistingImages] = useState<string[]>(
+    Array.isArray(listing.images) ? listing.images.filter(Boolean).slice(0, 10) : []
+  );
+
+  // New uploads (files)
+  const [files, setFiles] = useState<File[]>([]);
+    const cameraInputRef = useRef<HTMLInputElement | null>(null);
+  const galleryInputRef = useRef<HTMLInputElement | null>(null);
+
+
+----- lines 79..96 -----
+  const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
+
+  const [buyNow, setBuyNow] = useState<string>(
+  (listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars != null ? String((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) : ""
+);
+const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown as { buyNowPriceDollars?: number | null }).buyNowPriceDollars) != null);
+// Existing saved images
+  const [existingImages, setExistingImages] = useState<string[]>(
+    Array.isArray(listing.images) ? listing.images.filter(Boolean).slice(0, 10) : []
+  );
+
+  // New uploads (files)
+  const [files, setFiles] = useState<File[]>([]);
+    const cameraInputRef = useRef<HTMLInputElement | null>(null);
+  const galleryInputRef = useRef<HTMLInputElement | null>(null);
+
+  const addPicked = (picked: File[]) => {
+    if (!picked || picked.length === 0) return;
+
+----- lines 105..122 -----
+      next.splice(to, 0, item);
+      return next;
+    });
+  }
+
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const previews = useMemo(() => {
+    return files.slice(0, 10).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
+  }, [files]);
+
+  async function uploadAndAppend(nextFiles: File[]) {
+    const remaining = 10 - (existingImages?.length || 0);
+    if (remaining <= 0) {
+      setError("Too many images (max 10 total).");
+      return;
+    }
+
+----- lines 170..187 -----
+    if (p <= 0) return "Price must be greater than $0.";
+
+    const total = (existingImages?.length || 0) + (files?.length || 0);
+    if (total > 10) return "Too many images (max 10 total).";
+
+    // Late-stage Buy Now (timed offers only) — allow blank to clear, but validate if provided
+    if (isTimedOffers) {
+      const s = String(buyNow ?? "").trim();
+      if (s) {
+        const n = Number(s);
+        if (!Number.isFinite(n)) return "Buy Now must be a number.";
+        if (n <= 0) return "Buy Now must be greater than $0.";
+      }
+    }
+
+    return null;
+  }
+
+
+----- lines 171..188 -----
+
+    const total = (existingImages?.length || 0) + (files?.length || 0);
+    if (total > 10) return "Too many images (max 10 total).";
+
+    // Late-stage Buy Now (timed offers only) — allow blank to clear, but validate if provided
+    if (isTimedOffers) {
+      const s = String(buyNow ?? "").trim();
+      if (s) {
+        const n = Number(s);
+        if (!Number.isFinite(n)) return "Buy Now must be a number.";
+        if (n <= 0) return "Buy Now must be greater than $0.";
+      }
+    }
+
+    return null;
+  }
+
+  async function endListing() {
+
+----- lines 193..210 -----
+    setIsSaving(true);
+    try {
+      const body: any = {
+        title: title.trim(),
+        description: description.trim(),
+        category: category.trim(),
+        condition: condition.trim(),
+        location: location.trim(),
+        price: dollarsToCents(price),
+        images: (existingImages || []).filter(Boolean).slice(0, 10),
+        status: "ENDED",
+      };
+
+      // Preserve timed-offers buy now behavior if present in UI (do not force)
+      if (isTimedOffers) {
+        body.buyNowPrice =
+          (!buyNowEnabled
+            ? null
+
+----- lines 194..211 -----
+    try {
+      const body: any = {
+        title: title.trim(),
+        description: description.trim(),
+        category: category.trim(),
+        condition: condition.trim(),
+        location: location.trim(),
+        price: dollarsToCents(price),
+        images: (existingImages || []).filter(Boolean).slice(0, 10),
+        status: "ENDED",
+      };
+
+      // Preserve timed-offers buy now behavior if present in UI (do not force)
+      if (isTimedOffers) {
+        body.buyNowPrice =
+          (!buyNowEnabled
+            ? null
+            : (inFinal24h && String(buyNow ?? "").trim()
+
+----- lines 195..212 -----
+      const body: any = {
+        title: title.trim(),
+        description: description.trim(),
+        category: category.trim(),
+        condition: condition.trim(),
+        location: location.trim(),
+        price: dollarsToCents(price),
+        images: (existingImages || []).filter(Boolean).slice(0, 10),
+        status: "ENDED",
+      };
+
+      // Preserve timed-offers buy now behavior if present in UI (do not force)
+      if (isTimedOffers) {
+        body.buyNowPrice =
+          (!buyNowEnabled
+            ? null
+            : (inFinal24h && String(buyNow ?? "").trim()
+                ? dollarsToCents(String(buyNow ?? "").trim())
+
+----- lines 201..218 -----
+        price: dollarsToCents(price),
+        images: (existingImages || []).filter(Boolean).slice(0, 10),
+        status: "ENDED",
+      };
+
+      // Preserve timed-offers buy now behavior if present in UI (do not force)
+      if (isTimedOffers) {
+        body.buyNowPrice =
+          (!buyNowEnabled
+            ? null
+            : (inFinal24h && String(buyNow ?? "").trim()
+                ? dollarsToCents(String(buyNow ?? "").trim())
+                : null));
+      }
+
+      const res = await fetch(`/api/listings/${listing.id}/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+
+----- lines 202..219 -----
+        images: (existingImages || []).filter(Boolean).slice(0, 10),
+        status: "ENDED",
+      };
+
+      // Preserve timed-offers buy now behavior if present in UI (do not force)
+      if (isTimedOffers) {
+        body.buyNowPrice =
+          (!buyNowEnabled
+            ? null
+            : (inFinal24h && String(buyNow ?? "").trim()
+                ? dollarsToCents(String(buyNow ?? "").trim())
+                : null));
+      }
+
+      const res = await fetch(`/api/listings/${listing.id}/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+
+----- lines 203..220 -----
+        status: "ENDED",
+      };
+
+      // Preserve timed-offers buy now behavior if present in UI (do not force)
+      if (isTimedOffers) {
+        body.buyNowPrice =
+          (!buyNowEnabled
+            ? null
+            : (inFinal24h && String(buyNow ?? "").trim()
+                ? dollarsToCents(String(buyNow ?? "").trim())
+                : null));
+      }
+
+      const res = await fetch(`/api/listings/${listing.id}/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+
+----- lines 213..230 -----
+                : null));
+      }
+
+      const res = await fetch(`/api/listings/${listing.id}/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(String((data as unknown as { error?: string })?.error || `End failed (HTTP ${res.status})`));
+        return;
+      }
+
+      setStatus("ENDED");
+      router.push("/dashboard/listings");
+      router.refresh();
+    } catch (e: any) {
+
+----- lines 275..292 -----
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="submit"
+                  form="editListingForm"
+                  disabled={isSaving}
+                  className="bd-btn bd-btn-primary text-center"
+                >
+                  {isSaving ? "Saving..." : "Save changes"}
+                </button>
+
+                <Link href={`/listings/${listing.id}`} className="bd-btn bd-btn-ghost text-center">
+                  View listing
+                </Link>
+
+                {status === "ACTIVE" ? (
+
+----- lines 289..306 -----
+                  View listing
+                </Link>
+
+                {status === "ACTIVE" ? (
+                  <button
+                    type="button"
+                    onClick={endListing}
+                    disabled={isSaving}
+                    className="bd-btn bd-btn-ghost text-center"
+                  >
+                    End listing
+                  </button>
+                ) : null}
+
+                <button
+                  type="button"
+                  onClick={deleteListing}
+                  disabled={isSaving}
+
+----- lines 299..316 -----
+                    End listing
+                  </button>
+                ) : null}
+
+                <button
+                  type="button"
+                  onClick={deleteListing}
+                  disabled={isSaving}
+                  className="bd-btn bd-btn-ghost text-center"
+                >
+                  Delete listing
+                </button>
+
+                <Link href="/dashboard/listings" className="bd-btn bd-btn-ghost text-center">
+                  My listings
+                </Link>
+              </div>
+            </div>
+
+----- lines 339..356 -----
+                setIsSaving(true);
+                try {
+                  const body = {
+                    title: title.trim(),
+                    description: description.trim(),
+                    category: category.trim(),
+                    condition: condition.trim(),
+                    location: location.trim(),
+                    price: dollarsToCents(price),
+                    images: (existingImages || []).filter(Boolean).slice(0, 10),
+                    status,
+
+                    // Kevin timed-offers: seller-controlled late Buy Now reveal
+buyNowPrice:
+  isTimedOffers
+    ? (!buyNowEnabled
+        ? null // clear (allowed any time)
+        : (inFinal24h && String(buyNow ?? "").trim()
+
+----- lines 340..357 -----
+                try {
+                  const body = {
+                    title: title.trim(),
+                    description: description.trim(),
+                    category: category.trim(),
+                    condition: condition.trim(),
+                    location: location.trim(),
+                    price: dollarsToCents(price),
+                    images: (existingImages || []).filter(Boolean).slice(0, 10),
+                    status,
+
+                    // Kevin timed-offers: seller-controlled late Buy Now reveal
+buyNowPrice:
+  isTimedOffers
+    ? (!buyNowEnabled
+        ? null // clear (allowed any time)
+        : (inFinal24h && String(buyNow ?? "").trim()
+            ? dollarsToCents(String(buyNow ?? "").trim())
+
+----- lines 341..358 -----
+                  const body = {
+                    title: title.trim(),
+                    description: description.trim(),
+                    category: category.trim(),
+                    condition: condition.trim(),
+                    location: location.trim(),
+                    price: dollarsToCents(price),
+                    images: (existingImages || []).filter(Boolean).slice(0, 10),
+                    status,
+
+                    // Kevin timed-offers: seller-controlled late Buy Now reveal
+buyNowPrice:
+  isTimedOffers
+    ? (!buyNowEnabled
+        ? null // clear (allowed any time)
+        : (inFinal24h && String(buyNow ?? "").trim()
+            ? dollarsToCents(String(buyNow ?? "").trim())
+            : null)) // not in final 24h -> do not set (avoid server rejection)
+
+----- lines 346..363 -----
+                    location: location.trim(),
+                    price: dollarsToCents(price),
+                    images: (existingImages || []).filter(Boolean).slice(0, 10),
+                    status,
+
+                    // Kevin timed-offers: seller-controlled late Buy Now reveal
+buyNowPrice:
+  isTimedOffers
+    ? (!buyNowEnabled
+        ? null // clear (allowed any time)
+        : (inFinal24h && String(buyNow ?? "").trim()
+            ? dollarsToCents(String(buyNow ?? "").trim())
+            : null)) // not in final 24h -> do not set (avoid server rejection)
+    : undefined,
+};
+
+                  const res = await fetch(`/api/listings/${listing.id}/update`, {
+                    method: "POST",
+
+----- lines 347..364 -----
+                    price: dollarsToCents(price),
+                    images: (existingImages || []).filter(Boolean).slice(0, 10),
+                    status,
+
+                    // Kevin timed-offers: seller-controlled late Buy Now reveal
+buyNowPrice:
+  isTimedOffers
+    ? (!buyNowEnabled
+        ? null // clear (allowed any time)
+        : (inFinal24h && String(buyNow ?? "").trim()
+            ? dollarsToCents(String(buyNow ?? "").trim())
+            : null)) // not in final 24h -> do not set (avoid server rejection)
+    : undefined,
+};
+
+                  const res = await fetch(`/api/listings/${listing.id}/update`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+
+----- lines 348..365 -----
+                    images: (existingImages || []).filter(Boolean).slice(0, 10),
+                    status,
+
+                    // Kevin timed-offers: seller-controlled late Buy Now reveal
+buyNowPrice:
+  isTimedOffers
+    ? (!buyNowEnabled
+        ? null // clear (allowed any time)
+        : (inFinal24h && String(buyNow ?? "").trim()
+            ? dollarsToCents(String(buyNow ?? "").trim())
+            : null)) // not in final 24h -> do not set (avoid server rejection)
+    : undefined,
+};
+
+                  const res = await fetch(`/api/listings/${listing.id}/update`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body),
+
+----- lines 359..376 -----
+    : undefined,
+};
+
+                  const res = await fetch(`/api/listings/${listing.id}/update`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body),
+                  });
+
+                  const data = await res.json().catch(() => ({}));
+                  if (!res.ok) {
+                    setError(String((data as unknown as { error?: string })?.error || `Update failed (HTTP ${res.status})`));
+                    return;
+                  }
+
+                  router.push(`/listings/${listing.id}`);
+                  router.refresh();
+                } catch (err: any) {
+
+----- lines 380..397 -----
+                }
+              }}
+            >
+              <div>
+                <label className="text-sm font-extrabold bd-ink">Title *</label>
+                <input className="bd-input mt-1 w-full" value={title} onChange={(e) => setTitle(e.target.value)} required />
+              </div>
+
+              <div>
+                <label className="text-sm font-extrabold bd-ink">Description</label>
+                <textarea
+                  className="bd-input mt-1 w-full"
+                  rows={5}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </div>
+
+
+----- lines 395..412 -----
+                />
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Category</label>
+                  <select
+  className="bd-input mt-1 w-full"
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+>
+  <option value="">Select a category…</option>
+  {CATEGORY_GROUPS.map((g) => (
+    <optgroup key={g.parent} label={g.parent}>
+      <option value={g.parent}>{g.parent}</option>
+      {g.children.map((c) => (
+        <option key={c} value={joinCategory(g.parent, c)}>
+          {c}
+
+----- lines 396..413 -----
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Category</label>
+                  <select
+  className="bd-input mt-1 w-full"
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+>
+  <option value="">Select a category…</option>
+  {CATEGORY_GROUPS.map((g) => (
+    <optgroup key={g.parent} label={g.parent}>
+      <option value={g.parent}>{g.parent}</option>
+      {g.children.map((c) => (
+        <option key={c} value={joinCategory(g.parent, c)}>
+          {c}
+        </option>
+
+----- lines 398..415 -----
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Category</label>
+                  <select
+  className="bd-input mt-1 w-full"
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+>
+  <option value="">Select a category…</option>
+  {CATEGORY_GROUPS.map((g) => (
+    <optgroup key={g.parent} label={g.parent}>
+      <option value={g.parent}>{g.parent}</option>
+      {g.children.map((c) => (
+        <option key={c} value={joinCategory(g.parent, c)}>
+          {c}
+        </option>
+      ))}
+    </optgroup>
+
+----- lines 399..416 -----
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Category</label>
+                  <select
+  className="bd-input mt-1 w-full"
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+>
+  <option value="">Select a category…</option>
+  {CATEGORY_GROUPS.map((g) => (
+    <optgroup key={g.parent} label={g.parent}>
+      <option value={g.parent}>{g.parent}</option>
+      {g.children.map((c) => (
+        <option key={c} value={joinCategory(g.parent, c)}>
+          {c}
+        </option>
+      ))}
+    </optgroup>
+  ))}
+
+----- lines 401..418 -----
+                  <select
+  className="bd-input mt-1 w-full"
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+>
+  <option value="">Select a category…</option>
+  {CATEGORY_GROUPS.map((g) => (
+    <optgroup key={g.parent} label={g.parent}>
+      <option value={g.parent}>{g.parent}</option>
+      {g.children.map((c) => (
+        <option key={c} value={joinCategory(g.parent, c)}>
+          {c}
+        </option>
+      ))}
+    </optgroup>
+  ))}
+</select>
+                </div>
+
+----- lines 402..419 -----
+  className="bd-input mt-1 w-full"
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+>
+  <option value="">Select a category…</option>
+  {CATEGORY_GROUPS.map((g) => (
+    <optgroup key={g.parent} label={g.parent}>
+      <option value={g.parent}>{g.parent}</option>
+      {g.children.map((c) => (
+        <option key={c} value={joinCategory(g.parent, c)}>
+          {c}
+        </option>
+      ))}
+    </optgroup>
+  ))}
+</select>
+                </div>
+
+
+----- lines 406..423 -----
+  <option value="">Select a category…</option>
+  {CATEGORY_GROUPS.map((g) => (
+    <optgroup key={g.parent} label={g.parent}>
+      <option value={g.parent}>{g.parent}</option>
+      {g.children.map((c) => (
+        <option key={c} value={joinCategory(g.parent, c)}>
+          {c}
+        </option>
+      ))}
+    </optgroup>
+  ))}
+</select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Condition</label>
+                  <input className="bd-input mt-1 w-full" value={condition} onChange={(e) => setCondition(e.target.value)} />
+                </div>
+
+----- lines 416..433 -----
+  ))}
+</select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Condition</label>
+                  <input className="bd-input mt-1 w-full" value={condition} onChange={(e) => setCondition(e.target.value)} />
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Location</label>
+                  <input className="bd-input mt-1 w-full" value={location} onChange={(e) => setLocation(e.target.value)} />
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Price (AUD) *</label>
+                  <input
+                    className="bd-input mt-1 w-full"
+
+----- lines 417..434 -----
+</select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Condition</label>
+                  <input className="bd-input mt-1 w-full" value={condition} onChange={(e) => setCondition(e.target.value)} />
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Location</label>
+                  <input className="bd-input mt-1 w-full" value={location} onChange={(e) => setLocation(e.target.value)} />
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Price (AUD) *</label>
+                  <input
+                    className="bd-input mt-1 w-full"
+                    value={price}
+
+----- lines 421..438 -----
+                  <label className="text-sm font-extrabold bd-ink">Condition</label>
+                  <input className="bd-input mt-1 w-full" value={condition} onChange={(e) => setCondition(e.target.value)} />
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Location</label>
+                  <input className="bd-input mt-1 w-full" value={location} onChange={(e) => setLocation(e.target.value)} />
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Price (AUD) *</label>
+                  <input
+                    className="bd-input mt-1 w-full"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    inputMode="decimal"
+                    required
+                  />
+
+----- lines 422..439 -----
+                  <input className="bd-input mt-1 w-full" value={condition} onChange={(e) => setCondition(e.target.value)} />
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Location</label>
+                  <input className="bd-input mt-1 w-full" value={location} onChange={(e) => setLocation(e.target.value)} />
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Price (AUD) *</label>
+                  <input
+                    className="bd-input mt-1 w-full"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    inputMode="decimal"
+                    required
+                  />
+                </div>
+
+----- lines 427..444 -----
+                  <input className="bd-input mt-1 w-full" value={location} onChange={(e) => setLocation(e.target.value)} />
+                </div>
+
+                <div>
+                  <label className="text-sm font-extrabold bd-ink">Price (AUD) *</label>
+                  <input
+                    className="bd-input mt-1 w-full"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                    inputMode="decimal"
+                    required
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="text-sm font-extrabold bd-ink">Status</label>
+                  <select
+                    className="bd-input mt-1 w-full"
+
+----- lines 438..455 -----
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="text-sm font-extrabold bd-ink">Status</label>
+                  <select
+                    className="bd-input mt-1 w-full"
+                    value={status}
+                    onChange={(e) => setStatus(normalizeStatus(e.target.value))}
+                    disabled={isSaving}
+                  >
+                    {SELLER_ALLOWED_STATUSES.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="mt-1 text-xs bd-ink2">Only DRAFT, ACTIVE, or ENDED are allowed for sellers.</div>
+
+----- lines 454..471 -----
+                  </select>
+                  <div className="mt-1 text-xs bd-ink2">Only DRAFT, ACTIVE, or ENDED are allowed for sellers.</div>
+                </div>
+              </div>
+
+              {isTimedOffers ? (
+                <div className="bd-card p-4">
+                  <div className="text-sm font-extrabold bd-ink">Late-stage Buy Now (seller-controlled)</div>
+                  <div className="mt-1 text-xs bd-ink2">
+                    This is only available in the final 24 hours of a timed-offers listing, and must be above the current highest offer.
+                  </div>
+
+                  
+  <div className="mt-3 flex items-center gap-2">
+    <input
+      id="buyNowEnabled"
+      type="checkbox"
+      className="h-4 w-4"
+
+----- lines 456..473 -----
+                </div>
+              </div>
+
+              {isTimedOffers ? (
+                <div className="bd-card p-4">
+                  <div className="text-sm font-extrabold bd-ink">Late-stage Buy Now (seller-controlled)</div>
+                  <div className="mt-1 text-xs bd-ink2">
+                    This is only available in the final 24 hours of a timed-offers listing, and must be above the current highest offer.
+                  </div>
+
+                  
+  <div className="mt-3 flex items-center gap-2">
+    <input
+      id="buyNowEnabled"
+      type="checkbox"
+      className="h-4 w-4"
+      checked={buyNowEnabled}
+      onChange={(e) => setBuyNowEnabled(!!e.target.checked)}
+
+----- lines 458..475 -----
+
+              {isTimedOffers ? (
+                <div className="bd-card p-4">
+                  <div className="text-sm font-extrabold bd-ink">Late-stage Buy Now (seller-controlled)</div>
+                  <div className="mt-1 text-xs bd-ink2">
+                    This is only available in the final 24 hours of a timed-offers listing, and must be above the current highest offer.
+                  </div>
+
+                  
+  <div className="mt-3 flex items-center gap-2">
+    <input
+      id="buyNowEnabled"
+      type="checkbox"
+      className="h-4 w-4"
+      checked={buyNowEnabled}
+      onChange={(e) => setBuyNowEnabled(!!e.target.checked)}
+      disabled={isSaving}
+    />
+
+----- lines 463..480 -----
+                    This is only available in the final 24 hours of a timed-offers listing, and must be above the current highest offer.
+                  </div>
+
+                  
+  <div className="mt-3 flex items-center gap-2">
+    <input
+      id="buyNowEnabled"
+      type="checkbox"
+      className="h-4 w-4"
+      checked={buyNowEnabled}
+      onChange={(e) => setBuyNowEnabled(!!e.target.checked)}
+      disabled={isSaving}
+    />
+    <label htmlFor="buyNowEnabled" className="text-sm font-extrabold bd-ink">
+      Enable Buy Now (final 24h)
+    </label>
+  </div>
+<div className="mt-3 grid gap-2">
+
+----- lines 465..482 -----
+
+                  
+  <div className="mt-3 flex items-center gap-2">
+    <input
+      id="buyNowEnabled"
+      type="checkbox"
+      className="h-4 w-4"
+      checked={buyNowEnabled}
+      onChange={(e) => setBuyNowEnabled(!!e.target.checked)}
+      disabled={isSaving}
+    />
+    <label htmlFor="buyNowEnabled" className="text-sm font-extrabold bd-ink">
+      Enable Buy Now (final 24h)
+    </label>
+  </div>
+<div className="mt-3 grid gap-2">
+                    <label className="text-sm font-extrabold bd-ink">Buy Now price (AUD)</label>
+                    <input
+
+----- lines 477..494 -----
+      Enable Buy Now (final 24h)
+    </label>
+  </div>
+<div className="mt-3 grid gap-2">
+                    <label className="text-sm font-extrabold bd-ink">Buy Now price (AUD)</label>
+                    <input
+                      className="bd-input mt-1 w-full"
+                      value={buyNow}
+                      onChange={(e) => setBuyNow(e.target.value)}
+                      inputMode="decimal"
+                      placeholder={inFinal24h ? "e.g. 250" : "Available in final 24h"}
+                      disabled={isSaving || !buyNowEnabled || !inFinal24h}
+                    />
+                    {isTimedOffers ? (
+                      <div className="text-xs bd-ink2">
+                        Current highest offer:{" "}
+                        <span className="font-semibold bd-ink">{new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD" }).format(Number((listing as unknown as { highestOfferCents?: number | null }).highestOfferCents ?? 0) / 100)}</span>
+                      </div>
+
+----- lines 485..502 -----
+                      onChange={(e) => setBuyNow(e.target.value)}
+                      inputMode="decimal"
+                      placeholder={inFinal24h ? "e.g. 250" : "Available in final 24h"}
+                      disabled={isSaving || !buyNowEnabled || !inFinal24h}
+                    />
+                    {isTimedOffers ? (
+                      <div className="text-xs bd-ink2">
+                        Current highest offer:{" "}
+                        <span className="font-semibold bd-ink">{new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD" }).format(Number((listing as unknown as { highestOfferCents?: number | null }).highestOfferCents ?? 0) / 100)}</span>
+                      </div>
+                    ) : null}
+                    {!inFinal24h ? (
+                      <div className="text-xs bd-ink2">Not in the final 24h window yet.</div>
+                    ) : (
+                      <div className="text-xs bd-ink2">Leave blank to remove Buy Now again.</div>
+                    )}
+                  </div>
+                </div>
+
+----- lines 514..531 -----
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={url} alt="Listing photo" className="h-28 w-full object-cover" />
+
+                        <div className="absolute left-2 top-2 flex gap-1">
+  <button
+    type="button"
+    className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40"
+    onClick={() => moveImage(idx, idx - 1)}
+    disabled={idx === 0}
+    aria-label="Move photo left"
+    title="Move left"
+  >
+    ?
+  </button>
+  <button
+    type="button"
+    className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40"
+    onClick={() => moveImage(idx, idx + 1)}
+
+----- lines 524..541 -----
+    title="Move left"
+  >
+    ?
+  </button>
+  <button
+    type="button"
+    className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40"
+    onClick={() => moveImage(idx, idx + 1)}
+    disabled={idx === existingImages.length - 1}
+    aria-label="Move photo right"
+    title="Move right"
+  >
+    ?
+  </button>
+</div>
+
+                        <button
+                          type="button"
+
+----- lines 536..553 -----
+    ?
+  </button>
+</div>
+
+                        <button
+                          type="button"
+                          className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none"
+                          onClick={() => setExistingImages((cur) => cur.filter((_, i) => i !== idx))}
+                          aria-label="Remove photo"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="absolute right-2 top-2 h-7 px-3 rounded-full bg-white text-black text-xs font-extrabold border border-black/20 shadow-sm leading-none grid place-items-center p-0">No photos yet.</div>
+                )}
+
+----- lines 553..570 -----
+                )}
+
+                <div className="grid gap-2 pt-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <button
+                      type="button"
+                      className="bd-btn bd-btn-primary"
+                      onClick={() => cameraInputRef.current?.click()}
+                      disabled={isSaving || (existingImages?.length || 0) >= 10}
+                    >
+                      Take photo
+                    </button>
+
+                    <button
+                      type="button"
+                      className="bd-btn bd-btn-primary"
+                      onClick={() => galleryInputRef.current?.click()}
+                      disabled={isSaving || (existingImages?.length || 0) >= 10}
+
+----- lines 562..579 -----
+                    >
+                      Take photo
+                    </button>
+
+                    <button
+                      type="button"
+                      className="bd-btn bd-btn-primary"
+                      onClick={() => galleryInputRef.current?.click()}
+                      disabled={isSaving || (existingImages?.length || 0) >= 10}
+                    >
+                      Add photos
+                    </button>
+
+                    <div className="text-xs bd-ink2">{(existingImages?.length || 0)}/10 used</div>
+                  </div>
+
+                  {/* Hidden inputs (separate camera vs gallery for better Samsung behavior) */}
+                  <input
+
+----- lines 574..591 -----
+
+                    <div className="text-xs bd-ink2">{(existingImages?.length || 0)}/10 used</div>
+                  </div>
+
+                  {/* Hidden inputs (separate camera vs gallery for better Samsung behavior) */}
+                  <input
+                    ref={cameraInputRef}
+                    className="hidden"
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    onChange={(e) => {
+                      const picked = Array.from(e.target.files || []);
+                      const remaining = Math.max(0, 10 - (existingImages?.length || 0));
+                      const toAdd = picked.slice(0, Math.min(1, remaining));
+
+                      setFiles((prev) => [...prev, ...toAdd].slice(0, 10));
+                      uploadAndAppend(toAdd);
+
+----- lines 577..594 -----
+
+                  {/* Hidden inputs (separate camera vs gallery for better Samsung behavior) */}
+                  <input
+                    ref={cameraInputRef}
+                    className="hidden"
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    onChange={(e) => {
+                      const picked = Array.from(e.target.files || []);
+                      const remaining = Math.max(0, 10 - (existingImages?.length || 0));
+                      const toAdd = picked.slice(0, Math.min(1, remaining));
+
+                      setFiles((prev) => [...prev, ...toAdd].slice(0, 10));
+                      uploadAndAppend(toAdd);
+
+                      e.currentTarget.value = "";
+                    }}
+
+----- lines 592..609 -----
+
+                      e.currentTarget.value = "";
+                    }}
+                  />
+
+                  <input
+                    ref={galleryInputRef}
+                    className="hidden"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={(e) => {
+                      const picked = Array.from(e.target.files || []);
+                      const remaining = Math.max(0, 10 - (existingImages?.length || 0));
+                      const toAdd = picked.slice(0, remaining);
+
+                      setFiles((prev) => [...prev, ...toAdd].slice(0, 10));
+                      uploadAndAppend(toAdd);
+
+----- lines 595..612 -----
+                  />
+
+                  <input
+                    ref={galleryInputRef}
+                    className="hidden"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={(e) => {
+                      const picked = Array.from(e.target.files || []);
+                      const remaining = Math.max(0, 10 - (existingImages?.length || 0));
+                      const toAdd = picked.slice(0, remaining);
+
+                      setFiles((prev) => [...prev, ...toAdd].slice(0, 10));
+                      uploadAndAppend(toAdd);
+
+                      e.currentTarget.value = "";
+                    }}
+
+----- lines 624..641 -----
+                  ) : null}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2 pt-2">
+                <button type="submit" disabled={isSaving} className="bd-btn bd-btn-primary text-center">
+                  {isSaving ? "Saving..." : "Save changes"}
+                </button>
+                <Link href={`/listings/${listing.id}`} className="bd-btn bd-btn-ghost text-center">
+                  Cancel
+                </Link>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+  );

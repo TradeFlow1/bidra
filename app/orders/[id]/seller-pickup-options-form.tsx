@@ -72,7 +72,7 @@ export default function SellerPickupOptionsForm({ orderId }: { orderId: string }
         <input name="slot3" type="datetime-local" required className="bd-input" />
 
         <button type="submit" className="bd-btn bd-btn-primary" disabled={loading}>
-          {loading ? "Saving..." : "Submit pickup options"}
+          {loading ? "Saving..." : "Add/replace pickup options"}
         </button>
       </form>
 

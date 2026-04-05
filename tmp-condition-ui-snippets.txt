@@ -1,0 +1,36 @@
+
+----- lines 16..31 -----
+
+
+  const highest = await prisma.offer.findFirst({
+    where: { listingId: listing.id },
+    orderBy: { amount: "desc" },
+    select: { amount: true },
+  });
+  const highestOfferCents = highest?.amount ?? 0;
+  return (
+    <EditListingClient
+      listing={{
+        id: listing.id,
+        title: listing.title,
+        description: listing.description || "",
+        category: listing.category || "General",
+        condition: listing.condition || "Used",
+
+----- lines 26..41 -----
+      listing={{
+        id: listing.id,
+        title: listing.title,
+        description: listing.description || "",
+        category: listing.category || "General",
+        condition: listing.condition || "Used",
+        location: listing.location || "",
+        priceDollars: Number(listing.price || 0) / 100,
+        images,
+        status: String((listing as unknown as { status?: unknown }).status || "DRAFT"),
+
+        // Kevin timed-offers support (seller-controlled, late-stage only)
+        type: String((listing as unknown as { type?: unknown }).type || "BUY_NOW"),
+        endsAt: (listing as unknown as { endsAt?: unknown }).endsAt ? new Date((listing as unknown as { endsAt?: unknown }).endsAt as Date | string | number).toISOString() : null,
+        buyNowPriceDollars: (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice != null ? Number((listing as unknown as { buyNowPrice?: unknown }).buyNowPrice as number) / 100 : null,
+        highestOfferCents,
