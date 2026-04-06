@@ -1,3 +1,34 @@
+#Requires -Version 5.1
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+$scriptRoot = Split-Path -Parent $PSCommandPath
+if ([string]::IsNullOrWhiteSpace($scriptRoot)) {
+    throw 'This script must be run from a .ps1 file, not pasted into the console.'
+}
+
+$repoRoot = Split-Path -Parent $scriptRoot
+if (-not (Test-Path -LiteralPath (Join-Path $repoRoot 'package.json'))) {
+    throw "Repo root guard failed. Expected package.json at: $repoRoot"
+}
+Set-Location $repoRoot
+
+function Write-Utf8NoBom {
+    param(
+        [Parameter(Mandatory = $true)][string]$Path,
+        [Parameter(Mandatory = $true)][string]$Content
+    )
+    $dir = Split-Path -Parent $Path
+    if (-not (Test-Path -LiteralPath $dir)) {
+        New-Item -ItemType Directory -Force -Path $dir | Out-Null
+    }
+    $enc = New-Object System.Text.UTF8Encoding($false)
+    [System.IO.File]::WriteAllText($Path, $Content, $enc)
+}
+
+$targetPath = Join-Path $repoRoot 'app\orders\[id]\buyer-pickup-select.tsx'
+
+$content = @'
 "use client";
 
 import { useMemo, useState } from "react";
@@ -92,7 +123,7 @@ export default function BuyerPickupSelect({ orderId, options }: { orderId: strin
                     (isSelected ? "border-blue-600 bg-blue-600 text-white" : "border-black/20 text-transparent")
                   }
                 >
-                  âœ“
+                  ✓
                 </div>
               </div>
             </button>
@@ -114,3 +145,7 @@ export default function BuyerPickupSelect({ orderId, options }: { orderId: strin
     </div>
   );
 }
+'@
+
+Write-Utf8NoBom -Path $targetPath -Content $content
+Write-Host '[OK] buyer pickup select UI patch applied'
