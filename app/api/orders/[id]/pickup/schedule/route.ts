@@ -74,14 +74,14 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
       return NextResponse.json({ ok: false, error: "Pickup scheduling is not available for this order status." }, { status: 409 });
     }
 
-    const availability = (order.listing as any) ? (order.listing as any).pickupAvailability : null;
-    if (!availability) {
-      return NextResponse.json({ ok: false, error: "Seller has not set pickup availability windows yet." }, { status: 409 });
+    const pickupOptionsRaw = Array.isArray((order as any).pickupOptions) ? (order as any).pickupOptions : [];
+    if (!pickupOptionsRaw.length) {
+      return NextResponse.json({ ok: false, error: "Seller has not provided pickup options for this order yet." }, { status: 409 });
     }
 
-    const windows = availability as PickupWindow[];
+    const windows = pickupOptionsRaw as PickupWindow[];
     if (!Array.isArray(windows) || windows.length === 0) {
-      return NextResponse.json({ ok: false, error: "Seller pickup availability windows are invalid." }, { status: 409 });
+      return NextResponse.json({ ok: false, error: "Seller pickup options for this order are invalid." }, { status: 409 });
     }
 
     if (!isWithinWindows(scheduledAt, windows)) {

@@ -166,7 +166,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     <SafetyCallout title="Next step">
       <ul className="list-disc pl-5">
         <li>This is a binding order.</li>
-        <li>This listing should already have seller-defined pickup availability.</li>
+        <li>After purchase, provide pickup options here so the buyer can choose in-app.</li>
       </ul>
     </SafetyCallout>
 
@@ -174,7 +174,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
     <div className="font-semibold">Action required</div>
     <div className="mt-1">
-      Pickup availability should already be set from the listing. Add options here only if needed.
+      Add pickup options here after the sale. The buyer will choose one in-app to lock the schedule.
     </div>
   </div>
 ) : null}
@@ -197,7 +197,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                       <div className="text-sm font-extrabold bd-ink">What happens next</div>
                       {order.status === "PICKUP_REQUIRED" ? (
                         <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
-                          <li><b>Pickup options</b> should be provided by the seller.</li>
+                          <li><b>Pickup options</b> are provided by the seller after purchase.</li>
                           <li>The buyer then chooses one option and the schedule is locked. Messages do not override the scheduled flow.</li>
                           <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link> for clarification only.</li>
                         </ul>

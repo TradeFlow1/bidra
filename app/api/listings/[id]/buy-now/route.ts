@@ -49,15 +49,6 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       return jsonError("You cannot Buy Now your own listing.", 400);
     }
 
-    const pickupAvailabilityRaw = (listing as unknown as { pickupAvailability?: unknown }).pickupAvailability;
-
-    const pickupOptions = Array.isArray(pickupAvailabilityRaw)
-      ? pickupAvailabilityRaw.map(function (x: unknown) { return String(x || "").trim(); }).filter(Boolean)
-      : [];
-
-    if (pickupOptions.length < 1) {
-      return jsonError("Seller has not set pickup availability for this listing yet.", 409);
-    }
 
     const result = await prisma.$transaction(async function (tx) {
       const updated = await tx.listing.updateMany({
@@ -82,8 +73,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
           outcome: "PENDING",
           buyerId: session.user.id,
           listingId: listing.id,
-          pickupOptions: pickupOptions,
-          pickupOptionsSentAt: new Date(),
+
         },
       });
 
