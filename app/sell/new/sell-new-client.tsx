@@ -329,9 +329,9 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     feedbackUrl: string | null;
   }>(null);
   const router = useRouter();
-  const [pickup1, setPickup1] = useState("");
-  const [pickup2, setPickup2] = useState("");
-  const [pickup3, setPickup3] = useState("");
+  const [pickupDays, setPickupDays] = useState<string[]>([]);
+  const [pickupTimeBlocks, setPickupTimeBlocks] = useState<string[]>([]);
+  const [pickupNotes, setPickupNotes] = useState("");
     const cameraInputRef = useRef<HTMLInputElement | null>(null);
   const galleryInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -520,12 +520,8 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         }
       }
 const imagesToSend = uploadedUrls;
-      const pickupAvailability = [pickup1, pickup2, pickup3].map(function (v) { return String(v || "").trim(); }).filter(Boolean);
+      const pickupAvailability = { days: pickupDays, timeBlocks: pickupTimeBlocks, notes: String(pickupNotes || "").trim() };
 
-      if (!pickup1.trim() || !pickup2.trim() || !pickup3.trim()) {
-        setErr("Please provide 3 pickup availability options.");
-        return;
-      }
 
       // 2) Create listing
       const res = await fetch("/api/listings/create", {
@@ -607,9 +603,38 @@ const imagesToSend = uploadedUrls;
       <div className="mt-4 grid gap-2">
         <label className="text-sm font-semibold bd-ink">Pickup availability</label>
         <div className="text-xs bd-ink2">Add 3 pickup options buyers can choose from after purchase.</div>
-        <input type="datetime-local" className="bd-input" value={pickup1} onChange={(e) => setPickup1(e.target.value)} />
-        <input type="datetime-local" className="bd-input" value={pickup2} onChange={(e) => setPickup2(e.target.value)} />
-        <input type="datetime-local" className="bd-input" value={pickup3} onChange={(e) => setPickup3(e.target.value)} />
+        <div className="grid gap-3">
+          <div>
+            <div className="text-sm font-semibold bd-ink">Preferred pickup days</div>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(function (d) {
+                const active = pickupDays.includes(d);
+                return (
+                  <button key={d} type="button" className={active ? "bd-btn bd-btn-primary" : "bd-btn bd-btn-ghost"} onClick={function () { setPickupDays(active ? pickupDays.filter(function (x) { return x !== d; }) : pickupDays.concat([d])); }}>
+                    {d}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div>
+            <div className="text-sm font-semibold bd-ink">General pickup times</div>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {["Morning","Afternoon","Evening"].map(function (b) {
+                const active = pickupTimeBlocks.includes(b);
+                return (
+                  <button key={b} type="button" className={active ? "bd-btn bd-btn-primary" : "bd-btn bd-btn-ghost"} onClick={function () { setPickupTimeBlocks(active ? pickupTimeBlocks.filter(function (x) { return x !== b; }) : pickupTimeBlocks.concat([b])); }}>
+                    {b}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div>
+            <label className="text-sm font-semibold bd-ink">Pickup notes (optional)</label>
+            <textarea className="bd-input mt-2 min-h-[88px]" value={pickupNotes} onChange={(e) => setPickupNotes(e.target.value)} placeholder="Example: Weeknights after work, Saturday mornings, flexible with notice." />
+          </div>
+        </div>
       </div>
 
 <p className="mt-2 text-sm bd-ink2">

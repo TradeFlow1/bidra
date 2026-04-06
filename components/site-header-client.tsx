@@ -93,6 +93,9 @@ export default function SiteHeaderClient({
         <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>
           Dashboard
         </Link>
+        <Link href="/profile" className={menuLinkClass} onClick={closeMenu}>
+          Profile
+        </Link>
         <Link href="/orders" className={menuLinkClass} onClick={closeMenu}>
           Orders
         </Link>

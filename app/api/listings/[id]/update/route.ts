@@ -102,8 +102,8 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     const price = Number(body.price);
 
     const imagesRaw = Array.isArray(body.images) ? body.images : [];
-    const pickupAvailabilityRaw = Array.isArray(body.pickupAvailability) ? body.pickupAvailability : [];
-    const pickupAvailability = pickupAvailabilityRaw.map(function (v: any) { return String(v ?? "").trim(); }).filter(Boolean).slice(0, 3);
+    const pickupAvailabilityRaw = body.pickupAvailability && typeof body.pickupAvailability === "object" ? body.pickupAvailability : null;
+    const pickupAvailability = pickupAvailabilityRaw ? pickupAvailabilityRaw : null;
     const images = imagesRaw.map(function (v: any) { return String(v ?? "").trim(); }).filter(Boolean).slice(0, 10);
 
     const buyNowPriceIn = body?.buyNowPrice;
@@ -119,7 +119,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     if (!location) return NextResponse.json({ error: "Location is required. Please set your Account location (postcode + suburb + state) and try again." }, { status: 400 });
     if (!isValidAuLocation(location)) return NextResponse.json({ error: "Invalid location. Use format like: 4000 Brisbane, QLD (postcode + suburb + state)." }, { status: 400 });
     if (images.length > 10) return NextResponse.json({ error: "Too many images (max 10)." }, { status: 400 });
-    if (pickupAvailability.length < 3) return NextResponse.json({ error: "Please provide 3 pickup availability options." }, { status: 400 });
+    if (!pickupAvailability || !Array.isArray((pickupAvailability as any).days) || !(pickupAvailability as any).days.length || !Array.isArray((pickupAvailability as any).timeBlocks) || !(pickupAvailability as any).timeBlocks.length) return NextResponse.json({ error: "Please provide seller pickup availability." }, { status: 400 });
     if (status && !(SELLER_ALLOWED_STATUSES as readonly string[]).includes(status)) return NextResponse.json({ error: "Invalid status" }, { status: 400 });
 
     if (images.some(function (u: string) {

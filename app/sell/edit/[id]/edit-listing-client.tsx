@@ -72,7 +72,10 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const [location, setLocation] = useState(listing.location);
   const [price, setPrice] = useState(String(listing.priceDollars || ""));
   const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
-  const seededPickup = Array.isArray((listing as any).pickupAvailability) ? (listing as any).pickupAvailability.map(function (x: any) { return String(x || ""); }) : ["", "", ""];
+  const seededPickup = ((listing as any).pickupAvailability && typeof (listing as any).pickupAvailability === "object") ? (listing as any).pickupAvailability : { days: [], timeBlocks: [], notes: "" };
+  const [pickupDays, setPickupDays] = useState<string[]>(Array.isArray((seededPickup as any).days) ? (seededPickup as any).days : []);
+  const [pickupTimeBlocks, setPickupTimeBlocks] = useState<string[]>(Array.isArray((seededPickup as any).timeBlocks) ? (seededPickup as any).timeBlocks : []);
+  const [pickupNotes, setPickupNotes] = useState<string>(String((seededPickup as any).notes || ""));
   const [pickup1, setPickup1] = useState(seededPickup[0] || "");
   const [pickup2, setPickup2] = useState(seededPickup[1] || "");
   const [pickup3, setPickup3] = useState(seededPickup[2] || "");
@@ -175,9 +178,9 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
 
     const total = (existingImages?.length || 0) + (files?.length || 0);
     if (total > 10) return "Too many images (max 10 total).";
-    if (!pickup1.trim() || !pickup2.trim() || !pickup3.trim()) return "Please provide 3 pickup availability options.";
+    if (!pickupDays.length || !pickupTimeBlocks.length) return "Please provide seller pickup availability.";
 
-    // Late-stage Buy Now (timed offers only) — allow blank to clear, but validate if provided
+    // Late-stage Buy Now (timed offers only) Ã¢â‚¬â€ allow blank to clear, but validate if provided
     if (isTimedOffers) {
       const s = String(buyNow ?? "").trim();
       if (s) {
@@ -360,7 +363,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                     price: dollarsToCents(price),
                     images: (existingImages || []).filter(Boolean).slice(0, 10),
                     status,
-                    pickupAvailability: [pickup1, pickup2, pickup3].map(function (v) { return String(v || "").trim(); }).filter(Boolean),
+                    pickupAvailability: { days: pickupDays, timeBlocks: pickupTimeBlocks, notes: String(pickupNotes || "").trim() },
 
                     // Kevin timed-offers: seller-controlled late Buy Now reveal
 buyNowPrice:
@@ -417,7 +420,7 @@ buyNowPrice:
   value={category}
   onChange={(e) => setCategory(e.target.value)}
 >
-  <option value="">Select a category…</option>
+  <option value="">Select a categoryÃ¢â‚¬Â¦</option>
   {CATEGORY_GROUPS.map((g) => (
     <optgroup key={g.parent} label={g.parent}>
       <option value={g.parent}>{g.parent}</option>
@@ -537,7 +540,7 @@ buyNowPrice:
     aria-label="Move photo left"
     title="Move left"
   >
-    ←
+    Ã¢â€ Â
   </button>
   <button
     type="button"
@@ -547,7 +550,7 @@ buyNowPrice:
     aria-label="Move photo right"
     title="Move right"
   >
-    →
+    Ã¢â€ â€™
   </button>
 </div>
 

@@ -1,4 +1,4 @@
-﻿import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Card, Button, Input } from "@/components/ui";
@@ -29,7 +29,6 @@ export default async function ProfilePage({
     const s = await auth();
     const u = s?.user;
     if (!u?.id) redirect("/auth/login");
-    if (!u?.id) redirect("/auth/login");
 
     const name = String(formData.get("name") ?? "").trim().slice(0, 60);
     const bio = String(formData.get("bio") ?? "").trim().slice(0, 280);
@@ -38,67 +37,21 @@ export default async function ProfilePage({
     const suburb = String(formData.get("suburb") ?? "").trim().slice(0, 60);
     const state = String(formData.get("state") ?? "").trim().slice(0, 10);
 
-const payidEmail = String(formData.get("payidEmail") ?? "").trim().slice(0, 120);
-const payidMobile = String(formData.get("payidMobile") ?? "").trim().slice(0, 32);
-
-const bankName = String(formData.get("bankName") ?? "").trim().slice(0, 80);
-const bankBsb = String(formData.get("bankBsb") ?? "").trim().slice(0, 16);
-const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32);
-
     const hasPostcode = postcode.length > 0;
     const hasSuburb = suburb.length > 0;
     const hasState = state.length > 0;
 
-    // Rule: postcode OR (suburb + state). No street address.
     if (!hasPostcode && !(hasSuburb && hasState)) {
       redirect("/profile?saved=0");
     }
 
-    // If suburb entered, state must be present (even if postcode exists)
     if (hasSuburb && !hasState) {
       redirect("/profile?saved=0");
     }
 
-        // ---- Payout details validation (optional) ----
-    const payidEmailNorm = payidEmail.trim();
-    const payidMobileDigits = payidMobile.replace(/[^\d]/g, "");
-    const bankBsbDigits = bankBsb.replace(/[^\d]/g, "");
-    const bankAccountDigits = bankAccount.replace(/[^\d]/g, "");
+    const userId = u?.id;
+    if (!userId) redirect("/auth/login");
 
-    const hasPayidEmail = payidEmailNorm.length > 0;
-    const hasPayidMobile = payidMobileDigits.length > 0;
-
-    const hasBankName = bankName.trim().length > 0;
-    const hasBankBsb = bankBsbDigits.length > 0;
-    const hasBankAccount = bankAccountDigits.length > 0;
-
-    // PayID email: basic shape check
-    if (hasPayidEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payidEmailNorm)) {
-      redirect("/profile?saved=0");
-    }
-
-    // PayID mobile: AU mobile 04xxxxxxxx (10 digits total)
-    if (hasPayidMobile) {
-      if (!(payidMobileDigits.length === 10 && payidMobileDigits.startsWith("04"))) {
-        // PayID mobile must be an AU mobile number
-        redirect("/profile?saved=0");
-      }
-    }
-
-    // Bank: if any bank field provided, require BSB + account and validate lengths
-    if (hasBankName || hasBankBsb || hasBankAccount) {
-      if (!hasBankBsb || !hasBankAccount) {
-        redirect("/profile?saved=0");
-      }
-      if (bankBsbDigits.length !== 6) {
-        redirect("/profile?saved=0");
-      }
-      if (bankAccountDigits.length < 6 || bankAccountDigits.length > 12) {
-        redirect("/profile?saved=0");
-      }
-    }
-
-    const userId = u?.id; if (!userId) redirect("/auth/login");
     await prisma.user.update({
       where: { id: userId },
       data: {
@@ -108,11 +61,6 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
         suburb: hasSuburb ? suburb : null,
         state: hasState ? state : null,
         country: "AU",
-        payidEmail: payidEmail || null,
-        payidMobile: (payidMobileDigits || "") ? payidMobileDigits : null,
-        bankName: bankName || null,
-        bankBsb: (bankBsbDigits || "") ? bankBsbDigits : null,
-        bankAccount: (bankAccountDigits || "") ? bankAccountDigits : null,
       },
     });
 
@@ -124,16 +72,10 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
       <h1 className="text-3xl font-extrabold tracking-tight text-center bd-ink">Account settings</h1>
 
       <div className="mt-5 flex justify-center gap-3">
-        <a
-          href="/forgot-password"
-          className="bd-btn bd-btn-ghost"
-        >
+        <a href="/forgot-password" className="bd-btn bd-btn-ghost">
           Reset password
         </a>
-        <a
-          href="/logout"
-          className="bd-btn bd-btn-ghost"
-        >
+        <a href="/logout" className="bd-btn bd-btn-ghost">
           Log out
         </a>
       </div>
@@ -155,7 +97,6 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
           <div className="mt-1">Enter your <strong>postcode</strong>, <strong>suburb</strong>, and <strong>state</strong>. (No street address)</div>
         </div>
       ) : null}
-
 
       <div className="mt-6 space-y-4">
         <Card>
@@ -185,7 +126,6 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
 
             <div className="bd-card p-5">
               <div className="text-sm font-semibold">Location</div>
-<div className="mt-1 text-xs bd-ink2">Enter your <strong>postcode</strong>, <strong>suburb</strong>, and <strong>state</strong>. (No street address)</div>
               <div className="mt-1 text-sm bd-ink2">
                 Use <span className="font-semibold">postcode</span>, <span className="font-semibold">suburb</span>, and <span className="font-semibold">state</span>. (No street address)
               </div>
@@ -196,8 +136,7 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
                   <Input name="postcode" defaultValue={(dbUser as unknown as { postcode?: string }).postcode ?? ""} placeholder="e.g. 4301" />
                 </div>
 
-                <div className="hidden sm:flex items-center justify-center text-xs bd-ink2">
-                </div>
+                <div className="hidden sm:flex items-center justify-center text-xs bd-ink2"></div>
 
                 <div className="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
@@ -224,54 +163,7 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
               </div>
             </div>
 
-            <div>
-              <label className="text-sm font-medium">Avatar URL (optional)</label>
-            </div>
-
-            <div className="bd-card p-5">
-  <div className="text-sm font-semibold">Payout details</div>
-  <div className="mt-1 text-xs bd-ink2">Optional — only needed if selling.</div>
-
-  <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-    <div>
-      <label className="text-sm font-medium">PayID email (optional)</label>
-      <Input name="payidEmail" defaultValue={(dbUser as unknown as { payidEmail?: string }).payidEmail ?? ""} placeholder="e.g. you@example.com" />
-      <div className="mt-1 text-xs bd-ink2">Use this if you receive PayID payments to your email.</div>
-    </div>
-
-    <div>
-      <label className="text-sm font-medium">PayID mobile (optional)</label>
-      <Input name="payidMobile" defaultValue={(dbUser as unknown as { payidMobile?: string }).payidMobile ?? ""} placeholder="e.g. 04xx xxx xxx" />
-      <div className="mt-1 text-xs bd-ink2">Most Australians use mobile PayID — add it here if preferred.</div>
-    </div>
-  </div>
-
-  <div className="mt-4">
-    <div className="text-sm font-medium">Bank transfer fallback (optional)</div>
-
-    <div className="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-3">
-      <div className="sm:col-span-1">
-        <label className="text-sm font-medium">Bank name</label>
-        <Input name="bankName" defaultValue={(dbUser as unknown as { bankName?: string }).bankName ?? ""} placeholder="e.g. Commonwealth Bank" />
-      </div>
-
-      <div className="sm:col-span-1">
-        <label className="text-sm font-medium">BSB</label>
-        <Input name="bankBsb" defaultValue={(dbUser as unknown as { bankBsb?: string }).bankBsb ?? ""} placeholder="e.g. 062-000" />
-      </div>
-
-      <div className="sm:col-span-1">
-        <label className="text-sm font-medium">Account number</label>
-        <Input name="bankAccount" defaultValue={(dbUser as unknown as { bankAccount?: string }).bankAccount ?? ""} placeholder="e.g. 12345678" />
-      </div>
-    </div>
-
-    <div className="mt-2 text-xs bd-ink2">Used only if PayID isn’t available for a sale.</div>
-  </div>
-</div>
-
-
-<Button type="submit" className="bd-btn bd-btn-primary w-full text-center">
+            <Button type="submit" className="bd-btn bd-btn-primary w-full text-center">
               Save changes
             </Button>
 
@@ -284,4 +176,3 @@ const bankAccount = String(formData.get("bankAccount") ?? "").trim().slice(0, 32
     </div></main>
   );
 }
-
