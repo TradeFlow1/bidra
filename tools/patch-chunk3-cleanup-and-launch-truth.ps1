@@ -1,3 +1,48 @@
+#Requires -Version 5.1
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+$scriptRoot = Split-Path -Parent $PSCommandPath
+if ([string]::IsNullOrWhiteSpace($scriptRoot)) {
+    throw 'This script must be run from a .ps1 file, not pasted into the console.'
+}
+
+$repoRoot = Split-Path -Parent $scriptRoot
+if (-not (Test-Path -LiteralPath (Join-Path $repoRoot 'package.json'))) {
+    throw "Repo root guard failed. Expected package.json at: $repoRoot"
+}
+Set-Location $repoRoot
+
+function Write-Utf8NoBom {
+    param(
+        [Parameter(Mandatory = $true)][string]$Path,
+        [Parameter(Mandatory = $true)][string]$Content
+    )
+    $dir = Split-Path -Parent $Path
+    if (-not (Test-Path -LiteralPath $dir)) {
+        New-Item -ItemType Directory -Force -Path $dir | Out-Null
+    }
+    $enc = New-Object System.Text.UTF8Encoding($false)
+    [System.IO.File]::WriteAllText($Path, $Content, $enc)
+}
+
+$orderPayPath = Join-Path $repoRoot 'app\orders\[id]\pay\page.tsx'
+$dashboardPath = Join-Path $repoRoot 'app\dashboard\page.tsx'
+
+$orderPay = @'
+import { redirect } from "next/navigation";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export default function OrderPayRedirect({ params }: { params: { id: string } }) {
+  const id = String(params?.id || "").trim();
+  if (!id) redirect("/orders");
+  redirect("/orders/" + id);
+}
+'@
+
+$dashboard = @'
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
@@ -254,3 +299,8 @@ export default async function DashboardPage() {
     </main>
   );
 }
+'@
+
+Write-Utf8NoBom -Path $orderPayPath -Content $orderPay
+Write-Utf8NoBom -Path $dashboardPath -Content $dashboard
+Write-Host '[OK] chunk 3 cleanup and launch-truth patch applied'

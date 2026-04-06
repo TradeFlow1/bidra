@@ -20,8 +20,8 @@ export default function SupportPage() {
         <h2 className="text-xl font-semibold">Safe buying (recommended)</h2>
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
           <li>Meet in a public place for pickups. Bring a friend if possible.</li>
-          <li>Inspect items before handing over money (especially electronics, bikes, high-value goods).</li>
-          <li>Be cautious of unrealistic prices, urgency pressure, or requests to Ã¢â‚¬Å“move fastÃ¢â‚¬Â off-platform.</li>
+          <li>Inspect items before handing over money, especially electronics, bikes, and high-value goods.</li>
+          <li>Be cautious of unrealistic prices, urgency pressure, or requests to move fast off-platform.</li>
           <li>Pickup is scheduled in-app. No-shows and repeat reschedules affect reliability.</li>
         </ul>
       </section>
@@ -39,10 +39,10 @@ export default function SupportPage() {
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
         <h2 className="text-xl font-semibold">Scams and red flags</h2>
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
-          <li>Someone asks you to pay Ã¢â‚¬Å“outside BidraÃ¢â‚¬Â to avoid fees.</li>
+          <li>Someone asks you to continue the transaction outside Bidra to avoid fees or records.</li>
           <li>Someone offers overpayment with a request to refund the difference.</li>
           <li>Someone refuses pickup inspection or pressures you to ignore the in-app pickup flow.</li>
-          <li>Someone pressures you to communicate only by SMS/WhatsApp before agreeing key terms.</li>
+          <li>Someone pressures you to communicate only by SMS or WhatsApp before agreeing key terms.</li>
         </ul>
         <p className="mt-3 text-sm text-black/60">
           If you see these patterns, stop and report. We investigate abusive behaviour and may restrict accounts.
@@ -52,9 +52,9 @@ export default function SupportPage() {
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
         <h2 className="text-xl font-semibold">Disputes</h2>
         <p className="mt-3 text-black/75">
-          Most issues are resolved between buyer and seller. If you canÃ¢â‚¬â„¢t resolve it, contact Support with your order
-          ID, listing link, and evidence. Bidra may take platform actions (like removing listings or restricting
-          accounts) but does not act as a seller, escrow holder, shipping provider, or payment provider.
+          Most issues are resolved between buyer and seller. If you cannot resolve it, contact Support with your order
+          ID, listing link, and evidence. Bidra may take platform actions such as removing listings or restricting
+          accounts, but does not act as a seller, escrow holder, shipping provider, or payment provider.
         </p>
       </section>
 

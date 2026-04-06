@@ -19,11 +19,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  if (order.status === "PICKUP_SCHEDULED") {
-    return NextResponse.json({ error: "Pickup is already scheduled." }, { status: 409 });
-  }
-
-  if (order.status !== "PICKUP_REQUIRED") {
+  if (order.status !== "PICKUP_REQUIRED" && order.status !== "PICKUP_SCHEDULED") {
     return NextResponse.json({ error: "Pickup selection is not available for this order status." }, { status: 409 });
   }
 
@@ -41,6 +37,8 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     return NextResponse.json({ error: "Selected option is not valid" }, { status: 400 });
   }
 
+  const isReschedulePending = !!order.rescheduleRequestedAt;
+
   const updated = await prisma.order.update({
     where: { id: order.id },
     data: {
@@ -48,13 +46,18 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       pickupOptionSelectedAt: new Date(),
       pickupScheduleLockedAt: new Date(),
       status: "PICKUP_SCHEDULED",
+      rescheduleResolvedAt: isReschedulePending ? new Date() : order.rescheduleResolvedAt,
+      rescheduleRequestedAt: isReschedulePending ? null : order.rescheduleRequestedAt,
+      rescheduleRequestedByRole: isReschedulePending ? null : order.rescheduleRequestedByRole,
+      rescheduleReason: isReschedulePending ? null : order.rescheduleReason,
+      rescheduleCount: isReschedulePending ? { increment: 1 } : order.rescheduleCount,
     },
   });
 
   try {
     await prisma.adminEvent.create({
       data: {
-        type: "ORDER_PICKUP_OPTION_SELECTED",
+        type: isReschedulePending ? "ORDER_RESCHEDULE_CONFIRMED" : "ORDER_PICKUP_OPTION_SELECTED",
         userId: String(user.id),
         orderId: order.id,
         data: {
@@ -66,19 +69,19 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       },
     });
   } catch (e) {
-    console.warn("[ADMIN_AUDIT] Failed to log ORDER_PICKUP_OPTION_SELECTED", e);
+    console.warn("[ADMIN_AUDIT] Failed to log pickup selection", e);
   }
 
-    // Notify seller
   if (order.listing?.sellerId) {
     const seller = await prisma.user.findUnique({ where: { id: order.listing.sellerId } });
     if (seller?.email) {
       await sendEmail({
         to: seller.email,
-        subject: "Pickup time confirmed",
+        subject: isReschedulePending ? "Replacement pickup time confirmed" : "Pickup time confirmed",
         text:
-          "The buyer has selected a pickup time.\n\n" +
-          "View details here:\n" +
+          (isReschedulePending
+            ? "The buyer has selected a replacement pickup time.\n\nView details here:\n"
+            : "The buyer has selected a pickup time.\n\nView details here:\n") +
           (process.env.NEXTAUTH_URL || "https://www.bidra.com.au") +
           "/orders/" + order.id
       });

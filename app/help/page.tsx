@@ -1,4 +1,4 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Link from "next/link";
@@ -9,19 +9,17 @@ export default function HelpPage() {
       <header style={{ marginBottom: 18 }}>
         <h1 style={{ margin: 0, fontSize: 30 }}>Help</h1>
         <p style={{ marginTop: 10, marginBottom: 0, opacity: 0.8 }}>
-          Quick guidance for using Bidra. If you can’t find what you need, contact support.
+          Quick guidance for using Bidra. If you cannot find what you need, contact support.
         </p>
       </header>
 
       <section style={{ border: "1px solid rgba(0,0,0,0.12)", borderRadius: 10, padding: 16 }}>
         <h2 style={{ marginTop: 0 }}>How it works</h2>
         <ol style={{ marginTop: 8, lineHeight: 1.7 }}>
-          <li>Create a listing (fixed price).</li>
-          <li>Connect with buyers locally.</li>
-          <li>
-            After a sale, pickup is scheduled in-app. Messages are for clarification only. Bidra records outcomes and enforces reliability.
-          </li>
-          <li>Feedback is required to complete a sale.</li>
+          <li>Create a listing.</li>
+          <li>Connect locally and keep messages focused on clarification only.</li>
+          <li>After a sale, pickup is scheduled in-app. Bidra records outcomes and enforces reliability through the order flow.</li>
+          <li>Complete the order after handover and leave feedback.</li>
         </ol>
       </section>
 
@@ -36,7 +34,7 @@ export default function HelpPage() {
       </section>
 
       <p style={{ marginTop: 24 }}>
-        <Link href="/">← Back to home</Link>
+        <Link href="/">â† Back to home</Link>
       </p>
     </main>
   );

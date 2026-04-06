@@ -55,7 +55,6 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
     const isParticipant = thread.buyerId === me || thread.sellerId === me
     if (!isParticipant) redirect("/messages")
 
-    // Read receipts: stamp "last read" when a participant opens the thread
     if (thread.lastMessageAt) {
       const myLastRead = thread.buyerId === me ? thread.buyerLastReadAt : thread.sellerLastReadAt
       const needsStamp =
@@ -87,7 +86,6 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
       select: { id: true, body: true, createdAt: true, userId: true },
     })
 
-    // Read receipts (UI): show "Seen" on your latest message once the other party has opened the thread after it was sent.
     const otherLastReadAt = (thread.buyerId === me ? thread.sellerLastReadAt : thread.buyerLastReadAt) || null
 
     const myMessages = messages.filter((x) => x.userId === me)
@@ -96,7 +94,6 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
     const seenLastMyMessage =
       !!(lastMyMessageAt && otherLastReadAt && new Date(otherLastReadAt).getTime() >= new Date(lastMyMessageAt).getTime())
-
 
     return (
       <main>
@@ -128,7 +125,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                   </div>
                   <h1 className="h1">Messages</h1>
                   <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-                    Chat with <span className="font-semibold text-[var(--bidra-ink)]">{displayName(other)}</span>
+                    Clarification thread with <span className="font-semibold text-[var(--bidra-ink)]">{displayName(other)}</span>
                   </div>
                 </div>
 
@@ -144,50 +141,54 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                 </div>
               </div>
 
+              <div className="mt-4 rounded-2xl border border-black/10 bg-white/5 px-4 py-3 text-sm text-[var(--bidra-ink-2)]">
+                Use messages only for clarification about the item, access, or pickup context. Scheduling and order decisions stay in the order flow.
+              </div>
+
               <div className="mt-6 bd-card p-4 max-h-[60vh] overflow-auto">
-  {messages.length ? (
-    <div className="flex flex-col gap-3">
-      {messages.map((m) => {
-        const mine = m.userId === me
-        const body = allowContactDetailsInMessages() ? m.body : maskContactInfo(m.body)
-        const isLastMine = mine && lastMyMessageId && m.id === lastMyMessageId
+                {messages.length ? (
+                  <div className="flex flex-col gap-3">
+                    {messages.map((m) => {
+                      const mine = m.userId === me
+                      const body = allowContactDetailsInMessages() ? m.body : maskContactInfo(m.body)
+                      const isLastMine = mine && lastMyMessageId && m.id === lastMyMessageId
 
-        return (
-          <div key={m.id} className={"flex " + (mine ? "justify-end" : "justify-start")}>
-            <div className={"max-w-[85%] sm:max-w-[70%]"}>
-              <div
-                className={
-                  "rounded-2xl px-4 py-2.5 text-sm leading-relaxed border " +
-                  (mine
-                    ? "bg-[var(--bidra-ink)] text-white border-black/10"
-                    : "bg-white/5 text-[var(--bidra-ink)] border-white/10")
-                }
-              >
-                {body}
+                      return (
+                        <div key={m.id} className={"flex " + (mine ? "justify-end" : "justify-start")}>
+                          <div className={"max-w-[85%] sm:max-w-[70%]"}>
+                            <div
+                              className={
+                                "rounded-2xl px-4 py-2.5 text-sm leading-relaxed border " +
+                                (mine
+                                  ? "bg-[var(--bidra-ink)] text-white border-black/10"
+                                  : "bg-white/5 text-[var(--bidra-ink)] border-white/10")
+                              }
+                            >
+                              {body}
+                            </div>
+
+                            <div className={"mt-1 flex items-center gap-2 text-[11px] " + (mine ? "justify-end" : "justify-start")}>
+                              <span className="text-[var(--bidra-ink-2)]">{formatAuDateTime(m.createdAt)}</span>
+
+                              {isLastMine ? (
+                                <span className="text-[var(--bidra-ink-2)]">{seenLastMyMessage ? "Seen" : "Sent"}</span>
+                              ) : null}
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                ) : (
+                  <div className="text-sm text-[var(--bidra-ink-2)]">No messages yet. Use this space for clarification only.</div>
+                )}
               </div>
-
-              <div className={"mt-1 flex items-center gap-2 text-[11px] " + (mine ? "justify-end" : "justify-start")}>
-                <span className="text-[var(--bidra-ink-2)]">{formatAuDateTime(m.createdAt)}</span>
-
-                {isLastMine ? (
-                  <span className="text-[var(--bidra-ink-2)]">{seenLastMyMessage ? "Seen" : "Sent"}</span>
-                ) : null}
-              </div>
-            </div>
-          </div>
-        )
-      })}
-    </div>
-  ) : (
-    <div className="text-sm text-[var(--bidra-ink-2)]">No messages yet. Say hello to get started.</div>
-  )}
-</div>
 
               <div className="mt-4 bd-card p-4">
                 <SendBox threadId={thread.id} />
                 <div className="mt-3 text-xs text-[var(--bidra-ink-2)]">
-  Tip: Keep chats about the listing. Use Messages for clarification only. Never share passwords or verification codes, and follow the order and pickup flow shown in-app.
-</div>
+                  Tip: Keep messages about the listing. Use Messages for clarification only. Never share passwords or verification codes, and follow the order and pickup flow shown in-app.
+                </div>
               </div>
             </section>
           </div>

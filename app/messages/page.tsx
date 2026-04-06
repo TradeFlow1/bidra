@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import { allowContactDetailsInMessages, maskContactInfo } from "@/lib/message-safety"
 import Link from "next/link"
 import InboxAutoRefresh from "./components/inbox-auto-refresh"
@@ -54,7 +54,7 @@ export default async function MessagesInboxPage() {
       return { ...t, unread }
     })
 
-        const unreadCount = items.filter((i) => i.unread).length
+    const unreadCount = items.filter((i) => i.unread).length
 
     items.sort((a, b) => {
       if (a.unread !== b.unread) return a.unread ? -1 : 1
@@ -66,31 +66,35 @@ export default async function MessagesInboxPage() {
     return (
       <main>
         <div className="bd-card mt-4">
-  <div className="text-sm bd-ink">
-    <span className="font-semibold">Safety tip:</span>{" "}
-    Do not share your phone number or email address in messages. Keep communication on Bidra so there's a record if something goes wrong.
-  </div>
-</div>
-<div className="bd-container">
+          <div className="text-sm bd-ink">
+            <span className="font-semibold">Safety tip:</span>{" "}
+            Do not share your phone number or email address in messages. Keep communication on Bidra so there is a record if something goes wrong.
+          </div>
+        </div>
+        <div className="bd-container">
           <div className="container">
             <section className="py-10">
               <InboxAutoRefresh />
 
               <h1 className="text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)]">Messages</h1>
-              <p className="mt-2 text-sm text-[var(--bidra-ink-2)]">Private conversations about listings.</p>
+              <p className="mt-2 text-sm text-[var(--bidra-ink-2)]">Use messages for clarification only. Scheduling and order steps are controlled in the order flow.</p>
 
-{unreadCount > 0 ? (
-  <div className="mt-4 rounded-2xl border border-black/10 bg-[var(--bidra-blue)]/10 px-4 py-3 text-sm text-[var(--bidra-ink)]">
-    <b>Unread messages:</b> You have <b>{unreadCount}</b> unread {unreadCount === 1 ? "conversation" : "conversations"}.
-  </div>
-) : null}
+              {unreadCount > 0 ? (
+                <div className="mt-4 rounded-2xl border border-black/10 bg-[var(--bidra-blue)]/10 px-4 py-3 text-sm text-[var(--bidra-ink)]">
+                  <b>Unread messages:</b> You have <b>{unreadCount}</b> unread {unreadCount === 1 ? "conversation" : "conversations"}.
+                </div>
+              ) : null}
+
+              <div className="mt-4 rounded-2xl border border-black/10 bg-white/5 px-4 py-3 text-sm text-[var(--bidra-ink-2)]">
+                Messages help with clarification about the item, condition, access, and pickup context. They do not override the order or pickup flow.
+              </div>
 
               <div className="mt-6 space-y-3">
                 {items.length === 0 ? (
                   <div className="rounded-2xl bd-card p-6 shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur">
                     <div className="text-base font-semibold">No messages yet.</div>
                     <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-                      When you message a seller (or someone messages you), your chats will show up here.
+                      When you contact someone about a listing, your clarification threads will show up here.
                     </div>
                     <div className="mt-4">
                       <Link
@@ -165,12 +169,12 @@ export default async function MessagesInboxPage() {
     return (
       <main>
         <div className="bd-card mt-4">
-  <div className="text-sm bd-ink">
-    <span className="font-semibold">Safety tip:</span>{" "}
-    Do not share your phone number or email address in messages. Keep communication on Bidra so there's a record if something goes wrong.
-  </div>
-</div>
-<div className="bd-container">
+          <div className="text-sm bd-ink">
+            <span className="font-semibold">Safety tip:</span>{" "}
+            Do not share your phone number or email address in messages. Keep communication on Bidra so there is a record if something goes wrong.
+          </div>
+        </div>
+        <div className="bd-container">
           <div className="container">
             <section className="py-10">
               <h1 className="text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)]">Messages</h1>

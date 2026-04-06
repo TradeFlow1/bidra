@@ -73,15 +73,15 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
       </div>
 
       <p style={{ marginTop: 8, opacity: 0.75 }}>
-        Shows internal events. Key one: <b>FEEDBACK_SUBMITTED_WHILE_BLOCKED</b>.
+        Shows internal audit events.
       </p>
 
       <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
         <Link href="/admin/events" style={chipStyle(!type)}>All events</Link>
         <Link href="/admin/events?type=ORDER_PICKUP_SCHEDULED" style={chipStyle(type === "ORDER_PICKUP_SCHEDULED")}>Pickup scheduled</Link>
         <Link href="/admin/events?type=ORDER_RESCHEDULE_REQUESTED" style={chipStyle(type === "ORDER_RESCHEDULE_REQUESTED")}>Reschedule requested</Link>
-        <Link href="/admin/events?type=ORDER_RESCHEDULE_REQUEST_APPROVED" style={chipStyle(type === "ORDER_RESCHEDULE_REQUEST_APPROVED")}>Reschedule approved</Link>
-        <Link href="/admin/events?type=ORDER_RESCHEDULE_REQUEST_REJECTED" style={chipStyle(type === "ORDER_RESCHEDULE_REQUEST_REJECTED")}>Reschedule rejected</Link>
+        <Link href="/admin/events?type=ORDER_RESCHEDULE_OPTIONS_POSTED" style={chipStyle(type === "ORDER_RESCHEDULE_OPTIONS_POSTED")}>Replacement options posted</Link>
+        <Link href="/admin/events?type=ORDER_RESCHEDULE_CONFIRMED" style={chipStyle(type === "ORDER_RESCHEDULE_CONFIRMED")}>Reschedule confirmed</Link>
         <Link href="/admin/events?type=ORDER_NO_SHOW_REPORTED" style={chipStyle(type === "ORDER_NO_SHOW_REPORTED")}>No-show reported</Link>
         <Link href="/admin/events?type=ORDER_NO_SHOW_REPORT_REVIEWED" style={chipStyle(type === "ORDER_NO_SHOW_REPORT_REVIEWED")}>No-show reviewed</Link>
       </div>
@@ -112,7 +112,6 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
               <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Order id if relevant">Order</th>
               <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Readable event summary">Summary</th>
               <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Event payload / details">Data</th>
-              <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Admin review actions">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -127,12 +126,8 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
               const reasonText = d && typeof d["reason"] === "string" ? String(d["reason"]) : null;
               const decisionText = d && typeof d["decision"] === "string" ? String(d["decision"]) : null;
               const noteText = d && typeof d["note"] === "string" ? String(d["note"]) : null;
-
-              const backTo = "/admin/events?type=" + encodeURIComponent(type || r.type);
-              const isRescheduleRequest = r.type === "ORDER_RESCHEDULE_REQUESTED";
-              const isRescheduleReviewed = r.type === "ORDER_RESCHEDULE_REQUEST_APPROVED" || r.type === "ORDER_RESCHEDULE_REQUEST_REJECTED";
-              const isNoShowReport = r.type === "ORDER_NO_SHOW_REPORTED";
               const isNoShowReviewed = r.type === "ORDER_NO_SHOW_REPORT_REVIEWED";
+
               return (
                 <tr key={r.id} className="border-t bd-bd hover:bg-neutral-50">
                   <td className="px-4 py-3 bd-ink2 text-xs whitespace-nowrap"><DateTimeText value={r.createdAt} /></td>
@@ -146,70 +141,19 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
                       <div><span className="font-extrabold bd-ink">Role:</span> {actorRole || "-"}</div>
                       <div><span className="font-extrabold bd-ink">When:</span> {whenText || "-"}</div>
                       <div><span className="font-extrabold bd-ink">Reason:</span> {reasonText || "-"}</div>
-                      {(isRescheduleReviewed || isNoShowReviewed) ? <div><span className="font-extrabold bd-ink">Decision:</span> {decisionText || "-"}</div> : null}
-                      {(isRescheduleReviewed || isNoShowReviewed) ? <div><span className="font-extrabold bd-ink">Note:</span> {noteText || "-"}</div> : null}
+                      {isNoShowReviewed ? <div><span className="font-extrabold bd-ink">Decision:</span> {decisionText || "-"}</div> : null}
+                      {isNoShowReviewed ? <div><span className="font-extrabold bd-ink">Note:</span> {noteText || "-"}</div> : null}
                     </div>
                   </td>
                   <td className="px-4 py-3 bd-ink2 text-xs">
                     <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>{r.data ? JSON.stringify(r.data, null, 2) : "-"}</pre>
-                  </td>
-                  <td className="px-4 py-3 bd-ink2 text-xs">
-                    {isRescheduleRequest && r.orderId ? (
-                      <div className="grid gap-2">
-                        <form action="/api/admin/orders/reschedule-request/resolve" method="post" className="grid gap-2">
-                          <input type="hidden" name="orderId" value={r.orderId} />
-                          <input type="hidden" name="decision" value="APPROVE" />
-                          <input type="hidden" name="backTo" value={backTo} />
-                          <input name="scheduledAt" type="datetime-local" className="bd-input" />
-                          <input name="note" placeholder="Admin note (optional)" className="bd-input" />
-                          <button type="submit" className="bd-btn bd-btn-primary">Approve + reschedule</button>
-                        </form>
-                        <form action="/api/admin/orders/reschedule-request/resolve" method="post" className="grid gap-2">
-                          <input type="hidden" name="orderId" value={r.orderId} />
-                          <input type="hidden" name="decision" value="REJECT" />
-                          <input type="hidden" name="backTo" value={backTo} />
-                          <input name="note" placeholder="Admin note (optional)" className="bd-input" />
-                          <button type="submit" className="bd-btn bd-btn-ghost">Reject request</button>
-                        </form>
-                      </div>
-                    ) : isRescheduleReviewed ? (
-                      <div className="font-semibold bd-ink">Reviewed</div>
-                    ) : null}
-
-                    {isNoShowReport && r.orderId ? (
-                      <div className="grid gap-2">
-                        <form action="/api/admin/orders/no-show-report/resolve" method="post" className="grid gap-2">
-                          <input type="hidden" name="orderId" value={r.orderId} />
-                          <input type="hidden" name="decision" value="REVIEWED_BUYER_AT_FAULT" />
-                          <input type="hidden" name="backTo" value={backTo} />
-                          <input name="note" placeholder="Admin note (optional)" className="bd-input" />
-                          <button type="submit" className="bd-btn bd-btn-primary">Buyer at fault</button>
-                        </form>
-                        <form action="/api/admin/orders/no-show-report/resolve" method="post" className="grid gap-2">
-                          <input type="hidden" name="orderId" value={r.orderId} />
-                          <input type="hidden" name="decision" value="REVIEWED_SELLER_AT_FAULT" />
-                          <input type="hidden" name="backTo" value={backTo} />
-                          <input name="note" placeholder="Admin note (optional)" className="bd-input" />
-                          <button type="submit" className="bd-btn bd-btn-primary">Seller at fault</button>
-                        </form>
-                        <form action="/api/admin/orders/no-show-report/resolve" method="post" className="grid gap-2">
-                          <input type="hidden" name="orderId" value={r.orderId} />
-                          <input type="hidden" name="decision" value="REVIEWED_INCONCLUSIVE" />
-                          <input type="hidden" name="backTo" value={backTo} />
-                          <input name="note" placeholder="Admin note (optional)" className="bd-input" />
-                          <button type="submit" className="bd-btn bd-btn-ghost">Inconclusive</button>
-                        </form>
-                      </div>
-                    ) : isNoShowReviewed ? (
-                      <div className="font-semibold bd-ink">Reviewed</div>
-                    ) : null}
                   </td>
                 </tr>
               );
             })}
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={7} style={{ padding: 12, opacity: 0.7 }}>No events yet.</td>
+                <td colSpan={6} style={{ padding: 12, opacity: 0.7 }}>No events yet.</td>
               </tr>
             ) : null}
           </tbody>

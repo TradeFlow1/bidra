@@ -72,7 +72,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       ok: true,
       status: String(order.status),
       v2NoPaymentStep: true,
-      message: "No payment confirmation step is required in V2.",
+      message: "There is no in-app payment confirmation step in Bidra V2. Follow the order and pickup flow shown in-app.",
     });
   } catch (e: any) {
     console.error("order.pay.confirm failed", e);

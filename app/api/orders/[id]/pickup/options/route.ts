@@ -49,25 +49,45 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       return NextResponse.json({ ok: false, error: "Leave at least 1 hour between pickup options." }, { status: 400 });
     }
   }
+
+  const isReschedulePending = !!order.rescheduleRequestedAt;
+
   const updated = await prisma.order.update({
     where: { id: order.id },
     data: {
       pickupOptions: unique,
       pickupOptionsSentAt: new Date(),
-      status: "PICKUP_REQUIRED",
+      pickupOptionSelectedAt: isReschedulePending ? null : order.pickupOptionSelectedAt,
+      status: isReschedulePending ? "PICKUP_SCHEDULED" : "PICKUP_REQUIRED",
     },
   });
 
-    // Notify buyer
+  try {
+    await prisma.adminEvent.create({
+      data: {
+        type: isReschedulePending ? "ORDER_RESCHEDULE_OPTIONS_POSTED" : "ORDER_PICKUP_OPTIONS_POSTED",
+        userId: String(user.id),
+        orderId: order.id,
+        data: {
+          listingId: order.listingId ?? null,
+          buyerId: order.buyerId ?? null,
+          sellerId: order.listing?.sellerId ?? null,
+          options: unique,
+        },
+      },
+    });
+  } catch (_auditErr) {}
+
   if (order.buyerId) {
     const buyer = await prisma.user.findUnique({ where: { id: order.buyerId } });
     if (buyer?.email) {
       await sendEmail({
         to: buyer.email,
-        subject: "Pickup options available",
+        subject: isReschedulePending ? "Replacement pickup options available" : "Pickup options available",
         text:
-          "The seller has provided pickup options for your order.\n\n" +
-          "Choose a time here:\n" +
+          (isReschedulePending
+            ? "The seller has posted replacement pickup options for your order.\n\nChoose a new time here:\n"
+            : "The seller has provided pickup options for your order.\n\nChoose a time here:\n") +
           (process.env.NEXTAUTH_URL || "https://www.bidra.com.au") +
           "/orders/" + order.id
       });

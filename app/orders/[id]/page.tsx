@@ -11,7 +11,8 @@ import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
 import SafetyCallout from "../../../components/safety-callout";
-import OrderStatusTimeline from "../../../components/order-status-timeline";export const dynamic = "force-dynamic";
+import OrderStatusTimeline from "../../../components/order-status-timeline";
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function OrderDetailPage({ params }: { params: { id: string } }) {
@@ -74,6 +75,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const pickupOptions = Array.isArray(order.pickupOptions)
     ? order.pickupOptions.map(function (x) { return String(x); })
     : [];
+  const reschedulePending = !!order.rescheduleRequestedAt;
+  const rescheduleRequestedByRole = order.rescheduleRequestedByRole ? String(order.rescheduleRequestedByRole) : null;
+  const rescheduleReason = order.rescheduleReason ? String(order.rescheduleReason) : null;
 
   return (
     <main className="bd-container py-10">
@@ -120,14 +124,37 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               <OrderStatusTimeline status={order.status} outcome={order.outcome} className="mt-3" />
 
-{order.pickupScheduledAt ? (
-  <div className="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
-    <div className="font-semibold">Pickup scheduled</div>
-    <div className="mt-1">
-      {new Date(order.pickupScheduledAt).toLocaleString()}
-    </div>
-  </div>
-) : null}
+              {order.pickupScheduledAt ? (
+                <div className="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
+                  <div className="font-semibold">Current pickup time</div>
+                  <div className="mt-1">{new Date(order.pickupScheduledAt).toLocaleString()}</div>
+                  {reschedulePending ? (
+                    <div className="mt-2 text-xs text-green-900">
+                      This remains the binding pickup time until a replacement time is chosen.
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+
+              {reschedulePending ? (
+                <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                  <div className="font-semibold">Reschedule in progress</div>
+                  <div className="mt-1">
+                    Requested by: <b>{rescheduleRequestedByRole || "Unknown"}</b>
+                  </div>
+                  {rescheduleReason ? <div className="mt-1">Reason: {rescheduleReason}</div> : null}
+                  {isBuyer ? (
+                    <div className="mt-2">
+                      {pickupOptions.length ? "Replacement pickup options are ready below. Choose one to update the schedule." : "Waiting for the seller to post replacement pickup options."}
+                    </div>
+                  ) : null}
+                  {isSeller ? (
+                    <div className="mt-2">
+                      Post replacement pickup options below so the buyer can choose a new time.
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
 
               {(order.status === "PICKUP_SCHEDULED" && isBuyer && order.outcome !== "COMPLETED") ? (
                 <>
@@ -150,37 +177,45 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                     {pickupOptions.length ? "Choose one of the seller-defined pickup options below." : "Waiting for seller pickup availability."}
                   </div>
                   {(order.status === "PICKUP_REQUIRED" && isBuyer && pickupOptions.length > 0) ? (
-  <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-    <div className="font-semibold">Action required</div>
-    <div className="mt-1">
-      Choose a pickup time to complete scheduling.
-    </div>
-  </div>
-) : null}
-<BuyerPickupSelect orderId={order.id} options={pickupOptions} />
+                    <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+                      <div className="font-semibold">Action required</div>
+                      <div className="mt-1">Choose a pickup time to complete scheduling.</div>
+                    </div>
+                  ) : null}
+                  <BuyerPickupSelect orderId={order.id} options={pickupOptions} />
+                </div>
+              ) : null}
+
+              {(order.status === "PICKUP_SCHEDULED" && isBuyer && reschedulePending && pickupOptions.length > 0) ? (
+                <div className="pt-2">
+                  <BuyerPickupSelect orderId={order.id} options={pickupOptions} />
                 </div>
               ) : null}
 
               {order.listing?.sellerId === user.id && order.status === "PICKUP_REQUIRED" ? (
-  <div className="pt-2">
-    <SafetyCallout title="Next step">
-      <ul className="list-disc pl-5">
-        <li>This is a binding order.</li>
-        <li>After purchase, provide pickup options here so the buyer can choose in-app.</li>
-      </ul>
-    </SafetyCallout>
+                <div className="pt-2">
+                  <SafetyCallout title="Next step">
+                    <ul className="list-disc pl-5">
+                      <li>This is a binding order.</li>
+                      <li>After purchase, provide pickup options here so the buyer can choose in-app.</li>
+                    </ul>
+                  </SafetyCallout>
 
-    {(order.status === "PICKUP_REQUIRED" && isSeller) ? (
-  <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-    <div className="font-semibold">Action required</div>
-    <div className="mt-1">
-      Add pickup options here after the sale. The buyer will choose one in-app to lock the schedule.
-    </div>
-  </div>
-) : null}
-<SellerPickupOptionsForm orderId={order.id} />
-  </div>
-) : null}
+                  {(order.status === "PICKUP_REQUIRED" && isSeller) ? (
+                    <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+                      <div className="font-semibold">Action required</div>
+                      <div className="mt-1">Add pickup options here after the sale. The buyer will choose one in-app to lock the schedule.</div>
+                    </div>
+                  ) : null}
+                  <SellerPickupOptionsForm orderId={order.id} />
+                </div>
+              ) : null}
+
+              {(order.status === "PICKUP_SCHEDULED" && isSeller && reschedulePending) ? (
+                <div className="pt-2">
+                  <SellerPickupOptionsForm orderId={order.id} />
+                </div>
+              ) : null}
 
               {order.listing?.sellerId === user.id && order.status === "PICKUP_SCHEDULED" && order.outcome !== "COMPLETED" ? (
                 <>
@@ -204,6 +239,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                       ) : order.status === "PICKUP_SCHEDULED" ? (
                         <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
                           <li>This order is now in the <b>pickup scheduled</b> stage.</li>
+                          <li>The current scheduled time stays binding until a replacement time is chosen in the order.</li>
                           <li>Honour the agreed time and use Messages only for clarification.</li>
                           <li>After the handover, leave feedback to help build trust.</li>
                         </ul>

@@ -190,9 +190,14 @@ model Report {
 }
 
 model Order {
-  pickupOptions Json?
-  pickupOptionsSentAt DateTime?
+  pickupOptions          Json?
+  pickupOptionsSentAt    DateTime?
   pickupOptionSelectedAt DateTime?
+  rescheduleRequestedAt  DateTime?
+  rescheduleRequestedByRole String?
+  rescheduleReason       String?
+  rescheduleResolvedAt   DateTime?
+  rescheduleCount        Int            @default(0)
   id                     String         @id @default(cuid())
   amount                 Int
   status                 OrderStatus    @default(PENDING)
