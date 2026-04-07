@@ -4,7 +4,7 @@ export default function HowItWorksPage() {
       <h1 className="text-3xl font-semibold tracking-tight">How Bidra works</h1>
       <p className="mt-3 text-base text-black/70">
         Bidra is an Australian marketplace where people list items and connect directly.
-        We are the platform â€” we are not the seller, and we do not automatically award a winner.
+        We are the platform only - we are not the seller, and we do not automatically award a winner.
       </p>
 
       <section className="mt-8 rounded-2xl border border-black/10 bg-white p-6">
@@ -12,7 +12,7 @@ export default function HowItWorksPage() {
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
           <li><strong>18+ only:</strong> accounts are for adults. Under 18s can browse publicly but cannot transact or message.</li>
           <li>Set your <strong>location</strong> (suburb, state, postcode) so buyers see realistic pickup context.</li>
-          <li>Keep your profile accurate â€” it helps trust and reduces disputes.</li>
+          <li>Keep your profile accurate - it helps trust and reduces disputes.</li>
         </ul>
       </section>
 
@@ -83,7 +83,7 @@ export default function HowItWorksPage() {
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
         <h2 className="text-xl font-semibold">Important notes</h2>
         <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
-          <li><strong>Bidra is the platform only</strong> â€” items are sold by users, and we are not an auctioneer, escrow holder, shipping provider, or payment provider.</li>
+          <li><strong>Bidra is the platform only</strong> - items are sold by users, and we are not an auctioneer, escrow holder, shipping provider, or payment provider.</li>
           <li>Use the in-app order flow and keep records for smoother resolution if something goes wrong.</li>
           <li>Fees (if any) are shown before you confirm actions. See <a className="underline" href="/legal/fees">Fees</a>.</li>
           <li>Listings must follow our rules. Prohibited items are blocked. See <a className="underline" href="/legal/prohibited-items">Prohibited items</a>.</li>

@@ -4,7 +4,7 @@ export default function TermsPage() {
       <h1 className="text-3xl font-semibold tracking-tight">Terms</h1>
       <p className="mt-3 text-base text-black/70">
         These Terms govern your use of Bidra. By accessing or using Bidra, you agree to these Terms.
-        Bidra is a marketplace platform only ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â we are not the seller of items, not a payment provider, and not an auctioneer.
+        Bidra is a marketplace platform only - we are not the seller of items, not a payment provider, and not an auctioneer.
       </p>
 
       <section className="mt-8 rounded-2xl border border-black/10 bg-white p-6">
@@ -14,7 +14,7 @@ export default function TermsPage() {
             <strong>18+ accounts only.</strong> Under 18s may browse publicly but may not create accounts, list items, place offers, message, or transact.
           </li>
           <li>You must provide accurate information and keep your account details reasonably current (including your location).</li>
-          <li>YouÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢re responsible for keeping your login details secure and for all activity on your account.</li>
+          <li>You're responsible for keeping your login details secure and for all activity on your account.</li>
           <li>We may restrict or suspend accounts to protect the marketplace, comply with law, or investigate abuse.</li>
         </ul>
       </section>
@@ -100,7 +100,7 @@ export default function TermsPage() {
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
         <h2 className="text-xl font-semibold">8) Liability and service availability</h2>
         <p className="mt-3 text-black/75">
-          Bidra is provided ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œas isÃƒÂ¢Ã¢â€šÂ¬Ã‚Â to the extent permitted by law. We aim to keep the service reliable, but outages and errors can occur.
+          Bidra is provided "as is" to the extent permitted by law. We aim to keep the service reliable, but outages and errors can occur.
           Nothing in these Terms limits rights you may have under Australian Consumer Law where applicable.
         </p>
       </section>
@@ -108,7 +108,7 @@ export default function TermsPage() {
       <section className="mt-6 rounded-2xl border border-black/10 bg-white p-6">
         <h2 className="text-xl font-semibold">9) Changes to these Terms</h2>
         <p className="mt-3 text-black/75">
-          We may update these Terms from time to time. If changes are material, weÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ll take reasonable steps to notify users.
+          We may update these Terms from time to time. If changes are material, we'll take reasonable steps to notify users.
         </p>
       </section>
 
