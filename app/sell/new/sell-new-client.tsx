@@ -421,7 +421,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     }
 
     return true;
-  }, [title, description, category, location, price, startingBid, reservePrice, buyNowPrice, durationDays, isTimedOffers]);
+  }, [title, description, category, location, price, startingBid, buyNowPrice, durationDays, isTimedOffers]);
   const categoryOptions = useMemo(() => FULL_CATEGORIES, []);
 
   const suggestedCategory = useMemo(() => {
@@ -603,7 +603,7 @@ const imagesToSend = uploadedUrls;
       </div>
 
 <p className="mt-2 text-sm bd-ink2">
-        Add the basics — title, description, category, condition, location, photos, and pricing. Pickup is arranged after purchase in the order flow.
+        Add the basics Ã¢â‚¬â€ title, description, category, condition, location, photos, and pricing. Pickup is arranged after purchase in the order flow.
       </p>
 
       {err && (
