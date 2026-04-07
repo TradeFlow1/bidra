@@ -66,7 +66,6 @@ tmp-*.js
 *.bak
 *.bak_*
 *.BROKEN.bak
--Pattern
 
 # Binaries / packs (do not commit)
 *.zip
@@ -77,7 +76,6 @@ tmp-*.js
 *.bak-buy-now-*
 
 # Prevent accidental build marker files
-t === STEP *
 
 
 tmp-create-*.js
@@ -108,3 +106,16 @@ tools/v2-scan-contradictions-report.txt
 /tools/bidra-launch-fixes.json
 # Bidra V2 patch scratch scripts (v2-47)
 /tools/patch-v2-47-*.ps1
+
+# Bidra repo hygiene
+*.bak
+*.bak_*
+*.bak_v*
+*.tmp
+*.tmp*
+*.BROKEN.bak
+*_copy.*
+*.copy.*
+tools/_patch-archive/
+tools/*.log
+tools/*scan*.txt
