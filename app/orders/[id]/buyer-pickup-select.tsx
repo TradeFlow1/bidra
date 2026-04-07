@@ -92,7 +92,7 @@ export default function BuyerPickupSelect({ orderId, options }: { orderId: strin
                     (isSelected ? "border-blue-600 bg-blue-600 text-white" : "border-black/20 text-transparent")
                   }
                 >
-                  âœ“
+                  ✓
                 </div>
               </div>
             </button>
@@ -101,11 +101,11 @@ export default function BuyerPickupSelect({ orderId, options }: { orderId: strin
       </div>
 
       <div className="rounded-2xl border border-black/10 bg-white/5 px-4 py-3 text-sm bd-ink2">
-        Select one pickup time to lock the schedule.
+        Select one pickup time to confirm the updated schedule.
       </div>
 
       <button type="button" className="bd-btn bd-btn-primary" onClick={choose} disabled={loading || !selected}>
-        {loading ? "Saving..." : "Confirm pickup time"}
+        {loading ? "Saving..." : "Confirm time"}
       </button>
 
       {error ? (

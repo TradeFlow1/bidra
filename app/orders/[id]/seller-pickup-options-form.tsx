@@ -137,12 +137,12 @@ export default function SellerPickupOptionsForm({ orderId }: { orderId: string }
 
       const data = await res.json().catch(function () { return {}; });
       if (!res.ok || !data.ok) {
-        throw new Error(data.error || "Unable to save pickup options.");
+        throw new Error(data.error || "Unable to update pickup options.");
       }
 
       window.location.reload();
     } catch (err: any) {
-      setError(err?.message || "Unable to save pickup options.");
+      setError(err?.message || "Unable to update pickup options.");
       setLoading(false);
     }
   }
@@ -191,11 +191,11 @@ export default function SellerPickupOptionsForm({ orderId }: { orderId: string }
         })}
 
         <div className="rounded-2xl border border-black/10 bg-white/5 px-4 py-3 text-sm bd-ink2">
-          Add 3 different future pickup times. Leave at least 1 hour between each option.
+          Add 3 different future pickup times. Leave at least 1 hour between each option so the buyer can choose one quickly.
         </div>
 
         <button type="submit" className="bd-btn bd-btn-primary" disabled={loading}>
-          {loading ? "Saving..." : "Save pickup options"}
+          {loading ? "Saving..." : "Post pickup options"}
         </button>
       </form>
 

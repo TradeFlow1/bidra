@@ -39,13 +39,13 @@ export default function RescheduleRequest({ orderId }: { orderId: string }) {
 
       const data = await res.json().catch(function () { return {}; });
       if (!res.ok || !data.ok) {
-        throw new Error(data.error || "Unable to request a different pickup time.");
+        throw new Error(data.error || "Unable to update pickup timing.");
       }
 
-      setOk(data.message || "Reschedule request submitted.");
+      setOk(data.message || "Pickup timing updated.");
       setNote("");
     } catch (e: any) {
-      setError(e && e.message ? e.message : "Unable to request a different pickup time.");
+      setError(e && e.message ? e.message : "Unable to update pickup timing.");
     } finally {
       setLoading(false);
     }
@@ -53,9 +53,9 @@ export default function RescheduleRequest({ orderId }: { orderId: string }) {
 
   return (
     <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4">
-      <div className="text-sm font-semibold text-amber-900">Need a different pickup time?</div>
+      <div className="text-sm font-semibold text-amber-900">Need to change the pickup time?</div>
       <div className="mt-1 text-xs text-amber-900">
-        Request a change here. The current pickup time still applies until a new time is chosen in the order.
+        Start the in-order change here. The current pickup time still applies until a new time is chosen in the order.
       </div>
 
       <div className="mt-3 grid gap-2">
@@ -93,7 +93,7 @@ export default function RescheduleRequest({ orderId }: { orderId: string }) {
         disabled={loading}
         onClick={submit}
       >
-        {loading ? "Submitting..." : "Request a different time"}
+        {loading ? "Updating..." : "Change pickup time"}
       </button>
 
       {error ? <div className="mt-2 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{error}</div> : null}
