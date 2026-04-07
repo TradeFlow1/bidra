@@ -112,8 +112,8 @@ export async function POST(req: Request) {
     const buyNowPriceIn = toIntOrNull(body.buyNowPrice);
 
     const imagesRaw = Array.isArray(body.images) ? body.images : [];
-    const pickupAvailabilityRaw = body.pickupAvailability && typeof body.pickupAvailability === "object" ? body.pickupAvailability : null;
-    const pickupAvailability = pickupAvailabilityRaw ? pickupAvailabilityRaw : null;
+
+
     const images = imagesRaw.map(function (v: any) { return String(v ?? "").trim(); }).filter(Boolean).slice(0, 10);
 
     if (title.length < 3) return NextResponse.json({ error: "Title must be at least 3 characters." }, { status: 400 });
@@ -122,7 +122,7 @@ export async function POST(req: Request) {
     if (!location) return NextResponse.json({ error: "Location is required. Please set your Account location (postcode + suburb + state) and try again." }, { status: 400 });
     if (!isValidAuLocation(location)) return NextResponse.json({ error: "Invalid location. Use format like: 4000 Brisbane, QLD (postcode + suburb + state)." }, { status: 400 });
     if (images.length > 10) return NextResponse.json({ error: "Too many images (max 10)." }, { status: 400 });
-    if (!pickupAvailability || !Array.isArray((pickupAvailability as any).days) || !(pickupAvailability as any).days.length || !Array.isArray((pickupAvailability as any).timeBlocks) || !(pickupAvailability as any).timeBlocks.length) return NextResponse.json({ error: "Please provide seller pickup availability." }, { status: 400 });
+
 
     if (type === "BUY_NOW") {
       if (priceIn === null || Number.isNaN(priceIn) || priceIn <= 0) return NextResponse.json({ error: "Price must be greater than 0." }, { status: 400 });
@@ -184,8 +184,6 @@ export async function POST(req: Request) {
         buyNowPrice: buyNowToSave,
         buyNowEnabled: type === "BUY_NOW" ? true : (buyNowToSave !== null),
         sellerId: session.user.id,
-        pickupAvailability: pickupAvailability,
-        pickupTimezone: "Australia/Brisbane",
         status: "ACTIVE",
       },
     });

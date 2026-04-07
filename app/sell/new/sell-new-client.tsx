@@ -329,9 +329,6 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     feedbackUrl: string | null;
   }>(null);
   const router = useRouter();
-  const [pickupDays, setPickupDays] = useState<string[]>([]);
-  const [pickupTimeBlocks, setPickupTimeBlocks] = useState<string[]>([]);
-  const [pickupNotes, setPickupNotes] = useState("");
     const cameraInputRef = useRef<HTMLInputElement | null>(null);
   const galleryInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -520,7 +517,6 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         }
       }
 const imagesToSend = uploadedUrls;
-      const pickupAvailability = { days: pickupDays, timeBlocks: pickupTimeBlocks, notes: String(pickupNotes || "").trim() };
 
 
       // 2) Create listing
@@ -528,7 +524,6 @@ const imagesToSend = uploadedUrls;
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          pickupAvailability: pickupAvailability,
           type: isTimedOffers ? "OFFERABLE" : "BUY_NOW",
           title: t,
           description: d,
@@ -600,45 +595,15 @@ const imagesToSend = uploadedUrls;
 
   return (
     <div className="bd-card p-5">
-      <div className="mt-4 grid gap-2">
-        <label className="text-sm font-semibold bd-ink">Pickup availability</label>
-        <div className="text-xs bd-ink2">Add 3 pickup options buyers can choose from after purchase.</div>
-        <div className="grid gap-3">
-          <div>
-            <div className="text-sm font-semibold bd-ink">Preferred pickup days</div>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(function (d) {
-                const active = pickupDays.includes(d);
-                return (
-                  <button key={d} type="button" className={active ? "bd-btn bd-btn-primary" : "bd-btn bd-btn-ghost"} onClick={function () { setPickupDays(active ? pickupDays.filter(function (x) { return x !== d; }) : pickupDays.concat([d])); }}>
-                    {d}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <div className="text-sm font-semibold bd-ink">General pickup times</div>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {["Morning","Afternoon","Evening"].map(function (b) {
-                const active = pickupTimeBlocks.includes(b);
-                return (
-                  <button key={b} type="button" className={active ? "bd-btn bd-btn-primary" : "bd-btn bd-btn-ghost"} onClick={function () { setPickupTimeBlocks(active ? pickupTimeBlocks.filter(function (x) { return x !== b; }) : pickupTimeBlocks.concat([b])); }}>
-                    {b}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <label className="text-sm font-semibold bd-ink">Pickup notes (optional)</label>
-            <textarea className="bd-input mt-2 min-h-[88px]" value={pickupNotes} onChange={(e) => setPickupNotes(e.target.value)} placeholder="Example: Weeknights after work, Saturday mornings, flexible with notice." />
-          </div>
+      <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 p-4">
+        <div className="text-sm font-semibold text-blue-900">Pickup happens after purchase</div>
+        <div className="mt-1 text-xs text-blue-900">
+          Sellers do not lock exact pickup times before sale. After a sale, pickup is scheduled inside the order flow.
         </div>
       </div>
 
 <p className="mt-2 text-sm bd-ink2">
-        Add the basics - title, description, category, condition, location, and pricing.
+        Add the basics — title, description, category, condition, location, photos, and pricing. Pickup is arranged after purchase in the order flow.
       </p>
 
       {err && (
