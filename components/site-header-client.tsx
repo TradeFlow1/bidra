@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import SearchBar from "./search-bar";
@@ -62,16 +63,16 @@ export default function SiteHeaderClient({
 
   function navButtonClass(href: string) {
     if (isActive(href)) {
-      return "inline-flex items-center justify-center rounded-xl border border-white/18 bg-white/14 px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-white/18";
+      return "inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-4 py-2 text-[13px] font-semibold text-[#0F172A] transition hover:bg-black/[0.04]";
     }
-    return "inline-flex items-center justify-center rounded-xl border border-white/12 bg-white/8 px-4 py-2 text-[13px] font-medium text-white/92 transition hover:bg-white/12 hover:text-white";
+    return "inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-4 py-2 text-[13px] font-medium text-[#0F172A] transition hover:bg-black/[0.04]";
   }
 
   function accountButtonClass(isOpen: boolean) {
     if (isOpen) {
-      return "inline-flex items-center justify-center rounded-xl border border-white/18 bg-white px-4 py-2 text-[13px] font-semibold text-[#0B1220] transition hover:bg-white/92";
+      return "inline-flex items-center justify-center rounded-full border border-black/15 bg-[#0F172A] px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-[#111827]";
     }
-    return "inline-flex items-center justify-center rounded-xl border border-white/12 bg-white/8 px-4 py-2 text-[13px] font-medium text-white/92 transition hover:bg-white/12 hover:text-white";
+    return "inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-4 py-2 text-[13px] font-medium text-[#0F172A] transition hover:bg-black/[0.04]";
   }
 
   const searchInputClass = "w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm text-black outline-none placeholder:text-neutral-500 focus:border-black/20";
@@ -86,7 +87,7 @@ export default function SiteHeaderClient({
   function renderAccountMenu(closeMenu: () => void) {
     return (
       <div
-        className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
+        className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_16px_40px_rgba(15,23,42,0.14)]"
         role="menu"
         onClick={(e) => e.stopPropagation()}
       >
@@ -115,7 +116,7 @@ export default function SiteHeaderClient({
   }
 
   return (
-    <header className="relative z-[80] border-b border-white/10 bg-[linear-gradient(180deg,#0B1220_0%,#18243D_100%)] text-white shadow-[0_4px_20px_rgba(0,0,0,0.35)]">
+    <header className="relative z-[80] border-b border-black/10 bg-white text-[#0F172A] shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
       <div className="mx-auto flex w-full max-w-6xl items-center gap-6 px-4 py-3">
         <div className="shrink-0">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 text-white transition hover:opacity-95">
@@ -189,7 +190,7 @@ export default function SiteHeaderClient({
         </div>
       </div>
 
-      <div className="border-t border-white/10 px-4 pb-3 md:hidden">
+      <div className="border-t border-black/10 px-4 pb-3 md:hidden">
         <div className="mx-auto max-w-6xl pt-3">
           <SearchBar
             className="w-full"
