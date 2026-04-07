@@ -99,7 +99,7 @@ export default async function OrdersPage() {
   className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px] whitespace-nowrap"
 >
     <span className="block">View order</span>
-    <span className="mt-1 block text-xs bd-ink2">Order ID · {String(o.id).slice(-6)}</span>
+    <span className="mt-1 block text-xs bd-ink2">Order ID - {String(o.id).slice(-6)}</span>
 </Link>
 
                   <Link

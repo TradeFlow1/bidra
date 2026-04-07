@@ -75,11 +75,11 @@ const listings = await getLatestListings();
     </div>
 
     <h1 className="mx-auto max-w-4xl text-3xl md:text-4xl font-semibold text-black leading-tight px-2">
-      Buy, sell and trade across Australia.
+      Buy and sell household items across Australia.
     </h1>
 
     <p className="mx-auto mt-4 max-w-3xl text-base text-white sm:text-lg">
-      Explore listings, make offers, and connect with buyers and sellers from all over Australia.
+      Browse local listings, buy now, make offers, and complete pickup with a clear in-app flow.
     </p>
 
     <div className="mt-4 flex flex-wrap justify-center gap-3 sm:gap-4">
@@ -92,7 +92,7 @@ const listings = await getLatestListings();
     </div>
 
     <div className="mt-7 text-sm text-white/70">
-      Bidra is a marketplace for listings and offers — sellers can accept or decline.
+      Bidra is a trust-first marketplace for listings and offers - sellers choose whether to accept.
     </div>
   </div>
 </section>
