@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import SellerConfirmReceived from "./seller-confirm-received";
 import SellerPickupOptionsForm from "./seller-pickup-options-form";
 import BuyerPickupSelect from "./buyer-pickup-select";
@@ -85,7 +85,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight">Order</h1>
+              <h1 className="text-3xl font-extrabold tracking-tight">Order details</h1>
               <div className="text-sm bd-ink2 mt-1">
                 <Badge>{order.outcome === "COMPLETED" ? "COMPLETED" : order.status}</Badge>{" "}
                 <span className="ml-2">Created <DateTimeText value={order.createdAt} /></span>
@@ -109,7 +109,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           </div>
 
           <Card className="bd-card p-6">
-            <div className="grid gap-3">
+            <div className="grid gap-4">
               <div className="text-sm bd-ink2">
                 Order: <code className="font-mono">{order.id}</code>
               </div>
@@ -126,7 +126,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               {order.pickupScheduledAt ? (
                 <div className="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
-                  <div className="font-semibold">Current pickup time</div>
+                  <div className="font-semibold">Confirmed pickup time</div>
                   <div className="mt-1">{new Date(order.pickupScheduledAt).toLocaleString()}</div>
                   {reschedulePending ? (
                     <div className="mt-2 text-xs text-green-900">
@@ -138,7 +138,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               {reschedulePending ? (
                 <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-                  <div className="font-semibold">Pickup timing update in progress</div>
+                  <div className="font-semibold">Pickup update in progress</div>
                   <div className="mt-1">
                     Changed by: <b>{rescheduleRequestedByRole || "Unknown"}</b>
                   </div>
@@ -165,7 +165,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               {(order.status === "PICKUP_REQUIRED" && isBuyer) ? (
                 <div className="pt-2">
-                  <SafetyCallout title="Safety">
+                  <SafetyCallout title="Pickup guidance">
                     <ul className="list-disc pl-5">
                       <li>Keep communication on Bidra via Messages for clarification only.</li>
                       <li>Wait for the seller to provide pickup options, then choose one in-app.</li>
@@ -178,7 +178,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   </div>
                   {(order.status === "PICKUP_REQUIRED" && isBuyer && pickupOptions.length > 0) ? (
                     <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-                      <div className="font-semibold">Action required</div>
+                      <div className="font-semibold">Your next step</div>
                       <div className="mt-1">Choose a pickup time to complete scheduling.</div>
                     </div>
                   ) : null}
@@ -194,7 +194,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
               {order.listing?.sellerId === user.id && order.status === "PICKUP_REQUIRED" ? (
                 <div className="pt-2">
-                  <SafetyCallout title="Next step">
+                  <SafetyCallout title="Seller checklist">
                     <ul className="list-disc pl-5">
                       <li>This is a binding order.</li>
                       <li>After purchase, provide pickup options here so the buyer can choose in-app.</li>
@@ -203,7 +203,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
                   {(order.status === "PICKUP_REQUIRED" && isSeller) ? (
                     <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-                      <div className="font-semibold">Action required</div>
+                      <div className="font-semibold">Your next step</div>
                       <div className="mt-1">Add pickup options here after the sale. The buyer will choose one in-app to confirm the schedule.</div>
                     </div>
                   ) : null}
@@ -229,11 +229,11 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                 <div className="text-xs bd-ink2">
                   <Card className="bd-card p-6">
                     <div className="grid gap-2">
-                      <div className="text-sm font-extrabold bd-ink">What happens next</div>
+                      <div className="text-sm font-extrabold bd-ink">What to expect</div>
                       {order.status === "PICKUP_REQUIRED" ? (
                         <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
                           <li><b>Pickup options</b> are provided by the seller after purchase.</li>
-                          <li>The buyer then chooses one option and the schedule is confirmed. Messages do not override the scheduled flow.</li>
+                          <li>The buyer then chooses one option and the pickup time is confirmed in Bidra.</li>
                           <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link> for clarification only.</li>
                         </ul>
                       ) : order.status === "PICKUP_SCHEDULED" ? (
@@ -257,7 +257,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                     </div>
                   </Card>
 
-                  This order is binding. Bidra records confirmations and scheduling. The scheduled pickup flow controls the order, and messages do not override it.
+                  Bidra keeps the confirmed pickup flow and order history in one place so both sides can follow the same agreed steps.
                 </div>
               </div>
             </div>
