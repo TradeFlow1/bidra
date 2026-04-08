@@ -1,4 +1,4 @@
-export const revalidate = 10;
+﻿export const revalidate = 10;
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -86,11 +86,11 @@ export default async function ListingsPage({
       and.push({
         OR: [
           { category: category },
-          { category: { startsWith: category + " › " } },
+          { category: { startsWith: category + " â€º " } },
         ],
       });
     } else {
-      const legacyChild = category.indexOf(" › ") >= 0 ? category.split(" › ").pop() : category;
+      const legacyChild = category.indexOf(" â€º ") >= 0 ? category.split(" â€º ").pop() : category;
       and.push({
         OR: [
           { category: category },
@@ -172,13 +172,6 @@ export default async function ListingsPage({
   const userId = session?.user?.id ?? null;
 
   const watchedSet = new Set<string>();
-  if (userId && listings.length) {
-    const watched = await prisma.watchlist.findMany({
-      where: { userId: userId, listingId: { in: listings.map(function (l) { return l.id; }) } },
-      select: { listingId: true },
-    });
-    watched.forEach(function (w) { watchedSet.add(w.listingId); });
-  }
 
   const hasAnyFilter = !!(
     q ||
@@ -347,3 +340,4 @@ export default async function ListingsPage({
     </main>
   );
 }
+

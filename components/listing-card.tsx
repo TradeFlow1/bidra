@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import ListingThumbCarousel from "@/components/listing-thumb-carousel";
-import WatchButton from "@/components/watch-button";
 import { isTimedOffersType } from "@/lib/listing-type";
 import { formatTimeRemaining } from "@/lib/time-remaining";
 
@@ -83,8 +82,7 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
             e.stopPropagation();
           }}
         >
-          <WatchButton listingId={listing.id} initialWatched={initiallyWatched} compact />
-        </div>
+</div>
         {hasMulti ? (
           <ListingThumbCarousel images={listing.images} title={String((listing as unknown as { title?: string })?.title ?? "").replace(/\s+/g, " ").trim()} />
         ) : (
@@ -155,3 +153,5 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
     </Link>
   );
 }
+
+

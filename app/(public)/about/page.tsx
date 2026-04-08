@@ -6,7 +6,7 @@ export default function AboutPage() {
       <h1>About Bidra</h1>
       <p>
         Bidra is an Australian-focused marketplace built from scratch with original design and copy.
-        List items for buy-now or receive offers, message sellers, and keep favourites in your watchlist.
+        List items for buy-now or receive offers, message sellers, and complete pickups with confidence.
       </p>
       <h2>Marketplace principles</h2>
       <ul>
@@ -20,3 +20,4 @@ export default function AboutPage() {
     </div>
   );
 }
+
