@@ -603,7 +603,7 @@ const imagesToSend = uploadedUrls;
       </div>
 
 <p className="mt-2 text-sm bd-ink2">
-        Add the basics Ã¢â‚¬â€ title, description, category, condition, location, photos, and pricing. Pickup is arranged after purchase in the order flow.
+        Add the basics - title, description, category, condition, location, photos, and pricing. Pickup is arranged after purchase in the order flow.
       </p>
 
       {err && (

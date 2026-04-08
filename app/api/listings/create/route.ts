@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { listingLooksProhibited } from "@/lib/prohibited-items";
-import { applyPolicyStrike, isPolicyBlocked } from "@/lib/policy-strike";
+import { isPolicyBlocked } from "@/lib/policy-strike";
 import { FULL_CATEGORIES } from "@/lib/categories";
 
 function sanitizeDescription(desc: string): string {
@@ -157,11 +157,10 @@ export async function POST(req: Request) {
         });
       } catch (_auditErr) {}
 
-      const strike = await applyPolicyStrike(session.user.id);
       return NextResponse.json(
         {
           error: "This item is not permitted to be listed.",
-          policy: { strikes: strike.strikes, blockedUntil: strike.blockedUntil },
+          policy: { strikes: null, blockedUntil: null },
         },
         { status: 400 }
       );
