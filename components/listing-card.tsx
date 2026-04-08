@@ -51,7 +51,7 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
   const isTimedOffers = isTimedOffersType(listing.type);
   const hasBuyNow = typeof listing.buyNowPrice === "number";
 
-  const badge = isTimedOffers ? "⏳ Timed offers" : hasBuyNow ? "⚡ Buy Now" : "🏷️ Fixed price";
+  const badge = isTimedOffers ? "Timed offers" : hasBuyNow ? "Buy Now" : "Fixed price";
 
   // Primary price:
   // - Timed offers: listing.price is already mapped as current top offer cents (see app/listings/page.tsx mapping)
@@ -63,8 +63,8 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
 
   return (
     <Link
-      href={`/listings/${listing.id}`}
-      className="group block overflow-hidden rounded-xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-[1px] hover:shadow-md"
+      href={`/listings/${listing.id}` }
+      className="group block overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-[2px] hover:shadow-lg"
     >
       <div className="relative aspect-[3/4] w-full bg-neutral-100">
 {hasMulti ? (
@@ -85,17 +85,17 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
             />
 
             {isNoPhotos ? (
-              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/55 px-2 py-1 text-[10px] font-semibold tracking-tight text-white shadow-sm">
-                No photos yet
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold tracking-tight text-neutral-700 shadow-sm border border-black/10">
+                Photo coming soon
               </div>
             ) : null}
           </>
         )}
       </div>
 
-      <div className="space-y-1.5 p-3">
+      <div className="space-y-2 p-4">
         <div
-          className="/* STEP3_TITLE_BUMP */ text-[20px] font-extrabold leading-snug text-[#0b1220] line-clamp-2"
+          className="text-[17px] font-bold leading-snug text-[#0b1220] line-clamp-2"
           style={{
             display: "-webkit-box",
             WebkitLineClamp: 2,
@@ -106,15 +106,15 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
           {String((listing as unknown as { title?: string })?.title ?? "").replace(/\s+/g, " ").trim()}
         </div>
 
-        <div className="mb-1">
-          <span className="inline-flex items-center gap-1 rounded-full border border-black/10 bg-white px-2 py-0.5 text-[11px] font-semibold text-neutral-700">
+        <div>
+          <span className="inline-flex items-center rounded-full border border-black/10 bg-neutral-50 px-2.5 py-1 text-[11px] font-semibold text-neutral-700">
             {badge}
           </span>
         </div>
 
-        <div className="text-[14px] font-black text-[#0b1220]">
+        <div className="text-[18px] font-extrabold text-[#0b1220]">
           {isTimedOffers ? (
-            <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-100 px-2 py-0.5 text-[12px] font-extrabold text-amber-950">
+            <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[12px] font-bold text-amber-900">
               <span className="opacity-80">Top offer</span>
               <span aria-hidden="true">•</span>
               <span>{money(primaryCents)}</span>
@@ -129,14 +129,15 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
         ) : null}
 
         {listing.location ? (
-          <div className="text-xs font-medium text-black/55">{listing.location}</div>
+          <div className="pt-0.5 text-xs font-medium text-black/55">{listing.location}</div>
         ) : (
-          <div className="text-xs text-transparent">.</div>
+          <div className="pt-0.5 text-xs text-transparent">.</div>
         )}
       </div>
     </Link>
   );
 }
+
 
 
 
