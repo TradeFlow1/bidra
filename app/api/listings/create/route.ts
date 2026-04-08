@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { listingLooksProhibited } from "@/lib/prohibited-items";
@@ -121,6 +121,7 @@ export async function POST(req: Request) {
     if (!(FULL_CATEGORIES as readonly string[]).includes(category)) return NextResponse.json({ error: "Invalid category." }, { status: 400 });
     if (!location) return NextResponse.json({ error: "Location is required. Please set your Account location (postcode + suburb + state) and try again." }, { status: 400 });
     if (!isValidAuLocation(location)) return NextResponse.json({ error: "Invalid location. Use format like: 4000 Brisbane, QLD (postcode + suburb + state)." }, { status: 400 });
+    if (images.length < 1) return NextResponse.json({ error: "Add at least 1 photo to publish your listing." }, { status: 400 });
     if (images.length > 10) return NextResponse.json({ error: "Too many images (max 10)." }, { status: 400 });
 
 
@@ -193,3 +194,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+

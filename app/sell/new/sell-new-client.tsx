@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 
 import React, { useEffect, useMemo, useState, useRef } from "react";
@@ -397,6 +397,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     if (d.length < 3) return false;
     if (!category) return false;
     if (!loc) return false;
+    if (files.length < 1) return false;
 
     const fixedPriceCents = dollarsToCentsOrNull(price);
     const startBidCents   = dollarsToCentsOrNull(startingBid);
@@ -421,7 +422,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     }
 
     return true;
-  }, [title, description, category, location, price, startingBid, buyNowPrice, durationDays, isTimedOffers]);
+  }, [title, description, category, location, price, startingBid, buyNowPrice, durationDays, isTimedOffers, files.length]);
   const categoryOptions = useMemo(() => FULL_CATEGORIES, []);
 
   const suggestedCategory = useMemo(() => {
@@ -464,6 +465,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     if (d.length < 3) return setErr("Description must be at least 3 characters.");
     if (!category) return setErr("Category is required.");
     if (!loc) return setErr("Location is required.");
+    if (files.length < 1) return setErr("Add at least 1 photo to publish your listing.");
 
     
     const fixedPriceCents = dollarsToCentsOrNull(price);
@@ -807,7 +809,7 @@ const imagesToSend = uploadedUrls;
               Add photos
             </button>
 
-            <div className="text-xs bd-ink2">{files.length}/10 selected (max 8MB each)</div>
+            <div className="text-xs bd-ink2">{files.length}/10 selected (minimum 1, max 8MB each)</div>
           </div>
 
           {/* Hidden inputs (separate camera vs gallery for better Samsung behavior) */}
@@ -858,4 +860,5 @@ const imagesToSend = uploadedUrls;
     </div>
   );
 }
+
 
