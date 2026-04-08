@@ -86,11 +86,11 @@ export default async function ListingsPage({
       and.push({
         OR: [
           { category: category },
-          { category: { startsWith: category + " â€º " } },
+          { category: { startsWith: category + " › " } },
         ],
       });
     } else {
-      const legacyChild = category.indexOf(" â€º ") >= 0 ? category.split(" â€º ").pop() : category;
+      const legacyChild = category.indexOf(" › ") >= 0 ? category.split(" › ").pop() : category;
       and.push({
         OR: [
           { category: category },
@@ -340,4 +340,5 @@ export default async function ListingsPage({
     </main>
   );
 }
+
 
