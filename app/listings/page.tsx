@@ -188,6 +188,7 @@ export default async function ListingsPage({
   const showResultsText =
     resultsCount === 0 ? "No results" : hasAnyFilter ? "Update results" : "Show results";
   const clearText = resultsCount === 0 && hasAnyFilter ? "Clear filters" : "Clear";
+  const resultsLabel = hasAnyFilter ? `${listings.length} matching listings` : `${listings.length} latest listings`;
 
   const FiltersForm = () => (
     <form action="/listings" method="get">
@@ -282,17 +283,17 @@ export default async function ListingsPage({
   return (
     <main>
       <div className="bd-container">
-        <section className="section" style={{ paddingTop: 18, paddingBottom: 10 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
-            <div>
-              <h1 className="h1" style={{ fontSize: 28 }}>Browse</h1>
-              <p className="p" style={{ marginTop: 6 }}>
-                {hasAnyFilter ? <>Showing results ({listings.length})</> : <>Showing latest listings ({listings.length})</>}
-              </p>
+        <section className="section py-5">
+          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-5 shadow-sm">
+            <div className="max-w-3xl">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Marketplace</div>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl">Browse listings</h1>
+              <p className="mt-2 text-sm text-neutral-600 sm:text-base">Discover local items from verified Bidra sellers. Filter by category, condition, location, and sale type.</p>
+              <div className="mt-3 inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-sm font-semibold text-neutral-700 shadow-sm">{resultsLabel}</div>
             </div>
           </div>
 
-          <div className="bd-card p-4 mt-3">
+          <div className="bd-card mt-4 rounded-3xl p-4 sm:p-5">
             <MobileFiltersToggle>
               <FiltersForm />
             </MobileFiltersToggle>
@@ -304,8 +305,14 @@ export default async function ListingsPage({
 
           <div className="browseList w-full grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {listings.length === 0 ? (
-              <div className="card" style={{ opacity: 0.9 }}>
-                <p className="cardBody" style={{ margin: 0 }}>No listings found. Try changing filters or searching again.</p>
+              <div className="col-span-full rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-10 text-center">
+                <div className="mx-auto max-w-md">
+                  <div className="text-lg font-bold text-neutral-900">No listings match your filters</div>
+                  <p className="mt-2 text-sm text-neutral-600">Try widening your price range, changing the category, or clearing filters to see more listings.</p>
+                  <div className="mt-4">
+                    <Link href="/listings" className="bd-btn bd-btn-primary">View all listings</Link>
+                  </div>
+                </div>
               </div>
             ) : (
               listings.map(function (l) {
@@ -340,5 +347,6 @@ export default async function ListingsPage({
     </main>
   );
 }
+
 
 
