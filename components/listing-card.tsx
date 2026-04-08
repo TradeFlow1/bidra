@@ -67,23 +67,7 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
       className="group block overflow-hidden rounded-xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-[1px] hover:shadow-md"
     >
       <div className="relative aspect-[3/4] w-full bg-neutral-100">
-        <div
-          className="absolute top-2 right-2 z-10"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          onTouchStart={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
-</div>
-        {hasMulti ? (
+{hasMulti ? (
           <ListingThumbCarousel images={listing.images} title={String((listing as unknown as { title?: string })?.title ?? "").replace(/\s+/g, " ").trim()} />
         ) : (
           <>
@@ -153,5 +137,6 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
     </Link>
   );
 }
+
 
 
