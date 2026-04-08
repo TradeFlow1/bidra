@@ -26,25 +26,16 @@ export default function TrustPanel({
 }: Props) {
   const displayName = (username && String(username).trim()) ? String(username).trim() : "Seller";
   const joined = fmtJoined(joinedAt);
-
-  // Honest, minimal signals (no “fast responder” until we truly measure it)
   const badgeNewSeller = soldCount === 0;
   const badgeConsistentSeller = soldCount >= 3;
 
   return (
-    <div
-      style={{
-        border: "1px solid #e5e7eb",
-        borderRadius: 14,
-        padding: 12,
-        background: "white",
-      }}
-    >
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-        <div>
-          <div style={{ fontWeight: 900, fontSize: 16 }}>Trusted signals</div>
-          <div style={{ marginTop: 4, fontSize: 13, opacity: 0.75 }}>
-            {displayName}
+    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <div className="text-base font-extrabold tracking-tight text-neutral-900">Trusted seller signals</div>
+          <div className="mt-1 text-sm text-neutral-600">
+            <span className="font-medium text-neutral-900">{displayName}</span>
             {(suburb || state) ? (
               <> · {suburb}{suburb && state ? ", " : ""}{state}</>
             ) : null}
@@ -52,21 +43,27 @@ export default function TrustPanel({
           </div>
         </div>
 
-        <div style={{ fontSize: 13, textAlign: "right" }}>
-          <div><strong>{activeCount}</strong> active</div>
-          <div><strong>{soldCount}</strong> completed sales</div>
+        <div className="grid grid-cols-2 gap-2 sm:min-w-[180px]">
+          <div className="rounded-xl border border-black/10 bg-neutral-50 px-3 py-2 text-center">
+            <div className="text-lg font-extrabold text-neutral-900">{activeCount}</div>
+            <div className="text-[11px] uppercase tracking-wide text-neutral-500">Active</div>
+          </div>
+          <div className="rounded-xl border border-black/10 bg-neutral-50 px-3 py-2 text-center">
+            <div className="text-lg font-extrabold text-neutral-900">{soldCount}</div>
+            <div className="text-[11px] uppercase tracking-wide text-neutral-500">Sales</div>
+          </div>
         </div>
       </div>
 
-      <div style={{ marginTop: 10 }}>
+      <div className="mt-4">
         <ReputationBadges
           badgeNewSeller={badgeNewSeller}
           badgeConsistentSeller={badgeConsistentSeller}
         />
       </div>
 
-      <div style={{ marginTop: 10, fontSize: 12, opacity: 0.7 }}>
-        We only show signals we can verify (no fake “fast responder” badges).
+      <div className="mt-3 rounded-xl border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs text-emerald-900">
+        We only show signals Bidra can verify, like completed sales and account history.
       </div>
     </div>
   );
