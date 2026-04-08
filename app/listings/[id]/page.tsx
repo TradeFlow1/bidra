@@ -221,124 +221,118 @@ export default async function ListingPage({ params }: { params: { id: string } }
           </div>
 
           <div className="mt-5 sm:mt-0 sm:col-span-1 space-y-4 sm:sticky sm:top-24 self-start">
-            <>
-              <div className="bd-card p-4">
-                  <div className="space-y-2">
-                    <div className="text-sm text-neutral-700">{isOfferable ? <>Guide price <span className="font-semibold">{formatMoney(guidePriceCents)}</span></> : <>Price <span className="font-semibold">{formatMoney(guidePriceCents)}</span></>}</div>
-
-                    {isOfferable ? <>
+            <div className="bd-card p-4">
+              <div className="space-y-2">
+                <div className="text-sm text-neutral-700">
+                  {isOfferable ? "Guide price" : "Price"}{" "}
+                  <span className="font-semibold">{formatMoney(guidePriceCents)}</span>
+                </div>
+                {isOfferable ? (
+                  <>
                     <div className="text-2xl font-extrabold">
                       {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet."}
                     </div>
                     <div className="text-xs text-neutral-600">Highest offer</div>
-                    </> : <div className="text-xs text-neutral-600">Buy Now listing</div>}
-
-
-                    <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
-                      {isOfferable ? <>
+                  </>
+                ) : (
+                  <div className="text-xs text-neutral-600">Buy Now listing</div>
+                )}
+                <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
+                  {isOfferable ? (
+                    <>
                       <div className="text-neutral-600">Offers</div>
                       <div className="text-neutral-900 text-right">{offersCount}</div>
-                      </> : null}
-
-                      <div className="text-neutral-600">Status</div>
-                      <div className="text-neutral-900 text-right">{listing.status}</div>
-                    </div>
-
-
-                  </div>
+                    </>
+                  ) : null}
+                  <div className="text-neutral-600">Status</div>
+                  <div className="text-neutral-900 text-right">{listing.status}</div>
                 </div>
-
-                <div className="bd-card p-4">
-                  <div className="text-sm font-semibold tracking-tight">Next step</div>
-
-                  {isSeller ? (
-                    <div className="mt-2 space-y-2">
-                      <div className="text-xs text-neutral-600">This is your listing.</div>
-
-                      {isEnded && hasAnyOffer ? (
-                        <AcceptHighestOfferButton listingId={listing.id} />
-                      ) : (
-                        <div className="text-xs text-neutral-600">
-                          You can accept the highest offer once the listing ends.
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="mt-4 space-y-4">
-
-                      {buyNowVisible ? (
-                        <div className="space-y-1 p-3 rounded-lg border border-black/10 bg-white shadow-sm">
-                          <div className="text-xs font-semibold text-neutral-900 tracking-tight">Buy Now</div><div className="text-[11px] text-neutral-500">Secure this item instantly</div>
-                          <div className="mt-1"><BuyNowButton listingId={listing.id} /></div>
-                          <div className="text-xs text-neutral-600">
-                            Instant purchase. This item will be marked as sold.
-                          </div>
-                        </div>
-                      ) : null}
-
-                      {isEnded ? (
-                        <div className="text-xs text-neutral-600">
-                          This listing has ended. The seller is reviewing offers.
-                        </div>
-                      ) : viewerId ? (
-                        <div className="space-y-1 p-3 rounded-lg border border-black/10 bg-white shadow-sm">
-                          <div className="text-xs font-semibold text-neutral-900">Make an offer</div>
-                          <PlaceOfferClient
-                            listingId={listing.id}
-                            minOfferCents={minOfferCents}
-                            offerState={offerState}
-                            viewerHasAnyOffer={viewerHasAnyOffer}
-                            disabled={isEnded || isSeller}
-                            disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."}
-                          />
-                        </div>
-                      ) : (
-                        <div className="space-y-1 p-3 rounded-lg border border-black/10 bg-white shadow-sm">
-                          <div className="text-xs font-semibold text-neutral-900">Make an offer</div>
-                          <ClickableLink
-                            href={`/auth/login?next=/listings/${listing.id}`}
-                            className="bd-btn bd-btn-primary text-center"
-                          >
-                            Log in
-                          </ClickableLink>
-                        </div>
-                      )}
-
-                      <div className="border-t border-black/10 pt-3 space-y-1">
-                        <div className="text-xs font-semibold text-neutral-900">Questions</div>
-                        {viewerId ? (
-                          <MessageSellerButton listingId={listing.id} />
-                        ) : (
-                          <ClickableLink
-                            href={`/auth/login?next=/listings/${listing.id}`}
-                            className="bd-btn bd-btn-primary text-center"
-                          >
-                            Log in to message seller
-                          </ClickableLink>
-                        )}
+              </div>
+            </div>
+            <div className="bd-card p-4">
+              <div className="text-sm font-semibold tracking-tight">Next step</div>
+              {isSeller ? (
+                <div className="mt-2 space-y-2">
+                  <div className="text-xs text-neutral-600">This is your listing.</div>
+                  {isOfferable ? (
+                    isEnded && hasAnyOffer ? (
+                      <AcceptHighestOfferButton listingId={listing.id} />
+                    ) : (
+                      <div className="text-xs text-neutral-600">
+                        You can accept the highest offer once the listing ends.
                       </div>
-
+                    )
+                  ) : (
+                    <div className="text-xs text-neutral-600">
+                      Buyers can purchase instantly while this listing is active.
                     </div>
                   )}
                 </div>
-              </>
-            ) : (
-              <div className="bd-card p-4 space-y-3">
-                <div className="text-sm font-semibold">Price</div>
-                <div className="text-2xl font-extrabold">{formatMoney(guidePriceCents)}</div>
-                {buyNowVisible ? (
-                  <div className="space-y-1 p-3 rounded-lg border border-black/10 bg-white shadow-sm">
-                    <div className="mt-1"><BuyNowButton listingId={listing.id} /></div>
-                    <div className="text-xs text-neutral-600">Instant purchase. This item will be marked as sold. If you continue, you will create an order.</div>
+              ) : (
+                <div className="mt-4 space-y-4">
+                  {buyNowVisible ? (
+                    <div className="space-y-1 rounded-lg border border-black/10 bg-white p-3 shadow-sm">
+                      <div className="text-xs font-semibold tracking-tight text-neutral-900">Buy Now</div>
+                      <div className="text-[11px] text-neutral-500">Secure this item instantly</div>
+                      <div className="mt-1"><BuyNowButton listingId={listing.id} /></div>
+                      <div className="text-xs text-neutral-600">
+                        Instant purchase. This item will be marked as sold. If you continue, you will create an order.
+                      </div>
+                    </div>
+                  ) : null}
+                  {isOfferable ? (
+                    isEnded ? (
+                      <div className="text-xs text-neutral-600">
+                        This listing has ended. The seller is reviewing offers.
+                      </div>
+                    ) : viewerId ? (
+                      <div className="space-y-1 rounded-lg border border-black/10 bg-white p-3 shadow-sm">
+                        <div className="text-xs font-semibold text-neutral-900">Make an offer</div>
+                        <PlaceOfferClient
+                          listingId={listing.id}
+                          minOfferCents={minOfferCents}
+                          offerState={offerState}
+                          viewerHasAnyOffer={viewerHasAnyOffer}
+                          disabled={isEnded || isSeller}
+                          disabledText={isSeller ? "Sellers cannot place offers on their own listing." : "Waiting for seller decision."}
+                        />
+                      </div>
+                    ) : (
+                      <div className="space-y-1 rounded-lg border border-black/10 bg-white p-3 shadow-sm">
+                        <div className="text-xs font-semibold text-neutral-900">Make an offer</div>
+                        <ClickableLink
+                          href={`/auth/login?next=/listings/${listing.id}` }
+                          className="bd-btn bd-btn-primary text-center"
+                        >
+                          Log in
+                        </ClickableLink>
+                      </div>
+                    )
+                  ) : null}
+                  <div className="border-t border-black/10 pt-3 space-y-1">
+                    <div className="text-xs font-semibold text-neutral-900">Questions</div>
+                    {viewerId ? (
+                      <MessageSellerButton listingId={listing.id} />
+                    ) : (
+                      <ClickableLink
+                        href={`/auth/login?next=/listings/${listing.id}` }
+                        className="bd-btn bd-btn-primary text-center"
+                      >
+                        Log in to message seller
+                      </ClickableLink>
+                    )}
                   </div>
-                ) : null}
-              </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
     </main>
   );
 }
+
+
 
 
 
