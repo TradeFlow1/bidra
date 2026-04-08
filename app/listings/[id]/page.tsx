@@ -1,4 +1,4 @@
-import { labelCategory, labelCondition } from "@/lib/labels";
+﻿import { labelCategory, labelCondition } from "@/lib/labels";
 import Link from "next/link";
 import { ClickableLink } from "@/components/clickable-link";
 import { getServerSession } from "next-auth";
@@ -221,24 +221,24 @@ export default async function ListingPage({ params }: { params: { id: string } }
           </div>
 
           <div className="mt-5 sm:mt-0 sm:col-span-1 space-y-4 sm:sticky sm:top-24 self-start">
-            {isOfferable ? (
-              <>
-                <div className="bd-card p-4">
+            <>
+              <div className="bd-card p-4">
                   <div className="space-y-2">
-                    <div className="text-sm text-neutral-700">
-                      Guide price{" "}
-                      <span className="font-semibold">{formatMoney(guidePriceCents)}</span>
-                    </div>
+                    <div className="text-sm text-neutral-700">{isOfferable ? <>Guide price <span className="font-semibold">{formatMoney(guidePriceCents)}</span></> : <>Price <span className="font-semibold">{formatMoney(guidePriceCents)}</span></>}</div>
 
+                    {isOfferable ? <>
                     <div className="text-2xl font-extrabold">
                       {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet."}
                     </div>
                     <div className="text-xs text-neutral-600">Highest offer</div>
+                    </> : <div className="text-xs text-neutral-600">Buy Now listing</div>}
 
 
                     <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
+                      {isOfferable ? <>
                       <div className="text-neutral-600">Offers</div>
                       <div className="text-neutral-900 text-right">{offersCount}</div>
+                      </> : null}
 
                       <div className="text-neutral-600">Status</div>
                       <div className="text-neutral-900 text-right">{listing.status}</div>
@@ -333,13 +333,14 @@ export default async function ListingPage({ params }: { params: { id: string } }
                   </div>
                 ) : null}
               </div>
-            )}
           </div>
         </div>
       </div>
     </main>
   );
 }
+
+
 
 
 
