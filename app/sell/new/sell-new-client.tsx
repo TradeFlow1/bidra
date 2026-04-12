@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import Link from "next/link";
 
 import React, { useEffect, useMemo, useState, useRef } from "react";
@@ -285,7 +285,7 @@ function suggestDescriptionDraft(args: {
   if (category) lines.push(`Category: ${category}.`);
   if (condition) lines.push(`Condition: ${condition.replaceAll("_", " ").toLowerCase()}.`);
 
-  // Simple "AI-like" structure: details + pickup + payment note
+  // Simple draft structure: details + price + fulfillment note
   lines.push("");
   lines.push("Details:");
   lines.push("- Reason for selling: (optional)");
@@ -304,7 +304,7 @@ function suggestDescriptionDraft(args: {
     lines.push("Pickup location: (your suburb).");
   }
 
-  lines.push("Pickup only. Please choose a pickup time in the app.");
+  lines.push("Pickup, delivery, or postage can be arranged with the buyer after purchase.");
   return lines.join("\n");
 }
 
@@ -606,14 +606,14 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   return (
     <div className="bd-card p-5">
       <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 p-4">
-        <div className="text-sm font-semibold text-blue-900">Pickup happens after purchase</div>
+        <div className="text-sm font-semibold text-blue-900">Arrange fulfillment after purchase</div>
         <div className="mt-1 text-xs text-blue-900">
-          Sellers do not lock exact pickup times before sale. After a sale, pickup is scheduled inside the order flow.
+          Sellers do not need to lock exact meetup, delivery, or postage details before sale. Arrange them with the buyer after purchase.
         </div>
       </div>
 
 <p className="mt-2 text-sm bd-ink2">
-        Add the basics - title, description, category, condition, location, photos, and pricing. Pickup is arranged after purchase in the order flow.
+        Add the basics - title, description, category, condition, location, photos, and pricing. Pickup, delivery, or postage can be arranged after purchase.
       </p>
 
       {err && (

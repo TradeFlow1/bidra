@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { listingLooksProhibited } from "@/lib/prohibited-items";
@@ -184,7 +184,7 @@ export async function POST(req: Request) {
         condition: condition,
         location: location,
         price: priceIn as number,
-        images: images,
+        images: images.map(function (img: any) { return String((img && img.url) || ""); }).filter(Boolean),
         buyNowPrice: buyNowToSave,
         buyNowEnabled: type === "BUY_NOW" ? true : (buyNowToSave !== null),
         sellerId: session.user.id,
