@@ -99,9 +99,11 @@ export async function POST(req: Request) {
       urls.push(blob.url);
     }
 
-    return NextResponse.json({ urls });
+    const images = urls.map(function (url) { return { url: url }; });
+    return NextResponse.json({ urls, images });
   } catch (e: any) {
     console.error("Upload error:", e);
     return NextResponse.json({ error: "Upload failed." }, { status: 500 });
   }
 }
+

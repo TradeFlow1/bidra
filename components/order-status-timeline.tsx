@@ -1,64 +1,34 @@
-type Props = {
-  status: string;
-  outcome?: string | null;
-  className?: string;
-};
+type OrderStatusValue = "PENDING" | "ACCEPTED" | "COMPLETED" | "CANCELLED";
 
-function stepIndex(status: string, outcome?: string | null) {
+function getStep(status: string): number {
   const s = String(status || "").toUpperCase();
-  const o = String(outcome || "").toUpperCase();
-
-  if (o === "COMPLETED" || s === "COMPLETED") return 2;
-  if (s === "PICKUP_SCHEDULED") return 1;
-  return 0; // default
+  if (s === "PENDING") return 0;
+  if (s === "ACCEPTED") return 1;
+  if (s === "COMPLETED") return 2;
+  return 0;
 }
 
-export default function OrderStatusTimeline({ status, outcome, className = "" }: Props) {
-  const idx = stepIndex(status, outcome);
+const STEPS: Array<{ key: OrderStatusValue; label: string }> = [
+  { key: "PENDING", label: "Pending" },
+  { key: "ACCEPTED", label: "Accepted" },
+  { key: "COMPLETED", label: "Completed" }
+];
 
-  const steps = [
-    { key: "PLACED", label: "Placed" },
-    { key: "PICKUP_SCHEDULED", label: "Pickup scheduled" },
-    { key: "COMPLETED", label: "Completed" },
-  ];
+export default function OrderStatusTimeline({ status }: { status: string }) {
+  const active = getStep(status);
 
   return (
-    <div className={("bd-card p-4 " + className).trim()}>
-      <div className="text-sm font-extrabold bd-ink">Order status</div>
-
-      <div className="mt-3 flex items-center gap-2">
-        {steps.map((s, i) => {
-          const done = i < idx;
-          const active = i === idx;
-
-          return (
-            <div key={s.key} className="flex items-center min-w-0">
-              <div
-                className={
-                  "flex h-8 w-8 items-center justify-center rounded-full border text-sm font-extrabold " +
-                  (done ? "bg-black text-white border-black" : active ? "bg-white text-black border-black" : "bg-white text-black/40 border-black/15")
-                }
-                aria-label={s.label}
-                title={s.label}
-              >
-                {i + 1}
-              </div>
-
-              <div className={"ml-2 text-sm font-extrabold " + (done || active ? "bd-ink" : "text-black/40")}>
-                {s.label}
-              </div>
-
-              {i < steps.length - 1 ? (
-                <div className={"mx-3 h-[2px] w-10 rounded " + (i < idx ? "bg-black" : "bg-black/10")} />
-              ) : null}
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="mt-2 text-xs bd-ink2">
-        Bidra records confirmations and status updates, but does not process payments.
-      </div>
+    <div className="flex items-center gap-2 text-xs">
+      {STEPS.map(function (step, index) {
+        const done = index <= active;
+        return (
+          <div key={step.key} className="flex items-center gap-2">
+            <div className={done ? "h-2.5 w-2.5 rounded-full bg-black" : "h-2.5 w-2.5 rounded-full bg-neutral-300"} />
+            <span className={done ? "font-medium text-black" : "text-neutral-500"}>{step.label}</span>
+            {index < STEPS.length - 1 ? <div className="h-px w-6 bg-neutral-300" /> : null}
+          </div>
+        );
+      })}
     </div>
   );
 }

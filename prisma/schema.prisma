@@ -76,35 +76,34 @@ model VerificationToken {
 }
 
 model Listing {
-  id                 String            @id @default(cuid())
-  title              String
-  description        String
-  category           String
-  type               ListingType
-  status             ListingStatus     @default(DRAFT)
-  condition          String
-  price              Int
-  buyNowPrice        Int?
-  images             String[]
-  location           String
-  createdAt          DateTime          @default(now())
-  updatedAt          DateTime          @updatedAt
-  sellerId           String
-  buyNowEnabled      Boolean           @default(false)
-  photos             String[]          @default([])
-  previousStatus     ListingStatus?
-  pickupAvailability Json?
-  pickupTimezone     String            @default("Australia/Brisbane")
-  offers             Offer[]
-  seller             User              @relation("SellerListings", fields: [sellerId], references: [id])
-  questions          ListingQuestion[]
-  messages           Message[]
-  threads            MessageThread[]
-  offerDecisions     OfferDecision[]
-  orders             Order[]
-  policyStrikes      PolicyStrike[]
-  reports            Report[]
-  watchlist          Watchlist[]
+  id              String            @id @default(cuid())
+  title           String
+  description     String
+  category        String
+  type            ListingType
+  status          ListingStatus     @default(DRAFT)
+  condition       String
+  price           Int
+  buyNowPrice     Int?
+  images          String[]
+  location        String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  sellerId        String
+  buyNowEnabled   Boolean           @default(false)
+  fulfillmentType FulfillmentType   @default(PICKUP)
+  photos          String[]          @default([])
+  previousStatus  ListingStatus?
+  offers          Offer[]
+  seller          User              @relation("SellerListings", fields: [sellerId], references: [id])
+  questions       ListingQuestion[]
+  messages        Message[]
+  threads         MessageThread[]
+  offerDecisions  OfferDecision[]
+  orders          Order[]
+  policyStrikes   PolicyStrike[]
+  reports         Report[]
+  watchlist       Watchlist[]
 }
 
 model Offer {
@@ -190,31 +189,21 @@ model Report {
 }
 
 model Order {
-  pickupOptions          Json?
-  pickupOptionsSentAt    DateTime?
-  pickupOptionSelectedAt DateTime?
-  rescheduleRequestedAt  DateTime?
-  rescheduleRequestedByRole String?
-  rescheduleReason       String?
-  rescheduleResolvedAt   DateTime?
-  rescheduleCount        Int            @default(0)
-  id                     String         @id @default(cuid())
-  amount                 Int
-  status                 OrderStatus    @default(PENDING)
-  createdAt              DateTime       @default(now())
-  updatedAt              DateTime       @updatedAt
-  buyerId                String
-  listingId              String
-  outcome                SaleOutcome    @default(PENDING)
-  buyerFeedbackAt        DateTime?
-  sellerFeedbackAt       DateTime?
-  completedAt            DateTime?
-  pickupScheduleLockedAt DateTime?
-  pickupScheduledAt      DateTime?
-  feedback               Feedback[]
-  offerDecision          OfferDecision?
-  buyer                  User           @relation("BuyerOrders", fields: [buyerId], references: [id])
-  listing                Listing        @relation(fields: [listingId], references: [id])
+  id               String         @id @default(cuid())
+  amount           Int
+  status           OrderStatus    @default(PENDING)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  buyerId          String
+  listingId        String
+  outcome          SaleOutcome    @default(PENDING)
+  buyerFeedbackAt  DateTime?
+  sellerFeedbackAt DateTime?
+  completedAt      DateTime?
+  feedback         Feedback[]
+  offerDecision    OfferDecision?
+  buyer            User           @relation("BuyerOrders", fields: [buyerId], references: [id])
+  listing          Listing        @relation(fields: [listingId], references: [id])
 
   @@index([buyerId])
   @@index([listingId])
@@ -388,9 +377,8 @@ enum ListingStatus {
 
 enum OrderStatus {
   PENDING
+  ACCEPTED
   CANCELLED
-  PICKUP_REQUIRED
-  PICKUP_SCHEDULED
   COMPLETED
 }
 
@@ -412,4 +400,10 @@ enum PolicyStrikeAction {
 enum OfferDecisionKind {
   ACCEPTED
   REJECTED
+}
+
+enum FulfillmentType {
+  PICKUP
+  DELIVERY
+  POSTAGE
 }

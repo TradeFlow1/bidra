@@ -61,7 +61,7 @@ export async function POST(
 
       if (updated.count !== 1) {
         const existing = await tx.order.findFirst({
-          where: { listingId: listingId, buyerId: offer.buyerId, status: OrderStatus.PICKUP_REQUIRED },
+          where: { listingId: listingId, buyerId: offer.buyerId, status: OrderStatus.PENDING },
           orderBy: { createdAt: "desc" },
           select: { id: true },
         });
@@ -94,7 +94,7 @@ export async function POST(
           listingId: listingId,
           buyerId: offer.buyerId,
           amount: offer.amount,
-          status: OrderStatus.PICKUP_REQUIRED,
+          status: OrderStatus.PENDING,
           outcome: "PENDING",
         },
         select: { id: true },

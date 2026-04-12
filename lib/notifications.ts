@@ -1,4 +1,4 @@
-﻿import { prisma } from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 
@@ -46,12 +46,11 @@ export async function getNotificationCounts(userId: string) {
       OR: [
         {
           buyerId: userId,
-          status: "PICKUP_REQUIRED",
-          pickupOptions: { not: Prisma.JsonNull },
+          status: "PENDING",
         },
         {
           listing: { sellerId: userId },
-          status: "PICKUP_REQUIRED",
+          status: "PENDING",
         },
       ],
     },

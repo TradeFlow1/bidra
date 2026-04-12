@@ -1,174 +1,226 @@
-﻿export const CATEGORY_TREE = {
-  "Vehicles": [
-    "Cars",
-    "Motorcycles",
-    "Trucks & Commercial",
-    "Boats & Marine",
-    "Caravans & Campers",
-    "Vehicle Parts & Accessories",
-  ],
+export type BidraLeafCategory = {
+  key: string;
+  label: string;
+};
 
-  "Home & Furniture": [
-    "Living Room",
-    "Bedroom",
-    "Dining",
-    "Outdoor & Garden",
-    "Office Furniture",
-    "Storage",
-    "Home Decor",
-  ],
+export type BidraSubcategory = {
+  key: string;
+  label: string;
+  leaves?: BidraLeafCategory[];
+};
 
-  "Appliances": [
-    "Kitchen Appliances",
-    "Laundry Appliances",
-    "Heating & Cooling",
-    "Vacuums",
-  ],
+export type BidraCategory = {
+  key: string;
+  label: string;
+  subcategories: BidraSubcategory[];
+};
 
-  "Tools & DIY": [
-    "Power Tools",
-    "Hand Tools",
-    "Garden Tools",
-    "Building Materials",
-  ],
+export const BIDRA_CATEGORIES: BidraCategory[] = [
+  {
+    key: "vehicles",
+    label: "Vehicles",
+    subcategories: [
+      { key: "cars", label: "Cars" },
+      { key: "motorcycles", label: "Motorcycles" },
+      { key: "parts", label: "Parts & Accessories" },
+      { key: "commercial", label: "Commercial Vehicles" }
+    ]
+  },
+  {
+    key: "property",
+    label: "Property",
+    subcategories: [
+      { key: "rentals", label: "Rentals" },
+      { key: "home-sales", label: "Home Sales" },
+      { key: "commercial", label: "Commercial Property" }
+    ]
+  },
+  {
+    key: "electronics",
+    label: "Electronics",
+    subcategories: [
+      { key: "phones", label: "Phones" },
+      { key: "computers", label: "Computers" },
+      { key: "audio", label: "Audio" },
+      { key: "gaming", label: "Gaming" },
+      { key: "cameras", label: "Cameras" },
+      { key: "tvs", label: "TVs" }
+    ]
+  },
+  {
+    key: "home-furniture",
+    label: "Home & Furniture",
+    subcategories: [
+      { key: "sofas", label: "Sofas" },
+      { key: "beds", label: "Beds" },
+      { key: "tables", label: "Tables" },
+      { key: "storage", label: "Storage" },
+      { key: "decor", label: "Decor" },
+      { key: "lighting", label: "Lighting" }
+    ]
+  },
+  {
+    key: "appliances",
+    label: "Appliances",
+    subcategories: [
+      { key: "kitchen", label: "Kitchen Appliances" },
+      { key: "laundry", label: "Laundry Appliances" },
+      { key: "heating-cooling", label: "Heating & Cooling" }
+    ]
+  },
+  {
+    key: "fashion",
+    label: "Fashion",
+    subcategories: [
+      { key: "womens", label: "Womens Fashion" },
+      { key: "mens", label: "Mens Fashion" },
+      { key: "shoes", label: "Shoes" },
+      { key: "bags", label: "Bags & Accessories" },
+      { key: "jewellery", label: "Jewellery & Watches" }
+    ]
+  },
+  {
+    key: "baby-kids",
+    label: "Baby & Kids",
+    subcategories: [
+      { key: "toys", label: "Toys" },
+      { key: "clothing", label: "Kids Clothing" },
+      { key: "nursery", label: "Nursery" },
+      { key: "prams", label: "Prams & Strollers" }
+    ]
+  },
+  {
+    key: "sports-outdoors",
+    label: "Sports & Outdoors",
+    subcategories: [
+      { key: "fitness", label: "Fitness" },
+      { key: "camping", label: "Camping" },
+      { key: "cycling", label: "Cycling" },
+      { key: "team-sports", label: "Team Sports" }
+    ]
+  },
+  {
+    key: "tools-diy",
+    label: "Tools & DIY",
+    subcategories: [
+      { key: "power-tools", label: "Power Tools" },
+      { key: "hand-tools", label: "Hand Tools" },
+      { key: "building-supplies", label: "Building Supplies" },
+      { key: "hardware", label: "Hardware" }
+    ]
+  },
+  {
+    key: "hobbies-collectibles",
+    label: "Hobbies & Collectibles",
+    subcategories: [
+      { key: "collectibles", label: "Collectibles" },
+      { key: "art", label: "Art" },
+      { key: "crafts", label: "Crafts" },
+      { key: "music", label: "Musical Instruments" }
+    ]
+  },
+  {
+    key: "entertainment-media",
+    label: "Entertainment & Media",
+    subcategories: [
+      { key: "books", label: "Books" },
+      { key: "movies", label: "Movies" },
+      { key: "music", label: "Music" },
+      { key: "games", label: "Video Games" }
+    ]
+  },
+  {
+    key: "office-business",
+    label: "Office & Business",
+    subcategories: [
+      { key: "office-furniture", label: "Office Furniture" },
+      { key: "supplies", label: "Office Supplies" },
+      { key: "equipment", label: "Business Equipment" }
+    ]
+  },
+  {
+    key: "pet-supplies",
+    label: "Pet Supplies",
+    subcategories: [
+      { key: "dogs", label: "Dogs" },
+      { key: "cats", label: "Cats" },
+      { key: "tanks", label: "Aquariums & Tanks" },
+      { key: "bedding", label: "Pet Bedding & Care" }
+    ]
+  },
+  {
+    key: "garden-outdoor",
+    label: "Garden & Outdoor",
+    subcategories: [
+      { key: "plants", label: "Plants" },
+      { key: "outdoor-furniture", label: "Outdoor Furniture" },
+      { key: "garden-tools", label: "Garden Tools" },
+      { key: "bbq", label: "BBQ & Outdoor Cooking" }
+    ]
+  },
+  {
+    key: "free-stuff",
+    label: "Free Stuff",
+    subcategories: [
+      { key: "free-items", label: "Free Items" }
+    ]
+  },
+  {
+    key: "other",
+    label: "Other",
+    subcategories: [
+      { key: "misc", label: "Miscellaneous" }
+    ]
+  }
+];
 
-  "Tech & Electronics": [
-    "Phones & Accessories",
-    "Computers",
-    "Gaming",
-    "TV & Audio",
-    "Cameras",
-  ],
+export function getTopCategories(): Array<{ key: string; label: string }> {
+  return BIDRA_CATEGORIES.map(function (x) {
+    return { key: x.key, label: x.label };
+  });
+}
 
-  "Fashion & Wearables": [
-    "Men's Clothing",
-    "Women's Clothing",
-    "Shoes",
-    "Bags",
-    "Jewellery & Watches",
-  ],
+export function findCategoryByKey(key: string | null | undefined): BidraCategory | null {
+  if (!key) return null;
+  for (let i = 0; i < BIDRA_CATEGORIES.length; i += 1) {
+    if (BIDRA_CATEGORIES[i].key === key) return BIDRA_CATEGORIES[i];
+  }
+  return null;
+}
 
-  "Beauty & Personal Care": [
-    "Skincare",
-    "Hair Care",
-    "Fragrances",
-    "Grooming",
-  ],
-
-  "Sports & Outdoors": [
-    "Fitness",
-    "Camping",
-    "Cycling",
-    "Fishing",
-    "Water Sports",
-  ],
-
-  "Kids & Toys": [
-    "Toys",
-    "Games",
-    "Kids Clothing",
-  ],
-
-  "Baby & Nursery": [
-    "Prams",
-    "Car Seats",
-    "Nursery Furniture",
-  ],
-
-  "Books & Media": [
-    "Books",
-    "Movies",
-    "Music",
-    "Games",
-  ],
-
-  "Collectibles & Vintage": [
-    "Coins",
-    "Trading Cards",
-    "Memorabilia",
-    "Antiques",
-  ],
-
-  "Art": [
-    "Paintings",
-    "Sculpture",
-    "Photography",
-  ],
-
-  "Office & Business": [
-    "Office Equipment",
-    "Supplies",
-    "POS & Retail",
-  ],
-
-  "Industrial": [
-    "Machinery",
-    "Electrical",
-    "Safety Equipment",
-  ],
-
-  "Pet Supplies (NO LIVE ANIMALS)": [
-    "Food",
-    "Accessories",
-    "Beds & Carriers",
-  ],
-
-  "Health & Medical (non-prescription)": [
-    "Mobility",
-    "Monitoring Devices",
-    "Wellness",
-  ],
-
-  "Tickets (where permitted)": [
-    "Events",
-    "Sport",
-    "Theatre",
-  ],
-
-  "Services": [
-    "Trade Services",
-    "Creative Services",
-    "Lessons",
-  ],
-
-  "Free items": [],
-
-  "Other": [],
-} as const;
-
-export const PARENT_CATEGORIES = Object.keys(CATEGORY_TREE) as readonly string[];
-
-export const CATEGORY_GROUPS = Object.entries(CATEGORY_TREE).map(([parent, children]) => ({
-  parent,
-  children: Array.from(children),
-})) as readonly { parent: string; children: readonly string[] }[];
-
-
-
-export const CATEGORY_SEPARATOR = " › " as const;
-
-export function joinCategory(parent: string, child?: string) {
-  const p = String(parent || "").trim();
-  const c = String(child || "").trim();
-  if (!p) return "";
+export function findSubcategory(categoryKey: string | null | undefined, subcategoryKey: string | null | undefined): BidraSubcategory | null {
+  const category = findCategoryByKey(categoryKey);
+  if (!category || !subcategoryKey) return null;
+  for (let i = 0; i < category.subcategories.length; i += 1) {
+    if (category.subcategories[i].key === subcategoryKey) return category.subcategories[i];
+  }
+  return null;
+}
+export function joinCategory(parent: string, child?: string | null): string {
+  var p = String(parent || "").trim();
+  var c = String(child || "").trim();
+  if (!p) return c;
   if (!c) return p;
-  return `${p}${CATEGORY_SEPARATOR}${c}`;
+  return p + " > " + c;
 }
 
-export function getCategoryParent(value: string) {
-  const v = String(value || "");
-  const i = v.indexOf(CATEGORY_SEPARATOR);
-  return i >= 0 ? v.slice(0, i) : v;
-}
+export const CATEGORY_GROUPS: Array<{ parent: string; children: string[] }> = BIDRA_CATEGORIES.map(function (category) {
+  return {
+    parent: category.label,
+    children: category.subcategories.map(function (subcategory) {
+      return subcategory.label;
+    })
+  };
+});
 
-export function getCategoryChild(value: string) {
-  const v = String(value || "");
-  const i = v.indexOf(CATEGORY_SEPARATOR);
-  return i >= 0 ? v.slice(i + CATEGORY_SEPARATOR.length) : "";
-}
-// Flattened list for legacy UI compatibility
-export const FULL_CATEGORIES = Object.entries(CATEGORY_TREE).flatMap(([parent, children]) =>
-  children.length ? [parent, ...children.map((c) => joinCategory(parent, c))] : [parent]
-) as readonly string[];
-
-export type Category = (typeof FULL_CATEGORIES)[number];
+export const FULL_CATEGORIES: string[] = (function () {
+  var values: string[] = [];
+  for (var i = 0; i < BIDRA_CATEGORIES.length; i += 1) {
+    var category = BIDRA_CATEGORIES[i];
+    values.push(category.label);
+    for (var j = 0; j < category.subcategories.length; j += 1) {
+      values.push(joinCategory(category.label, category.subcategories[j].label));
+    }
+  }
+  return values;
+})();

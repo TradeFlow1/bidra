@@ -5,7 +5,6 @@ import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
-import SellerConfirmReceived from "./[id]/seller-confirm-received";
 
 export const dynamic = "force-dynamic";
 
@@ -21,14 +20,14 @@ export default async function OrdersPage() {
     where: {
       OR: [
         { buyerId: user.id },
-        { listing: { sellerId: user.id } },
-      ],
+        { listing: { sellerId: user.id } }
+      ]
     },
     include: { listing: true },
     orderBy: [
-  { status: "asc" },
-  { createdAt: "desc" }
-],
+      { status: "asc" },
+      { createdAt: "desc" }
+    ]
   });
 
   return (
@@ -36,8 +35,10 @@ export default async function OrdersPage() {
       <div className="container max-w-4xl">
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Orders</h1>
-<p className="mt-2 text-sm text-blue-700 font-semibold">Action required orders appear first</p>
+            <div>
+              <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Orders</h1>
+              <p className="mt-2 text-sm text-blue-700 font-semibold">Pending orders appear first</p>
+            </div>
             <Link href="/listings" className="bd-btn bd-btn-primary text-center">
               Browse
             </Link>
@@ -47,7 +48,7 @@ export default async function OrdersPage() {
             {orders.map((o: any) => (
               <Card
                 key={o.id}
-                className={`bd-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-3 ${o.status === "PICKUP_REQUIRED" ? "border-blue-300 bg-blue-50/40" : ""}`}
+                className={`bd-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-3 ${o.status === "PENDING" ? "border-blue-300 bg-blue-50/40" : ""}`}
               >
                 <div>
                   <div className="text-sm bd-ink2">
@@ -75,36 +76,27 @@ export default async function OrdersPage() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-2 flex-wrap justify-end w-full md:w-auto">
-{(o.status === "PICKUP_REQUIRED" && o.listing?.sellerId === user.id) ? (
-  <Link
-    href={`/orders/${o.id}`}
-    className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px]"
-  >
-    <span className="block">Add pickup options</span>
-    <span className="mt-1 block text-xs bd-ink2">Set 3 time slots for buyer</span>
-  </Link>
-) : null}
-                  
-
-                  
-
-                  {(o.status === "PICKUP_SCHEDULED" && o.listing?.sellerId === user.id && o.outcome !== "COMPLETED") ? (
-
-                    <SellerConfirmReceived orderId={o.id} />
-
+                  {o.status === "PENDING" ? (
+                    <Link
+                      href={`/orders/${o.id}`}
+                      className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px]"
+                    >
+                      <span className="block">Review order</span>
+                      <span className="mt-1 block text-xs bd-ink2">Confirm next steps</span>
+                    </Link>
                   ) : null}
 
-<Link
-  href={`/orders/${o.id}`}
-  className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px] whitespace-nowrap"
->
-    <span className="block">View order</span>
-    <span className="mt-1 block text-xs bd-ink2">Order ID - {String(o.id).slice(-6)}</span>
-</Link>
+                  <Link
+                    href={`/orders/${o.id}`}
+                    className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px] whitespace-nowrap"
+                  >
+                    <span className="block">View order</span>
+                    <span className="mt-1 block text-xs bd-ink2">Order ID - {String(o.id).slice(-6)}</span>
+                  </Link>
 
                   <Link
                     href={`/listings/${o.listingId}`}
-                     className="bd-btn bd-btn-ghost text-center w-full sm:w-auto"
+                    className="bd-btn bd-btn-ghost text-center w-full sm:w-auto"
                   >
                     View listing
                   </Link>
@@ -123,15 +115,15 @@ export default async function OrdersPage() {
 
             {!orders.length ? (
               <div className="bd-card p-6">
-  <div className="text-base font-semibold bd-ink">No orders yet.</div>
-  <div className="mt-1 text-sm bd-ink2">
-    When you buy now (binding) or a seller accepts your top offer, your order will appear here.
-  </div>
-  <div className="mt-4 flex flex-wrap gap-2">
-    <Link href="/listings" className="bd-btn bd-btn-primary text-center">Browse listings</Link>
-    <Link href="/sell/new" className="bd-btn bd-btn-ghost text-center">Create a listing</Link>
-  </div>
-</div>
+                <div className="text-base font-semibold bd-ink">No orders yet.</div>
+                <div className="mt-1 text-sm bd-ink2">
+                  When you buy now or a seller accepts your top offer, your order will appear here.
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Link href="/listings" className="bd-btn bd-btn-primary text-center">Browse listings</Link>
+                  <Link href="/sell/new" className="bd-btn bd-btn-ghost text-center">Create a listing</Link>
+                </div>
+              </div>
             ) : null}
           </div>
         </div>

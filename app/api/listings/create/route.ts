@@ -114,7 +114,11 @@ export async function POST(req: Request) {
     const imagesRaw = Array.isArray(body.images) ? body.images : [];
 
 
-    const images = imagesRaw.map(function (v: any) { return String(v ?? "").trim(); }).filter(Boolean).slice(0, 10);
+    const images = imagesRaw.map(function (v: any) {
+      if (typeof v === "string") return { url: String(v).trim() };
+      if (v && typeof v === "object" && typeof v.url === "string") return { url: String(v.url).trim() };
+      return null;
+    }).filter(Boolean).slice(0, 10);
 
     if (title.length < 3) return NextResponse.json({ error: "Title must be at least 3 characters." }, { status: 400 });
     if (!category) return NextResponse.json({ error: "Category is required." }, { status: 400 });
@@ -138,8 +142,8 @@ export async function POST(req: Request) {
     if (type === "OFFERABLE" && buyNowPriceIn !== null && buyNowPriceIn <= 0) return NextResponse.json({ error: "Buy Now must be greater than 0 (or blank)." }, { status: 400 });
     if (type === "OFFERABLE" && buyNowPriceIn !== null && buyNowPriceIn < priceIn) return NextResponse.json({ error: "Buy Now must be at least the starting offer." }, { status: 400 });
 
-    if (images.some(function (u: string) {
-      const s = String(u || "").toLowerCase();
+    if (images.some(function (img: any) {
+      const s = String((img && img.url) || "").toLowerCase();
       if (!s.startsWith("https://")) return true;
       if (!s.includes("vercel-storage.com/")) return true;
       return false;
@@ -147,7 +151,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Images must be uploaded via Bidra (invalid image URL)." }, { status: 400 });
     }
 
-    if (listingLooksProhibited({ title, description, category, tags, images })) {
+    if (listingLooksProhibited({ title, description, category, tags, images: images.map(function (img: any) { return String((img && img.url) || ""); }) })) {
       try {
         await prisma.adminEvent.create({
           data: {
@@ -194,4 +198,5 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+
 

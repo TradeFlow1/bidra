@@ -497,28 +497,36 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     setBusy(true);
     try {
       // 1) Upload selected files (preferred)
-      let uploadedUrls: string[] = [];
+      let uploadedImages: { url: string }[] = [];
       if (files.length > 0) {
+        const fd = new FormData();
         for (const f of files.slice(0, 10)) {
-          const fd = new FormData();
           fd.append("files", f);
+        }
 
-          const up = await fetch("/api/uploads/images", { method: "POST", body: fd });
-          const upText = await up.text();
-          let upData: any = null;
-          try { upData = JSON.parse(upText); } catch { upData = null; }
+        const up = await fetch("/api/uploads/images", { method: "POST", body: fd });
+        const upText = await up.text();
+        let upData: any = null;
+        try { upData = JSON.parse(upText); } catch { upData = null; }
 
-          if (!up.ok) {
-            const msg = (upData && upData.error) ? String(upData.error) : upText || "Image upload failed.";
-            setErr(msg);
-            return;
-          }
+        if (!up.ok) {
+          const msg = (upData && upData.error) ? String(upData.error) : upText || "Image upload failed. Please try again.";
+          setErr(msg);
+          return;
+        }
 
-          const one = Array.isArray(upData?.urls) ? upData.urls[0] : null;
-          if (one) uploadedUrls.push(String(one));
+        uploadedImages = Array.isArray(upData?.images)
+          ? upData.images
+              .map(function (img: any) { return img && typeof img.url === "string" ? { url: String(img.url) } : null; })
+              .filter(Boolean)
+          : [];
+
+        if (uploadedImages.length !== files.slice(0, 10).length) {
+          setErr("Some images did not upload correctly. Please try again.");
+          return;
         }
       }
-const imagesToSend = uploadedUrls;
+      const imagesToSend = uploadedImages;
 
 
       // 2) Create listing
@@ -860,5 +868,6 @@ const imagesToSend = uploadedUrls;
     </div>
   );
 }
+
 
 

@@ -78,7 +78,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
 
       <div style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
         <Link href="/admin/events" style={chipStyle(!type)}>All events</Link>
-        <Link href="/admin/events?type=ORDER_PICKUP_SCHEDULED" style={chipStyle(type === "ORDER_PICKUP_SCHEDULED")}>Pickup scheduled</Link>
+        <Link href="/admin/events?type=BUY_NOW_PLACED" style={chipStyle(type === "BUY_NOW_PLACED")}>Buy now placed</Link>
         <Link href="/admin/events?type=ORDER_RESCHEDULE_REQUESTED" style={chipStyle(type === "ORDER_RESCHEDULE_REQUESTED")}>Reschedule requested</Link>
         <Link href="/admin/events?type=ORDER_RESCHEDULE_OPTIONS_POSTED" style={chipStyle(type === "ORDER_RESCHEDULE_OPTIONS_POSTED")}>Replacement options posted</Link>
         <Link href="/admin/events?type=ORDER_RESCHEDULE_CONFIRMED" style={chipStyle(type === "ORDER_RESCHEDULE_CONFIRMED")}>Reschedule confirmed</Link>

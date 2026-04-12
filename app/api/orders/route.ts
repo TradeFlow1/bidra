@@ -30,7 +30,6 @@ export async function GET(_req: Request) {
         createdAt: true,
         buyerId: true,
         listingId: true,
-        pickupScheduledAt: true,
         completedAt: true,
         listing: { select: { sellerId: true, title: true, price: true } },
       },

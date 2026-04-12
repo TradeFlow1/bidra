@@ -1,9 +1,4 @@
-﻿import Link from "next/link";
-import SellerConfirmReceived from "./seller-confirm-received";
-import SellerPickupOptionsForm from "./seller-pickup-options-form";
-import BuyerPickupSelect from "./buyer-pickup-select";
-import RescheduleRequest from "./reschedule-request";
-import NoShowReport from "./no-show-report";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -12,6 +7,7 @@ import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
 import SafetyCallout from "../../../components/safety-callout";
 import OrderStatusTimeline from "../../../components/order-status-timeline";
+
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -27,7 +23,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   const order = await prisma.order.findUnique({
     where: { id: orderId },
-    include: { listing: true },
+    include: { listing: true }
   });
 
   if (!order) {
@@ -72,12 +68,6 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const alreadyLeft =
     order.outcome === "COMPLETED" &&
     ((isBuyer && !!order.buyerFeedbackAt) || (isSeller && !!order.sellerFeedbackAt));
-  const pickupOptions = Array.isArray(order.pickupOptions)
-    ? order.pickupOptions.map(function (x) { return String(x); })
-    : [];
-  const reschedulePending = !!order.rescheduleRequestedAt;
-  const rescheduleRequestedByRole = order.rescheduleRequestedByRole ? String(order.rescheduleRequestedByRole) : null;
-  const rescheduleReason = order.rescheduleReason ? String(order.rescheduleReason) : null;
 
   return (
     <main className="bd-container py-10">
@@ -122,144 +112,72 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                 Amount: <b>${(order.amount / 100).toFixed(2)}</b> AUD
               </div>
 
-              <OrderStatusTimeline status={order.status} outcome={order.outcome} className="mt-3" />
+              <OrderStatusTimeline status={order.status} />
 
-              {order.pickupScheduledAt ? (
-                <div className="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
-                  <div className="font-semibold">Confirmed pickup time</div>
-                  <div className="mt-1">{new Date(order.pickupScheduledAt).toLocaleString()}</div>
-                  {reschedulePending ? (
-                    <div className="mt-2 text-xs text-green-900">
-                      This remains the binding pickup time until a replacement time is chosen.
-                    </div>
-                  ) : null}
-                </div>
-              ) : null}
-
-              {reschedulePending ? (
-                <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-                  <div className="font-semibold">Pickup update in progress</div>
+              {order.status === "PENDING" ? (
+                <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+                  <div className="font-semibold">Next step</div>
                   <div className="mt-1">
-                    Changed by: <b>{rescheduleRequestedByRole || "Unknown"}</b>
+                    Use Messages to confirm pickup, delivery, or postage details directly with the other party.
                   </div>
-                  {rescheduleReason ? <div className="mt-1">Reason: {rescheduleReason}</div> : null}
-                  {isBuyer ? (
-                    <div className="mt-2">
-                      {pickupOptions.length ? "Updated pickup options are ready below. Choose one to confirm the new time." : "Waiting for the seller to post updated pickup options."}
-                    </div>
-                  ) : null}
-                  {isSeller ? (
-                    <div className="mt-2">
-                      Post updated pickup options below so the buyer can choose a new time.
-                    </div>
-                  ) : null}
                 </div>
               ) : null}
 
-              {(order.status === "PICKUP_SCHEDULED" && isBuyer && order.outcome !== "COMPLETED") ? (
-                <>
-                  <RescheduleRequest orderId={order.id} />
-                  <NoShowReport orderId={order.id} />
-                </>
-              ) : null}
-
-              {(order.status === "PICKUP_REQUIRED" && isBuyer) ? (
-                <div className="pt-2">
-                  <SafetyCallout title="Pickup guidance">
-                    <ul className="list-disc pl-5">
-                      <li>Keep communication on Bidra via Messages for clarification only.</li>
-                      <li>Wait for the seller to provide pickup options, then choose one in-app.</li>
-                      <li>If anything feels suspicious, stop and report it.</li>
-                    </ul>
-                  </SafetyCallout>
-
-                  <div className="mt-3 rounded-xl border border-black/10 bg-white/5 px-4 py-3 text-sm bd-ink2">
-                    {pickupOptions.length ? "Choose one of the seller-defined pickup options below." : "Waiting for seller pickup availability."}
+              {order.status === "ACCEPTED" ? (
+                <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                  <div className="font-semibold">Order accepted</div>
+                  <div className="mt-1">
+                    This order is in progress. Keep communication in Messages and complete the handover safely.
                   </div>
-                  {(order.status === "PICKUP_REQUIRED" && isBuyer && pickupOptions.length > 0) ? (
-                    <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-                      <div className="font-semibold">Your next step</div>
-                      <div className="mt-1">Choose a pickup time to complete scheduling.</div>
-                    </div>
-                  ) : null}
-                  <BuyerPickupSelect orderId={order.id} options={pickupOptions} />
                 </div>
               ) : null}
 
-              {(order.status === "PICKUP_SCHEDULED" && isBuyer && reschedulePending && pickupOptions.length > 0) ? (
-                <div className="pt-2">
-                  <BuyerPickupSelect orderId={order.id} options={pickupOptions} />
+              {order.outcome === "COMPLETED" ? (
+                <div className="mt-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
+                  <div className="font-semibold">Order completed</div>
+                  <div className="mt-1">
+                    This order has been marked complete.
+                  </div>
                 </div>
               ) : null}
 
-              {order.listing?.sellerId === user.id && order.status === "PICKUP_REQUIRED" ? (
-                <div className="pt-2">
-                  <SafetyCallout title="Seller checklist">
-                    <ul className="list-disc pl-5">
-                      <li>This is a binding order.</li>
-                      <li>After purchase, provide pickup options here so the buyer can choose in-app.</li>
+              <SafetyCallout title="Safety guidance">
+                <ul className="list-disc pl-5">
+                  <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+                  <li>Meet in a safe public place for pickup where practical.</li>
+                  <li>Use tracked delivery or postage where appropriate.</li>
+                  <li>If anything feels suspicious, stop and report it.</li>
+                </ul>
+              </SafetyCallout>
+
+              <Card className="bd-card p-6">
+                <div className="grid gap-2">
+                  <div className="text-sm font-extrabold bd-ink">What to expect</div>
+                  {order.outcome === "COMPLETED" ? (
+                    <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
+                      <li>This order is marked <b>COMPLETED</b>.</li>
+                      <li>You can leave feedback from this order.</li>
                     </ul>
-                  </SafetyCallout>
-
-                  {(order.status === "PICKUP_REQUIRED" && isSeller) ? (
-                    <div className="mt-4 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-                      <div className="font-semibold">Your next step</div>
-                      <div className="mt-1">Add pickup options here after the sale. The buyer will choose one in-app to confirm the schedule.</div>
-                    </div>
-                  ) : null}
-                  <SellerPickupOptionsForm orderId={order.id} />
+                  ) : order.status === "PENDING" ? (
+                    <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
+                      <li>This is a live order waiting for coordination.</li>
+                      <li>Use <Link className="bd-link font-semibold" href="/messages">Messages</Link> to confirm pickup, delivery, or postage details.</li>
+                      <li>Once both sides are aligned and the transaction is underway, the seller can progress the order.</li>
+                    </ul>
+                  ) : order.status === "ACCEPTED" ? (
+                    <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
+                      <li>This order has been accepted and is in progress.</li>
+                      <li>Complete the exchange safely and keep communication in Bidra.</li>
+                      <li>After the handover, leave feedback to help build trust.</li>
+                    </ul>
+                  ) : (
+                    <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
+                      <li>Check the order status above for the current step.</li>
+                      <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+                    </ul>
+                  )}
                 </div>
-              ) : null}
-
-              {(order.status === "PICKUP_SCHEDULED" && isSeller && reschedulePending) ? (
-                <div className="pt-2">
-                  <SellerPickupOptionsForm orderId={order.id} />
-                </div>
-              ) : null}
-
-              {order.listing?.sellerId === user.id && order.status === "PICKUP_SCHEDULED" && order.outcome !== "COMPLETED" ? (
-                <>
-                  <SellerConfirmReceived orderId={order.id} />
-                  <NoShowReport orderId={order.id} />
-                  <RescheduleRequest orderId={order.id} />
-                </>
-              ) : null}
-
-              <div className="pt-2">
-                <div className="text-xs bd-ink2">
-                  <Card className="bd-card p-6">
-                    <div className="grid gap-2">
-                      <div className="text-sm font-extrabold bd-ink">What to expect</div>
-                      {order.status === "PICKUP_REQUIRED" ? (
-                        <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
-                          <li><b>Pickup options</b> are provided by the seller after purchase.</li>
-                          <li>The buyer then chooses one option and the pickup time is confirmed in Bidra.</li>
-                          <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link> for clarification only.</li>
-                        </ul>
-                      ) : order.status === "PICKUP_SCHEDULED" ? (
-                        <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
-                          <li>This order now has a confirmed pickup time.</li>
-                          <li>The current scheduled time stays binding until a replacement time is chosen in the order.</li>
-                          <li>Honour the agreed time and use Messages only for clarification.</li>
-                          <li>After the handover, leave feedback to help build trust.</li>
-                        </ul>
-                      ) : order.outcome === "COMPLETED" ? (
-                        <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
-                          <li>This order is marked <b>COMPLETED</b>.</li>
-                          <li>You can leave feedback anytime from this order.</li>
-                        </ul>
-                      ) : (
-                        <ul className="mt-1 list-disc pl-5 text-sm bd-ink2">
-                          <li>Check the order status above for the current step. Follow the scheduled pickup flow shown in the order.</li>
-                          <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link> for clarification only.</li>
-                        </ul>
-                      )}
-                    </div>
-                  </Card>
-
-                  Bidra keeps the confirmed pickup flow and order history in one place so both sides can follow the same agreed steps.
-                </div>
-              </div>
+              </Card>
             </div>
           </Card>
         </div>

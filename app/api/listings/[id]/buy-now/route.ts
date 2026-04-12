@@ -58,7 +58,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
 
       if (updated.count !== 1) {
         const existing = await tx.order.findFirst({
-          where: { listingId: listing.id, buyerId: session.user.id, status: OrderStatus.PICKUP_REQUIRED },
+          where: { listingId: listing.id, buyerId: session.user.id, status: OrderStatus.PENDING },
           orderBy: { createdAt: "desc" },
           select: { id: true },
         });
@@ -69,7 +69,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       const order = await tx.order.create({
         data: {
           amount: amount,
-          status: OrderStatus.PICKUP_REQUIRED,
+          status: OrderStatus.PENDING,
           outcome: "PENDING",
           buyerId: session.user.id,
           listingId: listing.id,

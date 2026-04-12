@@ -1,4 +1,4 @@
-﻿const { PrismaClient } = require("@prisma/client");
+const { PrismaClient } = require("@prisma/client");
 
 async function main() {
   const p = new PrismaClient();
@@ -12,7 +12,7 @@ async function main() {
     const order = await p.order.create({
       data: {
         amount: listing.price,
-        status: "PICKUP_REQUIRED",
+        status: "PENDING",
         buyerId: buyer.id,
         listingId: listing.id,
         outcome: "PENDING",

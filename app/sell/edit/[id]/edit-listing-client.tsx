@@ -72,13 +72,6 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const [location, setLocation] = useState(listing.location);
   const [price, setPrice] = useState(String(listing.priceDollars || ""));
   const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
-  const seededPickup = ((listing as any).pickupAvailability && typeof (listing as any).pickupAvailability === "object") ? (listing as any).pickupAvailability : { days: [], timeBlocks: [], notes: "" };
-  const [pickupDays, setPickupDays] = useState<string[]>(Array.isArray((seededPickup as any).days) ? (seededPickup as any).days : []);
-  const [pickupTimeBlocks, setPickupTimeBlocks] = useState<string[]>(Array.isArray((seededPickup as any).timeBlocks) ? (seededPickup as any).timeBlocks : []);
-  const [pickupNotes, setPickupNotes] = useState<string>(String((seededPickup as any).notes || ""));
-  const [pickup1, setPickup1] = useState(seededPickup[0] || "");
-  const [pickup2, setPickup2] = useState(seededPickup[1] || "");
-  const [pickup3, setPickup3] = useState(seededPickup[2] || "");
 
   // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
   const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
@@ -178,9 +171,8 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
 
     const total = (existingImages?.length || 0) + (files?.length || 0);
     if (total > 10) return "Too many images (max 10 total).";
-    if (!pickupDays.length || !pickupTimeBlocks.length) return "Please provide seller pickup availability.";
 
-    // Late-stage Buy Now (timed offers only) Ã¢â‚¬â€ allow blank to clear, but validate if provided
+    // Late-stage Buy Now (timed offers only) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â allow blank to clear, but validate if provided
     if (isTimedOffers) {
       const s = String(buyNow ?? "").trim();
       if (s) {
@@ -272,7 +264,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Edit listing</h1>
-              <div className="mt-1 text-sm bd-ink2">Update your listing details, status and photos.</div>
+              <div className="mt-1 text-sm bd-ink2">Update your listing details, status, price, and photos.</div>
             </div>
 
             <div className="flex flex-col items-start gap-2 sm:items-end">
@@ -323,15 +315,6 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
               </div>
             </div>
           </div>
-
-          <div className="grid gap-2">
-            <label className="text-sm font-semibold bd-ink">Pickup availability</label>
-            <div className="text-xs bd-ink2">Add 3 pickup options buyers can choose from after purchase.</div>
-            <input type="datetime-local" className="bd-input" value={pickup1} onChange={(e) => setPickup1(e.target.value)} />
-            <input type="datetime-local" className="bd-input" value={pickup2} onChange={(e) => setPickup2(e.target.value)} />
-            <input type="datetime-local" className="bd-input" value={pickup3} onChange={(e) => setPickup3(e.target.value)} />
-          </div>
-
           {error ? (
             <div className="bd-card p-4 border border-red-200 bg-red-50/50">
               <div className="text-sm font-extrabold bd-ink">Fix this first</div>
@@ -363,7 +346,6 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                     price: dollarsToCents(price),
                     images: (existingImages || []).filter(Boolean).slice(0, 10),
                     status,
-                    pickupAvailability: { days: pickupDays, timeBlocks: pickupTimeBlocks, notes: String(pickupNotes || "").trim() },
 
                     // Kevin timed-offers: seller-controlled late Buy Now reveal
 buyNowPrice:
@@ -388,7 +370,7 @@ buyNowPrice:
                     return;
                   }
 
-                  router.push(`/listings/${listing.id}`);
+                  router.push(`/listings/${listing.id}?updated=1`);
                   router.refresh();
                 } catch (err: any) {
                   setError(String(err?.message || err));
@@ -420,7 +402,7 @@ buyNowPrice:
   value={category}
   onChange={(e) => setCategory(e.target.value)}
 >
-  <option value="">Select a categoryÃ¢â‚¬Â¦</option>
+  <option value="">Select a categoryÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦</option>
   {CATEGORY_GROUPS.map((g) => (
     <optgroup key={g.parent} label={g.parent}>
       <option value={g.parent}>{g.parent}</option>
@@ -540,7 +522,7 @@ buyNowPrice:
     aria-label="Move photo left"
     title="Move left"
   >
-    Ã¢â€ Â
+    ÃƒÂ¢Ã¢â‚¬Â Ã‚Â
   </button>
   <button
     type="button"
@@ -550,7 +532,7 @@ buyNowPrice:
     aria-label="Move photo right"
     title="Move right"
   >
-    Ã¢â€ â€™
+    ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
   </button>
 </div>
 
@@ -657,3 +639,4 @@ buyNowPrice:
     </main>
   );
 }
+

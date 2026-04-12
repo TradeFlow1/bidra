@@ -23,8 +23,6 @@ export async function GET(_req: Request, ctx: { params: { id: string } }) {
         completedAt: true,
         buyerId: true,
         listingId: true,
-        pickupScheduledAt: true,
-        pickupScheduleLockedAt: true,
         buyerFeedbackAt: true,
         sellerFeedbackAt: true,
         listing: { select: { sellerId: true, title: true, price: true } },
@@ -55,8 +53,6 @@ export async function GET(_req: Request, ctx: { params: { id: string } }) {
         completedAt: order.completedAt ?? null,
         listingId: order.listingId ?? null,
         buyerId: order.buyerId ?? null,
-        pickupScheduledAt: (order as any).pickupScheduledAt ?? null,
-        pickupScheduleLockedAt: (order as any).pickupScheduleLockedAt ?? null,
         listing: {
           id: order.listingId ?? null,
           title: (order.listing as any) ? ((order.listing as any).title ?? null) : null,

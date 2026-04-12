@@ -300,11 +300,12 @@ export default async function ListingPage({ params }: { params: { id: string } }
                     ) : (
                       <div className="space-y-1 rounded-lg border border-black/10 bg-white p-3 shadow-sm">
                         <div className="text-xs font-semibold text-neutral-900">Make an offer</div>
+                        <div className="text-[11px] text-neutral-500">Create an account or log in to make an offer.</div>
                         <ClickableLink
                           href={`/auth/login?next=/listings/${listing.id}` }
                           className="bd-btn bd-btn-primary text-center"
                         >
-                          Log in
+                          Log in or create account
                         </ClickableLink>
                       </div>
                     )
@@ -318,7 +319,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
                         href={`/auth/login?next=/listings/${listing.id}` }
                         className="bd-btn bd-btn-primary text-center"
                       >
-                        Log in to message seller
+Log in to buy, offer, or message seller
                       </ClickableLink>
                     )}
                   </div>
@@ -331,6 +332,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
     </main>
   );
 }
+
 
 
 
