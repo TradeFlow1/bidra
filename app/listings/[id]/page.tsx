@@ -1,4 +1,4 @@
-﻿import { labelCategory, labelCondition } from "@/lib/labels";
+import { labelCategory, labelCondition } from "@/lib/labels";
 import Link from "next/link";
 import { ClickableLink } from "@/components/clickable-link";
 import { getServerSession } from "next-auth";
@@ -196,25 +196,27 @@ export default async function ListingPage({ params }: { params: { id: string } }
             <div className="pt-2 space-y-3">
               {showReport ? <ReportListingButton listingId={listing.id} /> : null}
 
-
-
-              {session?.user?.id && (isAdmin || listing.sellerId === session.user.id) ? <DeleteListingButton id={listing.id} /> : null}
-
               {isSeller ? (
-                <div className="mt-3 space-y-2">
-                  <div className="flex flex-wrap gap-2">
-                    <div>
-                      <Link href={`/sell/edit/${listing.id}`} className="bd-btn bd-btn-primary" prefetch={false}>
-                        Edit listing
-                      </Link>
-                      <div className="mt-1 text-xs bd-ink2">Edit title, price, description, and photos.</div>
-                    </div>
-                  </div>
-                  {listing.status === "ENDED" ? (
-                    <div>
+                <div className="rounded-xl border border-black/10 bg-white p-4">
+                  <div className="text-sm font-semibold bd-ink">Manage listing</div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <Link
+                      href={`/sell/edit/${listing.id}`}
+                      className="bd-btn bd-btn-primary text-center"
+                      prefetch={false}
+                    >
+                      Edit listing
+                    </Link>
+                    {listing.status === "ENDED" ? (
                       <RelistButton listingId={listing.id} />
-                    </div>
-                  ) : null}
+                    ) : null}
+                    {session?.user?.id && (isAdmin || listing.sellerId === session.user.id) ? (
+                      <DeleteListingButton id={listing.id} />
+                    ) : null}
+                  </div>
+                  <div className="mt-2 text-xs bd-ink2">
+                    Update price, description, photos, or relist when needed.
+                  </div>
                 </div>
               ) : null}
             </div>
