@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -11,8 +11,8 @@ type ListingCardListing = {
   id: string;
   title: string;
   description?: string | null;
-  price: number; // cents (for fixed) OR current top offer cents (for timed offers) based on caller mapping
-  buyNowPrice?: number | null; // cents
+  price: number;
+  buyNowPrice?: number | null;
   type?: string;
   category?: string;
   condition?: string | null;
@@ -39,44 +39,65 @@ function endsLabel(endsAt: any) {
   return `Ends in ${t}`;
 }
 
-export default function ListingCard({ listing, initiallyWatched }: ListingCardProps) {
+function cleanText(value: string | null | undefined) {
+  return String(value ?? "").replace(/\s+/g, " ").trim();
+}
+
+function shortCategory(value: string | null | undefined) {
+  const v = cleanText(value);
+  if (!v) return "";
+  if (v.indexOf(" > ") >= 0) return v.split(" > ").pop() || v;
+  if (v.indexOf(" › ") >= 0) return v.split(" › ").pop() || v;
+  return v;
+}
+
+function shortCondition(value: string | null | undefined) {
+  const v = cleanText(value);
+  if (!v) return "";
+  return v.replaceAll("_", " ");
+}
+
+export default function ListingCard({ listing }: ListingCardProps) {
   const imgs = Array.isArray(listing.images) ? listing.images : null;
   const hasMulti = !!(imgs && imgs.length > 1);
-
   const isNoPhotos = !imgs || imgs.length === 0;
+
   const fallback =
     (imgs && imgs.length > 0 && (imgs[0]?.url || imgs[0]?.src || imgs[0])) ||
     "/brand/bidra-kangaroo-icon.png";
 
   const isTimedOffers = isTimedOffersType(listing.type);
   const hasBuyNow = typeof listing.buyNowPrice === "number";
-
   const badge = isTimedOffers ? "Timed offers" : hasBuyNow ? "Buy Now" : "Fixed price";
 
-  // Primary price:
-  // - Timed offers: listing.price is already mapped as current top offer cents (see app/listings/page.tsx mapping)
-  // - Fixed: show buyNowPrice if present else listing.price
-  const primaryCents = isTimedOffers ? Number(listing.price) : (hasBuyNow ? (listing.buyNowPrice as number) : Number(listing.price));
+  const primaryCents = isTimedOffers
+    ? Number(listing.price)
+    : (hasBuyNow ? (listing.buyNowPrice as number) : Number(listing.price));
 
   const isActive = String(listing.status || "ACTIVE") === "ACTIVE";
   const ends = isTimedOffers && isActive ? endsLabel(listing.endsAt) : null;
 
+  const title = cleanText(listing.title);
+  const category = shortCategory(listing.category);
+  const condition = shortCondition(listing.condition);
+  const location = cleanText(listing.location);
+
   return (
     <Link
-      href={`/listings/${listing.id}` }
-      className="group block overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-[2px] hover:shadow-lg"
+      href={`/listings/${listing.id}`}
+      className="group block overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-[2px] hover:shadow-xl"
     >
-      <div className="relative aspect-[3/4] w-full bg-neutral-100">
-{hasMulti ? (
-          <ListingThumbCarousel images={listing.images} title={String((listing as unknown as { title?: string })?.title ?? "").replace(/\s+/g, " ").trim()} />
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-100">
+        {hasMulti ? (
+          <ListingThumbCarousel images={listing.images} title={title} />
         ) : (
           <>
             <Image
               src={fallback}
-              alt={String((listing as unknown as { title?: string })?.title ?? "").replace(/\s+/g, " ").trim()}
+              alt={title}
               fill
               sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
-              className={isNoPhotos ? "select-none object-contain p-10 opacity-90" : "select-none object-cover"}
+              className={isNoPhotos ? "select-none object-contain p-10 opacity-90" : "select-none object-cover transition duration-300 group-hover:scale-[1.02]"}
               draggable={false}
               onDragStart={(e) => e.preventDefault()}
               onContextMenu={(e) => e.preventDefault()}
@@ -85,59 +106,70 @@ export default function ListingCard({ listing, initiallyWatched }: ListingCardPr
             />
 
             {isNoPhotos ? (
-              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold tracking-tight text-neutral-700 shadow-sm border border-black/10">
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-black/10 bg-white/95 px-3 py-1 text-[11px] font-semibold tracking-tight text-neutral-700 shadow-sm">
                 Photo coming soon
               </div>
             ) : null}
           </>
         )}
-      </div>
 
-      <div className="space-y-2 p-4">
-        <div
-          className="text-[17px] font-bold leading-snug text-[#0b1220] line-clamp-2"
-          style={{
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-          } as React.CSSProperties}
-        >
-          {String((listing as unknown as { title?: string })?.title ?? "").replace(/\s+/g, " ").trim()}
-        </div>
-
-        <div>
-          <span className="inline-flex items-center rounded-full border border-black/10 bg-neutral-50 px-2.5 py-1 text-[11px] font-semibold text-neutral-700">
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between p-3">
+          <span className="rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-neutral-800 shadow-sm ring-1 ring-black/5">
             {badge}
           </span>
+          {ends ? (
+            <span className="rounded-full bg-black/75 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
+              {ends}
+            </span>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="space-y-3 p-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <div
+              className="text-[17px] font-bold leading-snug text-[#0b1220] line-clamp-2"
+              style={{
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              } as React.CSSProperties}
+            >
+              {title}
+            </div>
+          </div>
         </div>
 
-        <div className="text-[18px] font-extrabold text-[#0b1220]">
+        <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium text-black/65">
+          {category ? (
+            <span className="rounded-full bg-neutral-100 px-2.5 py-1">{category}</span>
+          ) : null}
+          {condition ? (
+            <span className="rounded-full bg-neutral-100 px-2.5 py-1">{condition}</span>
+          ) : null}
+        </div>
+
+        <div className="space-y-1">
           {isTimedOffers ? (
-            <span className="inline-flex items-center gap-1 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[12px] font-bold text-amber-900">
-              <span className="opacity-80">Top offer</span>
-              <span aria-hidden="true">•</span>
-              <span>{money(primaryCents)}</span>
-            </span>
+            <>
+              <div className="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Current top offer</div>
+              <div className="text-[22px] font-extrabold tracking-tight text-[#0b1220]">{money(primaryCents)}</div>
+            </>
           ) : (
-            <span>{money(primaryCents)}</span>
+            <>
+              <div className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">{hasBuyNow ? "Buy now" : "Price"}</div>
+              <div className="text-[22px] font-extrabold tracking-tight text-[#0b1220]">{money(primaryCents)}</div>
+            </>
           )}
         </div>
 
-        {ends ? (
-          <div className="text-[12px] font-semibold text-black/60">{ends}</div>
-        ) : null}
-
-        {listing.location ? (
-          <div className="pt-0.5 text-xs font-medium text-black/55">{listing.location}</div>
-        ) : (
-          <div className="pt-0.5 text-xs text-transparent">.</div>
-        )}
+        <div className="flex items-center justify-between gap-3 text-xs text-black/60">
+          <div className="min-w-0 truncate">{location || "Location on request"}</div>
+          <div className="font-semibold text-black/45">View item</div>
+        </div>
       </div>
     </Link>
   );
 }
-
-
-
-
