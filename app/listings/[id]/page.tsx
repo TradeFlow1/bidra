@@ -223,73 +223,100 @@ export default async function ListingPage({ params }: { params: { id: string } }
           </div>
 
           <div className="mt-5 sm:mt-0 sm:col-span-1 space-y-4 sm:sticky sm:top-24 self-start">
-            <div className="bd-card p-4">
-              <div className="space-y-2">
-                <div className="text-sm text-neutral-700">
-                  {isOfferable ? "Guide price" : "Price"}{" "}
-                  <span className="font-semibold">{formatMoney(guidePriceCents)}</span>
+            <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+              <div className="space-y-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <Badge>{isOfferable ? "Offerable" : "Buy Now"}</Badge>
+                  <Badge>{listing.status}</Badge>
                 </div>
+
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                    {isOfferable ? "Guide price" : "Price"}
+                  </div>
+                  <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">
+                    {formatMoney(guidePriceCents)}
+                  </div>
+                </div>
+
                 {isOfferable ? (
-                  <>
-                    <div className="text-2xl font-extrabold">
-                      {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet."}
+                  <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
+                    <div className="text-[11px] font-semibold uppercase tracking-wide text-amber-800">Highest offer</div>
+                    <div className="mt-1 text-2xl font-extrabold tracking-tight text-amber-950">
+                      {hasAnyOffer ? formatMoney(highestOfferCents) : "No offers yet"}
                     </div>
-                    <div className="text-xs text-neutral-600">Highest offer</div>
-                  </>
+                    <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
+                      <div className="text-amber-800/80">Offers</div>
+                      <div className="text-right font-semibold text-amber-950">{offersCount}</div>
+                    </div>
+                  </div>
                 ) : (
-                  <div className="text-xs text-neutral-600">Buy Now listing</div>
+                  <div className="rounded-xl border border-black/10 bg-neutral-50 p-3 text-xs text-neutral-700">
+                    Buy Now listing. The first buyer to complete purchase secures the item.
+                  </div>
                 )}
-                <div className="mt-2 grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
-                  {isOfferable ? (
-                    <>
-                      <div className="text-neutral-600">Offers</div>
-                      <div className="text-neutral-900 text-right">{offersCount}</div>
-                    </>
-                  ) : null}
-                  <div className="text-neutral-600">Status</div>
-                  <div className="text-neutral-900 text-right">{listing.status}</div>
+
+                <div className="rounded-xl border border-black/10 bg-[var(--bidra-bg)] p-3">
+                  <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Fulfillment</div>
+                  <div className="mt-1 text-sm text-neutral-800">
+                    Pickup, delivery, or postage is arranged with the buyer after purchase.
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="bd-card p-4">
-              <div className="text-sm font-semibold tracking-tight">Next step</div>
+
+            <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
               {isSeller ? (
-                <div className="mt-2 space-y-2">
-                  <div className="text-xs text-neutral-600">This is your listing.</div>
+                <div className="space-y-3">
+                  <div>
+                    <div className="text-sm font-semibold tracking-tight text-neutral-950">Seller view</div>
+                    <div className="mt-1 text-xs text-neutral-600">This is your listing.</div>
+                  </div>
+
                   {isOfferable ? (
                     isEnded && hasAnyOffer ? (
                       <AcceptHighestOfferButton listingId={listing.id} />
                     ) : (
-                      <div className="text-xs text-neutral-600">
+                      <div className="rounded-xl border border-black/10 bg-neutral-50 p-3 text-xs text-neutral-700">
                         You can accept the highest offer once the listing ends.
                       </div>
                     )
                   ) : (
-                    <div className="text-xs text-neutral-600">
+                    <div className="rounded-xl border border-black/10 bg-neutral-50 p-3 text-xs text-neutral-700">
                       Buyers can purchase instantly while this listing is active.
                     </div>
                   )}
                 </div>
               ) : (
-                <div className="mt-4 space-y-4">
+                <div className="space-y-4">
+                  <div>
+                    <div className="text-sm font-semibold tracking-tight text-neutral-950">Buy or make an offer</div>
+                    <div className="mt-1 text-xs text-neutral-600">
+                      Bidra keeps the buying flow simple: act now, then arrange the details with the seller.
+                    </div>
+                  </div>
+
                   {buyNowVisible ? (
-                    <div className="space-y-1 rounded-lg border border-black/10 bg-white p-3 shadow-sm">
-                      <div className="text-xs font-semibold tracking-tight text-neutral-900">Buy Now</div>
-                      <div className="text-[11px] text-neutral-500">Secure this item instantly</div>
-                      <div className="mt-1"><BuyNowButton listingId={listing.id} /></div>
-                      <div className="text-xs text-neutral-600">
-                        Instant purchase. This item will be marked as sold. If you continue, you will create an order.
+                    <div className="space-y-2 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                      <div className="text-xs font-semibold uppercase tracking-wide text-emerald-800">Primary action</div>
+                      <div className="text-sm font-semibold text-emerald-950">Buy Now</div>
+                      <div className="text-xs text-emerald-900/80">Secure this item instantly before someone else does.</div>
+                      <BuyNowButton listingId={listing.id} />
+                      <div className="text-xs text-emerald-900/80">
+                        This creates an order and marks the item as sold.
                       </div>
                     </div>
                   ) : null}
+
                   {isOfferable ? (
                     isEnded ? (
-                      <div className="text-xs text-neutral-600">
+                      <div className="rounded-xl border border-black/10 bg-neutral-50 p-3 text-xs text-neutral-700">
                         This listing has ended. The seller is reviewing offers.
                       </div>
                     ) : viewerId ? (
-                      <div className="space-y-1 rounded-lg border border-black/10 bg-white p-3 shadow-sm">
-                        <div className="text-xs font-semibold text-neutral-900">Make an offer</div>
+                      <div className="space-y-2 rounded-xl border border-black/10 bg-white p-4 shadow-sm">
+                        <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Offer action</div>
+                        <div className="text-sm font-semibold text-neutral-950">Make an offer</div>
                         <PlaceOfferClient
                           listingId={listing.id}
                           minOfferCents={minOfferCents}
@@ -300,11 +327,12 @@ export default async function ListingPage({ params }: { params: { id: string } }
                         />
                       </div>
                     ) : (
-                      <div className="space-y-1 rounded-lg border border-black/10 bg-white p-3 shadow-sm">
-                        <div className="text-xs font-semibold text-neutral-900">Make an offer</div>
-                        <div className="text-[11px] text-neutral-500">Create an account or log in to make an offer.</div>
+                      <div className="space-y-2 rounded-xl border border-black/10 bg-white p-4 shadow-sm">
+                        <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Offer action</div>
+                        <div className="text-sm font-semibold text-neutral-950">Make an offer</div>
+                        <div className="text-xs text-neutral-600">Create an account or log in to make an offer.</div>
                         <ClickableLink
-                          href={`/auth/login?next=/listings/${listing.id}` }
+                          href={`/auth/login?next=/listings/${listing.id}`}
                           className="bd-btn bd-btn-primary text-center"
                         >
                           Log in or create account
@@ -312,18 +340,22 @@ export default async function ListingPage({ params }: { params: { id: string } }
                       </div>
                     )
                   ) : null}
-                  <div className="border-t border-black/10 pt-3 space-y-1">
-                    <div className="text-xs font-semibold text-neutral-900">Questions</div>
-                    {viewerId ? (
-                      <MessageSellerButton listingId={listing.id} />
-                    ) : (
-                      <ClickableLink
-                        href={`/auth/login?next=/listings/${listing.id}` }
-                        className="bd-btn bd-btn-primary text-center"
-                      >
-Log in to buy, offer, or message seller
-                      </ClickableLink>
-                    )}
+
+                  <div className="rounded-xl border border-black/10 bg-neutral-50 p-4">
+                    <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Questions</div>
+                    <div className="mt-1 text-sm text-neutral-800">Message the seller before or after purchase.</div>
+                    <div className="mt-3">
+                      {viewerId ? (
+                        <MessageSellerButton listingId={listing.id} />
+                      ) : (
+                        <ClickableLink
+                          href={`/auth/login?next=/listings/${listing.id}`}
+                          className="bd-btn bd-btn-primary text-center"
+                        >
+                          Log in to buy, offer, or message seller
+                        </ClickableLink>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
