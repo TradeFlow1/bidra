@@ -164,34 +164,49 @@ function suggestDescriptionDraft(args: {
 }): string {
   const title = (args.title || "").trim();
   const category = (args.category || "").trim();
-  const condition = (args.condition || "").trim();
+  const condition = String(args.condition || "").trim().replaceAll("_", " ").toLowerCase();
   const priceLabel = (args.priceLabel || "").trim();
   const location = (args.location || "").trim();
 
+  const introParts: string[] = [];
+  if (title) introParts.push(title);
+  if (condition) introParts.push(condition);
+  if (category) introParts.push(category);
+
   const lines: string[] = [];
-  if (title) lines.push(`Selling: ${title}.`);
-  if (category) lines.push(`Category: ${category}.`);
-  if (condition) lines.push(`Condition: ${condition.replaceAll("_", " ").toLowerCase()}.`);
+
+  if (introParts.length > 0) {
+    lines.push(introParts.join(" - "));
+  } else {
+    lines.push("Item for sale");
+  }
 
   lines.push("");
-  lines.push("Details:");
-  lines.push("- Reason for selling: (optional)");
-  lines.push("- Any marks or faults: (be honest)");
+  lines.push("Selling in good faith and happy to answer reasonable questions.");
+  lines.push("Please check the photos carefully for overall condition.");
 
-  lines.push("");
   if (args.type === "TIMED_OFFERS") {
-    lines.push("Timed offers: I'll review offers when the time ends and decide whether to proceed with the highest offer.");
+    lines.push("This listing is set to timed offers. I will review the highest offer when it ends and decide whether to proceed.");
+    if (priceLabel) {
+      lines.push(`Starting point: ${priceLabel}.`);
+    }
   } else if (priceLabel) {
     lines.push(`Price: ${priceLabel}.`);
   }
 
   if (location) {
-    lines.push(`Pickup location: ${location}.`);
+    lines.push(`Located in ${location}.`);
   } else {
-    lines.push("Pickup location: (your suburb).");
+    lines.push("Located in your local area.");
   }
 
-  lines.push("Pickup, delivery, or postage can be arranged with the buyer after purchase.");
+  lines.push("Pickup, delivery, or postage can be discussed after purchase.");
+  lines.push("");
+  lines.push("Suggested details to add:");
+  lines.push("- what is included");
+  lines.push("- any marks, wear, or faults");
+  lines.push("- age, usage, or service history if relevant");
+
   return lines.join("\n");
 }
 
