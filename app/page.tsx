@@ -19,11 +19,6 @@ type ListingLite = {
   images?: any;
 };
 
-function money(cents: number) {
-  const dollars = cents / 100;
-  return dollars.toLocaleString("en-AU", { style: "currency", currency: "AUD" });
-}
-
 function getRequestBaseUrl() {
   const h = headers();
 
@@ -54,88 +49,115 @@ async function getLatestListings(): Promise<ListingLite[]> {
 
 const LOGO_SRC = "/brand/bidra-kangaroo-logo.png";
 
+const HOME_CATEGORIES = [
+  { label: "Electronics", href: "/listings?category=Electronics" },
+  { label: "Home & Furniture", href: "/listings?category=Home%20%26%20Furniture" },
+  { label: "Fashion", href: "/listings?category=Fashion" },
+  { label: "Appliances", href: "/listings?category=Appliances" },
+  { label: "Tools & DIY", href: "/listings?category=Tools%20%26%20DIY" },
+  { label: "Sports & Outdoors", href: "/listings?category=Sports%20%26%20Outdoors" },
+  { label: "Baby & Kids", href: "/listings?category=Baby%20%26%20Kids" },
+  { label: "Vehicles", href: "/listings?category=Vehicles" },
+  { label: "Hobbies & Collectibles", href: "/listings?category=Hobbies%20%26%20Collectibles" },
+  { label: "Free stuff", href: "/listings?category=Free%20Stuff" }
+];
+
 export default async function HomePage() {
-  
   const session = await auth();
-const listings = await getLatestListings();
+  const listings = await getLatestListings();
 
   return (
-    <main className="bd-container py-6 pb-14">
-      {/* HERO */}
-<section className="relative overflow-hidden rounded-[28px] shadow-xl" style={{ backgroundImage: "url(/brand/hero-clouds.png?v=2)", backgroundSize: "cover", backgroundPosition: "center" }}>
-  
-  <div className="absolute inset-0 bg-slate-900/40 pointer-events-none" />
+    <main className="bd-container py-6 pb-14 space-y-6">
+      <section
+        className="relative overflow-hidden rounded-[32px] border border-black/10 shadow-xl"
+        style={{
+          backgroundImage: "url(/brand/hero-clouds.png?v=2)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-slate-950/45 pointer-events-none" />
 
-  <div className="relative z-10 px-5 py-8 pb-10 sm:px-10 sm:py-12 text-center">
-    <div className="mx-auto flex items-center justify-center sm:-mb-12">
-      <div className="mx-auto h-44 sm:h-48 overflow-visible flex items-center justify-center">
-  <Image src={LOGO_SRC} alt="Bidra" width={1200} height={1200} priority className="h-44 sm:h-[28rem] w-auto drop-shadow-sm pointer-events-none select-none" />
-</div>
+        <div className="relative z-10 px-5 py-8 pb-10 text-center sm:px-10 sm:py-12">
+          <div className="mx-auto flex items-center justify-center sm:-mb-12">
+            <div className="mx-auto flex h-44 items-center justify-center overflow-visible sm:h-48">
+              <Image
+                src={LOGO_SRC}
+                alt="Bidra"
+                width={1200}
+                height={1200}
+                priority
+                className="pointer-events-none h-44 w-auto select-none drop-shadow-sm sm:h-[28rem]"
+              />
+            </div>
+          </div>
 
-    </div>
+          <div className="mx-auto max-w-4xl">
+            <div className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white/90 backdrop-blur-sm">
+              Trust-first marketplace
+            </div>
 
-    <h1 className="mx-auto max-w-4xl text-3xl md:text-4xl font-semibold text-black leading-tight px-2">
-      Buy and sell household items across Australia.
-    </h1>
+            <h1 className="mx-auto mt-4 max-w-4xl px-2 text-3xl font-semibold leading-tight text-white md:text-5xl">
+              Buy now, make offers, and sell locally with less friction.
+            </h1>
 
-    <p className="mx-auto mt-4 max-w-3xl text-base text-white sm:text-lg">
-      Browse local listings, buy now, make offers, and complete pickup with a clear in-app flow.
-    </p>
+            <p className="mx-auto mt-4 max-w-3xl text-base text-white/90 sm:text-lg">
+              Bidra keeps marketplace selling simple: list an item, let buyers buy now or make offers, and arrange pickup, delivery, or postage after purchase.
+            </p>
 
-    <div className="mt-4 flex flex-wrap justify-center gap-3 sm:gap-4">
-      <Link href="/listings" className="bd-btn bd-btn-primary">
-        Browse items
-      </Link>
-      <Link href={session?.user?.id ? "/sell/new" : "/auth/login?next=/sell/new"} className="bd-btn bd-btn-primary">
-        List an item
-      </Link>
-    </div>
+            <div className="mt-6 flex flex-wrap justify-center gap-3 sm:gap-4">
+              <Link href="/listings" className="bd-btn bd-btn-primary">
+                Browse items
+              </Link>
+              <Link
+                href={session?.user?.id ? "/sell/new" : "/auth/login?next=/sell/new"}
+                className="bd-btn bd-btn-primary"
+              >
+                List an item
+              </Link>
+            </div>
 
-    <div className="mt-7 text-sm text-white/70">
-      Bidra is a trust-first marketplace for listings and offers - sellers choose whether to accept.
-    </div>
-  </div>
-</section>
-{/* CATEGORIES */}
+            <div className="mt-7 text-sm text-white/75">
+              Sellers choose whether to accept the highest offer. No scheduling clutter. Clear action flow.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-3 md:grid-cols-3">
+        <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">1. List simply</div>
+          <div className="mt-1 text-base font-semibold text-neutral-950">Add photos, price, category, and location.</div>
+          <div className="mt-2 text-sm text-neutral-600">No pickup scheduling required upfront.</div>
+        </div>
+
+        <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">2. Buy now or offer</div>
+          <div className="mt-1 text-base font-semibold text-neutral-950">Buyers can act fast or negotiate.</div>
+          <div className="mt-2 text-sm text-neutral-600">Great for fixed-price sales and seller-controlled offer flows.</div>
+        </div>
+
+        <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">3. Arrange after purchase</div>
+          <div className="mt-1 text-base font-semibold text-neutral-950">Finalize pickup, delivery, or postage directly.</div>
+          <div className="mt-2 text-sm text-neutral-600">Cleaner process, less back-and-forth before commitment.</div>
+        </div>
+      </section>
+
       <section className="bd-section">
         <div className="flex items-center justify-between gap-3">
-          <div className="bd-section-title">Categories</div>
+          <div className="bd-section-title">Browse by category</div>
           <Link href="/listings" className="text-sm bd-link">
             View all
           </Link>
         </div>
 
         <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
-          <Link href="/listings?category=Home%20%26%20Furniture" className="bd-card px-3 py-3 hover:shadow-sm">
-            <div className="text-sm font-semibold">Home &amp; Furniture</div>
-          </Link>
-          <Link href="/listings?category=Tech%20%26%20Electronics" className="bd-card px-3 py-3 hover:shadow-sm">
-            <div className="text-sm font-semibold">Tech &amp; Electronics</div>
-          </Link>
-          <Link href="/listings?category=Fashion%20%26%20Wearables" className="bd-card px-3 py-3 hover:shadow-sm">
-            <div className="text-sm font-semibold">Fashion &amp; Wearables</div>
-          </Link>
-          <Link href="/listings?category=Sports%20%26%20Outdoors" className="bd-card px-3 py-3 hover:shadow-sm">
-            <div className="text-sm font-semibold">Sports &amp; Outdoors</div>
-          </Link>
-          <Link href="/listings?category=Kids%20%26%20Toys" className="bd-card px-3 py-3 hover:shadow-sm">
-            <div className="text-sm font-semibold">Kids &amp; Toys</div>
-          </Link>
-          <Link href="/listings?category=Appliances" className="bd-card px-3 py-3 hover:shadow-sm">
-            <div className="text-sm font-semibold">Appliances</div>
-          </Link>
-          <Link href="/listings?category=Tools%20%26%20DIY" className="bd-card px-3 py-3 hover:shadow-sm">
-            <div className="text-sm font-semibold">Tools &amp; DIY</div>
-          </Link>
-          <Link href="/listings?category=Books%20%26%20Media" className="bd-card px-3 py-3 hover:shadow-sm">
-            <div className="text-sm font-semibold">Books &amp; Media</div>
-          </Link>
-          <Link href="/listings?category=Collectibles%20%26%20Vintage" className="bd-card px-3 py-3 hover:shadow-sm">
-            <div className="text-sm font-semibold">Collectibles &amp; Vintage</div>
-          </Link>
-          <Link href="/listings?category=Seasonal%20Goods" className="bd-card px-3 py-3 hover:shadow-sm">
-            <div className="text-sm font-semibold">Seasonal Goods</div>
-          </Link>
+          {HOME_CATEGORIES.map((item) => (
+            <Link key={item.href} href={item.href} className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
+              <div className="text-sm font-semibold text-neutral-900">{item.label}</div>
+            </Link>
+          ))}
         </div>
 
         <div className="mt-3">
@@ -143,13 +165,17 @@ const listings = await getLatestListings();
         </div>
       </section>
 
-      {/* LATEST */}
       <section className="bd-section">
-        <div className="bd-section-title">Latest listings</div>
+        <div className="flex items-center justify-between gap-3">
+          <div className="bd-section-title">Latest listings</div>
+          <Link href="/listings" className="text-sm bd-link">
+            Browse marketplace
+          </Link>
+        </div>
 
         <div className="mt-3">
           {listings.length === 0 ? (
-            <div className="bd-card p-6 bd-ink2">
+            <div className="rounded-2xl border border-dashed border-black/15 bg-white p-6 text-sm text-neutral-600">
               No listings yet. Be the first to{" "}
               <Link href="/sell/new" className="font-semibold bd-link hover:bd-link">
                 create a listing
@@ -173,23 +199,27 @@ const listings = await getLatestListings();
                     location: l.location ?? undefined,
                     images: l.images ?? undefined,
                   }}
-/>
+                />
               ))}
             </div>
           )}
         </div>
       </section>
 
-      {/* SAFETY (minimal trust cue) */}
-      <div className="mt-6 text-xs bd-ink2">
-        <span className="font-semibold bd-ink">Safety:</span>{" "}
-        
-        <Link href="/legal/prohibited-items" className="bd-link">
-          Prohibited items & safety
-        </Link>
-        .
-      </div>
+      <section className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+        <div className="text-sm font-semibold text-neutral-950">Trust and safety</div>
+        <div className="mt-1 text-sm text-neutral-600">
+          Keep transactions clear, use accurate descriptions, and review prohibited items before listing.
+        </div>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link href="/legal/prohibited-items" className="bd-btn bd-btn-ghost">
+            Prohibited items
+          </Link>
+          <Link href="/how-it-works" className="bd-btn bd-btn-ghost">
+            How Bidra works
+          </Link>
+        </div>
+      </section>
     </main>
   );
 }
-
