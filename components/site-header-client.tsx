@@ -21,9 +21,9 @@ export default function SiteHeaderClient({
 }) {
   const pathname = usePathname();
   const [desktopAcctOpen, setDesktopAcctOpen] = useState(false);
-  const [mobileAcctOpen, setMobileAcctOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const desktopAccountRef = useRef<HTMLDivElement | null>(null);
-  const mobileAccountRef = useRef<HTMLDivElement | null>(null);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
 
   const isAuthed = !!session?.user?.id;
 
@@ -35,15 +35,15 @@ export default function SiteHeaderClient({
         setDesktopAcctOpen(false);
       }
 
-      if (mobileAccountRef.current && target && !mobileAccountRef.current.contains(target)) {
-        setMobileAcctOpen(false);
+      if (mobileMenuRef.current && target && !mobileMenuRef.current.contains(target)) {
+        setMobileMenuOpen(false);
       }
     }
 
     function onDocKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
         setDesktopAcctOpen(false);
-        setMobileAcctOpen(false);
+        setMobileMenuOpen(false);
       }
     }
 
@@ -115,6 +115,68 @@ export default function SiteHeaderClient({
     );
   }
 
+  function renderMobileMenu() {
+    return (
+      <div
+        className="absolute right-0 top-full z-[120] mt-3 w-[min(92vw,22rem)] overflow-hidden rounded-3xl border border-black/10 bg-white text-[#0F172A] shadow-[0_18px_50px_rgba(15,23,42,0.16)]"
+        role="menu"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="border-b border-black/10 bg-neutral-50 px-4 py-3">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Bidra</div>
+          <div className="mt-1 text-sm font-semibold text-neutral-900">
+            {isAuthed ? "Your marketplace menu" : "Browse and sell with confidence"}
+          </div>
+        </div>
+
+        <div className="p-2">
+          <Link href="/listings" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
+            Browse
+          </Link>
+          <Link href="/sell" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
+            Sell
+          </Link>
+
+          {isAuthed ? (
+            <>
+              <Link href="/dashboard" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
+                Dashboard
+              </Link>
+              <Link href="/messages" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
+                Messages
+              </Link>
+              <Link href="/orders" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
+                Orders
+              </Link>
+              <Link href="/notifications" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
+                Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
+              </Link>
+              <Link href="/profile" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
+                Profile
+              </Link>
+              <div className="border-t border-black/10 mt-2 pt-2">
+                <Link href="/logout" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
+                  Sign out
+                </Link>
+              </div>
+            </>
+          ) : (
+            <div className="border-t border-black/10 mt-2 p-2">
+              <div className="grid grid-cols-1 gap-2">
+                <Link href="/auth/login" className="bd-btn bd-btn-primary text-center" onClick={() => setMobileMenuOpen(false)}>
+                  Sign in
+                </Link>
+                <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center" onClick={() => setMobileMenuOpen(false)}>
+                  Create account
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <header className="relative z-[80] border-b border-black/10 bg-white text-[#0F172A] shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
       <div className="mx-auto flex w-full max-w-6xl items-center gap-6 px-4 py-3">
@@ -164,29 +226,26 @@ export default function SiteHeaderClient({
         </div>
 
         <div className="ml-auto flex items-center gap-2 md:hidden">
-          <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
-          <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
+          <Link href="/sell" className="inline-flex items-center justify-center rounded-full border border-black/10 bg-[#0F172A] px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-[#111827]">
+            Sell
+          </Link>
 
-          {isAuthed ? (
-            <div ref={mobileAccountRef} className="relative">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setMobileAcctOpen(!mobileAcctOpen);
-                }}
-                className={accountButtonClass(mobileAcctOpen)}
-                aria-haspopup="menu"
-                aria-expanded={mobileAcctOpen ? "true" : "false"}
-              >
-                Account
-                {badge}
-              </button>
-              {mobileAcctOpen ? renderAccountMenu(() => setMobileAcctOpen(false)) : null}
-            </div>
-          ) : (
-            <Link href="/auth/login" className={navButtonClass("/auth/login")}>Sign in</Link>
-          )}
+          <div ref={mobileMenuRef} className="relative">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setMobileMenuOpen(!mobileMenuOpen);
+              }}
+              className={accountButtonClass(mobileMenuOpen)}
+              aria-haspopup="menu"
+              aria-expanded={mobileMenuOpen ? "true" : "false"}
+            >
+              Menu
+              {badge}
+            </button>
+            {mobileMenuOpen ? renderMobileMenu() : null}
+          </div>
         </div>
       </div>
 
