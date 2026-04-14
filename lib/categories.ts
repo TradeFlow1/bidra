@@ -197,8 +197,8 @@ export function findSubcategory(categoryKey: string | null | undefined, subcateg
   return null;
 }
 export function joinCategory(parent: string, child?: string | null): string {
-  var p = String(parent || "").trim();
-  var c = String(child || "").trim();
+  const p = String(parent || "").trim();
+  const c = String(child || "").trim();
   if (!p) return c;
   if (!c) return p;
   return p + " > " + c;
@@ -214,11 +214,11 @@ export const CATEGORY_GROUPS: Array<{ parent: string; children: string[] }> = BI
 });
 
 export const FULL_CATEGORIES: string[] = (function () {
-  var values: string[] = [];
-  for (var i = 0; i < BIDRA_CATEGORIES.length; i += 1) {
-    var category = BIDRA_CATEGORIES[i];
+  const values: string[] = [];
+  for (let i = 0; i < BIDRA_CATEGORIES.length; i += 1) {
+    const category = BIDRA_CATEGORIES[i];
     values.push(category.label);
-    for (var j = 0; j < category.subcategories.length; j += 1) {
+    for (let j = 0; j < category.subcategories.length; j += 1) {
       values.push(joinCategory(category.label, category.subcategories[j].label));
     }
   }

@@ -1,8 +1,8 @@
-﻿"use client";
- 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+"use client";
+
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
- 
+
 function normalizeImages(images: any): string[] {
   if (!images) return [];
   if (Array.isArray(images)) {
@@ -11,75 +11,78 @@ function normalizeImages(images: any): string[] {
       .filter(Boolean);
   }
   if (typeof images === "string") return [images];
- 
+
   try {
     const parsed = typeof images === "string" ? JSON.parse(images) : images;
     if (Array.isArray(parsed)) return parsed.filter(Boolean);
   } catch {}
- 
+
   return [];
 }
- 
+
 export default function ListingImageGallery(props: { images: any; title?: string }) {
   const imgs = useMemo(() => normalizeImages(props.images), [props.images]);
   const title = (props.title || "Listing").trim();
- 
+
   const scroller = useRef<HTMLDivElement | null>(null);
   const [idx, setIdx] = useState(0);
- 
+  const [isDragging, setIsDragging] = useState(false);
+
   const dragging = useRef(false);
   const dragStartX = useRef(0);
   const dragStartLeft = useRef(0);
- 
+
   const isMulti = imgs.length > 1;
- 
-  function clamp(i: number) {
+
+  const clamp = useCallback((i: number) => {
     if (i < 0) return 0;
     if (i > imgs.length - 1) return imgs.length - 1;
     return i;
-  }
- 
+  }, [imgs.length]);
+
   function go(i: number) {
     const el = scroller.current;
     if (!el) return;
- 
+
     const next = clamp(i);
     const w = el.clientWidth || 1;
     el.scrollTo({ left: next * w, behavior: "smooth" });
     setIdx(next);
   }
- 
+
   function prev() {
     go(idx - 1);
   }
- 
+
   function next() {
     go(idx + 1);
   }
- 
+
   function onMouseDown(e: React.MouseEvent<HTMLDivElement>) {
     const el = scroller.current;
     if (!el || !isMulti) return;
     dragging.current = true;
+    setIsDragging(true);
     dragStartX.current = e.clientX;
     dragStartLeft.current = el.scrollLeft;
   }
- 
+
   function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     const el = scroller.current;
     if (!el || !dragging.current || !isMulti) return;
     const dx = e.clientX - dragStartX.current;
     el.scrollLeft = dragStartLeft.current - dx;
   }
- 
+
   function endDrag() {
     dragging.current = false;
+    setIsDragging(false);
   }
- 
+
   useEffect(() => {
     const el = scroller.current;
     if (!el) return;
- 
+
     let raf = 0;
     const onScroll = () => {
       cancelAnimationFrame(raf);
@@ -89,14 +92,14 @@ export default function ListingImageGallery(props: { images: any; title?: string
         setIdx(nextIdx);
       });
     };
- 
+
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
       el.removeEventListener("scroll", onScroll as EventListener);
     };
-  }, [imgs.length]);
- 
+  }, [imgs.length, clamp]);
+
   if (!imgs.length) {
     return (
       <div className="w-full">
@@ -116,7 +119,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
       </div>
     );
   }
- 
+
   return (
     <div className="w-full">
       <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm">
@@ -127,7 +130,13 @@ export default function ListingImageGallery(props: { images: any; title?: string
           onMouseUp={endDrag}
           onMouseLeave={endDrag}
           className="flex w-full overflow-x-auto scroll-smooth snap-x snap-mandatory select-none bg-neutral-50"
-          style={{ scrollbarWidth: "none", userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none", cursor: isMulti ? (dragging.current ? "grabbing" : "grab") : "default" } as React.CSSProperties}
+          style={{
+            scrollbarWidth: "none",
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            WebkitUserDrag: "none",
+            cursor: isMulti ? (isDragging ? "grabbing" : "grab") : "default"
+          } as React.CSSProperties}
         >
           {imgs.map((src, i) => (
             <div key={i} className="relative w-full flex-shrink-0 snap-start">
@@ -144,14 +153,14 @@ export default function ListingImageGallery(props: { images: any; title?: string
                   unoptimized
                 />
               </div>
- 
+
               <div className="absolute bottom-3 right-3 rounded-full bg-black/75 px-2.5 py-1 text-xs font-medium text-white shadow-sm">
                 {i + 1} / {imgs.length}
               </div>
             </div>
           ))}
         </div>
- 
+
         {isMulti ? (
           <>
             <button
@@ -173,7 +182,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
           </>
         ) : null}
       </div>
- 
+
       {isMulti ? (
         <div className="mt-3 flex items-center justify-center gap-2">
           {imgs.map((_, i) => {
@@ -193,4 +202,3 @@ export default function ListingImageGallery(props: { images: any; title?: string
     </div>
   );
 }
-
