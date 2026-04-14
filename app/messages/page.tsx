@@ -1,26 +1,35 @@
 import Image from "next/image";
-import { allowContactDetailsInMessages, maskContactInfo } from "@/lib/message-safety"
-import Link from "next/link"
-import InboxAutoRefresh from "./components/inbox-auto-refresh"
-import DateTimeText from "@/components/date-time-text"
-import { auth } from "@/lib/auth"
-import { requireAdult } from "@/lib/require-adult"
-import { redirect } from "next/navigation"
-import { prisma } from "@/lib/prisma"
+import { allowContactDetailsInMessages, maskContactInfo } from "@/lib/message-safety";
+import Link from "next/link";
+import InboxAutoRefresh from "./components/inbox-auto-refresh";
+import DateTimeText from "@/components/date-time-text";
+import { auth } from "@/lib/auth";
+import { requireAdult } from "@/lib/require-adult";
+import { redirect } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 
-export const dynamic = "force-dynamic"
-export const revalidate = 0
-export const fetchCache = "force-no-store"
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
+function SafetyNotice() {
+  return (
+    <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-sm">
+      <span className="font-semibold">Safety tip:</span>{" "}
+      Do not share your phone number or email address in messages. Keep communication on Bidra so there is a record if something goes wrong.
+    </div>
+  );
+}
 
 export default async function MessagesInboxPage() {
-  const session = await auth()
-  if (!session?.user?.id) redirect("/auth/login?next=/messages")
+  const session = await auth();
+  if (!session?.user?.id) redirect("/auth/login?next=/messages");
 
-  const gate = await requireAdult(session)
-  if (!gate.ok && gate.reason === "UNDER_18") redirect("/account/restrictions")
-  if (!gate.ok) redirect("/account")
+  const gate = await requireAdult(session);
+  if (!gate.ok && gate.reason === "UNDER_18") redirect("/account/restrictions");
+  if (!gate.ok) redirect("/account");
 
-  const me = session.user.id
+  const me = session.user.id;
 
   try {
     const threads = await prisma.messageThread.findMany({
@@ -44,154 +53,182 @@ export default async function MessagesInboxPage() {
         buyerLastReadAt: true,
         sellerLastReadAt: true,
       },
-    })
+    });
 
     const items: (typeof threads[number] & { unread: boolean })[] = threads.map((t) => {
-      const myLastRead = t.buyerId === me ? t.buyerLastReadAt : t.sellerLastReadAt
-      const lastAt = t.lastMessageAt ? new Date(t.lastMessageAt) : null
-      const readAt = myLastRead ? new Date(myLastRead) : null
-      const unread = !!(lastAt && (!readAt || readAt.getTime() < lastAt.getTime()))
-      return { ...t, unread }
-    })
+      const myLastRead = t.buyerId === me ? t.buyerLastReadAt : t.sellerLastReadAt;
+      const lastAt = t.lastMessageAt ? new Date(t.lastMessageAt) : null;
+      const readAt = myLastRead ? new Date(myLastRead) : null;
+      const unread = !!(lastAt && (!readAt || readAt.getTime() < lastAt.getTime()));
+      return { ...t, unread };
+    });
 
-    const unreadCount = items.filter((i) => i.unread).length
+    const unreadCount = items.filter((i) => i.unread).length;
 
     items.sort((a, b) => {
-      if (a.unread !== b.unread) return a.unread ? -1 : 1
-      const aT = a.lastMessageAt ? new Date(a.lastMessageAt).getTime() : 0
-      const bT = b.lastMessageAt ? new Date(b.lastMessageAt).getTime() : 0
-      return bT - aT
-    })
+      if (a.unread !== b.unread) return a.unread ? -1 : 1;
+      const aT = a.lastMessageAt ? new Date(a.lastMessageAt).getTime() : 0;
+      const bT = b.lastMessageAt ? new Date(b.lastMessageAt).getTime() : 0;
+      return bT - aT;
+    });
 
     return (
-      <main>
-        <div className="bd-card mt-4">
-          <div className="text-sm bd-ink">
-            <span className="font-semibold">Safety tip:</span>{" "}
-            Do not share your phone number or email address in messages. Keep communication on Bidra so there is a record if something goes wrong.
-          </div>
-        </div>
-        <div className="bd-container">
-          <div className="container">
-            <section className="py-10">
-              <InboxAutoRefresh />
+      <main className="bd-container py-10">
+        <div className="container max-w-5xl space-y-5">
+          <InboxAutoRefresh />
 
-              <h1 className="text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)]">Messages</h1>
-              <p className="mt-2 text-sm text-[var(--bidra-ink-2)]">Use messages for clarification only. Scheduling and order steps are controlled in the order flow.</p>
-
-              {unreadCount > 0 ? (
-                <div className="mt-4 rounded-2xl border border-black/10 bg-[var(--bidra-blue)]/10 px-4 py-3 text-sm text-[var(--bidra-ink)]">
-                  <b>Unread messages:</b> You have <b>{unreadCount}</b> unread {unreadCount === 1 ? "conversation" : "conversations"}.
-                </div>
-              ) : null}
-
-              <div className="mt-4 rounded-2xl border border-black/10 bg-white/5 px-4 py-3 text-sm text-[var(--bidra-ink-2)]">
-                Messages help with clarification about the item, condition, access, and pickup context. They do not override the order or pickup flow.
+          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-3xl">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
+                <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
+                <p className="mt-2 text-sm text-[var(--bidra-ink-2)] sm:text-base">
+                  Use messages for clarification about the item, condition, access, and pickup context. Order and pickup steps stay controlled in the order flow.
+                </p>
               </div>
 
-              <div className="mt-6 space-y-3">
-                {items.length === 0 ? (
-                  <div className="rounded-2xl bd-card p-6 shadow-[0_20px_80px_rgba(0,0,0,0.65)] backdrop-blur">
-                    <div className="text-base font-semibold">No messages yet.</div>
-                    <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-                      When you contact someone about a listing, your clarification threads will show up here.
-                    </div>
-                    <div className="mt-4">
-                      <Link
-                        href="/listings"
-                        className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-[var(--bidra-ink)] hover:bg-white/10"
-                      >
-                        Browse listings
-                      </Link>
-                    </div>
-                  </div>
-                ) : (
-                  items.map((it) => {
-                    const other = me === it.buyerId ? it.seller : it.buyer
-                    const otherLabel = other.username || other.name || other.email || "User"
-                    const last = it.messages[0]?.body ? (allowContactDetailsInMessages() ? it.messages[0].body : maskContactInfo(it.messages[0].body)) : "No messages yet."
+              <div className="grid min-w-[220px] gap-3 sm:grid-cols-2 md:min-w-[280px]">
+                <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
+                  <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Conversations</div>
+                  <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{items.length}</div>
+                </div>
+                <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
+                  <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Unread</div>
+                  <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{unreadCount}</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                    const anyListing = it.listing as unknown as { id?: string | null; title?: string | null; images?: unknown; photos?: unknown } | null
-                    const imgs =
-                      (anyListing && Array.isArray(anyListing.images) && anyListing.images.length)
-                        ? anyListing.images
-                        : (anyListing && Array.isArray(anyListing.photos) && anyListing.photos.length)
-                          ? anyListing.photos
-                          : []
-                    const thumb = imgs && imgs.length ? String(imgs[0]) : ""
+          <SafetyNotice />
 
-                    return (
-                      <Link
-                        key={it.id}
-                        href={`/messages/${it.id}`}
-                        className={`block rounded-2xl bd-card p-6 transition hover:bg-black/[0.02] hover:shadow-sm ${
-                          it.unread ? "bg-[var(--bidra-blue)]/10 border-[var(--bidra-blue)]/30 ring-1 ring-[var(--bidra-blue)]/10" : ""
-                        }`}
-                      >
-                        <div className="flex items-start gap-4">
-                          <div className="h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-black/10 bg-black/[0.03]">
-                            {thumb ? (
-                              <Image src={thumb} alt="Listing photo" width={56} height={56} className="h-full w-full object-cover" unoptimized />
-                            ) : (
-                              <div className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-[var(--bidra-ink-3)]">
-                                No photo
-                              </div>
-                            )}
+          {unreadCount > 0 ? (
+            <div className="rounded-2xl border border-[var(--bidra-blue)]/20 bg-[var(--bidra-blue)]/10 px-4 py-3 text-sm text-[var(--bidra-ink)] shadow-sm">
+              <span className="font-semibold">Unread messages:</span>{" "}
+              You have <span className="font-extrabold">{unreadCount}</span> unread {unreadCount === 1 ? "conversation" : "conversations"}.
+            </div>
+          ) : null}
+
+          <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink-2)] shadow-sm">
+            Keep all listing-related communication on Bidra so there is a clear record if a dispute or misunderstanding happens later.
+          </div>
+
+          {items.length === 0 ? (
+            <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
+              <div className="mx-auto max-w-xl">
+                <div className="text-xl font-extrabold text-neutral-900">No messages yet</div>
+                <p className="mt-2 text-sm text-neutral-600">
+                  When you contact someone about a listing, your clarification threads will show up here.
+                </p>
+                <div className="mt-5 flex flex-wrap justify-center gap-2">
+                  <Link href="/listings" className="bd-btn bd-btn-primary text-center">
+                    Browse listings
+                  </Link>
+                  <Link href="/dashboard" className="bd-btn bd-btn-ghost text-center">
+                    Back to dashboard
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {items.map((it) => {
+                const other = me === it.buyerId ? it.seller : it.buyer;
+                const otherLabel = other.username || other.name || other.email || "User";
+                const last = it.messages[0]?.body ? (allowContactDetailsInMessages() ? it.messages[0].body : maskContactInfo(it.messages[0].body)) : "No messages yet.";
+
+                const anyListing = it.listing as unknown as { id?: string | null; title?: string | null; images?: unknown; photos?: unknown } | null;
+                const imgs =
+                  (anyListing && Array.isArray(anyListing.images) && anyListing.images.length)
+                    ? anyListing.images
+                    : (anyListing && Array.isArray(anyListing.photos) && anyListing.photos.length)
+                      ? anyListing.photos
+                      : [];
+                const thumb = imgs && imgs.length ? String(imgs[0]) : "";
+
+                return (
+                  <Link
+                    key={it.id}
+                    href={`/messages/${it.id}`}
+                    className={`block rounded-3xl border p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md ${
+                      it.unread
+                        ? "border-[var(--bidra-blue)]/25 bg-[var(--bidra-blue)]/10 ring-1 ring-[var(--bidra-blue)]/10"
+                        : "border-black/10 bg-white"
+                    }`}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-black/10 bg-black/[0.03]">
+                        {thumb ? (
+                          <Image
+                            src={thumb}
+                            alt="Listing photo"
+                            width={64}
+                            height={64}
+                            className="h-full w-full object-cover"
+                            unoptimized
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-[var(--bidra-ink-3)]">
+                            No photo
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0 flex-1">
+                            <div className={"truncate text-base " + (it.unread ? "font-extrabold text-[var(--bidra-ink)]" : "font-bold text-[var(--bidra-ink)]")}>
+                              {it.listing?.title || "Listing"}
+                            </div>
+                            <div className="mt-1 truncate text-sm text-[var(--bidra-ink-2)]">With: {otherLabel}</div>
                           </div>
 
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between gap-3">
-                              <div className={"min-w-0 truncate " + (it.unread ? "font-extrabold text-[var(--bidra-ink)]" : "font-bold text-[var(--bidra-ink)]")}>{it.listing?.title || "Listing"}</div>
-                              <div className="shrink-0 flex items-center gap-2">
-                                {it.unread ? (
-                                  <span className="inline-flex items-center rounded-full border border-[var(--bidra-blue)]/30 bg-[var(--bidra-blue)]/15 px-2 py-0.5 text-[10px] font-extrabold text-[var(--bidra-ink)]">
-                                    Unread
-                                  </span>
-                                ) : null}
-                                <DateTimeText className="text-xs text-[var(--bidra-ink-2)]" value={it.lastMessageAt} />
-                              </div>
-                            </div>
-                            <div className="mt-1 text-sm text-[var(--bidra-ink-2)] truncate">With: {otherLabel}</div>
-                            <div className={"mt-2 text-sm line-clamp-2 " + (it.unread ? "text-[var(--bidra-ink)] font-semibold" : "text-[var(--bidra-ink-2)]")}>{last}</div>
+                          <div className="shrink-0 flex items-center gap-2">
+                            {it.unread ? (
+                              <span className="inline-flex items-center rounded-full border border-[var(--bidra-blue)]/30 bg-[var(--bidra-blue)]/15 px-2.5 py-1 text-[10px] font-extrabold text-[var(--bidra-ink)]">
+                                Unread
+                              </span>
+                            ) : null}
+                            <DateTimeText className="text-xs text-[var(--bidra-ink-2)]" value={it.lastMessageAt} />
                           </div>
                         </div>
-                      </Link>
-                    )
-                  })
-                )}
-              </div>
-            </section>
-          </div>
+
+                        <div className={"mt-3 text-sm line-clamp-2 " + (it.unread ? "font-semibold text-[var(--bidra-ink)]" : "text-[var(--bidra-ink-2)]")}>
+                          {last}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
         </div>
       </main>
-    )
+    );
   } catch (_e) {
     return (
-      <main>
-        <div className="bd-card mt-4">
-          <div className="text-sm bd-ink">
-            <span className="font-semibold">Safety tip:</span>{" "}
-            Do not share your phone number or email address in messages. Keep communication on Bidra so there is a record if something goes wrong.
+      <main className="bd-container py-10">
+        <div className="container max-w-5xl space-y-5">
+          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
+            <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
           </div>
-        </div>
-        <div className="bd-container">
-          <div className="container">
-            <section className="py-10">
-              <h1 className="text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)]">Messages</h1>
-              <div className="mt-6 rounded-2xl bd-card p-6">
-                <div className="text-base font-semibold text-[var(--bidra-ink)]">Messages are temporarily unavailable.</div>
-                <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-                  Please try again shortly. If this keeps happening, use Support.
-                </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <Link className="bd-btn bd-btn-primary" href="/dashboard">Dashboard</Link>
-                  <Link className="bd-btn bd-btn-primary" href="/support">Support</Link>
-                </div>
-              </div>
-            </section>
+
+          <SafetyNotice />
+
+          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="text-base font-semibold text-[var(--bidra-ink)]">Messages are temporarily unavailable</div>
+            <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
+              Please try again shortly. If this keeps happening, use Support.
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link className="bd-btn bd-btn-primary" href="/dashboard">Dashboard</Link>
+              <Link className="bd-btn bd-btn-ghost" href="/support">Support</Link>
+            </div>
           </div>
         </div>
       </main>
-    )
+    );
   }
 }
