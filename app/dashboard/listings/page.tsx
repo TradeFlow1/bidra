@@ -4,18 +4,28 @@ import { auth } from "@/lib/auth";
 import type { ListingStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { Card, Button, Badge } from "@/components/ui";
+import { Card, Badge } from "@/components/ui";
 import { isTimedOffersType } from "@/lib/listing-type";
 
 type PageProps = {
-  searchParams?: { err?: string };
+  searchParams?: { err?: string; ok?: string };
 };
-
-const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
 
 function safeErr(s: unknown): string {
   const v = String(s ?? "").slice(0, 180);
   return encodeURIComponent(v);
+}
+
+function formatMoney(cents: number | null | undefined) {
+  const value = typeof cents === "number" ? cents : 0;
+  return `$${(value / 100).toFixed(2)} AUD`;
+}
+
+function statusTone(status: string) {
+  if (status === "ACTIVE") return "bg-emerald-50 border-emerald-200 text-emerald-900";
+  if (status === "ENDED") return "bg-amber-50 border-amber-200 text-amber-900";
+  if (status === "DRAFT") return "bg-neutral-100 border-black/10 text-neutral-800";
+  return "bg-neutral-100 border-black/10 text-neutral-800";
 }
 
 export default async function MyListingsPage({ searchParams }: PageProps) {
@@ -24,6 +34,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
   if (!userId) redirect("/auth/login");
 
   const err = searchParams?.err ? decodeURIComponent(String(searchParams.err)) : "";
+  const ok = cleanOk(searchParams?.ok);
 
   const listings = await prisma.listing.findMany({
     where: { sellerId: userId, status: { not: "DELETED" } },
@@ -63,15 +74,13 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
       if (!SELLER_ALLOWED.includes(status)) { redirect("/dashboard/listings?err=" + safe("Invalid status")); return; }
 
       const statusUpper = String(status || "").toUpperCase();
-// V2 enforcement lock: sellers must not set SOLD/COMPLETE directly (enforcement routes only).
-// Keep seller-controlled transitions minimal.
-const allowed: Record<string, boolean> = { DRAFT: true, ACTIVE: true, ENDED: true };
-if (!allowed[statusUpper]) {
-  throw new Error("Invalid status");
-}
-const nextStatus: ListingStatus = statusUpper as ListingStatus;
+      const allowed: Record<string, boolean> = { DRAFT: true, ACTIVE: true, ENDED: true };
+      if (!allowed[statusUpper]) {
+        throw new Error("Invalid status");
+      }
+      const nextStatus: ListingStatus = statusUpper as ListingStatus;
 
-await prisma.listing.update({
+      await prisma.listing.update({
         where: { id },
         data: { status: nextStatus },
       });
@@ -83,80 +92,172 @@ await prisma.listing.update({
     }
   }
 
+  const activeCount = listings.filter((l: any) => String(l.status) === "ACTIVE").length;
+  const endedCount = listings.filter((l: any) => String(l.status) === "ENDED").length;
+  const draftCount = listings.filter((l: any) => String(l.status) === "DRAFT").length;
+
   return (
     <main className="bd-container py-10">
-      <div className="container max-w-5xl">
-        <div className="flex flex-col gap-4">
-          <div className="flex items-end justify-between gap-3 flex-wrap">
-            <div>
-              <h1 className="text-3xl font-extrabold tracking-tight bd-ink">My listings</h1>
-              <p className="mt-1 text-sm bd-ink2">Manage status and view listing activity.</p>
+      <div className="container max-w-6xl">
+        <div className="flex flex-col gap-5">
+          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Seller dashboard</div>
+                <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">My listings</h1>
+                <p className="mt-2 max-w-2xl text-sm bd-ink2 sm:text-base">
+                  Manage your live listings, review drafts, and keep your marketplace presence sharp.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <Link href="/sell/new" className="bd-btn bd-btn-primary text-center">
+                  Create new listing
+                </Link>
+                <Link href="/listings" className="bd-btn bd-btn-ghost text-center">
+                  Browse marketplace
+                </Link>
+              </div>
             </div>
-            <Link href="/sell/new" className="bd-btn bd-btn-primary text-center">
-              Create new
-            </Link>
           </div>
 
-          {err ? (
-            <div className="bd-card p-4 border border-red-200 bg-red-50/50">
-              <div className="text-sm font-extrabold bd-ink">Couldn't update</div>
-              <div className="mt-1 text-sm bd-ink2">{err}</div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Active</div>
+              <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{activeCount}</div>
+              <div className="mt-1 text-sm text-neutral-600">Listings currently visible to buyers.</div>
+            </div>
+
+            <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Ended</div>
+              <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{endedCount}</div>
+              <div className="mt-1 text-sm text-neutral-600">Listings that can be reviewed, updated, or relisted.</div>
+            </div>
+
+            <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Drafts</div>
+              <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{draftCount}</div>
+              <div className="mt-1 text-sm text-neutral-600">Listings not yet fully live in the marketplace.</div>
+            </div>
+          </div>
+
+          {ok ? (
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3">
+              <div className="text-sm font-extrabold text-emerald-900">Listing updated</div>
+              <div className="mt-1 text-sm text-emerald-800">Your listing status was updated successfully.</div>
             </div>
           ) : null}
 
-          <div className="grid gap-3">
-            {listings.map((l: any) => (
-              <Card
-                key={l.id}
-                className="bd-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-3"
-              >
-                <div className="min-w-0">
-                  <div className="text-sm bd-ink2">
-                    {labelCategory(l.category)} - {l.location}
-                  </div>
+          {err ? (
+            <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3">
+              <div className="text-sm font-extrabold text-red-900">Couldn't update</div>
+              <div className="mt-1 text-sm text-red-800">{err}</div>
+            </div>
+          ) : null}
 
-                  <Link
-                    className="bd-ink font-extrabold hover:underline underline-offset-4 block max-w-full truncate"
-                    href={"/listings/" + l.id}
+          {!listings.length ? (
+            <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center">
+              <div className="mx-auto max-w-xl">
+                <div className="text-xl font-extrabold text-neutral-900">No listings yet</div>
+                <p className="mt-2 text-sm text-neutral-600">
+                  Start with your first listing and build a stronger seller profile on Bidra.
+                </p>
+                <div className="mt-5 flex flex-wrap justify-center gap-2">
+                  <Link href="/sell/new" className="bd-btn bd-btn-primary text-center">
+                    Create your first listing
+                  </Link>
+                  <Link href="/how-it-works" className="bd-btn bd-btn-ghost text-center">
+                    How selling works
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="grid gap-4">
+              {listings.map((l: any) => {
+                const listingTypeLabel = isTimedOffersType(l.type) ? "Timed offers" : "Buy Now";
+                const priceLabel = formatMoney(l.price);
+                const locationLabel = String(l.location || "Location not set");
+                const categoryLabel = labelCategory(l.category);
+                const statusLabel = String(l.status || "UNKNOWN");
+
+                return (
+                  <Card
+                    key={l.id}
+                    className="overflow-hidden rounded-3xl border border-black/10 bg-white p-5 shadow-sm"
                   >
-                    {l.title}
-                  </Link>
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <Badge>{listingTypeLabel}</Badge>
+                          <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(statusLabel)}`}>
+                            {statusLabel}
+                          </span>
+                        </div>
 
-                  <div className="mt-2 flex gap-2 flex-wrap">
-                    <Badge>{isTimedOffersType(l.type) ? "Timed offers" : "Buy Now"}</Badge>
-                    <Badge>Status: {l.status}</Badge>
-                  </div>
+                        <Link
+                          className="mt-3 block max-w-full truncate text-xl font-extrabold text-neutral-950 hover:underline underline-offset-4"
+                          href={"/listings/" + l.id}
+                        >
+                          {l.title}
+                        </Link>
 
-                  <div className="mt-1 text-sm font-extrabold bd-ink">
-                    ${(l.price / 100).toFixed(2)} AUD
-                  </div>
-                </div>
+                        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm text-neutral-600">
+                          <div>{categoryLabel}</div>
+                          <div>{locationLabel}</div>
+                        </div>
 
-                <div className="flex items-center gap-2 flex-wrap">
-                  <Link href={"/listings/" + l.id} className="bd-btn bd-btn-ghost text-center">
-                    View
-                  </Link>
-                  <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-primary text-center">
-                    Edit
-                  </Link>
-                  {String(l.status) === "ACTIVE" ? (
-                    <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-ghost text-center">
-                      Edit status
-                    </Link>
-                  ) : null}
-                  <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-ghost text-center">
-                    Manage
-                  </Link>
-                </div>
-              </Card>
-            ))}
+                        <div className="mt-3 flex flex-wrap items-end gap-6">
+                          <div>
+                            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Price</div>
+                            <div className="mt-1 text-lg font-extrabold text-neutral-950">{priceLabel}</div>
+                          </div>
 
-            {!listings.length ? (
-              <div className="text-sm bd-ink2">No listings yet. Create a listing to start selling.</div>
-            ) : null}
-          </div>
+                          <div>
+                            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listing ID</div>
+                            <div className="mt-1 text-sm font-medium text-neutral-700">{l.id}</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-3 lg:w-[260px]">
+                        <div className="grid grid-cols-2 gap-2">
+                          <Link href={"/listings/" + l.id} className="bd-btn bd-btn-ghost text-center">
+                            View
+                          </Link>
+                          <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-primary text-center">
+                            Edit
+                          </Link>
+                        </div>
+
+                        <form action={updateStatus} className="rounded-2xl border border-black/10 bg-neutral-50 p-3">
+                          <input type="hidden" name="id" value={l.id} />
+                          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Quick status</div>
+                          <div className="mt-2 flex gap-2">
+                            <select name="status" defaultValue={String(l.status)} className="bd-input flex-1">
+                              <option value="DRAFT">Draft</option>
+                              <option value="ACTIVE">Active</option>
+                              <option value="ENDED">Ended</option>
+                            </select>
+                            <button type="submit" className="bd-btn bd-btn-secondary text-center">
+                              Save
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </main>
   );
+}
+
+function cleanOk(v: unknown) {
+  const s = String(v ?? "").trim();
+  return s === "1";
 }
