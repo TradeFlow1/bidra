@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -747,7 +748,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           {previews.length > 0 && (
             <div className="mt-3 grid grid-cols-3 gap-2">
               {previews.map((p, idx) => (
-                <div key={p.url} className="relative overflow-hidden rounded-md border">
+                <div key={p.url} className="relative h-24 overflow-hidden rounded-md border">
                   <button
                     type="button"
                     aria-label="Remove photo"
@@ -756,7 +757,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                   >
                     -
                   </button>
-                  <img src={p.url} alt={p.name} className="h-24 w-full object-cover" />
+                  <Image src={p.url} alt={p.name} fill unoptimized className="object-cover" />
                 </div>
               ))}
             </div>
