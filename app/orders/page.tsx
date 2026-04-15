@@ -8,6 +8,17 @@ import DateTimeText from "@/components/date-time-text";
 
 export const dynamic = "force-dynamic";
 
+function formatMoney(cents: number | null | undefined) {
+  const value = typeof cents === "number" ? cents : 0;
+  return `$${(Number(value) / 100).toFixed(2)} AUD`;
+}
+
+function statusTone(status: string, outcome: string | null | undefined) {
+  if (outcome === "COMPLETED") return "bg-emerald-50 border-emerald-200 text-emerald-900";
+  if (status === "PENDING") return "bg-blue-50 border-blue-200 text-blue-900";
+  return "bg-neutral-100 border-black/10 text-neutral-800";
+}
+
 export default async function OrdersPage() {
   const session = await auth();
   const user = session?.user;
@@ -30,103 +41,167 @@ export default async function OrdersPage() {
     ]
   });
 
+  const pendingCount = orders.filter((o: any) => String(o.status) === "PENDING").length;
+  const completedCount = orders.filter((o: any) => String(o.outcome) === "COMPLETED").length;
+  const totalValue = orders.reduce(function (sum: number, o: any) {
+    return sum + Number(o.amount || 0);
+  }, 0);
+
   return (
     <main className="bd-container py-10">
-      <div className="container max-w-4xl">
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Orders</h1>
-              <p className="mt-2 text-sm text-blue-700 font-semibold">Pending orders appear first</p>
+      <div className="container max-w-6xl space-y-5">
+        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Orders</div>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Your order hub</h1>
+              <p className="mt-2 text-sm bd-ink2 sm:text-base">
+                Review order progress, check recent activity, and keep your buying and selling steps on track.
+              </p>
             </div>
-            <Link href="/listings" className="bd-btn bd-btn-primary text-center">
-              Browse
-            </Link>
-          </div>
 
-          <div className="grid gap-3">
-            {orders.map((o: any) => (
-              <Card
-                key={o.id}
-                className={`bd-card p-5 flex flex-col md:flex-row md:items-center justify-between gap-3 ${o.status === "PENDING" ? "border-blue-300 bg-blue-50/40" : ""}`}
-              >
-                <div>
-                  <div className="text-sm bd-ink2">
-                    <Badge>{o.outcome === "COMPLETED" ? "COMPLETED" : o.status}</Badge>{" "}
-                    <span className="ml-2">
-                      Created <DateTimeText value={o.createdAt} />
-                    </span>
-                  </div>
-
-                  <div className="mt-1 font-semibold">
-                    <Link
-                      className="bd-ink font-extrabold hover:underline underline-offset-4"
-                      href={`/listings/${o.listingId}`}
-                    >
-                      {o?.listing?.title ?? "Listing"}
-                    </Link>
-                  </div>
-
-                  <div className="text-sm bd-ink2 mt-1">
-                    Amount: <b>${(Number(o.amount) / 100).toFixed(2)}</b> AUD
-                  </div>
-                  <div className="text-xs bd-ink2 mt-1">
-                    Order: <code className="font-mono">{String(o.id).slice(-6)}</code>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-2 flex-wrap justify-end w-full md:w-auto">
-                  {o.status === "PENDING" ? (
-                    <Link
-                      href={`/orders/${o.id}`}
-                      className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px]"
-                    >
-                      <span className="block">Review order</span>
-                      <span className="mt-1 block text-xs bd-ink2">Confirm next steps</span>
-                    </Link>
-                  ) : null}
-
-                  <Link
-                    href={`/orders/${o.id}`}
-                    className="bd-btn bd-btn-primary text-center py-3 w-full sm:w-auto sm:min-w-[220px] whitespace-nowrap"
-                  >
-                    <span className="block">View order</span>
-                    <span className="mt-1 block text-xs bd-ink2">Order ID - {String(o.id).slice(-6)}</span>
-                  </Link>
-
-                  <Link
-                    href={`/listings/${o.listingId}`}
-                    className="bd-btn bd-btn-ghost text-center w-full sm:w-auto"
-                  >
-                    View listing
-                  </Link>
-
-                  {(o.outcome === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
-                    <Link
-                      href={`/orders/${o.id}/feedback`}
-                      className="bd-btn bd-btn-ghost text-center"
-                    >
-                      Leave feedback
-                    </Link>
-                  ) : null}
-                </div>
-              </Card>
-            ))}
-
-            {!orders.length ? (
-              <div className="bd-card p-6">
-                <div className="text-base font-semibold bd-ink">No orders yet.</div>
-                <div className="mt-1 text-sm bd-ink2">
-                  When you buy now or a seller accepts your top offer, your order will appear here.
-                </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <Link href="/listings" className="bd-btn bd-btn-primary text-center">Browse listings</Link>
-                  <Link href="/sell/new" className="bd-btn bd-btn-ghost text-center">Create a listing</Link>
-                </div>
-              </div>
-            ) : null}
+            <div className="flex flex-wrap gap-2">
+              <Link href="/listings" className="bd-btn bd-btn-primary text-center">
+                Browse marketplace
+              </Link>
+              <Link href="/sell/new" className="bd-btn bd-btn-ghost text-center">
+                Create listing
+              </Link>
+            </div>
           </div>
         </div>
+
+        <div className="grid gap-3 sm:grid-cols-3">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Pending</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{pendingCount}</div>
+            <div className="mt-1 text-sm text-neutral-600">Orders needing attention first.</div>
+          </div>
+
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Completed</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{completedCount}</div>
+            <div className="mt-1 text-sm text-neutral-600">Orders marked as finished.</div>
+          </div>
+
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Total value</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{formatMoney(totalValue)}</div>
+            <div className="mt-1 text-sm text-neutral-600">Across all visible orders.</div>
+          </div>
+        </div>
+
+        {!orders.length ? (
+          <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
+            <div className="mx-auto max-w-xl">
+              <div className="text-xl font-extrabold text-neutral-900">No orders yet</div>
+              <p className="mt-2 text-sm text-neutral-600">
+                When you buy now or a seller accepts your top offer, your order will appear here.
+              </p>
+              <div className="mt-5 flex flex-wrap justify-center gap-2">
+                <Link href="/listings" className="bd-btn bd-btn-primary text-center">Browse listings</Link>
+                <Link href="/sell/new" className="bd-btn bd-btn-ghost text-center">Create a listing</Link>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="grid gap-4">
+            {orders.map((o: any) => {
+              const isPending = String(o.status) === "PENDING";
+              const isCompleted = String(o.outcome) === "COMPLETED";
+              const roleLabel = o.buyerId === user.id ? "Buying" : "Selling";
+              const statusLabel = isCompleted ? "COMPLETED" : String(o.status);
+
+              return (
+                <Card
+                  key={o.id}
+                  className={`overflow-hidden rounded-3xl border border-black/10 bg-white p-5 shadow-sm ${isPending ? "ring-1 ring-blue-200" : ""}`}
+                >
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="inline-flex items-center rounded-full border border-black/10 bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-800">
+                          {roleLabel}
+                        </span>
+                        <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(String(o.status), o.outcome)}`}>
+                          {statusLabel}
+                        </span>
+                      </div>
+
+                      <div className="mt-3 min-w-0">
+                        <Link
+                          className="block truncate text-xl font-extrabold text-neutral-950 hover:underline underline-offset-4"
+                          href={`/listings/${o.listingId}`}
+                        >
+                          {o?.listing?.title ?? "Listing"}
+                        </Link>
+                      </div>
+
+                      <div className="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm text-neutral-600">
+                        <div>
+                          Created <DateTimeText value={o.createdAt} />
+                        </div>
+                        <div>
+                          Order ID <span className="font-mono font-semibold text-neutral-800">{String(o.id).slice(-6)}</span>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 flex flex-wrap items-end gap-6">
+                        <div>
+                          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Amount</div>
+                          <div className="mt-1 text-lg font-extrabold text-neutral-950">{formatMoney(o.amount)}</div>
+                        </div>
+
+                        <div>
+                          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Status</div>
+                          <div className="mt-1 text-sm font-medium text-neutral-700">{statusLabel}</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2 lg:w-[260px]">
+                      {isPending ? (
+                        <Link
+                          href={`/orders/${o.id}`}
+                          className="bd-btn bd-btn-primary text-center py-3"
+                        >
+                          <span className="block">Review order</span>
+                          <span className="mt-1 block text-xs bd-ink2">Confirm next steps</span>
+                        </Link>
+                      ) : (
+                        <Link
+                          href={`/orders/${o.id}`}
+                          className="bd-btn bd-btn-primary text-center py-3"
+                        >
+                          <span className="block">View order</span>
+                          <span className="mt-1 block text-xs bd-ink2">Order ID - {String(o.id).slice(-6)}</span>
+                        </Link>
+                      )}
+
+                      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1">
+                        <Link
+                          href={`/listings/${o.listingId}`}
+                          className="bd-btn bd-btn-ghost text-center"
+                        >
+                          View listing
+                        </Link>
+
+                        {(isCompleted && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
+                          <Link
+                            href={`/orders/${o.id}/feedback`}
+                            className="bd-btn bd-btn-ghost text-center"
+                          >
+                            Leave feedback
+                          </Link>
+                        ) : null}
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+        )}
       </div>
     </main>
   );
