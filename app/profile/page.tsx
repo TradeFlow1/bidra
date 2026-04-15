@@ -5,6 +5,20 @@ import { Card, Button, Input } from "@/components/ui";
 
 const STATES = ["NSW","VIC","QLD","WA","SA","TAS","ACT","NT"] as const;
 
+function StatusPill(props: { tone?: "ok" | "warn"; children: React.ReactNode }) {
+  const tone = props.tone ?? "ok";
+  const cls =
+    tone === "ok"
+      ? "border border-emerald-200 bg-emerald-50 text-emerald-800"
+      : "border border-amber-200 bg-amber-50 text-amber-900";
+
+  return (
+    <span className={"inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold " + cls}>
+      {props.children}
+    </span>
+  );
+}
+
 export default async function ProfilePage({
   searchParams,
 }: {
@@ -67,112 +81,155 @@ export default async function ProfilePage({
     redirect("/profile?saved=1");
   }
 
+  const displayName = dbUser.name || user.name || user.email || "Your profile";
+  const emailVerified = !!dbUser.emailVerified;
+  const locationSummary = [
+    String((dbUser as unknown as { suburb?: string }).suburb ?? "").trim(),
+    String((dbUser as unknown as { state?: string }).state ?? "").trim(),
+    String((dbUser as unknown as { postcode?: string }).postcode ?? "").trim(),
+  ].filter(Boolean).join(" · ");
+
   return (
-    <main className="bd-container py-10"><div className="container max-w-3xl">
-      <h1 className="text-3xl font-extrabold tracking-tight text-center bd-ink">Account settings</h1>
+    <main className="bd-container py-10">
+      <div className="container max-w-5xl space-y-5">
+        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Profile</div>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Account settings</h1>
+              <p className="mt-2 text-sm bd-ink2 sm:text-base">
+                Manage your public profile details, general location, and account trust information.
+              </p>
+            </div>
 
-      <div className="mt-5 flex justify-center gap-3">
-        <a href="/forgot-password" className="bd-btn bd-btn-ghost">
-          Reset password
-        </a>
-        <a href="/logout" className="bd-btn bd-btn-ghost">
-          Log out
-        </a>
-      </div>
-
-      {saved ? (
-        <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-          <div className="font-semibold">Profile updated successfully.</div>
-          <div className="mt-1">
-            <a href="/profile" className="underline underline-offset-4 font-semibold bd-ink hover:opacity-90">
-              Dismiss
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a href="/forgot-password" className="bd-btn bd-btn-ghost">
+                Reset password
+              </a>
+              <a href="/logout" className="bd-btn bd-btn-ghost">
+                Log out
+              </a>
+            </div>
           </div>
         </div>
-      ) : null}
 
-      {failed ? (
-        <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900">
-          <div className="font-semibold">Please fix your location.</div>
-          <div className="mt-1">Enter your <strong>postcode</strong>, <strong>suburb</strong>, and <strong>state</strong>. (No street address)</div>
-        </div>
-      ) : null}
-
-      <div className="mt-6 space-y-4">
-        <Card>
-          <div className="text-sm bd-ink2">Email</div>
-          <div className="font-semibold">{dbUser.email}</div>
-          <div className="mt-2 text-sm">
-            Verification:{" "}
-            {dbUser.emailVerified ? (
-              <span className="text-emerald-700 font-semibold">Verified</span>
-            ) : (
-              <span className="text-amber-700 font-semibold">Not verified</span>
-            )}
+        {saved ? (
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 shadow-sm">
+            <div className="font-semibold">Profile updated successfully</div>
+            <div className="mt-1">
+              <a href="/profile" className="underline underline-offset-4 font-semibold bd-ink hover:opacity-90">
+                Dismiss
+              </a>
+            </div>
           </div>
-        </Card>
+        ) : null}
 
-        <Card>
-          <form action={update} className="flex flex-col gap-4">
-            <div>
-              <label className="text-sm font-medium">Display name</label>
-              <Input name="name" defaultValue={dbUser.name ?? ""} placeholder="e.g. Jordan" />
-            </div>
+        {failed ? (
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900 shadow-sm">
+            <div className="font-semibold">Please fix your location</div>
+            <div className="mt-1">Enter your <strong>postcode</strong>, <strong>suburb</strong>, and <strong>state</strong>. No street address.</div>
+          </div>
+        ) : null}
 
-            <div>
-              <label className="text-sm font-medium">Bio (optional)</label>
-              <Input name="bio" defaultValue={(dbUser as unknown as { bio?: string }).bio ?? ""} placeholder="A short intro (optional)" />
-            </div>
-
-            <div className="bd-card p-5">
-              <div className="text-sm font-semibold">Location</div>
-              <div className="mt-1 text-sm bd-ink2">
-                Use <span className="font-semibold">postcode</span>, <span className="font-semibold">suburb</span>, and <span className="font-semibold">state</span>. (No street address)
+        <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="text-sm font-extrabold bd-ink">Profile summary</div>
+            <div className="mt-4 space-y-4">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Display name</div>
+                <div className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-950">{displayName}</div>
               </div>
 
-              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-end">
-                <div className="sm:col-span-1">
-                  <label className="text-sm font-medium">Postcode</label>
-                  <Input name="postcode" defaultValue={(dbUser as unknown as { postcode?: string }).postcode ?? ""} placeholder="e.g. 4301" />
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Email</div>
+                <div className="mt-1 text-sm font-semibold text-neutral-900">{dbUser.email}</div>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <StatusPill tone={emailVerified ? "ok" : "warn"}>
+                  Email: {emailVerified ? "Verified" : "Not verified"}
+                </StatusPill>
+                <StatusPill tone={locationSummary ? "ok" : "warn"}>
+                  Location: {locationSummary ? "Added" : "Incomplete"}
+                </StatusPill>
+              </div>
+
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">General location</div>
+                <div className="mt-1 text-sm text-neutral-700">{locationSummary || "Not added yet"}</div>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <form action={update} className="flex flex-col gap-5">
+              <div>
+                <div className="text-sm font-extrabold bd-ink">Edit profile</div>
+                <div className="mt-1 text-sm bd-ink2">
+                  Keep your account current so buyers and sellers can trust your profile details.
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Display name</label>
+                <Input name="name" defaultValue={dbUser.name ?? ""} placeholder="e.g. Jordan" />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Bio (optional)</label>
+                <Input name="bio" defaultValue={(dbUser as unknown as { bio?: string }).bio ?? ""} placeholder="A short intro (optional)" />
+              </div>
+
+              <div className="rounded-2xl border border-black/10 bg-neutral-50 p-5">
+                <div className="text-sm font-semibold">Location</div>
+                <div className="mt-1 text-sm bd-ink2">
+                  Use <span className="font-semibold">postcode</span>, <span className="font-semibold">suburb</span>, and <span className="font-semibold">state</span>. No street address.
                 </div>
 
-                <div className="hidden sm:flex items-center justify-center text-xs bd-ink2"></div>
-
-                <div className="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="text-sm font-medium">Suburb</label>
-                    <Input name="suburb" defaultValue={(dbUser as unknown as { suburb?: string }).suburb ?? ""} placeholder="e.g. Redbank Plains" />
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-end">
+                  <div className="sm:col-span-1">
+                    <label className="text-sm font-medium">Postcode</label>
+                    <Input name="postcode" defaultValue={(dbUser as unknown as { postcode?: string }).postcode ?? ""} placeholder="e.g. 4301" />
                   </div>
 
-                  <div>
-                    <label className="text-sm font-medium">State</label>
-                    <select
-                      name="state"
-                      defaultValue={(dbUser as unknown as { state?: string }).state ?? ""}
-                      className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm bd-ink"
-                    >
-                      <option value="">Select state</option>
-                      {STATES.map((s) => (
-                        <option key={s} value={s}>
-                          {s}
-                        </option>
-                      ))}
-                    </select>
+                  <div className="hidden sm:flex items-center justify-center text-xs bd-ink2"></div>
+
+                  <div className="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="text-sm font-medium">Suburb</label>
+                      <Input name="suburb" defaultValue={(dbUser as unknown as { suburb?: string }).suburb ?? ""} placeholder="e.g. Redbank Plains" />
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium">State</label>
+                      <select
+                        name="state"
+                        defaultValue={(dbUser as unknown as { state?: string }).state ?? ""}
+                        className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm bd-ink"
+                      >
+                        <option value="">Select state</option>
+                        {STATES.map((s) => (
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <Button type="submit" className="bd-btn bd-btn-primary w-full text-center">
-              Save changes
-            </Button>
+              <Button type="submit" className="bd-btn bd-btn-primary w-full text-center">
+                Save changes
+              </Button>
 
-            <div className="text-xs bd-ink2 text-center">
-              Privacy-first: we only store general area (suburb/state/postcode). No street addresses.
-            </div>
-          </form>
-        </Card>
+              <div className="text-xs bd-ink2 text-center">
+                Privacy-first: we only store general area details such as suburb, state, and postcode. No street addresses.
+              </div>
+            </form>
+          </Card>
+        </div>
       </div>
-    </div></main>
+    </main>
   );
 }
