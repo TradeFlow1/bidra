@@ -14,27 +14,35 @@ function Pill(props: { tone?: "ok" | "warn"; children: React.ReactNode }) {
   const tone = props.tone ?? "ok";
   const cls =
     tone === "ok"
-      ? "bg-green-100 text-green-800"
-      : "bg-amber-100 text-amber-900";
+      ? "bg-green-100 text-green-800 border border-green-200"
+      : "bg-amber-100 text-amber-900 border border-amber-200";
 
   return (
-    <span className={"inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold " + cls}>
+    <span className={"inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold " + cls}>
       {props.children}
     </span>
   );
 }
 
-function Card(props: { title: string; tone?: "default" | "attention"; children: React.ReactNode }) {
+function SurfaceCard(props: {
+  title: string;
+  subtitle?: string;
+  tone?: "default" | "attention";
+  children: React.ReactNode;
+}) {
   const tone = props.tone ?? "default";
   const shell =
     tone === "attention"
-      ? "bd-card p-5 border border-amber-200 bg-amber-50/40"
-      : "bd-card p-5";
+      ? "rounded-3xl border border-amber-200 bg-amber-50/70 p-5 shadow-sm"
+      : "rounded-3xl border border-black/10 bg-white p-5 shadow-sm";
 
   return (
     <div className={shell}>
-      <div className="bd-section-title">{props.title}</div>
-      <div className="mt-3">{props.children}</div>
+      <div className="flex flex-col gap-1">
+        <div className="text-sm font-extrabold bd-ink">{props.title}</div>
+        {props.subtitle ? <div className="text-sm bd-ink2">{props.subtitle}</div> : null}
+      </div>
+      <div className="mt-4">{props.children}</div>
     </div>
   );
 }
@@ -132,123 +140,186 @@ export default async function DashboardPage() {
     needsPhone ||
     needsAge;
 
+  const attentionCount =
+    (adult.ok ? 0 : 1) +
+    (isBlocked ? 1 : 0) +
+    (pendingBuyerFeedbackCount > 0 ? 1 : 0) +
+    (newTopOfferCount > 0 ? 1 : 0) +
+    (needsAge ? 1 : 0);
+
   return (
     <main className="bd-container py-10">
-      <div className="container max-w-5xl">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h1 className="text-3xl font-extrabold tracking-tight bd-ink">
-              Dashboard
-            </h1>
-            <div className="mt-1 text-sm bd-ink2">
-              Shortcuts and anything that needs action.
+      <div className="container max-w-6xl space-y-5">
+        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Dashboard</div>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
+                Your Bidra control center
+              </h1>
+              <div className="mt-2 text-sm bd-ink2 sm:text-base">
+                Shortcuts, account status, marketplace activity, and anything that needs your attention.
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <ActionBtn href="/sell/new" kind="primary">Create a listing</ActionBtn>
+              <ActionBtn href="/dashboard/listings">Manage listings</ActionBtn>
+              <ActionBtn href="/messages">Messages</ActionBtn>
+              <ActionBtn href="/orders">Orders</ActionBtn>
+              {isAdmin ? <ActionBtn href="/admin">Admin</ActionBtn> : null}
             </div>
           </div>
+        </div>
 
-          <div className="flex flex-wrap gap-2">
-            <ActionBtn href="/sell/new" kind="primary">Create a listing</ActionBtn>
-            <ActionBtn href="/dashboard/listings">Manage listings</ActionBtn>
-            <ActionBtn href="/messages">Messages</ActionBtn>
-            <ActionBtn href="/orders">Orders</ActionBtn>
-            {isAdmin ? <ActionBtn href="/admin">Admin</ActionBtn> : null}
+        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listings</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{myListingsCount}</div>
+            <div className="mt-1 text-sm text-neutral-600">Across your seller account.</div>
+          </div>
+
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Active</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{activeListingsCount}</div>
+            <div className="mt-1 text-sm text-neutral-600">Currently live in the marketplace.</div>
+          </div>
+
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Orders</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{ordersAsBuyerCount}</div>
+            <div className="mt-1 text-sm text-neutral-600">As a buyer on Bidra.</div>
+          </div>
+
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Needs attention</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{attentionCount}</div>
+            <div className="mt-1 text-sm text-neutral-600">Tasks or account items to review.</div>
           </div>
         </div>
 
         {counts.actionOrders > 0 ? (
-          <div className="mt-6 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
+          <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900 shadow-sm">
             <div className="font-semibold">Action required</div>
             <div className="mt-1">
               You have {counts.actionOrders} order(s) that need your attention.
             </div>
             <div className="mt-2">
-              <Link href="/orders" className="underline font-semibold">Go to orders -&gt;</Link>
+              <Link href="/orders" className="underline font-semibold">Go to orders</Link>
             </div>
           </div>
         ) : null}
 
         {hasAttention ? (
-          <div className="mt-6">
-            <Card title="Needs attention" tone="attention">
-              <div className="flex flex-col gap-2 text-sm">
-                {!adult.ok ? (
-                  <div className="bd-ink2">
-                    Your account is restricted. Visit{" "}
-                    <Link href="/account/restrictions" className="bd-link font-semibold">
-                      account restrictions
-                    </Link>
-                    .
-                  </div>
-                ) : null}
+          <SurfaceCard
+            title="Needs attention"
+            subtitle="Review anything that may block trust, selling, buying, or account access."
+            tone="attention"
+          >
+            <div className="flex flex-col gap-2 text-sm">
+              {!adult.ok ? (
+                <div className="bd-ink2">
+                  Your account is restricted. Visit{" "}
+                  <Link href="/account/restrictions" className="bd-link font-semibold">
+                    account restrictions
+                  </Link>
+                  .
+                </div>
+              ) : null}
 
-                {isBlocked ? (
-                  <div className="bd-ink2">
-                    Temporarily blocked until{" "}
-                    <span className="font-semibold bd-ink">
-                      {user.policyBlockedUntil ? <DateTimeText value={user.policyBlockedUntil} /> : "--"}
-                    </span>
-                    .
-                  </div>
-                ) : null}
+              {isBlocked ? (
+                <div className="bd-ink2">
+                  Temporarily blocked until{" "}
+                  <span className="font-semibold bd-ink">
+                    {user.policyBlockedUntil ? <DateTimeText value={user.policyBlockedUntil} /> : "--"}
+                  </span>
+                  .
+                </div>
+              ) : null}
 
-                {newTopOfferCount > 0 ? (
-                  <div>
-                    <ActionLink href="/dashboard/listings">New top offers received ({newTopOfferCount})</ActionLink>
-                  </div>
-                ) : null}
+              {newTopOfferCount > 0 ? (
+                <div>
+                  <ActionLink href="/dashboard/listings">New top offers received ({newTopOfferCount})</ActionLink>
+                </div>
+              ) : null}
 
-                {pendingBuyerFeedbackCount > 0 ? (
-                  <div>
-                    <ActionLink href="/orders">Leave buyer feedback ({pendingBuyerFeedbackCount})</ActionLink>
-                  </div>
-                ) : null}
+              {pendingBuyerFeedbackCount > 0 ? (
+                <div>
+                  <ActionLink href="/orders">Leave buyer feedback ({pendingBuyerFeedbackCount})</ActionLink>
+                </div>
+              ) : null}
 
-                {false ? <div><ActionLink href="/profile">Verify your email</ActionLink></div> : null}
-                {false ? <div><ActionLink href="/profile">Verify your phone</ActionLink></div> : null}
-                {needsAge ? <div><ActionLink href="/profile">Complete age verification</ActionLink></div> : null}
-              </div>
-            </Card>
-          </div>
+              {needsAge ? (
+                <div>
+                  <ActionLink href="/profile">Complete age verification</ActionLink>
+                </div>
+              ) : null}
+            </div>
+          </SurfaceCard>
         ) : null}
 
-        <div className="mt-6 grid gap-4">
-          <Card title="Account snapshot">
+        <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <SurfaceCard
+            title="Account snapshot"
+            subtitle="Quick trust and account health overview."
+          >
             <div className="flex flex-wrap gap-2">
               <Pill tone={adult.ok ? "ok" : "warn"}>18+ gate: {adult.ok ? "OK" : "Restricted"}</Pill>
               <Pill tone={!isBlocked ? "ok" : "warn"}>Blocked: {isBlocked ? "Yes" : "No"}</Pill>
               <Pill tone={user.policyStrikes < 3 ? "ok" : "warn"}>Strikes: {user.policyStrikes}</Pill>
+              <Pill tone={needsAge ? "warn" : "ok"}>Age verified: {needsAge ? "No" : "Yes"}</Pill>
             </div>
-          </Card>
+          </SurfaceCard>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <Card title="Seller">
-              <div className="flex flex-wrap gap-2">
-                <Pill>Listings: {myListingsCount}</Pill>
-                <Pill>Active: {activeListingsCount}</Pill>
-                <Pill>Completed: {soldListingsCount}</Pill>
-              </div>
+          <SurfaceCard
+            title="Quick actions"
+            subtitle="Jump straight into the most common marketplace tasks."
+          >
+            <div className="flex flex-wrap gap-2">
+              <ActionBtn href="/sell/new" kind="primary">Create listing</ActionBtn>
+              <ActionBtn href="/dashboard/listings">Manage listings</ActionBtn>
+              <ActionBtn href="/messages">Messages</ActionBtn>
+              <ActionBtn href="/orders">Orders</ActionBtn>
+              <ActionBtn href="/listings">Browse marketplace</ActionBtn>
+            </div>
+          </SurfaceCard>
+        </div>
 
-              <div className="mt-4 flex flex-col gap-2 text-sm">
-                <ActionLink href="/dashboard/listings">Manage my listings</ActionLink>
-                <ActionLink href="/sell/new">Create a listing</ActionLink>
-                <ActionLink href="/messages">Go to messages</ActionLink>
-              </div>
-            </Card>
+        <div className="grid gap-5 md:grid-cols-2">
+          <SurfaceCard
+            title="Seller"
+            subtitle="Manage listings, watch offer activity, and keep your seller profile active."
+          >
+            <div className="flex flex-wrap gap-2">
+              <Pill>Listings: {myListingsCount}</Pill>
+              <Pill>Active: {activeListingsCount}</Pill>
+              <Pill>Completed: {soldListingsCount}</Pill>
+            </div>
 
-            <Card title="Buyer">
-              <div className="flex flex-wrap gap-2">
-                <Pill>Orders: {ordersAsBuyerCount}</Pill>
-                <Pill tone={pendingBuyerFeedbackCount === 0 ? "ok" : "warn"}>
-                  Overdue feedback (48h+): {pendingBuyerFeedbackCount}
-                </Pill>
-              </div>
+            <div className="mt-4 flex flex-col gap-2 text-sm">
+              <ActionLink href="/dashboard/listings">Manage my listings</ActionLink>
+              <ActionLink href="/sell/new">Create a listing</ActionLink>
+              <ActionLink href="/messages">Go to messages</ActionLink>
+            </div>
+          </SurfaceCard>
 
-              <div className="mt-4 flex flex-col gap-2 text-sm">
-                <ActionLink href="/orders">View orders</ActionLink>
-                <ActionLink href="/listings">Browse listings</ActionLink>
-                <ActionLink href="/messages">Open clarification threads</ActionLink>
-              </div>
-            </Card>
-          </div>
+          <SurfaceCard
+            title="Buyer"
+            subtitle="Track orders, browse listings, and stay on top of follow-up actions."
+          >
+            <div className="flex flex-wrap gap-2">
+              <Pill>Orders: {ordersAsBuyerCount}</Pill>
+              <Pill tone={pendingBuyerFeedbackCount === 0 ? "ok" : "warn"}>
+                Overdue feedback (48h+): {pendingBuyerFeedbackCount}
+              </Pill>
+            </div>
+
+            <div className="mt-4 flex flex-col gap-2 text-sm">
+              <ActionLink href="/orders">View orders</ActionLink>
+              <ActionLink href="/listings">Browse listings</ActionLink>
+              <ActionLink href="/messages">Open clarification threads</ActionLink>
+            </div>
+          </SurfaceCard>
         </div>
       </div>
     </main>
