@@ -35,7 +35,7 @@ function isProtected(pathname: string) {
     return false;
   }
 
-  // Protected app areas (explicit). Everything else is public (including unknown routes → proper 404)
+  // Protected app areas (explicit). Everything else is public (including unknown routes -> proper 404)
   return (
     pathname.startsWith("/sell") ||
     pathname.startsWith("/messages") ||
@@ -44,8 +44,7 @@ function isProtected(pathname: string) {
     pathname.startsWith("/orders") ||
     pathname.startsWith("/profile") ||
     pathname.startsWith("/notifications") ||
-    pathname.startsWith("/admin") ||
-    pathname.startsWith("/watchlist")
+    pathname.startsWith("/admin")
   );
 }
 
@@ -58,8 +57,7 @@ function needsPhoneGate(pathname: string) {
     pathname.startsWith("/messages") ||
     pathname.startsWith("/dashboard") ||
     pathname.startsWith("/account") ||
-    pathname.startsWith("/orders") ||
-    pathname.startsWith("/watchlist")
+    pathname.startsWith("/orders")
   );
 }
 
@@ -94,8 +92,8 @@ export async function middleware(req: NextRequest) {
   // Local dev: allow plain HTTP on localhost/loopback (avoid https://localhost redirects)
   const isDev = process.env.NODE_ENV !== "production"; // retained (unused) for clarity
   const reqHost = String((url as any).host ?? "").toLowerCase();
-const reqHostname = String((url as any).hostname ?? "").toLowerCase();
-const isLocalHost = host.startsWith("localhost") || host.startsWith("127.0.0.1") || host.startsWith("[::1]") || host.startsWith("::1") || reqHost.startsWith("localhost") || reqHost.startsWith("127.0.0.1") || reqHostname === "localhost" || reqHostname === "127.0.0.1" || reqHostname === "::1";
+  const reqHostname = String((url as any).hostname ?? "").toLowerCase();
+  const isLocalHost = host.startsWith("localhost") || host.startsWith("127.0.0.1") || host.startsWith("[::1]") || host.startsWith("::1") || reqHost.startsWith("localhost") || reqHost.startsWith("127.0.0.1") || reqHostname === "localhost" || reqHostname === "127.0.0.1" || reqHostname === "::1";
   const allowHttpLocal = isLocalHost;
 
   // 0) Force HTTPS (prefer canonical to avoid double redirects)
