@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -13,6 +13,33 @@ type AdminReportRow = {
   listing?: { id: string; title: string; status: string } | null;
   reporter?: { email: string } | null;
 };
+
+function FilterTab(props: {
+  href: string;
+  active: boolean;
+  label: string;
+  count: number;
+}) {
+  return (
+    <Link
+      href={props.href}
+      className={props.active
+        ? "inline-flex items-center gap-2 rounded-full border border-black/10 bg-neutral-100 px-3 py-2 text-sm font-extrabold text-neutral-950"
+        : "inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-sky-600"}
+    >
+      <span>{props.label}</span>
+      <span className="rounded-full border border-black/10 bg-white px-2 py-0.5 text-xs font-extrabold text-neutral-900">{props.count}</span>
+    </Link>
+  );
+}
+
+function MetaPill(props: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900">
+      {props.children}
+    </span>
+  );
+}
 
 export default async function AdminReports({
   searchParams,
@@ -47,101 +74,94 @@ export default async function AdminReports({
     },
   })) as AdminReportRow[];
 
-  const btnStyle = (active: boolean) =>
-    ({
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 8,
-      padding: "8px 12px",
-      borderRadius: 8,
-      textDecoration: "none",
-      fontWeight: 900,
-      fontSize: 13,
-      border: "1px solid #ddd",
-      color: active ? "#111" : "#1DA1F2",
-      background: active ? "#f3f3f3" : "#fff",
-    } as const);
-
-  const badgeStyle: React.CSSProperties = {
-    display: "inline-block",
-    fontSize: 12,
-    fontWeight: 900,
-    border: "1px solid #ddd",
-    borderRadius: 999,
-    padding: "2px 8px",
-    color: "#111",
-    background: "#fff",
-  };
-
-  const pill: React.CSSProperties = {
-    fontSize: 12,
-    fontWeight: 900,
-    border: "1px solid #ddd",
-    borderRadius: 999,
-    padding: "3px 8px",
-    display: "inline-block",
-  };
-
   return (
-    <div style={{ maxWidth: 900, margin: "0 auto", padding: 16 }}>
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
-        <div>
-          <h1 style={{ fontSize: 34, margin: 0 }}>Reports</h1>
-          <div style={{ color: "#666", marginTop: 6 }}>
-            {showResolved ? "Showing resolved reports" : "Showing open reports"}
-          </div>
-        </div>
+    <main className="bd-container py-10">
+      <div className="container max-w-6xl space-y-5">
+        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin reports</div>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Marketplace reports</h1>
+              <p className="mt-2 text-sm bd-ink2 sm:text-base">
+                Review open and resolved reports, inspect listing context, and move quickly through moderation work.
+              </p>
+            </div>
 
-        <div style={{ display: "flex", gap: 8 }}>
-          <Link href="/admin/reports?status=open" style={btnStyle(!showResolved)}>
-            Open <span style={badgeStyle}>{openCount}</span>
-          </Link>
-          <Link href="/admin/reports?status=resolved" style={btnStyle(showResolved)}>
-            Resolved <span style={badgeStyle}>{resolvedCount}</span>
-          </Link>
-        </div>
-      </div>
-
-      <div style={{ marginTop: 16 }}>
-        {reports.length === 0 ? (
-          <div style={{ border: "1px solid #ddd", borderRadius: 10, padding: 14 }}>
-            <div style={{ fontWeight: 900 }}>No reports found</div>
-            <div style={{ color: "#666", marginTop: 6 }}>
-              {showResolved ? "There are no resolved reports yet." : "There are no open reports right now."}
+            <div className="flex flex-wrap gap-2">
+              <FilterTab href="/admin/reports?status=open" active={!showResolved} label="Open" count={openCount} />
+              <FilterTab href="/admin/reports?status=resolved" active={showResolved} label="Resolved" count={resolvedCount} />
             </div>
           </div>
-        ) : (
-          <div style={{ border: "1px solid #ddd", borderRadius: 10, overflow: "hidden" }}>
-            {reports.map((r, idx) => (
-              <div key={r.id} style={{ borderTop: idx === 0 ? "none" : "1px solid #eee", padding: 12 }}>
-                <div style={{ color: "#666", fontSize: 13 }}>
-                  Report {" – "} <DateTimeText value={r.createdAt} />
-                </div>
+        </div>
 
-                <div style={{ marginTop: 6, fontWeight: 900, fontSize: 16 }}>
-                  <Link href={"/admin/reports/" + r.id} style={{ color: "#1DA1F2", textDecoration: "none" }}>
-                    {r.listing?.title ? r.listing.title : `Listing ${r.listingId}`}
-                  </Link>
-                </div>
-
-                <div style={{ marginTop: 8, display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-                  <span style={pill}>{r.resolved ? "RESOLVED" : "OPEN"}</span>
-                  <span style={pill}>Reason: {r.reason}</span>
-                  <span style={pill}>Listing: {r.listing?.status ? String(r.listing.status) : "UNKNOWN"}</span>
-                  <span style={pill}>Reporter: {r.reporter?.email ? r.reporter.email : "Unknown"}</span>
-
-                  <Link
-                    href={"/listings/" + r.listingId + "?returnTo=" + encodeURIComponent("/admin/reports/" + r.id)}
-                    style={{ fontSize: 13, color: "#1DA1F2", textDecoration: "none", fontWeight: 800 }}
-                  >
-                    View listing
-                  </Link>
-                </div>
-              </div>
-            ))}
+        <div className="grid gap-3 sm:grid-cols-3">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Current view</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{showResolved ? "Resolved reports" : "Open reports"}</div>
+            <div className="mt-1 text-sm text-neutral-600">{showResolved ? "Completed moderation history." : "Active moderation queue."}</div>
           </div>
+
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Open count</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{openCount}</div>
+            <div className="mt-1 text-sm text-neutral-600">Reports still awaiting resolution.</div>
+          </div>
+
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Resolved count</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{resolvedCount}</div>
+            <div className="mt-1 text-sm text-neutral-600">Reports already actioned or cleared.</div>
+          </div>
+        </div>
+
+        {reports.length === 0 ? (
+          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="text-sm font-extrabold bd-ink">No reports found</div>
+            <div className="mt-2 text-sm bd-ink2 leading-7">
+              {showResolved ? "There are no resolved reports yet." : "There are no open reports right now."}
+            </div>
+          </section>
+        ) : (
+          <section className="space-y-3">
+            {reports.map((r) => (
+              <article key={r.id} className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                      Report <span className="normal-case tracking-normal">• <DateTimeText value={r.createdAt} /></span>
+                    </div>
+
+                    <h2 className="mt-2 text-lg font-extrabold tracking-tight bd-ink">
+                      <Link href={"/admin/reports/" + r.id} className="bd-link font-extrabold">
+                        {r.listing?.title ? r.listing.title : "Listing " + r.listingId}
+                      </Link>
+                    </h2>
+
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <MetaPill>{r.resolved ? "RESOLVED" : "OPEN"}</MetaPill>
+                      <MetaPill>Reason: {r.reason}</MetaPill>
+                      <MetaPill>Listing: {r.listing?.status ? String(r.listing.status) : "UNKNOWN"}</MetaPill>
+                      <MetaPill>Reporter: {r.reporter?.email ? r.reporter.email : "Unknown"}</MetaPill>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    <Link href={"/admin/reports/" + r.id} className="bd-btn bd-btn-ghost text-center">
+                      Open report
+                    </Link>
+                    <Link
+                      href={"/listings/" + r.listingId + "?returnTo=" + encodeURIComponent("/admin/reports/" + r.id)}
+                      className="bd-btn bd-btn-ghost text-center"
+                    >
+                      View listing
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </section>
         )}
       </div>
-    </div>
+    </main>
   );
 }
