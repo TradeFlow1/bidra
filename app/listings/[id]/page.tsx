@@ -12,6 +12,7 @@ import RelistButton from "./relist-button";
 import DeleteListingButton from "./delete-listing-button";
 import ReportListingButton from "./report-listing-button";
 import MessageSellerButton from "./message-seller-button";
+import WatchlistButton from "./watchlist-button";
 import { Badge } from "@/components/ui";
 import ListingImageGallery from "@/components/listing-image-gallery";
 
@@ -98,7 +99,7 @@ export default async function ListingPage({ params }: { params: { id: string } }
         <main className="bd-container py-6 pb-14">
           <div className="bd-card p-6 space-y-3">
             <div className="text-lg font-semibold">This listing is not available.</div>
-          <Link href="/listings" className="bd-btn bd-btn-ghost">Back to listings</Link>
+            <Link href="/listings" className="bd-btn bd-btn-ghost">Back to listings</Link>
           </div>
         </main>
       );
@@ -296,6 +297,19 @@ export default async function ListingPage({ params }: { params: { id: string } }
                     </div>
                   </div>
 
+                  <div className="rounded-xl border border-black/10 bg-white p-4 shadow-sm">
+                    <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Watchlist</div>
+                    <div className="mt-1 text-sm font-semibold text-neutral-950">Save for later</div>
+                    <div className="mt-1 text-xs text-neutral-600">Keep this listing handy while you compare options or decide when to act.</div>
+                    <div className="mt-3">
+                      <WatchlistButton
+                        listingId={listing.id}
+                        authed={Boolean(viewerId)}
+                        loginHref={`/auth/login?next=/listings/${listing.id}`}
+                      />
+                    </div>
+                  </div>
+
                   {buyNowVisible ? (
                     <div className="space-y-2 rounded-xl border border-emerald-200 bg-emerald-50 p-4">
                       <div className="text-xs font-semibold uppercase tracking-wide text-emerald-800">Primary action</div>
@@ -366,14 +380,3 @@ export default async function ListingPage({ params }: { params: { id: string } }
     </main>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
