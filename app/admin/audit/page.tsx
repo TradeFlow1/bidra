@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -8,6 +8,46 @@ function fmt(dt: Date | string | null | undefined) {
   if (!dt) return "";
   const d = typeof dt === "string" ? new Date(dt) : dt;
   return <DateTimeText value={d} />;
+}
+
+function FilterTab(props: {
+  href: string;
+  active: boolean;
+  label: string;
+}) {
+  return (
+    <Link
+      href={props.href}
+      className={props.active
+        ? "inline-flex items-center rounded-full border border-black/10 bg-neutral-950 px-3 py-2 text-sm font-extrabold text-white"
+        : "inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-700"}
+      aria-current={props.active ? "page" : undefined}
+    >
+      {props.label}
+    </Link>
+  );
+}
+
+function InfoCard(props: {
+  title: string;
+  value: React.ReactNode;
+  note: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+      <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{props.title}</div>
+      <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{props.value}</div>
+      <div className="mt-1 text-sm text-neutral-600">{props.note}</div>
+    </div>
+  );
+}
+
+function MetaPill(props: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900">
+      {props.children}
+    </span>
+  );
 }
 
 export default async function AdminAuditPage({
@@ -55,39 +95,6 @@ export default async function AdminAuditPage({
     },
   });
 
-  const card: React.CSSProperties = { border: "1px solid #e5e5e5", borderRadius: 12, padding: 14, marginTop: 14 };
-  const pill: React.CSSProperties = { fontSize: 12, fontWeight: 800, border: "1px solid #ddd", borderRadius: 999, padding: "3px 8px", display: "inline-block" };
-
-  const tabBase: React.CSSProperties = {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: 8,
-    padding: "8px 12px",
-    borderRadius: 999,
-    border: "1px solid #e5e5e5",
-    fontWeight: 900,
-    textDecoration: "none",
-    lineHeight: 1,
-    background: "#fff",
-  };
-
-  const tabActive: React.CSSProperties = {
-    border: "1px solid #111",
-    background: "#111",
-    color: "#fff",
-  };
-  const chip: React.CSSProperties = {
-    display: "inline-flex",
-    alignItems: "center",
-    padding: "6px 10px",
-    borderRadius: 999,
-    border: "1px solid #e5e5e5",
-    fontWeight: 900,
-    textDecoration: "none",
-    lineHeight: 1,
-    background: "#fff",
-  };
-
   const qp = (k: string, v: string) => {
     const sp = new URLSearchParams();
     if (type) sp.set("type", type);
@@ -97,118 +104,129 @@ export default async function AdminAuditPage({
   };
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto", padding: 16 }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-        <div>
-          <h1 style={{ fontSize: 28, margin: 0 }}>Admin audit log</h1>
-          <div style={{ marginTop: 6, fontSize: 13, opacity: 0.85 }}>Latest 200 actions (filterable)</div>
-        </div>
-        <Link href="/admin" style={{ textDecoration: "none", fontWeight: 900 }}>← Back to Admin</Link>
-      </div>
+    <main className="bd-container py-10">
+      <div className="container max-w-7xl space-y-5">
+        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin audit</div>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Admin audit log</h1>
+              <p className="mt-2 text-sm bd-ink2 sm:text-base">
+                Review the latest admin actions, filter by entity type, and inspect related links and captured metadata.
+              </p>
+            </div>
 
-      <div style={card}>
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-          <span style={pill}>Type: {type || "ALL"}</span>
-          <span style={pill}>Query: {q || "—"}</span>
-
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <Link
-              href="/admin/audit"
-              style={Object.assign({}, tabBase, (!type ? tabActive : null))}
-              aria-current={!type ? "page" : undefined}
-            >
-              All
-            </Link>
-            <Link
-              href={qp("type", "REPORT")}
-              style={Object.assign({}, tabBase, (type === "REPORT" ? tabActive : null))}
-              aria-current={type === "REPORT" ? "page" : undefined}
-            >
-              Reports
-            </Link>
-            <Link
-              href={qp("type", "LISTING")}
-              style={Object.assign({}, tabBase, (type === "LISTING" ? tabActive : null))}
-              aria-current={type === "LISTING" ? "page" : undefined}
-            >
-              Listings
-            </Link>
-            <Link
-              href={qp("type", "USER")}
-              style={Object.assign({}, tabBase, (type === "USER" ? tabActive : null))}
-              aria-current={type === "USER" ? "page" : undefined}
-            >
-              Users
-            </Link>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/admin" className="bd-btn bd-btn-ghost text-center">
+                Back to admin
+              </Link>
+            </div>
           </div>
         </div>
 
-        <form method="get" action="/admin/audit" style={{ marginTop: 10, display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <input type="hidden" name="type" value={type || ""} />
-          <input
-            name="q"
-            defaultValue={q}
-            placeholder="Search action / IDs (reportId, listingId, userId, entityId)"
-            style={{ padding: "10px 12px", borderRadius: 10, border: "1px solid #ddd", minWidth: 360 }}
+        <div className="grid gap-3 sm:grid-cols-3">
+          <InfoCard
+            title="Rows shown"
+            value={rows.length}
+            note="Latest 200 matching audit actions."
           />
-          <button type="submit" style={{ padding: "10px 12px", borderRadius: 10, fontWeight: 900, border: "1px solid #ddd", cursor: "pointer" }}>
-            Search
-          </button>
-        </form>
-      </div>
-
-      <div style={card}>
-        <div style={{ overflowX: "auto" }}>
-          <div className="mt-4 rounded-xl border bd-bd bg-white overflow-x-auto"><table className="w-full text-sm">
-            <thead>
-              <tr style={{ textAlign: "left" }}>
-                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="When the audit event occurred">When</th>
-                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Action performed">Action</th>
-                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Entity type affected">Type</th>
-                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Entity id">Entity</th>
-                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Quick links to related pages">Links</th>
-                <th className="px-4 py-3 text-left text-xs font-extrabold bd-ink" title="Extra metadata captured">Meta</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((r, i) => {
-                                const links: any[] = [];
-                if (r.reportId) links.push(<Link key="rep" href={"/admin/reports/" + r.reportId} style={chip}>Report</Link>);
-                if (r.listingId) links.push(<Link key="lst" href={"/listings/" + r.listingId} style={chip}>Listing</Link>);
-                if (r.userId) links.push(<Link key="usr" href={"/seller/" + r.userId} style={chip}>User</Link>);
-                return (
-                  <tr key={r.id} className={i % 2 === 0 ? "bg-white" : "bg-neutral-50"}>
-                    <td className="px-4 py-3 bd-ink2 whitespace-nowrap">{fmt(r.createdAt)}</td>
-                    <td className="px-4 py-3 bd-ink2">
-                      <div style={{ fontWeight: 900 }}>{r.action}</div>
-                      <div style={{ fontSize: 12, opacity: 0.8 }}>admin: {r.adminId}</div>
-                    </td>
-                    <td className="px-4 py-3 bd-ink2">{r.entityType}</td>
-                    <td className="px-4 py-3 bd-ink2">
-                      <div style={{ fontFamily: "monospace" }}>{r.entityId}</div>
-                    </td>
-                    <td className="px-4 py-3 bd-ink2">
-                      <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>{links.length ? links : <span style={{ opacity: 0.6 }}>—</span>}</div>
-                    </td>
-                    <td className="px-4 py-3 bd-ink2 max-w-[420px]">
-                      <div style={{ fontFamily: "monospace", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
-                        {r.meta ? JSON.stringify(r.meta, null, 2) : "—"}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-              {!rows.length ? (
-                <tr>
-                  <td colSpan={6} style={{ padding: 14, opacity: 0.8 }}>
-                    No audit log rows found.
-                  </td>
-                </tr>
-              ) : null}
-            </tbody>
-          </table></div>
+          <InfoCard
+            title="Type filter"
+            value={type || "ALL"}
+            note="Current entity-type scope."
+          />
+          <InfoCard
+            title="Query"
+            value={q || "—"}
+            note="Matches action and related IDs."
+          />
         </div>
+
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm space-y-4">
+          <div>
+            <div className="text-sm font-extrabold bd-ink">Filters</div>
+            <div className="mt-1 text-sm bd-ink2">Filter by entity type or search across action and related IDs.</div>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <FilterTab href="/admin/audit" active={!type} label="All" />
+            <FilterTab href={qp("type", "REPORT")} active={type === "REPORT"} label="Reports" />
+            <FilterTab href={qp("type", "LISTING")} active={type === "LISTING"} label="Listings" />
+            <FilterTab href={qp("type", "USER")} active={type === "USER"} label="Users" />
+          </div>
+
+          <form method="get" action="/admin/audit" className="flex flex-wrap gap-3">
+            <input type="hidden" name="type" value={type || ""} />
+            <input
+              name="q"
+              defaultValue={q}
+              placeholder="Search action / IDs (reportId, listingId, userId, entityId)"
+              className="min-w-[320px] rounded-xl border border-black/10 bg-white px-3 py-2 text-sm"
+            />
+            <button type="submit" className="bd-btn bd-btn-ghost text-center">
+              Search
+            </button>
+          </form>
+        </section>
+
+        <section className="rounded-3xl border border-black/10 bg-white shadow-sm overflow-hidden">
+          <div className="border-b border-black/10 px-6 py-4">
+            <div className="text-sm font-extrabold bd-ink">Audit table</div>
+            <div className="mt-1 text-sm bd-ink2">
+              Action context, related links, and raw metadata are shown together for review.
+            </div>
+          </div>
+
+          {rows.length === 0 ? (
+            <div className="px-6 py-8 text-sm bd-ink2">No audit log rows found.</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="border-b border-black/10 bg-white/70">
+                  <tr className="text-left">
+                    <th className="px-4 py-3 text-xs font-extrabold bd-ink">When</th>
+                    <th className="px-4 py-3 text-xs font-extrabold bd-ink">Action</th>
+                    <th className="px-4 py-3 text-xs font-extrabold bd-ink">Type</th>
+                    <th className="px-4 py-3 text-xs font-extrabold bd-ink">Entity</th>
+                    <th className="px-4 py-3 text-xs font-extrabold bd-ink">Links</th>
+                    <th className="px-4 py-3 text-xs font-extrabold bd-ink">Meta</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-black/10">
+                  {rows.map((r) => {
+                    const links: React.ReactNode[] = [];
+                    if (r.reportId) links.push(<Link key="rep" href={"/admin/reports/" + r.reportId} className="bd-btn bd-btn-ghost text-center">Report</Link>);
+                    if (r.listingId) links.push(<Link key="lst" href={"/listings/" + r.listingId} className="bd-btn bd-btn-ghost text-center">Listing</Link>);
+                    if (r.userId) links.push(<Link key="usr" href={"/seller/" + r.userId} className="bd-btn bd-btn-ghost text-center">User</Link>);
+
+                    return (
+                      <tr key={r.id} className="align-top hover:bg-neutral-50">
+                        <td className="px-4 py-4 bd-ink2 whitespace-nowrap">{fmt(r.createdAt)}</td>
+                        <td className="px-4 py-4 bd-ink2">
+                          <div className="font-extrabold bd-ink">{r.action}</div>
+                          <div className="mt-1 text-xs opacity-80">admin: {r.adminId}</div>
+                        </td>
+                        <td className="px-4 py-4">
+                          <MetaPill>{r.entityType}</MetaPill>
+                        </td>
+                        <td className="px-4 py-4 bd-ink2">
+                          <div className="font-mono text-xs">{r.entityId}</div>
+                        </td>
+                        <td className="px-4 py-4">
+                          <div className="flex flex-wrap gap-2">{links.length ? links : <span className="text-sm bd-ink2 opacity-60">—</span>}</div>
+                        </td>
+                        <td className="px-4 py-4 bd-ink2 max-w-[420px]">
+                          <pre className="m-0 whitespace-pre-wrap break-words rounded-2xl border border-black/10 bg-neutral-50 p-3 text-[11px] leading-5">{r.meta ? JSON.stringify(r.meta, null, 2) : "—"}</pre>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
       </div>
-    </div>
+    </main>
   );
 }
