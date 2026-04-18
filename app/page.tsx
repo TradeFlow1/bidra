@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import Image from "next/image";
 
 import ListingCard from "@/components/listing-card";
 import HomeCategorySelectClient from "@/components/home-category-select-client";
@@ -46,6 +47,8 @@ async function getLatestListings(): Promise<ListingLite[]> {
   }
 }
 
+const LOGO_SRC = "/brand/bidra-kangaroo-logo.png";
+
 const HOME_CATEGORIES = [
   { label: "Electronics", href: "/listings?category=Electronics" },
   { label: "Home & Furniture", href: "/listings?category=Home%20%26%20Furniture" },
@@ -59,36 +62,37 @@ const HOME_CATEGORIES = [
   { label: "Free stuff", href: "/listings?category=Free%20Stuff" }
 ];
 
-function BenefitPill(props: { title: string; body: string }) {
-  return (
-    <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
-      <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{props.title}</div>
-      <div className="mt-1 text-sm text-neutral-700">{props.body}</div>
-    </div>
-  );
-}
-
 export default async function HomePage() {
   const session = await auth();
   const listings = await getLatestListings();
 
   return (
     <main className="bd-container py-6 pb-14 space-y-6">
-      <section className="rounded-[32px] border border-black/10 bg-[linear-gradient(180deg,#ffffff,#f7f8fa)] p-6 shadow-sm sm:p-8">
-        <div className="max-w-4xl">
-          <div className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-600">
-            Premium local marketplace
+      <section className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm sm:p-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#1d4ed8,#1e3a8a)] p-2 shadow-sm">
+              <Image
+                src={LOGO_SRC}
+                alt="Bidra"
+                width={160}
+                height={160}
+                priority
+                className="h-10 w-auto select-none"
+              />
+            </div>
+
+            <div className="min-w-0">
+              <div className="text-lg font-extrabold tracking-tight text-neutral-950 sm:text-2xl">
+                Bidra marketplace
+              </div>
+              <div className="mt-1 text-sm text-neutral-600 sm:text-base">
+                Buy Now, offers, and seller-controlled acceptance in one cleaner local marketplace.
+              </div>
+            </div>
           </div>
 
-          <h1 className="mt-4 max-w-4xl text-3xl font-extrabold tracking-tight text-neutral-950 sm:text-4xl lg:text-5xl">
-            Buy now when you are ready. Make an offer when you want flexibility.
-          </h1>
-
-          <p className="mt-4 max-w-3xl text-sm leading-7 text-neutral-600 sm:text-base">
-            Bidra gives local buying and selling a cleaner path to action with Buy Now, offers, and seller-controlled acceptance of the highest offer.
-          </p>
-
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 lg:justify-end">
             <Link href="/listings" className="bd-btn bd-btn-primary">
               Browse marketplace
             </Link>
@@ -96,24 +100,9 @@ export default async function HomePage() {
               href={session?.user?.id ? "/sell/new" : "/auth/login?next=/sell/new"}
               className="bd-btn bd-btn-ghost"
             >
-              Start selling
+              Sell
             </Link>
           </div>
-        </div>
-
-        <div className="mt-6 grid gap-3 md:grid-cols-3">
-          <BenefitPill
-            title="Buy Now"
-            body="For buyers who are ready to move instantly."
-          />
-          <BenefitPill
-            title="Make an Offer"
-            body="For buyers who want flexibility without messy back-and-forth."
-          />
-          <BenefitPill
-            title="Seller control"
-            body="Sellers decide whether to accept the highest offer."
-          />
         </div>
       </section>
 
@@ -133,7 +122,7 @@ export default async function HomePage() {
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-[24px] border border-black/10 bg-white px-4 py-4 shadow-sm transition hover:-translate-y-[2px] hover:shadow-lg"
+              className="rounded-[20px] border border-black/10 bg-white px-4 py-4 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md"
             >
               <div className="text-sm font-semibold text-neutral-900">{item.label}</div>
             </Link>
@@ -158,7 +147,7 @@ export default async function HomePage() {
 
         <div className="mt-4">
           {listings.length === 0 ? (
-            <div className="rounded-[28px] border border-dashed border-black/15 bg-white p-8 text-sm text-neutral-600 shadow-sm">
+            <div className="rounded-[24px] border border-dashed border-black/15 bg-white p-8 text-sm text-neutral-600 shadow-sm">
               No listings yet. Be the first to{" "}
               <Link href="/sell/new" className="font-semibold bd-link hover:bd-link">
                 create a listing
@@ -189,42 +178,15 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-3">
-        <div className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Why Bidra</div>
-          <div className="mt-2 text-xl font-extrabold tracking-tight text-neutral-950">A marketplace built for clearer outcomes.</div>
-          <div className="mt-3 text-sm leading-7 text-neutral-600">
-            Less enquiry-only friction. More confidence for buyers and more control for sellers.
+      <section className="rounded-[24px] border border-black/10 bg-white p-4 shadow-sm">
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="text-sm text-neutral-600">
+            Use accurate descriptions, review prohibited items, and arrange details after commitment.
           </div>
-        </div>
-
-        <div className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Trust and safety</div>
-          <div className="mt-2 text-xl font-extrabold tracking-tight text-neutral-950">Clear marketplace rules matter.</div>
-          <div className="mt-3 text-sm leading-7 text-neutral-600">
-            Accurate descriptions, prohibited-item rules, and cleaner buying flow help Bidra feel safer and more serious.
-          </div>
-          <div className="mt-4">
-            <Link href="/legal/prohibited-items" className="bd-link font-semibold">Read prohibited items</Link>
-          </div>
-        </div>
-
-        <div className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">For sellers</div>
-          <div className="mt-2 text-xl font-extrabold tracking-tight text-neutral-950">Create listings that feel more premium.</div>
-          <div className="mt-3 text-sm leading-7 text-neutral-600">
-            Present listings well, attract decisive buyers, and keep control of the final outcome.
-          </div>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Link
-              href={session?.user?.id ? "/sell/new" : "/auth/login?next=/sell/new"}
-              className="bd-btn bd-btn-primary"
-            >
-              Create listing
-            </Link>
-            <Link href="/pricing" className="bd-btn bd-btn-ghost">
-              Pricing
-            </Link>
+          <div className="flex flex-wrap gap-3 text-sm">
+            <Link href="/legal/prohibited-items" className="bd-link font-semibold">Prohibited items</Link>
+            <Link href="/how-it-works" className="bd-link font-semibold">How it works</Link>
+            <Link href="/pricing" className="bd-link font-semibold">Pricing</Link>
           </div>
         </div>
       </section>
