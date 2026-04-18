@@ -12,6 +12,8 @@ type SessionLike = {
   } | null;
 } | null | undefined;
 
+const LOGO_SRC = "/brand/bidra-kangaroo-logo.png";
+
 export default function SiteHeaderClient({
   session,
   notificationCount = 0,
@@ -63,19 +65,19 @@ export default function SiteHeaderClient({
 
   function navButtonClass(href: string) {
     if (isActive(href)) {
-      return "inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-4 py-2 text-[13px] font-semibold text-[#0F172A] transition hover:bg-black/[0.04]";
+      return "inline-flex items-center justify-center rounded-full border border-white/25 bg-white px-4 py-2 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95";
     }
-    return "inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-4 py-2 text-[13px] font-medium text-[#0F172A] transition hover:bg-black/[0.04]";
+    return "inline-flex items-center justify-center rounded-full border border-white/20 bg-white/95 px-4 py-2 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
   function accountButtonClass(isOpen: boolean) {
     if (isOpen) {
-      return "inline-flex items-center justify-center rounded-full border border-black/15 bg-[#0F172A] px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-[#111827]";
+      return "inline-flex items-center justify-center rounded-full border border-white/30 bg-[#0F172A] px-4 py-2 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
     }
-    return "inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-4 py-2 text-[13px] font-medium text-[#0F172A] transition hover:bg-black/[0.04]";
+    return "inline-flex items-center justify-center rounded-full border border-white/20 bg-white px-4 py-2 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white/95";
   }
 
-  const searchInputClass = "w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm text-black outline-none placeholder:text-neutral-500 focus:border-black/20";
+  const searchInputClass = "w-full rounded-full border border-white/20 bg-white px-4 py-2.5 text-sm text-black outline-none placeholder:text-neutral-500 shadow-sm focus:border-white/35";
   const menuLinkClass = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
 
   const badge = notificationCount > 0 ? (
@@ -87,7 +89,7 @@ export default function SiteHeaderClient({
   function renderAccountMenu(closeMenu: () => void) {
     return (
       <div
-        className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_16px_40px_rgba(15,23,42,0.14)]"
+        className="absolute right-0 top-full z-[120] mt-3 w-56 overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_16px_40px_rgba(15,23,42,0.18)]"
         role="menu"
         onClick={(e) => e.stopPropagation()}
       >
@@ -118,14 +120,14 @@ export default function SiteHeaderClient({
   function renderMobileMenu() {
     return (
       <div
-        className="absolute right-0 top-full z-[120] mt-3 w-[min(92vw,22rem)] overflow-hidden rounded-3xl border border-black/10 bg-white text-[#0F172A] shadow-[0_18px_50px_rgba(15,23,42,0.16)]"
+        className="absolute right-0 top-full z-[120] mt-3 w-[min(92vw,22rem)] overflow-hidden rounded-3xl border border-black/10 bg-white text-[#0F172A] shadow-[0_18px_50px_rgba(15,23,42,0.18)]"
         role="menu"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="border-b border-black/10 bg-neutral-50 px-4 py-3">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Bidra</div>
           <div className="mt-1 text-sm font-semibold text-neutral-900">
-            {isAuthed ? "Your marketplace menu" : "Browse and sell with confidence"}
+            {isAuthed ? "Your marketplace menu" : "Browse and sell"}
           </div>
         </div>
 
@@ -178,11 +180,18 @@ export default function SiteHeaderClient({
   }
 
   return (
-    <header className="relative z-[80] border-b border-black/10 bg-white text-[#0F172A] shadow-[0_8px_24px_rgba(15,23,42,0.06)]">
+    <header className="relative z-[80] border-b border-[#1E3A8A] bg-[linear-gradient(180deg,#2563EB,#1D4ED8)] text-white shadow-[0_10px_28px_rgba(37,99,235,0.22)]">
       <div className="mx-auto flex w-full max-w-6xl items-center gap-6 px-4 py-3">
         <div className="shrink-0">
-          <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 text-white transition hover:opacity-95">
-            <span className="text-[22px] font-bold tracking-tight">Bidra</span>
+          <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
+            <Image
+              src={LOGO_SRC}
+              alt="Bidra"
+              width={220}
+              height={80}
+              priority
+              className="h-9 w-auto select-none"
+            />
           </Link>
         </div>
 
@@ -226,7 +235,7 @@ export default function SiteHeaderClient({
         </div>
 
         <div className="ml-auto flex items-center gap-2 md:hidden">
-          <Link href="/sell" className="inline-flex items-center justify-center rounded-full border border-black/10 bg-[#0F172A] px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-[#111827]">
+          <Link href="/sell" className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white px-4 py-2 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
             Sell
           </Link>
 
@@ -249,7 +258,7 @@ export default function SiteHeaderClient({
         </div>
       </div>
 
-      <div className="border-t border-black/10 px-4 pb-3 md:hidden">
+      <div className="border-t border-white/15 px-4 pb-3 md:hidden">
         <div className="mx-auto max-w-6xl pt-3">
           <SearchBar
             className="w-full"
