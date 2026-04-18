@@ -111,6 +111,10 @@ export default async function DashboardPage() {
     where: { buyerId: me },
   });
 
+  const watchlistCount = await prisma.watchlist.count({
+    where: { userId: me },
+  });
+
   const graceHours = 48;
   const cutoff = new Date(Date.now() - graceHours * 60 * 60 * 1000);
 
@@ -165,6 +169,7 @@ export default async function DashboardPage() {
             <div className="flex flex-wrap gap-2">
               <ActionBtn href="/sell/new" kind="primary">Create a listing</ActionBtn>
               <ActionBtn href="/dashboard/listings">Manage listings</ActionBtn>
+              <ActionBtn href="/watchlist">Watchlist</ActionBtn>
               <ActionBtn href="/messages">Messages</ActionBtn>
               <ActionBtn href="/orders">Orders</ActionBtn>
               {isAdmin ? <ActionBtn href="/admin">Admin</ActionBtn> : null}
@@ -278,6 +283,7 @@ export default async function DashboardPage() {
             <div className="flex flex-wrap gap-2">
               <ActionBtn href="/sell/new" kind="primary">Create listing</ActionBtn>
               <ActionBtn href="/dashboard/listings">Manage listings</ActionBtn>
+              <ActionBtn href="/watchlist">Watchlist</ActionBtn>
               <ActionBtn href="/messages">Messages</ActionBtn>
               <ActionBtn href="/orders">Orders</ActionBtn>
               <ActionBtn href="/listings">Browse marketplace</ActionBtn>
@@ -309,6 +315,7 @@ export default async function DashboardPage() {
           >
             <div className="flex flex-wrap gap-2">
               <Pill>Orders: {ordersAsBuyerCount}</Pill>
+              <Pill>Watchlist: {watchlistCount}</Pill>
               <Pill tone={pendingBuyerFeedbackCount === 0 ? "ok" : "warn"}>
                 Overdue feedback (48h+): {pendingBuyerFeedbackCount}
               </Pill>
@@ -316,6 +323,7 @@ export default async function DashboardPage() {
 
             <div className="mt-4 flex flex-col gap-2 text-sm">
               <ActionLink href="/orders">View orders</ActionLink>
+              <ActionLink href="/watchlist">View watchlist</ActionLink>
               <ActionLink href="/listings">Browse listings</ActionLink>
               <ActionLink href="/messages">Open clarification threads</ActionLink>
             </div>
