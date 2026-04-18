@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import Image from "next/image";
 
 import ListingCard from "@/components/listing-card";
 import HomeCategorySelectClient from "@/components/home-category-select-client";
@@ -47,8 +46,6 @@ async function getLatestListings(): Promise<ListingLite[]> {
   }
 }
 
-const LOGO_SRC = "/brand/bidra-kangaroo-logo.png";
-
 const HOME_CATEGORIES = [
   { label: "Electronics", href: "/listings?category=Electronics" },
   { label: "Home & Furniture", href: "/listings?category=Home%20%26%20Furniture" },
@@ -62,22 +59,11 @@ const HOME_CATEGORIES = [
   { label: "Free stuff", href: "/listings?category=Free%20Stuff" }
 ];
 
-function StatCard(props: { eyebrow: string; value: string; body: string }) {
+function BenefitPill(props: { title: string; body: string }) {
   return (
-    <div className="rounded-[28px] border border-black/10 bg-white/95 p-5 shadow-sm backdrop-blur-sm">
-      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">{props.eyebrow}</div>
-      <div className="mt-2 text-2xl font-extrabold tracking-tight text-neutral-950">{props.value}</div>
-      <div className="mt-2 text-sm leading-6 text-neutral-600">{props.body}</div>
-    </div>
-  );
-}
-
-function ValueCard(props: { kicker: string; title: string; body: string }) {
-  return (
-    <div className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-[2px] hover:shadow-lg">
-      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">{props.kicker}</div>
-      <div className="mt-2 text-lg font-extrabold tracking-tight text-neutral-950">{props.title}</div>
-      <div className="mt-3 text-sm leading-6 text-neutral-600">{props.body}</div>
+    <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
+      <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{props.title}</div>
+      <div className="mt-1 text-sm text-neutral-700">{props.body}</div>
     </div>
   );
 }
@@ -87,142 +73,47 @@ export default async function HomePage() {
   const listings = await getLatestListings();
 
   return (
-    <main className="bd-container py-6 pb-14 space-y-8">
-      <section
-        className="relative overflow-hidden rounded-[40px] border border-black/10 shadow-2xl"
-        style={{
-          backgroundImage: "url(/brand/hero-clouds.png?v=2)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.55),rgba(2,6,23,0.76))] pointer-events-none" />
-
-        <div className="relative z-10 px-5 py-8 sm:px-8 sm:py-10 lg:px-12 lg:py-12">
-          <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
-            <div>
-              <div className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90 backdrop-blur-sm">
-                Premium local marketplace
-              </div>
-
-              <div className="mt-5 max-w-4xl">
-                <h1 className="text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl">
-                  Buy now when you are ready. Make an offer when you want flexibility.
-                </h1>
-                <p className="mt-5 max-w-2xl text-base leading-7 text-white/85 sm:text-lg">
-                  Bidra gives local buying and selling a cleaner path to action. Buyers can move instantly with Buy Now or negotiate with offers, while sellers stay in control and can accept the highest offer when the listing ends.
-                </p>
-              </div>
-
-              <div className="mt-7 flex flex-wrap gap-3">
-                <Link href="/listings" className="bd-btn bd-btn-primary">
-                  Shop the marketplace
-                </Link>
-                <Link
-                  href={session?.user?.id ? "/sell/new" : "/auth/login?next=/sell/new"}
-                  className="bd-btn bd-btn-ghost !border-white/20 !bg-white/10 !text-white hover:!bg-white/15"
-                >
-                  Start selling
-                </Link>
-              </div>
-
-              <div className="mt-7 flex flex-wrap gap-3 text-sm text-white/75">
-                <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 backdrop-blur-sm">Buy Now for instant action</span>
-                <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 backdrop-blur-sm">Make an Offer for flexibility</span>
-                <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1.5 backdrop-blur-sm">Seller accepts highest offer</span>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="mx-auto flex max-w-[30rem] justify-center lg:justify-end">
-                <div className="pointer-events-none relative flex h-64 w-full items-end justify-center overflow-visible sm:h-72 lg:h-[26rem]">
-                  <Image
-                    src={LOGO_SRC}
-                    alt="Bidra"
-                    width={1200}
-                    height={1200}
-                    priority
-                    className="h-56 w-auto select-none drop-shadow-[0_18px_60px_rgba(0,0,0,0.28)] sm:h-64 lg:h-[30rem]"
-                  />
-                </div>
-              </div>
-            </div>
+    <main className="bd-container py-6 pb-14 space-y-6">
+      <section className="rounded-[32px] border border-black/10 bg-[linear-gradient(180deg,#ffffff,#f7f8fa)] p-6 shadow-sm sm:p-8">
+        <div className="max-w-4xl">
+          <div className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-600">
+            Premium local marketplace
           </div>
 
-          <div className="mt-8 grid gap-3 md:grid-cols-3">
-            <StatCard
-              eyebrow="Clear action"
-              value="2 ways to buy"
-              body="Move instantly with Buy Now or negotiate with offers without falling into endless enquiry threads."
-            />
-            <StatCard
-              eyebrow="Seller control"
-              value="Highest offer wins only if accepted"
-              body="Sellers stay in charge and decide whether to accept the top offer at the end of the listing."
-            />
-            <StatCard
-              eyebrow="Less friction"
-              value="Arrange after commitment"
-              body="Pickup, delivery, or postage is sorted after purchase instead of blocking the buying decision upfront."
-            />
-          </div>
-        </div>
-      </section>
+          <h1 className="mt-4 max-w-4xl text-3xl font-extrabold tracking-tight text-neutral-950 sm:text-4xl lg:text-5xl">
+            Buy now when you are ready. Make an offer when you want flexibility.
+          </h1>
 
-      <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[32px] border border-black/10 bg-white p-6 shadow-sm">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Why Bidra feels different</div>
-          <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-neutral-950 sm:text-3xl">
-            A marketplace built for decisions, not just enquiries.
-          </h2>
           <p className="mt-4 max-w-3xl text-sm leading-7 text-neutral-600 sm:text-base">
-            Traditional classifieds often leave buyers in message loops before anything real happens. Bidra keeps the local marketplace feel people already understand, but adds clearer action paths that help buyers move with confidence and help sellers keep control.
+            Bidra gives local buying and selling a cleaner path to action with Buy Now, offers, and seller-controlled acceptance of the highest offer.
           </p>
 
-          <div className="mt-6 grid gap-3 md:grid-cols-3">
-            <ValueCard
-              kicker="Buy Now"
-              title="For buyers ready to move"
-              body="Secure the item immediately when the listing allows instant purchase."
-            />
-            <ValueCard
-              kicker="Make an Offer"
-              title="For flexible negotiation"
-              body="Let buyers compete on price while keeping the experience simple and structured."
-            />
-            <ValueCard
-              kicker="Seller acceptance"
-              title="For real seller control"
-              body="The highest offer matters, but the seller still decides whether to accept it."
-            />
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/listings" className="bd-btn bd-btn-primary">
+              Browse marketplace
+            </Link>
+            <Link
+              href={session?.user?.id ? "/sell/new" : "/auth/login?next=/sell/new"}
+              className="bd-btn bd-btn-ghost"
+            >
+              Start selling
+            </Link>
           </div>
         </div>
 
-        <div className="rounded-[32px] border border-black/10 bg-[linear-gradient(180deg,#ffffff,#f7f8fa)] p-6 shadow-sm">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">How it works</div>
-          <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-neutral-950 sm:text-3xl">
-            Simple for first-time users. Better for serious buyers and sellers.
-          </h2>
-
-          <div className="mt-6 space-y-4">
-            <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">1. List with clarity</div>
-              <div className="mt-1 text-base font-semibold text-neutral-950">Add photos, price, category, and location.</div>
-              <div className="mt-2 text-sm leading-6 text-neutral-600">A premium listing starts with clean details and clear intent, not clutter.</div>
-            </div>
-
-            <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">2. Let buyers choose their path</div>
-              <div className="mt-1 text-base font-semibold text-neutral-950">Buy Now for speed. Offers for flexibility.</div>
-              <div className="mt-2 text-sm leading-6 text-neutral-600">Bidra supports both decisive buying and seller-controlled offer flow.</div>
-            </div>
-
-            <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">3. Arrange after commitment</div>
-              <div className="mt-1 text-base font-semibold text-neutral-950">Pickup, delivery, or postage comes next.</div>
-              <div className="mt-2 text-sm leading-6 text-neutral-600">Less pre-purchase back-and-forth. More clarity once both sides are committed.</div>
-            </div>
-          </div>
+        <div className="mt-6 grid gap-3 md:grid-cols-3">
+          <BenefitPill
+            title="Buy Now"
+            body="For buyers who are ready to move instantly."
+          />
+          <BenefitPill
+            title="Make an Offer"
+            body="For buyers who want flexibility without messy back-and-forth."
+          />
+          <BenefitPill
+            title="Seller control"
+            body="Sellers decide whether to accept the highest offer."
+          />
         </div>
       </section>
 
@@ -298,42 +189,41 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[32px] border border-black/10 bg-white p-6 shadow-sm">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Trust and safety</div>
-          <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-neutral-950 sm:text-3xl">
-            Premium experience starts with clear marketplace rules.
-          </h2>
-          <p className="mt-4 text-sm leading-7 text-neutral-600 sm:text-base">
-            Accurate descriptions, clean buying flow, clear prohibited-item rules, and less friction before commitment help Bidra feel safer and more serious from the first click.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-2">
-            <Link href="/legal/prohibited-items" className="bd-btn bd-btn-ghost">
-              Prohibited items
-            </Link>
-            <Link href="/how-it-works" className="bd-btn bd-btn-ghost">
-              How Bidra works
-            </Link>
+      <section className="grid gap-4 lg:grid-cols-3">
+        <div className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Why Bidra</div>
+          <div className="mt-2 text-xl font-extrabold tracking-tight text-neutral-950">A marketplace built for clearer outcomes.</div>
+          <div className="mt-3 text-sm leading-7 text-neutral-600">
+            Less enquiry-only friction. More confidence for buyers and more control for sellers.
           </div>
         </div>
 
-        <div className="rounded-[32px] border border-black/10 bg-[linear-gradient(180deg,#ffffff,#f8fafc)] p-6 shadow-sm">
+        <div className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Trust and safety</div>
+          <div className="mt-2 text-xl font-extrabold tracking-tight text-neutral-950">Clear marketplace rules matter.</div>
+          <div className="mt-3 text-sm leading-7 text-neutral-600">
+            Accurate descriptions, prohibited-item rules, and cleaner buying flow help Bidra feel safer and more serious.
+          </div>
+          <div className="mt-4">
+            <Link href="/legal/prohibited-items" className="bd-link font-semibold">Read prohibited items</Link>
+          </div>
+        </div>
+
+        <div className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">For sellers</div>
-          <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-neutral-950 sm:text-3xl">
-            Local selling that feels more premium than enquiry-only classifieds.
-          </h2>
-          <p className="mt-4 text-sm leading-7 text-neutral-600 sm:text-base">
-            Bidra helps you present listings well, attract decisive buyers, and keep control of the sale outcome with Buy Now and structured offer flow.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-2">
+          <div className="mt-2 text-xl font-extrabold tracking-tight text-neutral-950">Create listings that feel more premium.</div>
+          <div className="mt-3 text-sm leading-7 text-neutral-600">
+            Present listings well, attract decisive buyers, and keep control of the final outcome.
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
             <Link
               href={session?.user?.id ? "/sell/new" : "/auth/login?next=/sell/new"}
               className="bd-btn bd-btn-primary"
             >
-              Create a premium listing
+              Create listing
             </Link>
             <Link href="/pricing" className="bd-btn bd-btn-ghost">
-              View pricing
+              Pricing
             </Link>
           </div>
         </div>
