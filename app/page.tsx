@@ -68,43 +68,6 @@ export default async function HomePage() {
 
   return (
     <main className="bd-container py-6 pb-14 space-y-6">
-      <section className="rounded-[28px] border border-black/10 bg-white p-5 shadow-sm sm:p-6">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[linear-gradient(180deg,#1d4ed8,#1e3a8a)] p-2 shadow-sm">
-              <Image
-                src={LOGO_SRC}
-                alt="Bidra"
-                width={160}
-                height={160}
-                priority
-                className="h-10 w-auto select-none"
-              />
-            </div>
-
-            <div className="min-w-0">
-              <div className="text-lg font-extrabold tracking-tight text-neutral-950 sm:text-2xl">
-                Bidra marketplace
-              </div>
-              <div className="mt-1 text-sm text-neutral-600 sm:text-base">
-                Buy Now, offers, and seller-controlled acceptance in one cleaner local marketplace.
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2 lg:justify-end">
-            <Link href="/listings" className="bd-btn bd-btn-primary">
-              Browse marketplace
-            </Link>
-            <Link
-              href={session?.user?.id ? "/sell/new" : "/auth/login?next=/sell/new"}
-              className="bd-btn bd-btn-ghost"
-            >
-              Sell
-            </Link>
-          </div>
-        </div>
-      </section>
 
       <section className="bd-section">
         <div className="flex items-center justify-between gap-3">

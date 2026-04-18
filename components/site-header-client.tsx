@@ -187,10 +187,10 @@ export default function SiteHeaderClient({
             <Image
               src={LOGO_SRC}
               alt="Bidra"
-              width={220}
-              height={80}
+              width={320}
+              height={112}
               priority
-              className="h-9 w-auto select-none"
+              className="h-14 w-auto select-none md:h-16"
             />
           </Link>
         </div>
