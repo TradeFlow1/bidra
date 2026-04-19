@@ -93,25 +93,15 @@ export default function SiteHeaderClient({
         role="menu"
         onClick={(e) => e.stopPropagation()}
       >
-        <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>
-          Dashboard
-        </Link>
-        <Link href="/profile" className={menuLinkClass} onClick={closeMenu}>
-          Profile
-        </Link>
-        <Link href="/orders" className={menuLinkClass} onClick={closeMenu}>
-          Orders
-        </Link>
-        <Link href="/messages" className={menuLinkClass} onClick={closeMenu}>
-          Messages
-        </Link>
+        <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>Dashboard</Link>
+        <Link href="/profile" className={menuLinkClass} onClick={closeMenu}>Profile</Link>
+        <Link href="/orders" className={menuLinkClass} onClick={closeMenu}>Orders</Link>
+        <Link href="/messages" className={menuLinkClass} onClick={closeMenu}>Messages</Link>
         <Link href="/notifications" className={menuLinkClass} onClick={closeMenu}>
           Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
         </Link>
         <div className="border-t border-black/10">
-          <Link href="/logout" className={menuLinkClass} onClick={closeMenu}>
-            Sign out
-          </Link>
+          <Link href="/logout" className={menuLinkClass} onClick={closeMenu}>Sign out</Link>
         </div>
       </div>
     );
@@ -126,51 +116,31 @@ export default function SiteHeaderClient({
       >
         <div className="border-b border-black/10 bg-neutral-50 px-4 py-3">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Bidra</div>
-          <div className="mt-1 text-sm font-semibold text-neutral-900">
-            {isAuthed ? "Your marketplace menu" : "Browse and sell"}
-          </div>
+          <div className="mt-1 text-sm font-semibold text-neutral-900">{isAuthed ? "Your marketplace menu" : "Browse and sell"}</div>
         </div>
 
         <div className="p-2">
-          <Link href="/listings" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
-            Browse
-          </Link>
-          <Link href="/sell" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
-            Sell
-          </Link>
+          <Link href="/listings" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Browse</Link>
+          <Link href="/sell" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Sell</Link>
 
           {isAuthed ? (
             <>
-              <Link href="/dashboard" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
-                Dashboard
-              </Link>
-              <Link href="/messages" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
-                Messages
-              </Link>
-              <Link href="/orders" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
-                Orders
-              </Link>
+              <Link href="/dashboard" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
+              <Link href="/messages" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Messages</Link>
+              <Link href="/orders" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Orders</Link>
               <Link href="/notifications" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
                 Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}
               </Link>
-              <Link href="/profile" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
-                Profile
-              </Link>
+              <Link href="/profile" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Profile</Link>
               <div className="border-t border-black/10 mt-2 pt-2">
-                <Link href="/logout" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>
-                  Sign out
-                </Link>
+                <Link href="/logout" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Sign out</Link>
               </div>
             </>
           ) : (
             <div className="border-t border-black/10 mt-2 p-2">
               <div className="grid grid-cols-1 gap-2">
-                <Link href="/auth/login" className="bd-btn bd-btn-primary text-center" onClick={() => setMobileMenuOpen(false)}>
-                  Sign in
-                </Link>
-                <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center" onClick={() => setMobileMenuOpen(false)}>
-                  Create account
-                </Link>
+                <Link href="/auth/login" className="bd-btn bd-btn-primary text-center" onClick={() => setMobileMenuOpen(false)}>Sign in</Link>
+                <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center" onClick={() => setMobileMenuOpen(false)}>Create account</Link>
               </div>
             </div>
           )}
@@ -181,14 +151,14 @@ export default function SiteHeaderClient({
 
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#1E3A8A,#172554)] text-white shadow-[0_10px_28px_rgba(23,37,84,0.26)]">
-      <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-2">
-        <div className="hidden min-w-[18rem] shrink-0 md:block lg:min-w-[20rem]">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-2">
+        <div className="hidden shrink-0 md:block md:w-[22rem] lg:w-[24rem]">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
             <Image
               src={LOGO_SRC}
               alt="Bidra"
-              width={560}
-              height={188}
+              width={640}
+              height={216}
               priority
               className="h-20 w-auto select-none lg:h-24"
             />
@@ -208,14 +178,14 @@ export default function SiteHeaderClient({
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-2 md:flex">
+        <div className="hidden items-center gap-2 md:flex">
           <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
           <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
-        </nav>
+        </div>
 
         <div className="hidden min-w-0 flex-1 md:flex md:justify-end">
           <SearchBar
-            className="w-full max-w-[19rem] lg:max-w-[22rem]"
+            className="w-full max-w-[17rem] lg:max-w-[19rem]"
             inputClassName={searchInputClass}
             placeholder="Search listings"
           />
