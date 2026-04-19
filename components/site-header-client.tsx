@@ -151,8 +151,8 @@ export default function SiteHeaderClient({
 
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#1E3A8A,#172554)] text-white shadow-[0_10px_28px_rgba(23,37,84,0.26)]">
-      <div className="mx-auto hidden w-full max-w-6xl grid-cols-[minmax(18rem,24rem)_auto_minmax(14rem,18rem)_auto] items-center gap-4 px-4 py-3 md:grid">
-        <div className="min-w-0">
+      <div className="hidden md:block">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-4 py-4">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
             <Image
               src={LOGO_SRC}
@@ -163,50 +163,54 @@ export default function SiteHeaderClient({
               className="h-24 w-auto select-none lg:h-28"
             />
           </Link>
+
+          <div className="flex items-center gap-3">
+            {isAuthed ? (
+              <div ref={desktopAccountRef} className="relative">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDesktopAcctOpen(!desktopAcctOpen);
+                  }}
+                  className={accountButtonClass(desktopAcctOpen)}
+                  aria-haspopup="menu"
+                  aria-expanded={desktopAcctOpen ? "true" : "false"}
+                >
+                  Account
+                  {badge}
+                </button>
+                {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
+              </div>
+            ) : (
+              <>
+                <Link href="/auth/login" className={navButtonClass("/auth/login")}>Sign in</Link>
+                <Link href="/auth/register" className={navButtonClass("/auth/register")}>Create account</Link>
+              </>
+            )}
+          </div>
         </div>
 
-        <nav className="flex items-center gap-2 self-center justify-self-start">
-          <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
-          <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
-        </nav>
+        <div className="border-t border-white/12 bg-black/10">
+          <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-3">
+            <nav className="flex items-center gap-2">
+              <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
+              <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
+            </nav>
 
-        <div className="min-w-0 justify-self-end">
-          <SearchBar
-            className="w-full max-w-[18rem] lg:max-w-[20rem]"
-            inputClassName={searchInputClass}
-            placeholder="Search listings"
-          />
-        </div>
-
-        <div className="justify-self-end">
-          {isAuthed ? (
-            <div ref={desktopAccountRef} className="relative">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setDesktopAcctOpen(!desktopAcctOpen);
-                }}
-                className={accountButtonClass(desktopAcctOpen)}
-                aria-haspopup="menu"
-                aria-expanded={desktopAcctOpen ? "true" : "false"}
-              >
-                Account
-                {badge}
-              </button>
-              {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
+            <div className="ml-auto w-full max-w-[26rem]">
+              <SearchBar
+                className="w-full"
+                inputClassName={searchInputClass}
+                placeholder="Search listings"
+              />
             </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Link href="/auth/login" className={navButtonClass("/auth/login")}>Sign in</Link>
-              <Link href="/auth/register" className={navButtonClass("/auth/register")}>Create account</Link>
-            </div>
-          )}
+          </div>
         </div>
       </div>
 
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-2 md:hidden">
-        <div className="shrink-0">
+      <div className="md:hidden">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-2">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
             <Image
               src={LOGO_SRC}
@@ -217,39 +221,39 @@ export default function SiteHeaderClient({
               className="h-14 w-auto select-none"
             />
           </Link>
-        </div>
 
-        <div className="ml-auto flex items-center gap-2">
-          <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/20 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
-            Sell
-          </Link>
+          <div className="ml-auto flex items-center gap-2">
+            <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/20 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
+              Sell
+            </Link>
 
-          <div ref={mobileMenuRef} className="relative">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setMobileMenuOpen(!mobileMenuOpen);
-              }}
-              className={accountButtonClass(mobileMenuOpen)}
-              aria-haspopup="menu"
-              aria-expanded={mobileMenuOpen ? "true" : "false"}
-            >
-              Menu
-              {badge}
-            </button>
-            {mobileMenuOpen ? renderMobileMenu() : null}
+            <div ref={mobileMenuRef} className="relative">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMobileMenuOpen(!mobileMenuOpen);
+                }}
+                className={accountButtonClass(mobileMenuOpen)}
+                aria-haspopup="menu"
+                aria-expanded={mobileMenuOpen ? "true" : "false"}
+              >
+                Menu
+                {badge}
+              </button>
+              {mobileMenuOpen ? renderMobileMenu() : null}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="border-t border-white/15 px-4 pb-2 md:hidden">
-        <div className="mx-auto max-w-6xl pt-2">
-          <SearchBar
-            className="w-full"
-            inputClassName={searchInputClass}
-            placeholder="Search listings"
-          />
+        <div className="border-t border-white/12 bg-black/10 px-4 py-2">
+          <div className="mx-auto max-w-6xl">
+            <SearchBar
+              className="w-full"
+              inputClassName={searchInputClass}
+              placeholder="Search listings"
+            />
+          </div>
         </div>
       </div>
     </header>
