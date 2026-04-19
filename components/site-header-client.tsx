@@ -77,7 +77,7 @@ export default function SiteHeaderClient({
     return "inline-flex items-center justify-center rounded-full border border-white/15 bg-white/92 px-3.5 py-2 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
-  const searchInputClass = "w-full rounded-full border border-white/20 bg-white px-4 py-2.5 text-sm text-black outline-none placeholder:text-neutral-500 shadow-sm focus:border-white/35";
+  const searchInputClass = "w-full rounded-full border border-white/20 bg-white px-4 py-2 text-sm text-black outline-none placeholder:text-neutral-500 shadow-sm focus:border-white/35";
   const menuLinkClass = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
 
   const badge = notificationCount > 0 ? (
@@ -181,8 +181,8 @@ export default function SiteHeaderClient({
 
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#1E3A8A,#172554)] text-white shadow-[0_10px_28px_rgba(23,37,84,0.26)]">
-      <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-3">
-        <div className="shrink-0">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-2">
+        <div className="shrink-0 min-w-[12rem] md:min-w-[16rem]">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
             <Image
               src={LOGO_SRC}
@@ -195,12 +195,12 @@ export default function SiteHeaderClient({
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-2 md:flex">
+        <nav className="hidden items-center gap-2 md:ml-4 md:flex">
           <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
           <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
         </nav>
 
-        <div className="hidden min-w-0 flex-1 md:flex md:justify-center">
+        <div className="hidden min-w-0 flex-1 md:ml-4 md:flex md:justify-center">
           <SearchBar
             className="w-full max-w-sm"
             inputClassName={searchInputClass}
@@ -258,8 +258,8 @@ export default function SiteHeaderClient({
         </div>
       </div>
 
-      <div className="border-t border-white/15 px-4 pb-3 md:hidden">
-        <div className="mx-auto max-w-6xl pt-3">
+      <div className="border-t border-white/15 px-4 pb-2 md:hidden">
+        <div className="mx-auto max-w-6xl pt-2">
           <SearchBar
             className="w-full"
             inputClassName={searchInputClass}
