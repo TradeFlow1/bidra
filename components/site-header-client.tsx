@@ -65,19 +65,19 @@ export default function SiteHeaderClient({
 
   function navButtonClass(href: string) {
     if (isActive(href)) {
-      return "inline-flex h-10 items-center justify-center rounded-full border border-white/22 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95";
+      return "inline-flex h-11 items-center justify-center rounded-full border border-white/25 bg-white px-5 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95";
     }
-    return "inline-flex h-10 items-center justify-center rounded-full border border-white/10 bg-white/82 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
+    return "inline-flex h-11 items-center justify-center rounded-full border border-white/10 bg-white/85 px-5 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
   function accountButtonClass(isOpen: boolean) {
     if (isOpen) {
-      return "inline-flex h-10 items-center justify-center rounded-full border border-white/30 bg-[#0F172A] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
+      return "inline-flex h-11 items-center justify-center rounded-full border border-white/30 bg-[#0F172A] px-5 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
     }
-    return "inline-flex h-10 items-center justify-center rounded-full border border-white/10 bg-white/88 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
+    return "inline-flex h-11 items-center justify-center rounded-full border border-white/10 bg-white/90 px-5 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
-  const searchInputClass = "w-full rounded-full border border-white/14 bg-white px-4 py-2 text-sm text-black outline-none placeholder:text-neutral-500 shadow-sm focus:border-white/30";
+  const searchInputClass = "w-full rounded-full border border-white/14 bg-white px-5 py-3 text-sm text-black outline-none placeholder:text-neutral-500 shadow-sm focus:border-white/30";
   const menuLinkClass = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
 
   const badge = notificationCount > 0 ? (
@@ -150,23 +150,26 @@ export default function SiteHeaderClient({
   }
 
   return (
-    <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#1E3A8A,#172554)] text-white shadow-[0_10px_28px_rgba(23,37,84,0.26)]">
+    <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#1E3A8A,#172554)] text-white shadow-[0_14px_36px_rgba(23,37,84,0.28)]">
       <div className="hidden md:block">
-        <div className="mx-auto flex w-full max-w-6xl items-start justify-between gap-8 px-4 pt-4 pb-5">
+        <div className="mx-auto flex w-full max-w-6xl items-start justify-between gap-8 px-4 pt-5 pb-4">
           <div className="min-w-0 flex-1">
             <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
               <Image
                 src={LOGO_SRC}
                 alt="Bidra"
-                width={860}
-                height={290}
+                width={920}
+                height={310}
                 priority
-                className="h-24 w-auto select-none lg:h-32"
+                className="h-28 w-auto select-none lg:h-36"
               />
             </Link>
+            <div className="mt-2 pl-2 text-[11px] font-medium uppercase tracking-[0.22em] text-white/72">
+              Premium local marketplace
+            </div>
           </div>
 
-          <div className="shrink-0 pt-2">
+          <div className="shrink-0 pt-3">
             {isAuthed ? (
               <div ref={desktopAccountRef} className="relative">
                 <button
@@ -194,13 +197,13 @@ export default function SiteHeaderClient({
         </div>
 
         <div className="border-t border-white/12 bg-[#1A295F]">
-          <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-3">
+          <div className="mx-auto flex w-full max-w-6xl items-center gap-5 px-4 py-3">
             <nav className="flex items-center gap-2">
               <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
               <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
             </nav>
 
-            <div className="ml-auto w-full max-w-[25rem]">
+            <div className="ml-auto w-full max-w-[27rem]">
               <SearchBar
                 className="w-full"
                 inputClassName={searchInputClass}
@@ -212,20 +215,20 @@ export default function SiteHeaderClient({
       </div>
 
       <div className="md:hidden">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-2">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-3">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
             <Image
               src={LOGO_SRC}
               alt="Bidra"
-              width={360}
-              height={120}
+              width={420}
+              height={140}
               priority
-              className="h-14 w-auto select-none"
+              className="h-16 w-auto select-none"
             />
           </Link>
 
           <div className="ml-auto flex items-center gap-2">
-            <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/20 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
+            <Link href="/sell" className="inline-flex h-11 items-center justify-center rounded-full border border-white/20 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
               Sell
             </Link>
 
