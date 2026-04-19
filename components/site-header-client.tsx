@@ -65,16 +65,16 @@ export default function SiteHeaderClient({
 
   function navButtonClass(href: string) {
     if (isActive(href)) {
-      return "inline-flex items-center justify-center rounded-full border border-white/25 bg-white px-4 py-2 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95";
+      return "inline-flex h-10 items-center justify-center rounded-full border border-white/25 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95";
     }
-    return "inline-flex items-center justify-center rounded-full border border-white/15 bg-white/90 px-3.5 py-2 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
+    return "inline-flex h-10 items-center justify-center rounded-full border border-white/15 bg-white/88 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
   function accountButtonClass(isOpen: boolean) {
     if (isOpen) {
-      return "inline-flex items-center justify-center rounded-full border border-white/30 bg-[#0F172A] px-4 py-2 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
+      return "inline-flex h-10 items-center justify-center rounded-full border border-white/30 bg-[#0F172A] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
     }
-    return "inline-flex items-center justify-center rounded-full border border-white/15 bg-white/92 px-3.5 py-2 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
+    return "inline-flex h-10 items-center justify-center rounded-full border border-white/15 bg-white/90 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
   const searchInputClass = "w-full rounded-full border border-white/20 bg-white px-4 py-2 text-sm text-black outline-none placeholder:text-neutral-500 shadow-sm focus:border-white/35";
@@ -182,33 +182,46 @@ export default function SiteHeaderClient({
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#1E3A8A,#172554)] text-white shadow-[0_10px_28px_rgba(23,37,84,0.26)]">
       <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-2">
-        <div className="shrink-0 min-w-[12rem] md:min-w-[16rem]">
+        <div className="hidden min-w-[18rem] shrink-0 md:block lg:min-w-[20rem]">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
             <Image
               src={LOGO_SRC}
               alt="Bidra"
-              width={520}
-              height={176}
+              width={560}
+              height={188}
               priority
-              className="h-16 w-auto select-none md:h-28"
+              className="h-20 w-auto select-none lg:h-24"
             />
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-2 md:ml-4 md:flex">
+        <div className="shrink-0 md:hidden">
+          <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
+            <Image
+              src={LOGO_SRC}
+              alt="Bidra"
+              width={360}
+              height={120}
+              priority
+              className="h-14 w-auto select-none"
+            />
+          </Link>
+        </div>
+
+        <nav className="hidden items-center gap-2 md:flex">
           <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
           <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
         </nav>
 
-        <div className="hidden min-w-0 flex-1 md:ml-4 md:flex md:justify-center">
+        <div className="hidden min-w-0 flex-1 md:flex md:justify-end">
           <SearchBar
-            className="w-full max-w-sm"
+            className="w-full max-w-[19rem] lg:max-w-[22rem]"
             inputClassName={searchInputClass}
             placeholder="Search listings"
           />
         </div>
 
-        <div className="ml-auto hidden md:flex md:items-center">
+        <div className="ml-3 hidden md:flex md:items-center">
           {isAuthed ? (
             <div ref={desktopAccountRef} className="relative">
               <button
@@ -235,7 +248,7 @@ export default function SiteHeaderClient({
         </div>
 
         <div className="ml-auto flex items-center gap-2 md:hidden">
-          <Link href="/sell" className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white px-4 py-2 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
+          <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/20 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
             Sell
           </Link>
 
