@@ -67,14 +67,14 @@ export default function SiteHeaderClient({
     if (isActive(href)) {
       return "inline-flex items-center justify-center rounded-full border border-white/25 bg-white px-4 py-2 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95";
     }
-    return "inline-flex items-center justify-center rounded-full border border-white/20 bg-white/95 px-4 py-2 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
+    return "inline-flex items-center justify-center rounded-full border border-white/15 bg-white/90 px-3.5 py-2 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
   function accountButtonClass(isOpen: boolean) {
     if (isOpen) {
       return "inline-flex items-center justify-center rounded-full border border-white/30 bg-[#0F172A] px-4 py-2 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
     }
-    return "inline-flex items-center justify-center rounded-full border border-white/20 bg-white px-4 py-2 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white/95";
+    return "inline-flex items-center justify-center rounded-full border border-white/15 bg-white/92 px-3.5 py-2 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
   const searchInputClass = "w-full rounded-full border border-white/20 bg-white px-4 py-2.5 text-sm text-black outline-none placeholder:text-neutral-500 shadow-sm focus:border-white/35";
@@ -180,22 +180,22 @@ export default function SiteHeaderClient({
   }
 
   return (
-    <header className="relative z-[80] border-b border-[#1E3A8A] bg-[linear-gradient(180deg,#2563EB,#1D4ED8)] text-white shadow-[0_10px_28px_rgba(37,99,235,0.22)]">
-      <div className="mx-auto flex w-full max-w-6xl items-center gap-6 px-4 py-3">
+    <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#1E3A8A,#172554)] text-white shadow-[0_10px_28px_rgba(23,37,84,0.26)]">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-3">
         <div className="shrink-0">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
             <Image
               src={LOGO_SRC}
               alt="Bidra"
-              width={320}
-              height={112}
+              width={420}
+              height={144}
               priority
-              className="h-14 w-auto select-none md:h-16"
+              className="h-14 w-auto select-none md:h-24"
             />
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-3 md:flex">
+        <nav className="hidden items-center gap-2 md:flex">
           <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
           <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
         </nav>
@@ -227,7 +227,7 @@ export default function SiteHeaderClient({
               {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
             </div>
           ) : (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <Link href="/auth/login" className={navButtonClass("/auth/login")}>Sign in</Link>
               <Link href="/auth/register" className={navButtonClass("/auth/register")}>Create account</Link>
             </div>
