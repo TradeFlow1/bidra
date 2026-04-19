@@ -181,16 +181,16 @@ export default function SiteHeaderClient({
 
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#1E3A8A,#172554)] text-white shadow-[0_10px_28px_rgba(23,37,84,0.26)]">
-      <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-3">
+      <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-4 py-3">
         <div className="shrink-0">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
             <Image
               src={LOGO_SRC}
               alt="Bidra"
-              width={420}
-              height={144}
+              width={520}
+              height={176}
               priority
-              className="h-14 w-auto select-none md:h-24"
+              className="h-16 w-auto select-none md:h-28"
             />
           </Link>
         </div>
