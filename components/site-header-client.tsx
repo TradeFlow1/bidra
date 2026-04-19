@@ -65,19 +65,19 @@ export default function SiteHeaderClient({
 
   function navButtonClass(href: string) {
     if (isActive(href)) {
-      return "inline-flex h-10 items-center justify-center rounded-full border border-white/25 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95";
+      return "inline-flex h-10 items-center justify-center rounded-full border border-white/22 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95";
     }
-    return "inline-flex h-10 items-center justify-center rounded-full border border-white/12 bg-white/84 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
+    return "inline-flex h-10 items-center justify-center rounded-full border border-white/10 bg-white/82 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
   function accountButtonClass(isOpen: boolean) {
     if (isOpen) {
       return "inline-flex h-10 items-center justify-center rounded-full border border-white/30 bg-[#0F172A] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
     }
-    return "inline-flex h-10 items-center justify-center rounded-full border border-white/12 bg-white/88 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
+    return "inline-flex h-10 items-center justify-center rounded-full border border-white/10 bg-white/88 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
-  const searchInputClass = "w-full rounded-full border border-white/16 bg-white px-4 py-2 text-sm text-black outline-none placeholder:text-neutral-500 shadow-sm focus:border-white/30";
+  const searchInputClass = "w-full rounded-full border border-white/14 bg-white px-4 py-2 text-sm text-black outline-none placeholder:text-neutral-500 shadow-sm focus:border-white/30";
   const menuLinkClass = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
 
   const badge = notificationCount > 0 ? (
@@ -152,19 +152,21 @@ export default function SiteHeaderClient({
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#1E3A8A,#172554)] text-white shadow-[0_10px_28px_rgba(23,37,84,0.26)]">
       <div className="hidden md:block">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-6 px-4 py-4">
-          <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
-            <Image
-              src={LOGO_SRC}
-              alt="Bidra"
-              width={760}
-              height={256}
-              priority
-              className="h-24 w-auto select-none lg:h-28"
-            />
-          </Link>
+        <div className="mx-auto flex w-full max-w-6xl items-start justify-between gap-8 px-4 pt-4 pb-5">
+          <div className="min-w-0 flex-1">
+            <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
+              <Image
+                src={LOGO_SRC}
+                alt="Bidra"
+                width={860}
+                height={290}
+                priority
+                className="h-24 w-auto select-none lg:h-32"
+              />
+            </Link>
+          </div>
 
-          <div className="flex items-center gap-3">
+          <div className="shrink-0 pt-2">
             {isAuthed ? (
               <div ref={desktopAccountRef} className="relative">
                 <button
@@ -183,22 +185,22 @@ export default function SiteHeaderClient({
                 {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
               </div>
             ) : (
-              <>
+              <div className="flex items-center gap-2">
                 <Link href="/auth/login" className={navButtonClass("/auth/login")}>Sign in</Link>
                 <Link href="/auth/register" className={navButtonClass("/auth/register")}>Create account</Link>
-              </>
+              </div>
             )}
           </div>
         </div>
 
-        <div className="border-t border-white/12 bg-black/10">
+        <div className="border-t border-white/12 bg-[#1A295F]">
           <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-3">
             <nav className="flex items-center gap-2">
               <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
               <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
             </nav>
 
-            <div className="ml-auto w-full max-w-[26rem]">
+            <div className="ml-auto w-full max-w-[25rem]">
               <SearchBar
                 className="w-full"
                 inputClassName={searchInputClass}
@@ -246,7 +248,7 @@ export default function SiteHeaderClient({
           </div>
         </div>
 
-        <div className="border-t border-white/12 bg-black/10 px-4 py-2">
+        <div className="border-t border-white/12 bg-[#1A295F] px-4 py-2">
           <div className="mx-auto max-w-6xl">
             <SearchBar
               className="w-full"
