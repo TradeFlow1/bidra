@@ -67,17 +67,17 @@ export default function SiteHeaderClient({
     if (isActive(href)) {
       return "inline-flex h-10 items-center justify-center rounded-full border border-white/25 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95";
     }
-    return "inline-flex h-10 items-center justify-center rounded-full border border-white/15 bg-white/88 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
+    return "inline-flex h-10 items-center justify-center rounded-full border border-white/12 bg-white/84 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
   function accountButtonClass(isOpen: boolean) {
     if (isOpen) {
       return "inline-flex h-10 items-center justify-center rounded-full border border-white/30 bg-[#0F172A] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
     }
-    return "inline-flex h-10 items-center justify-center rounded-full border border-white/15 bg-white/90 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
+    return "inline-flex h-10 items-center justify-center rounded-full border border-white/12 bg-white/88 px-4 text-[13px] font-medium text-[#0F172A] shadow-sm transition hover:bg-white";
   }
 
-  const searchInputClass = "w-full rounded-full border border-white/20 bg-white px-4 py-2 text-sm text-black outline-none placeholder:text-neutral-500 shadow-sm focus:border-white/35";
+  const searchInputClass = "w-full rounded-full border border-white/16 bg-white px-4 py-2 text-sm text-black outline-none placeholder:text-neutral-500 shadow-sm focus:border-white/30";
   const menuLinkClass = "block w-full px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
 
   const badge = notificationCount > 0 ? (
@@ -151,47 +151,34 @@ export default function SiteHeaderClient({
 
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#1E3A8A,#172554)] text-white shadow-[0_10px_28px_rgba(23,37,84,0.26)]">
-      <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-2">
-        <div className="hidden shrink-0 md:block md:w-[22rem] lg:w-[24rem]">
+      <div className="mx-auto hidden w-full max-w-6xl grid-cols-[minmax(18rem,24rem)_auto_minmax(14rem,18rem)_auto] items-center gap-4 px-4 py-3 md:grid">
+        <div className="min-w-0">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
             <Image
               src={LOGO_SRC}
               alt="Bidra"
-              width={640}
-              height={216}
+              width={760}
+              height={256}
               priority
-              className="h-20 w-auto select-none lg:h-24"
+              className="h-24 w-auto select-none lg:h-28"
             />
           </Link>
         </div>
 
-        <div className="shrink-0 md:hidden">
-          <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
-            <Image
-              src={LOGO_SRC}
-              alt="Bidra"
-              width={360}
-              height={120}
-              priority
-              className="h-14 w-auto select-none"
-            />
-          </Link>
-        </div>
-
-        <div className="hidden items-center gap-2 md:flex">
+        <nav className="flex items-center gap-2 self-center justify-self-start">
           <Link href="/listings" className={navButtonClass("/listings")}>Browse</Link>
           <Link href="/sell" className={navButtonClass("/sell")}>Sell</Link>
-        </div>
+        </nav>
 
-        <div className="hidden min-w-0 flex-1 md:flex md:justify-end">
+        <div className="min-w-0 justify-self-end">
           <SearchBar
-            className="w-full max-w-[17rem] lg:max-w-[19rem]"
+            className="w-full max-w-[18rem] lg:max-w-[20rem]"
             inputClassName={searchInputClass}
             placeholder="Search listings"
           />
         </div>
 
-        <div className="ml-3 hidden md:flex md:items-center">
+        <div className="justify-self-end">
           {isAuthed ? (
             <div ref={desktopAccountRef} className="relative">
               <button
@@ -216,8 +203,23 @@ export default function SiteHeaderClient({
             </div>
           )}
         </div>
+      </div>
 
-        <div className="ml-auto flex items-center gap-2 md:hidden">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-2 md:hidden">
+        <div className="shrink-0">
+          <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
+            <Image
+              src={LOGO_SRC}
+              alt="Bidra"
+              width={360}
+              height={120}
+              priority
+              className="h-14 w-auto select-none"
+            />
+          </Link>
+        </div>
+
+        <div className="ml-auto flex items-center gap-2">
           <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/20 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
             Sell
           </Link>
