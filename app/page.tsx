@@ -35,18 +35,18 @@ export default async function HomePage() {
 
   return (
     <main className="bg-[#F7F9FC]">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-5 lg:px-6 lg:py-6">
-        <section className="overflow-hidden rounded-[36px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
-          <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.2fr)_24rem] lg:items-center lg:p-10">
-            <div>
-              <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight text-[#0F172A] sm:text-5xl lg:text-[3.2rem] lg:leading-[1.02]">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-4 py-4 lg:px-6 lg:py-5">
+        <section className="overflow-hidden rounded-[34px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
+          <div className="grid gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1.25fr)_20rem] lg:items-center lg:p-7">
+            <div className="min-w-0">
+              <h1 className="max-w-3xl text-[2.35rem] font-extrabold tracking-tight text-[#0F172A] sm:text-[2.8rem] lg:text-[3rem] lg:leading-[1.02]">
                 Buy Now or make an offer.
               </h1>
             </div>
 
-            <div className="grid gap-3 rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+            <div className="grid gap-3 rounded-[26px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
               <HomeCategorySelect />
-              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+              <div className="grid gap-2">
                 <Link href="/listings" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse listings</Link>
                 <Link href="/watchlist" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Watchlist</Link>
               </div>
