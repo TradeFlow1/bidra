@@ -6,8 +6,6 @@ import { prisma } from "@/lib/prisma";
 import { isTimedOffersType } from "@/lib/listing-type";
 import { formatTimeRemaining } from "@/lib/time-remaining";
 import ListingImageGallery from "@/components/listing-image-gallery";
-import TrustPanel from "@/components/trust/trust-panel";
-import ReputationBadges from "@/components/reputation-badges";
 import SafetyCallout from "@/components/safety-callout";
 import BuyNowButton from "./buy-now-button";
 import PlaceOfferClient from "./place-offer-client";
@@ -87,8 +85,6 @@ export default async function ListingDetailPage({
                 <span className="text-[#CBD5E1]">•</span>
                 <span>{sellerLocation}</span>
               </div>
-
-
             </div>
 
             <div className="w-full max-w-[22rem] rounded-[28px] border border-[#D8E1F0] bg-[linear-gradient(180deg,#FFFFFF_0%,#F8FAFC_100%)] p-5 shadow-sm">
@@ -213,7 +209,6 @@ export default async function ListingDetailPage({
                 <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
               </div>
             </div>
-
 
             <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm">
               <SafetyCallout />
