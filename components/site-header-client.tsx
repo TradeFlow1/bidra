@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 import SearchBar from "./search-bar";
 
 type SessionLike = {
@@ -34,7 +33,6 @@ export default function SiteHeaderClient({
   session?: SessionLike;
   notificationCount?: number;
 }) {
-  const pathname = usePathname();
   const [desktopAcctOpen, setDesktopAcctOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const desktopAccountRef = useRef<HTMLDivElement | null>(null);
@@ -73,7 +71,7 @@ export default function SiteHeaderClient({
 
   function utilityButtonClass(isOpen: boolean) {
     if (isOpen) {
-      return "inline-flex h-10 items-center justify-center rounded-full border border-white/20 bg-[#0F172A] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
+      return "inline-flex h-10 items-center justify-center rounded-full border border-white/22 bg-[#0F172A] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
     }
     return "inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white/10 px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16";
   }
@@ -93,11 +91,7 @@ export default function SiteHeaderClient({
 
   function renderAccountMenu(closeMenu: () => void) {
     return (
-      <div
-        className="absolute right-0 top-full z-[120] mt-3 w-60 overflow-hidden rounded-3xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]"
-        role="menu"
-        onClick={function (e) { e.stopPropagation(); }}
-      >
+      <div className="absolute right-0 top-full z-[120] mt-3 w-60 overflow-hidden rounded-3xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]" role="menu" onClick={function (e) { e.stopPropagation(); }}>
         <div className="p-2">
           <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>Dashboard</Link>
           <Link href="/profile" className={menuLinkClass} onClick={closeMenu}>Profile</Link>
@@ -114,11 +108,7 @@ export default function SiteHeaderClient({
 
   function renderMobileMenu() {
     return (
-      <div
-        className="absolute right-0 top-full z-[120] mt-3 w-[min(92vw,23rem)] overflow-hidden rounded-[28px] border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]"
-        role="menu"
-        onClick={function (e) { e.stopPropagation(); }}
-      >
+      <div className="absolute right-0 top-full z-[120] mt-3 w-[min(92vw,23rem)] overflow-hidden rounded-[28px] border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]" role="menu" onClick={function (e) { e.stopPropagation(); }}>
         <div className="p-3">
           <div className="grid grid-cols-1 gap-2">
             <Link href="/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Browse</Link>
@@ -156,19 +146,14 @@ export default function SiteHeaderClient({
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#17337A_0%,#152C6A_58%,#10214F_100%)] text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)]">
       <div className="hidden md:block">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-8 px-4 py-4 lg:px-6 lg:py-5">
-          <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
-            <Image
-              src={LOGO_SRC}
-              alt="Bidra"
-              width={960}
-              height={320}
-              priority
-              className="h-28 w-auto select-none lg:h-32 xl:h-36"
-            />
-          </Link>
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-[34rem_1fr] items-center gap-6 px-4 py-4 lg:grid-cols-[40rem_1fr] lg:px-6 lg:py-5">
+          <div className="min-w-0">
+            <Link href="/" className="inline-flex items-center rounded-lg transition hover:opacity-95" aria-label="Bidra home">
+              <Image src={LOGO_SRC} alt="Bidra" width={1400} height={420} priority className="h-40 w-auto select-none lg:h-48 xl:h-52" />
+            </Link>
+          </div>
 
-          <div className="flex shrink-0 items-center gap-3">
+          <div className="flex items-start justify-end gap-3 self-start pt-1">
             <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
               Sell
             </Link>
@@ -202,7 +187,7 @@ export default function SiteHeaderClient({
         </div>
 
         <div className="border-t border-white/12 bg-[#132657]/95 backdrop-blur">
-          <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,1fr)_17rem] items-center gap-5 px-4 py-2.5 lg:px-6">
+          <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_17rem] items-center gap-5 px-4 py-2.5 lg:px-6">
             <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
               {DESKTOP_LINKS.map(function (item) {
                 return (
@@ -222,19 +207,12 @@ export default function SiteHeaderClient({
 
       <div className="md:hidden">
         <div className="mx-auto px-4 pt-3 pb-2">
-          <div className="flex items-center justify-between gap-3">
-            <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
-              <Image
-                src={LOGO_SRC}
-                alt="Bidra"
-                width={460}
-                height={152}
-                priority
-                className="h-[5rem] w-auto select-none"
-              />
+          <div className="flex items-start justify-between gap-3">
+            <Link href="/" className="inline-flex items-center rounded-lg transition hover:opacity-95" aria-label="Bidra home">
+              <Image src={LOGO_SRC} alt="Bidra" width={700} height={210} priority className="h-[5.6rem] w-auto select-none" />
             </Link>
 
-            <div className="ml-auto flex items-center gap-2">
+            <div className="ml-auto flex items-center gap-2 pt-1">
               <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
                 Sell
               </Link>
