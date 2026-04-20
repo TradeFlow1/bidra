@@ -37,17 +37,11 @@ export default async function HomePage() {
     <main className="bg-[#F7F9FC]">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-5 lg:px-6 lg:py-6">
         <section className="overflow-hidden rounded-[36px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
-          <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.2fr)_24rem] lg:items-end lg:p-10">
+          <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[minmax(0,1.2fr)_24rem] lg:items-center lg:p-10">
             <div>
               <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight text-[#0F172A] sm:text-5xl lg:text-[3.2rem] lg:leading-[1.02]">
                 Buy Now or make an offer.
               </h1>
-
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/listings?type=BUY_NOW" className="bd-btn bd-btn-primary">Buy Now</Link>
-                <Link href="/listings?type=OFFERABLE" className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[#FCD34D] bg-[#FFFBEB] px-5 py-2.5 text-sm font-semibold text-[#92400E] shadow-sm transition hover:bg-[#FEF3C7]">Offers</Link>
-                <Link href="/sell" className="inline-flex min-h-[44px] items-center justify-center rounded-full border border-[#CBD5E1] bg-white px-5 py-2.5 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">Sell</Link>
-              </div>
             </div>
 
             <div className="grid gap-3 rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">

@@ -19,7 +19,6 @@ const DESKTOP_LINKS = [
   { href: "/listings?type=BUY_NOW", label: "Buy Now" },
   { href: "/listings?type=OFFERABLE", label: "Offers" },
   { href: "/watchlist", label: "Watchlist" },
-  { href: "/sell", label: "Sell" },
 ];
 
 const MOBILE_LINKS = [
@@ -81,16 +80,16 @@ export default function SiteHeaderClient({
 
   function utilityButtonClass(isOpen: boolean) {
     if (isOpen) {
-      return "inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-[#0F172A] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
+      return "inline-flex h-10 items-center justify-center rounded-full border border-white/20 bg-[#0F172A] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
     }
-    return "inline-flex h-10 items-center justify-center rounded-full border border-white/14 bg-white/10 px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16";
+    return "inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white/10 px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16";
   }
 
   function railLinkClass(href: string) {
     if (isActive(href)) {
       return "inline-flex h-10 items-center justify-center rounded-full bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm";
     }
-    return "inline-flex h-10 items-center justify-center rounded-full px-4 text-[13px] font-semibold text-white/88 transition hover:bg-white/10 hover:text-white";
+    return "inline-flex h-10 items-center justify-center rounded-full px-4 text-[13px] font-semibold text-white transition hover:bg-white/10";
   }
 
   const searchInputClass = "w-full rounded-full border border-[#CBD5E1] bg-white px-5 py-3 text-sm text-[#0F172A] outline-none placeholder:text-neutral-500 shadow-sm focus:border-[#1D4ED8]";
@@ -175,7 +174,7 @@ export default function SiteHeaderClient({
               width={960}
               height={320}
               priority
-              className="h-24 w-auto select-none lg:h-28 xl:h-32"
+              className="h-28 w-auto select-none lg:h-32 xl:h-36"
             />
           </Link>
 
@@ -241,7 +240,7 @@ export default function SiteHeaderClient({
                 width={460}
                 height={152}
                 priority
-                className="h-[4.1rem] w-auto select-none"
+                className="h-[4.6rem] w-auto select-none"
               />
             </Link>
 
