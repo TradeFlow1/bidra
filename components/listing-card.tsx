@@ -36,7 +36,7 @@ function endsLabel(endsAt: any) {
   const t = formatTimeRemaining(endsAt);
   if (!t) return null;
   if (t === "Ended") return "Ended";
-  return `Ends in ${t}`;
+  return "Ends in " + t;
 }
 
 function cleanText(value: string | null | undefined) {
@@ -68,7 +68,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
 
   const isTimedOffers = isTimedOffersType(listing.type);
   const hasBuyNow = typeof listing.buyNowPrice === "number";
-  const badge = isTimedOffers ? "Timed offers" : hasBuyNow ? "Buy Now" : "Fixed price";
+  const badge = isTimedOffers ? "Highest Offers" : hasBuyNow ? "Buy Now" : "Fixed price";
 
   const primaryCents = isTimedOffers
     ? Number(listing.price)
@@ -84,10 +84,10 @@ export default function ListingCard({ listing }: ListingCardProps) {
 
   return (
     <Link
-      href={`/listings/${listing.id}`}
-      className="group block overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm transition hover:-translate-y-[2px] hover:shadow-xl"
+      href={"/listings/" + listing.id}
+      className="group block overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]"
     >
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-100">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#EEF2F7]">
         {hasMulti ? (
           <ListingThumbCarousel images={listing.images} title={title} />
         ) : (
@@ -96,7 +96,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
               src={fallback}
               alt={title}
               fill
-              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 20vw"
+              sizes="(max-width: 768px) 50vw, (max-width: 1400px) 33vw, 25vw"
               className={isNoPhotos ? "select-none object-contain p-10 opacity-90" : "select-none object-cover transition duration-300 group-hover:scale-[1.02]"}
               draggable={false}
               onDragStart={(e) => e.preventDefault()}
@@ -106,19 +106,24 @@ export default function ListingCard({ listing }: ListingCardProps) {
             />
 
             {isNoPhotos ? (
-              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-black/10 bg-white/95 px-3 py-1 text-[11px] font-semibold tracking-tight text-neutral-700 shadow-sm">
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-black/10 bg-white/96 px-3 py-1 text-[11px] font-semibold tracking-tight text-neutral-700 shadow-sm">
                 Photo coming soon
               </div>
             ) : null}
           </>
         )}
 
-        <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between p-3">
-          <span className="rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-neutral-800 shadow-sm ring-1 ring-black/5">
+        <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3">
+          <span className={isTimedOffers
+            ? "rounded-full border border-amber-200 bg-[#FFFBEB] px-2.5 py-1 text-[11px] font-semibold text-amber-800 shadow-sm"
+            : hasBuyNow
+            ? "rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-800 shadow-sm"
+            : "rounded-full border border-black/10 bg-white/96 px-2.5 py-1 text-[11px] font-semibold text-neutral-800 shadow-sm"
+          }>
             {badge}
           </span>
           {ends ? (
-            <span className="rounded-full bg-black/75 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
+            <span className="rounded-full bg-black/78 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
               {ends}
             </span>
           ) : null}
@@ -126,48 +131,48 @@ export default function ListingCard({ listing }: ListingCardProps) {
       </div>
 
       <div className="space-y-3 p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0 flex-1">
-            <div
-              className="text-[17px] font-bold leading-snug text-[#0b1220] line-clamp-2"
-              style={{
-                display: "-webkit-box",
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-              } as React.CSSProperties}
-            >
-              {title}
-            </div>
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium text-[#475569]">
+            {category ? (
+              <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{category}</span>
+            ) : null}
+            {condition ? (
+              <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{condition}</span>
+            ) : null}
+          </div>
+
+          <div
+            className="text-[17px] font-bold leading-snug text-[#0F172A] line-clamp-2"
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            } as React.CSSProperties}
+          >
+            {title}
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium text-black/65">
-          {category ? (
-            <span className="rounded-full bg-neutral-100 px-2.5 py-1">{category}</span>
-          ) : null}
-          {condition ? (
-            <span className="rounded-full bg-neutral-100 px-2.5 py-1">{condition}</span>
-          ) : null}
-        </div>
-
-        <div className="space-y-1">
+        <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
           {isTimedOffers ? (
             <>
-              <div className="text-[11px] font-semibold uppercase tracking-wide text-amber-700">Current top offer</div>
-              <div className="text-[22px] font-extrabold tracking-tight text-[#0b1220]">{money(primaryCents)}</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-700">Current top offer</div>
+              <div className="mt-1 text-[24px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
+              <div className="mt-1 text-xs text-[#78716C]">Place your best offer before the listing ends.</div>
             </>
           ) : (
             <>
-              <div className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">{hasBuyNow ? "Buy now" : "Price"}</div>
-              <div className="text-[22px] font-extrabold tracking-tight text-[#0b1220]">{money(primaryCents)}</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-700">{hasBuyNow ? "Buy now price" : "Price"}</div>
+              <div className="mt-1 text-[24px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
+              <div className="mt-1 text-xs text-[#64748B]">{hasBuyNow ? "Secure it instantly before someone else does." : "Available at a fixed price."}</div>
             </>
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-3 text-xs text-black/60">
+        <div className="flex items-center justify-between gap-3 text-xs text-[#64748B]">
           <div className="min-w-0 truncate">{location || "Location on request"}</div>
-          <div className="font-semibold text-black/45">View item</div>
+          <div className="font-semibold text-[#0F172A]">{isTimedOffers ? "View offer details" : "View item"}</div>
         </div>
       </div>
     </Link>

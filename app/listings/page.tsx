@@ -45,6 +45,12 @@ function buildClearHref(current: SearchParams | undefined, keyToRemove: keyof Se
   return params.length ? "/listings?" + params.join("&") : "/listings";
 }
 
+function saleTypeLabel(type: string) {
+  if (type === "BUY_NOW") return "Buy Now";
+  if (type === "OFFERABLE") return "Highest Offers";
+  return "All sale types";
+}
+
 export default async function ListingsPage({
   searchParams,
 }: {
@@ -185,6 +191,18 @@ export default async function ListingsPage({
   const userId = session?.user?.id ?? null;
 
   const watchedSet = new Set<string>();
+  if (userId && listings.length) {
+    const watchRows = await prisma.watchlist.findMany({
+      where: {
+        userId: userId,
+        listingId: { in: listings.map(function (l) { return String(l.id); }) },
+      },
+      select: { listingId: true },
+    });
+    for (let i = 0; i < watchRows.length; i += 1) {
+      watchedSet.add(String(watchRows[i].listingId));
+    }
+  }
 
   const hasAnyFilter = !!(
     q ||
@@ -198,28 +216,25 @@ export default async function ListingsPage({
   );
 
   const resultsCount = listings.length;
-  const showResultsText =
-    resultsCount === 0 ? "No results" : hasAnyFilter ? "Update results" : "Show results";
-  const clearText = resultsCount === 0 && hasAnyFilter ? "Clear filters" : "Clear all";
-  const resultsLabel = hasAnyFilter ? `${listings.length} matching listings` : `${listings.length} latest listings`;
+  const resultsLabel = hasAnyFilter ? (listings.length + " matching listings") : (listings.length + " latest listings");
 
   const activeFilters: { label: string; href: string }[] = [];
-  if (q) activeFilters.push({ label: `Search: ${q}`, href: buildClearHref(searchParams, "q") });
-  if (category) activeFilters.push({ label: `Category: ${category}`, href: buildClearHref(searchParams, "category") });
-  if (type) activeFilters.push({ label: `Sale type: ${type === "BUY_NOW" ? "Buy Now" : "Offerable"}`, href: buildClearHref(searchParams, "type") });
-  if (condition) activeFilters.push({ label: `Condition: ${condition}`, href: buildClearHref(searchParams, "condition") });
-  if (location) activeFilters.push({ label: `Location: ${location}`, href: buildClearHref(searchParams, "location") });
-  if (cleanStr(searchParams?.min)) activeFilters.push({ label: `Min: $${cleanStr(searchParams?.min)}`, href: buildClearHref(searchParams, "min") });
-  if (cleanStr(searchParams?.max)) activeFilters.push({ label: `Max: $${cleanStr(searchParams?.max)}`, href: buildClearHref(searchParams, "max") });
+  if (q) activeFilters.push({ label: "Search: " + q, href: buildClearHref(searchParams, "q") });
+  if (category) activeFilters.push({ label: "Category: " + category, href: buildClearHref(searchParams, "category") });
+  if (type) activeFilters.push({ label: "Sale type: " + saleTypeLabel(type), href: buildClearHref(searchParams, "type") });
+  if (condition) activeFilters.push({ label: "Condition: " + condition, href: buildClearHref(searchParams, "condition") });
+  if (location) activeFilters.push({ label: "Location: " + location, href: buildClearHref(searchParams, "location") });
+  if (cleanStr(searchParams?.min)) activeFilters.push({ label: "Min: $" + cleanStr(searchParams?.min), href: buildClearHref(searchParams, "min") });
+  if (cleanStr(searchParams?.max)) activeFilters.push({ label: "Max: $" + cleanStr(searchParams?.max), href: buildClearHref(searchParams, "max") });
   if (sort) {
     const sortLabel = sort === "price_asc" ? "Price: low to high" : sort === "price_desc" ? "Price: high to low" : sort;
-    activeFilters.push({ label: `Sort: ${sortLabel}`, href: buildClearHref(searchParams, "sort") });
+    activeFilters.push({ label: "Sort: " + sortLabel, href: buildClearHref(searchParams, "sort") });
   }
 
   const FiltersForm = () => (
     <form action="/listings" method="get" className="space-y-4">
-      <div className="grid gap-3 md:grid-cols-12">
-        <div className="md:col-span-4">
+      <div className="grid gap-3 xl:grid-cols-12">
+        <div className="xl:col-span-4">
           <div className="bd-label text-xs">Search</div>
           <input
             name="q"
@@ -232,7 +247,7 @@ export default async function ListingsPage({
           <button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Search</button>
         </div>
 
-        <div className="md:col-span-4">
+        <div className="xl:col-span-3">
           <div className="bd-label text-xs">Category</div>
           <select name="category" defaultValue={category} className="bd-input">
             <option value="">All categories</option>
@@ -253,27 +268,27 @@ export default async function ListingsPage({
           </select>
         </div>
 
-        <div className="md:col-span-2">
+        <div className="xl:col-span-2">
           <div className="bd-label text-xs">Sale type</div>
           <select name="type" defaultValue={type} className="bd-input">
-            <option value="">Any</option>
+            <option value="">All</option>
             <option value="BUY_NOW">Buy Now</option>
-            <option value="OFFERABLE">Offerable</option>
+            <option value="OFFERABLE">Highest Offers</option>
           </select>
         </div>
 
-        <div className="md:col-span-2">
+        <div className="xl:col-span-3">
           <div className="bd-label text-xs">Sort</div>
           <select name="sort" defaultValue={sort} className="bd-input">
-            <option value="">Newest</option>
+            <option value="">Newest first</option>
             <option value="price_asc">Price: low to high</option>
             <option value="price_desc">Price: high to low</option>
           </select>
         </div>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-12">
-        <div className="md:col-span-4">
+      <div className="grid gap-3 xl:grid-cols-12">
+        <div className="xl:col-span-3">
           <div className="bd-label text-xs">Condition</div>
           <select name="condition" defaultValue={condition} className="bd-input">
             <option value="">Any</option>
@@ -284,19 +299,23 @@ export default async function ListingsPage({
           </select>
         </div>
 
-        <div className="md:col-span-4">
+        <div className="xl:col-span-3">
           <div className="bd-label text-xs">Location</div>
           <input name="location" defaultValue={location} placeholder="Suburb, State" className="bd-input" />
         </div>
 
-        <div className="md:col-span-2">
-          <div className="bd-label text-xs">Min price (AUD)</div>
+        <div className="xl:col-span-2">
+          <div className="bd-label text-xs">Min price</div>
           <input name="min" defaultValue={(searchParams?.min ?? "").trim()} placeholder="Min price" className="bd-input" inputMode="decimal" />
         </div>
 
-        <div className="md:col-span-2">
-          <div className="bd-label text-xs">Max price (AUD)</div>
+        <div className="xl:col-span-2">
+          <div className="bd-label text-xs">Max price</div>
           <input name="max" defaultValue={(searchParams?.max ?? "").trim()} placeholder="Max price" className="bd-input" inputMode="decimal" />
+        </div>
+
+        <div className="xl:col-span-2 xl:flex xl:items-end">
+          <button type="submit" className="bd-btn bd-btn-primary w-full">Update results</button>
         </div>
       </div>
 
@@ -305,132 +324,156 @@ export default async function ListingsPage({
           Price filters must be numbers, for example 10 or 10.50.
         </div>
       ) : null}
-
-      <div className="flex flex-wrap items-center gap-2">
-        <button type="submit" className="bd-btn bd-btn-primary">{showResultsText}</button>
-        {hasAnyFilter ? <Link href="/listings" className="bd-btn bd-btn-secondary">{clearText}</Link> : null}
-      </div>
     </form>
   );
 
   return (
-    <main>
-      <div className="bd-container">
-        <section className="section py-5 space-y-4">
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-5 shadow-sm">
-            <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Marketplace</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-neutral-900 sm:text-4xl">Browse listings</h1>
-              <p className="mt-2 text-sm text-neutral-600 sm:text-base">
-                Discover local items from verified Bidra sellers. Filter by category, condition, location, price, and sale type.
+    <main className="bg-[#F7F9FC]">
+      <div className="mx-auto w-full max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
+        <section className="rounded-[32px] border border-[#D8E1F0] bg-[linear-gradient(180deg,#FFFFFF_0%,#F5F8FF_100%)] p-5 shadow-sm sm:p-6 lg:p-8">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_24rem] lg:items-end">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#1D4ED8]">Bidra marketplace</div>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl lg:text-[2.8rem]">Buy now or make your best offer.</h1>
+              <p className="mt-3 max-w-2xl text-sm text-[#475569] sm:text-base">
+                Browse trusted local listings with clear sale types, fast Buy Now checkout, and competitive highest-offer buying.
               </p>
-              <div className="mt-3 inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-sm font-semibold text-neutral-700 shadow-sm">
-                {resultsLabel}
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Link href="/listings?type=BUY_NOW" className="inline-flex items-center rounded-full border border-[#BFDBFE] bg-white px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm">Shop Buy Now</Link>
+                <Link href="/listings?type=OFFERABLE" className="inline-flex items-center rounded-full border border-[#FDE68A] bg-[#FFFBEB] px-4 py-2 text-sm font-semibold text-[#92400E] shadow-sm">Browse Highest Offers</Link>
+                <Link href="/sell" className="inline-flex items-center rounded-full border border-[#CBD5E1] bg-white px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm">Sell on Bidra</Link>
+              </div>
+            </div>
+
+            <div className="grid gap-3 rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:grid-cols-3 lg:grid-cols-1">
+              <div className="rounded-2xl bg-[#F8FAFC] p-4">
+                <div className="text-[11px] font-semibold uppercase tracking-wide text-[#64748B]">Live marketplace</div>
+                <div className="mt-1 text-2xl font-extrabold tracking-tight text-[#0F172A]">{resultsCount}</div>
+                <div className="mt-1 text-xs text-[#64748B]">{resultsLabel}</div>
+              </div>
+              <div className="rounded-2xl bg-[#F8FAFC] p-4">
+                <div className="text-[11px] font-semibold uppercase tracking-wide text-[#64748B]">Sale type</div>
+                <div className="mt-1 text-base font-bold text-[#0F172A]">{type ? saleTypeLabel(type) : "Browse all"}</div>
+                <div className="mt-1 text-xs text-[#64748B]">Switch between instant checkout and offer-led buying.</div>
+              </div>
+              <div className="rounded-2xl bg-[#F8FAFC] p-4">
+                <div className="text-[11px] font-semibold uppercase tracking-wide text-[#64748B]">Trust first</div>
+                <div className="mt-1 text-base font-bold text-[#0F172A]">Local and transparent</div>
+                <div className="mt-1 text-xs text-[#64748B]">Clear pricing, visible seller context, and simpler local commerce.</div>
               </div>
             </div>
           </div>
+        </section>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <div className="text-sm font-semibold text-neutral-900">Refine your search</div>
-                <div className="mt-1 text-xs text-neutral-600">
-                  Narrow results by keyword, category, location, price, and listing type.
+        <section className="mt-5 grid gap-5 xl:grid-cols-[19rem_minmax(0,1fr)]">
+          <aside className="xl:sticky xl:top-24 xl:self-start">
+            <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
+              <div className="border-b border-[#E2E8F0] px-5 py-4">
+                <div className="text-sm font-bold text-[#0F172A]">Filter marketplace</div>
+                <div className="mt-1 text-xs text-[#64748B]">Refine by keyword, sale type, category, price, condition, and location.</div>
+              </div>
+              <div className="p-4">
+                <MobileFiltersToggle>
+                  <FiltersForm />
+                </MobileFiltersToggle>
+                <div className="hidden xl:block">
+                  <FiltersForm />
                 </div>
               </div>
               {hasAnyFilter ? (
-                <Link href="/listings" className="text-sm font-semibold text-neutral-700 underline underline-offset-2">
-                  Clear all filters
-                </Link>
+                <div className="border-t border-[#E2E8F0] px-5 py-4">
+                  <Link href="/listings" className="text-sm font-semibold text-[#1D4ED8] underline underline-offset-2">
+                    Clear all filters
+                  </Link>
+                </div>
               ) : null}
             </div>
+          </aside>
 
-            <div className="mt-4 rounded-2xl bg-neutral-50 p-3 sm:p-4">
-              <MobileFiltersToggle>
-                <FiltersForm />
-              </MobileFiltersToggle>
-
-              <div className="hidden md:block">
-                <FiltersForm />
-              </div>
-            </div>
-
-            {activeFilters.length > 0 ? (
-              <div className="mt-4">
-                <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Active filters</div>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {activeFilters.map(function (item) {
-                    return (
-                      <Link
-                        key={item.label}
-                        href={item.href}
-                        className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-medium text-neutral-700 shadow-sm"
-                      >
-                        <span>{item.label}</span>
-                        <span className="ml-2 text-neutral-400">×</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : null}
-          </div>
-
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <div className="text-sm font-semibold text-neutral-900">Results</div>
-              <div className="mt-1 text-xs text-neutral-600">
-                {hasAnyFilter ? "Updated from your current filters." : "Showing the latest marketplace listings."}
-              </div>
-            </div>
-            {hasAnyFilter ? (
-              <div className="text-xs font-medium text-neutral-500">
-                {resultsCount} found
-              </div>
-            ) : null}
-          </div>
-
-          <div className="browseList w-full grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {listings.length === 0 ? (
-              <div className="col-span-full rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-10 text-center">
-                <div className="mx-auto max-w-md">
-                  <div className="text-lg font-bold text-neutral-900">No listings match your filters</div>
-                  <p className="mt-2 text-sm text-neutral-600">
-                    Try widening your price range, changing the category, or clearing filters to see more listings.
-                  </p>
-                  <div className="mt-4 flex flex-wrap justify-center gap-2">
-                    <Link href="/listings" className="bd-btn bd-btn-primary">View all listings</Link>
-                    <Link href="/sell/new" className="bd-btn bd-btn-ghost">List an item</Link>
+          <div className="space-y-4">
+            <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <div className="text-sm font-bold text-[#0F172A]">Marketplace results</div>
+                  <div className="mt-1 text-sm text-[#64748B]">
+                    {hasAnyFilter ? "Updated from your selected filters." : "Showing the latest Bidra listings across the marketplace."}
                   </div>
                 </div>
+                <div className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-1 text-sm font-semibold text-[#334155]">
+                  {resultsCount} found
+                </div>
               </div>
-            ) : (
-              listings.map(function (l) {
-                const currentOffer = l.offers && l.offers.length ? l.offers[0].amount : null;
-                const displayPrice = l.type === "OFFERABLE"
-                  ? ((currentOffer ?? l.price) as number)
-                  : ((l.buyNowPrice ?? l.price) as number);
 
-                return (
-                  <ListingCard
-                    key={l.id}
-                    listing={{
-                      id: l.id,
-                      title: l.title,
-                      description: l.description,
-                      price: displayPrice,
-                      buyNowPrice: l.buyNowPrice,
-                      type: l.type,
-                      category: l.category,
-                      location: l.location,
-                      images: (l as unknown as { images?: unknown[] | null }).images ?? null,
-                      status: (l as unknown as { status?: string | null }).status ?? "ACTIVE",
-                    }}
-                    initiallyWatched={watchedSet.has(l.id)}
-                  />
-                );
-              })
-            )}
+              {activeFilters.length > 0 ? (
+                <div className="mt-4">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Active filters</div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {activeFilters.map(function (item) {
+                      return (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] shadow-sm"
+                        >
+                          <span>{item.label}</span>
+                          <span className="ml-2 text-[#94A3B8]">×</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : null}
+
+              <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                <Link href="/listings" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">All listings</Link>
+                <Link href="/listings?type=BUY_NOW" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Buy Now only</Link>
+                <Link href="/listings?type=OFFERABLE" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Highest Offers only</Link>
+              </div>
+            </div>
+
+            <div className="browseList w-full grid grid-cols-2 gap-4 lg:grid-cols-3 2xl:grid-cols-4">
+              {listings.length === 0 ? (
+                <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
+                  <div className="mx-auto max-w-md">
+                    <div className="text-lg font-bold text-[#0F172A]">No listings match your filters</div>
+                    <p className="mt-2 text-sm text-[#64748B]">
+                      Try widening your price range, changing the category, or clearing filters to see more listings.
+                    </p>
+                    <div className="mt-4 flex flex-wrap justify-center gap-2">
+                      <Link href="/listings" className="bd-btn bd-btn-primary">View all listings</Link>
+                      <Link href="/sell/new" className="bd-btn bd-btn-ghost">List an item</Link>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                listings.map(function (l) {
+                  const currentOffer = l.offers && l.offers.length ? l.offers[0].amount : null;
+                  const displayPrice = l.type === "OFFERABLE"
+                    ? ((currentOffer ?? l.price) as number)
+                    : ((l.buyNowPrice ?? l.price) as number);
+
+                  return (
+                    <ListingCard
+                      key={l.id}
+                      listing={{
+                        id: l.id,
+                        title: l.title,
+                        description: l.description,
+                        price: displayPrice,
+                        buyNowPrice: l.buyNowPrice,
+                        type: l.type,
+                        category: l.category,
+                        condition: l.condition,
+                        location: l.location,
+                        images: (l as unknown as { images?: unknown[] | null }).images ?? null,
+                        status: (l as unknown as { status?: string | null }).status ?? "ACTIVE",
+                      }}
+                      initiallyWatched={watchedSet.has(l.id)}
+                    />
+                  );
+                })
+              )}
+            </div>
           </div>
         </section>
       </div>
