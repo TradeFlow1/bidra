@@ -146,14 +146,21 @@ export default function SiteHeaderClient({
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#17337A_0%,#152C6A_58%,#10214F_100%)] text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)]">
       <div className="hidden md:block">
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-[34rem_1fr] items-center gap-6 px-4 py-2 lg:grid-cols-[40rem_1fr] lg:px-6 lg:py-3">
-          <div className="min-w-0">
-            <Link href="/" className="inline-flex items-center rounded-lg transition hover:opacity-95" aria-label="Bidra home">
-              <Image src={LOGO_SRC} alt="Bidra" width={1400} height={420} priority className="h-40 w-auto select-none lg:h-48 xl:h-52" />
-            </Link>
-          </div>
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-4 py-3 lg:px-6">
+          <Link href="/" className="inline-flex items-center rounded-lg transition hover:opacity-95" aria-label="Bidra home">
+            <div className="relative h-[5.6rem] w-[21rem] lg:h-[6.2rem] lg:w-[24rem] xl:h-[6.6rem] xl:w-[26rem]">
+              <Image
+                src={LOGO_SRC}
+                alt="Bidra"
+                fill
+                priority
+                className="object-contain object-left"
+                sizes="(max-width: 1280px) 24rem, 26rem"
+              />
+            </div>
+          </Link>
 
-          <div className="flex items-start justify-end gap-3 self-start pt-1">
+          <div className="flex shrink-0 items-center gap-3">
             <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
               Sell
             </Link>
@@ -207,12 +214,21 @@ export default function SiteHeaderClient({
 
       <div className="md:hidden">
         <div className="mx-auto px-4 pt-2 pb-2">
-          <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center justify-between gap-3">
             <Link href="/" className="inline-flex items-center rounded-lg transition hover:opacity-95" aria-label="Bidra home">
-              <Image src={LOGO_SRC} alt="Bidra" width={700} height={210} priority className="h-[5.6rem] w-auto select-none" />
+              <div className="relative h-[4.8rem] w-[16rem]">
+                <Image
+                  src={LOGO_SRC}
+                  alt="Bidra"
+                  fill
+                  priority
+                  className="object-contain object-left"
+                  sizes="16rem"
+                />
+              </div>
             </Link>
 
-            <div className="ml-auto flex items-center gap-2 pt-1">
+            <div className="ml-auto flex items-center gap-2">
               <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
                 Sell
               </Link>
