@@ -71,28 +71,18 @@ export default function SiteHeaderClient({
     };
   }, []);
 
-  function isActive(href: string) {
-    if (!pathname) return false;
-    if (href === "/listings?type=BUY_NOW") return pathname === "/listings";
-    if (href === "/listings?type=OFFERABLE") return pathname === "/listings";
-    return pathname === href || pathname.startsWith(href + "/");
-  }
-
   function utilityButtonClass(isOpen: boolean) {
     if (isOpen) {
-      return "inline-flex h-11 items-center justify-center rounded-full border border-white/20 bg-[#0F172A] px-5 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
+      return "inline-flex h-10 items-center justify-center rounded-full border border-white/20 bg-[#0F172A] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
     }
-    return "inline-flex h-11 items-center justify-center rounded-full border border-white/16 bg-white/10 px-5 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16";
+    return "inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white/10 px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16";
   }
 
-  function railLinkClass(href: string) {
-    if (isActive(href)) {
-      return "inline-flex h-11 items-center justify-center rounded-full bg-white px-5 text-[13px] font-semibold text-[#0F172A] shadow-sm";
-    }
-    return "inline-flex h-11 items-center justify-center rounded-full px-5 text-[13px] font-semibold text-white transition hover:bg-white/10";
+  function railLinkClass() {
+    return "inline-flex h-10 items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]";
   }
 
-  const searchInputClass = "w-full rounded-full border border-[#CBD5E1] bg-white px-5 py-3 text-sm text-[#0F172A] outline-none placeholder:text-neutral-500 shadow-sm focus:border-[#1D4ED8]";
+  const searchInputClass = "w-full rounded-full border border-[#CBD5E1] bg-white px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-neutral-500 shadow-sm focus:border-[#1D4ED8]";
   const menuLinkClass = "block w-full rounded-2xl px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
 
   const badge = notificationCount > 0 ? (
@@ -166,7 +156,7 @@ export default function SiteHeaderClient({
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#17337A_0%,#152C6A_58%,#10214F_100%)] text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)]">
       <div className="hidden md:block">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-8 px-4 py-7 lg:px-6 lg:py-8">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-8 px-4 py-4 lg:px-6 lg:py-5">
           <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
             <Image
               src={LOGO_SRC}
@@ -174,12 +164,12 @@ export default function SiteHeaderClient({
               width={960}
               height={320}
               priority
-              className="h-40 w-auto select-none lg:h-44 xl:h-48"
+              className="h-28 w-auto select-none lg:h-32 xl:h-36"
             />
           </Link>
 
           <div className="flex shrink-0 items-center gap-3">
-            <Link href="/sell" className="inline-flex h-11 items-center justify-center rounded-full border border-white/16 bg-white px-5 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
+            <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
               Sell
             </Link>
 
@@ -203,7 +193,7 @@ export default function SiteHeaderClient({
             ) : (
               <>
                 <Link href="/auth/login" className={utilityButtonClass(false)}>Sign in</Link>
-                <Link href="/auth/register" className="inline-flex h-11 items-center justify-center rounded-full border border-white/18 bg-white/10 px-5 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16">
+                <Link href="/auth/register" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white/10 px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16">
                   Create account
                 </Link>
               </>
@@ -212,18 +202,18 @@ export default function SiteHeaderClient({
         </div>
 
         <div className="border-t border-white/12 bg-[#132657]/95 backdrop-blur">
-          <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,1fr)_19rem] items-center gap-6 px-4 py-3 lg:px-6">
+          <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,1fr)_17rem] items-center gap-5 px-4 py-2.5 lg:px-6">
             <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
               {DESKTOP_LINKS.map(function (item) {
                 return (
-                  <Link key={item.href + ":" + item.label} href={item.href} className={railLinkClass(item.href)}>
+                  <Link key={item.href + ":" + item.label} href={item.href} className={railLinkClass()}>
                     {item.label}
                   </Link>
                 );
               })}
             </div>
 
-            <div className="justify-self-end w-full max-w-[19rem]">
+            <div className="justify-self-end w-full max-w-[17rem]">
               <SearchBar className="w-full" inputClassName={searchInputClass} placeholder="Search Bidra" />
             </div>
           </div>
@@ -231,7 +221,7 @@ export default function SiteHeaderClient({
       </div>
 
       <div className="md:hidden">
-        <div className="mx-auto px-4 pt-4 pb-3">
+        <div className="mx-auto px-4 pt-3 pb-2">
           <div className="flex items-center justify-between gap-3">
             <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
               <Image
@@ -240,12 +230,12 @@ export default function SiteHeaderClient({
                 width={460}
                 height={152}
                 priority
-                className="h-[6.2rem] w-auto select-none"
+                className="h-[5rem] w-auto select-none"
               />
             </Link>
 
             <div className="ml-auto flex items-center gap-2">
-              <Link href="/sell" className="inline-flex h-11 items-center justify-center rounded-full border border-white/18 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
+              <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
                 Sell
               </Link>
 
@@ -268,13 +258,13 @@ export default function SiteHeaderClient({
             </div>
           </div>
 
-          <div className="mt-3 grid grid-cols-3 gap-2">
+          <div className="mt-2 grid grid-cols-3 gap-2">
             {MOBILE_LINKS.map(function (item) {
               return (
                 <Link
                   key={item.href + ":" + item.label}
                   href={item.href}
-                  className="inline-flex min-h-[42px] items-center justify-center rounded-full border border-white/14 bg-white/8 px-3 text-center text-[12px] font-semibold text-white shadow-sm transition hover:bg-white/16"
+                  className="inline-flex min-h-[40px] items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-3 text-center text-[12px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]"
                 >
                   {item.label}
                 </Link>
@@ -283,7 +273,7 @@ export default function SiteHeaderClient({
           </div>
         </div>
 
-        <div className="border-t border-white/12 bg-[#132657]/95 px-4 py-3 backdrop-blur">
+        <div className="border-t border-white/12 bg-[#132657]/95 px-4 py-2.5 backdrop-blur">
           <div className="mx-auto max-w-6xl">
             <SearchBar className="w-full" inputClassName={searchInputClass} placeholder="Search Bidra" />
           </div>
