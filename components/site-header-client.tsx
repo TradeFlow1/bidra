@@ -146,7 +146,7 @@ export default function SiteHeaderClient({
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#17337A_0%,#152C6A_58%,#10214F_100%)] text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)]">
       <div className="hidden md:block">
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-[34rem_1fr] items-center gap-6 px-4 py-4 lg:grid-cols-[40rem_1fr] lg:px-6 lg:py-5">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-[34rem_1fr] items-center gap-6 px-4 py-2 lg:grid-cols-[40rem_1fr] lg:px-6 lg:py-3">
           <div className="min-w-0">
             <Link href="/" className="inline-flex items-center rounded-lg transition hover:opacity-95" aria-label="Bidra home">
               <Image src={LOGO_SRC} alt="Bidra" width={1400} height={420} priority className="h-40 w-auto select-none lg:h-48 xl:h-52" />
@@ -187,7 +187,7 @@ export default function SiteHeaderClient({
         </div>
 
         <div className="border-t border-white/12 bg-[#132657]/95 backdrop-blur">
-          <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_17rem] items-center gap-5 px-4 py-2.5 lg:px-6">
+          <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_17rem] items-center gap-5 px-4 py-2 lg:px-6">
             <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
               {DESKTOP_LINKS.map(function (item) {
                 return (
@@ -206,7 +206,7 @@ export default function SiteHeaderClient({
       </div>
 
       <div className="md:hidden">
-        <div className="mx-auto px-4 pt-3 pb-2">
+        <div className="mx-auto px-4 pt-2 pb-2">
           <div className="flex items-start justify-between gap-3">
             <Link href="/" className="inline-flex items-center rounded-lg transition hover:opacity-95" aria-label="Bidra home">
               <Image src={LOGO_SRC} alt="Bidra" width={700} height={210} priority className="h-[5.6rem] w-auto select-none" />
@@ -251,7 +251,7 @@ export default function SiteHeaderClient({
           </div>
         </div>
 
-        <div className="border-t border-white/12 bg-[#132657]/95 px-4 py-2.5 backdrop-blur">
+        <div className="border-t border-white/12 bg-[#132657]/95 px-4 py-2 backdrop-blur">
           <div className="mx-auto max-w-6xl">
             <SearchBar className="w-full" inputClassName={searchInputClass} placeholder="Search Bidra" />
           </div>
