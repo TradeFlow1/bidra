@@ -68,7 +68,6 @@ export default function ListingCard({ listing }: ListingCardProps) {
 
   const isTimedOffers = isTimedOffersType(listing.type);
   const hasBuyNow = typeof listing.buyNowPrice === "number";
-  const badge = isTimedOffers ? "Highest Offers" : hasBuyNow ? "Buy Now" : "Fixed price";
 
   const primaryCents = isTimedOffers
     ? Number(listing.price)
@@ -99,8 +98,8 @@ export default function ListingCard({ listing }: ListingCardProps) {
               sizes="(max-width: 768px) 50vw, (max-width: 1400px) 33vw, 25vw"
               className={isNoPhotos ? "select-none object-contain p-10 opacity-90" : "select-none object-cover transition duration-300 group-hover:scale-[1.02]"}
               draggable={false}
-              onDragStart={(e) => e.preventDefault()}
-              onContextMenu={(e) => e.preventDefault()}
+              onDragStart={function (e) { e.preventDefault(); }}
+              onContextMenu={function (e) { e.preventDefault(); }}
               style={{ userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none" } as React.CSSProperties}
               unoptimized
             />
@@ -120,7 +119,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
             ? "rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-800 shadow-sm"
             : "rounded-full border border-black/10 bg-white/96 px-2.5 py-1 text-[11px] font-semibold text-neutral-800 shadow-sm"
           }>
-            {badge}
+            {isTimedOffers ? "Offers" : hasBuyNow ? "Buy Now" : "Fixed"}
           </span>
           {ends ? (
             <span className="rounded-full bg-black/78 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
@@ -133,12 +132,8 @@ export default function ListingCard({ listing }: ListingCardProps) {
       <div className="space-y-3 p-4">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium text-[#475569]">
-            {category ? (
-              <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{category}</span>
-            ) : null}
-            {condition ? (
-              <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{condition}</span>
-            ) : null}
+            {category ? <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{category}</span> : null}
+            {condition ? <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{condition}</span> : null}
           </div>
 
           <div
@@ -155,24 +150,13 @@ export default function ListingCard({ listing }: ListingCardProps) {
         </div>
 
         <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-          {isTimedOffers ? (
-            <>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-700">Current top offer</div>
-              <div className="mt-1 text-[24px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
-              <div className="mt-1 text-xs text-[#78716C]">Place your best offer before the listing ends.</div>
-            </>
-          ) : (
-            <>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-700">{hasBuyNow ? "Buy now price" : "Price"}</div>
-              <div className="mt-1 text-[24px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
-              <div className="mt-1 text-xs text-[#64748B]">{hasBuyNow ? "Secure it instantly before someone else does." : "Available at a fixed price."}</div>
-            </>
-          )}
+          <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Top offer" : "Price"}</div>
+          <div className="mt-1 text-[24px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
         </div>
 
         <div className="flex items-center justify-between gap-3 text-xs text-[#64748B]">
           <div className="min-w-0 truncate">{location || "Location on request"}</div>
-          <div className="font-semibold text-[#0F172A]">{isTimedOffers ? "View offer details" : "View item"}</div>
+          <div className="font-semibold text-[#0F172A]">{isTimedOffers ? "View" : "View"}</div>
         </div>
       </div>
     </Link>

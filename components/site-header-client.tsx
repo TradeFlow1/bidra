@@ -14,18 +14,18 @@ type SessionLike = {
 
 const LOGO_SRC = "/brand/bidra-kangaroo-logo.png";
 
-const DESKTOP_PRIMARY_LINKS = [
+const DESKTOP_LINKS = [
   { href: "/listings", label: "Browse" },
   { href: "/listings?type=BUY_NOW", label: "Buy Now" },
-  { href: "/listings?type=OFFERABLE", label: "Highest Offers" },
+  { href: "/listings?type=OFFERABLE", label: "Offers" },
   { href: "/watchlist", label: "Watchlist" },
   { href: "/sell", label: "Sell" },
 ];
 
-const MOBILE_QUICK_LINKS = [
+const MOBILE_LINKS = [
   { href: "/listings", label: "Browse" },
   { href: "/listings?type=BUY_NOW", label: "Buy Now" },
-  { href: "/listings?type=OFFERABLE", label: "Highest Offers" },
+  { href: "/listings?type=OFFERABLE", label: "Offers" },
 ];
 
 export default function SiteHeaderClient({
@@ -43,7 +43,7 @@ export default function SiteHeaderClient({
 
   const isAuthed = !!session?.user?.id;
 
-  useEffect(() => {
+  useEffect(function () {
     function onDocClick(e: MouseEvent) {
       const target = e.target as Node | null;
 
@@ -66,7 +66,7 @@ export default function SiteHeaderClient({
     document.addEventListener("click", onDocClick);
     document.addEventListener("keydown", onDocKeyDown);
 
-    return () => {
+    return function () {
       document.removeEventListener("click", onDocClick);
       document.removeEventListener("keydown", onDocKeyDown);
     };
@@ -83,14 +83,14 @@ export default function SiteHeaderClient({
     if (isOpen) {
       return "inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-[#0F172A] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
     }
-    return "inline-flex h-10 items-center justify-center rounded-full border border-white/14 bg-white/12 px-4 text-[13px] font-semibold text-white shadow-sm backdrop-blur transition hover:bg-white/18";
+    return "inline-flex h-10 items-center justify-center rounded-full border border-white/14 bg-white/10 px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16";
   }
 
   function railLinkClass(href: string) {
     if (isActive(href)) {
-      return "inline-flex h-11 items-center justify-center rounded-full bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm";
+      return "inline-flex h-10 items-center justify-center rounded-full bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm";
     }
-    return "inline-flex h-11 items-center justify-center rounded-full px-4 text-[13px] font-semibold text-white/88 transition hover:bg-white/12 hover:text-white";
+    return "inline-flex h-10 items-center justify-center rounded-full px-4 text-[13px] font-semibold text-white/88 transition hover:bg-white/10 hover:text-white";
   }
 
   const searchInputClass = "w-full rounded-full border border-[#CBD5E1] bg-white px-5 py-3 text-sm text-[#0F172A] outline-none placeholder:text-neutral-500 shadow-sm focus:border-[#1D4ED8]";
@@ -107,12 +107,8 @@ export default function SiteHeaderClient({
       <div
         className="absolute right-0 top-full z-[120] mt-3 w-60 overflow-hidden rounded-3xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]"
         role="menu"
-        onClick={(e) => e.stopPropagation()}
+        onClick={function (e) { e.stopPropagation(); }}
       >
-        <div className="border-b border-black/8 bg-neutral-50 px-4 py-3">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Your Bidra</div>
-          <div className="mt-1 text-sm font-semibold text-neutral-950">Account and activity</div>
-        </div>
         <div className="p-2">
           <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>Dashboard</Link>
           <Link href="/profile" className={menuLinkClass} onClick={closeMenu}>Profile</Link>
@@ -132,40 +128,34 @@ export default function SiteHeaderClient({
       <div
         className="absolute right-0 top-full z-[120] mt-3 w-[min(92vw,23rem)] overflow-hidden rounded-[28px] border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]"
         role="menu"
-        onClick={(e) => e.stopPropagation()}
+        onClick={function (e) { e.stopPropagation(); }}
       >
-        <div className="border-b border-black/8 bg-neutral-50 px-4 py-4">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Bidra marketplace</div>
-          <div className="mt-1 text-sm font-semibold text-neutral-950">{isAuthed ? "Buy, save, and sell with confidence" : "Browse, buy now, or make your best offer"}</div>
-        </div>
-
         <div className="p-3">
           <div className="grid grid-cols-1 gap-2">
-            <Link href="/listings" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Browse all listings</Link>
-            <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Browse Buy Now</Link>
-            <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Browse Highest Offers</Link>
-            <Link href="/watchlist" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Watchlist</Link>
-            <Link href="/sell" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Sell on Bidra</Link>
+            <Link href="/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Browse</Link>
+            <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buy Now</Link>
+            <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Offers</Link>
+            <Link href="/watchlist" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Watchlist</Link>
+            <Link href="/sell" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Sell</Link>
           </div>
 
           {isAuthed ? (
             <div className="mt-3 border-t border-black/10 pt-3">
               <div className="grid grid-cols-1 gap-2">
-                <Link href="/dashboard" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
-                <Link href="/messages" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Messages</Link>
-                <Link href="/orders" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Orders</Link>
-                <Link href="/notifications" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}</Link>
-                <Link href="/profile" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Profile</Link>
+                <Link href="/dashboard" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Dashboard</Link>
+                <Link href="/messages" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Messages</Link>
+                <Link href="/orders" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Orders</Link>
+                <Link href="/profile" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Profile</Link>
                 <div className="mt-2 border-t border-black/10 pt-2">
-                  <Link href="/logout" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Sign out</Link>
+                  <Link href="/logout" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Sign out</Link>
                 </div>
               </div>
             </div>
           ) : (
             <div className="mt-3 border-t border-black/10 pt-3">
               <div className="grid grid-cols-1 gap-2">
-                <Link href="/auth/login" className="bd-btn bd-btn-primary text-center" onClick={() => setMobileMenuOpen(false)}>Sign in</Link>
-                <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center" onClick={() => setMobileMenuOpen(false)}>Create account</Link>
+                <Link href="/auth/login" className="bd-btn bd-btn-primary text-center" onClick={function () { setMobileMenuOpen(false); }}>Sign in</Link>
+                <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center" onClick={function () { setMobileMenuOpen(false); }}>Create account</Link>
               </div>
             </div>
           )}
@@ -177,36 +167,28 @@ export default function SiteHeaderClient({
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#17337A_0%,#152C6A_58%,#10214F_100%)] text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)]">
       <div className="hidden md:block">
-        <div className="mx-auto flex w-full max-w-7xl items-start justify-between gap-8 px-4 pt-5 pb-4 lg:px-6 lg:pt-6">
-          <div className="min-w-0 flex-1">
-            <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
-              <Image
-                src={LOGO_SRC}
-                alt="Bidra"
-                width={960}
-                height={320}
-                priority
-                className="h-28 w-auto select-none lg:h-36 xl:h-[9.5rem]"
-              />
-            </Link>
-            <div className="mt-2 pl-2">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/70">Trusted local marketplace</div>
-              <div className="mt-2 max-w-2xl text-sm text-white/82 lg:text-[15px]">
-                Buy instantly, compete with confidence, and deal with real local sellers on Bidra.
-              </div>
-            </div>
-          </div>
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-8 px-4 py-5 lg:px-6 lg:py-6">
+          <Link href="/" className="inline-flex items-center rounded-lg px-1 py-1 transition hover:opacity-95" aria-label="Bidra home">
+            <Image
+              src={LOGO_SRC}
+              alt="Bidra"
+              width={960}
+              height={320}
+              priority
+              className="h-24 w-auto select-none lg:h-28 xl:h-32"
+            />
+          </Link>
 
-          <div className="flex shrink-0 items-start gap-2 pt-2">
+          <div className="flex shrink-0 items-center gap-2">
             <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
-              Sell now
+              Sell
             </Link>
 
             {isAuthed ? (
               <div ref={desktopAccountRef} className="relative">
                 <button
                   type="button"
-                  onClick={(e) => {
+                  onClick={function (e) {
                     e.stopPropagation();
                     setDesktopAcctOpen(!desktopAcctOpen);
                   }}
@@ -217,12 +199,12 @@ export default function SiteHeaderClient({
                   Account
                   {badge}
                 </button>
-                {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
+                {desktopAcctOpen ? renderAccountMenu(function () { setDesktopAcctOpen(false); }) : null}
               </div>
             ) : (
               <>
                 <Link href="/auth/login" className={utilityButtonClass(false)}>Sign in</Link>
-                <Link href="/auth/register" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white/12 px-4 text-[13px] font-semibold text-white shadow-sm backdrop-blur transition hover:bg-white/18">
+                <Link href="/auth/register" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white/10 px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16">
                   Create account
                 </Link>
               </>
@@ -233,7 +215,7 @@ export default function SiteHeaderClient({
         <div className="border-t border-white/12 bg-[#132657]/95 backdrop-blur">
           <div className="mx-auto grid w-full max-w-7xl grid-cols-[minmax(0,1fr)_minmax(20rem,24rem)] items-center gap-6 px-4 py-3 lg:px-6">
             <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
-              {DESKTOP_PRIMARY_LINKS.map(function (item) {
+              {DESKTOP_LINKS.map(function (item) {
                 return (
                   <Link key={item.href + ":" + item.label} href={item.href} className={railLinkClass(item.href)}>
                     {item.label}
@@ -243,11 +225,7 @@ export default function SiteHeaderClient({
             </div>
 
             <div className="justify-self-end w-full max-w-[24rem]">
-              <SearchBar
-                className="w-full"
-                inputClassName={searchInputClass}
-                placeholder="Search Bidra"
-              />
+              <SearchBar className="w-full" inputClassName={searchInputClass} placeholder="Search Bidra" />
             </div>
           </div>
         </div>
@@ -263,7 +241,7 @@ export default function SiteHeaderClient({
                 width={460}
                 height={152}
                 priority
-                className="h-[4.25rem] w-auto select-none"
+                className="h-[4.1rem] w-auto select-none"
               />
             </Link>
 
@@ -275,7 +253,7 @@ export default function SiteHeaderClient({
               <div ref={mobileMenuRef} className="relative">
                 <button
                   type="button"
-                  onClick={(e) => {
+                  onClick={function (e) {
                     e.stopPropagation();
                     setMobileMenuOpen(!mobileMenuOpen);
                   }}
@@ -292,12 +270,12 @@ export default function SiteHeaderClient({
           </div>
 
           <div className="mt-3 grid grid-cols-3 gap-2">
-            {MOBILE_QUICK_LINKS.map(function (item) {
+            {MOBILE_LINKS.map(function (item) {
               return (
                 <Link
                   key={item.href + ":" + item.label}
                   href={item.href}
-                  className="inline-flex min-h-[42px] items-center justify-center rounded-full border border-white/12 bg-white/10 px-3 text-center text-[12px] font-semibold text-white shadow-sm backdrop-blur transition hover:bg-white/16"
+                  className="inline-flex min-h-[42px] items-center justify-center rounded-full border border-white/12 bg-white/10 px-3 text-center text-[12px] font-semibold text-white shadow-sm transition hover:bg-white/16"
                 >
                   {item.label}
                 </Link>
@@ -308,11 +286,7 @@ export default function SiteHeaderClient({
 
         <div className="border-t border-white/12 bg-[#132657]/95 px-4 py-3 backdrop-blur">
           <div className="mx-auto max-w-6xl">
-            <SearchBar
-              className="w-full"
-              inputClassName={searchInputClass}
-              placeholder="Search Bidra"
-            />
+            <SearchBar className="w-full" inputClassName={searchInputClass} placeholder="Search Bidra" />
           </div>
         </div>
       </div>
