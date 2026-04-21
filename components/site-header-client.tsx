@@ -12,10 +12,8 @@ type SessionLike = {
 
 const DESKTOP_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/listings", label: "Browse" },
   { href: "/listings?type=BUY_NOW", label: "Buy Now" },
   { href: "/listings?type=OFFERABLE", label: "Offers" },
-  { href: "/watchlist", label: "Watchlist" },
 ];
 
 export default function SiteHeaderClient({
