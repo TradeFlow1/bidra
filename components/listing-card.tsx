@@ -84,9 +84,9 @@ export default function ListingCard({ listing }: ListingCardProps) {
   return (
     <Link
       href={"/listings/" + listing.id}
-      className="group block overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]"
+      className="group block overflow-hidden rounded-[22px] border border-[#D8E1F0] bg-white shadow-sm transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]"
     >
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#EEF2F7]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#EEF2F7]">
         {hasMulti ? (
           <ListingThumbCarousel images={listing.images} title={title} />
         ) : (
@@ -96,7 +96,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
               alt={title}
               fill
               sizes="(max-width: 768px) 50vw, (max-width: 1400px) 33vw, 25vw"
-              className={isNoPhotos ? "select-none object-contain p-10 opacity-90" : "select-none object-cover transition duration-300 group-hover:scale-[1.02]"}
+              className={isNoPhotos ? "select-none object-contain p-8 opacity-90" : "select-none object-cover transition duration-300 group-hover:scale-[1.02]"}
               draggable={false}
               onDragStart={function (e) { e.preventDefault(); }}
               onContextMenu={function (e) { e.preventDefault(); }}
@@ -129,34 +129,29 @@ export default function ListingCard({ listing }: ListingCardProps) {
         </div>
       </div>
 
-      <div className="space-y-3 p-4">
-        <div className="space-y-2">
-          <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium text-[#475569]">
-            {category ? <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{category}</span> : null}
-            {condition ? <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{condition}</span> : null}
-          </div>
-
-          <div
-            className="text-[17px] font-bold leading-snug text-[#0F172A] line-clamp-2"
-            style={{
-              display: "-webkit-box",
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-            } as React.CSSProperties}
-          >
-            {title}
-          </div>
+      <div className="space-y-2 p-3.5">
+        <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium text-[#475569]">
+          {category ? <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{category}</span> : null}
+          {condition ? <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{condition}</span> : null}
         </div>
 
-        <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Top offer" : "Price"}</div>
-          <div className="mt-1 text-[24px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
+        <div
+          className="text-[16px] font-bold leading-snug text-[#0F172A] line-clamp-2"
+          style={{
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          } as React.CSSProperties}
+        >
+          {title}
         </div>
+
+        <div className="text-[22px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
 
         <div className="flex items-center justify-between gap-3 text-xs text-[#64748B]">
           <div className="min-w-0 truncate">{location || "Location on request"}</div>
-          <div className="font-semibold text-[#0F172A]">{isTimedOffers ? "View" : "View"}</div>
+          <div className="font-semibold text-[#0F172A]">View</div>
         </div>
       </div>
     </Link>

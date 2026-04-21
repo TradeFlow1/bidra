@@ -35,26 +35,26 @@ export default async function HomePage() {
 
   return (
     <main className="bg-[#F7F9FC]">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-4 py-4 lg:px-6 lg:py-5">
-        <section className="overflow-hidden rounded-[34px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
-          <div className="grid gap-5 p-5 sm:p-6 lg:grid-cols-[minmax(0,1.25fr)_20rem] lg:items-center lg:p-7">
-            <div className="min-w-0">
-              <h1 className="max-w-3xl text-[2.35rem] font-extrabold tracking-tight text-[#0F172A] sm:text-[2.8rem] lg:text-[3rem] lg:leading-[1.02]">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-4">
+        <section className="overflow-hidden rounded-[30px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
+          <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-[minmax(0,1.5fr)_18rem] lg:items-center lg:p-5">
+            <div className="min-w-0 py-1">
+              <h1 className="max-w-3xl text-[2rem] font-extrabold tracking-tight text-[#0F172A] sm:text-[2.35rem] lg:text-[2.55rem] lg:leading-[1.02]">
                 Buy Now or make an offer.
               </h1>
             </div>
 
-            <div className="grid gap-3 rounded-[26px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+            <div className="grid gap-2 rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
               <HomeCategorySelect />
               <div className="grid gap-2">
-                <Link href="/listings" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse listings</Link>
-                <Link href="/watchlist" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Watchlist</Link>
+                <Link href="/listings" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2.5 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse listings</Link>
+                <Link href="/watchlist" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2.5 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Watchlist</Link>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
               <h2 className="text-2xl font-extrabold tracking-tight text-[#0F172A]">Latest listings</h2>
@@ -62,7 +62,7 @@ export default async function HomePage() {
             <Link href="/listings" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View all</Link>
           </div>
 
-          <div className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-3 xl:grid-cols-4">
             {listings.map(function (l) {
               const currentOffer = l.offers && l.offers.length ? l.offers[0].amount : null;
               const displayPrice = l.type === "OFFERABLE"
