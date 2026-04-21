@@ -38,16 +38,16 @@ export default async function HomePage() {
     <main className="bg-[#F7F9FC]">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-4">
         <section className="overflow-hidden rounded-[30px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
-          <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-[minmax(0,1.5fr)_18rem] lg:items-center lg:p-5">
-            <div className="min-w-0 py-1">
-              <div className="relative h-[4.8rem] w-[18rem] sm:h-[5.4rem] sm:w-[20rem] lg:h-[6rem] lg:w-[22rem] xl:h-[6.5rem] xl:w-[24rem]">
+          <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-[minmax(0,1.55fr)_18rem] lg:items-center lg:p-5">
+            <div className="flex min-h-[8.5rem] items-center py-1 sm:min-h-[9.5rem] lg:min-h-[10.5rem]">
+              <div className="relative h-[7rem] w-[24rem] sm:h-[8rem] sm:w-[28rem] lg:h-[9rem] lg:w-[32rem] xl:h-[9.75rem] xl:w-[35rem]">
                 <Image
-                  src="/brand/bidra-kangaroo-logo.png"
+                  src="/brand/bidra-kangaroo-logo-tight.png"
                   alt="Bidra"
                   fill
                   priority
                   className="object-contain object-left"
-                  sizes="(max-width: 640px) 18rem, (max-width: 1024px) 20rem, 24rem"
+                  sizes="(max-width: 640px) 24rem, (max-width: 1024px) 28rem, (max-width: 1280px) 32rem, 35rem"
                 />
               </div>
             </div>
