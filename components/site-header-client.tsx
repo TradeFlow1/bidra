@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import SearchBar from "./search-bar";
 
@@ -10,8 +9,6 @@ type SessionLike = {
     id?: string;
   } | null;
 } | null | undefined;
-
-const LOGO_SRC = "/brand/bidra-kangaroo-logo.png";
 
 const DESKTOP_LINKS = [
   { href: "/listings", label: "Browse" },
@@ -146,20 +143,7 @@ export default function SiteHeaderClient({
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#17337A_0%,#152C6A_58%,#10214F_100%)] text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)]">
       <div className="hidden md:block">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-4 py-2.5 lg:px-6">
-          <Link href="/" className="inline-flex items-center rounded-lg transition hover:opacity-95" aria-label="Bidra home">
-            <div className="relative h-[6rem] w-[22.5rem] lg:h-[6.5rem] lg:w-[25rem] xl:h-[6.9rem] xl:w-[27rem]">
-              <Image
-                src={LOGO_SRC}
-                alt="Bidra"
-                fill
-                priority
-                className="object-contain object-left"
-                sizes="(max-width: 1280px) 25rem, 27rem"
-              />
-            </div>
-          </Link>
-
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-end gap-6 px-4 py-2 lg:px-6">
           <div className="flex shrink-0 items-center gap-3">
             <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
               Sell
@@ -215,18 +199,7 @@ export default function SiteHeaderClient({
       <div className="md:hidden">
         <div className="mx-auto px-4 pt-2 pb-2">
           <div className="flex items-center justify-between gap-3">
-            <Link href="/" className="inline-flex items-center rounded-lg transition hover:opacity-95" aria-label="Bidra home">
-              <div className="relative h-[5rem] w-[16.5rem]">
-                <Image
-                  src={LOGO_SRC}
-                  alt="Bidra"
-                  fill
-                  priority
-                  className="object-contain object-left"
-                  sizes="16.5rem"
-                />
-              </div>
-            </Link>
+            <div className="text-base font-extrabold tracking-tight text-white">Bidra</div>
 
             <div className="ml-auto flex items-center gap-2">
               <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">

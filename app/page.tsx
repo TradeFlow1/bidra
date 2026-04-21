@@ -39,14 +39,23 @@ export default async function HomePage() {
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-4">
         <section className="overflow-hidden rounded-[30px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
           <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-[minmax(0,1.55fr)_18rem] lg:items-center lg:p-5">
-            <div className="flex min-h-[8.5rem] items-center py-1 sm:min-h-[9.5rem] lg:min-h-[10.5rem]">
-              <div className="relative h-[7rem] w-[24rem] sm:h-[8rem] sm:w-[28rem] lg:h-[9rem] lg:w-[32rem] xl:h-[9.75rem] xl:w-[35rem]">
+            <div className="relative flex min-h-[9rem] items-center overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[#EFF4FB] px-5 py-4 sm:min-h-[10rem] sm:px-6 lg:min-h-[11rem] lg:px-7">
+              <Image
+                src="/brand/hero-clouds.png"
+                alt=""
+                fill
+                priority
+                className="object-cover opacity-80"
+                sizes="(max-width: 1024px) 100vw, 60vw"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,249,252,0.78)_0%,rgba(247,249,252,0.55)_42%,rgba(247,249,252,0.28)_100%)]" />
+              <div className="relative z-10 h-[7rem] w-[24rem] sm:h-[8rem] sm:w-[28rem] lg:h-[9rem] lg:w-[32rem] xl:h-[9.75rem] xl:w-[35rem]">
                 <Image
                   src="/brand/bidra-kangaroo-logo-tight.png"
                   alt="Bidra"
                   fill
                   priority
-                  className="object-contain object-left"
+                  className="object-contain object-left drop-shadow-[0_8px_24px_rgba(15,23,42,0.16)]"
                   sizes="(max-width: 640px) 24rem, (max-width: 1024px) 28rem, (max-width: 1280px) 32rem, 35rem"
                 />
               </div>
