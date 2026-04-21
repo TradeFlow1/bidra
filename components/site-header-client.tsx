@@ -11,6 +11,7 @@ type SessionLike = {
 } | null | undefined;
 
 const DESKTOP_LINKS = [
+  { href: "/", label: "Home" },
   { href: "/listings", label: "Browse" },
   { href: "/listings?type=BUY_NOW", label: "Buy Now" },
   { href: "/listings?type=OFFERABLE", label: "Offers" },
@@ -18,6 +19,7 @@ const DESKTOP_LINKS = [
 ];
 
 const MOBILE_LINKS = [
+  { href: "/", label: "Home" },
   { href: "/listings", label: "Browse" },
   { href: "/listings?type=BUY_NOW", label: "Buy Now" },
   { href: "/listings?type=OFFERABLE", label: "Offers" },
@@ -108,6 +110,7 @@ export default function SiteHeaderClient({
       <div className="absolute right-0 top-full z-[120] mt-3 w-[min(92vw,23rem)] overflow-hidden rounded-[28px] border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]" role="menu" onClick={function (e) { e.stopPropagation(); }}>
         <div className="p-3">
           <div className="grid grid-cols-1 gap-2">
+            <Link href="/" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Home</Link>
             <Link href="/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Browse</Link>
             <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buy Now</Link>
             <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Offers</Link>
@@ -225,7 +228,7 @@ export default function SiteHeaderClient({
             </div>
           </div>
 
-          <div className="mt-2 grid grid-cols-3 gap-2">
+          <div className="mt-2 grid grid-cols-4 gap-2">
             {MOBILE_LINKS.map(function (item) {
               return (
                 <Link
