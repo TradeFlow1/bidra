@@ -36,7 +36,7 @@ export default async function HomePage() {
 
   return (
     <main className="bg-[#F7F9FC]">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-5 px-4 py-4 lg:px-6 lg:py-5">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-4">
         <section className="overflow-hidden rounded-[30px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
           <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-[minmax(0,1.55fr)_18rem] lg:items-center lg:p-5">
             <div className="relative flex min-h-[9rem] items-center overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[#EFF4FB] px-5 py-4 sm:min-h-[10rem] sm:px-6 lg:min-h-[11rem] lg:px-7">
@@ -71,11 +71,11 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6 lg:p-7">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E6EDF7] pb-4">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse now</div>
-              <h2 className="mt-1 text-[2rem] font-extrabold tracking-tight text-[#0F172A]">Latest listings</h2>
+              <h2 className="mt-1 text-[1.9rem] font-extrabold tracking-tight text-[#0F172A]">Latest listings</h2>
             </div>
 
             <Link href="/listings" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
@@ -83,8 +83,8 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {listings.slice(0, 6).map(function (l) {
+          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {listings.map(function (l) {
               const currentOffer = l.offers && l.offers.length ? l.offers[0].amount : null;
               const displayPrice = l.type === "OFFERABLE"
                 ? ((currentOffer ?? l.price) as number)
