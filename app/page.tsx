@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
@@ -39,9 +40,16 @@ export default async function HomePage() {
         <section className="overflow-hidden rounded-[30px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
           <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-[minmax(0,1.5fr)_18rem] lg:items-center lg:p-5">
             <div className="min-w-0 py-1">
-              <h1 className="max-w-3xl text-[2rem] font-extrabold tracking-tight text-[#0F172A] sm:text-[2.35rem] lg:text-[2.55rem] lg:leading-[1.02]">
-                Buy Now or make an offer.
-              </h1>
+              <div className="relative h-[4.8rem] w-[18rem] sm:h-[5.4rem] sm:w-[20rem] lg:h-[6rem] lg:w-[22rem] xl:h-[6.5rem] xl:w-[24rem]">
+                <Image
+                  src="/brand/bidra-kangaroo-logo.png"
+                  alt="Bidra"
+                  fill
+                  priority
+                  className="object-contain object-left"
+                  sizes="(max-width: 640px) 18rem, (max-width: 1024px) 20rem, 24rem"
+                />
+              </div>
             </div>
 
             <div className="grid gap-2 rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
