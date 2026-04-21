@@ -18,13 +18,6 @@ const DESKTOP_LINKS = [
   { href: "/watchlist", label: "Watchlist" },
 ];
 
-const MOBILE_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/listings", label: "Browse" },
-  { href: "/listings?type=BUY_NOW", label: "Buy Now" },
-  { href: "/listings?type=OFFERABLE", label: "Offers" },
-];
-
 export default function SiteHeaderClient({
   session,
   notificationCount = 0,
@@ -110,7 +103,6 @@ export default function SiteHeaderClient({
       <div className="absolute right-0 top-full z-[120] mt-3 w-[min(92vw,23rem)] overflow-hidden rounded-[28px] border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]" role="menu" onClick={function (e) { e.stopPropagation(); }}>
         <div className="p-3">
           <div className="grid grid-cols-1 gap-2">
-            <Link href="/" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Home</Link>
             <Link href="/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Browse</Link>
             <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buy Now</Link>
             <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Offers</Link>
@@ -146,8 +138,22 @@ export default function SiteHeaderClient({
   return (
     <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#17337A_0%,#152C6A_58%,#10214F_100%)] text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)]">
       <div className="hidden md:block">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-end gap-6 px-4 py-2 lg:px-6">
-          <div className="flex shrink-0 items-center gap-3">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_15rem_auto] items-center gap-4 px-4 py-2 lg:px-6">
+          <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
+            {DESKTOP_LINKS.map(function (item) {
+              return (
+                <Link key={item.href + ":" + item.label} href={item.href} className={railLinkClass()}>
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
+
+          <div className="justify-self-end w-full max-w-[15rem]">
+            <SearchBar className="w-full" inputClassName={searchInputClass} placeholder="Search Bidra" />
+          </div>
+
+          <div className="flex shrink-0 items-center gap-3 justify-self-end">
             <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
               Sell
             </Link>
@@ -179,30 +185,14 @@ export default function SiteHeaderClient({
             )}
           </div>
         </div>
-
-        <div className="border-t border-white/12 bg-[#132657]/95 backdrop-blur">
-          <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_15rem] items-center gap-4 px-4 py-1.5 lg:px-6">
-            <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
-              {DESKTOP_LINKS.map(function (item) {
-                return (
-                  <Link key={item.href + ":" + item.label} href={item.href} className={railLinkClass()}>
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
-
-            <div className="justify-self-end w-full max-w-[15rem]">
-              <SearchBar className="w-full" inputClassName={searchInputClass} placeholder="Search Bidra" />
-            </div>
-          </div>
-        </div>
       </div>
 
       <div className="md:hidden">
         <div className="mx-auto px-4 pt-2 pb-2">
-          <div className="flex items-center justify-between gap-3">
-            <div className="text-base font-extrabold tracking-tight text-white">Bidra</div>
+          <div className="flex items-center justify-between gap-2">
+            <Link href="/" className="inline-flex h-10 items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">
+              Home
+            </Link>
 
             <div className="ml-auto flex items-center gap-2">
               <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
@@ -227,23 +217,9 @@ export default function SiteHeaderClient({
               </div>
             </div>
           </div>
-
-          <div className="mt-2 grid grid-cols-4 gap-2">
-            {MOBILE_LINKS.map(function (item) {
-              return (
-                <Link
-                  key={item.href + ":" + item.label}
-                  href={item.href}
-                  className="inline-flex min-h-[40px] items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-3 text-center text-[12px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]"
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </div>
         </div>
 
-        <div className="border-t border-white/12 bg-[#132657]/95 px-4 py-1.5 backdrop-blur">
+        <div className="border-t border-white/12 bg-[#132657]/95 px-4 py-2 backdrop-blur">
           <div className="mx-auto max-w-6xl">
             <SearchBar className="w-full" inputClassName={searchInputClass} placeholder="Search Bidra" />
           </div>
