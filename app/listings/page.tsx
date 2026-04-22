@@ -99,11 +99,11 @@ export default async function ListingsPage({
       and.push({
         OR: [
           { category: category },
-          { category: { startsWith: category + " › " } },
+          { category: { startsWith: category + " â€º " } },
         ],
       });
     } else {
-      const legacyChild = category.indexOf(" › ") >= 0 ? category.split(" › ").pop() : category;
+      const legacyChild = category.indexOf(" â€º ") >= 0 ? category.split(" â€º ").pop() : category;
       and.push({
         OR: [
           { category: category },
@@ -349,7 +349,7 @@ export default async function ListingsPage({
                         className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] shadow-sm"
                       >
                         <span>{item.label}</span>
-                        <span className="ml-2 text-[#94A3B8]">×</span>
+                        <span className="ml-2 text-[#94A3B8]">Ã—</span>
                       </Link>
                     );
                   })}
