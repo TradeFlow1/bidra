@@ -35,6 +35,7 @@ function cleanStr(v: string | null | undefined) {
 function buildClearHref(current: KeywordParams | undefined, keyToRemove: keyof KeywordParams) {
   const params: string[] = [];
   const keys: (keyof KeywordParams)[] = ["q", "category", "type", "condition", "location", "min", "max", "sort"];
+
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
     if (key === keyToRemove) continue;
@@ -42,7 +43,35 @@ function buildClearHref(current: KeywordParams | undefined, keyToRemove: keyof K
     if (!value) continue;
     params.push(encodeURIComponent(String(key)) + "=" + encodeURIComponent(value));
   }
+
   return params.length ? "/listings?" + params.join("&") : "/listings";
+}
+
+function normalizeCategoryValue(value: string) {
+  if (!value) return value;
+  if (value.indexOf(" > ") >= 0) return value;
+  if (value.indexOf(" Ã") >= 0) {
+    const parts = value.split(" ");
+    return parts.length ? parts[0] : value;
+  }
+  return value;
+}
+
+function normalizeConditionValue(value: string) {
+  if (!value) return value;
+  if (value === "Newest" || value === "NEW") return "NEW";
+  if (value === "Used - Like Newest" || value === "Used - Like New" || value === "USED_LIKE_NEW") return "USED_LIKE_NEW";
+  if (value === "Used - Good" || value === "USED_GOOD") return "USED_GOOD";
+  if (value === "Used - Fair" || value === "USED_FAIR") return "USED_FAIR";
+  return value;
+}
+
+function conditionLabel(value: string) {
+  if (value === "NEW") return "New";
+  if (value === "USED_LIKE_NEW") return "Used - Like New";
+  if (value === "USED_GOOD") return "Used - Good";
+  if (value === "USED_FAIR") return "Used - Fair";
+  return value;
 }
 
 export default async function ListingsPage({
@@ -51,9 +80,9 @@ export default async function ListingsPage({
   searchParams?: KeywordParams;
 }) {
   const q = cleanStr(searchParams?.q);
-  const category = cleanStr(searchParams?.category);
+  const category = normalizeCategoryValue(cleanStr(searchParams?.category));
   const type = cleanStr(searchParams?.type);
-  const condition = cleanStr(searchParams?.condition);
+  const condition = normalizeConditionValue(cleanStr(searchParams?.condition));
   const location = cleanStr(searchParams?.location);
   const sort = cleanStr(searchParams?.sort);
 
@@ -99,15 +128,15 @@ export default async function ListingsPage({
       and.push({
         OR: [
           { category: category },
-          { category: { startsWith: category + " ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº " } },
+          { category: { startsWith: category + " > " } },
         ],
       });
     } else {
-      const legacyChild = category.indexOf(" ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº ") >= 0 ? category.split(" ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº ").pop() : category;
+      const childValue = category.indexOf(" > ") >= 0 ? String(category.split(" > ").pop() || "") : category;
       and.push({
         OR: [
           { category: category },
-          { category: String(legacyChild || "") },
+          { category: childValue },
         ],
       });
     }
@@ -127,7 +156,7 @@ export default async function ListingsPage({
 
   const finalWhere = and.length ? where : undefined;
 
-  const orderBy: any =
+  const orderBy: Prisma.ListingOrderByWithRelationInput =
     sort === "price_asc"
       ? { price: "asc" }
       : sort === "price_desc"
@@ -199,12 +228,12 @@ export default async function ListingsPage({
   if (q) activeFilters.push({ label: q, href: buildClearHref(searchParams, "q") });
   if (category) activeFilters.push({ label: category, href: buildClearHref(searchParams, "category") });
   if (type) activeFilters.push({ label: type === "BUY_NOW" ? "Buy Now" : "Offers", href: buildClearHref(searchParams, "type") });
-  if (condition) activeFilters.push({ label: condition, href: buildClearHref(searchParams, "condition") });
+  if (condition) activeFilters.push({ label: conditionLabel(condition), href: buildClearHref(searchParams, "condition") });
   if (location) activeFilters.push({ label: location, href: buildClearHref(searchParams, "location") });
   if (cleanStr(searchParams?.min)) activeFilters.push({ label: "$" + cleanStr(searchParams?.min) + "+", href: buildClearHref(searchParams, "min") });
   if (cleanStr(searchParams?.max)) activeFilters.push({ label: "Up to $" + cleanStr(searchParams?.max), href: buildClearHref(searchParams, "max") });
   if (sort) {
-    const sortLabel = sort === "price_asc" ? "Low to high" : sort === "price_desc" ? "High to low" : "Newestest";
+    const sortLabel = sort === "price_asc" ? "Low to high" : sort === "price_desc" ? "High to low" : "Newest";
     activeFilters.push({ label: sortLabel, href: buildClearHref(searchParams, "sort") });
   }
 
@@ -220,7 +249,7 @@ export default async function ListingsPage({
             placeholder="Keyword"
             className="bd-input"
           />
-          <button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Keyword</button>
+          <button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Search</button>
         </div>
 
         <div className="xl:col-span-3">
@@ -253,7 +282,7 @@ export default async function ListingsPage({
 
         <div className="xl:col-span-3">
           <select name="sort" defaultValue={sort} className="bd-input">
-            <option value="">Newestest</option>
+            <option value="">Newest</option>
             <option value="price_asc">Price: low to high</option>
             <option value="price_desc">Price: high to low</option>
           </select>
@@ -263,24 +292,24 @@ export default async function ListingsPage({
       <div className="grid gap-3 xl:grid-cols-12">
         <div className="xl:col-span-3">
           <select name="condition" defaultValue={condition} className="bd-input">
-            <option value="">Any price condition</option>
-            <option value="Newest">Newest</option>
-            <option value="Used - Like Newest">Used - Like Newest</option>
-            <option value="Used - Good">Used - Good</option>
-            <option value="Used - Fair">Used - Fair</option>
+            <option value="">Any condition</option>
+            <option value="NEW">New</option>
+            <option value="USED_LIKE_NEW">Used - Like New</option>
+            <option value="USED_GOOD">Used - Good</option>
+            <option value="USED_FAIR">Used - Fair</option>
           </select>
         </div>
 
         <div className="xl:col-span-3">
-          <input name="location" defaultValue={location} placeholder="Locationtion" className="bd-input" />
+          <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
         </div>
 
         <div className="xl:col-span-2">
-          <input name="min" defaultValue={(searchParams?.min ?? "").trim()} placeholder="Min" className="bd-input" inputMode="decimal" />
+          <input name="min" defaultValue={(searchParams?.min ?? "").trim()} placeholder="Min price" className="bd-input" inputMode="decimal" />
         </div>
 
         <div className="xl:col-span-2">
-          <input name="max" defaultValue={(searchParams?.max ?? "").trim()} placeholder="Max" className="bd-input" inputMode="decimal" />
+          <input name="max" defaultValue={(searchParams?.max ?? "").trim()} placeholder="Max price" className="bd-input" inputMode="decimal" />
         </div>
 
         <div className="xl:col-span-2 xl:flex xl:items-end">
@@ -304,10 +333,10 @@ export default async function ListingsPage({
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Listings</h1>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <Link href="/listings" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">All</Link>
-              <Link href="/listings?type=BUY_NOW" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">Buy Now</Link>
-              <Link href="/listings?type=OFFERABLE" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">Offers</Link>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/listings" className="inline-flex min-h-[40px] items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">All</Link>
+              <Link href="/listings?type=BUY_NOW" className="inline-flex min-h-[40px] items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">Buy Now</Link>
+              <Link href="/listings?type=OFFERABLE" className="inline-flex min-h-[40px] items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">Offers</Link>
             </div>
           </div>
         </section>
@@ -340,16 +369,16 @@ export default async function ListingsPage({
               </div>
 
               {activeFilters.length > 0 ? (
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-4 flex flex-wrap gap-3">
                   {activeFilters.map(function (item) {
                     return (
                       <Link
-                        key={item.label}
+                        key={item.label + ":" + item.href}
                         href={item.href}
-                        className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] shadow-sm"
+                        className="inline-flex min-h-[40px] items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-3 py-2 text-xs font-medium text-[#334155] shadow-sm transition hover:bg-[#F8FAFC]"
                       >
                         <span>{item.label}</span>
-                        <span className="ml-2 text-[#94A3B8]">ÃƒÆ’Ã¢â‚¬â€</span>
+                        <span className="ml-2 text-[#94A3B8]">×</span>
                       </Link>
                     );
                   })}
