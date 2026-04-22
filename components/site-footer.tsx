@@ -19,7 +19,7 @@ const legalLinks = [
   { href: "/prohibited-items", label: "Prohibited items" },
 ];
 
-function FooterLinkGroup({
+function FooterPillLinks({
   title,
   links,
 }: {
@@ -29,17 +29,19 @@ function FooterLinkGroup({
   return (
     <div>
       <h3 className="text-sm font-bold text-[#0F172A]">{title}</h3>
-      <ul className="mt-3 space-y-2">
+      <div className="mt-3 flex flex-wrap gap-2 md:block md:space-y-2 md:gap-0">
         {links.map(function (link) {
           return (
-            <li key={link.href + ":" + link.label}>
-              <Link href={link.href} className="text-sm text-[#475569] transition hover:text-[#0F172A]">
-                {link.label}
-              </Link>
-            </li>
+            <Link
+              key={link.href + ":" + link.label}
+              href={link.href}
+              className="inline-flex rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-sm text-[#475569] transition hover:bg-white hover:text-[#0F172A] md:block md:rounded-none md:border-0 md:bg-transparent md:px-0 md:py-0"
+            >
+              {link.label}
+            </Link>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 }
@@ -48,21 +50,21 @@ export default function SiteFooter() {
   return (
     <footer className="mt-8 border-t border-[#D8E1F0] bg-white">
       <div className="mx-auto w-full max-w-7xl px-4 py-6 lg:px-6 lg:py-8">
-        <div className="grid gap-6 border-b border-[#E6EDF7] pb-6 md:grid-cols-[minmax(0,1.2fr)_1fr_1fr_1fr]">
+        <div className="grid gap-5 border-b border-[#E6EDF7] pb-5 md:grid-cols-[minmax(0,1.15fr)_1fr_1fr_1fr] md:gap-8 md:pb-6">
           <div className="max-w-sm">
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Bidra marketplace</div>
-            <h2 className="mt-2 text-[1.9rem] font-extrabold tracking-tight text-[#0F172A]">Buy now. Make offers.</h2>
-            <p className="mt-3 text-sm leading-6 text-[#475569]">
+            <h2 className="mt-2 text-[1.55rem] font-extrabold tracking-tight text-[#0F172A] md:text-[1.8rem]">Buy now. Make offers.</h2>
+            <p className="mt-2 text-sm leading-6 text-[#475569]">
               Trust-first marketplace for straightforward buying and highest-offer listings.
             </p>
           </div>
 
-          <FooterLinkGroup title="Marketplace" links={marketplaceLinks} />
-          <FooterLinkGroup title="Support" links={supportLinks} />
-          <FooterLinkGroup title="Legal" links={legalLinks} />
+          <FooterPillLinks title="Marketplace" links={marketplaceLinks} />
+          <FooterPillLinks title="Support" links={supportLinks} />
+          <FooterPillLinks title="Legal" links={legalLinks} />
         </div>
 
-        <div className="flex flex-col gap-2 pt-4 text-xs text-[#64748B] sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-1.5 pt-4 text-xs text-[#64748B] sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Bidra. All rights reserved.</p>
           <p>Buy Now and highest-offer marketplace.</p>
         </div>
