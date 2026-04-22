@@ -35,7 +35,7 @@ function cleanStr(v: string | null | undefined) {
 function normalizeCategoryValue(value: string) {
   if (!value) return value;
   if (value.indexOf(" > ") >= 0) return value;
-  if (value.indexOf(" Ã") >= 0) return value.split(" ")[0] || value;
+  if (value.indexOf(" Ãƒ") >= 0) return value.split(" ")[0] || value;
   return value;
 }
 
@@ -322,7 +322,7 @@ export default async function ListingsPage({
           </div>
         </section>
 
-        <section className="mt-5 grid gap-5 xl:grid-cols-[18rem_minmax(0,1fr)]">
+        <section className="mt-5 grid gap-4 xl:grid-cols-[18rem_minmax(0,1fr)]">
           <aside className="xl:sticky xl:top-24 xl:self-start">
             <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
               <div className="p-4 sm:p-5">
@@ -347,8 +347,8 @@ export default async function ListingsPage({
             </div>
           </aside>
 
-          <div className="space-y-4">
-            <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
+          <div className="space-y-3">
+            <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse results</div>
@@ -357,7 +357,7 @@ export default async function ListingsPage({
               </div>
 
               {activeFilters.length > 0 ? (
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-3 flex flex-wrap gap-2">
                   {activeFilters.map(function (item) {
                     return (
                       <Link
@@ -366,7 +366,7 @@ export default async function ListingsPage({
                         className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] shadow-sm"
                       >
                         <span>{item.label}</span>
-                        <span className="ml-2 text-[#94A3B8]">×</span>
+                        <span className="ml-2 text-[#94A3B8]">Ã—</span>
                       </Link>
                     );
                   })}
