@@ -32,9 +32,17 @@ function cleanStr(v: string | null | undefined) {
   return s.length ? s : "";
 }
 
+function normalizeCategoryValue(value: string) {
+  if (!value) return value;
+  if (value.indexOf(" > ") >= 0) return value;
+  if (value.indexOf(" Ã") >= 0) return value.split(" ")[0] || value;
+  return value;
+}
+
 function buildClearHref(current: KeywordParams | undefined, keyToRemove: keyof KeywordParams) {
   const params: string[] = [];
   const keys: (keyof KeywordParams)[] = ["q", "category", "type", "condition", "location", "min", "max", "sort"];
+
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
     if (key === keyToRemove) continue;
@@ -42,7 +50,16 @@ function buildClearHref(current: KeywordParams | undefined, keyToRemove: keyof K
     if (!value) continue;
     params.push(encodeURIComponent(String(key)) + "=" + encodeURIComponent(value));
   }
+
   return params.length ? "/listings?" + params.join("&") : "/listings";
+}
+
+function conditionLabel(value: string) {
+  if (value === "NEW") return "New";
+  if (value === "USED_LIKE_NEW") return "Used - Like New";
+  if (value === "USED_GOOD") return "Used - Good";
+  if (value === "USED_FAIR") return "Used - Fair";
+  return value;
 }
 
 export default async function ListingsPage({
@@ -51,7 +68,7 @@ export default async function ListingsPage({
   searchParams?: KeywordParams;
 }) {
   const q = cleanStr(searchParams?.q);
-  const category = cleanStr(searchParams?.category);
+  const category = normalizeCategoryValue(cleanStr(searchParams?.category));
   const type = cleanStr(searchParams?.type);
   const condition = cleanStr(searchParams?.condition);
   const location = cleanStr(searchParams?.location);
@@ -99,15 +116,15 @@ export default async function ListingsPage({
       and.push({
         OR: [
           { category: category },
-          { category: { startsWith: category + " ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âº " } },
+          { category: { startsWith: category + " > " } },
         ],
       });
     } else {
-      const legacyChild = category.indexOf(" ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âº ") >= 0 ? category.split(" ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âº ").pop() : category;
+      const childValue = category.indexOf(" > ") >= 0 ? String(category.split(" > ").pop() || "") : category;
       and.push({
         OR: [
           { category: category },
-          { category: String(legacyChild || "") },
+          { category: childValue },
         ],
       });
     }
@@ -127,7 +144,7 @@ export default async function ListingsPage({
 
   const finalWhere = and.length ? where : undefined;
 
-  const orderBy: any =
+  const orderBy: Prisma.ListingOrderByWithRelationInput =
     sort === "price_asc"
       ? { price: "asc" }
       : sort === "price_desc"
@@ -199,7 +216,7 @@ export default async function ListingsPage({
   if (q) activeFilters.push({ label: q, href: buildClearHref(searchParams, "q") });
   if (category) activeFilters.push({ label: category, href: buildClearHref(searchParams, "category") });
   if (type) activeFilters.push({ label: type === "BUY_NOW" ? "Buy Now" : "Offers", href: buildClearHref(searchParams, "type") });
-  if (condition) activeFilters.push({ label: condition, href: buildClearHref(searchParams, "condition") });
+  if (condition) activeFilters.push({ label: conditionLabel(condition), href: buildClearHref(searchParams, "condition") });
   if (location) activeFilters.push({ label: location, href: buildClearHref(searchParams, "location") });
   if (cleanStr(searchParams?.min)) activeFilters.push({ label: "$" + cleanStr(searchParams?.min) + "+", href: buildClearHref(searchParams, "min") });
   if (cleanStr(searchParams?.max)) activeFilters.push({ label: "Up to $" + cleanStr(searchParams?.max), href: buildClearHref(searchParams, "max") });
@@ -210,82 +227,75 @@ export default async function ListingsPage({
 
   const FiltersForm = () => (
     <form action="/listings" method="get" className="space-y-4">
-      <div className="grid gap-3 xl:grid-cols-12">
-        <div className="xl:col-span-4">
+      <div className="space-y-3">
+        <input
+          name="q"
+          type="search"
+          enterKeyHint="search"
+          defaultValue={q}
+          placeholder="Keyword"
+          className="bd-input"
+        />
+        <button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Search</button>
+
+        <select name="category" defaultValue={category} className="bd-input">
+          <option value="">All categories</option>
+          {CATEGORY_GROUPS.map(function (g) {
+            return (
+              <optgroup key={g.parent} label={g.parent}>
+                <option value={g.parent}>{g.parent}</option>
+                {g.children.map(function (c) {
+                  return (
+                    <option key={g.parent + ":" + c} value={joinCategory(g.parent, c)}>
+                      {c}
+                    </option>
+                  );
+                })}
+              </optgroup>
+            );
+          })}
+        </select>
+
+        <select name="type" defaultValue={type} className="bd-input">
+          <option value="">All types</option>
+          <option value="BUY_NOW">Buy Now</option>
+          <option value="OFFERABLE">Offers</option>
+        </select>
+
+        <select name="sort" defaultValue={sort} className="bd-input">
+          <option value="">Newest</option>
+          <option value="price_asc">Price: low to high</option>
+          <option value="price_desc">Price: high to low</option>
+        </select>
+
+        <select name="condition" defaultValue={condition} className="bd-input">
+          <option value="">Any condition</option>
+          <option value="NEW">New</option>
+          <option value="USED_LIKE_NEW">Used - Like New</option>
+          <option value="USED_GOOD">Used - Good</option>
+          <option value="USED_FAIR">Used - Fair</option>
+        </select>
+
+        <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
+
+        <div className="grid grid-cols-2 gap-3">
           <input
-            name="q"
-            type="search"
-            enterKeyHint="search"
-            defaultValue={q}
-            placeholder="Keyword"
+            name="min"
+            defaultValue={(searchParams?.min ?? "").trim()}
+            placeholder="Min price"
             className="bd-input"
+            inputMode="decimal"
           />
-          <button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Keyword</button>
+          <input
+            name="max"
+            defaultValue={(searchParams?.max ?? "").trim()}
+            placeholder="Max price"
+            className="bd-input"
+            inputMode="decimal"
+          />
         </div>
 
-        <div className="xl:col-span-3">
-          <select name="category" defaultValue={category} className="bd-input">
-            <option value="">All categories</option>
-            {CATEGORY_GROUPS.map(function (g) {
-              return (
-                <optgroup key={g.parent} label={g.parent}>
-                  <option value={g.parent}>{g.parent}</option>
-                  {g.children.map(function (c) {
-                    return (
-                      <option key={g.parent + ":" + c} value={joinCategory(g.parent, c)}>
-                        {c}
-                      </option>
-                    );
-                  })}
-                </optgroup>
-              );
-            })}
-          </select>
-        </div>
-
-        <div className="xl:col-span-2">
-          <select name="type" defaultValue={type} className="bd-input">
-            <option value="">All types</option>
-            <option value="BUY_NOW">Buy Now</option>
-            <option value="OFFERABLE">Offers</option>
-          </select>
-        </div>
-
-        <div className="xl:col-span-3">
-          <select name="sort" defaultValue={sort} className="bd-input">
-            <option value="">Newest</option>
-            <option value="price_asc">Price: low to high</option>
-            <option value="price_desc">Price: high to low</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="grid gap-3 xl:grid-cols-12">
-        <div className="xl:col-span-3">
-          <select name="condition" defaultValue={condition} className="bd-input">
-            <option value="">Any condition</option>
-            <option value="NEW">New</option>
-            <option value="USED_LIKE_NEW">Used - Like New</option>
-            <option value="USED_GOOD">Used - Good</option>
-            <option value="USED_FAIR">Used - Fair</option>
-          </select>
-        </div>
-
-        <div className="xl:col-span-3">
-          <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
-        </div>
-
-        <div className="xl:col-span-2">
-          <input name="min" defaultValue={(searchParams?.min ?? "").trim()} placeholder="Min" className="bd-input" inputMode="decimal" />
-        </div>
-
-        <div className="xl:col-span-2">
-          <input name="max" defaultValue={(searchParams?.max ?? "").trim()} placeholder="Max" className="bd-input" inputMode="decimal" />
-        </div>
-
-        <div className="xl:col-span-2 xl:flex xl:items-end">
-          <button type="submit" className="bd-btn bd-btn-primary w-full">Show results</button>
-        </div>
+        <button type="submit" className="bd-btn bd-btn-primary w-full">Show results</button>
       </div>
 
       {moneyErr ? (
@@ -312,14 +322,18 @@ export default async function ListingsPage({
           </div>
         </section>
 
-        <section className="mt-5 grid gap-5 xl:grid-cols-[19rem_minmax(0,1fr)]">
+        <section className="mt-5 grid gap-5 xl:grid-cols-[18rem_minmax(0,1fr)]">
           <aside className="xl:sticky xl:top-24 xl:self-start">
             <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
-              <div className="p-4">
+              <div className="p-4 sm:p-5">
                 <MobileFiltersToggle>
                   <FiltersForm />
                 </MobileFiltersToggle>
                 <div className="hidden xl:block">
+                  <div className="mb-4 border-b border-[#E2E8F0] pb-4">
+                    <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Refine results</div>
+                    <div className="mt-2 text-sm text-[#475569]">Filter by keyword, category, type, condition, location, and price.</div>
+                  </div>
                   <FiltersForm />
                 </div>
               </div>
@@ -336,7 +350,10 @@ export default async function ListingsPage({
           <div className="space-y-4">
             <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="text-sm font-semibold text-[#0F172A]">{listings.length} results</div>
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse results</div>
+                  <div className="mt-1 text-sm font-semibold text-[#0F172A]">{listings.length} results</div>
+                </div>
               </div>
 
               {activeFilters.length > 0 ? (
@@ -344,12 +361,12 @@ export default async function ListingsPage({
                   {activeFilters.map(function (item) {
                     return (
                       <Link
-                        key={item.label}
+                        key={item.label + ":" + item.href}
                         href={item.href}
                         className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] shadow-sm"
                       >
                         <span>{item.label}</span>
-                        <span className="ml-2 text-[#94A3B8]">ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â</span>
+                        <span className="ml-2 text-[#94A3B8]">×</span>
                       </Link>
                     );
                   })}
