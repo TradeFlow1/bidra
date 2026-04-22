@@ -8,7 +8,7 @@ import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
 import ListingCard from "@/components/listing-card";
 import MobileFiltersToggle from "@/components/mobile-filters-toggle";
 
-type SearchParams = {
+type KeywordParams = {
   q?: string;
   category?: string;
   type?: string;
@@ -32,9 +32,9 @@ function cleanStr(v: string | null | undefined) {
   return s.length ? s : "";
 }
 
-function buildClearHref(current: SearchParams | undefined, keyToRemove: keyof SearchParams) {
+function buildClearHref(current: KeywordParams | undefined, keyToRemove: keyof KeywordParams) {
   const params: string[] = [];
-  const keys: (keyof SearchParams)[] = ["q", "category", "type", "condition", "location", "min", "max", "sort"];
+  const keys: (keyof KeywordParams)[] = ["q", "category", "type", "condition", "location", "min", "max", "sort"];
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
     if (key === keyToRemove) continue;
@@ -48,7 +48,7 @@ function buildClearHref(current: SearchParams | undefined, keyToRemove: keyof Se
 export default async function ListingsPage({
   searchParams,
 }: {
-  searchParams?: SearchParams;
+  searchParams?: KeywordParams;
 }) {
   const q = cleanStr(searchParams?.q);
   const category = cleanStr(searchParams?.category);
@@ -99,11 +99,11 @@ export default async function ListingsPage({
       and.push({
         OR: [
           { category: category },
-          { category: { startsWith: category + " â€º " } },
+          { category: { startsWith: category + " ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº " } },
         ],
       });
     } else {
-      const legacyChild = category.indexOf(" â€º ") >= 0 ? category.split(" â€º ").pop() : category;
+      const legacyChild = category.indexOf(" ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº ") >= 0 ? category.split(" ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº ").pop() : category;
       and.push({
         OR: [
           { category: category },
@@ -204,7 +204,7 @@ export default async function ListingsPage({
   if (cleanStr(searchParams?.min)) activeFilters.push({ label: "$" + cleanStr(searchParams?.min) + "+", href: buildClearHref(searchParams, "min") });
   if (cleanStr(searchParams?.max)) activeFilters.push({ label: "Up to $" + cleanStr(searchParams?.max), href: buildClearHref(searchParams, "max") });
   if (sort) {
-    const sortLabel = sort === "price_asc" ? "Low to high" : sort === "price_desc" ? "High to low" : "Newest";
+    const sortLabel = sort === "price_asc" ? "Low to high" : sort === "price_desc" ? "High to low" : "Newestest";
     activeFilters.push({ label: sortLabel, href: buildClearHref(searchParams, "sort") });
   }
 
@@ -217,10 +217,10 @@ export default async function ListingsPage({
             type="search"
             enterKeyHint="search"
             defaultValue={q}
-            placeholder="Search"
+            placeholder="Keyword"
             className="bd-input"
           />
-          <button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Search</button>
+          <button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Keyword</button>
         </div>
 
         <div className="xl:col-span-3">
@@ -253,7 +253,7 @@ export default async function ListingsPage({
 
         <div className="xl:col-span-3">
           <select name="sort" defaultValue={sort} className="bd-input">
-            <option value="">Newest</option>
+            <option value="">Newestest</option>
             <option value="price_asc">Price: low to high</option>
             <option value="price_desc">Price: high to low</option>
           </select>
@@ -263,16 +263,16 @@ export default async function ListingsPage({
       <div className="grid gap-3 xl:grid-cols-12">
         <div className="xl:col-span-3">
           <select name="condition" defaultValue={condition} className="bd-input">
-            <option value="">Any condition</option>
-            <option value="New">New</option>
-            <option value="Used - Like New">Used - Like New</option>
+            <option value="">Any price condition</option>
+            <option value="Newest">Newest</option>
+            <option value="Used - Like Newest">Used - Like Newest</option>
             <option value="Used - Good">Used - Good</option>
             <option value="Used - Fair">Used - Fair</option>
           </select>
         </div>
 
         <div className="xl:col-span-3">
-          <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
+          <input name="location" defaultValue={location} placeholder="Locationtion" className="bd-input" />
         </div>
 
         <div className="xl:col-span-2">
@@ -284,7 +284,7 @@ export default async function ListingsPage({
         </div>
 
         <div className="xl:col-span-2 xl:flex xl:items-end">
-          <button type="submit" className="bd-btn bd-btn-primary w-full">Apply</button>
+          <button type="submit" className="bd-btn bd-btn-primary w-full">Show results</button>
         </div>
       </div>
 
@@ -326,7 +326,7 @@ export default async function ListingsPage({
               {activeFilters.length > 0 ? (
                 <div className="border-t border-[#E2E8F0] px-5 py-4">
                   <Link href="/listings" className="text-sm font-semibold text-[#1D4ED8] underline underline-offset-2">
-                    Clear all
+                    Reset filters
                   </Link>
                 </div>
               ) : null}
@@ -349,7 +349,7 @@ export default async function ListingsPage({
                         className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] shadow-sm"
                       >
                         <span>{item.label}</span>
-                        <span className="ml-2 text-[#94A3B8]">Ã—</span>
+                        <span className="ml-2 text-[#94A3B8]">ÃƒÆ’Ã¢â‚¬â€</span>
                       </Link>
                     );
                   })}
