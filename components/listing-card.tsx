@@ -47,7 +47,7 @@ function shortCategory(value: string | null | undefined) {
   const v = cleanText(value);
   if (!v) return "";
   if (v.indexOf(" > ") >= 0) return v.split(" > ").pop() || v;
-  if (v.indexOf(" › ") >= 0) return v.split(" › ").pop() || v;
+  if (v.indexOf(" â€º ") >= 0) return v.split(" â€º ").pop() || v;
   return v;
 }
 
@@ -86,7 +86,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
       href={"/listings/" + listing.id}
       className="group block overflow-hidden rounded-[22px] border border-[#D8E1F0] bg-white shadow-sm transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#EEF2F7]">
+      <div className="relative aspect-[1.12/1] w-full overflow-hidden bg-[#EEF2F7]">
         {hasMulti ? (
           <ListingThumbCarousel images={listing.images} title={title} />
         ) : (
@@ -149,7 +149,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
 
         <div className="text-[22px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
 
-        <div className="flex items-center justify-between gap-3 text-xs text-[#64748B]">
+        <div className="flex items-center justify-between gap-2.5 text-[11px] text-[#64748B]">
           <div className="min-w-0 truncate">{location || "Location on request"}</div>
           <div className="font-semibold text-[#0F172A]">View</div>
         </div>
