@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,6 @@ export default function PlaceOfferClient({
 
   const router = useRouter();
 
-  // Client-side stale-tab guard: once endsAt passes, disable offers without requiring refresh
   const [clientEnded, setClientEnded] = useState(false);
   useEffect(() => {
     if (!endsAtIso) return;
@@ -73,11 +72,10 @@ export default function PlaceOfferClient({
     try {
       setLoading(true);
 
-      const res = await fetch(`/api/offers/place`, {
+      const res = await fetch("/api/offers/place", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // IMPORTANT: send dollars, server converts -> cents
-        body: JSON.stringify({ listingId, amount: value }),
+        body: JSON.stringify({ listingId: listingId, amount: value }),
       });
 
       const data = await res.json().catch(() => ({}));
@@ -95,12 +93,12 @@ export default function PlaceOfferClient({
         return;
       }
 
-      const isTop = data?.status === "TOP" || data?.status === "HIGHEST" || data?.status === "WINNING"; // backward compat
+      const isTop = data?.status === "TOP" || data?.status === "HIGHEST" || data?.status === "WINNING";
 
       setLastResult({
         submittedCents: cents,
         currentCents: (typeof data?.currentOfferCents === "number") ? data.currentOfferCents : null,
-        isTop,
+        isTop: isTop,
       });
 
       setMsg("");
@@ -122,8 +120,8 @@ export default function PlaceOfferClient({
           </div>
           <button
             type="button"
-            onClick={() => router.push(`/auth/login?next=${encodeURIComponent(`/listings/${listingId}`)}`)}
-            className="mt-3 w-full rounded-xl bg-[var(--bidra-link)] px-4 py-2.5 text-sm font-semibold text-[#0B0E11] transition hover:opacity-90"
+            onClick={() => router.push("/auth/login?next=" + encodeURIComponent("/listings/" + listingId))}
+            className="mt-3 w-full rounded-full border border-[#1D4ED8] bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D4ED8]"
           >
             Log in
           </button>
@@ -153,9 +151,9 @@ export default function PlaceOfferClient({
           </div>
           <div className="mt-1 text-xs text-neutral-700">
             {lastResult.isTop ? (
-              <>You’re currently the highest offer. Waiting for seller decision at the end.</>
+              <>You are currently the highest offer.</>
             ) : (
-              <>You’ve been out-offered. Increase your max offer to try stay on top.</>
+              <>You have been out-offered. Increase your offer to stay on top.</>
             )}
           </div>
         </div>
@@ -179,11 +177,7 @@ export default function PlaceOfferClient({
         </span>
       </div>
 
-      <div className="text-xs text-[var(--bidra-muted)]">
-        Enter your MAX offer. We will automatically increase your visible offer (in $10 steps) to keep you on top, up to this limit.
-      </div>
-
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+      <div className="flex flex-col gap-2">
         <input
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
@@ -191,14 +185,14 @@ export default function PlaceOfferClient({
           inputMode="decimal"
           placeholder="e.g. 25.50"
           disabled={hardDisabled || loading}
-          className="w-full h-11 rounded-xl border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-3 py-2 text-sm text-[var(--bidra-fg)] placeholder:text-[var(--bidra-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--bidra-link)] disabled:opacity-60"
+          className="h-11 w-full rounded-xl border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-3 py-2 text-sm text-[var(--bidra-fg)] placeholder:text-[var(--bidra-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--bidra-link)] disabled:opacity-60"
         />
 
         <button
           type="button"
           onClick={submit}
           disabled={loading || hardDisabled}
-          className="w-full sm:w-auto rounded-xl bg-[var(--bidra-link)] px-4 py-2.5 text-sm font-semibold text-[#0B0E11] transition hover:opacity-90 disabled:opacity-60"
+          className="w-full rounded-full border border-[#1D4ED8] bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D4ED8] disabled:opacity-60"
         >
           {loading ? "Submitting..." : "Place offer"}
         </button>

@@ -6,7 +6,6 @@ import { prisma } from "@/lib/prisma";
 import { isTimedOffersType } from "@/lib/listing-type";
 import { formatTimeRemaining } from "@/lib/time-remaining";
 import ListingImageGallery from "@/components/listing-image-gallery";
-import SafetyCallout from "@/components/safety-callout";
 import BuyNowButton from "./buy-now-button";
 import PlaceOfferClient from "./place-offer-client";
 import AcceptHighestOfferButton from "./accept-highest-offer-button";
@@ -65,24 +64,30 @@ export default async function ListingDetailPage({
     <main className="bg-[#F7F9FC]">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-5">
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
             <div className="space-y-4">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{listing.category || "Listing"}</span>
-                  <span className={
-                    isTimedOffers
-                      ? "rounded-full border border-amber-200 bg-[#FFFBEB] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-800"
-                      : "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-800"
-                  }>{isTimedOffers ? "Offers" : "Buy Now"}</span>
-                  {listing.condition ? <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{listing.condition}</span> : null}
+                  <span
+                    className={
+                      isTimedOffers
+                        ? "rounded-full border border-amber-200 bg-[#FFFBEB] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-800"
+                        : "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-800"
+                    }
+                  >
+                    {isTimedOffers ? "Offers" : "Buy Now"}
+                  </span>
+                  {listing.condition ? (
+                    <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{listing.condition}</span>
+                  ) : null}
                 </div>
 
                 <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-[2.2rem]">{listing.title}</h1>
 
                 <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-[#64748B]">
                   <span>{listing.location || "Location on request"}</span>
-                  <span className="text-[#CBD5E1]">â€¢</span>
+                  <span className="text-[#CBD5E1]">•</span>
                   <span>{sellerName}</span>
                 </div>
               </div>
@@ -112,7 +117,7 @@ export default async function ListingDetailPage({
                 )}
 
                 <div className="grid grid-cols-2 gap-2.5">
-                  <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login"} />
+                  <WatchlistButton listingId={listing.id} authed={!!userId} loginHref="/auth/login" />
                   <MessageSellerButton listingId={listing.id} />
                 </div>
               </div>
@@ -140,10 +145,10 @@ export default async function ListingDetailPage({
           </div>
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_20rem]">
+        <section className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_18rem]">
           <div className="space-y-4">
             <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-3">
                 <div className="rounded-2xl bg-[#F8FAFC] p-3.5">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Type</div>
                   <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{isTimedOffers ? "Offers" : "Buy Now"}</div>
@@ -151,10 +156,6 @@ export default async function ListingDetailPage({
                 <div className="rounded-2xl bg-[#F8FAFC] p-3.5">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Condition</div>
                   <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{listing.condition || "Not specified"}</div>
-                </div>
-                <div className="rounded-2xl bg-[#F8FAFC] p-3.5">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Location</div>
-                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{listing.location || "Not specified"}</div>
                 </div>
                 <div className="rounded-2xl bg-[#F8FAFC] p-3.5">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Category</div>
@@ -166,22 +167,6 @@ export default async function ListingDetailPage({
                 <p className="whitespace-pre-wrap text-sm leading-6 text-[#334155]">{listing.description || "No description provided."}</p>
               </div>
             </div>
-
-            {isTimedOffers ? (
-              <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
-                <div className="flex flex-wrap items-end justify-between gap-3">
-                  <h2 className="text-2xl font-extrabold tracking-tight text-[#0F172A]">Offers</h2>
-                </div>
-
-                <div className="mt-4 grid gap-3 sm:grid-cols-1">
-                  <div className="rounded-2xl border border-[#FDE68A] bg-[#FFFBEB] p-3.5">
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-800">Top offer</div>
-                    <div className="mt-1.5 text-[1.8rem] font-extrabold tracking-tight text-[#0F172A]">{money(currentOffer ?? listing.price)}</div>
-                    <div className="mt-1 text-sm text-[#92400E]">{endsText && endsText !== "Ended" ? "Ends in " + endsText : "Open now"}</div>
-                  </div>
-                </div>
-              </div>
-            ) : null}
           </div>
 
           <aside className="space-y-4">
@@ -192,10 +177,6 @@ export default async function ListingDetailPage({
               <div className="mt-3">
                 <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
               </div>
-            </div>
-
-            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
-              <SafetyCallout />
             </div>
           </aside>
         </section>
