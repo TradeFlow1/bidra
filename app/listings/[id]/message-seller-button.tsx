@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import SafetyCallout from "../../../components/safety-callout"
 
 export default function MessageSellerButton(props: { listingId: string }) {
   const router = useRouter()
@@ -20,16 +19,14 @@ export default function MessageSellerButton(props: { listingId: string }) {
         body: JSON.stringify({ listingId: props.listingId }),
       })
 
-      // Not logged in
       if (res.status === 401) {
         setBusy(false)
-        router.push(`/auth/login?next=${encodeURIComponent(`/listings/${props.listingId}`)}`)
+        router.push("/auth/login?next=" + encodeURIComponent("/listings/" + props.listingId))
         return
       }
 
       const data = await res.json().catch(() => null)
 
-      // Restricted / under-18 / gated
       if (res.status === 403) {
         setBusy(false)
         router.push("/account/restrictions")
@@ -40,7 +37,6 @@ export default function MessageSellerButton(props: { listingId: string }) {
         const msg = (data && (data.error || data.message)) || "Could not start a message."
         const code = String(msg).toUpperCase()
 
-        // If the API returns a restriction-style code, route to restrictions instead of showing raw codes
         if (
           code.includes("MISSING") ||
           code.includes("AGE") ||
@@ -68,7 +64,7 @@ export default function MessageSellerButton(props: { listingId: string }) {
         return
       }
 
-      router.push(`/messages/${threadId}`)
+      router.push("/messages/" + threadId)
     } catch {
       setErr("Something went wrong. Please try again.")
       setBusy(false)
@@ -83,18 +79,10 @@ export default function MessageSellerButton(props: { listingId: string }) {
         disabled={busy}
         className="w-full rounded-xl border border-black/20 bg-white px-4 py-3 text-[15px] font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
       >
-        {busy ? "Opening chat…" : "Message seller"}
+        {busy ? "Opening chat..." : "Message seller"}
       </button>
 
       {err ? <div className="text-sm text-red-700">{err}</div> : null}
-
-      <SafetyCallout title="Messaging safety">
-        <ul className="list-disc pl-5">
-          <li>Don’t share unnecessary personal info until you’re confident.</li>
-          <li>Verify the item and seller details before paying.</li>
-          <li>If something feels wrong, stop and report it.</li>
-        </ul>
-      </SafetyCallout>
     </div>
   )
 }
