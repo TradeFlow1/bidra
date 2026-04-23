@@ -122,10 +122,6 @@ export default function WatchlistButton(props: Props) {
         {ready ? label : "Loading..."}
       </button>
 
-      <div className="text-xs text-neutral-600">
-        {watched ? "Saved to your watchlist for quick return later." : "Save this listing so you can find it again quickly."}
-      </div>
-
       {error ? (
         <div className="text-xs text-red-600">{error}</div>
       ) : null}
