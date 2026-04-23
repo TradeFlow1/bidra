@@ -23,7 +23,15 @@ function money(cents: number | null | undefined) {
 }
 
 function cleanText(value: string | null | undefined) {
-  return String(value ?? "").replace(/\s+/g, " ").trim();
+  return String(value ?? "")
+    .replace(/\u00C2/g, " ")
+    .replace(/\u00E2\u20AC\u00A2/g, " • ")
+    .replace(/\u00E2\u20AC\u2122|\u00E2\u20AC\u02DC/g, "'")
+    .replace(/\u00E2\u20AC\u0153|\u00E2\u20AC?/g, "\"")
+    .replace(/\u2022/g, " • ")
+    .replace(/\s+\u2022\s+/g, " • ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export default async function ListingDetailPage({
@@ -68,7 +76,7 @@ export default async function ListingDetailPage({
             <div className="space-y-3">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{listing.category || "Listing"}</span>
+                  <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{cleanText(listing.category) || "Listing"}</span>
                   <span
                     className={
                       isTimedOffers
@@ -79,22 +87,22 @@ export default async function ListingDetailPage({
                     {isTimedOffers ? "Offers" : "Buy Now"}
                   </span>
                   {listing.condition ? (
-                    <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{listing.condition}</span>
+                    <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{cleanText(listing.condition)}</span>
                   ) : null}
                 </div>
 
-                <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-[2.2rem]">{listing.title}</h1>
+                <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-[2.2rem]">{cleanText(listing.title)}</h1>
 
                 <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-[#64748B]">
-                  <span>{listing.location || "Location on request"}</span>
-                  <span className="text-[#CBD5E1]">â€¢</span>
+                  <span>{cleanText(listing.location) || "Location on request"}</span>
+                  <span className="text-[#CBD5E1]">ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢</span>
                   <span>{sellerName}</span>
                 </div>
               </div>
 
               <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
                 <div className="p-3 sm:p-4">
-                  <ListingImageGallery images={images} title={listing.title} />
+                  <ListingImageGallery images={images} title={cleanText(listing.title)} />
                 </div>
               </div>
             </div>
@@ -147,30 +155,30 @@ export default async function ListingDetailPage({
 
         <section className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_18rem]">
           <div className="space-y-3">
-            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3.5 shadow-sm">
               <div className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-3">
-                <div className="rounded-2xl bg-[#F8FAFC] p-3.5">
+                <div className="rounded-2xl bg-[#F8FAFC] p-3">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Type</div>
                   <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{isTimedOffers ? "Offers" : "Buy Now"}</div>
                 </div>
-                <div className="rounded-2xl bg-[#F8FAFC] p-3.5">
+                <div className="rounded-2xl bg-[#F8FAFC] p-3">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Condition</div>
-                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{listing.condition || "Not specified"}</div>
+                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{cleanText(listing.condition) || "Not specified"}</div>
                 </div>
-                <div className="rounded-2xl bg-[#F8FAFC] p-3.5">
+                <div className="rounded-2xl bg-[#F8FAFC] p-3">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Category</div>
-                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{listing.category || "Marketplace"}</div>
+                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{cleanText(listing.category) || "Marketplace"}</div>
                 </div>
               </div>
 
               <div className="mt-2.5">
-                <p className="whitespace-pre-wrap text-sm leading-[1.55] text-[#334155]">{listing.description || "No description provided."}</p>
+                <p className="whitespace-pre-wrap text-sm leading-[1.55] text-[#334155]">{cleanText(listing.description) || "No description provided."}</p>
               </div>
             </div>
           </div>
 
           <aside className="space-y-4">
-            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3.5 shadow-sm">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
               <div className="mt-1.5 text-[1.7rem] font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
               <div className="mt-2 text-sm text-[#64748B]">{sellerLocation}</div>
