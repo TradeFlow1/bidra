@@ -487,16 +487,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
   return (
     <div className="bd-card p-5">
-      <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 p-4">
-        <div className="text-sm font-semibold text-blue-900">Arrange fulfillment after purchase</div>
-        <div className="mt-1 text-xs text-blue-900">
-          Sellers do not need to lock exact meetup, delivery, or postage details before sale. Arrange them with the buyer after purchase.
-        </div>
-      </div>
 
-      <p className="mt-2 text-sm bd-ink2">
-        Add the basics - title, description, category, condition, location, photos, and pricing. Pickup, delivery, or postage can be arranged after purchase.
-      </p>
 
       {err && (
         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div>
@@ -530,27 +521,6 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             <option value="BUY_NOW">Buy Now</option>
             <option value="TIMED_OFFERS">Timed offers (seller decides at end)</option>
           </select>
-          <div className="mt-2 text-xs bd-ink2" data-testid="listing-type-help">
-            {isTimedOffers ? (
-              <>
-                <div className="font-medium text-[var(--bidra-ink)]">Timed offers (not automatic)</div>
-                <div className="mt-1">
-                  Buyers can place offers until the timer ends. When it ends, you choose whether to proceed with the highest offer - nothing is sold automatically. Reserve is not part of this launch version.
-                  You can also add an optional <span className="font-medium">Buy Now</span> price.
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="font-medium text-[var(--bidra-ink)]">Fixed price (Buy Now)</div>
-                <div className="mt-1">
-                  You set a price buyers can purchase for immediately via <span className="font-medium">Buy Now</span>. You can still message buyers, but Buy Now is the fastest path to a sale.
-                </div>
-              </>
-            )}
-            <div className="mt-1">
-              <Link href="/how-it-works" className="underline underline-offset-2">How it works</Link>
-            </div>
-          </div>
         </div>
 
         <div>
