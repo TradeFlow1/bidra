@@ -66,7 +66,7 @@ export default async function ListingDetailPage({
     <main className="bg-[#F7F9FC]">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-5">
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
-          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-start">
             <div className="space-y-3">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -125,7 +125,7 @@ export default async function ListingDetailPage({
               {isOwner && isTimedOffers && !isSold && topOffer ? (
                 <div className="mt-3 rounded-2xl border border-[#FDE68A] bg-[#FFFBEB] p-3.5">
                   <div className="mt-1 text-sm font-semibold text-[#92400E]">Accept the current top offer.</div>
-                  <div className="mt-2.5">
+                  <div className="mt-2">
                     <AcceptHighestOfferButton listingId={listing.id} />
                   </div>
                 </div>
@@ -145,36 +145,36 @@ export default async function ListingDetailPage({
           </div>
         </section>
 
-        <section className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_18rem]">
+        <section className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_17rem]">
           <div className="space-y-3">
-            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3.5 shadow-sm">
+            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
               <div className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-3">
-                <div className="rounded-2xl bg-[#F8FAFC] p-3">
+                <div className="rounded-2xl bg-[#F8FAFC] p-2.5">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Type</div>
                   <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{isTimedOffers ? "Offers" : "Buy Now"}</div>
                 </div>
-                <div className="rounded-2xl bg-[#F8FAFC] p-3">
+                <div className="rounded-2xl bg-[#F8FAFC] p-2.5">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Condition</div>
                   <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{cleanText(listing.condition) || "Not specified"}</div>
                 </div>
-                <div className="rounded-2xl bg-[#F8FAFC] p-3">
+                <div className="rounded-2xl bg-[#F8FAFC] p-2.5">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Category</div>
                   <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{cleanText(listing.category) || "Marketplace"}</div>
                 </div>
               </div>
 
-              <div className="mt-2.5">
+              <div className="mt-2">
                 <p className="whitespace-pre-wrap text-sm leading-[1.55] text-[#334155]">{cleanText(listing.description) || "No description provided."}</p>
               </div>
             </div>
           </div>
 
           <aside className="space-y-4">
-            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3.5 shadow-sm">
+            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
               <div className="mt-1.5 text-[1.7rem] font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
               <div className="mt-2 text-sm text-[#64748B]">{sellerLocation}</div>
-              <div className="mt-2.5">
+              <div className="mt-2">
                 <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
               </div>
             </div>
