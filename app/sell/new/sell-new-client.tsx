@@ -165,50 +165,44 @@ function suggestDescriptionDraft(args: {
 }): string {
   const title = (args.title || "").trim();
   const category = (args.category || "").trim();
-  const condition = String(args.condition || "").trim().replaceAll("_", " ").toLowerCase();
+  const conditionRaw = String(args.condition || "").trim().replaceAll("_", " ").toLowerCase();
   const priceLabel = (args.priceLabel || "").trim();
   const location = (args.location || "").trim();
 
-  const introParts: string[] = [];
-  if (title) introParts.push(title);
-  if (condition) introParts.push(condition);
-  if (category) introParts.push(category);
-
   const lines: string[] = [];
 
-  if (introParts.length > 0) {
-    lines.push(introParts.join(" - "));
+  if (title && conditionRaw) {
+    lines.push(`${title} in ${conditionRaw} condition.`);
+  } else if (title) {
+    lines.push(`${title}.`);
+  } else if (category) {
+    lines.push(`${category} for sale.`);
   } else {
-    lines.push("Item for sale");
+    lines.push("Item for sale.");
   }
 
-  lines.push("");
-  lines.push("Selling in good faith and happy to answer reasonable questions.");
-  lines.push("Please check the photos carefully for overall condition.");
+  lines.push("Works as it should.");
+  lines.push("See photos for condition.");
 
   if (args.type === "TIMED_OFFERS") {
-    lines.push("This listing is set to timed offers. I will review the highest offer when it ends and decide whether to proceed.");
     if (priceLabel) {
-      lines.push(`Starting point: ${priceLabel}.`);
+      lines.push(`Starting offers from ${priceLabel}.`);
+    } else {
+      lines.push("Open to offers.");
     }
   } else if (priceLabel) {
     lines.push(`Price: ${priceLabel}.`);
   }
 
+  lines.push("Includes what is shown in the photos.");
+
   if (location) {
-    lines.push(`Located in ${location}.`);
-  } else {
-    lines.push("Located in your local area.");
+    lines.push(`Pickup from ${location}.`);
   }
 
-  lines.push("Pickup, delivery, or postage can be discussed after purchase.");
-  lines.push("");
-  lines.push("Suggested details to add:");
-  lines.push("- what is included");
-  lines.push("- any marks, wear, or faults");
-  lines.push("- age, usage, or service history if relevant");
+  lines.push("Message for details.");
 
-  return lines.join("\n");
+  return lines.join(" ");
 }
 
 function dollarsToCentsOrNull(v: string): number | null {
