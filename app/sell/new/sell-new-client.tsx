@@ -581,9 +581,9 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                 setDescription(draft);
               }}
             >
-              Suggest description
+              Fill example
             </button>
-            <span className="text-xs bd-ink2">Fills a draft you can edit.</span>
+            <span className="text-xs bd-ink2">Adds a simple example you can edit.</span>
           </div>
         </div>
 
