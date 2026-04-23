@@ -164,7 +164,7 @@ export default async function ListingDetailPage({
               </div>
 
               <div className="mt-2">
-                <p className="whitespace-pre-wrap text-sm leading-[1.55] text-[#334155]">{cleanText(listing.description) || "No description provided."}</p>
+                <p className="whitespace-pre-wrap text-sm leading-[1.55] text-[#334155]">{cleanText(listing.description).replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided."}</p>
               </div>
             </div>
           </div>
