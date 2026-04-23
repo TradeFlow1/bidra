@@ -24,12 +24,6 @@ function money(cents: number | null | undefined) {
 
 function cleanText(value: string | null | undefined) {
   return String(value ?? "")
-    .replace(/\u00C2/g, " ")
-    .replace(/\u00E2\u20AC\u00A2/g, " • ")
-    .replace(/\u00E2\u20AC\u2122|\u00E2\u20AC\u02DC/g, "'")
-    .replace(/\u00E2\u20AC\u0153|\u00E2\u20AC?/g, "\"")
-    .replace(/\u2022/g, " • ")
-    .replace(/\s+\u2022\s+/g, " • ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -93,10 +87,8 @@ export default async function ListingDetailPage({
 
                 <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-[2.2rem]">{cleanText(listing.title)}</h1>
 
-                <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-[#64748B]">
+                <div className="mt-2 text-sm text-[#64748B]">
                   <span>{cleanText(listing.location) || "Location on request"}</span>
-                  <span className="text-[#CBD5E1]">ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢</span>
-                  <span>{sellerName}</span>
                 </div>
               </div>
 
