@@ -567,7 +567,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           <div className="mt-2 flex flex-wrap items-center gap-2">
             <button
               type="button"
-              className="bd-btn bd-btn-ghost rounded-full px-3 py-2 text-xs font-semibold"
+              className="bd-btn bd-btn-ghost rounded-full px-4 py-2 text-sm font-semibold"
               onClick={() => {
                 const priceLabel = type === "TIMED_OFFERS" ? (startingBid ? `$${startingBid} starting` : "") : (price ? `$${price}` : "");
                 const draft = suggestDescriptionDraft({
@@ -598,7 +598,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               <span>Suggested: <span className="font-semibold bd-ink">{suggestedCategory.categoryLabel}</span></span>
               <button
                 type="button"
-                className="bd-btn bd-btn-ghost rounded-full px-3 py-2 text-xs font-semibold"
+                className="bd-btn bd-btn-ghost rounded-full px-4 py-2 text-sm font-semibold"
                 onClick={() => {
                   setCategoryTouched(true);
                   setTopCategoryKey(suggestedCategory.categoryKey);
@@ -713,7 +713,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           <div className="mt-2 flex items-center gap-2 flex-wrap">
             <button
               type="button"
-              className="bd-btn bd-btn-primary rounded-full px-5 py-2.5 font-semibold"
+              className="bd-btn bd-btn-primary rounded-full px-5 py-2.5 text-sm font-semibold"
               onClick={() => cameraInputRef.current?.click()}
             >
               Take photo
@@ -721,7 +721,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
             <button
               type="button"
-              className="bd-btn bd-btn-primary rounded-full px-5 py-2.5 font-semibold"
+              className="bd-btn bd-btn-primary rounded-full px-5 py-2.5 text-sm font-semibold"
               onClick={() => galleryInputRef.current?.click()}
             >
               Add photos
