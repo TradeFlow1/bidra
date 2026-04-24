@@ -172,7 +172,7 @@ export default async function DashboardPage({
     newTopOfferCount > 0 ||
     counts.actionOrders > 0;
 
-  const displayName = user.name || session.user.name || session.user.email || "Your profile";
+  const displayName = user.name || session.user.name || session.user.email || "Your account";
   const locationSummary = [
     String(user.suburb ?? "").trim(),
     String(user.state ?? "").trim(),
@@ -212,7 +212,7 @@ export default async function DashboardPage({
 
         {saved ? (
           <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 shadow-sm">
-            <div className="font-semibold">Profile updated successfully</div>
+            <div className="font-semibold">Account details updated</div>
           </div>
         ) : null}
 
@@ -223,9 +223,9 @@ export default async function DashboardPage({
           </div>
         ) : null}
 
-        <div id="account-profile" className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+        <div id="account-details" className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="text-sm font-extrabold bd-ink">Account profile</div>
+            <div className="text-sm font-extrabold bd-ink">Account details</div>
             <div className="mt-4 space-y-4">
               <div>
                 <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Display name</div>
@@ -256,9 +256,9 @@ export default async function DashboardPage({
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <form action={updateProfile} className="flex flex-col gap-5">
               <div>
-                <div className="text-sm font-extrabold bd-ink">Edit profile</div>
+                <div className="text-sm font-extrabold bd-ink">Edit account</div>
                 <div className="mt-1 text-sm bd-ink2">
-                  Keep your name and general location up to date.
+                  Keep your name and general location up to date for trust and smoother buying and selling.
                 </div>
               </div>
 
