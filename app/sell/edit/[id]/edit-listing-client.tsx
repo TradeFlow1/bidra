@@ -261,57 +261,52 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
     <main className="bd-container py-10">
       <div className="container max-w-2xl">
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex flex-col gap-3">
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Edit listing</h1>
+              <div className="mt-1 flex flex-wrap items-center gap-2 text-xs bd-ink2">
+                <span>Status: <span className="font-extrabold bd-ink">{status}</span></span>
+                {status === "ACTIVE" ? <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-2 py-0.5 text-[11px] font-extrabold bd-ink">Live listing</span> : null}
+              </div>
             </div>
 
-            <div className="flex flex-col items-start gap-2 sm:items-end">
-              <div className="flex items-center gap-2 flex-wrap">
-                <div className="text-xs bd-ink2">
-                  Status: <span className="font-extrabold bd-ink">{status}</span>
-                  {status === "ACTIVE" ? <span className="ml-2 inline-flex items-center rounded-full border border-black/10 bg-white px-2 py-0.5 text-[11px] font-extrabold bd-ink">Live listing</span> : null}
-                </div>
-              </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="submit"
+                form="editListingForm"
+                disabled={isSaving}
+                className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
+              >
+                {isSaving ? "Saving..." : "Save changes"}
+              </button>
 
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="submit"
-                  form="editListingForm"
-                  disabled={isSaving}
-                  className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
-                >
-                  {isSaving ? "Saving..." : "Save changes"}
-                </button>
+              <Link href={`/listings/${listing.id}`} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                View listing
+              </Link>
 
-                <Link href={`/listings/${listing.id}`} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
-                  View listing
-                </Link>
-
-                {status === "ACTIVE" ? (
-                  <button
-                    type="button"
-                    onClick={endListing}
-                    disabled={isSaving}
-                    className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
-                  >
-                    End listing
-                  </button>
-                ) : null}
-
+              {status === "ACTIVE" ? (
                 <button
                   type="button"
-                  onClick={deleteListing}
+                  onClick={endListing}
                   disabled={isSaving}
                   className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
                 >
-                  Delete listing
+                  End listing
                 </button>
+              ) : null}
 
-                <Link href="/dashboard/listings" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
-                  My listings
-                </Link>
-              </div>
+              <button
+                type="button"
+                onClick={deleteListing}
+                disabled={isSaving}
+                className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
+              >
+                Delete listing
+              </button>
+
+              <Link href="/dashboard/listings" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                My listings
+              </Link>
             </div>
           </div>
           {error ? (
