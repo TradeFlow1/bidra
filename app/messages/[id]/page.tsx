@@ -129,7 +129,6 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                   </div>
 
                   <div className="min-w-0 flex-1">
-                    <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Conversation</div>
                     <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
                     <div className="mt-2 text-sm text-[var(--bidra-ink-2)]">
                       Clarification thread with <span className="font-semibold text-[var(--bidra-ink)]">{displayName(other)}</span>
@@ -226,7 +225,6 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
       <main className="bd-container py-10">
         <div className="container max-w-5xl space-y-5">
           <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Conversation</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
           </div>
 
