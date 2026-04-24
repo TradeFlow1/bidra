@@ -207,6 +207,14 @@ export default async function DashboardPage({
             <div className="mt-1 text-sm text-neutral-600">Orders that need action.</div>
           </Link>
 
+          <Link href="/account/restrictions" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Account status</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">
+              {isBlocked || !adult.ok ? "Review" : "Clear"}
+            </div>
+            <div className="mt-1 text-sm text-neutral-600">Restrictions and trust status.</div>
+          </Link>
+
 
         </div>
 

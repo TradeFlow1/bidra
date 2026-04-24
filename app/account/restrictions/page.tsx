@@ -64,19 +64,15 @@ export default async function RestrictionsPage() {
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Account restrictions</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Account status and restrictions</h1>
+              <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Account status</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                This page explains whether your account has any current access restrictions and where to go for help if you need a review.
+                Check whether your account has any marketplace restrictions and what to do next.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <Link href="/account" className="bd-btn bd-btn-primary text-center">
-                Back to account
-              </Link>
-              <Link href="/contact" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
-                Contact support
+              <Link href="/dashboard" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+                Dashboard
               </Link>
             </div>
           </div>
