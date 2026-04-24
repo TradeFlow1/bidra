@@ -74,6 +74,9 @@ export default async function RestrictionsPage() {
               <Link href="/dashboard" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                 Dashboard
               </Link>
+              <Link href="/contact" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+                Contact support
+              </Link>
             </div>
           </div>
         </div>
@@ -137,23 +140,7 @@ export default async function RestrictionsPage() {
           ) : null}
         </StatusCard>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="text-sm font-extrabold bd-ink">Helpful links</div>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Link href="/legal/prohibited-items" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
-              Prohibited items
-            </Link>
-            <Link href="/help" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
-              Help
-            </Link>
-            <Link href="/support" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
-              Support and safety
-            </Link>
-            <Link href="/contact" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
-              Contact support
-            </Link>
-          </div>
-        </section>
+
       </div>
     </main>
   );
