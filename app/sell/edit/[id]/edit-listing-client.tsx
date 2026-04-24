@@ -265,7 +265,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Edit listing</h1>
               <div className="mt-1 flex flex-wrap items-center gap-2 text-xs bd-ink2">
-                <span>Status: <span className="font-extrabold bd-ink">{status}</span></span>
+                <span>Listing status: <span className="font-extrabold bd-ink">{status}</span></span>
                 {status === "ACTIVE" ? <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-2 py-0.5 text-[11px] font-extrabold bd-ink">Live listing</span> : null}
               </div>
             </div>
@@ -450,9 +450,9 @@ buyNowPrice:
 
               {isTimedOffers ? (
                 <div className="bd-card p-4">
-                  <div className="text-sm font-extrabold bd-ink">Late-stage Buy Now (seller-controlled)</div>
+                  <div className="text-sm font-extrabold bd-ink">Buy Now option</div>
                   <div className="mt-1 text-xs bd-ink2">
-                    This is only available in the final 24 hours of a timed-offers listing, and must be above the current highest offer.
+                    Add a Buy Now price near the end of a timed-offers listing. The price must be higher than the current highest offer.
                   </div>
 
                   
@@ -466,7 +466,7 @@ buyNowPrice:
       disabled={isSaving}
     />
     <label htmlFor="buyNowEnabled" className="text-sm font-extrabold bd-ink">
-      Enable Buy Now (final 24h)
+      Enable Buy Now
     </label>
   </div>
 <div className="mt-3 grid gap-2">
@@ -481,14 +481,14 @@ buyNowPrice:
                     />
                     {isTimedOffers ? (
                       <div className="text-xs bd-ink2">
-                        Current highest offer:{" "}
+                        Highest offer so far:{" "}
                         <span className="font-semibold bd-ink">{new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD" }).format(Number((listing as unknown as { highestOfferCents?: number | null }).highestOfferCents ?? 0) / 100)}</span>
                       </div>
                     ) : null}
                     {!inFinal24h ? (
-                      <div className="text-xs bd-ink2">Not in the final 24h window yet.</div>
+                      <div className="text-xs bd-ink2">Available near the end of the listing.</div>
                     ) : (
-                      <div className="text-xs bd-ink2">Leave blank to remove Buy Now again.</div>
+                      <div className="text-xs bd-ink2">Clear the price to remove Buy Now.</div>
                     )}
                   </div>
                 </div>
