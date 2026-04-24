@@ -188,7 +188,7 @@ export default async function DashboardPage({
           </h1>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           <Link href="/dashboard/listings" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listings</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{myListingsCount}</div>
@@ -225,54 +225,6 @@ export default async function DashboardPage({
             <div className="font-semibold">Please fix your location</div>
             <div className="mt-1">Enter your postcode, suburb, and state. No street address.</div>
           </div>
-        ) : null}
-
-        {hasAttention ? (
-          <SurfaceCard
-            title="Needs attention"
-            subtitle="Review account or marketplace items that need action."
-            tone="attention"
-          >
-            <div className="flex flex-col gap-2 text-sm">
-              {!adult.ok ? (
-                <div className="bd-ink2">
-                  Your account is restricted. Visit{" "}
-                  <Link href="/account/restrictions" className="bd-link font-semibold">
-                    account restrictions
-                  </Link>
-                  .
-                </div>
-              ) : null}
-
-              {isBlocked ? (
-                <div className="bd-ink2">
-                  Temporarily blocked until{" "}
-                  <span className="font-semibold bd-ink">
-                    {user.policyBlockedUntil ? <DateTimeText value={user.policyBlockedUntil} /> : "--"}
-                  </span>
-                  .
-                </div>
-              ) : null}
-
-              {newTopOfferCount > 0 ? (
-                <div>
-                  <ActionLink href="/dashboard/listings">New top offers received ({newTopOfferCount})</ActionLink>
-                </div>
-              ) : null}
-
-              {pendingBuyerFeedbackCount > 0 ? (
-                <div>
-                  <ActionLink href="/orders">Leave buyer feedback ({pendingBuyerFeedbackCount})</ActionLink>
-                </div>
-              ) : null}
-
-              {counts.actionOrders > 0 ? (
-                <div>
-                  <ActionLink href="/orders">Review orders needing action ({counts.actionOrders})</ActionLink>
-                </div>
-              ) : null}
-            </div>
-          </SurfaceCard>
         ) : null}
 
         <div id="account-profile" className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
