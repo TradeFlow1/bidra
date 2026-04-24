@@ -5,10 +5,13 @@ import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import DateTimeText from "@/components/date-time-text";
 import { getNotificationCounts } from "@/lib/notifications";
+import { Card, Button, Input } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+
+const STATES = ["NSW", "VIC", "QLD", "WA", "SA", "TAS", "ACT", "NT"] as const;
 
 function Pill(props: { tone?: "ok" | "warn"; children: React.ReactNode }) {
   const tone = props.tone ?? "ok";
@@ -47,16 +50,6 @@ function SurfaceCard(props: {
   );
 }
 
-function ActionBtn(props: { href: string; kind?: "primary" | "ghost"; children: React.ReactNode }) {
-  const kind = props.kind ?? "ghost";
-  const cls = kind === "primary" ? "bd-btn bd-btn-primary" : "bd-btn bd-btn-ghost";
-  return (
-    <Link href={props.href} className={cls}>
-      {props.children}
-    </Link>
-  );
-}
-
 function ActionLink(props: { href: string; children: React.ReactNode }) {
   return (
     <Link href={props.href} className="bd-link font-semibold">
@@ -65,12 +58,13 @@ function ActionLink(props: { href: string; children: React.ReactNode }) {
   );
 }
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams?: { saved?: string };
+}) {
   const session = await auth();
   if (!session?.user?.id) redirect("/auth/login?next=/dashboard");
-
-  const role = session.user.role;
-  const isAdmin = role === "ADMIN";
 
   const adult = await requireAdult(session);
   const me = session.user.id;
@@ -79,6 +73,13 @@ export default async function DashboardPage() {
     where: { id: me },
     select: {
       id: true,
+      email: true,
+      name: true,
+      bio: true,
+      postcode: true,
+      suburb: true,
+      state: true,
+      country: true,
       emailVerified: true,
       isActive: true,
       ageVerified: true,
@@ -90,6 +91,51 @@ export default async function DashboardPage() {
   if (!user) redirect("/auth/login?next=/dashboard");
 
   const counts = await getNotificationCounts(me);
+  const saved = String(searchParams?.saved ?? "") === "1";
+  const failed = String(searchParams?.saved ?? "") === "0";
+
+  async function updateProfile(formData: FormData) {
+    "use server";
+    const { auth } = await import("@/lib/auth");
+    const { prisma } = await import("@/lib/prisma");
+    const { redirect } = await import("next/navigation");
+
+    const s = await auth();
+    const userId = s?.user?.id ? String(s.user.id) : "";
+    if (!userId) redirect("/auth/login?next=/dashboard");
+
+    const name = String(formData.get("name") ?? "").trim().slice(0, 60);
+    const bio = String(formData.get("bio") ?? "").trim().slice(0, 280);
+    const postcode = String(formData.get("postcode") ?? "").trim().slice(0, 10);
+    const suburb = String(formData.get("suburb") ?? "").trim().slice(0, 60);
+    const state = String(formData.get("state") ?? "").trim().slice(0, 10);
+
+    const hasPostcode = postcode.length > 0;
+    const hasSuburb = suburb.length > 0;
+    const hasState = state.length > 0;
+
+    if (!hasPostcode && !(hasSuburb && hasState)) {
+      redirect("/dashboard?saved=0");
+    }
+
+    if (hasSuburb && !hasState) {
+      redirect("/dashboard?saved=0");
+    }
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        name: name || null,
+        bio: bio || null,
+        postcode: hasPostcode ? postcode : null,
+        suburb: hasSuburb ? suburb : null,
+        state: hasState ? state : null,
+        country: "AU",
+      },
+    });
+
+    redirect("/dashboard?saved=1");
+  }
 
   const now = Date.now();
   const blockedUntilMs = user.policyBlockedUntil ? new Date(user.policyBlockedUntil).getTime() : 0;
@@ -99,20 +145,8 @@ export default async function DashboardPage() {
     where: { sellerId: me, status: { not: "DELETED" } },
   });
 
-  const activeListingsCount = await prisma.listing.count({
-    where: { sellerId: me, status: "ACTIVE" },
-  });
-
-  const soldListingsCount = await prisma.listing.count({
-    where: { sellerId: me, status: "SOLD" },
-  });
-
   const ordersAsBuyerCount = await prisma.order.count({
     where: { buyerId: me },
-  });
-
-  const watchlistCount = await prisma.watchlist.count({
-    where: { userId: me },
   });
 
   const graceHours = 48;
@@ -131,38 +165,27 @@ export default async function DashboardPage() {
     },
   });
 
-  const needsEmail = false;
-  const needsPhone = false;
-  const needsAge = !user.ageVerified;
-
   const hasAttention =
     !adult.ok ||
     isBlocked ||
     pendingBuyerFeedbackCount > 0 ||
     newTopOfferCount > 0 ||
-    needsEmail ||
-    needsPhone ||
-    needsAge;
+    counts.actionOrders > 0;
 
-  const attentionCount =
-    (adult.ok ? 0 : 1) +
-    (isBlocked ? 1 : 0) +
-    (pendingBuyerFeedbackCount > 0 ? 1 : 0) +
-    (newTopOfferCount > 0 ? 1 : 0) +
-    (needsAge ? 1 : 0);
+  const displayName = user.name || session.user.name || session.user.email || "Your profile";
+  const locationSummary = [
+    String(user.suburb ?? "").trim(),
+    String(user.state ?? "").trim(),
+    String(user.postcode ?? "").trim(),
+  ].filter(Boolean).join(" - ");
 
   return (
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl">
-              <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
-                Your Bidra control center
-              </h1>
-            </div>
-
-          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
+            Your Bidra control center
+          </h1>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -184,12 +207,25 @@ export default async function DashboardPage() {
             <div className="mt-1 text-sm text-neutral-600">Orders that need action.</div>
           </Link>
 
-          <Link href="/profile" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
+          <a href="#account-profile" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Profile</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">Edit</div>
             <div className="mt-1 text-sm text-neutral-600">Update account and location.</div>
-          </Link>
+          </a>
         </div>
+
+        {saved ? (
+          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 shadow-sm">
+            <div className="font-semibold">Profile updated successfully</div>
+          </div>
+        ) : null}
+
+        {failed ? (
+          <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900 shadow-sm">
+            <div className="font-semibold">Please fix your location</div>
+            <div className="mt-1">Enter your postcode, suburb, and state. No street address.</div>
+          </div>
+        ) : null}
 
         {hasAttention ? (
           <SurfaceCard
@@ -238,6 +274,101 @@ export default async function DashboardPage() {
             </div>
           </SurfaceCard>
         ) : null}
+
+        <div id="account-profile" className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="text-sm font-extrabold bd-ink">Account profile</div>
+            <div className="mt-4 space-y-4">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Display name</div>
+                <div className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-950">{displayName}</div>
+              </div>
+
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Email</div>
+                <div className="mt-1 text-sm font-semibold text-neutral-900">{user.email}</div>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <Pill tone={user.emailVerified ? "ok" : "warn"}>
+                  Email: {user.emailVerified ? "Verified" : "Not verified"}
+                </Pill>
+                <Pill tone={locationSummary ? "ok" : "warn"}>
+                  Location: {locationSummary ? "Added" : "Incomplete"}
+                </Pill>
+              </div>
+
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">General location</div>
+                <div className="mt-1 text-sm text-neutral-700">{locationSummary || "Not added yet"}</div>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <form action={updateProfile} className="flex flex-col gap-5">
+              <div>
+                <div className="text-sm font-extrabold bd-ink">Edit profile</div>
+                <div className="mt-1 text-sm bd-ink2">
+                  Keep your name and general location up to date.
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Display name</label>
+                <Input name="name" defaultValue={user.name ?? ""} placeholder="e.g. Jordan" />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium">Bio (optional)</label>
+                <Input name="bio" defaultValue={user.bio ?? ""} placeholder="A short intro (optional)" />
+              </div>
+
+              <div className="rounded-2xl border border-black/10 bg-neutral-50 p-5">
+                <div className="text-sm font-semibold">Location</div>
+                <div className="mt-1 text-sm bd-ink2">Use postcode, suburb, and state. No street address.</div>
+
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-end">
+                  <div className="sm:col-span-1">
+                    <label className="text-sm font-medium">Postcode</label>
+                    <Input name="postcode" defaultValue={user.postcode ?? ""} placeholder="e.g. 4301" />
+                  </div>
+
+                  <div className="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label className="text-sm font-medium">Suburb</label>
+                      <Input name="suburb" defaultValue={user.suburb ?? ""} placeholder="e.g. Redbank Plains" />
+                    </div>
+
+                    <div>
+                      <label className="text-sm font-medium">State</label>
+                      <select
+                        name="state"
+                        defaultValue={user.state ?? ""}
+                        className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm bd-ink"
+                      >
+                        <option value="">Select state</option>
+                        {STATES.map((s) => (
+                          <option key={s} value={s}>
+                            {s}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <Button type="submit" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5">
+                Save changes
+              </Button>
+
+              <div className="text-xs bd-ink2 text-center">
+                We only store general area details such as suburb, state, and postcode. No street addresses.
+              </div>
+            </form>
+          </Card>
+        </div>
       </div>
     </main>
   );
