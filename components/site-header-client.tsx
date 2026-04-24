@@ -84,7 +84,6 @@ export default function SiteHeaderClient({
       <div className="absolute right-0 top-full z-[120] mt-3 w-60 overflow-hidden rounded-3xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]" role="menu" onClick={function (e) { e.stopPropagation(); }}>
         <div className="p-2">
           <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>Dashboard</Link>
-          <Link href="/profile" className={menuLinkClass} onClick={closeMenu}>Profile</Link>
           <Link href="/orders" className={menuLinkClass} onClick={closeMenu}>Orders</Link>
           <Link href="/messages" className={menuLinkClass} onClick={closeMenu}>Messages</Link>
           <Link href="/notifications" className={menuLinkClass} onClick={closeMenu}>Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}</Link>
@@ -114,8 +113,7 @@ export default function SiteHeaderClient({
                 <Link href="/dashboard" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Dashboard</Link>
                 <Link href="/messages" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Messages</Link>
                 <Link href="/orders" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Orders</Link>
-                <Link href="/profile" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Profile</Link>
-                <div className="mt-2 border-t border-black/10 pt-2">
+                      <div className="mt-2 border-t border-black/10 pt-2">
                   <Link href="/logout" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Sign out</Link>
                 </div>
               </div>

@@ -7,7 +7,7 @@ import { auth } from "@/lib/auth";
 export default async function AccountPage() {
   const session = await auth();
 
-  if (!session?.user?.id) redirect("/auth/login?next=/profile");
+  if (!session?.user?.id) redirect("/auth/login?next=/dashboard");
 
-  redirect("/profile");
+  redirect("/dashboard");
 }
