@@ -63,7 +63,7 @@ export default function HowItWorksPage() {
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li><strong>18+ only:</strong> accounts are for adults. Under 18s can browse publicly but cannot transact or message.</li>
             <li>Set your <strong>location</strong> using suburb, state, and postcode so buyers see realistic pickup context.</li>
-            <li>Keep your profile accurate because it helps trust and reduces disputes.</li>
+            <li>Keep your Dashboard account details accurate because it helps trust and reduces disputes.</li>
           </ul>
         </StepCard>
 
