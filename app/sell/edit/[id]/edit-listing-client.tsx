@@ -502,7 +502,7 @@ buyNowPrice:
               {/* Photos */}
               <div className="grid gap-2">
                 <div className="text-sm font-extrabold bd-ink">Photos</div>
-                <div className="text-xs bd-ink2">Add, remove, or reorder photos. Max 10 total.</div>
+                
 
                 {existingImages.length ? (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -544,14 +544,14 @@ buyNowPrice:
                     ))}
                   </div>
                 ) : (
-                  <div className="absolute right-2 top-2 h-7 px-3 rounded-full bg-white text-black text-xs font-extrabold border border-black/20 shadow-sm leading-none grid place-items-center p-0">No photos yet.</div>
+                  <div className="rounded-xl border border-black/10 bg-white px-4 py-3 text-sm font-semibold bd-ink2">No photos yet.</div>
                 )}
 
                 <div className="grid gap-2 pt-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <button
                       type="button"
-                      className="bd-btn bd-btn-primary"
+                      className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
                       onClick={() => cameraInputRef.current?.click()}
                       disabled={isSaving || (existingImages?.length || 0) >= 10}
                     >
@@ -560,7 +560,7 @@ buyNowPrice:
 
                     <button
                       type="button"
-                      className="bd-btn bd-btn-primary"
+                      className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
                       onClick={() => galleryInputRef.current?.click()}
                       disabled={isSaving || (existingImages?.length || 0) >= 10}
                     >
