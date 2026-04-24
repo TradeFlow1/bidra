@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { allowContactDetailsInMessages, maskContactInfo } from "@/lib/message-safety";
+import { allowContactDetailsInMessages } from "@/lib/message-safety";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
@@ -22,7 +22,7 @@ function SafetyNote() {
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-sm">
       <span className="font-semibold">Safety tip:</span>{" "}
-      Keep messages on Bidra, do not share phone numbers or email addresses, and use the order flow for final steps.
+      Use Bidra messages to keep a clear record. You can share pickup details when needed, but never share passwords, verification codes, or off-platform payment requests.
     </div>
   );
 }
@@ -38,7 +38,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
   const gate = await requireAdult(session);
   if (!gate.ok && gate.reason === "UNDER_18") redirect("/account/restrictions");
-  if (!gate.ok) redirect("/account");
+  if (!gate.ok) redirect("/dashboard");
 
   const me = session.user.id;
   if (!threadId) redirect("/messages");
@@ -152,7 +152,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                 <ThreadActions threadId={thread.id} />
                 <Link
                   href={`/listings/${thread.listing.id}`}
-                  className="bd-btn bd-btn-ghost text-center"
+                  className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
                 >
                   View listing
                 </Link>
@@ -163,7 +163,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <SafetyNote />
 
           <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink-2)] shadow-sm">
-            Use messages only for clarification about the item, access, or pickup context. Scheduling and order decisions stay in the order flow.
+            Keep item questions, pickup details, and important agreements in this conversation so there is a clear record if something goes wrong.
           </div>
 
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
@@ -171,7 +171,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               <div className="flex flex-col gap-3 max-h-[60vh] overflow-auto pr-1">
                 {messages.map((m) => {
                   const mine = m.userId === me;
-                  const body = allowContactDetailsInMessages() ? m.body : maskContactInfo(m.body);
+                  const body = m.body;
                   const isLastMine = mine && lastMyMessageId && m.id === lastMyMessageId;
 
                   return (
@@ -203,7 +203,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               <div className="rounded-2xl border border-dashed border-black/15 bg-neutral-50 px-6 py-10 text-center">
                 <div className="text-base font-semibold text-neutral-900">No messages yet</div>
                 <div className="mt-1 text-sm text-neutral-600">
-                  Use this conversation only for clarification about the listing.
+                  Use this conversation for item questions, pickup details, and important agreements.
                 </div>
               </div>
             )}
@@ -212,7 +212,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
             <div className="text-sm font-semibold text-[var(--bidra-ink)]">Send a message</div>
             <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-              Keep messages relevant to the item and never share passwords, verification codes, or off-platform payment requests.
+              Keep messages relevant to the item, pickup, and sale. Never share passwords, verification codes, or off-platform payment requests.
             </div>
             <div className="mt-4">
               <SendBox threadId={thread.id} />
@@ -238,8 +238,8 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               Please try again shortly.
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
-              <Link className="bd-btn bd-btn-primary" href="/messages">Back to inbox</Link>
-              <Link className="bd-btn bd-btn-ghost" href="/support">Support</Link>
+              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/messages">Back to inbox</Link>
+              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/support">Support</Link>
             </div>
           </div>
         </div>
