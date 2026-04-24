@@ -207,10 +207,10 @@ export default async function DashboardPage() {
           <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900 shadow-sm">
             <div className="font-semibold">Action required</div>
             <div className="mt-1">
-              You have {counts.actionOrders} order(s) that need your attention.
+              {counts.actionOrders} order(s) need your attention.
             </div>
             <div className="mt-2">
-              <Link href="/orders" className="underline font-semibold">Go to orders</Link>
+              <Link href="/orders" className="underline font-semibold">Review orders</Link>
             </div>
           </div>
         ) : null}
@@ -317,7 +317,7 @@ export default async function DashboardPage() {
               <Pill>Orders: {ordersAsBuyerCount}</Pill>
               <Pill>Watchlist: {watchlistCount}</Pill>
               <Pill tone={pendingBuyerFeedbackCount === 0 ? "ok" : "warn"}>
-                Overdue feedback (48h+): {pendingBuyerFeedbackCount}
+                Feedback due: {pendingBuyerFeedbackCount}
               </Pill>
             </div>
 
