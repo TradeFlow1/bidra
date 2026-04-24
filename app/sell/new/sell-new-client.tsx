@@ -523,7 +523,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                 setDescription(draft);
               }}
             >
-              Fill example
+              Use description guide
             </button>
 
           </div>
@@ -655,7 +655,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           <div className="mt-2 flex items-center gap-2 flex-wrap">
             <button
               type="button"
-              className="bd-btn bd-btn-primary rounded-full px-5 py-2.5 text-sm font-semibold"
+              className="bd-btn bd-btn-primary rounded-full px-6 py-3 text-sm font-extrabold shadow-sm"
               onClick={() => cameraInputRef.current?.click()}
             >
               Take photo
@@ -663,7 +663,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
             <button
               type="button"
-              className="bd-btn bd-btn-primary rounded-full px-5 py-2.5 text-sm font-semibold"
+              className="bd-btn bd-btn-primary rounded-full px-6 py-3 text-sm font-extrabold shadow-sm"
               onClick={() => galleryInputRef.current?.click()}
             >
               Add photos
