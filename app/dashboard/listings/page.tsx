@@ -106,15 +106,15 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Seller dashboard</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">My listings</h1>
                 <p className="mt-2 max-w-2xl text-sm bd-ink2 sm:text-base">
-                  Manage your live listings, review drafts, and keep your marketplace presence sharp.
+                  Manage your listings, drafts, and seller activity in one place.
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-2">
-                <Link href="/sell/new" className="bd-btn bd-btn-primary text-center">
+                <Link href="/sell/new" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                   Create new listing
                 </Link>
-                <Link href="/listings" className="bd-btn bd-btn-ghost text-center">
+                <Link href="/listings" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                   Browse marketplace
                 </Link>
               </div>
@@ -163,11 +163,11 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                   Start with your first listing and build a stronger seller profile on Bidra.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
-                  <Link href="/sell/new" className="bd-btn bd-btn-primary text-center">
-                    Create your first listing
+                  <Link href="/sell/new" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                    Create listing
                   </Link>
-                  <Link href="/how-it-works" className="bd-btn bd-btn-ghost text-center">
-                    How selling works
+                  <Link href="/how-it-works" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                    How it works
                   </Link>
                 </div>
               </div>
@@ -222,25 +222,25 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
 
                       <div className="flex flex-col gap-3 lg:w-[260px]">
                         <div className="grid grid-cols-2 gap-2">
-                          <Link href={"/listings/" + l.id} className="bd-btn bd-btn-ghost text-center">
-                            View
+                          <Link href={"/listings/" + l.id} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                            View listing
                           </Link>
-                          <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-primary text-center">
-                            Edit
+                          <Link href={"/sell/edit/" + l.id} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                            Edit listing
                           </Link>
                         </div>
 
                         <form action={updateStatus} className="rounded-2xl border border-black/10 bg-neutral-50 p-3">
                           <input type="hidden" name="id" value={l.id} />
-                          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Quick status</div>
+                          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listing status</div>
                           <div className="mt-2 flex gap-2">
                             <select name="status" defaultValue={String(l.status)} className="bd-input flex-1">
                               <option value="DRAFT">Draft</option>
                               <option value="ACTIVE">Active</option>
                               <option value="ENDED">Ended</option>
                             </select>
-                            <button type="submit" className="bd-btn bd-btn-secondary text-center">
-                              Save
+                            <button type="submit" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                              Update
                             </button>
                           </div>
                         </form>
