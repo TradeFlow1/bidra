@@ -165,48 +165,36 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Link href="/dashboard/listings" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listings</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{myListingsCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Across your seller account.</div>
-          </div>
+            <div className="mt-1 text-sm text-neutral-600">Manage your seller listings.</div>
+          </Link>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <Link href="/dashboard/listings" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Active</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{activeListingsCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Currently live in the marketplace.</div>
-          </div>
+            <div className="mt-1 text-sm text-neutral-600">View listings live to buyers.</div>
+          </Link>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <Link href="/orders" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Orders</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{ordersAsBuyerCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">As a buyer on Bidra.</div>
-          </div>
+            <div className="mt-1 text-sm text-neutral-600">Review purchases and follow-ups.</div>
+          </Link>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <Link href="/orders" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Needs attention</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{attentionCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Tasks or account items to review.</div>
-          </div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{counts.actionOrders}</div>
+            <div className="mt-1 text-sm text-neutral-600">Orders that need action.</div>
+          </Link>
         </div>
-
-        {counts.actionOrders > 0 ? (
-          <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900 shadow-sm">
-            <div className="font-semibold">Action required</div>
-            <div className="mt-1">
-              {counts.actionOrders} order(s) need your attention.
-            </div>
-            <div className="mt-2">
-              <Link href="/orders" className="underline font-semibold">Review orders</Link>
-            </div>
-          </div>
-        ) : null}
 
         {hasAttention ? (
           <SurfaceCard
             title="Needs attention"
-            subtitle="Review anything that may block trust, selling, buying, or account access."
+            subtitle="Review account or marketplace items that need action."
             tone="attention"
           >
             <div className="flex flex-col gap-2 text-sm">
@@ -242,64 +230,30 @@ export default async function DashboardPage() {
                 </div>
               ) : null}
 
-              {needsAge ? (
+              {counts.actionOrders > 0 ? (
                 <div>
-                  <ActionLink href="/profile">Complete age verification</ActionLink>
+                  <ActionLink href="/orders">Review orders needing action ({counts.actionOrders})</ActionLink>
                 </div>
               ) : null}
             </div>
           </SurfaceCard>
         ) : null}
 
-        <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <SurfaceCard
-            title="Account snapshot"
-            subtitle="Quick trust and account health overview."
-          >
-            <div className="flex flex-wrap gap-2">
-              <Pill tone={adult.ok ? "ok" : "warn"}>18+ gate: {adult.ok ? "OK" : "Restricted"}</Pill>
-              <Pill tone={!isBlocked ? "ok" : "warn"}>Blocked: {isBlocked ? "Yes" : "No"}</Pill>
-              <Pill tone={user.policyStrikes < 3 ? "ok" : "warn"}>Strikes: {user.policyStrikes}</Pill>
-              <Pill tone={needsAge ? "warn" : "ok"}>Age verified: {needsAge ? "No" : "Yes"}</Pill>
-            </div>
-          </SurfaceCard>
-
-          <SurfaceCard
-            title="Quick actions"
-            subtitle="Jump straight into the most common marketplace tasks."
-          >
-            <div className="flex flex-wrap gap-2">
-              <ActionBtn href="/sell/new" kind="primary">Create listing</ActionBtn>
-              <ActionBtn href="/dashboard/listings">Manage listings</ActionBtn>
-              <ActionBtn href="/watchlist">Watchlist</ActionBtn>
-              <ActionBtn href="/messages">Messages</ActionBtn>
-              <ActionBtn href="/orders">Orders</ActionBtn>
-              <ActionBtn href="/listings">Browse marketplace</ActionBtn>
-            </div>
-          </SurfaceCard>
-        </div>
-
         <div className="grid gap-5 md:grid-cols-2">
           <SurfaceCard
             title="Seller"
-            subtitle="Manage listings, watch offer activity, and keep your seller profile active."
+            subtitle="Your selling activity at a glance."
           >
             <div className="flex flex-wrap gap-2">
               <Pill>Listings: {myListingsCount}</Pill>
               <Pill>Active: {activeListingsCount}</Pill>
               <Pill>Completed: {soldListingsCount}</Pill>
             </div>
-
-            <div className="mt-4 flex flex-col gap-2 text-sm">
-              <ActionLink href="/dashboard/listings">Manage my listings</ActionLink>
-              <ActionLink href="/sell/new">Create a listing</ActionLink>
-              <ActionLink href="/messages">Go to messages</ActionLink>
-            </div>
           </SurfaceCard>
 
           <SurfaceCard
             title="Buyer"
-            subtitle="Track orders, browse listings, and stay on top of follow-up actions."
+            subtitle="Your buying activity at a glance."
           >
             <div className="flex flex-wrap gap-2">
               <Pill>Orders: {ordersAsBuyerCount}</Pill>
@@ -307,13 +261,6 @@ export default async function DashboardPage() {
               <Pill tone={pendingBuyerFeedbackCount === 0 ? "ok" : "warn"}>
                 Feedback due: {pendingBuyerFeedbackCount}
               </Pill>
-            </div>
-
-            <div className="mt-4 flex flex-col gap-2 text-sm">
-              <ActionLink href="/orders">View orders</ActionLink>
-              <ActionLink href="/watchlist">View watchlist</ActionLink>
-              <ActionLink href="/listings">Browse listings</ActionLink>
-              <ActionLink href="/messages">Open clarification threads</ActionLink>
             </div>
           </SurfaceCard>
         </div>
