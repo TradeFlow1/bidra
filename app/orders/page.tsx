@@ -64,7 +64,7 @@ export default async function OrdersPage() {
               <Link href="/listings" className="bd-btn bd-btn-primary text-center">
                 Browse marketplace
               </Link>
-              <Link href="/sell/new" className="bd-btn bd-btn-ghost text-center">
+              <Link href="/sell/new" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                 Create listing
               </Link>
             </div>
@@ -99,8 +99,8 @@ export default async function OrdersPage() {
                 When you buy now or a seller accepts your top offer, your order will appear here.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
-                <Link href="/listings" className="bd-btn bd-btn-primary text-center">Browse listings</Link>
-                <Link href="/sell/new" className="bd-btn bd-btn-ghost text-center">Create a listing</Link>
+                <Link href="/listings" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Browse listings</Link>
+                <Link href="/sell/new" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Create a listing</Link>
               </div>
             </div>
           </div>
@@ -115,7 +115,7 @@ export default async function OrdersPage() {
               return (
                 <Card
                   key={o.id}
-                  className={`overflow-hidden rounded-3xl border border-black/10 bg-white p-5 shadow-sm ${isPending ? "ring-1 ring-blue-200" : ""}`}
+                  className={`overflow-hidden rounded-3xl border bg-white p-5 shadow-sm ${isPending ? "border-blue-300 border-l-8 ring-2 ring-blue-100" : "border-black/10"}`}
                 >
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div className="min-w-0 flex-1">
@@ -163,7 +163,7 @@ export default async function OrdersPage() {
                       {isPending ? (
                         <Link
                           href={`/orders/${o.id}`}
-                          className="bd-btn bd-btn-primary text-center py-3"
+                          className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
                         >
                           <span className="block">Review order</span>
                           <span className="mt-1 block text-xs bd-ink2">Confirm next steps</span>
@@ -171,17 +171,17 @@ export default async function OrdersPage() {
                       ) : (
                         <Link
                           href={`/orders/${o.id}`}
-                          className="bd-btn bd-btn-primary text-center py-3"
+                          className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
                         >
                           <span className="block">View order</span>
-                          <span className="mt-1 block text-xs bd-ink2">Order ID - {String(o.id).slice(-6)}</span>
+                          <span className="mt-1 block text-xs bd-ink2">Order ID: {String(o.id).slice(-6)}</span>
                         </Link>
                       )}
 
                       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1">
                         <Link
                           href={`/listings/${o.listingId}`}
-                          className="bd-btn bd-btn-ghost text-center"
+                          className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
                         >
                           View listing
                         </Link>
@@ -189,7 +189,7 @@ export default async function OrdersPage() {
                         {(isCompleted && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
                           <Link
                             href={`/orders/${o.id}/feedback`}
-                            className="bd-btn bd-btn-ghost text-center"
+                            className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
                           >
                             Leave feedback
                           </Link>
