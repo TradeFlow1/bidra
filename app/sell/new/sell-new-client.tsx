@@ -505,7 +505,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
         <div>
           <label className="text-sm font-medium">Description</label>
-          <textarea className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" rows={5} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
+          <textarea className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" rows={8} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
           <div className="mt-2 text-xs bd-ink2">
             Keep it simple: what it is, condition, what is included, and pickup or postage details. No need to repeat category or suburb if those are already filled in.
           </div>
@@ -528,7 +528,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             >
               Fill example
             </button>
-            <span className="text-xs bd-ink2">Adds a simple example you can edit.</span>
+
           </div>
         </div>
 
