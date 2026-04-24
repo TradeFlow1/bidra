@@ -163,46 +163,27 @@ function suggestDescriptionDraft(args: {
   priceLabel: string;
   location: string;
 }): string {
-  const title = (args.title || "").trim();
-  const category = (args.category || "").trim();
-  const conditionRaw = String(args.condition || "").trim().replaceAll("_", " ").toLowerCase();
-  const priceLabel = (args.priceLabel || "").trim();
-  const location = (args.location || "").trim();
-
   const lines: string[] = [];
 
-  if (title && conditionRaw) {
-    lines.push(`${title} in ${conditionRaw} condition.`);
-  } else if (title) {
-    lines.push(`${title}.`);
-  } else if (category) {
-    lines.push(`${category} for sale.`);
+  if ((args.title || "").trim()) {
+    lines.push(`Item: ${(args.title || "").trim()}`);
   } else {
-    lines.push("Item for sale.");
+    lines.push("Item:");
   }
 
-  lines.push("Works as it should.");
-  lines.push("See photos for condition.");
+  lines.push(`Condition: ${String(args.condition || "USED").replaceAll("_", " ").toLowerCase()}`);
+  lines.push("Brand/model:");
+  lines.push("Size/specs:");
+  lines.push("Included:");
+  lines.push("Marks or faults:");
 
-  if (args.type === "TIMED_OFFERS") {
-    if (priceLabel) {
-      lines.push(`Starting offers from ${priceLabel}.`);
-    } else {
-      lines.push("Open to offers.");
-    }
-  } else if (priceLabel) {
-    lines.push(`Price: ${priceLabel}.`);
+  if ((args.location || "").trim()) {
+    lines.push(`Pickup/postage: Pickup from ${(args.location || "").trim()}, or postage can be arranged.`);
+  } else {
+    lines.push("Pickup/postage:");
   }
 
-  lines.push("Includes what is shown in the photos.");
-
-  if (location) {
-    lines.push(`Pickup from ${location}.`);
-  }
-
-  lines.push("Message for details.");
-
-  return lines.join(" ");
+  return lines.join("\n");
 }
 
 function dollarsToCentsOrNull(v: string): number | null {
