@@ -709,7 +709,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           )}
         </div>
 
-        <button type="submit" disabled={busy || !canSubmit} className="mx-auto rounded-xl border border-black/20 bg-white px-8 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60">
+        <button type="submit" disabled={busy || !canSubmit} className="mx-auto rounded-xl border border-black/20 bg-white px-8 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
           {busy ? "Creating..." : "Create listing"}
         </button>
       </form>
