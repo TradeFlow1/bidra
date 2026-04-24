@@ -169,13 +169,7 @@ export default async function DashboardPage() {
           <Link href="/dashboard/listings" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listings</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{myListingsCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Manage your seller listings.</div>
-          </Link>
-
-          <Link href="/dashboard/listings" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Active</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{activeListingsCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">View listings live to buyers.</div>
+            <div className="mt-1 text-sm text-neutral-600">Manage listings and offers.</div>
           </Link>
 
           <Link href="/orders" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
@@ -188,6 +182,12 @@ export default async function DashboardPage() {
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Needs attention</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{counts.actionOrders}</div>
             <div className="mt-1 text-sm text-neutral-600">Orders that need action.</div>
+          </Link>
+
+          <Link href="/profile" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Profile</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">Edit</div>
+            <div className="mt-1 text-sm text-neutral-600">Update account and location.</div>
           </Link>
         </div>
 
@@ -238,32 +238,6 @@ export default async function DashboardPage() {
             </div>
           </SurfaceCard>
         ) : null}
-
-        <div className="grid gap-5 md:grid-cols-2">
-          <SurfaceCard
-            title="Seller"
-            subtitle="Your selling activity at a glance."
-          >
-            <div className="flex flex-wrap gap-2">
-              <Pill>Listings: {myListingsCount}</Pill>
-              <Pill>Active: {activeListingsCount}</Pill>
-              <Pill>Completed: {soldListingsCount}</Pill>
-            </div>
-          </SurfaceCard>
-
-          <SurfaceCard
-            title="Buyer"
-            subtitle="Your buying activity at a glance."
-          >
-            <div className="flex flex-wrap gap-2">
-              <Pill>Orders: {ordersAsBuyerCount}</Pill>
-              <Pill>Watchlist: {watchlistCount}</Pill>
-              <Pill tone={pendingBuyerFeedbackCount === 0 ? "ok" : "warn"}>
-                Feedback due: {pendingBuyerFeedbackCount}
-              </Pill>
-            </div>
-          </SurfaceCard>
-        </div>
       </div>
     </main>
   );
