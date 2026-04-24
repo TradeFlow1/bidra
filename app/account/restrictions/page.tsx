@@ -75,7 +75,7 @@ export default async function RestrictionsPage() {
               <Link href="/account" className="bd-btn bd-btn-primary text-center">
                 Back to account
               </Link>
-              <Link href="/contact" className="bd-btn bd-btn-ghost text-center">
+              <Link href="/contact" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                 Contact support
               </Link>
             </div>
@@ -97,7 +97,7 @@ export default async function RestrictionsPage() {
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Restricted until</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{blockedUntil ? <DateTimeText value={blockedUntil} /> : "—"}</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{blockedUntil ? <DateTimeText value={blockedUntil} /> : "--"}</div>
             <div className="mt-1 text-sm text-neutral-600">Expired or invalid block dates are cleared automatically.</div>
           </div>
         </div>
@@ -144,16 +144,16 @@ export default async function RestrictionsPage() {
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Helpful links</div>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Link href="/legal/prohibited-items" className="bd-btn bd-btn-ghost text-center">
+            <Link href="/legal/prohibited-items" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
               Prohibited items
             </Link>
-            <Link href="/help" className="bd-btn bd-btn-ghost text-center">
+            <Link href="/help" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
               Help
             </Link>
-            <Link href="/support" className="bd-btn bd-btn-ghost text-center">
+            <Link href="/support" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
               Support and safety
             </Link>
-            <Link href="/contact" className="bd-btn bd-btn-ghost text-center">
+            <Link href="/contact" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
               Contact support
             </Link>
           </div>
