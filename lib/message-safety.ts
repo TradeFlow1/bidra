@@ -1,4 +1,4 @@
-﻿function digitCount(s: string) {
+function digitCount(s: string) {
   const m = s.match(/\d/g);
   return m ? m.length : 0;
 }

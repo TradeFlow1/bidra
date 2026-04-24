@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { allowContactDetailsInMessages, maskContactInfo } from "@/lib/message-safety";
+import { allowContactDetailsInMessages } from "@/lib/message-safety";
 import Link from "next/link";
 import InboxAutoRefresh from "./components/inbox-auto-refresh";
 import DateTimeText from "@/components/date-time-text";
@@ -16,7 +16,7 @@ function SafetyNotice() {
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-sm">
       <span className="font-semibold">Safety tip:</span>{" "}
-      Do not share your phone number or email address in messages. Keep communication on Bidra so there is a record if something goes wrong.
+      Use Bidra messages to keep a clear record. You can share pickup details when needed, but avoid moving the whole deal off-platform before the order is clear.
     </div>
   );
 }
@@ -83,7 +83,7 @@ export default async function MessagesInboxPage() {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
                 <p className="mt-2 text-sm text-[var(--bidra-ink-2)] sm:text-base">
-                  Use messages for clarification about the item, condition, access, and pickup context. Order and pickup steps stay controlled in the order flow.
+                  Use messages to ask questions, agree pickup details, and keep a clear record of the conversation.
                 </p>
               </div>
 
@@ -121,10 +121,10 @@ export default async function MessagesInboxPage() {
                   When you contact someone about a listing, your clarification threads will show up here.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
-                  <Link href="/listings" className="bd-btn bd-btn-primary text-center">
+                  <Link href="/listings" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                     Browse listings
                   </Link>
-                  <Link href="/dashboard" className="bd-btn bd-btn-ghost text-center">
+                  <Link href="/dashboard" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                     Back to dashboard
                   </Link>
                 </div>
@@ -135,7 +135,7 @@ export default async function MessagesInboxPage() {
               {items.map((it) => {
                 const other = me === it.buyerId ? it.seller : it.buyer;
                 const otherLabel = other.username || other.name || other.email || "User";
-                const last = it.messages[0]?.body ? (allowContactDetailsInMessages() ? it.messages[0].body : maskContactInfo(it.messages[0].body)) : "No messages yet.";
+                const last = it.messages[0]?.body ? it.messages[0].body : "No messages yet.";
 
                 const anyListing = it.listing as unknown as { id?: string | null; title?: string | null; images?: unknown; photos?: unknown } | null;
                 const imgs =
@@ -152,7 +152,7 @@ export default async function MessagesInboxPage() {
                     href={`/messages/${it.id}`}
                     className={`block rounded-3xl border p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md ${
                       it.unread
-                        ? "border-[var(--bidra-blue)]/25 bg-[var(--bidra-blue)]/10 ring-1 ring-[var(--bidra-blue)]/10"
+                        ? "border-blue-300 bg-blue-50 ring-2 ring-blue-200 border-l-8"
                         : "border-black/10 bg-white"
                     }`}
                   >
@@ -185,7 +185,7 @@ export default async function MessagesInboxPage() {
 
                           <div className="shrink-0 flex items-center gap-2">
                             {it.unread ? (
-                              <span className="inline-flex items-center rounded-full border border-[var(--bidra-blue)]/30 bg-[var(--bidra-blue)]/15 px-2.5 py-1 text-[10px] font-extrabold text-[var(--bidra-ink)]">
+                              <span className="inline-flex items-center rounded-full border border-blue-300 bg-blue-600 px-2.5 py-1 text-[10px] font-extrabold text-white">
                                 Unread
                               </span>
                             ) : null}
@@ -223,8 +223,8 @@ export default async function MessagesInboxPage() {
               Please try again shortly. If this keeps happening, use Support.
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
-              <Link className="bd-btn bd-btn-primary" href="/dashboard">Dashboard</Link>
-              <Link className="bd-btn bd-btn-ghost" href="/support">Support</Link>
+              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/dashboard">Dashboard</Link>
+              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/support">Support</Link>
             </div>
           </div>
         </div>
