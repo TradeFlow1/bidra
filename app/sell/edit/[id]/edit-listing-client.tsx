@@ -172,7 +172,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
     const total = (existingImages?.length || 0) + (files?.length || 0);
     if (total > 10) return "Too many images (max 10 total).";
 
-    // Late-stage Buy Now (timed offers only) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â allow blank to clear, but validate if provided
+    // Late-stage Buy Now: allow blank to clear, but validate if provided
     if (isTimedOffers) {
       const s = String(buyNow ?? "").trim();
       if (s) {
@@ -264,7 +264,6 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Edit listing</h1>
-              <div className="mt-1 text-sm bd-ink2">Update your listing details, status, price, and photos.</div>
             </div>
 
             <div className="flex flex-col items-start gap-2 sm:items-end">
@@ -280,12 +279,12 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                   type="submit"
                   form="editListingForm"
                   disabled={isSaving}
-                  className="bd-btn bd-btn-primary text-center"
+                  className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
                 >
                   {isSaving ? "Saving..." : "Save changes"}
                 </button>
 
-                <Link href={`/listings/${listing.id}`} className="bd-btn bd-btn-ghost text-center">
+                <Link href={`/listings/${listing.id}`} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                   View listing
                 </Link>
 
@@ -294,7 +293,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                     type="button"
                     onClick={endListing}
                     disabled={isSaving}
-                    className="bd-btn bd-btn-ghost text-center"
+                    className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
                   >
                     End listing
                   </button>
@@ -304,12 +303,12 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                   type="button"
                   onClick={deleteListing}
                   disabled={isSaving}
-                  className="bd-btn bd-btn-ghost text-center"
+                  className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
                 >
                   Delete listing
                 </button>
 
-                <Link href="/dashboard/listings" className="bd-btn bd-btn-ghost text-center">
+                <Link href="/dashboard/listings" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                   My listings
                 </Link>
               </div>
@@ -388,7 +387,7 @@ buyNowPrice:
                 <label className="text-sm font-extrabold bd-ink">Description</label>
                 <textarea
                   className="bd-input mt-1 w-full"
-                  rows={5}
+                  rows={8}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
@@ -402,7 +401,7 @@ buyNowPrice:
   value={category}
   onChange={(e) => setCategory(e.target.value)}
 >
-  <option value="">Select a categoryÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦</option>
+  <option value="">Select a category...</option>
   {CATEGORY_GROUPS.map((g) => (
     <optgroup key={g.parent} label={g.parent}>
       <option value={g.parent}>{g.parent}</option>
@@ -451,7 +450,6 @@ buyNowPrice:
                       </option>
                     ))}
                   </select>
-                  <div className="mt-1 text-xs bd-ink2">Only DRAFT, ACTIVE, or ENDED are allowed for sellers.</div>
                 </div>
               </div>
 
@@ -522,7 +520,6 @@ buyNowPrice:
     aria-label="Move photo left"
     title="Move left"
   >
-    ÃƒÂ¢Ã¢â‚¬Â Ã‚Â
   </button>
   <button
     type="button"
@@ -532,7 +529,6 @@ buyNowPrice:
     aria-label="Move photo right"
     title="Move right"
   >
-    ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢
   </button>
 </div>
 
@@ -625,10 +621,10 @@ buyNowPrice:
               </div>
 
               <div className="flex flex-wrap gap-2 pt-2">
-                <button type="submit" disabled={isSaving} className="bd-btn bd-btn-primary text-center">
+                <button type="submit" disabled={isSaving} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                   {isSaving ? "Saving..." : "Save changes"}
                 </button>
-                <Link href={`/listings/${listing.id}`} className="bd-btn bd-btn-ghost text-center">
+                <Link href={`/listings/${listing.id}`} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                   Cancel
                 </Link>
               </div>
