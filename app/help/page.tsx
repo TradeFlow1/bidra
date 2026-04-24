@@ -135,7 +135,7 @@ export default function HelpPage() {
             />
             <FaqItem
               question="How do I update my location?"
-              answer={<>Location-related profile details can be updated from your account or profile settings so your marketplace context stays accurate.</>}
+              answer={<>Location details can be updated from your Dashboard account section so your marketplace context stays accurate.</>}
             />
             <FaqItem
               question="Where do I see order progress?"
