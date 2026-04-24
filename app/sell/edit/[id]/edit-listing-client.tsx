@@ -271,14 +271,6 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <button
-                type="submit"
-                form="editListingForm"
-                disabled={isSaving}
-                className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
-              >
-                {isSaving ? "Saving..." : "Save changes"}
-              </button>
 
               <Link href={`/listings/${listing.id}`} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                 View listing
@@ -515,6 +507,7 @@ buyNowPrice:
     aria-label="Move photo left"
     title="Move left"
   >
+    ‹
   </button>
   <button
     type="button"
@@ -524,12 +517,13 @@ buyNowPrice:
     aria-label="Move photo right"
     title="Move right"
   >
+    ›
   </button>
 </div>
 
                         <button
                           type="button"
-                          className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none"
+                          className="absolute right-2 top-2 rounded-full border border-black/20 bg-white px-3 py-1 text-xs font-extrabold text-black shadow-sm hover:bg-black/5"
                           onClick={() => setExistingImages((cur) => cur.filter((_, i) => i !== idx))}
                           aria-label="Remove photo"
                         >
@@ -630,4 +624,3 @@ buyNowPrice:
     </main>
   );
 }
-
