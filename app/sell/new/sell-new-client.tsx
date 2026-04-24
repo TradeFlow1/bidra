@@ -509,7 +509,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           <div className="mt-2 flex flex-wrap items-center gap-2">
             <button
               type="button"
-              className="bd-btn bd-btn-ghost rounded-full px-4 py-2 text-sm font-semibold"
+              className="rounded-xl border border-black/20 bg-white px-4 py-2 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
               onClick={() => {
                 const priceLabel = type === "TIMED_OFFERS" ? (startingBid ? `$${startingBid} starting` : "") : (price ? `$${price}` : "");
                 const draft = suggestDescriptionDraft({
@@ -540,7 +540,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               <span>Suggested: <span className="font-semibold bd-ink">{suggestedCategory.categoryLabel}</span></span>
               <button
                 type="button"
-                className="bd-btn bd-btn-ghost rounded-full px-4 py-2 text-sm font-semibold"
+                className="rounded-xl border border-black/20 bg-white px-4 py-2 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
                 onClick={() => {
                   setCategoryTouched(true);
                   setTopCategoryKey(suggestedCategory.categoryKey);
@@ -655,7 +655,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           <div className="mt-2 flex items-center gap-2 flex-wrap">
             <button
               type="button"
-              className="bd-btn bd-btn-primary rounded-full px-6 py-3 text-sm font-extrabold shadow-sm"
+              className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
               onClick={() => cameraInputRef.current?.click()}
             >
               Take photo
@@ -663,7 +663,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
             <button
               type="button"
-              className="bd-btn bd-btn-primary rounded-full px-6 py-3 text-sm font-extrabold shadow-sm"
+              className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
               onClick={() => galleryInputRef.current?.click()}
             >
               Add photos
@@ -709,7 +709,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           )}
         </div>
 
-        <button type="submit" disabled={busy || !canSubmit} className="bd-btn bd-btn-primary mx-auto rounded-full px-8 py-3 text-center text-sm font-extrabold shadow-sm disabled:opacity-60">
+        <button type="submit" disabled={busy || !canSubmit} className="mx-auto rounded-xl border border-black/20 bg-white px-8 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60">
           {busy ? "Creating..." : "Create listing"}
         </button>
       </form>
