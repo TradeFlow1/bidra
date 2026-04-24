@@ -157,23 +157,11 @@ export default async function DashboardPage() {
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Dashboard</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
+              <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
                 Your Bidra control center
               </h1>
-              <div className="mt-2 text-sm bd-ink2 sm:text-base">
-                Shortcuts, account status, marketplace activity, and anything that needs your attention.
-              </div>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              <ActionBtn href="/sell/new" kind="primary">Create a listing</ActionBtn>
-              <ActionBtn href="/dashboard/listings">Manage listings</ActionBtn>
-              <ActionBtn href="/watchlist">Watchlist</ActionBtn>
-              <ActionBtn href="/messages">Messages</ActionBtn>
-              <ActionBtn href="/orders">Orders</ActionBtn>
-              {isAdmin ? <ActionBtn href="/admin">Admin</ActionBtn> : null}
-            </div>
           </div>
         </div>
 
