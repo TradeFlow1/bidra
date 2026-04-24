@@ -275,12 +275,12 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                 type="submit"
                 form="editListingForm"
                 disabled={isSaving}
-                className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
+                className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
               >
                 {isSaving ? "Saving..." : "Save changes"}
               </button>
 
-              <Link href={`/listings/${listing.id}`} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+              <Link href={`/listings/${listing.id}`} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                 View listing
               </Link>
 
@@ -289,7 +289,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                   type="button"
                   onClick={endListing}
                   disabled={isSaving}
-                  className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
+                  className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
                 >
                   End listing
                 </button>
@@ -299,12 +299,12 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                 type="button"
                 onClick={deleteListing}
                 disabled={isSaving}
-                className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
+                className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
               >
                 Delete listing
               </button>
 
-              <Link href="/dashboard/listings" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+              <Link href="/dashboard/listings" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                 My listings
               </Link>
             </div>
@@ -616,10 +616,10 @@ buyNowPrice:
               </div>
 
               <div className="flex flex-wrap gap-2 pt-2">
-                <button type="submit" disabled={isSaving} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                <button type="submit" disabled={isSaving} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                   {isSaving ? "Saving..." : "Save changes"}
                 </button>
-                <Link href={`/listings/${listing.id}`} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                <Link href={`/listings/${listing.id}`} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                   Cancel
                 </Link>
               </div>
