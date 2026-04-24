@@ -71,7 +71,7 @@ export default async function OrdersPage() {
           </div>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Pending</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{pendingCount}</div>
