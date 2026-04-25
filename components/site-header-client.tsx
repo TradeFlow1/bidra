@@ -121,7 +121,7 @@ export default function SiteHeaderClient({
           ) : (
             <div className="mt-2.5 border-t border-black/10 pt-2.5">
               <div className="grid grid-cols-1 gap-2">
-                <Link href="/auth/login" className="rounded-full border border-[#0F172A] bg-[#0F172A] px-5 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:bg-[#111827]" onClick={function () { setMobileMenuOpen(false); }}>Sign in</Link>
+                <Link href="/auth/login" className="bd-btn bd-btn-ghost text-center" onClick={function () { setMobileMenuOpen(false); }}>Sign in</Link>
                 <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center" onClick={function () { setMobileMenuOpen(false); }}>Create account</Link>
               </div>
             </div>
