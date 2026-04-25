@@ -41,8 +41,8 @@ export default async function OrdersPage() {
     ]
   });
 
-  const pendingCount = orders.filter((o: any) => String(o.status) === "PENDING").length;
-  const completedCount = orders.filter((o: any) => String(o.outcome) === "COMPLETED").length;
+  const soldCount = orders.length;
+  const feedbackDueCount = orders.filter((o: any) => String(o.outcome) === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))).length;
   return (
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
@@ -60,15 +60,15 @@ export default async function OrdersPage() {
 
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Pending</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{pendingCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Orders needing attention first.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Sold</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{soldCount}</div>
+            <div className="mt-1 text-sm text-neutral-600">Items bought or sold.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Completed</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{completedCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Orders marked as finished.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Feedback due</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{feedbackDueCount}</div>
+            <div className="mt-1 text-sm text-neutral-600">Optional trust follow-up.</div>
           </div>
 
         </div>
@@ -92,7 +92,7 @@ export default async function OrdersPage() {
               const isPending = String(o.status) === "PENDING";
               const isCompleted = String(o.outcome) === "COMPLETED";
               const roleLabel = o.buyerId === user.id ? "Buying" : "Selling";
-              const statusLabel = isCompleted ? "COMPLETED" : String(o.status);
+              const statusLabel = isCompleted ? "FEEDBACK OPEN" : "SOLD";
 
               return (
                 <Card
@@ -147,15 +147,15 @@ export default async function OrdersPage() {
                           href={`/orders/${o.id}`}
                           className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
                         >
-                          <span className="block">Review order</span>
-                          <span className="mt-1 block text-xs bd-ink2">Confirm next steps</span>
+                          <span className="block">Message {roleLabel === "Buying" ? "seller" : "buyer"}</span>
+                          <span className="mt-1 block text-xs bd-ink2">Arrange pickup or postage</span>
                         </Link>
                       ) : (
                         <Link
                           href={`/orders/${o.id}`}
                           className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
                         >
-                          <span className="block">View order</span>
+                          <span className="block">Order details</span>
                           <span className="mt-1 block text-xs bd-ink2">Order ID: {String(o.id).slice(-6)}</span>
                         </Link>
                       )}

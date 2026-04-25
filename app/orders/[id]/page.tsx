@@ -44,13 +44,13 @@ export default async function OrderDetailPage({ params }: { params: { id: string
         <div className="container max-w-5xl space-y-5">
           <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Order</div>
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Order details</h1>
+            <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
           </div>
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-base font-semibold bd-ink">Order not found</div>
             <p className="mt-2 text-sm bd-ink2">This order could not be found.</p>
             <div className="mt-5">
-              <Link className="bd-btn bd-btn-ghost text-center" href="/orders">Back to Orders</Link>
+              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/orders">Back to Orders</Link>
             </div>
           </Card>
         </div>
@@ -64,13 +64,13 @@ export default async function OrderDetailPage({ params }: { params: { id: string
         <div className="container max-w-5xl space-y-5">
           <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Order</div>
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Order details</h1>
+            <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
           </div>
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-base font-semibold bd-ink">Access restricted</div>
             <p className="mt-2 text-sm bd-ink2">You do not have access to this order.</p>
             <div className="mt-5">
-              <Link className="bd-btn bd-btn-ghost text-center" href="/orders">Back to Orders</Link>
+              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/orders">Back to Orders</Link>
             </div>
           </Card>
         </div>
@@ -83,7 +83,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const isBuyer = order.buyerId === user.id;
   const isSeller = order.listing?.sellerId === user.id;
   const roleLabel = isBuyer ? "Buying" : "Selling";
-  const statusLabel = order.outcome === "COMPLETED" ? "COMPLETED" : order.status;
+  const statusLabel = order.outcome === "COMPLETED" ? "FEEDBACK OPEN" : "SOLD";
   const canLeave =
     order.outcome === "COMPLETED" &&
     ((isBuyer && !order.buyerFeedbackAt) || (isSeller && !order.sellerFeedbackAt));
@@ -105,9 +105,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   {statusLabel}
                 </span>
               </div>
-              <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Order details</h1>
+              <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Sold item</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review the transaction status, next steps, and safety guidance for this order.
+                This item is sold. Use messages to arrange pickup or postage, then leave feedback or report an issue if needed.
               </p>
               <div className="mt-3 text-sm bd-ink2">
                 Created <DateTimeText value={order.createdAt} />
@@ -115,10 +115,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <Link href="/orders" className="bd-btn bd-btn-primary text-center">Orders</Link>
-              <Link href={listingHref} className="bd-btn bd-btn-ghost text-center">View listing</Link>
+              <Link href="/orders" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Orders</Link>
+              <Link href={listingHref} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">View listing</Link>
               {canLeave ? (
-                <Link href={feedbackHref} className="bd-btn bd-btn-primary text-center">
+                <Link href={feedbackHref} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                   Leave feedback
                 </Link>
               ) : null}
@@ -156,7 +156,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div>
               <div className="text-sm font-semibold bd-ink">Order progress</div>
               <div className="mt-1 text-sm bd-ink2">
-                Follow the current status and keep all communication on Bidra.
+                The listing is sold. Keep pickup, postage, and important details in messages.
               </div>
             </div>
 
@@ -166,7 +166,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
                 <div className="font-semibold">Next step</div>
                 <div className="mt-1">
-                  Use Messages to confirm pickup, delivery, or postage details directly with the other party.
+                  Message the other person to arrange pickup or postage. No extra approval step is needed.
                 </div>
               </div>
             ) : null}
@@ -175,7 +175,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
                 <div className="font-semibold">Order accepted</div>
                 <div className="mt-1">
-                  This order is in progress. Keep communication in Messages and complete the handover safely.
+                  This item is sold. Keep communication in Messages and complete the handover safely.
                 </div>
               </div>
             ) : null}
@@ -201,27 +201,27 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </ul>
             ) : order.status === "PENDING" ? (
               <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-                <li>This is a live order waiting for coordination.</li>
-                <li>Use <Link className="bd-link font-semibold" href="/messages">Messages</Link> to confirm pickup, delivery, or postage details.</li>
-                <li>Once both sides are aligned and the transaction is underway, the seller can progress the order.</li>
+                <li>This item is sold.</li>
+                <li>Use <Link className="bd-link font-semibold" href="/messages">Messages</Link> to arrange pickup or postage.</li>
+                <li>No extra approval step is needed before pickup or postage.</li>
               </ul>
             ) : order.status === "ACCEPTED" ? (
               <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-                <li>This order has been accepted and is in progress.</li>
-                <li>Complete the exchange safely and keep communication in Bidra.</li>
+                <li>This item is sold and ready for pickup or postage coordination.</li>
+                <li>Complete the exchange safely and keep communication on Bidra.</li>
                 <li>After the handover, leave feedback to help build trust.</li>
               </ul>
             ) : (
               <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
                 <li>Check the order status above for the current step.</li>
-                <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+                <li>Keep pickup, postage, and important details in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
               </ul>
             )}
           </Card>
 
           <SafetyCallout title="Safety guidance">
             <ul className="list-disc pl-5 space-y-2">
-              <li>Keep communication on Bidra in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+              <li>Keep pickup, postage, and important details in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
               <li>Meet in a safe public place for pickup where practical.</li>
               <li>Use tracked delivery or postage where appropriate.</li>
               <li>If anything feels suspicious, stop and report it.</li>
