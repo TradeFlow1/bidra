@@ -27,10 +27,10 @@ export default function SupportPage() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <Link href="/contact" className="bd-btn bd-btn-primary text-center">
+              <Link href="/contact" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                 Contact support
               </Link>
-              <Link href="/how-it-works" className="bd-btn bd-btn-ghost text-center">
+              <Link href="/how-it-works" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                 How it works
               </Link>
             </div>
@@ -106,9 +106,9 @@ export default function SupportPage() {
         <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Read more</div>
           <div className="mt-3 flex flex-wrap gap-2 text-sm">
-            <Link className="bd-btn bd-btn-ghost text-center" href="/how-it-works">How it works</Link>
-            <Link className="bd-btn bd-btn-ghost text-center" href="/legal/prohibited-items">Prohibited items</Link>
-            <Link className="bd-btn bd-btn-ghost text-center" href="/legal/terms">Terms</Link>
+            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/how-it-works">How it works</Link>
+            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/legal/prohibited-items">Prohibited items</Link>
+            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/legal/terms">Terms</Link>
           </div>
         </div>
       </div>
