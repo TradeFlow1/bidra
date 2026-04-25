@@ -140,6 +140,15 @@ export async function GET(req: Request) {
         category: true,
         condition: true,
         createdAt: true,
+        status: true,
+        offers: {
+          orderBy: { amount: "desc" },
+          take: 1,
+          select: { amount: true },
+        },
+        _count: {
+          select: { offers: true },
+        },
         seller: {
           select: {
             username: true,

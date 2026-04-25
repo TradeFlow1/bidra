@@ -85,6 +85,8 @@ export default async function ListingDetailPage({
   const isSold = listing.orders.length > 0 || listing.status !== "ACTIVE";
   const endsText = isTimedOffers ? formatTimeRemaining((listing as any).endsAt) : null;
   const topOffer = listing.offers.length ? listing.offers[0] : null;
+  const offerCount = listing.offers.length;
+  const offerWindowText = endsText && endsText !== "Ended" ? "Offer window ends in " + endsText : "Offer window has ended";
 
   const sellerName = cleanText((listing.seller as any)?.name || (listing.seller as any)?.username || "Bidra seller");
   const sellerLocation = cleanText((listing.seller as any)?.location || listing.location || "Australia");
@@ -137,7 +139,11 @@ export default async function ListingDetailPage({
               <div className="mt-1 text-[1.85rem] font-extrabold tracking-tight text-[#0F172A]">{money(displayPrice)}</div>
 
               {isTimedOffers ? (
-                <div className="mt-2 text-sm text-[#78716C]">{endsText && endsText !== "Ended" ? "Offer window ends in " + endsText : "Offer window has ended"}</div>
+                <div className="mt-2 rounded-2xl border border-[#E2E8F0] bg-white/80 px-3 py-2 text-sm text-[#475569]">
+                  <div>{currentOffer !== null ? "Current highest offer: " + money(currentOffer) : "No offers yet."}</div>
+                  <div>{offerCount} {offerCount === 1 ? "offer" : "offers"}</div>
+                  <div>{offerWindowText}</div>
+                </div>
               ) : null}
 
               <div className="mt-4 space-y-3">

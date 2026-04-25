@@ -21,6 +21,8 @@ type ListingCardListing = {
   images?: any;
   endsAt?: string | Date | null;
   status?: string | null;
+  offerCount?: number | null;
+  currentOffer?: number | null;
   seller?: {
     name?: string | null;
     memberSince?: string | Date | null;
@@ -49,6 +51,14 @@ function endsLabel(endsAt: any) {
   if (!t) return null;
   if (t === "Ended") return "Ended";
   return "Ends in " + t;
+}
+
+function getTimeRemainingMs(endsAt: Date | string | null | undefined) {
+  if (!endsAt) return null;
+  const end = endsAt instanceof Date ? endsAt : new Date(endsAt);
+  const endMs = end.getTime();
+  if (!Number.isFinite(endMs)) return null;
+  return endMs - Date.now();
 }
 
 function cleanText(value: string | null | undefined) {
@@ -113,6 +123,9 @@ export default function ListingCard({
 
   const isActive = String(listing.status || "ACTIVE") === "ACTIVE";
   const ends = isTimedOffers && isActive ? endsLabel(listing.endsAt) : null;
+  const timeRemainingMs = isTimedOffers && isActive ? getTimeRemainingMs(listing.endsAt) : null;
+  const isUnder24h = typeof timeRemainingMs === "number" && timeRemainingMs > 0 && timeRemainingMs < 24 * 60 * 60 * 1000;
+  const isUnder1h = typeof timeRemainingMs === "number" && timeRemainingMs > 0 && timeRemainingMs < 60 * 60 * 1000;
 
   const title = cleanText(listing.title);
   const category = shortCategory(listing.category);
@@ -128,6 +141,8 @@ export default function ListingCard({
   const verificationBadge = !hasRating
     ? (hasEmailVerified ? "Email verified" : hasPhoneVerified ? "Phone verified" : "")
     : "";
+  const offerCount = typeof listing.offerCount === "number" ? listing.offerCount : null;
+  const currentOffer = typeof listing.currentOffer === "number" ? listing.currentOffer : null;
 
   async function onToggleWatch(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -193,7 +208,15 @@ export default function ListingCard({
             {isTimedOffers ? "Offers" : hasBuyNow ? "Buy Now" : "Fixed"}
           </span>
           {ends ? (
-            <span className="rounded-full bg-black/78 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm">
+            <span
+              className={
+                isUnder1h
+                  ? "rounded-full border border-rose-300 bg-rose-600 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm"
+                  : isUnder24h
+                  ? "rounded-full border border-amber-300 bg-amber-600 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm"
+                  : "rounded-full bg-black/78 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm"
+              }
+            >
               {ends}
             </span>
           ) : null}
@@ -219,6 +242,12 @@ export default function ListingCard({
         </div>
 
         <div className="text-[22px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
+        {isTimedOffers ? (
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-[#64748B]">
+            <span>{currentOffer !== null ? `Current offer ${money(currentOffer)}` : "No offers yet"}</span>
+            {offerCount && offerCount > 0 ? <span>{offerCount} {offerCount === 1 ? "offer" : "offers"}</span> : null}
+          </div>
+        ) : null}
 
         {(sellerName || sellerMemberSince || hasRating || verificationBadge) ? (
           <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-2.5 py-2">

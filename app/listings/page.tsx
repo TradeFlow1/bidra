@@ -419,6 +419,9 @@ export default async function ListingsPage({
                         location: l.location,
                         images: (l as unknown as { images?: unknown[] | null }).images ?? null,
                         status: (l as unknown as { status?: string | null }).status ?? "ACTIVE",
+                        endsAt: (l as unknown as { endsAt?: string | Date | null }).endsAt ?? null,
+                        offerCount: (l as unknown as { _count?: { offers?: number } })._count?.offers ?? 0,
+                        currentOffer: currentOffer,
                         seller: {
                           name: l.seller?.name || l.seller?.username || null,
                           memberSince: l.seller?.createdAt ?? null,
