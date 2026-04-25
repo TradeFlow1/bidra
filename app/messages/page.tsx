@@ -15,8 +15,8 @@ export const fetchCache = "force-no-store";
 function SafetyNotice() {
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-sm">
-      <span className="font-semibold">Safety tip:</span>{" "}
-      Use messages to ask questions and arrange pickup or postage. Keeping details here can help if something goes wrong.
+      <span className="font-semibold">Tip:</span>{" "}
+      Use messages to arrange pickup or postage and keep key details in one place.
     </div>
   );
 }
@@ -83,7 +83,7 @@ export default async function MessagesInboxPage() {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
                 <p className="mt-2 text-sm text-[var(--bidra-ink-2)] sm:text-base">
-                  Use messages to ask questions, agree pickup details, and keep a clear record of the conversation.
+                  Use messages to chat about listings and arrange pickup or postage.
                 </p>
               </div>
 
@@ -110,7 +110,7 @@ export default async function MessagesInboxPage() {
           ) : null}
 
           <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink-2)] shadow-sm">
-            Messages are a simple way to keep a record of your conversation.
+            Messages keep listing conversations simple and easy to follow.
           </div>
 
           {items.length === 0 ? (
@@ -118,7 +118,7 @@ export default async function MessagesInboxPage() {
               <div className="mx-auto max-w-xl">
                 <div className="text-xl font-extrabold text-neutral-900">No messages yet</div>
                 <p className="mt-2 text-sm text-neutral-600">
-                  When you contact someone about a listing, your clarification threads will show up here.
+                  When you message a buyer or seller, your conversations will show up here.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
                   <Link href="/listings" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
