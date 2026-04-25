@@ -35,6 +35,9 @@ export default async function HomePage() {
         take: 1,
         select: { amount: true },
       },
+      _count: {
+        select: { offers: true },
+      },
       seller: {
         select: {
           username: true,
@@ -115,6 +118,9 @@ export default async function HomePage() {
           location: l.location,
           images: (l as unknown as { images?: unknown[] | null }).images ?? null,
           status: (l as unknown as { status?: string | null }).status ?? "ACTIVE",
+          endsAt: (l as unknown as { endsAt?: string | Date | null }).endsAt ?? null,
+          offerCount: l._count?.offers ?? 0,
+          currentOffer: currentOffer,
           seller: {
             name: l.seller?.name || l.seller?.username || null,
             memberSince: l.seller?.createdAt ?? null,
