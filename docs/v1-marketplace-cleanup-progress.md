@@ -4,7 +4,7 @@ Purpose: keep a repo-tracked checklist so new chats do not rework the same pages
 
 ## V1 product direction
 
-- Simple Facebook Marketplace / Gumtree-style marketplace.
+- Simple trust-first local marketplace.
 - Buy Now = sold.
 - Accepted highest offer = sold.
 - Use messages to arrange pickup or postage.
