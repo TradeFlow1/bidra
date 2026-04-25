@@ -1,9 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 
 export async function getNotificationCounts(userId: string) {
-  // 1) Unread message threads (buyer + seller)
   const unreadThreads = await prisma.messageThread.count({
     where: {
       OR: [
@@ -18,7 +16,6 @@ export async function getNotificationCounts(userId: string) {
       ],
     },
   }).catch(async () => {
-    // Fallback for Prisma versions that don't support fields.* in filters
     const threads = await prisma.messageThread.findMany({
       where: { OR: [{ buyerId: userId }, { sellerId: userId }] },
       select: { buyerId: true, sellerId: true, lastMessageAt: true, buyerLastReadAt: true, sellerLastReadAt: true },
@@ -35,47 +32,36 @@ export async function getNotificationCounts(userId: string) {
     return c;
   });
 
-  // 2) Feedback tasks (same gate used to block listing creation)
   const gate = await getFeedbackGate(userId, 48);
   const pendingFeedback = gate?.blocked ? Number(gate.pendingCount || 0) : 0;
 
-  
-  // 3) Orders requiring action
-  const actionOrders = await prisma.order.count({
+  const soldOrders = await prisma.order.count({
     where: {
       OR: [
-        {
-          buyerId: userId,
-          status: "PENDING",
-        },
-        {
-          listing: { sellerId: userId },
-          status: "PENDING",
-        },
+        { buyerId: userId },
+        { listing: { sellerId: userId } },
       ],
     },
   });
 
   const unreadThreadCount = Number(unreadThreads || 0);
-const total = actionOrders + unreadThreadCount + pendingFeedback;
+  const orderCount = Number(soldOrders || 0);
+  const total = unreadThreadCount + pendingFeedback;
 
-const hasCritical = actionOrders > 0 || pendingFeedback > 0;
-const hasMessages = unreadThreadCount > 0;
-const primaryType =
-  pendingFeedback > 0 ? "feedback" :
-  actionOrders > 0 ? "orders" :
-  unreadThreadCount > 0 ? "messages" :
-  "none";
+  const hasCritical = pendingFeedback > 0;
+  const hasMessages = unreadThreadCount > 0;
+  const primaryType =
+    pendingFeedback > 0 ? "feedback" :
+    unreadThreadCount > 0 ? "messages" :
+    "none";
 
-return {
-  total,
-  unreadThreads: unreadThreadCount,
-  pendingFeedback,
-  actionOrders,
-  hasCritical,
-  hasMessages,
-  primaryType,
-};
+  return {
+    total,
+    unreadThreads: unreadThreadCount,
+    pendingFeedback,
+    actionOrders: orderCount,
+    hasCritical,
+    hasMessages,
+    primaryType,
+  };
 }
-
-

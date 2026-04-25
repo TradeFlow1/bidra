@@ -21,9 +21,10 @@ function UpdateCard(props: {
   count: number;
   href: string;
   action: string;
+  highlight?: boolean;
   children: React.ReactNode;
 }) {
-  const hasCount = props.count > 0;
+  const hasCount = props.highlight === true && props.count > 0;
 
   return (
     <Link href={props.href} className="block">
@@ -67,7 +68,7 @@ export default async function NotificationsPage() {
 
             <div className="flex flex-wrap items-center gap-2">
               <CountPill label="Unread" value={counts.unreadThreads} />
-              <CountPill label="Orders" value={counts.actionOrders} />
+              <CountPill label="Sold" value={counts.actionOrders} />
               <CountPill label="Feedback" value={counts.pendingFeedback} />
             </div>
           </div>
@@ -86,7 +87,7 @@ export default async function NotificationsPage() {
 
           <UpdateCard
             title="Orders"
-            countLabel="Active"
+            countLabel="Sold"
             count={counts.actionOrders}
             href="/orders"
             action="Open orders"
