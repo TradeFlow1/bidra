@@ -81,7 +81,7 @@ export default async function MessagesInboxPage() {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
                 <p className="mt-2 text-sm text-[var(--bidra-ink-2)] sm:text-base">
-                  Use messages to chat about listings and arrange pickup or postage.
+                  Stay on top of your listing conversations in one place.
                 </p>
               </div>
 

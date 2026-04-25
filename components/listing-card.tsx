@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useEffect, useState, type CSSProperties, type MouseEvent } from "react";
+import { useRouter } from "next/navigation";
 import ListingThumbCarousel from "@/components/listing-thumb-carousel";
 import { isTimedOffersType } from "@/lib/listing-type";
 import { formatTimeRemaining } from "@/lib/time-remaining";
@@ -34,6 +35,8 @@ type ListingCardListing = {
 type ListingCardProps = {
   listing: ListingCardListing;
   initiallyWatched?: boolean;
+  viewerAuthed?: boolean;
+  showWatchButton?: boolean;
 };
 
 function money(cents: number | null | undefined) {
@@ -79,7 +82,20 @@ function renderStars(avg: number) {
   return "★".repeat(full) + "☆".repeat(5 - full);
 }
 
-export default function ListingCard({ listing }: ListingCardProps) {
+export default function ListingCard({
+  listing,
+  initiallyWatched = false,
+  viewerAuthed = false,
+  showWatchButton = false,
+}: ListingCardProps) {
+  const router = useRouter();
+  const [watched, setWatched] = useState<boolean>(!!initiallyWatched);
+  const [saving, setSaving] = useState<boolean>(false);
+
+  useEffect(() => {
+    setWatched(!!initiallyWatched);
+  }, [initiallyWatched]);
+
   const imgs = Array.isArray(listing.images) ? listing.images : null;
   const hasMulti = !!(imgs && imgs.length > 1);
   const isNoPhotos = !imgs || imgs.length === 0;
@@ -104,12 +120,37 @@ export default function ListingCard({ listing }: ListingCardProps) {
   const location = cleanText(listing.location);
   const sellerName = cleanText(listing.seller?.name);
   const sellerMemberSince = formatMemberSince(listing.seller?.memberSince);
-  const sellerLocation = cleanText(listing.seller?.location);
   const hasEmailVerified = !!listing.seller?.emailVerified;
   const hasPhoneVerified = !!cleanText(listing.seller?.phone);
   const hasRating = typeof listing.seller?.ratingAvg === "number" && typeof listing.seller?.ratingCount === "number" && (listing.seller?.ratingCount ?? 0) > 0;
   const ratingAvg = hasRating ? Number(listing.seller?.ratingAvg ?? 0) : 0;
   const ratingCount = hasRating ? Number(listing.seller?.ratingCount ?? 0) : 0;
+  const verificationBadge = !hasRating
+    ? (hasEmailVerified ? "Email verified" : hasPhoneVerified ? "Phone verified" : "")
+    : "";
+
+  async function onToggleWatch(e: MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!viewerAuthed) {
+      router.push("/auth/login?next=" + encodeURIComponent("/listings/" + listing.id));
+      return;
+    }
+    if (saving) return;
+    setSaving(true);
+    try {
+      const res = await fetch("/api/watchlist/toggle", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ listingId: listing.id }),
+      });
+      if (res.ok) {
+        setWatched(function (v) { return !v; });
+      }
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <Link
@@ -130,7 +171,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
               draggable={false}
               onDragStart={function (e) { e.preventDefault(); }}
               onContextMenu={function (e) { e.preventDefault(); }}
-              style={{ userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none" } as React.CSSProperties}
+              style={{ userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none" } as CSSProperties}
               unoptimized
             />
 
@@ -172,27 +213,27 @@ export default function ListingCard({ listing }: ListingCardProps) {
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
-          } as React.CSSProperties}
+          } as CSSProperties}
         >
           {title}
         </div>
 
         <div className="text-[22px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
 
-        {(sellerName || sellerMemberSince || sellerLocation || hasEmailVerified || hasPhoneVerified || hasRating) ? (
+        {(sellerName || sellerMemberSince || hasRating || verificationBadge) ? (
           <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-2.5 py-2">
             {sellerName ? (
               <div className="truncate text-[11px] font-semibold text-[#334155]">{sellerName}</div>
             ) : null}
             <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[10px] text-[#64748B]">
               {sellerMemberSince ? <span>Member since {sellerMemberSince}</span> : null}
-              {sellerLocation ? <span>• {sellerLocation}</span> : null}
             </div>
-            {(hasEmailVerified || hasPhoneVerified || hasRating) ? (
+            {(hasRating || verificationBadge) ? (
               <div className="mt-1.5 flex flex-wrap gap-1.5 text-[10px]">
-                {hasEmailVerified ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 font-semibold text-emerald-700">Email verified</span> : null}
-                {hasPhoneVerified ? <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 font-semibold text-sky-700">Phone verified</span> : null}
                 {hasRating ? <span className="font-semibold text-amber-700">{renderStars(ratingAvg)} ({ratingCount})</span> : null}
+                {!hasRating && verificationBadge ? (
+                  <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 font-semibold text-emerald-700">{verificationBadge}</span>
+                ) : null}
               </div>
             ) : null}
           </div>
@@ -200,7 +241,19 @@ export default function ListingCard({ listing }: ListingCardProps) {
 
         <div className="flex items-center justify-between gap-2.5 text-[11px] text-[#64748B]">
           <div className="min-w-0 truncate">{location || "Location on request"}</div>
-          <div className="font-semibold text-[#0F172A]">View</div>
+          <div className="flex items-center gap-2">
+            <div className="font-semibold text-[#0F172A]">View</div>
+            {showWatchButton ? (
+              <button
+                type="button"
+                onClick={onToggleWatch}
+                disabled={saving}
+                className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1 font-semibold text-[#0F172A] transition hover:bg-white disabled:opacity-60"
+              >
+                {watched ? "Saved" : "Save"}
+              </button>
+            ) : null}
+          </div>
         </div>
       </div>
     </Link>

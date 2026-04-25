@@ -211,7 +211,7 @@ export default async function ListingDetailPage({
 
           <aside className="space-y-4">
             <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller trust</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
               <div className="mt-1.5 text-[1.7rem] font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
               <div className="mt-2 space-y-1 text-sm text-[#64748B]">
                 <div>{sellerLocation}</div>
