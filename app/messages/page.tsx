@@ -13,7 +13,7 @@ export const fetchCache = "force-no-store";
 
 function SafetyNotice() {
   return (
-    <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-sm">
+    <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-950 shadow-sm">
       <span className="font-semibold">Tip:</span>{" "}
       Use messages to arrange pickup or postage and keep key details in one place.
     </div>
@@ -72,12 +72,12 @@ export default async function MessagesInboxPage() {
     });
 
     return (
-      <main className="bd-container py-10">
-        <div className="container max-w-5xl space-y-5">
+      <main className="bd-container py-5 sm:py-10">
+        <div className="container max-w-5xl space-y-4 sm:space-y-5">
           <InboxAutoRefresh />
 
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
+            <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div className="max-w-3xl">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
@@ -86,7 +86,7 @@ export default async function MessagesInboxPage() {
                 </p>
               </div>
 
-              <div className="grid min-w-[220px] gap-3 sm:grid-cols-2 md:min-w-[280px]">
+              <div className="grid min-w-[220px] gap-2 sm:grid-cols-2 md:min-w-[280px]">
                 <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
                   <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Conversations</div>
                   <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{items.length}</div>
@@ -101,16 +101,16 @@ export default async function MessagesInboxPage() {
 
           <SafetyNotice />
 
+          <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink-2)] shadow-sm">
+            Keep communication clear, agree on pickup or postage details, and avoid suspicious payment requests.
+          </div>
+
           {unreadCount > 0 ? (
-            <div className="rounded-2xl border border-[var(--bidra-blue)]/20 bg-[var(--bidra-blue)]/10 px-4 py-3 text-sm text-[var(--bidra-ink)] shadow-sm">
+            <div className="rounded-2xl border border-[var(--bidra-blue)]/20 bg-[var(--bidra-blue)]/10 px-4 py-2.5 text-sm text-[var(--bidra-ink)] shadow-sm">
               <span className="font-semibold">Unread messages:</span>{" "}
               You have <span className="font-extrabold">{unreadCount}</span> unread {unreadCount === 1 ? "conversation" : "conversations"}.
             </div>
           ) : null}
-
-          <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink-2)] shadow-sm">
-            Messages keep listing conversations simple and easy to follow.
-          </div>
 
           {items.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
@@ -130,7 +130,7 @@ export default async function MessagesInboxPage() {
               </div>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2.5 sm:space-y-3">
               {items.map((it) => {
                 const other = me === it.buyerId ? it.seller : it.buyer;
                 const otherLabel = other.username || other.name || other.email || "User";
@@ -149,7 +149,7 @@ export default async function MessagesInboxPage() {
                   <Link
                     key={it.id}
                     href={`/messages/${it.id}`}
-                    className={`block rounded-3xl border p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md ${
+                    className={`block rounded-3xl border p-4 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md sm:p-5 ${
                       it.unread
                         ? "border-blue-300 bg-blue-50 ring-2 ring-blue-200 border-l-8"
                         : "border-black/10 bg-white"
@@ -207,9 +207,9 @@ export default async function MessagesInboxPage() {
     );
   } catch (_e) {
     return (
-      <main className="bd-container py-10">
-        <div className="container max-w-5xl space-y-5">
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+      <main className="bd-container py-5 sm:py-10">
+        <div className="container max-w-5xl space-y-4 sm:space-y-5">
+          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
           </div>
