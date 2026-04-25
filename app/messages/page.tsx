@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { allowContactDetailsInMessages } from "@/lib/message-safety";
 import Link from "next/link";
 import InboxAutoRefresh from "./components/inbox-auto-refresh";
 import DateTimeText from "@/components/date-time-text";
@@ -118,7 +117,7 @@ export default async function MessagesInboxPage() {
               <div className="mx-auto max-w-xl">
                 <div className="text-xl font-extrabold text-neutral-900">No messages yet</div>
                 <p className="mt-2 text-sm text-neutral-600">
-                  When you message a buyer or seller, your conversations will show up here.
+                  Start a conversation from a listing and your messages will show up here.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
                   <Link href="/listings" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">

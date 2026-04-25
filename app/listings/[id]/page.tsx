@@ -28,6 +28,13 @@ function cleanText(value: string | null | undefined) {
     .trim();
 }
 
+function formatMemberSince(value: Date | string | null | undefined) {
+  if (!value) return "";
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("en-AU", { month: "short", year: "numeric" });
+}
+
 export default async function ListingDetailPage({
   params,
 }: {
@@ -60,6 +67,7 @@ export default async function ListingDetailPage({
 
   const sellerName = cleanText((listing.seller as any)?.name || (listing.seller as any)?.username || "Bidra seller");
   const sellerLocation = cleanText((listing.seller as any)?.location || listing.location || "Australia");
+  const sellerMemberSince = formatMemberSince((listing.seller as any)?.createdAt);
   const images = (listing as any).images || [];
 
   return (
@@ -112,12 +120,12 @@ export default async function ListingDetailPage({
                   <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#475569]">Sold.</div>
                 ) : isTimedOffers ? (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">Place an offer. If accepted, it is sold. Arrange pickup or postage in messages.</p>
+                    <p className="text-sm text-[#64748B]">When the seller accepts the highest offer, the item is sold. Use messages to arrange pickup or postage.</p>
                     <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">Buy now marks this item as sold. Arrange pickup or postage in messages.</p>
+                    <p className="text-sm text-[#64748B]">Buy now marks the item as sold. Arrange pickup or postage in messages.</p>
                     <BuyNowButton listingId={listing.id} />
                   </div>
                 )}
@@ -145,6 +153,7 @@ export default async function ListingDetailPage({
               ) : null}
 
               <div className="mt-3 border-t border-[#E2E8F0] pt-3">
+                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#64748B]">Report listing</div>
                 <ReportListingButton listingId={listing.id} />
               </div>
             </div>
@@ -180,9 +189,21 @@ export default async function ListingDetailPage({
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
               <div className="mt-1.5 text-[1.7rem] font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
               <div className="mt-2 text-sm text-[#64748B]">{sellerLocation}</div>
+              {sellerMemberSince ? (
+                <div className="mt-1 text-sm text-[#64748B]">Member since {sellerMemberSince}</div>
+              ) : null}
               <div className="mt-2">
                 <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
               </div>
+            </div>
+
+            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Trust tips</div>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#475569]">
+                <li>Meet in a safe public place for local pickup.</li>
+                <li>Inspect the item before paying.</li>
+                <li>Use messages to confirm details.</li>
+              </ul>
             </div>
           </aside>
         </section>

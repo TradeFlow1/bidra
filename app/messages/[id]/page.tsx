@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { allowContactDetailsInMessages } from "@/lib/message-safety";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
@@ -22,7 +21,7 @@ function SafetyNote() {
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-sm">
       <span className="font-semibold">Safety tip:</span>{" "}
-      Use Bidra messages to keep a clear record. You can share pickup details when needed, but never share passwords, verification codes, or off-platform payment requests.
+      Use Bidra messages to keep a clear record. You can share pickup details when needed, but never share passwords, verification codes, or suspicious payment requests.
     </div>
   );
 }
@@ -131,7 +130,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                   <div className="min-w-0 flex-1">
                     <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
                     <div className="mt-2 text-sm text-[var(--bidra-ink-2)]">
-                      Clarification thread with <span className="font-semibold text-[var(--bidra-ink)]">{displayName(other)}</span>
+                      Conversation with <span className="font-semibold text-[var(--bidra-ink)]">{displayName(other)}</span>
                     </div>
                     <div className="mt-2 text-sm text-[var(--bidra-ink-2)]">
                       Listing:{" "}
@@ -160,6 +159,19 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           </div>
 
           <SafetyNote />
+
+          <div className="rounded-2xl border border-black/10 bg-white px-4 py-4 text-sm text-[var(--bidra-ink)] shadow-sm">
+            <div className="font-extrabold">What to do here</div>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-[var(--bidra-ink-2)]">
+              <li>Agree on price (if offer), pickup or postage, and timing.</li>
+              <li>Keep key details in messages for reference.</li>
+              <li>Once agreed, the item is considered sold.</li>
+            </ul>
+          </div>
+
+          <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink-2)] shadow-sm">
+            Keep communication clear and agree on details before meeting. Avoid sending deposits unless you trust the seller.
+          </div>
 
           <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink-2)] shadow-sm">
             Keep item questions, pickup details, and important agreements in this conversation so there is a clear record if something goes wrong.
@@ -211,7 +223,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
             <div className="text-sm font-semibold text-[var(--bidra-ink)]">Send a message</div>
             <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-              Keep messages relevant to the item, pickup, and sale. Never share passwords, verification codes, or off-platform payment requests.
+              Keep messages relevant to the item, pickup, and sale. Never share passwords, verification codes, or suspicious payment requests.
             </div>
             <div className="mt-4">
               <SendBox threadId={thread.id} />

@@ -71,7 +71,7 @@ export default function ThreadActions({ threadId }: { threadId: string }) {
           disabled={busy}
           className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-[var(--bidra-ink)] hover:bg-white/10 disabled:opacity-50"
         >
-          {busy ? "Working…" : "Report"}
+          {busy ? "Working…" : "Report user"}
         </button>
 
         <button

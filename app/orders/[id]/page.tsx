@@ -157,11 +157,11 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
         <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="text-sm font-extrabold bd-ink">Next steps</div>
+            <div className="text-sm font-extrabold bd-ink">What happens now</div>
             <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-              <li>This item is sold.</li>
-              <li>Use messages to agree on pickup or postage details.</li>
-              <li>Leave feedback if it is available and you want to.</li>
+              <li>This item has been marked as sold.</li>
+              <li>Use messages to finalise pickup or postage.</li>
+              <li>Use messages to keep a record of your agreement.</li>
             </ul>
           </Card>
 
