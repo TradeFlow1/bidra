@@ -313,7 +313,7 @@ export default async function ListingsPage({
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse listings</h1>
-              <p className="mt-2 text-sm text-[#475569]">Browse local items, buy now, make offers, and arrange pickup or postage in messages.</p>
+              <p className="mt-2 text-sm text-[#475569]">Browse local items, buy now, make an offer, and arrange pickup or postage in messages.</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <Link href="/listings" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">All</Link>

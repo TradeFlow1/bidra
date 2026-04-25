@@ -112,12 +112,12 @@ export default async function ListingDetailPage({
                   <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#475569]">Sold.</div>
                 ) : isTimedOffers ? (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">Place an offer. The seller can accept the highest offer to mark the item as sold.</p>
+                    <p className="text-sm text-[#64748B]">Place an offer. If accepted, it is sold. Arrange pickup or postage in messages.</p>
                     <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">Buy now marks this item as sold.</p>
+                    <p className="text-sm text-[#64748B]">Buy now marks this item as sold. Arrange pickup or postage in messages.</p>
                     <BuyNowButton listingId={listing.id} />
                   </div>
                 )}
@@ -157,7 +157,7 @@ export default async function ListingDetailPage({
               <div className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-3">
                 <div className="rounded-2xl bg-[#F8FAFC] p-2.5">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Type</div>
-                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{isTimedOffers ? "Offers" : "Buy Now"}</div>
+                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{isTimedOffers ? "Make an offer" : "Buy now"}</div>
                 </div>
                 <div className="rounded-2xl bg-[#F8FAFC] p-2.5">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Condition</div>
