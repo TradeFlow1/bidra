@@ -60,6 +60,25 @@ export default async function WatchlistPage() {
     return String(x?.listing?.status ?? "") !== "ACTIVE";
   }).length;
 
+  const savedOfferListings = items.filter(function (x: any) {
+    return String(x?.listing?.type ?? "") === "OFFERABLE";
+  }).length;
+
+  const savedBuyNowListings = items.filter(function (x: any) {
+    return String(x?.listing?.type ?? "") !== "OFFERABLE";
+  }).length;
+
+  const nowMs = Date.now();
+  const endingSoonCount = items.filter(function (x: any) {
+    if (String(x?.listing?.status ?? "") !== "ACTIVE") return false;
+    const endsAtRaw = (x?.listing as any)?.endsAt;
+    if (!endsAtRaw) return false;
+    const endsAtMs = new Date(endsAtRaw).getTime();
+    if (!Number.isFinite(endsAtMs)) return false;
+    const diff = endsAtMs - nowMs;
+    return diff > 0 && diff <= 24 * 60 * 60 * 1000;
+  }).length;
+
   return (
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
@@ -69,7 +88,7 @@ export default async function WatchlistPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Watchlist</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Saved listings</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Keep track of listings you want to revisit, compare, or act on later.
+                Save listings to track items you care about, keep an eye on offer movement, and spot ending windows before they close.
               </p>
             </div>
 
@@ -77,14 +96,14 @@ export default async function WatchlistPage() {
               <Link href="/listings" className="bd-btn bd-btn-primary text-center">
                 Browse marketplace
               </Link>
-              <Link href="/dashboard" className="bd-btn bd-btn-ghost text-center">
-                Dashboard
+              <Link href="/listings?type=OFFERABLE" className="bd-btn bd-btn-ghost text-center">
+                View offer listings
               </Link>
             </div>
           </div>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Saved</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{items.length}</div>
@@ -92,16 +111,26 @@ export default async function WatchlistPage() {
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Active</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{activeCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Still live in the marketplace.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Offer listings</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{savedOfferListings}</div>
+            <div className="mt-1 text-sm text-neutral-600">Saved listings where you can place offers.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Ended or unavailable</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{endedCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">No longer active right now.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Buy now listings</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{savedBuyNowListings}</div>
+            <div className="mt-1 text-sm text-neutral-600">Saved listings ready for direct purchase.</div>
           </div>
+
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Ending soon</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{endingSoonCount}</div>
+            <div className="mt-1 text-sm text-neutral-600">Active saved listings with a known end time in the next 24 hours.</div>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-xs text-neutral-600 shadow-sm">
+          <span className="font-semibold text-neutral-800">Status snapshot:</span> {activeCount} active and {endedCount} ended or unavailable saved listings.
         </div>
 
         {!items.length ? (
@@ -109,11 +138,12 @@ export default async function WatchlistPage() {
             <div className="mx-auto max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">Your watchlist is empty</div>
               <p className="mt-2 text-sm text-neutral-600">
-                Save listings from the detail page to keep them handy while you compare options.
+                Save listings as you browse to track prices, offers, and time windows in one place.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <Link href="/listings" className="bd-btn bd-btn-primary text-center">Browse listings</Link>
-                <Link href="/dashboard" className="bd-btn bd-btn-ghost text-center">Go to dashboard</Link>
+                <Link href="/listings?type=OFFERABLE" className="bd-btn bd-btn-ghost text-center">View offer listings</Link>
+                <Link href="/sell" className="bd-btn bd-btn-ghost text-center">Sell an item</Link>
               </div>
             </div>
           </div>

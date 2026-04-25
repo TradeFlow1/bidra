@@ -277,9 +277,13 @@ export default function ListingCard({
                 type="button"
                 onClick={onToggleWatch}
                 disabled={saving}
-                className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1 font-semibold text-[#0F172A] transition hover:bg-white disabled:opacity-60"
+                className={
+                  watched
+                    ? "rounded-full border border-emerald-300 bg-emerald-50 px-2.5 py-1 font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:border-neutral-300 disabled:bg-neutral-100 disabled:text-neutral-500"
+                    : "rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1 font-semibold text-[#0F172A] transition hover:bg-white disabled:cursor-not-allowed disabled:border-neutral-300 disabled:bg-neutral-100 disabled:text-neutral-500"
+                }
               >
-                {watched ? "Saved" : "Save"}
+                {saving ? "Saving..." : watched ? "Saved" : "Save"}
               </button>
             ) : null}
           </div>

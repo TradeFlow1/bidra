@@ -121,7 +121,7 @@ export default async function NotificationsPage() {
             <div className="mx-auto max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">You are all caught up</div>
               <div className="mt-2 text-sm text-neutral-600">
-                New messages, sold items, and optional feedback will appear here.
+                New messages, sold items, and optional feedback will appear here. Saved listing and marketplace updates will show up here when those alerts are available.
               </div>
             </div>
           </div>
