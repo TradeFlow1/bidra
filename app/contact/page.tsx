@@ -5,7 +5,7 @@ import ContactForm from "./contact-form";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const metadata = { title: "Contact â€” Bidra" };
+export const metadata = { title: "Contact Ã¢â‚¬â€ Bidra" };
 
 const SUPPORT_EMAIL = "support@bidra.com.au";
 
@@ -53,10 +53,10 @@ export default async function ContactPage() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <a href={"mailto:" + SUPPORT_EMAIL} className="bd-btn bd-btn-primary text-center">
+              <a href={"mailto:" + SUPPORT_EMAIL} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                 Email support
               </a>
-              <Link href="/support" className="bd-btn bd-btn-ghost text-center">
+              <Link href="/support" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                 Support and safety
               </Link>
             </div>
@@ -166,10 +166,10 @@ export default async function ContactPage() {
                     .
                   </div>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <Link href="/auth/login?next=/contact" className="bd-btn bd-btn-primary text-center">
+                    <Link href="/auth/login?next=/contact" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                       Log in to use the form
                     </Link>
-                    <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center">
+                    <Link href="/auth/register" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                       Create account
                     </Link>
                   </div>
@@ -184,11 +184,11 @@ export default async function ContactPage() {
             <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
               <SectionTitle>Other useful pages</SectionTitle>
               <div className="mt-3 flex flex-wrap gap-2 text-sm">
-                <Link href="/how-it-works" className="bd-btn bd-btn-ghost text-center">How it works</Link>
-                <Link href="/legal" className="bd-btn bd-btn-ghost text-center">Legal hub</Link>
-                <Link href="/legal/prohibited-items" className="bd-btn bd-btn-ghost text-center">Prohibited items</Link>
-                <Link href="/legal/terms" className="bd-btn bd-btn-ghost text-center">Terms</Link>
-                <Link href="/legal/privacy" className="bd-btn bd-btn-ghost text-center">Privacy</Link>
+                <Link href="/how-it-works" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">How it works</Link>
+                <Link href="/legal" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Legal hub</Link>
+                <Link href="/legal/prohibited-items" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Prohibited items</Link>
+                <Link href="/legal/terms" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Terms</Link>
+                <Link href="/legal/privacy" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Privacy</Link>
               </div>
             </div>
 
