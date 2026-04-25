@@ -63,14 +63,14 @@ export default async function NotificationsPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Notifications</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Your action center</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Quick access to unread messages, order actions, and feedback tasks that need attention.
+                Quick access to unread messages, sold orders, and optional feedback.
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
               <Badge>Total {counts.total}</Badge>
               <StatPill label="Unread threads" value={counts.unreadThreads} />
-              <StatPill label="Feedback tasks" value={counts.pendingFeedback} />
+              <StatPill label="Feedback" value={counts.pendingFeedback} />
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default async function NotificationsPage() {
                 </div>
 
                 <div className="shrink-0 flex flex-col items-end gap-2">
-                  <span className="bd-btn bd-btn-primary">Open inbox</span>
+                  <span className="rounded-xl border border-black/20 bg-white px-4 py-2.5 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Open inbox</span>
                   <span className="text-[11px] bd-ink2">Go to /messages -&gt;</span>
                 </div>
               </div>
@@ -111,7 +111,7 @@ export default async function NotificationsPage() {
                     <div className="text-lg font-extrabold bd-ink">Orders</div>
                     <StatusChip
                       active={counts.actionOrders > 0}
-                      activeText={`${counts.actionOrders} need action`}
+                      activeText={`${counts.actionOrders} active`}
                       idleText="No action needed"
                       tone="blue"
                     />
@@ -122,12 +122,12 @@ export default async function NotificationsPage() {
                   </div>
 
                   <div className="mt-2 text-xs bd-ink2">
-                    This is the fastest place to continue order actions without relying on email.
+                    This is the fastest place to keep sold-item follow-up on Bidra.
                   </div>
                 </div>
 
                 <div className="shrink-0 flex flex-col items-end gap-2">
-                  <span className="bd-btn bd-btn-primary">Open orders</span>
+                  <span className="rounded-xl border border-black/20 bg-white px-4 py-2.5 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Open orders</span>
                   <span className="text-[11px] bd-ink2">Go to /orders -&gt;</span>
                 </div>
               </div>
@@ -142,23 +142,23 @@ export default async function NotificationsPage() {
                     <div className="text-lg font-extrabold bd-ink">Feedback</div>
                     <StatusChip
                       active={counts.pendingFeedback > 0}
-                      activeText={`${counts.pendingFeedback} pending`}
-                      idleText="No tasks"
+                      activeText={`${counts.pendingFeedback} open`}
+                      idleText="Nothing open"
                       tone="yellow"
                     />
                   </div>
 
                   <div className="mt-2 text-sm bd-ink2">
-                    Leave quick feedback on completed orders to build marketplace trust.
+                    Leave feedback after handover if it is available.
                   </div>
 
                   <div className="mt-2 text-xs bd-ink2">
-                    If feedback tasks are overdue, some buyer actions may be temporarily blocked until they are completed.
+                    Feedback helps future buyers and sellers make better decisions.
                   </div>
                 </div>
 
                 <div className="shrink-0 flex flex-col items-end gap-2">
-                  <span className="bd-btn bd-btn-primary">View orders</span>
+                  <span className="rounded-xl border border-black/20 bg-white px-4 py-2.5 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">View orders</span>
                   <span className="text-[11px] bd-ink2">Go to /orders -&gt;</span>
                 </div>
               </div>
