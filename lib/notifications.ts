@@ -1,6 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 
+// TODO(watchlist-notifications): When a persisted notification model exists,
+// add watchlist event counts/hooks for:
+// - watched listing ending soon
+// - watched listing receiving a new offer
+// - watched listing sold
+// Keep this derived-count helper schema-free until that model is available.
 export async function getNotificationCounts(userId: string) {
   const unreadThreads = await prisma.messageThread.count({
     where: {
