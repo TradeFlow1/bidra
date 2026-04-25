@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { sendNewMessageEmail } from "@/lib/email";
-import { allowContactDetailsInMessages, contactInfoSignals, containsContactInfo } from "@/lib/message-safety";
+import { contactInfoSignals } from "@/lib/message-safety";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const session = await auth();
@@ -31,16 +31,8 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     return NextResponse.json({ error: "Message too long." }, { status: 400 });
   }
 
-  const allowContact = allowContactDetailsInMessages();
-  const hasContact = containsContactInfo(text);
-  const signals = hasContact ? contactInfoSignals(text) : null;
-
-  if (hasContact && !allowContact) {
-    return NextResponse.json(
-      { error: "For safety, please don't share phone numbers, email addresses, or PayID/payment details in messages." },
-      { status: 400 }
-    );
-  }
+  const signals = contactInfoSignals(text);
+  const hasContact = signals.email || signals.phone || signals.payment;
 
   const me = session.user.id;
 
@@ -109,7 +101,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       },
     });
 
-    // Fix 11: allow contact/payment details (feature-flagged) but log when present
+    // Launch mode: allow contact details in messages and only log contact/payment signals when present.
     if (hasContact) {
       await tx.adminEvent.create({
         data: {

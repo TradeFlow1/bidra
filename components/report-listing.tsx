@@ -107,7 +107,7 @@ export default function ReportListing({
           setMsg("");
         }}
       >
-        Report
+        Report listing
       </button>
 
       {open ? (

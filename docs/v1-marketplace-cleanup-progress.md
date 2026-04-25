@@ -70,10 +70,57 @@ Purpose: keep a repo-tracked checklist so new chats do not rework the same pages
 
 ## Known follow-up risks
 
-- lib/message-safety.ts still contains unused maskContactInfo and contact detection helpers.
-- Current scan showed maskContactInfo is not used by app messages.
-- Do not reintroduce contact blocking or phone masking.
-- There are still legacy routes such as /orders/[id]/complete, /orders/[id]/pay, /orders/[id]/message in the app route table. Inspect before removing; do not assume they are unused.
+- Do not reintroduce contact blocking or phone masking in messages.
+- Keep legacy redirect routes in place unless a dedicated migration removes old links safely.
+
+## Launch-readiness sweep (2026-04-25)
+
+- Files/routes inspected
+  - `app/orders/[id]/complete/page.tsx`
+  - `app/orders/[id]/pay/page.tsx`
+  - `app/orders/[id]/pay-now/page.tsx`
+  - `app/orders/[id]/message/route.ts`
+  - `app/api/orders/[id]/complete/route.ts`
+  - `app/api/orders/[id]/pay/confirm/route.ts`
+  - `app/orders/[id]/page.tsx`
+  - `app/messages/page.tsx`
+  - `app/messages/[id]/page.tsx`
+  - `app/api/messages/thread/[id]/send/route.ts`
+  - `lib/message-safety.ts`
+  - `app/support/page.tsx`
+  - `app/legal/terms/page.tsx`
+  - `app/legal/fees/page.tsx`
+
+- Routes redirected/retired
+  - Legacy post-sale pages `/orders/[id]/complete`, `/orders/[id]/pay`, and `/orders/[id]/pay-now` remain safe redirects to `/orders/[id]`.
+  - `/orders/[id]/message` remains a useful bridge that opens or reopens the message thread and redirects to `/messages/[threadId]`.
+  - Legacy API `/api/orders/[id]/complete` remains retired with `410`.
+  - Legacy API `/api/orders/[id]/pay/confirm` now clearly states there is no in-app payment confirmation flow and points users to messages.
+
+- Stale wording removed
+  - Removed user-facing order-flow / pickup-scheduling / completion-step language from legal pages.
+  - Removed user-facing off-platform restriction phrasing in support and thread safety copy while keeping clear scam guidance.
+  - Removed legacy message-contact masking/blocking helpers and message-send blocking branch.
+
+- Remaining known risks
+  - Some internal names still use legacy terms (for example enum/status values like `COMPLETED` or offer/bid internals) and were intentionally not renamed for schema safety.
+  - Admin AI analysis labels still contain “off-platform messaging” as internal moderation metadata; this is not shown as user-facing marketplace workflow copy.
+
+## Marketplace loop clarity (this pass)
+
+- Listing → message → sold flow clarified with direct guidance on listing detail actions.
+- Next-step guidance added to listing detail, message thread, and order detail pages.
+- Removed remaining ambiguous transaction language from marketplace headers and empty states.
+- Confirmed no new workflow systems were added (no payments, no scheduling, no forced completion flow).
+
+## Trust and safety confidence pass (this pass)
+
+- Added lightweight trust tips on listing detail pages: safe public meetup, inspect before paying, and confirm details in messages.
+- Added calm safety hinting in message threads: agree details before meeting and avoid deposits unless trust is established.
+- Strengthened sold-state reassurance on order detail pages with clear messaging records guidance.
+- Made reporting visibility clearer with explicit labels for both listing and user reporting surfaces.
+- Added seller credibility context in listing detail (seller name, location, and member-since when available).
+- Confirmed no new complexity was added (no escrow, no payment flow, no verification flow, no moderation queue).
 
 ## Preferred workflow for future chats
 

@@ -22,7 +22,7 @@ export default function TermsPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Terms</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Terms of use</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                These Terms govern your use of Bidra. By accessing or using Bidra, you agree to these Terms. Bidra is a marketplace platform only. We are not the seller of items, not a payment provider, and not an auctioneer.
+                These Terms govern your use of Bidra. By accessing or using Bidra, you agree to these Terms. Bidra is a marketplace platform only. We are not the seller of items and not a payment provider.
               </p>
             </div>
 
@@ -53,7 +53,7 @@ export default function TermsPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Orders</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">No funds held</div>
-            <div className="mt-1 text-sm text-neutral-600">Bidra shows order flow in-app, but does not hold funds and does not guarantee outcomes.</div>
+            <div className="mt-1 text-sm text-neutral-600">Orders are sold-item records. Buyers and sellers arrange pickup or postage in messages.</div>
           </div>
         </div>
 
@@ -90,8 +90,8 @@ export default function TermsPage() {
               <h3 className="text-base font-extrabold bd-ink">Buy Now (binding sale)</h3>
               <ul className="mt-2 list-disc pl-5 text-black/75 space-y-1">
                 <li>When a seller enables Buy Now, they pre-authorise an immediate sale at the displayed price.</li>
-                <li>When a buyer clicks Buy Now, the buyer commits to complete the order and follow the scheduled pickup flow.</li>
-                <li>Buy Now is designed for faster completion and clearer expectations.</li>
+                <li>When a buyer clicks Buy Now, the item is sold.</li>
+                <li>Buyers and sellers then use messages to agree pickup or postage details.</li>
               </ul>
             </div>
 
@@ -105,16 +105,14 @@ export default function TermsPage() {
             </div>
           </div>
 
-          <p className="mt-3 text-sm text-black/60">
-            Bidra provides tools for listing, offers, messaging, and order status. Buyers and sellers are responsible for their decisions and actions.
-          </p>
+          <p className="mt-3 text-sm text-black/60">Bidra provides tools for listings, offers, sold-item records, and messages. Buyers and sellers are responsible for their decisions and actions.</p>
         </SectionCard>
 
-        <SectionCard title="5) Orders, pickup scheduling, and completion">
+        <SectionCard title="5) Orders and messages">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>When an order exists, it represents a binding commitment under the relevant flow, such as Buy Now.</li>
-            <li>Bidra shows order status, pickup scheduling, and completion steps in-app, but <strong>Bidra does not hold funds</strong> and <strong>does not guarantee outcomes</strong>.</li>
-            <li>Buyers and sellers should follow the in-app order flow, complete pickup carefully, and keep records such as messages and photos.</li>
+            <li>When an order exists, the item is sold and the order records the sale details.</li>
+            <li>Bidra does not run in-app payment, escrow, pickup scheduling, or completion workflows.</li>
+            <li>Buyers and sellers should use messages to agree pickup or postage details and keep records such as messages and photos.</li>
             <li>Disputes are usually resolved between buyer and seller. Bidra may take platform actions, including restrictions, where misuse or fraud is detected.</li>
           </ul>
         </SectionCard>

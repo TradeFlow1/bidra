@@ -380,7 +380,7 @@ export default async function ListingsPage({
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto max-w-md">
                     <div className="text-lg font-bold text-[#0F172A]">No listings found</div>
-                    <p className="mt-2 text-sm text-[#475569]">Try clearing a filter or list your item to get started.</p>
+                    <p className="mt-2 text-sm text-[#475569]">Try clearing a filter, or check back soon for more local listings.</p>
                     <div className="mt-4 flex flex-wrap justify-center gap-2">
                       <Link href="/listings" className="bd-btn bd-btn-primary">Clear filters</Link>
                       <Link href="/sell/new" className="bd-btn bd-btn-ghost">Sell an item</Link>
