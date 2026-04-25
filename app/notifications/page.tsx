@@ -118,7 +118,7 @@ export default async function NotificationsPage() {
                   </div>
 
                   <div className="mt-2 text-sm bd-ink2">
-                    Open orders that need pickup scheduling, confirmation, or follow-up.
+                    Open sold orders, message the other person, and handle any follow-up.
                   </div>
 
                   <div className="mt-2 text-xs bd-ink2">

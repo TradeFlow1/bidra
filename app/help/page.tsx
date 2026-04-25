@@ -65,7 +65,7 @@ export default function HelpPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Start here</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">How Bidra works</div>
-            <div className="mt-1 text-sm text-neutral-600">Get the plain-language overview of listings, offers, orders, and local pickup flow.</div>
+            <div className="mt-1 text-sm text-neutral-600">Get the plain-language overview of listings, offers, sold orders, messages, pickup, and postage.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
@@ -84,7 +84,7 @@ export default function HelpPage() {
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <HelpCard
             title="How it works"
-            desc="Learn the core marketplace flow for listings, Buy Now, offers, orders, and pickup scheduling."
+            desc="Learn the core marketplace flow for Buy Now, accepted offers, sold orders, messages, pickup, and postage."
             href="/how-it-works"
             cta="Open how it works"
           />
@@ -113,7 +113,7 @@ export default function HelpPage() {
           <ol className="mt-4 list-decimal pl-5 text-sm bd-ink2 leading-7 space-y-2">
             <li>Create a listing with clear details, honest condition notes, and accurate photos.</li>
             <li>Use messages for clarification only and keep communication respectful and on-platform.</li>
-            <li>After a sale, pickup is scheduled in-app and Bidra records progress through the order flow.</li>
+            <li>After a sale, buyer and seller use messages to arrange pickup or postage. No extra approval step is needed.</li>
             <li>Complete the order after handover and leave feedback to help the community make better decisions.</li>
           </ol>
         </section>
@@ -139,7 +139,7 @@ export default function HelpPage() {
             />
             <FaqItem
               question="Where do I see order progress?"
-              answer={<>Order progress, pickup steps, and related actions are shown in your <Link href="/orders" className="bd-link font-semibold">Orders</Link> area.</>}
+              answer={<>Sold items and message actions are shown in your <Link href="/orders" className="bd-link font-semibold">Orders</Link> area.</>}
             />
             <FaqItem
               question="What if I still need help?"

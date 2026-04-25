@@ -54,7 +54,7 @@ export default function HowItWorksPage() {
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Current flow</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">No in-app payment in V2</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Simple marketplace handover</div>
             <div className="mt-1 text-sm text-neutral-600">Use the in-app order flow, then complete the handover and mark the order complete.</div>
           </div>
         </div>
@@ -77,10 +77,10 @@ export default function HowItWorksPage() {
             <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
               <h3 className="text-base font-extrabold bd-ink">Buy Now (binding)</h3>
               <p className="mt-2 text-sm text-black/70">
-                You set a fixed price. When a buyer clicks Buy Now, it becomes a binding sale. This is the fastest path to a completed local handover.
+                You set a fixed price. When a buyer clicks Buy Now, it becomes a binding sale. This is the fastest path to a sold item.
               </p>
               <ul className="mt-3 list-disc pl-5 text-sm text-black/70 space-y-1">
-                <li>Seller pre-authorises the sale by listing with Buy Now enabled.</li>
+                <li>Seller sets the price by listing with Buy Now enabled.</li>
                 <li>Buyer commits to complete the purchase under Bidra&apos;s rules.</li>
               </ul>
             </div>
@@ -98,9 +98,9 @@ export default function HowItWorksPage() {
           </div>
         </StepCard>
 
-        <StepCard step="Step 3" title="Messages and pickup scheduling">
+        <StepCard step="Step 3" title="Messages and handover">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Use Messages only to clarify item details, condition, access, or pickup context. Pickup timing is scheduled in-app.</li>
+            <li>Use Messages to ask questions, arrange pickup or postage, and keep a clear record.</li>
             <li>For safety, keep communication respectful and clear. If anything feels off, report it.</li>
             <li>Never send ID photos or sensitive information you would not want exposed.</li>
           </ul>
@@ -108,10 +108,10 @@ export default function HowItWorksPage() {
 
         <StepCard step="Step 4" title="Completing the order">
           <p className="text-black/75">
-            For Buy Now purchases, the sale becomes binding first and pickup is then scheduled in-app. Follow the order flow shown on screen. After the in-person handover is finished, complete the order inside Bidra.
+            For Buy Now purchases, the item is sold immediately. Use messages to arrange pickup or postage, then leave feedback or report an issue if needed.
           </p>
           <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
-            <li>There is no in-app payment step in Bidra V2.</li>
+            <li>There is no in-app payment, escrow, shipping, or pickup scheduling step in Bidra V1.</li>
             <li>After handover, mark the order complete inside Bidra.</li>
             <li>Leave feedback to help the community make better decisions.</li>
           </ul>

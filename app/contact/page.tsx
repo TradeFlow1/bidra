@@ -5,7 +5,7 @@ import ContactForm from "./contact-form";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const metadata = { title: "Contact — Bidra" };
+export const metadata = { title: "Contact â€” Bidra" };
 
 const SUPPORT_EMAIL = "support@bidra.com.au";
 
@@ -119,8 +119,8 @@ export default async function ContactPage() {
                   desc="Harassment, threats, spam, impersonation, or suspicious behaviour in a message thread."
                 />
                 <TopicCard
-                  title="Orders and pickup flow"
-                  desc="Issues with an order status, Buy Now flow, accepted offers, or pickup scheduling shown in the order."
+                  title="Orders and handover"
+                  desc="Issues with a sold order, Buy Now purchase, accepted offer, pickup, postage, or messages."
                 />
                 <TopicCard
                   title="Account and access"

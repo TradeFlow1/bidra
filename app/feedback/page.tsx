@@ -1,7 +1,7 @@
 import FeedbackClient from "./feedback-client";
 import Link from "next/link";
 
-export const metadata = { title: "Feedback — Bidra" };
+export const metadata = { title: "Feedback â€” Bidra" };
 
 function InfoCard(props: {
   title: string;
@@ -70,7 +70,7 @@ export default function FeedbackPage() {
             <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
               <div className="text-sm font-extrabold bd-ink">Good examples of feedback</div>
               <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 leading-7 space-y-2">
-                <li>The order page made it hard to understand the next step after pickup was rescheduled.</li>
+                <li>The order page made it hard to message the other person after buying or selling.</li>
                 <li>The sell flow needs clearer hints around pricing, photos, or category choice.</li>
                 <li>A message thread felt confusing because the key action was not obvious on mobile.</li>
                 <li>A dashboard card felt useful, but the wording or priority could be improved.</li>
