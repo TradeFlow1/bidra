@@ -213,7 +213,7 @@ export default async function ListingsPage({
     const watchRows = await prisma.watchlist.findMany({
       where: {
         userId: userId,
-        listingId: { in: listings.map(function (l) { return String(l.id); }) },
+        listingId: { in: listings.map((l) => String(l.id)) },
       },
       select: { listingId: true },
     });
@@ -398,7 +398,7 @@ export default async function ListingsPage({
                   </div>
                 </div>
               ) : (
-                listings.map(function (l) {
+                listings.map((l) => {
                   const currentOffer = l.offers && l.offers.length ? l.offers[0].amount : null;
                   const displayPrice = l.type === "OFFERABLE"
                     ? ((currentOffer ?? l.price) as number)
@@ -428,6 +428,8 @@ export default async function ListingsPage({
                         },
                       }}
                       initiallyWatched={watchedSet.has(l.id)}
+                      viewerAuthed={!!userId}
+                      showWatchButton={true}
                     />
                   );
                 })

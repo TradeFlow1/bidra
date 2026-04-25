@@ -135,6 +135,8 @@ export default async function WatchlistPage() {
                     },
                   }}
                   initiallyWatched={true}
+                  viewerAuthed={true}
+                  showWatchButton={true}
                 />
               );
             })}

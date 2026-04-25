@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
 import HomeCategorySelect from "@/components/home-category-select";
@@ -7,13 +8,16 @@ import HomeCategorySelect from "@/components/home-category-select";
 export const revalidate = 10;
 
 export default async function HomePage() {
+  const session = await auth();
+  const userId = session?.user?.id ?? null;
+
   const listings = await prisma.listing.findMany({
     where: {
       status: "ACTIVE",
       orders: { none: {} },
     },
     orderBy: { createdAt: "desc" },
-    take: 12,
+    take: 24,
     select: {
       id: true,
       title: true,
@@ -43,6 +47,88 @@ export default async function HomePage() {
       },
     },
   });
+
+  const categoryRows = await prisma.listing.groupBy({
+    by: ["category"],
+    where: {
+      status: "ACTIVE",
+      orders: { none: {} },
+    },
+    _count: { category: true },
+    orderBy: { _count: { category: "desc" } },
+    take: 24,
+  });
+
+  const watchedSet = new Set<string>();
+  if (userId && listings.length) {
+    const watchRows = await prisma.watchlist.findMany({
+      where: {
+        userId: userId,
+        listingId: { in: listings.map((l) => String(l.id)) },
+      },
+      select: { listingId: true },
+    });
+    for (let i = 0; i < watchRows.length; i += 1) {
+      watchedSet.add(String(watchRows[i].listingId));
+    }
+  }
+
+  const topLevelCategoryCounts = new Map<string, number>();
+  for (let i = 0; i < categoryRows.length; i += 1) {
+    const raw = String(categoryRows[i].category || "").trim();
+    if (!raw) continue;
+    const top = raw.indexOf(" > ") >= 0 ? raw.split(" > ")[0] : raw;
+    topLevelCategoryCounts.set(top, (topLevelCategoryCounts.get(top) || 0) + Number(categoryRows[i]._count.category || 0));
+  }
+  const featuredCategories = Array.from(topLevelCategoryCounts.entries())
+    .sort(function (a, b) { return b[1] - a[1]; })
+    .slice(0, 6);
+
+  const latestListings = listings.slice(0, 12);
+  const usedListingIds = new Set(latestListings.map(function (l) { return l.id; }));
+  const offerableListings = listings
+    .filter(function (l) { return l.type === "OFFERABLE" && !usedListingIds.has(l.id); })
+    .slice(0, 4);
+  for (let i = 0; i < offerableListings.length; i += 1) usedListingIds.add(offerableListings[i].id);
+  const buyNowListings = listings
+    .filter(function (l) { return l.type !== "OFFERABLE" && !usedListingIds.has(l.id); })
+    .slice(0, 4);
+
+  function renderCard(l: (typeof listings)[number]) {
+    const currentOffer = l.offers && l.offers.length ? l.offers[0].amount : null;
+    const displayPrice = l.type === "OFFERABLE"
+      ? ((currentOffer ?? l.price) as number)
+      : ((l.buyNowPrice ?? l.price) as number);
+
+    return (
+      <ListingCard
+        key={l.id}
+        listing={{
+          id: l.id,
+          title: l.title,
+          description: l.description,
+          price: displayPrice,
+          buyNowPrice: l.buyNowPrice,
+          type: l.type,
+          category: l.category,
+          condition: l.condition,
+          location: l.location,
+          images: (l as unknown as { images?: unknown[] | null }).images ?? null,
+          status: (l as unknown as { status?: string | null }).status ?? "ACTIVE",
+          seller: {
+            name: l.seller?.name || l.seller?.username || null,
+            memberSince: l.seller?.createdAt ?? null,
+            location: l.seller?.location ?? null,
+            emailVerified: l.seller?.emailVerified ?? false,
+            phone: l.seller?.phone ?? null,
+          },
+        }}
+        initiallyWatched={watchedSet.has(l.id)}
+        viewerAuthed={!!userId}
+        showWatchButton={true}
+      />
+    );
+  }
 
   return (
     <main className="bg-[#F7F9FC]">
@@ -84,6 +170,36 @@ export default async function HomePage() {
         <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
             <div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Explore</div>
+              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Featured categories</h2>
+            </div>
+            <Link href="/listings" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+              View all
+            </Link>
+          </div>
+          {featuredCategories.length ? (
+            <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {featuredCategories.map(function (entry) {
+                return (
+                  <Link
+                    key={entry[0]}
+                    href={"/listings?category=" + encodeURIComponent(entry[0])}
+                    className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white"
+                  >
+                    <span>{entry[0]}</span>
+                    <span className="ml-2 text-xs font-medium text-[#64748B]">({entry[1]})</span>
+                  </Link>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="mt-4 text-sm text-[#64748B]">Categories will appear as listings become active.</p>
+          )}
+        </section>
+
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
+            <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse now</div>
               <h2 className="mt-1 text-[1.9rem] font-extrabold tracking-tight text-[#0F172A]">Latest listings</h2>
             </div>
@@ -94,38 +210,43 @@ export default async function HomePage() {
           </div>
 
           <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {listings.map(function (l) {
-              const currentOffer = l.offers && l.offers.length ? l.offers[0].amount : null;
-              const displayPrice = l.type === "OFFERABLE"
-                ? ((currentOffer ?? l.price) as number)
-                : ((l.buyNowPrice ?? l.price) as number);
+            {latestListings.length ? latestListings.map(renderCard) : (
+              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No listings yet. Check back soon.</p>
+            )}
+          </div>
+        </section>
 
-              return (
-                <ListingCard
-                  key={l.id}
-                  listing={{
-                    id: l.id,
-                    title: l.title,
-                    description: l.description,
-                    price: displayPrice,
-                    buyNowPrice: l.buyNowPrice,
-                    type: l.type,
-                    category: l.category,
-                    condition: l.condition,
-                    location: l.location,
-                    images: (l as unknown as { images?: unknown[] | null }).images ?? null,
-                    status: (l as unknown as { status?: string | null }).status ?? "ACTIVE",
-                    seller: {
-                      name: l.seller?.name || l.seller?.username || null,
-                      memberSince: l.seller?.createdAt ?? null,
-                      location: l.seller?.location ?? null,
-                      emailVerified: l.seller?.emailVerified ?? false,
-                      phone: l.seller?.phone ?? null,
-                    },
-                  }}
-                />
-              );
-            })}
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Offer listings</div>
+              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Make an offer</h2>
+            </div>
+            <Link href="/listings?type=OFFERABLE" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+              View all
+            </Link>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {offerableListings.length ? offerableListings.map(renderCard) : (
+              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No offer listings right now.</p>
+            )}
+          </div>
+        </section>
+
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Buy now listings</div>
+              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Ready to buy</h2>
+            </div>
+            <Link href="/listings?type=BUY_NOW" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+              View all
+            </Link>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {buyNowListings.length ? buyNowListings.map(renderCard) : (
+              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No buy now listings right now.</p>
+            )}
           </div>
         </section>
       </div>
