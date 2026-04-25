@@ -112,7 +112,7 @@ export default function HowItWorksPage() {
           </p>
           <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
             <li>There is no in-app payment, escrow, shipping, or pickup scheduling step in Bidra V1.</li>
-            <li>After handover, mark the order complete inside Bidra.</li>
+            <li>After handover, leave feedback if available or report an issue if something went wrong.</li>
             <li>Leave feedback to help the community make better decisions.</li>
           </ul>
         </StepCard>
