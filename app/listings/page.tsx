@@ -215,7 +215,7 @@ export default async function ListingsPage({
   const activeFilters: { label: string; href: string }[] = [];
   if (q) activeFilters.push({ label: q, href: buildClearHref(searchParams, "q") });
   if (category) activeFilters.push({ label: category, href: buildClearHref(searchParams, "category") });
-  if (type) activeFilters.push({ label: type === "BUY_NOW" ? "Buy Now" : "Offers", href: buildClearHref(searchParams, "type") });
+  if (type) activeFilters.push({ label: type === "BUY_NOW" ? "Buy now" : "Make an offer", href: buildClearHref(searchParams, "type") });
   if (condition) activeFilters.push({ label: conditionLabel(condition), href: buildClearHref(searchParams, "condition") });
   if (location) activeFilters.push({ label: location, href: buildClearHref(searchParams, "location") });
   if (cleanStr(searchParams?.min)) activeFilters.push({ label: "$" + cleanStr(searchParams?.min) + "+", href: buildClearHref(searchParams, "min") });
@@ -258,8 +258,8 @@ export default async function ListingsPage({
 
         <select name="type" defaultValue={type} className="bd-input">
           <option value="">All types</option>
-          <option value="BUY_NOW">Buy Now</option>
-          <option value="OFFERABLE">Offers</option>
+          <option value="BUY_NOW">Buy now</option>
+          <option value="OFFERABLE">Make an offer</option>
         </select>
 
         <select name="sort" defaultValue={sort} className="bd-input">
@@ -312,12 +312,13 @@ export default async function ListingsPage({
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Listings</h1>
+              <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse listings</h1>
+              <p className="mt-2 text-sm text-[#475569]">Browse local items, buy now, make offers, and arrange pickup or postage in messages.</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <Link href="/listings" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">All</Link>
-              <Link href="/listings?type=BUY_NOW" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">Buy Now</Link>
-              <Link href="/listings?type=OFFERABLE" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">Offers</Link>
+              <Link href="/listings?type=BUY_NOW" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">Buy now</Link>
+              <Link href="/listings?type=OFFERABLE" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">Make an offer</Link>
             </div>
           </div>
         </section>
@@ -332,7 +333,7 @@ export default async function ListingsPage({
                 <div className="hidden xl:block">
                   <div className="mb-4 border-b border-[#E2E8F0] pb-4">
                     <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Refine results</div>
-                    <div className="mt-2 text-sm text-[#475569]">Filter by keyword, category, type, condition, location, and price.</div>
+                    <div className="mt-2 text-sm text-[#475569]">Use filters to narrow by keyword, category, condition, location, and price.</div>
                   </div>
                   <FiltersForm />
                 </div>
@@ -351,7 +352,7 @@ export default async function ListingsPage({
             <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse results</div>
+                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Results</div>
                   <div className="mt-1 text-sm font-semibold text-[#0F172A]">{listings.length} results</div>
                 </div>
               </div>
@@ -366,7 +367,7 @@ export default async function ListingsPage({
                         className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] shadow-sm"
                       >
                         <span>{item.label}</span>
-                        <span className="ml-2 text-[#94A3B8]">Ã—</span>
+                        <span className="ml-2 text-[#94A3B8]" aria-hidden="true">×</span>
                       </Link>
                     );
                   })}
@@ -379,9 +380,10 @@ export default async function ListingsPage({
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto max-w-md">
                     <div className="text-lg font-bold text-[#0F172A]">No listings found</div>
+                    <p className="mt-2 text-sm text-[#475569]">Try clearing a filter or list your item to get started.</p>
                     <div className="mt-4 flex flex-wrap justify-center gap-2">
-                      <Link href="/listings" className="bd-btn bd-btn-primary">View all</Link>
-                      <Link href="/sell/new" className="bd-btn bd-btn-ghost">Sell</Link>
+                      <Link href="/listings" className="bd-btn bd-btn-primary">Clear filters</Link>
+                      <Link href="/sell/new" className="bd-btn bd-btn-ghost">Sell an item</Link>
                     </div>
                   </div>
                 </div>

@@ -78,7 +78,7 @@ export default async function ListingDetailPage({
                         : "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-800"
                     }
                   >
-                    {isTimedOffers ? "Offers" : "Buy Now"}
+                    {isTimedOffers ? "Make an offer" : "Buy now"}
                   </span>
                   {listing.condition ? (
                     <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{cleanText(listing.condition)}</span>
@@ -100,20 +100,26 @@ export default async function ListingDetailPage({
             </div>
 
             <div className="rounded-[28px] border border-[#D8E1F0] bg-[linear-gradient(180deg,#FFFFFF_0%,#F8FAFC_100%)] p-4 shadow-sm">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Top offer" : "Price"}</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Highest offer" : "Price"}</div>
               <div className="mt-1 text-[1.85rem] font-extrabold tracking-tight text-[#0F172A]">{money(displayPrice)}</div>
 
               {isTimedOffers ? (
-                <div className="mt-2 text-sm text-[#78716C]">{endsText && endsText !== "Ended" ? "Ends in " + endsText : "Open now"}</div>
+                <div className="mt-2 text-sm text-[#78716C]">{endsText && endsText !== "Ended" ? "Offer window ends in " + endsText : "Offer window has ended"}</div>
               ) : null}
 
               <div className="mt-4 space-y-3">
                 {isSold ? (
-                  <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#475569]">No longer available.</div>
+                  <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#475569]">Sold.</div>
                 ) : isTimedOffers ? (
-                  <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
+                  <div className="space-y-2">
+                    <p className="text-sm text-[#64748B]">Place an offer. The seller can accept the highest offer to mark the item as sold.</p>
+                    <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
+                  </div>
                 ) : (
-                  <BuyNowButton listingId={listing.id} />
+                  <div className="space-y-2">
+                    <p className="text-sm text-[#64748B]">Buy now marks this item as sold.</p>
+                    <BuyNowButton listingId={listing.id} />
+                  </div>
                 )}
 
                 <div className="grid grid-cols-2 gap-2.5">
@@ -124,7 +130,7 @@ export default async function ListingDetailPage({
 
               {isOwner && isTimedOffers && !isSold && topOffer ? (
                 <div className="mt-3 rounded-2xl border border-[#FDE68A] bg-[#FFFBEB] p-3.5">
-                  <div className="mt-1 text-sm font-semibold text-[#92400E]">Accept the current top offer.</div>
+                  <div className="mt-1 text-sm font-semibold text-[#92400E]">Accept the highest offer to mark this listing as sold.</div>
                   <div className="mt-2">
                     <AcceptHighestOfferButton listingId={listing.id} />
                   </div>
