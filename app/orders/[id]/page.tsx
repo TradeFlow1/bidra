@@ -6,7 +6,6 @@ import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
 import SafetyCallout from "../../../components/safety-callout";
-import OrderStatusTimeline from "../../../components/order-status-timeline";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -155,72 +154,16 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           </div>
         </div>
 
-        <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="grid gap-5">
-            <div>
-              <div className="text-sm font-semibold bd-ink">Order progress</div>
-              <div className="mt-1 text-sm bd-ink2">
-                The listing is sold. Keep pickup, postage, and important details in messages.
-              </div>
-            </div>
-
-            <OrderStatusTimeline status={order.status} />
-
-            {order.status === "PENDING" ? (
-              <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-                <div className="font-semibold">Next step</div>
-                <div className="mt-1">
-                  Message the other person to arrange pickup or postage. No extra approval step is needed.
-                </div>
-              </div>
-            ) : null}
-
-            {order.status === "ACCEPTED" ? (
-              <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-                <div className="font-semibold">Order accepted</div>
-                <div className="mt-1">
-                  This item is sold. Keep communication in Messages and complete the handover safely.
-                </div>
-              </div>
-            ) : null}
-
-            {order.outcome === "COMPLETED" ? (
-              <div className="rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-900">
-                <div className="font-semibold">Order completed</div>
-                <div className="mt-1">
-                  This order has been marked complete.
-                </div>
-              </div>
-            ) : null}
-          </div>
-        </Card>
 
         <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="text-sm font-extrabold bd-ink">What to expect</div>
-            {order.outcome === "COMPLETED" ? (
-              <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-                <li>This order is marked <b>COMPLETED</b>.</li>
-                <li>You can leave feedback from this order.</li>
-              </ul>
-            ) : order.status === "PENDING" ? (
-              <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-                <li>This item is sold.</li>
-                <li>Use <Link className="bd-link font-semibold" href="/messages">Messages</Link> to arrange pickup or postage.</li>
-                <li>No extra approval step is needed before pickup or postage.</li>
-              </ul>
-            ) : order.status === "ACCEPTED" ? (
-              <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-                <li>This item is sold and ready for pickup or postage coordination.</li>
-                <li>Complete the exchange safely and keep communication on Bidra.</li>
-                <li>After the handover, leave feedback to help build trust.</li>
-              </ul>
-            ) : (
-              <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-                <li>Check the order status above for the current step.</li>
-                <li>Keep pickup, postage, and important details in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
-              </ul>
-            )}
+            <div className="text-sm font-extrabold bd-ink">After sale</div>
+            <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
+              <li>The item is sold. No extra approval step is needed.</li>
+              <li>Use the message button above to arrange pickup or postage.</li>
+              <li>After the handover, leave feedback if it is available.</li>
+              <li>Report the order only if something goes wrong.</li>
+            </ul>
           </Card>
 
           <SafetyCallout title="Safety guidance">
