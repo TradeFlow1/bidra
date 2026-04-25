@@ -46,7 +46,17 @@ export default async function ListingDetailPage({
   const listing = await prisma.listing.findUnique({
     where: { id: params.id },
     include: {
-      seller: true,
+      seller: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          createdAt: true,
+          location: true,
+          emailVerified: true,
+          phone: true,
+        },
+      },
       offers: {
         orderBy: { amount: "desc" },
         include: { buyer: true },
@@ -56,6 +66,17 @@ export default async function ListingDetailPage({
   });
 
   if (!listing) notFound();
+
+  const [sellerActiveListings, sellerRating] = await Promise.all([
+    prisma.listing.count({
+      where: { sellerId: listing.sellerId, status: "ACTIVE", orders: { none: {} } },
+    }),
+    prisma.feedback.aggregate({
+      where: { toUserId: listing.sellerId },
+      _avg: { rating: true },
+      _count: { rating: true },
+    }),
+  ]);
 
   const isOwner = !!userId && listing.sellerId === userId;
   const isTimedOffers = isTimedOffersType(listing.type);
@@ -68,6 +89,10 @@ export default async function ListingDetailPage({
   const sellerName = cleanText((listing.seller as any)?.name || (listing.seller as any)?.username || "Bidra seller");
   const sellerLocation = cleanText((listing.seller as any)?.location || listing.location || "Australia");
   const sellerMemberSince = formatMemberSince((listing.seller as any)?.createdAt);
+  const sellerEmailVerified = !!(listing.seller as any)?.emailVerified;
+  const sellerPhoneVerified = !!cleanText((listing.seller as any)?.phone);
+  const sellerRatingAvg = typeof sellerRating?._avg?.rating === "number" ? Number(sellerRating._avg.rating) : null;
+  const sellerRatingCount = Number(sellerRating?._count?.rating || 0);
   const images = (listing as any).images || [];
 
   return (
@@ -186,11 +211,21 @@ export default async function ListingDetailPage({
 
           <aside className="space-y-4">
             <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller trust</div>
               <div className="mt-1.5 text-[1.7rem] font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
-              <div className="mt-2 text-sm text-[#64748B]">{sellerLocation}</div>
-              {sellerMemberSince ? (
-                <div className="mt-1 text-sm text-[#64748B]">Member since {sellerMemberSince}</div>
+              <div className="mt-2 space-y-1 text-sm text-[#64748B]">
+                <div>{sellerLocation}</div>
+                {sellerMemberSince ? <div>Member since {sellerMemberSince}</div> : null}
+                <div>{sellerActiveListings} active listings</div>
+              </div>
+              {(sellerEmailVerified || sellerPhoneVerified || (typeof sellerRatingAvg === "number" && sellerRatingCount > 0)) ? (
+                <div className="mt-2 flex flex-wrap gap-1.5 text-[11px]">
+                  {sellerEmailVerified ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 font-semibold text-emerald-700">Email verified</span> : null}
+                  {sellerPhoneVerified ? <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 font-semibold text-sky-700">Phone verified</span> : null}
+                  {(typeof sellerRatingAvg === "number" && sellerRatingCount > 0) ? (
+                    <span className="font-semibold text-amber-700">{"★".repeat(Math.round(Math.max(0, Math.min(5, sellerRatingAvg)))) + "☆".repeat(5 - Math.round(Math.max(0, Math.min(5, sellerRatingAvg))))} ({sellerRatingCount})</span>
+                  ) : null}
+                </div>
               ) : null}
               <div className="mt-2">
                 <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>

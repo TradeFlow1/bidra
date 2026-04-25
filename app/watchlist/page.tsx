@@ -37,6 +37,16 @@ export default async function WatchlistPage() {
           location: true,
           images: true,
           status: true,
+          seller: {
+            select: {
+              username: true,
+              name: true,
+              createdAt: true,
+              location: true,
+              emailVerified: true,
+              phone: true,
+            },
+          },
         },
       },
     },
@@ -114,7 +124,16 @@ export default async function WatchlistPage() {
               return (
                 <ListingCard
                   key={item.id}
-                  listing={item.listing}
+                  listing={{
+                    ...item.listing,
+                    seller: {
+                      name: item.listing.seller?.name || item.listing.seller?.username || null,
+                      memberSince: item.listing.seller?.createdAt ?? null,
+                      location: item.listing.seller?.location ?? null,
+                      emailVerified: item.listing.seller?.emailVerified ?? false,
+                      phone: item.listing.seller?.phone ?? null,
+                    },
+                  }}
                   initiallyWatched={true}
                 />
               );

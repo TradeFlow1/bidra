@@ -20,6 +20,15 @@ type ListingCardListing = {
   images?: any;
   endsAt?: string | Date | null;
   status?: string | null;
+  seller?: {
+    name?: string | null;
+    memberSince?: string | Date | null;
+    location?: string | null;
+    emailVerified?: boolean | null;
+    phone?: string | null;
+    ratingAvg?: number | null;
+    ratingCount?: number | null;
+  } | null;
 };
 
 type ListingCardProps = {
@@ -57,6 +66,19 @@ function shortCondition(value: string | null | undefined) {
   return v.replaceAll("_", " ");
 }
 
+function formatMemberSince(value: string | Date | null | undefined) {
+  if (!value) return "";
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("en-AU", { month: "short", year: "numeric" });
+}
+
+function renderStars(avg: number) {
+  const safe = Math.max(0, Math.min(5, avg));
+  const full = Math.round(safe);
+  return "★".repeat(full) + "☆".repeat(5 - full);
+}
+
 export default function ListingCard({ listing }: ListingCardProps) {
   const imgs = Array.isArray(listing.images) ? listing.images : null;
   const hasMulti = !!(imgs && imgs.length > 1);
@@ -80,6 +102,14 @@ export default function ListingCard({ listing }: ListingCardProps) {
   const category = shortCategory(listing.category);
   const condition = shortCondition(listing.condition);
   const location = cleanText(listing.location);
+  const sellerName = cleanText(listing.seller?.name);
+  const sellerMemberSince = formatMemberSince(listing.seller?.memberSince);
+  const sellerLocation = cleanText(listing.seller?.location);
+  const hasEmailVerified = !!listing.seller?.emailVerified;
+  const hasPhoneVerified = !!cleanText(listing.seller?.phone);
+  const hasRating = typeof listing.seller?.ratingAvg === "number" && typeof listing.seller?.ratingCount === "number" && (listing.seller?.ratingCount ?? 0) > 0;
+  const ratingAvg = hasRating ? Number(listing.seller?.ratingAvg ?? 0) : 0;
+  const ratingCount = hasRating ? Number(listing.seller?.ratingCount ?? 0) : 0;
 
   return (
     <Link
@@ -148,6 +178,25 @@ export default function ListingCard({ listing }: ListingCardProps) {
         </div>
 
         <div className="text-[22px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
+
+        {(sellerName || sellerMemberSince || sellerLocation || hasEmailVerified || hasPhoneVerified || hasRating) ? (
+          <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-2.5 py-2">
+            {sellerName ? (
+              <div className="truncate text-[11px] font-semibold text-[#334155]">{sellerName}</div>
+            ) : null}
+            <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[10px] text-[#64748B]">
+              {sellerMemberSince ? <span>Member since {sellerMemberSince}</span> : null}
+              {sellerLocation ? <span>• {sellerLocation}</span> : null}
+            </div>
+            {(hasEmailVerified || hasPhoneVerified || hasRating) ? (
+              <div className="mt-1.5 flex flex-wrap gap-1.5 text-[10px]">
+                {hasEmailVerified ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 font-semibold text-emerald-700">Email verified</span> : null}
+                {hasPhoneVerified ? <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 font-semibold text-sky-700">Phone verified</span> : null}
+                {hasRating ? <span className="font-semibold text-amber-700">{renderStars(ratingAvg)} ({ratingCount})</span> : null}
+              </div>
+            ) : null}
+          </div>
+        ) : null}
 
         <div className="flex items-center justify-between gap-2.5 text-[11px] text-[#64748B]">
           <div className="min-w-0 truncate">{location || "Location on request"}</div>
