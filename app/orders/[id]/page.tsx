@@ -79,6 +79,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   }
 
   const listingHref = `/listings/${order.listingId}`;
+  const messageHref = `/orders/${order.id}/message`;
   const feedbackHref = `/orders/${order.id}/feedback`;
   const isBuyer = order.buyerId === user.id;
   const isSeller = order.listing?.sellerId === user.id;
@@ -115,6 +116,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             </div>
 
             <div className="flex flex-wrap gap-2">
+              <Link href={messageHref} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+                {isBuyer ? "Message seller" : "Message buyer"}
+              </Link>
               <Link href="/orders" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Orders</Link>
               <Link href={listingHref} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">View listing</Link>
               {canLeave ? (

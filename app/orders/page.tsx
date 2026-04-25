@@ -144,10 +144,10 @@ export default async function OrdersPage() {
                     <div className="flex flex-col gap-2 lg:w-[260px]">
                       {isPending ? (
                         <Link
-                          href={`/orders/${o.id}`}
+                          href={`/orders/${o.id}/message`}
                           className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
                         >
-                          <span className="block">Message {roleLabel === "Buying" ? "seller" : "buyer"}</span>
+                          <span className="block">{roleLabel === "Buying" ? "Message seller" : "Message buyer"}</span>
                           <span className="mt-1 block text-xs bd-ink2">Arrange pickup or postage</span>
                         </Link>
                       ) : (
