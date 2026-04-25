@@ -56,17 +56,17 @@ Purpose: keep a repo-tracked checklist so new chats do not rework the same pages
   - Copy now supports arranging pickup or postage without controlling users.
   - Commit: e703a47 Simplify messages copy to remove off-platform restriction tone
 
-## Inspected but not yet cleaned in this pass
+## Inspected and cleaned in this pass
 
-- [ ] Listing detail page
+- [x] Listing detail page
   - File: app/listings/[id]/page.tsx
-  - Current state inspected after commit e703a47.
-  - Needs review for Buy Now / offer clarity, trust-first copy, and avoiding platform/workflow language.
+  - Buy now / make-an-offer / sold-state copy aligned to V1 trust-first rules.
+  - PR: #16
 
-- [ ] Listings browse page
+- [x] Listings browse page
   - File: app/listings/page.tsx
-  - Many .bak files exist from prior layout/filter passes.
-  - Needs review after listing detail page.
+  - Header/filter/empty-state copy aligned to simple local marketplace flow.
+  - PR: #18
 
 ## Known follow-up risks
 
@@ -82,4 +82,3 @@ Purpose: keep a repo-tracked checklist so new chats do not rework the same pages
 3. Do not rework checked pages unless there is a new bug or explicit request.
 4. Use inspect -> patch -> diff -> lint/build -> commit/push.
 5. Keep each commit small and named for the product behavior changed.
-
