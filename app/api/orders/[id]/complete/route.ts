@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
 
 export async function POST(_req: Request, ctx: { params: { id: string } }) {
   try {
-    const orderId = String(ctx && ctx.params ? ctx.params.id : "").trim();
+    const orderId = String(ctx?.params?.id || "").trim();
     if (!orderId) {
       return NextResponse.json({ ok: false, error: "Missing order id." }, { status: 400 });
     }
@@ -14,84 +13,20 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       return NextResponse.json({ ok: false, error: gate.reason }, { status: gate.status });
     }
 
-    const userId = String(gate.dbUser && gate.dbUser.id ? gate.dbUser.id : "");
+    const userId = String(gate.dbUser?.id || "");
     if (!userId) {
       return NextResponse.json({ ok: false, error: "Not signed in." }, { status: 401 });
     }
 
-    const order = await prisma.order.findUnique({
-      where: { id: orderId },
-      select: {
-        id: true,
-        status: true,
-        outcome: true,
-        completedAt: true,
-        buyerId: true,
-        listingId: true,
-        listing: { select: { sellerId: true } }
-      }
-    });
-
-    if (!order) {
-      return NextResponse.json({ ok: false, error: "Order not found." }, { status: 404 });
-    }
-
-    const sellerId = order.listing ? String((order.listing as any).sellerId || "") : "";
-    if (!sellerId) {
-      return NextResponse.json({ ok: false, error: "Order listing is unavailable." }, { status: 409 });
-    }
-
-    if (sellerId !== userId) {
-      return NextResponse.json({ ok: false, error: "Only the seller can complete this order." }, { status: 403 });
-    }
-
-    if (order.outcome === "COMPLETED") {
-      return NextResponse.json({ ok: true, outcome: "COMPLETED", completedAt: order.completedAt ?? null });
-    }
-
-    if (order.outcome === "CANCELLED") {
-      return NextResponse.json({ ok: false, error: "Order cannot be completed in its current state." }, { status: 409 });
-    }
-
-    const updated = await prisma.order.update({
-      where: { id: order.id },
-      data: {
-        status: "COMPLETED",
-        outcome: "COMPLETED",
-        completedAt: new Date()
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "This legacy endpoint is retired. Orders are sold-item records. Use messages to arrange pickup or postage.",
       },
-      select: { status: true, outcome: true, completedAt: true }
-    });
-
-    try {
-      await prisma.adminEvent.create({
-        data: {
-          type: "ORDER_COMPLETED",
-          userId: String(userId),
-          orderId: order.id,
-          data: {
-            listingId: order.listingId ?? null,
-            buyerId: order.buyerId ?? null,
-            sellerId: sellerId,
-            prevStatus: order.status ?? null,
-            prevOutcome: order.outcome ?? null,
-            newStatus: "COMPLETED",
-            newOutcome: "COMPLETED"
-          }
-        }
-      });
-    } catch (e) {
-      console.warn("[ADMIN_AUDIT] Failed to log ORDER_COMPLETED", e);
-    }
-
-    return NextResponse.json({
-      ok: true,
-      status: updated.status,
-      outcome: updated.outcome,
-      completedAt: updated.completedAt
-    });
+      { status: 410 }
+    );
   } catch (e: any) {
-    console.error("order.complete failed", e);
-    return NextResponse.json({ ok: false, error: "Unable to complete order." }, { status: 500 });
+    console.error("order.complete legacy endpoint failed", e);
+    return NextResponse.json({ ok: false, error: "Unable to process this request." }, { status: 500 });
   }
 }
