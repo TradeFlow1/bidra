@@ -12,8 +12,8 @@ type SessionLike = {
 
 const DESKTOP_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/listings?type=BUY_NOW", label: "Buy Now" },
-  { href: "/listings?type=OFFERABLE", label: "Offers" },
+  { href: "/listings?type=BUY_NOW", label: "Buy now" },
+  { href: "/listings?type=OFFERABLE", label: "Make an offer" },
 ];
 
 export default function SiteHeaderClient({
@@ -71,7 +71,7 @@ export default function SiteHeaderClient({
   }
 
   const searchInputClass = "w-full rounded-full border border-[#CBD5E1] bg-white px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-neutral-500 shadow-sm focus:border-[#1D4ED8]";
-  const menuLinkClass = "block w-full rounded-2xl px-4 py-3 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
+  const menuLinkClass = "block w-full rounded-xl px-3 py-2.5 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
 
   const badge = notificationCount > 0 ? (
     <span className="ml-2 inline-flex min-w-[20px] items-center justify-center rounded-full bg-[#2563EB] px-1.5 py-0.5 text-[11px] font-bold text-white">
@@ -97,18 +97,18 @@ export default function SiteHeaderClient({
 
   function renderMobileMenu() {
     return (
-      <div className="absolute right-0 top-full z-[120] mt-3 w-[min(92vw,23rem)] overflow-hidden rounded-[28px] border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]" role="menu" onClick={function (e) { e.stopPropagation(); }}>
-        <div className="p-3">
+      <div className="absolute right-0 top-full z-[120] mt-2.5 w-[min(88vw,20rem)] overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_16px_36px_rgba(15,23,42,0.20)]" role="menu" onClick={function (e) { e.stopPropagation(); }}>
+        <div className="p-2.5">
           <div className="grid grid-cols-1 gap-2">
             <Link href="/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Browse</Link>
-            <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buy Now</Link>
-            <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Offers</Link>
+            <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buy now</Link>
+            <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Make an offer</Link>
             <Link href="/watchlist" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Watchlist</Link>
             <Link href="/sell" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Sell</Link>
           </div>
 
           {isAuthed ? (
-            <div className="mt-3 border-t border-black/10 pt-3">
+            <div className="mt-2.5 border-t border-black/10 pt-2.5">
               <div className="grid grid-cols-1 gap-2">
                 <Link href="/dashboard" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Dashboard</Link>
                 <Link href="/messages" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Messages</Link>
@@ -119,7 +119,7 @@ export default function SiteHeaderClient({
               </div>
             </div>
           ) : (
-            <div className="mt-3 border-t border-black/10 pt-3">
+            <div className="mt-2.5 border-t border-black/10 pt-2.5">
               <div className="grid grid-cols-1 gap-2">
                 <Link href="/auth/login" className="bd-btn bd-btn-primary text-center" onClick={function () { setMobileMenuOpen(false); }}>Sign in</Link>
                 <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center" onClick={function () { setMobileMenuOpen(false); }}>Create account</Link>

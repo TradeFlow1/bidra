@@ -47,12 +47,12 @@ function FooterLinkGroup({
 export default function SiteFooter() {
   return (
     <footer className="mt-8 border-t border-[#D8E1F0] bg-white">
-      <div className="mx-auto w-full max-w-7xl px-4 py-6 lg:px-6 lg:py-8">
-        <div className="grid gap-6 border-b border-[#E6EDF7] pb-6 md:grid-cols-[minmax(0,1.2fr)_1fr_1fr_1fr]">
+      <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:py-6 lg:px-6 lg:py-8">
+        <div className="grid gap-5 border-b border-[#E6EDF7] pb-4 sm:gap-6 sm:pb-6 md:grid-cols-[minmax(0,1.2fr)_1fr_1fr_1fr]">
           <div className="max-w-sm">
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Bidra marketplace</div>
-            <h2 className="mt-2 text-[1.9rem] font-extrabold tracking-tight text-[#0F172A]">Buy now. Make offers.</h2>
-            <p className="mt-3 text-sm leading-6 text-[#475569]">
+            <h2 className="mt-2 text-[1.55rem] font-extrabold tracking-tight text-[#0F172A] sm:text-[1.9rem]">Buy now. Make offers.</h2>
+            <p className="mt-2 text-sm leading-6 text-[#475569] sm:mt-3">
               Trust-first marketplace for straightforward buying and highest-offer listings.
             </p>
           </div>
@@ -62,9 +62,9 @@ export default function SiteFooter() {
           <FooterLinkGroup title="Legal" links={legalLinks} />
         </div>
 
-        <div className="flex flex-col gap-2 pt-4 text-xs text-[#64748B] sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-2 pt-3 text-xs text-[#64748B] sm:pt-4 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Bidra. All rights reserved.</p>
-          <p>Buy Now and highest-offer marketplace.</p>
+          <p>Buy now. Make offers.</p>
         </div>
       </div>
     </footer>

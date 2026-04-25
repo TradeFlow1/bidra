@@ -104,9 +104,9 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
       !!(lastMyMessageAt && otherLastReadAt && new Date(otherLastReadAt).getTime() >= new Date(lastMyMessageAt).getTime());
 
     return (
-      <main className="bd-container py-10">
-        <div className="container max-w-5xl space-y-5">
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+      <main className="bd-container py-5 sm:py-10">
+        <div className="container max-w-5xl space-y-4 sm:space-y-5">
+          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div className="min-w-0 flex-1">
                 <div className="flex items-start gap-4">
@@ -160,21 +160,14 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
           <SafetyNote />
 
-          <div className="rounded-2xl border border-black/10 bg-white px-4 py-4 text-sm text-[var(--bidra-ink)] shadow-sm">
+          <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink)] shadow-sm">
             <div className="font-extrabold">What to do here</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-[var(--bidra-ink-2)]">
               <li>Agree on price (if offer), pickup or postage, and timing.</li>
               <li>Keep key details in messages for reference.</li>
+              <li>Avoid deposits unless you trust the seller.</li>
               <li>Once agreed, the item is considered sold.</li>
             </ul>
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink-2)] shadow-sm">
-            Keep communication clear and agree on details before meeting. Avoid sending deposits unless you trust the seller.
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink-2)] shadow-sm">
-            Keep item questions, pickup details, and important agreements in this conversation so there is a clear record if something goes wrong.
           </div>
 
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
@@ -234,9 +227,9 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
     );
   } catch (_e) {
     return (
-      <main className="bd-container py-10">
-        <div className="container max-w-5xl space-y-5">
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+      <main className="bd-container py-5 sm:py-10">
+        <div className="container max-w-5xl space-y-4 sm:space-y-5">
+          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
           </div>
 

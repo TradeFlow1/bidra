@@ -50,20 +50,20 @@ export default function Login() {
   }, [sp]);
 
   return (
-    <main className="bd-container py-10">
-      <div className="container max-w-5xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+    <main className="bd-container py-5 sm:py-10">
+      <div className="container max-w-5xl space-y-4 sm:space-y-5">
+        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
           <div className="max-w-3xl">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Welcome back</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Log in to Bidra</h1>
             <p className="mt-2 text-sm bd-ink2 sm:text-base">
-              Access your listings, orders, messages, and account tools from one premium marketplace account.
+              Access your listings, messages, sold items, and account tools.
             </p>
           </div>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <div className="grid gap-4 sm:gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <Card className="order-2 rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6 lg:order-1">
             <div className="text-sm font-extrabold bd-ink">Before you log in</div>
             <div className="mt-4 space-y-4">
               <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
@@ -96,7 +96,7 @@ export default function Login() {
             </div>
           </Card>
 
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="order-1 rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6 lg:order-2">
             <form
               noValidate
               className="flex flex-col gap-4"
