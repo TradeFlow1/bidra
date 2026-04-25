@@ -55,7 +55,7 @@ export default function HowItWorksPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Current flow</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Simple marketplace handover</div>
-            <div className="mt-1 text-sm text-neutral-600">Use the in-app order flow, then complete the handover and mark the order complete.</div>
+            <div className="mt-1 text-sm text-neutral-600">After the item is sold, use messages to arrange pickup or postage, then leave feedback or report an issue if needed.</div>
           </div>
         </div>
 
@@ -129,7 +129,7 @@ export default function HowItWorksPage() {
           <h2 className="text-xl font-extrabold tracking-tight bd-ink">Important notes</h2>
           <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
             <li><strong>Bidra is the platform only.</strong> Items are sold by users, and we are not an auctioneer, escrow holder, shipping provider, or payment provider.</li>
-            <li>Use the in-app order flow and keep records for smoother resolution if something goes wrong.</li>
+            <li>Keep important details in Bidra messages for smoother resolution if something goes wrong.</li>
             <li>Fees, if any, are shown before you confirm actions. See <Link className="bd-link font-semibold" href="/legal/fees">Fees</Link>.</li>
             <li>Listings must follow our rules. Prohibited items are blocked. See <Link className="bd-link font-semibold" href="/legal/prohibited-items">Prohibited items</Link>.</li>
           </ul>
