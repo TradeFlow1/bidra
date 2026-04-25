@@ -140,6 +140,16 @@ export async function GET(req: Request) {
         category: true,
         condition: true,
         createdAt: true,
+        seller: {
+          select: {
+            username: true,
+            name: true,
+            createdAt: true,
+            location: true,
+            emailVerified: true,
+            phone: true,
+          },
+        },
       },
       take: baseTake,
     });

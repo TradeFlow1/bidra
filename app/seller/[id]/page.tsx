@@ -139,6 +139,11 @@ export default async function SellerPage({ params }: PageProps) {
                       location: l.location ?? undefined,
                       images: l.images ?? undefined,
                       status: l.status ?? "ACTIVE",
+                      seller: {
+                        name: seller.username || "Seller",
+                        memberSince: seller.createdAt,
+                        location: sellerLocation,
+                      },
                     }}
                   />
                 ))}

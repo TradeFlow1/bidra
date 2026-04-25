@@ -31,6 +31,16 @@ export default async function HomePage() {
         take: 1,
         select: { amount: true },
       },
+      seller: {
+        select: {
+          username: true,
+          name: true,
+          createdAt: true,
+          location: true,
+          emailVerified: true,
+          phone: true,
+        },
+      },
     },
   });
 
@@ -105,6 +115,13 @@ export default async function HomePage() {
                     location: l.location,
                     images: (l as unknown as { images?: unknown[] | null }).images ?? null,
                     status: (l as unknown as { status?: string | null }).status ?? "ACTIVE",
+                    seller: {
+                      name: l.seller?.name || l.seller?.username || null,
+                      memberSince: l.seller?.createdAt ?? null,
+                      location: l.seller?.location ?? null,
+                      emailVerified: l.seller?.emailVerified ?? false,
+                      phone: l.seller?.phone ?? null,
+                    },
                   }}
                 />
               );
