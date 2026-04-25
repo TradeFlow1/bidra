@@ -43,31 +43,18 @@ export default async function OrdersPage() {
 
   const pendingCount = orders.filter((o: any) => String(o.status) === "PENDING").length;
   const completedCount = orders.filter((o: any) => String(o.outcome) === "COMPLETED").length;
-  const totalValue = orders.reduce(function (sum: number, o: any) {
-    return sum + Number(o.amount || 0);
-  }, 0);
-
   return (
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Orders</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Your order hub</h1>
+              <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review order progress, check recent activity, and keep your buying and selling steps on track.
+                Review purchases, sales, pickup progress, and follow-up actions.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              <Link href="/listings" className="bd-btn bd-btn-primary text-center">
-                Browse marketplace
-              </Link>
-              <Link href="/sell/new" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
-                Create listing
-              </Link>
-            </div>
           </div>
         </div>
 
@@ -84,11 +71,6 @@ export default async function OrdersPage() {
             <div className="mt-1 text-sm text-neutral-600">Orders marked as finished.</div>
           </div>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Total value</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{formatMoney(totalValue)}</div>
-            <div className="mt-1 text-sm text-neutral-600">Across all visible orders.</div>
-          </div>
         </div>
 
         {!orders.length ? (
