@@ -82,8 +82,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const feedbackHref = `/orders/${order.id}/feedback`;
   const isBuyer = order.buyerId === user.id;
   const isSeller = order.listing?.sellerId === user.id;
-  const roleLabel = isBuyer ? "Buying" : "Selling";
-  const statusLabel = order.outcome === "COMPLETED" ? "FEEDBACK OPEN" : "SOLD";
+  const roleLabel = isBuyer ? "Buyer" : "Seller";
+  const statusLabel = "SOLD";
   const canLeave =
     order.outcome === "COMPLETED" &&
     ((isBuyer && !order.buyerFeedbackAt) || (isSeller && !order.sellerFeedbackAt));
@@ -107,7 +107,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
               <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Sold item</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                This item is sold. Use messages to arrange pickup or postage, then leave feedback or report an issue if needed.
+                This item is already sold. Use messages to arrange pickup or postage.
               </p>
               <div className="mt-3 text-sm bd-ink2">
                 Created <DateTimeText value={order.createdAt} />
@@ -144,25 +144,24 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Amount</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{formatMoney(order.amount)}</div>
-            <div className="mt-1 text-sm text-neutral-600">Transaction amount for this order.</div>
+            <div className="mt-1 text-sm text-neutral-600">Final sold price.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listing</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950 truncate">{order.listing?.title ?? "Listing"}</div>
-            <div className="mt-1 text-sm text-neutral-600">Linked marketplace listing.</div>
+            <div className="mt-1 text-sm text-neutral-600">Original listing.</div>
           </div>
         </div>
 
 
         <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="text-sm font-extrabold bd-ink">After sale</div>
+            <div className="text-sm font-extrabold bd-ink">Next steps</div>
             <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-              <li>The item is sold. No extra approval step is needed.</li>
-              <li>Use the message button above to arrange pickup or postage.</li>
-              <li>After the handover, leave feedback if it is available.</li>
-              <li>Report the order only if something goes wrong.</li>
+              <li>This item is sold.</li>
+              <li>Use messages to agree on pickup or postage details.</li>
+              <li>Leave feedback if it is available and you want to.</li>
             </ul>
           </Card>
 
