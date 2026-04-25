@@ -14,8 +14,7 @@ export const fetchCache = "force-no-store";
 function SafetyNotice() {
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-950 shadow-sm">
-      <span className="font-semibold">Tip:</span>{" "}
-      Use messages to arrange pickup or postage and keep key details in one place.
+      Use messages to arrange pickup or postage, agree on key details, and keep a clear record.
     </div>
   );
 }
@@ -100,10 +99,6 @@ export default async function MessagesInboxPage() {
           </div>
 
           <SafetyNotice />
-
-          <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink-2)] shadow-sm">
-            Keep communication clear, agree on pickup or postage details, and avoid suspicious payment requests.
-          </div>
 
           {unreadCount > 0 ? (
             <div className="rounded-2xl border border-[var(--bidra-blue)]/20 bg-[var(--bidra-blue)]/10 px-4 py-2.5 text-sm text-[var(--bidra-ink)] shadow-sm">
