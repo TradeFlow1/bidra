@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 
@@ -71,7 +71,7 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
         />
       </div>
 
-      <button type="submit" className="bd-btn bd-btn-primary">
+      <button type="submit" className="inline-flex w-fit rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
         Send message
       </button>
 
