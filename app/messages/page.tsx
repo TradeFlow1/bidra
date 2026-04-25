@@ -16,7 +16,7 @@ function SafetyNotice() {
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-sm">
       <span className="font-semibold">Safety tip:</span>{" "}
-      Use Bidra messages to keep a clear record. You can share pickup details when needed, but avoid moving the whole deal off-platform before the order is clear.
+      Use messages to ask questions and arrange pickup or postage. Keeping details here can help if something goes wrong.
     </div>
   );
 }
@@ -110,7 +110,7 @@ export default async function MessagesInboxPage() {
           ) : null}
 
           <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink-2)] shadow-sm">
-            Keep all listing-related communication on Bidra so there is a clear record if a dispute or misunderstanding happens later.
+            Messages are a simple way to keep a record of your conversation.
           </div>
 
           {items.length === 0 ? (
