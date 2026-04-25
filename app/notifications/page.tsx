@@ -4,46 +4,44 @@ export const revalidate = 0;
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { Card, Badge } from "@/components/ui";
 import { getNotificationCounts } from "@/lib/notifications";
 
-function StatPill({ label, value }: { label: string; value: number }) {
+function CountPill({ label, value }: { label: string; value: number }) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-1 text-xs shadow-sm">
+    <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-1 text-xs shadow-sm">
       <span className="text-neutral-500">{label}</span>
       <span className="font-extrabold text-neutral-950">{value}</span>
-    </div>
+    </span>
   );
 }
 
-function StatusChip(props: {
-  active: boolean;
-  activeText: string;
-  idleText: string;
-  tone?: "blue" | "yellow" | "neutral";
+function UpdateCard(props: {
+  title: string;
+  countLabel: string;
+  count: number;
+  href: string;
+  action: string;
+  children: React.ReactNode;
 }) {
-  const tone = props.tone ?? "neutral";
-
-  if (!props.active) {
-    return (
-      <span className="inline-flex items-center rounded-full border border-black/10 bg-neutral-100 px-2 py-0.5 text-[10px] font-semibold text-neutral-600">
-        {props.idleText}
-      </span>
-    );
-  }
-
-  if (tone === "yellow") {
-    return (
-      <span className="inline-flex items-center rounded-full border border-[var(--bidra-yellow)]/30 bg-[var(--bidra-yellow)]/20 px-2 py-0.5 text-[10px] font-extrabold text-[var(--bidra-ink)]">
-        {props.activeText}
-      </span>
-    );
-  }
+  const hasCount = props.count > 0;
 
   return (
-    <span className="inline-flex items-center rounded-full border border-[var(--bidra-blue)]/30 bg-[var(--bidra-blue)]/15 px-2 py-0.5 text-[10px] font-extrabold text-[var(--bidra-ink)]">
-      {props.activeText}
-    </span>
+    <Link href={props.href} className="block">
+      <div className={`h-full rounded-3xl border bg-white p-6 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md ${hasCount ? "border-blue-300 ring-2 ring-blue-100" : "border-black/10"}`}>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="text-2xl font-extrabold tracking-tight bd-ink">{props.title}</div>
+            <div className="mt-3 text-sm bd-ink2 leading-7">{props.children}</div>
+          </div>
+
+          <CountPill label={props.countLabel} value={props.count} />
+        </div>
+
+        <div className="mt-6 inline-flex rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+          {props.action}
+        </div>
+      </div>
+    </Link>
   );
 }
 
@@ -60,118 +58,69 @@ export default async function NotificationsPage() {
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Notifications</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Your action center</h1>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Updates</div>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Messages and orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Quick access to unread messages, sold orders, and optional feedback.
+                Keep up with unread messages, sold items, and simple follow-up.
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
-              <Badge>Total {counts.total}</Badge>
-              <StatPill label="Unread threads" value={counts.unreadThreads} />
-              <StatPill label="Feedback" value={counts.pendingFeedback} />
+              <CountPill label="Unread" value={counts.unreadThreads} />
+              <CountPill label="Orders" value={counts.actionOrders} />
+              <CountPill label="Feedback" value={counts.pendingFeedback} />
             </div>
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          <Link href="/messages" className="block">
-            <Card className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
-              <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <div className="text-lg font-extrabold bd-ink">Messages</div>
-                    <StatusChip
-                      active={counts.unreadThreads > 0}
-                      activeText={`${counts.unreadThreads} unread`}
-                      idleText="All caught up"
-                      tone="blue"
-                    />
-                  </div>
+        <div className="grid gap-5 lg:grid-cols-2">
+          <UpdateCard
+            title="Messages"
+            countLabel="Unread"
+            count={counts.unreadThreads}
+            href="/messages"
+            action="Open inbox"
+          >
+            Reply to buyers and sellers, ask questions, and keep pickup or postage details on Bidra.
+          </UpdateCard>
 
-                  <div className="mt-2 text-sm bd-ink2">
-                    Open your inbox and reply quickly to keep deals moving.
-                  </div>
-                </div>
-
-                <div className="shrink-0 flex flex-col items-end gap-2">
-                  <span className="rounded-xl border border-black/20 bg-white px-4 py-2.5 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Open inbox</span>
-                  <span className="text-[11px] bd-ink2">Go to /messages -&gt;</span>
-                </div>
-              </div>
-            </Card>
-          </Link>
-
-          <Link href="/orders" className="block">
-            <Card className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
-              <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <div className="text-lg font-extrabold bd-ink">Orders</div>
-                    <StatusChip
-                      active={counts.actionOrders > 0}
-                      activeText={`${counts.actionOrders} active`}
-                      idleText="No action needed"
-                      tone="blue"
-                    />
-                  </div>
-
-                  <div className="mt-2 text-sm bd-ink2">
-                    Open sold orders, message the other person, and handle any follow-up.
-                  </div>
-
-                  <div className="mt-2 text-xs bd-ink2">
-                    This is the fastest place to keep sold-item follow-up on Bidra.
-                  </div>
-                </div>
-
-                <div className="shrink-0 flex flex-col items-end gap-2">
-                  <span className="rounded-xl border border-black/20 bg-white px-4 py-2.5 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Open orders</span>
-                  <span className="text-[11px] bd-ink2">Go to /orders -&gt;</span>
-                </div>
-              </div>
-            </Card>
-          </Link>
-
-          <Link href="/orders" className="block sm:col-span-2 xl:col-span-1">
-            <Card className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
-              <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <div className="text-lg font-extrabold bd-ink">Feedback</div>
-                    <StatusChip
-                      active={counts.pendingFeedback > 0}
-                      activeText={`${counts.pendingFeedback} open`}
-                      idleText="Nothing open"
-                      tone="yellow"
-                    />
-                  </div>
-
-                  <div className="mt-2 text-sm bd-ink2">
-                    Leave feedback after handover if it is available.
-                  </div>
-
-                  <div className="mt-2 text-xs bd-ink2">
-                    Feedback helps future buyers and sellers make better decisions.
-                  </div>
-                </div>
-
-                <div className="shrink-0 flex flex-col items-end gap-2">
-                  <span className="rounded-xl border border-black/20 bg-white px-4 py-2.5 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">View orders</span>
-                  <span className="text-[11px] bd-ink2">Go to /orders -&gt;</span>
-                </div>
-              </div>
-            </Card>
-          </Link>
+          <UpdateCard
+            title="Orders"
+            countLabel="Active"
+            count={counts.actionOrders}
+            href="/orders"
+            action="Open orders"
+          >
+            Review sold items, message the other person, and handle pickup, postage, or follow-up.
+          </UpdateCard>
         </div>
+
+        <Link href="/orders" className="block">
+          <div className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="text-lg font-extrabold bd-ink">Feedback</div>
+                  <CountPill label="Open" value={counts.pendingFeedback} />
+                </div>
+                <div className="mt-2 text-sm bd-ink2">
+                  Optional after handover. Feedback helps future buyers and sellers make better decisions.
+                </div>
+              </div>
+
+              <div className="inline-flex w-fit rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+                View orders
+              </div>
+            </div>
+          </div>
+        </Link>
 
         {counts.total === 0 ? (
           <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
             <div className="mx-auto max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">You are all caught up</div>
               <div className="mt-2 text-sm text-neutral-600">
-                When something needs your attention, it will show up here.
+                New messages, sold items, and optional feedback will appear here.
               </div>
             </div>
           </div>
