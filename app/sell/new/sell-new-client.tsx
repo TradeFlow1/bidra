@@ -310,6 +310,11 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     return true;
   }, [title, description, category, location, price, startingBid, buyNowPrice, durationDays, isTimedOffers, files.length]);
 
+  const reviewSaleType = isTimedOffers ? "Make Offer (timed offers)" : "Buy Now";
+  const reviewPrice = isTimedOffers
+    ? `${startingBid ? `$${startingBid} starting` : "Not set"}${buyNowPrice ? ` · Buy Now $${buyNowPrice}` : ""}`
+    : (price ? `$${price}` : "Not set");
+
   const previews = useMemo(() => {
     return files.slice(0, 10).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
   }, [files]);
@@ -485,72 +490,106 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         </div>
       )}
 
-      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="mt-6 grid gap-4">
-        <div>
-          <label className="text-sm font-medium">Sale type</label>
-          <select
-            className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
-            value={type}
-            onChange={(e) => setType(e.target.value as ListingTypeUI)}
-          >
-            <option value="BUY_NOW">Buy Now</option>
-            <option value="TIMED_OFFERS">Timed offers (seller decides at end)</option>
-          </select>
-        </div>
+      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="mt-6 grid gap-5">
+        <section className="rounded-xl border border-black/10 bg-white p-4">
+          <h2 className="text-base font-extrabold bd-ink">1) Photos</h2>
+          <p className="mt-1 text-xs bd-ink2">
+            Add clear photos of the actual item. Your first photo becomes the main image shoppers see first.
+            Avoid unrelated screenshots or edited collages.
+          </p>
 
-        <div>
-          <label className="text-sm font-medium">Title</label>
-          <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={title} onChange={(e) => setTitle(e.target.value)} />
-        </div>
-
-        <div>
-          <label className="text-sm font-medium">Description</label>
-          <textarea className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" rows={8} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
-          <div className="mt-2 flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              className="rounded-xl border border-black/20 bg-white px-4 py-2 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
-              onClick={() => {
-                const priceLabel = type === "TIMED_OFFERS" ? (startingBid ? `$${startingBid} starting` : "") : (price ? `$${price}` : "");
-                const draft = suggestDescriptionDraft({
-                  title,
-                  category: String(category || ""),
-                  condition,
-                  type,
-                  priceLabel,
-                  location,
-                });
-                setDescription(draft);
-              }}
-            >
-              Use description guide
-            </button>
-
-          </div>
-        </div>
-
-        <div className="rounded-xl border border-black/10 bg-white p-4">
-          <div className="text-sm font-semibold bd-ink">Category</div>
-          <div className="mt-1 text-xs bd-ink2">
-            Pick the main category first, then the closest subcategory.
-          </div>
-
-          {suggestedCategory && suggestedCategory.categoryLabel !== category ? (
-            <div className="mt-3 flex flex-wrap items-center gap-2 text-xs bd-ink2">
-              <span>Suggested: <span className="font-semibold bd-ink">{suggestedCategory.categoryLabel}</span></span>
+          <div className="mt-3">
+            <label className="text-sm font-medium">Photos</label>
+            <div className="mt-2 flex items-center gap-2 flex-wrap">
               <button
                 type="button"
-                className="rounded-xl border border-black/20 bg-white px-4 py-2 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
-                onClick={() => {
-                  setCategoryTouched(true);
-                  setTopCategoryKey(suggestedCategory.categoryKey);
-                  setSubcategoryKey(suggestedCategory.subcategoryKey || "");
-                }}
+                className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
+                onClick={() => cameraInputRef.current?.click()}
               >
-                Use suggestion
+                Take photo
               </button>
+
+              <button
+                type="button"
+                className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
+                onClick={() => galleryInputRef.current?.click()}
+              >
+                Add photos
+              </button>
+
+              <div className="text-xs bd-ink2">{files.length}/10 selected (minimum 1, max 8MB each)</div>
             </div>
-          ) : null}
+
+            <input
+              ref={cameraInputRef}
+              className="hidden"
+              type="file"
+              accept="image/*"
+              capture="environment"
+              onChange={(e) => { addPicked(Array.from(e.target.files || [])); e.currentTarget.value = ""; }}
+            />
+
+            <input
+              ref={galleryInputRef}
+              className="hidden"
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) => { addPicked(Array.from(e.target.files || [])); e.currentTarget.value = ""; }}
+            />
+
+            {previews.length > 0 && (
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                {previews.map((p, idx) => (
+                  <div key={p.url} className="relative h-24 overflow-hidden rounded-md border">
+                    <button
+                      type="button"
+                      aria-label="Remove photo"
+                      className="absolute right-1 top-1 rounded-md bg-white/90 px-2 py-1 text-xs font-semibold bd-ink shadow"
+                      onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
+                    >
+                      -
+                    </button>
+                    <Image src={p.url} alt={p.name} fill unoptimized className="object-cover" />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-black/10 bg-white p-4">
+          <h2 className="text-base font-extrabold bd-ink">2) Details</h2>
+          <p className="mt-1 text-xs bd-ink2">Add clear details so buyers can trust what they are viewing.</p>
+          <div className="mt-3 grid gap-4">
+            <div>
+              <label className="text-sm font-medium">Title</label>
+              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <p className="mt-1 text-xs bd-ink2">Use a specific title with brand/model and key features.</p>
+            </div>
+
+            <div className="rounded-xl border border-black/10 bg-white p-4">
+              <div className="text-sm font-semibold bd-ink">Category</div>
+              <div className="mt-1 text-xs bd-ink2">
+                Choose the closest category and subcategory so the listing appears in the right searches.
+              </div>
+
+              {suggestedCategory && suggestedCategory.categoryLabel !== category ? (
+                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs bd-ink2">
+                  <span>Suggested: <span className="font-semibold bd-ink">{suggestedCategory.categoryLabel}</span></span>
+                  <button
+                    type="button"
+                    className="rounded-xl border border-black/20 bg-white px-4 py-2 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
+                    onClick={() => {
+                      setCategoryTouched(true);
+                      setTopCategoryKey(suggestedCategory.categoryKey);
+                      setSubcategoryKey(suggestedCategory.subcategoryKey || "");
+                    }}
+                  >
+                    Use suggestion
+                  </button>
+                </div>
+              ) : null}
 
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <div>
@@ -596,25 +635,72 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               <div className="mt-1 font-medium bd-ink">{category}</div>
             </div>
           ) : null}
-        </div>
+            </div>
 
-        <div>
-          <label className="text-sm font-medium">Condition</label>
-          <select className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={condition} onChange={(e) => setCondition(e.target.value)}>
-            <option value="NEW">New</option>
-            <option value="LIKE_NEW">Like new</option>
-            <option value="USED">Used</option>
-            <option value="FOR_PARTS">For parts</option>
-          </select>
-        </div>
+            <div>
+              <label className="text-sm font-medium">Condition</label>
+              <select className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={condition} onChange={(e) => setCondition(e.target.value)}>
+                <option value="NEW">New</option>
+                <option value="LIKE_NEW">Like new</option>
+                <option value="USED">Used</option>
+                <option value="FOR_PARTS">For parts</option>
+              </select>
+              <p className="mt-1 text-xs bd-ink2">Choose the most accurate condition and mention wear in the description.</p>
+            </div>
 
-        <div>
-          <label className="text-sm font-medium">Location</label>
-          <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="4000 Brisbane, QLD" />
-          <p className="mt-1 text-xs text-black/60">
-            Defaults to your Account location. Change it for this listing if needed (e.g. selling for family). Format: 4000 Brisbane, QLD.
+            <div>
+              <label className="text-sm font-medium">Description</label>
+              <textarea className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" rows={8} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
+              <p className="mt-1 text-xs bd-ink2">Include what is included, faults, and pickup or postage notes.</p>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  className="rounded-xl border border-black/20 bg-white px-4 py-2 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
+                  onClick={() => {
+                    const priceLabel = type === "TIMED_OFFERS" ? (startingBid ? `$${startingBid} starting` : "") : (price ? `$${price}` : "");
+                    const draft = suggestDescriptionDraft({
+                      title,
+                      category: String(category || ""),
+                      condition,
+                      type,
+                      priceLabel,
+                      location,
+                    });
+                    setDescription(draft);
+                  }}
+                >
+                  Use description guide
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label className="text-sm font-medium">Location</label>
+              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="4000 Brisbane, QLD" />
+              <p className="mt-1 text-xs text-black/60">
+                Enter suburb/postcode and state so buyers know where pickup or shipping starts.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="rounded-xl border border-black/10 bg-white p-4">
+          <h2 className="text-base font-extrabold bd-ink">3) Price &amp; sale type</h2>
+          <p className="mt-1 text-xs bd-ink2">
+            Buy Now sells at a fixed price. Make Offer (timed offers) starts with offers and you choose the outcome at the end.
           </p>
-        </div>
+          <div className="mt-3 grid gap-4">
+            <div>
+              <label className="text-sm font-medium">Sale type</label>
+              <select
+                className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
+                value={type}
+                onChange={(e) => setType(e.target.value as ListingTypeUI)}
+              >
+                <option value="BUY_NOW">Buy Now</option>
+                <option value="TIMED_OFFERS">Timed offers (seller decides at end)</option>
+              </select>
+            </div>
 
         {!isTimedOffers && (
           <div>
@@ -650,67 +736,25 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </>
         )}
 
-        <div>
-          <label className="text-sm font-medium">Photos</label>
-          <div className="mt-2 flex items-center gap-2 flex-wrap">
-            <button
-              type="button"
-              className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
-              onClick={() => cameraInputRef.current?.click()}
-            >
-              Take photo
-            </button>
-
-            <button
-              type="button"
-              className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
-              onClick={() => galleryInputRef.current?.click()}
-            >
-              Add photos
-            </button>
-
-            <div className="text-xs bd-ink2">{files.length}/10 selected (minimum 1, max 8MB each)</div>
           </div>
+        </section>
 
-          <input
-            ref={cameraInputRef}
-            className="hidden"
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={(e) => { addPicked(Array.from(e.target.files || [])); e.currentTarget.value = ""; }}
-          />
-
-          <input
-            ref={galleryInputRef}
-            className="hidden"
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={(e) => { addPicked(Array.from(e.target.files || [])); e.currentTarget.value = ""; }}
-          />
-
-          {previews.length > 0 && (
-            <div className="mt-3 grid grid-cols-3 gap-2">
-              {previews.map((p, idx) => (
-                <div key={p.url} className="relative h-24 overflow-hidden rounded-md border">
-                  <button
-                    type="button"
-                    aria-label="Remove photo"
-                    className="absolute right-1 top-1 rounded-md bg-white/90 px-2 py-1 text-xs font-semibold bd-ink shadow"
-                    onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
-                  >
-                    -
-                  </button>
-                  <Image src={p.url} alt={p.name} fill unoptimized className="object-cover" />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <section className="rounded-xl border border-black/10 bg-white p-4">
+          <h2 className="text-base font-extrabold bd-ink">4) Review</h2>
+          <p className="mt-1 text-xs bd-ink2">Quick check before publishing.</p>
+          <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Title</dt><dd className="font-medium bd-ink">{title.trim() || "Not set"}</dd></div>
+            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Sale type</dt><dd className="font-medium bd-ink">{reviewSaleType}</dd></div>
+            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Price</dt><dd className="font-medium bd-ink">{reviewPrice}</dd></div>
+            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Category</dt><dd className="font-medium bd-ink">{category || "Not set"}</dd></div>
+            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Condition</dt><dd className="font-medium bd-ink">{condition || "Not set"}</dd></div>
+            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Location</dt><dd className="font-medium bd-ink">{location.trim() || "Not set"}</dd></div>
+            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Photos</dt><dd className="font-medium bd-ink">{files.length}</dd></div>
+          </dl>
+        </section>
 
         <button type="submit" disabled={busy || !canSubmit} className="mx-auto rounded-xl border border-black/20 bg-white px-8 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
-          {busy ? "Creating..." : "Create listing"}
+          {busy ? "Saving..." : "Publish listing"}
         </button>
       </form>
     </div>

@@ -113,6 +113,10 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
   const previews = useMemo(() => {
     return files.slice(0, 10).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
   }, [files]);
+  const reviewSaleType = isTimedOffers ? "Make Offer (timed offers)" : "Buy Now";
+  const reviewPrice = isTimedOffers
+    ? `${price ? `$${price} current` : "Not set"}${buyNowEnabled && buyNow ? ` · Buy Now $${buyNow}` : ""}`
+    : (price ? `$${price}` : "Not set");
 
   async function uploadAndAppend(nextFiles: File[]) {
     const remaining = 10 - (existingImages?.length || 0);
@@ -368,6 +372,7 @@ buyNowPrice:
               <div>
                 <label className="text-sm font-extrabold bd-ink">Title *</label>
                 <input className="bd-input mt-1 w-full" value={title} onChange={(e) => setTitle(e.target.value)} required />
+                <p className="mt-1 text-xs bd-ink2">Use a clear title with brand/model and key details buyers search for.</p>
               </div>
 
               <div>
@@ -378,38 +383,42 @@ buyNowPrice:
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+                <p className="mt-1 text-xs bd-ink2">Call out included accessories, known marks/faults, and pickup/postage details.</p>
               </div>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div>
                   <label className="text-sm font-extrabold bd-ink">Category</label>
                   <select
-  className="bd-input mt-1 w-full"
-  value={category}
-  onChange={(e) => setCategory(e.target.value)}
->
-  <option value="">Select a category...</option>
-  {CATEGORY_GROUPS.map((g) => (
-    <optgroup key={g.parent} label={g.parent}>
-      <option value={g.parent}>{g.parent}</option>
-      {g.children.map((c) => (
-        <option key={c} value={joinCategory(g.parent, c)}>
-          {c}
-        </option>
-      ))}
-    </optgroup>
-  ))}
-</select>
+                    className="bd-input mt-1 w-full"
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option value="">Select a category...</option>
+                    {CATEGORY_GROUPS.map((g) => (
+                      <optgroup key={g.parent} label={g.parent}>
+                        <option value={g.parent}>{g.parent}</option>
+                        {g.children.map((c) => (
+                          <option key={c} value={joinCategory(g.parent, c)}>
+                            {c}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </select>
+                  <p className="mt-1 text-xs bd-ink2">Keep this as close as possible so your listing is easy to discover.</p>
                 </div>
 
                 <div>
                   <label className="text-sm font-extrabold bd-ink">Condition</label>
                   <input className="bd-input mt-1 w-full" value={condition} onChange={(e) => setCondition(e.target.value)} />
+                  <p className="mt-1 text-xs bd-ink2">Be accurate so buyer expectations match the item.</p>
                 </div>
 
                 <div>
                   <label className="text-sm font-extrabold bd-ink">Location</label>
                   <input className="bd-input mt-1 w-full" value={location} onChange={(e) => setLocation(e.target.value)} />
+                  <p className="mt-1 text-xs bd-ink2">Use suburb/postcode and state for a clear pickup baseline.</p>
                 </div>
 
                 <div>
@@ -489,7 +498,9 @@ buyNowPrice:
               {/* Photos */}
               <div className="grid gap-2">
                 <div className="text-sm font-extrabold bd-ink">Photos</div>
-                
+                <div className="text-xs bd-ink2">
+                  The first photo is your main image. Use clear photos of the item and avoid unrelated screenshots.
+                </div>
 
                 {existingImages.length ? (
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -499,27 +510,27 @@ buyNowPrice:
                         <img src={url} alt="Listing photo" className="h-28 w-full object-cover" />
 
                         <div className="absolute left-2 top-2 flex gap-1">
-  <button
-    type="button"
-    className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40"
-    onClick={() => moveImage(idx, idx - 1)}
-    disabled={idx === 0}
-    aria-label="Move photo left"
-    title="Move left"
-  >
-    ‹
-  </button>
-  <button
-    type="button"
-    className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40"
-    onClick={() => moveImage(idx, idx + 1)}
-    disabled={idx === existingImages.length - 1}
-    aria-label="Move photo right"
-    title="Move right"
-  >
-    ›
-  </button>
-</div>
+                          <button
+                            type="button"
+                            className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40"
+                            onClick={() => moveImage(idx, idx - 1)}
+                            disabled={idx === 0}
+                            aria-label="Move photo left"
+                            title="Move left"
+                          >
+                            ‹
+                          </button>
+                          <button
+                            type="button"
+                            className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40"
+                            onClick={() => moveImage(idx, idx + 1)}
+                            disabled={idx === existingImages.length - 1}
+                            aria-label="Move photo right"
+                            title="Move right"
+                          >
+                            ›
+                          </button>
+                        </div>
 
                         <button
                           type="button"
@@ -607,6 +618,20 @@ buyNowPrice:
                     </div>
                   ) : null}
                 </div>
+              </div>
+
+              <div className="rounded-xl border border-black/10 bg-[var(--bidra-bg)] p-4">
+                <div className="text-sm font-extrabold bd-ink">Review</div>
+                <div className="mt-1 text-xs bd-ink2">Quick summary before saving changes.</div>
+                <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+                  <div><dt className="text-xs uppercase tracking-wide bd-ink2">Title</dt><dd className="font-medium bd-ink">{title.trim() || "Not set"}</dd></div>
+                  <div><dt className="text-xs uppercase tracking-wide bd-ink2">Sale type</dt><dd className="font-medium bd-ink">{reviewSaleType}</dd></div>
+                  <div><dt className="text-xs uppercase tracking-wide bd-ink2">Price</dt><dd className="font-medium bd-ink">{reviewPrice}</dd></div>
+                  <div><dt className="text-xs uppercase tracking-wide bd-ink2">Category</dt><dd className="font-medium bd-ink">{category || "Not set"}</dd></div>
+                  <div><dt className="text-xs uppercase tracking-wide bd-ink2">Condition</dt><dd className="font-medium bd-ink">{condition || "Not set"}</dd></div>
+                  <div><dt className="text-xs uppercase tracking-wide bd-ink2">Location</dt><dd className="font-medium bd-ink">{location.trim() || "Not set"}</dd></div>
+                  <div><dt className="text-xs uppercase tracking-wide bd-ink2">Photos</dt><dd className="font-medium bd-ink">{(existingImages?.length || 0) + (files?.length || 0)}</dd></div>
+                </dl>
               </div>
 
               <div className="flex flex-wrap gap-2 pt-2">
