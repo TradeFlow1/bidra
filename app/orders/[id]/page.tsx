@@ -107,7 +107,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
               <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Sold item</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                This item is already sold. Use messages to arrange pickup or postage.
+                This sold-item record confirms the listing has sold. Use messages to arrange pickup or postage.
               </p>
               <div className="mt-3 text-sm bd-ink2">
                 Created <DateTimeText value={order.createdAt} />
@@ -159,9 +159,11 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">What happens now</div>
             <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-              <li>This item has been marked as sold.</li>
-              <li>Use messages to finalise pickup or postage.</li>
-              <li>Use messages to keep a record of your agreement.</li>
+              <li>This order is a sold-item record for the completed sale.</li>
+              <li>Use messages to arrange pickup or postage with the other person.</li>
+              <li>Keep important agreements and handover details in Bidra messages.</li>
+              <li>Follow safety guidance for pickup or postage before final handover.</li>
+              <li>After completion, leave feedback if it is available for this order.</li>
             </ul>
           </Card>
 
