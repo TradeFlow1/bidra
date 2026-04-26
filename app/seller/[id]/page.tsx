@@ -55,7 +55,7 @@ async function getSellerProfileData(sellerId: string) {
 
   if (!seller) return null;
 
-  const [activeListings, completedSales, sellerRating] = await Promise.all([
+  const [activeListings, completedSales, sellerRating, recentFeedback] = await Promise.all([
     prisma.listing.findMany({
       where: {
         sellerId,
@@ -97,9 +97,28 @@ async function getSellerProfileData(sellerId: string) {
       _avg: { rating: true },
       _count: { rating: true },
     }),
+    prisma.feedback.findMany({
+      where: {
+        toUserId: sellerId,
+        comment: {
+          not: null,
+        },
+        order: {
+          outcome: "COMPLETED",
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 3,
+      select: {
+        id: true,
+        rating: true,
+        comment: true,
+        createdAt: true,
+      },
+    }),
   ]);
 
-  return { seller, activeListings, completedSales, sellerRating };
+  return { seller, activeListings, completedSales, sellerRating, recentFeedback };
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -147,7 +166,7 @@ export default async function SellerPage({ params }: PageProps) {
 
   if (!data) notFound();
 
-  const { seller, activeListings, completedSales, sellerRating } = data;
+  const { seller, activeListings, completedSales, sellerRating, recentFeedback } = data;
   const sellerName = cleanText(seller.name) || cleanText(seller.username) || "Seller";
   const username = cleanText(seller.username);
   const sellerLocation = formatLocation(seller);
@@ -155,6 +174,7 @@ export default async function SellerPage({ params }: PageProps) {
   const sellerPhoneVerified = !!cleanText(seller.phone);
   const ratingAvg = typeof sellerRating._avg.rating === "number" ? Number(sellerRating._avg.rating) : null;
   const ratingCount = Number(sellerRating._count.rating || 0);
+  const visibleRecentFeedback = recentFeedback.filter((entry) => cleanText(entry.comment).length > 0);
 
   const watchedIds = userId
     ? new Set(
@@ -246,42 +266,63 @@ export default async function SellerPage({ params }: PageProps) {
                       : listing.buyNowPrice ?? listing.price;
 
                   return (
-                  <ListingCard
-                    key={listing.id}
-                    listing={{
-                      id: listing.id,
-                      title: listing.title,
-                      description: listing.description ?? null,
-                      price: displayPrice,
-                      buyNowPrice: listing.buyNowPrice ?? null,
-                      type: listing.type ?? undefined,
-                      category: listing.category ?? undefined,
-                      condition: listing.condition ?? undefined,
-                      location: listing.location ?? undefined,
-                      images: listing.images ?? undefined,
-                      status: listing.status ?? "ACTIVE",
-                      offerCount: listing._count.offers,
-                      currentOffer,
-                      seller: {
-                        name: sellerName,
-                        memberSince: seller.createdAt,
-                        location: sellerLocation || null,
-                        emailVerified: seller.emailVerified,
-                        phone: sellerPhoneVerified ? seller.phone : null,
-                        ratingAvg,
-                        ratingCount,
-                      },
-                    }}
-                    viewerAuthed={!!userId}
-                    showWatchButton={!!userId}
-                    initiallyWatched={watchedIds.has(listing.id)}
-                  />
+                    <ListingCard
+                      key={listing.id}
+                      listing={{
+                        id: listing.id,
+                        title: listing.title,
+                        description: listing.description ?? null,
+                        price: displayPrice,
+                        buyNowPrice: listing.buyNowPrice ?? null,
+                        type: listing.type ?? undefined,
+                        category: listing.category ?? undefined,
+                        condition: listing.condition ?? undefined,
+                        location: listing.location ?? undefined,
+                        images: listing.images ?? undefined,
+                        status: listing.status ?? "ACTIVE",
+                        offerCount: listing._count.offers,
+                        currentOffer,
+                        seller: {
+                          name: sellerName,
+                          memberSince: seller.createdAt,
+                          location: sellerLocation || null,
+                          emailVerified: seller.emailVerified,
+                          phone: sellerPhoneVerified ? seller.phone : null,
+                          ratingAvg,
+                          ratingCount,
+                        },
+                      }}
+                      viewerAuthed={!!userId}
+                      showWatchButton={!!userId}
+                      initiallyWatched={watchedIds.has(listing.id)}
+                    />
                   );
                 })}
               </div>
             )}
           </div>
         </section>
+
+        {visibleRecentFeedback.length > 0 ? (
+          <section className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm">
+            <div className="text-sm font-semibold text-neutral-950">Recent feedback</div>
+            <div className="mt-1 text-sm text-neutral-600">Latest completed-order feedback from recent transactions.</div>
+
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              {visibleRecentFeedback.map((entry) => (
+                <article key={entry.id} className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+                  <div className="text-xs font-semibold text-amber-700">{renderStars(entry.rating)}</div>
+                  <p className="mt-2 text-sm text-neutral-700">{cleanText(entry.comment) || ""}</p>
+                  <div className="mt-2 text-xs text-neutral-500">
+                    <time dateTime={entry.createdAt.toISOString()}>
+                      {entry.createdAt.toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })}
+                    </time>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : null}
       </div>
     </main>
   );
