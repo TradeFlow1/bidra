@@ -46,7 +46,7 @@ export default function HelpPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Help</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Quick help for using Bidra</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Find the right next step for listings, offers, orders, support, safety, and account questions. If you cannot find what you need, contact support.
+                Find the right next step for listings, offers, orders, messages, support, safety, and account questions. Bidra is the platform only, so keep agreements in Messages and contact support if something seems wrong.
               </p>
             </div>
 
@@ -112,8 +112,8 @@ export default function HelpPage() {
           <h2 className="text-xl font-extrabold tracking-tight bd-ink">Quick guidance</h2>
           <ol className="mt-4 list-decimal pl-5 text-sm bd-ink2 leading-7 space-y-2">
             <li>Create a listing with clear details, honest condition notes, and accurate photos.</li>
-            <li>Use messages for clarification only and keep communication respectful and on-platform.</li>
-            <li>After a sale, buyer and seller use messages to arrange pickup or postage. No extra approval step is needed.</li>
+            <li>Use Messages to ask questions, confirm handover details, and keep communication respectful and on-platform.</li>
+            <li>After a sale, buyer and seller use Messages to confirm pickup, postage, and handover details. No extra approval step is needed.</li>
             <li>After handover, leave feedback if available or report an issue if something went wrong.</li>
           </ol>
         </section>

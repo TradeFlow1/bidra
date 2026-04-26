@@ -22,7 +22,7 @@ export default function SupportPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Support and safety</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help, trust, and safer trading</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Bidra is a community marketplace. We work hard to keep it safe, but buyers and sellers should still use common sense and follow strong safety habits.
+                Bidra is a community marketplace and platform only. We provide reporting, messaging, and moderation tools, but buyers and sellers should still use common sense and follow strong safety habits.
               </p>
             </div>
 
@@ -71,7 +71,7 @@ export default function SupportPage() {
               <li>Meet in a public place for pickups. Bring a friend if possible.</li>
               <li>Inspect items before handing over money, especially electronics, bikes, and high-value goods.</li>
               <li>Be cautious of unrealistic prices, urgency pressure, or requests to rush key decisions.</li>
-              <li>Arrange pickup or postage in messages and keep the conversation on Bidra.</li>
+              <li>Arrange pickup or postage in Messages and keep the conversation on Bidra.</li>
             </ul>
           </SectionCard>
 
@@ -79,7 +79,7 @@ export default function SupportPage() {
             <ul className="list-disc pl-5 text-black/75 space-y-2">
               <li>Use clear photos and honest descriptions to reduce disputes.</li>
               <li>Do not rely on screenshots or unverified claims. Keep important details in Bidra messages.</li>
-              <li>If something changes, agree the new pickup or postage details in messages.</li>
+              <li>If something changes, agree the new pickup, postage, or handover details in Messages.</li>
               <li>Never share your passwords, one-time codes, or other sensitive login details.</li>
             </ul>
           </SectionCard>
@@ -89,7 +89,7 @@ export default function SupportPage() {
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>Someone asks you to continue the transaction outside Bidra to avoid fees or records.</li>
               <li>Someone offers overpayment with a request to refund the difference.</li>
-              <li>Someone refuses pickup inspection or pressures you to move everything outside Bidra messages.</li>
+            <li>Someone refuses pickup inspection or pressures you to move everything outside Bidra Messages.</li>
             <li>Someone pressures you to communicate only by SMS or WhatsApp before agreeing key terms.</li>
           </ul>
           <p className="mt-3 text-sm text-black/60">
