@@ -153,8 +153,6 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div className="mt-1 text-sm text-neutral-600">Original listing.</div>
           </div>
         </div>
-
-
         <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">What happens now</div>

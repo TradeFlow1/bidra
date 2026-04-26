@@ -248,7 +248,6 @@ export default async function ListingDetailPage({
                   text={`Take a look at this listing on Bidra: ${cleanText(listing.title)}`}
                   label="Share listing"
                 />
-
                 <div className="mt-4 rounded-2xl border border-[#E2E8F0] bg-white px-3.5 py-3">
                   <div className="text-sm font-semibold text-[#0F172A]">What happens next</div>
                   <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm text-[#475569]">

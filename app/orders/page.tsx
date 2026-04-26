@@ -54,7 +54,6 @@ export default async function OrdersPage() {
                 Sold-item records for your buys and sales. Open any order to message the other person and arrange pickup or postage.
               </p>
             </div>
-
           </div>
         </div>
 
