@@ -1,20 +1,20 @@
 export const revalidate = 10;
+
 import Link from "next/link";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import { Prisma, ListingType } from "@prisma/client";
-import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
 import ListingCard from "@/components/listing-card";
 import MobileFiltersToggle from "@/components/mobile-filters-toggle";
-import { SEO_CATEGORY_OPTIONS } from "@/lib/listing-seo";
+import { authOptions } from "@/lib/auth";
+import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
+import { prisma } from "@/lib/prisma";
 
-type KeywordParams = {
+type ListingsSearchParams = {
   q?: string;
   category?: string;
+  location?: string;
   type?: string;
   condition?: string;
-  location?: string;
   min?: string;
   max?: string;
   sort?: string;
@@ -40,19 +40,25 @@ function normalizeCategoryValue(value: string) {
   return value;
 }
 
-function buildClearHref(current: KeywordParams | undefined, keyToRemove: keyof KeywordParams) {
-  const params: string[] = [];
-  const keys: (keyof KeywordParams)[] = ["q", "category", "type", "condition", "location", "min", "max", "sort"];
+function buildHref(params: { q?: string; category?: string; location?: string; type?: string; condition?: string; min?: string; max?: string; sort?: string }) {
+  const sp = new URLSearchParams();
+  if (params.q) sp.set("q", params.q);
+  if (params.category) sp.set("category", params.category);
+  if (params.location) sp.set("location", params.location);
+  if (params.type) sp.set("type", params.type);
+  if (params.condition) sp.set("condition", params.condition);
+  if (params.min) sp.set("min", params.min);
+  if (params.max) sp.set("max", params.max);
+  if (params.sort) sp.set("sort", params.sort);
+  const qs = sp.toString();
+  return qs ? `/listings?${qs}` : "/listings";
+}
 
-  for (let i = 0; i < keys.length; i += 1) {
-    const key = keys[i];
-    if (key === keyToRemove) continue;
-    const value = cleanStr(current && current[key]);
-    if (!value) continue;
-    params.push(encodeURIComponent(String(key)) + "=" + encodeURIComponent(value));
-  }
-
-  return params.length ? "/listings?" + params.join("&") : "/listings";
+function sortLabel(sort: string) {
+  if (sort === "price_asc") return "Price low to high";
+  if (sort === "price_desc") return "Price high to low";
+  if (sort === "activity") return "Most activity";
+  return "Newest";
 }
 
 function conditionLabel(value: string) {
@@ -66,47 +72,46 @@ function conditionLabel(value: string) {
 export default async function ListingsPage({
   searchParams,
 }: {
-  searchParams?: KeywordParams;
+  searchParams?: ListingsSearchParams;
 }) {
   const q = cleanStr(searchParams?.q);
   const category = normalizeCategoryValue(cleanStr(searchParams?.category));
+  const location = cleanStr(searchParams?.location);
   const type = cleanStr(searchParams?.type);
   const condition = cleanStr(searchParams?.condition);
-  const location = cleanStr(searchParams?.location);
+  const min = cleanStr(searchParams?.min);
+  const max = cleanStr(searchParams?.max);
   const sort = cleanStr(searchParams?.sort);
 
-  const hasAnyFilters =
-    !!q || !!category || !!type || !!condition || !!location || !!searchParams?.min || !!searchParams?.max || !!sort;
-
-  const baseUrl = (process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/+$/, "");
-
-  const minCents = parseMoneyToCents(searchParams?.min);
-  const maxCents = parseMoneyToCents(searchParams?.max);
+  const minCents = parseMoneyToCents(min);
+  const maxCents = parseMoneyToCents(max);
   const moneyErr = Number.isNaN(Number(minCents)) || Number.isNaN(Number(maxCents));
 
-  const and: Prisma.ListingWhereInput[] = [];
-  const where: Prisma.ListingWhereInput = { AND: and };
+  const hasFilters = !!q || !!category || !!location || !!type || !!condition || !!min || !!max || !!sort;
 
-  and.push({
-    NOT: [
-      { title: { equals: "test", mode: "insensitive" } },
-      { title: { startsWith: "test", mode: "insensitive" } },
-      { title: { contains: "dfgh", mode: "insensitive" } },
-      { title: { contains: "asdf", mode: "insensitive" } },
-      { title: { contains: "qwer", mode: "insensitive" } },
-      { title: { contains: "no photos", mode: "insensitive" } },
-      { title: { contains: "no photo", mode: "insensitive" } }
-    ],
-  });
-
-  and.push({ status: "ACTIVE" });
-  and.push({ orders: { none: {} } });
+  const and: Prisma.ListingWhereInput[] = [
+    {
+      NOT: [
+        { title: { equals: "test", mode: "insensitive" } },
+        { title: { startsWith: "test", mode: "insensitive" } },
+        { title: { contains: "dfgh", mode: "insensitive" } },
+        { title: { contains: "asdf", mode: "insensitive" } },
+        { title: { contains: "qwer", mode: "insensitive" } },
+        { title: { contains: "no photos", mode: "insensitive" } },
+        { title: { contains: "no photo", mode: "insensitive" } },
+      ],
+    },
+    { status: "ACTIVE" },
+    { orders: { none: {} } },
+  ];
 
   if (q) {
     and.push({
       OR: [
         { title: { contains: q, mode: "insensitive" } },
         { description: { contains: q, mode: "insensitive" } },
+        { category: { contains: q, mode: "insensitive" } },
+        { location: { contains: q, mode: "insensitive" } },
       ],
     });
   }
@@ -131,80 +136,69 @@ export default async function ListingsPage({
     }
   }
 
+  if (location) {
+    and.push({ location: { contains: location, mode: "insensitive" } });
+  }
+
   if (type === "BUY_NOW" || type === "OFFERABLE") {
     and.push({ type: type as ListingType });
   }
 
-  if (condition) and.push({ condition: condition });
-  if (location) and.push({ location: { contains: location, mode: "insensitive" } });
+  if (condition) {
+    and.push({ condition });
+  }
 
   if (!moneyErr) {
     if (typeof minCents === "number") and.push({ price: { gte: minCents } });
     if (typeof maxCents === "number") and.push({ price: { lte: maxCents } });
   }
 
-  const finalWhere = and.length ? where : undefined;
-
-  const orderBy: Prisma.ListingOrderByWithRelationInput =
+  const orderBy: Prisma.ListingOrderByWithRelationInput[] =
     sort === "price_asc"
-      ? { price: "asc" }
+      ? [{ price: "asc" }, { createdAt: "desc" }, { id: "desc" }]
       : sort === "price_desc"
-      ? { price: "desc" }
-      : { createdAt: "desc" };
+      ? [{ price: "desc" }, { createdAt: "desc" }, { id: "desc" }]
+      : sort === "activity"
+      ? [{ offers: { _count: "desc" } }, { createdAt: "desc" }, { id: "desc" }]
+      : [{ createdAt: "desc" }, { id: "desc" }];
 
-  let listings: any[] = [];
-
-  if (!hasAnyFilters) {
-    try {
-      const res = await fetch(baseUrl + "/api/listings", { cache: "force-cache" });
-      if (res.ok) {
-        const data = await res.json();
-        const arr = Array.isArray(data && data.listings) ? data.listings : [];
-        listings = arr;
-      }
-    } catch {
-    }
-  }
-
-  if (hasAnyFilters || !listings.length) {
-    listings = await prisma.listing.findMany({
-      where: finalWhere,
-      orderBy: orderBy,
-      take: 50,
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        category: true,
-        location: true,
-        type: true,
-        condition: true,
-        status: true,
-        price: true,
-        buyNowPrice: true,
-        createdAt: true,
-        images: true,
-        offers: {
-          orderBy: { amount: "desc" },
-          take: 1,
-          select: { amount: true },
-        },
-        seller: {
-          select: {
-            username: true,
-            name: true,
-            createdAt: true,
-            location: true,
-            emailVerified: true,
-            phone: true,
-          },
-        },
-        _count: {
-          select: { offers: true },
+  const listings = await prisma.listing.findMany({
+    where: { AND: and },
+    orderBy,
+    take: 50,
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      category: true,
+      location: true,
+      type: true,
+      condition: true,
+      status: true,
+      price: true,
+      buyNowPrice: true,
+      createdAt: true,
+      images: true,
+      offers: {
+        orderBy: { amount: "desc" },
+        take: 1,
+        select: { amount: true },
+      },
+      seller: {
+        select: {
+          username: true,
+          name: true,
+          createdAt: true,
+          location: true,
+          emailVerified: true,
+          phone: true,
         },
       },
-    });
-  }
+      _count: {
+        select: { offers: true },
+      },
+    },
+  });
 
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id ?? null;
@@ -213,8 +207,8 @@ export default async function ListingsPage({
   if (userId && listings.length) {
     const watchRows = await prisma.watchlist.findMany({
       where: {
-        userId: userId,
-        listingId: { in: listings.map((l) => String(l.id)) },
+        userId,
+        listingId: { in: listings.map((listing) => { return String(listing.id); }) },
       },
       select: { listingId: true },
     });
@@ -223,32 +217,48 @@ export default async function ListingsPage({
     }
   }
 
-  const activeFilters: { label: string; href: string }[] = [];
-  if (q) activeFilters.push({ label: q, href: buildClearHref(searchParams, "q") });
-  if (category) activeFilters.push({ label: category, href: buildClearHref(searchParams, "category") });
-  if (type) activeFilters.push({ label: type === "BUY_NOW" ? "Buy now" : "Make an offer", href: buildClearHref(searchParams, "type") });
-  if (condition) activeFilters.push({ label: conditionLabel(condition), href: buildClearHref(searchParams, "condition") });
-  if (location) activeFilters.push({ label: location, href: buildClearHref(searchParams, "location") });
-  if (cleanStr(searchParams?.min)) activeFilters.push({ label: "$" + cleanStr(searchParams?.min) + "+", href: buildClearHref(searchParams, "min") });
-  if (cleanStr(searchParams?.max)) activeFilters.push({ label: "Up to $" + cleanStr(searchParams?.max), href: buildClearHref(searchParams, "max") });
-  if (sort) {
-    const sortLabel = sort === "price_asc" ? "Low to high" : sort === "price_desc" ? "High to low" : "Newest";
-    activeFilters.push({ label: sortLabel, href: buildClearHref(searchParams, "sort") });
+  const activeFilters: Array<{ label: string; href: string }> = [];
+  if (q) activeFilters.push({ label: `Keyword: ${q}`, href: buildHref({ category, location, type, condition, min, max, sort }) });
+  if (category) activeFilters.push({ label: `Category: ${category}`, href: buildHref({ q, location, type, condition, min, max, sort }) });
+  if (location) activeFilters.push({ label: `Location: ${location}`, href: buildHref({ q, category, type, condition, min, max, sort }) });
+  if (type) {
+    activeFilters.push({
+      label: type === "BUY_NOW" ? "Sale type: Buy Now" : "Sale type: Offers",
+      href: buildHref({ q, category, location, condition, min, max, sort }),
+    });
   }
+  if (condition) activeFilters.push({ label: `Condition: ${conditionLabel(condition)}`, href: buildHref({ q, category, location, type, min, max, sort }) });
+  if (min) activeFilters.push({ label: `Min: $${min}`, href: buildHref({ q, category, location, type, condition, max, sort }) });
+  if (max) activeFilters.push({ label: `Max: $${max}`, href: buildHref({ q, category, location, type, condition, min, sort }) });
+  if (sort) activeFilters.push({ label: `Sort: ${sortLabel(sort)}`, href: buildHref({ q, category, location, type, condition, min, max }) });
+
+  const filterSummary = [
+    q ? `keyword “${q}”` : "",
+    category ? `category ${category}` : "",
+    location ? `location ${location}` : "",
+    type === "BUY_NOW" ? "Buy Now" : type === "OFFERABLE" ? "Offers" : "",
+    condition ? `condition ${conditionLabel(condition)}` : "",
+    min ? `min $${min}` : "",
+    max ? `max $${max}` : "",
+    sort ? `sorted by ${sortLabel(sort)}` : "",
+  ].filter(Boolean).join(" • ");
+
+  const categoryShortcuts = CATEGORY_GROUPS.slice(0, 6).map(function (group) {
+    return group.parent;
+  });
 
   const FiltersForm = () => (
-    <form action="/listings" method="get" className="space-y-4">
-      <div className="space-y-3">
-        <input
-          name="q"
-          type="search"
-          enterKeyHint="search"
-          defaultValue={q}
-          placeholder="Keyword"
-          className="bd-input"
-        />
-        <button type="submit" className="sr-only" aria-hidden="true" tabIndex={-1}>Search</button>
+    <form action="/listings" method="get" className="space-y-3">
+      <input
+        name="q"
+        type="search"
+        enterKeyHint="search"
+        defaultValue={q}
+        placeholder="Search keyword"
+        className="bd-input"
+      />
 
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-1">
         <select name="category" defaultValue={category} className="bd-input">
           <option value="">All categories</option>
           {CATEGORY_GROUPS.map(function (g) {
@@ -267,16 +277,12 @@ export default async function ListingsPage({
           })}
         </select>
 
-        <select name="type" defaultValue={type} className="bd-input">
-          <option value="">All types</option>
-          <option value="BUY_NOW">Buy now</option>
-          <option value="OFFERABLE">Make an offer</option>
-        </select>
+        <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
 
-        <select name="sort" defaultValue={sort} className="bd-input">
-          <option value="">Newest</option>
-          <option value="price_asc">Price: low to high</option>
-          <option value="price_desc">Price: high to low</option>
+        <select name="type" defaultValue={type} className="bd-input">
+          <option value="">Sale type: All</option>
+          <option value="BUY_NOW">Sale type: Buy Now</option>
+          <option value="OFFERABLE">Sale type: Offers</option>
         </select>
 
         <select name="condition" defaultValue={condition} className="bd-input">
@@ -287,26 +293,29 @@ export default async function ListingsPage({
           <option value="USED_FAIR">Used - Fair</option>
         </select>
 
-        <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
-
         <div className="grid grid-cols-2 gap-3">
           <input
             name="min"
-            defaultValue={(searchParams?.min ?? "").trim()}
+            defaultValue={min}
             placeholder="Min price"
             className="bd-input"
             inputMode="decimal"
           />
           <input
             name="max"
-            defaultValue={(searchParams?.max ?? "").trim()}
+            defaultValue={max}
             placeholder="Max price"
             className="bd-input"
             inputMode="decimal"
           />
         </div>
 
-        <button type="submit" className="bd-btn bd-btn-primary w-full">Show results</button>
+        <select name="sort" defaultValue={sort} className="bd-input">
+          <option value="">Sort: Newest</option>
+          <option value="price_asc">Sort: Price low to high</option>
+          <option value="price_desc">Sort: Price high to low</option>
+          <option value="activity">Sort: Most activity</option>
+        </select>
       </div>
 
       {moneyErr ? (
@@ -314,6 +323,8 @@ export default async function ListingsPage({
           Use numbers for price filters.
         </div>
       ) : null}
+
+      <button type="submit" className="bd-btn bd-btn-primary w-full">Apply filters</button>
     </form>
   );
 
@@ -321,17 +332,8 @@ export default async function ListingsPage({
     <main className="bg-[#F7F9FC]">
       <div className="mx-auto w-full max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse listings</h1>
-              <p className="mt-2 text-sm text-[#475569]">Browse local items, buy now, make an offer, and arrange pickup or postage in messages.</p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Link href="/listings" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">All</Link>
-              <Link href="/listings?type=BUY_NOW" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">Buy now</Link>
-              <Link href="/listings?type=OFFERABLE" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">Make an offer</Link>
-            </div>
-          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse listings</h1>
+          <p className="mt-2 text-sm text-[#475569]">Find active listings faster with keyword search, sale type, and location filters.</p>
         </section>
 
         <section className="mt-5 grid gap-4 xl:grid-cols-[18rem_minmax(0,1fr)]">
@@ -343,16 +345,16 @@ export default async function ListingsPage({
                 </MobileFiltersToggle>
                 <div className="hidden xl:block">
                   <div className="mb-4 border-b border-[#E2E8F0] pb-4">
-                    <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Refine results</div>
-                    <div className="mt-2 text-sm text-[#475569]">Use filters to narrow by keyword, category, condition, location, and price.</div>
+                    <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Search and filter</div>
+                    <div className="mt-2 text-sm text-[#475569]">Keyword, category, location, sale type, and sort are shareable in the URL.</div>
                   </div>
                   <FiltersForm />
                 </div>
               </div>
-              {activeFilters.length > 0 ? (
+              {hasFilters ? (
                 <div className="border-t border-[#E2E8F0] px-5 py-4">
                   <Link href="/listings" className="text-sm font-semibold text-[#1D4ED8] underline underline-offset-2">
-                    Reset filters
+                    Clear filters
                   </Link>
                 </div>
               ) : null}
@@ -361,16 +363,16 @@ export default async function ListingsPage({
 
           <div className="space-y-3">
             <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse by category</h2>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Popular shortcuts</h2>
               <div className="mt-3 flex flex-wrap gap-2">
-                {SEO_CATEGORY_OPTIONS.map(function (categoryOption) {
+                {categoryShortcuts.map(function (label) {
                   return (
                     <Link
-                      key={categoryOption.slug}
-                      href={`/listings/c/${categoryOption.slug}`}
-                      className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-1.5 text-xs font-semibold text-[#0F172A] shadow-sm transition hover:bg-white"
+                      key={label}
+                      href={buildHref({ q, location, type, condition, min, max, sort, category: label })}
+                      className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-1.5 text-xs font-semibold text-[#0F172A]"
                     >
-                      {categoryOption.label}
+                      {label}
                     </Link>
                   );
                 })}
@@ -382,7 +384,13 @@ export default async function ListingsPage({
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Results</div>
                   <div className="mt-1 text-sm font-semibold text-[#0F172A]">{listings.length} results</div>
+                  {hasFilters ? <p className="mt-1 text-xs text-[#64748B]">{filterSummary}</p> : null}
                 </div>
+                {hasFilters ? (
+                  <Link href="/listings" className="text-xs font-semibold text-[#1D4ED8] underline underline-offset-2">
+                    Clear filters
+                  </Link>
+                ) : null}
               </div>
 
               {activeFilters.length > 0 ? (
@@ -407,48 +415,49 @@ export default async function ListingsPage({
               {listings.length === 0 ? (
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto max-w-md">
-                    <div className="text-lg font-bold text-[#0F172A]">No listings found</div>
-                    <p className="mt-2 text-sm text-[#475569]">Try clearing a filter, or check back soon for more local listings.</p>
+                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No listings match those filters yet." : "No listings found"}</div>
+                    <p className="mt-2 text-sm text-[#475569]">
+                      {hasFilters ? "Try clearing filters or browse all listings." : "Check back soon for more active local listings."}
+                    </p>
                     <div className="mt-4 flex flex-wrap justify-center gap-2">
-                      <Link href="/listings" className="bd-btn bd-btn-primary">Clear filters</Link>
-                      <Link href="/sell/new" className="bd-btn bd-btn-ghost">Sell an item</Link>
+                      <Link href="/listings" className="bd-btn bd-btn-primary">Browse all listings</Link>
                     </div>
                   </div>
                 </div>
               ) : (
-                listings.map((l) => {
-                  const currentOffer = l.offers && l.offers.length ? l.offers[0].amount : null;
-                  const displayPrice = l.type === "OFFERABLE"
-                    ? ((currentOffer ?? l.price) as number)
-                    : ((l.buyNowPrice ?? l.price) as number);
+                listings.map((listing) => {
+                  const currentOffer = listing.offers && listing.offers.length ? listing.offers[0].amount : null;
+                  const displayPrice = listing.type === "OFFERABLE"
+                    ? ((currentOffer ?? listing.price) as number)
+                    : ((listing.buyNowPrice ?? listing.price) as number);
 
                   return (
                     <ListingCard
-                      key={l.id}
+                      key={listing.id}
                       listing={{
-                        id: l.id,
-                        title: l.title,
-                        description: l.description,
+                        id: listing.id,
+                        title: listing.title,
+                        description: listing.description,
                         price: displayPrice,
-                        buyNowPrice: l.buyNowPrice,
-                        type: l.type,
-                        category: l.category,
-                        condition: l.condition,
-                        location: l.location,
-                        images: (l as unknown as { images?: unknown[] | null }).images ?? null,
-                        status: (l as unknown as { status?: string | null }).status ?? "ACTIVE",
-                        endsAt: (l as unknown as { endsAt?: string | Date | null }).endsAt ?? null,
-                        offerCount: (l as unknown as { _count?: { offers?: number } })._count?.offers ?? 0,
-                        currentOffer: currentOffer,
+                        buyNowPrice: listing.buyNowPrice,
+                        type: listing.type,
+                        category: listing.category,
+                        condition: listing.condition,
+                        location: listing.location,
+                        images: (listing as unknown as { images?: unknown[] | null }).images ?? null,
+                        status: (listing as unknown as { status?: string | null }).status ?? "ACTIVE",
+                        endsAt: (listing as unknown as { endsAt?: string | Date | null }).endsAt ?? null,
+                        offerCount: (listing as unknown as { _count?: { offers?: number } })._count?.offers ?? 0,
+                        currentOffer,
                         seller: {
-                          name: l.seller?.name || l.seller?.username || null,
-                          memberSince: l.seller?.createdAt ?? null,
-                          location: l.seller?.location ?? null,
-                          emailVerified: l.seller?.emailVerified ?? false,
-                          phone: l.seller?.phone ?? null,
+                          name: listing.seller?.name || listing.seller?.username || null,
+                          memberSince: listing.seller?.createdAt ?? null,
+                          location: listing.seller?.location ?? null,
+                          emailVerified: listing.seller?.emailVerified ?? false,
+                          phone: listing.seller?.phone ?? null,
                         },
                       }}
-                      initiallyWatched={watchedSet.has(l.id)}
+                      initiallyWatched={watchedSet.has(listing.id)}
                       viewerAuthed={!!userId}
                       showWatchButton={true}
                     />
