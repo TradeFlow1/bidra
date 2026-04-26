@@ -91,6 +91,8 @@ export default async function OrdersPage() {
             {orders.map((o: any) => {
               const isPending = String(o.status) === "PENDING";
               const isCompleted = String(o.outcome) === "COMPLETED";
+              const feedbackDue = isCompleted && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt));
+              const feedbackSubmitted = isCompleted && ((o.buyerId === user.id && !!o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !!o.sellerFeedbackAt));
               const roleLabel = o.buyerId === user.id ? "Buying" : "Selling";
               const statusLabel = isCompleted ? "FEEDBACK OPEN" : "SOLD";
 
@@ -168,13 +170,19 @@ export default async function OrdersPage() {
                           View listing
                         </Link>
 
-                        {(isCompleted && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))) ? (
+                        {feedbackDue ? (
                           <Link
                             href={`/orders/${o.id}/feedback`}
                             className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
                           >
                             Leave feedback
                           </Link>
+                        ) : null}
+
+                        {feedbackSubmitted ? (
+                          <span className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-4 py-3 text-center text-sm font-semibold bd-ink shadow-sm">
+                            Feedback submitted
+                          </span>
                         ) : null}
                       </div>
                     </div>

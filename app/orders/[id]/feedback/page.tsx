@@ -90,6 +90,7 @@ export default async function FeedbackPage({
   const roleLabel = isBuyer ? "buyer" : "seller";
   const otherPartyLabel = isBuyer ? "seller" : "buyer";
   const alreadySubmitted = isBuyer ? !!order.buyerFeedbackAt : !!order.sellerFeedbackAt;
+  const canSubmit = order.outcome === "COMPLETED" && !alreadySubmitted;
 
   return (
     <main className="bd-container">
@@ -97,9 +98,12 @@ export default async function FeedbackPage({
         <section className="py-10">
           <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight">Leave feedback</h1>
+              <h1 className="text-3xl font-extrabold tracking-tight">Rate this transaction</h1>
               <p className="mt-1 text-sm text-black/70">
                 Order: <code className="font-mono">{order.id}</code>
+              </p>
+              <p className="mt-2 text-sm text-black/70">
+                Feedback helps buyers and sellers trust each other after a completed order.
               </p>
             </div>
 
@@ -121,6 +125,7 @@ export default async function FeedbackPage({
               otherPartyLabel={otherPartyLabel}
               alreadySubmitted={alreadySubmitted}
               orderOutcome={order.outcome}
+              canSubmit={canSubmit}
             />
           </div>
         </section>
