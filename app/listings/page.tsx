@@ -7,6 +7,7 @@ import { Prisma, ListingType } from "@prisma/client";
 import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
 import ListingCard from "@/components/listing-card";
 import MobileFiltersToggle from "@/components/mobile-filters-toggle";
+import { SEO_CATEGORY_OPTIONS } from "@/lib/listing-seo";
 
 type KeywordParams = {
   q?: string;
@@ -359,6 +360,23 @@ export default async function ListingsPage({
           </aside>
 
           <div className="space-y-3">
+            <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4">
+              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse by category</h2>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {SEO_CATEGORY_OPTIONS.map(function (categoryOption) {
+                  return (
+                    <Link
+                      key={categoryOption.slug}
+                      href={`/listings/c/${categoryOption.slug}`}
+                      className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-1.5 text-xs font-semibold text-[#0F172A] shadow-sm transition hover:bg-white"
+                    >
+                      {categoryOption.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
             <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
