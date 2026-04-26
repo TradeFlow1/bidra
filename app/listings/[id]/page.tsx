@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { isTimedOffersType } from "@/lib/listing-type";
 import { formatTimeRemaining } from "@/lib/time-remaining";
 import ListingImageGallery from "@/components/listing-image-gallery";
+import ShareActions from "@/components/share-actions";
 import BuyNowButton from "./buy-now-button";
 import PlaceOfferClient from "./place-offer-client";
 import AcceptHighestOfferButton from "./accept-highest-offer-button";
@@ -33,6 +35,79 @@ function formatMemberSince(value: Date | string | null | undefined) {
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return "";
   return d.toLocaleDateString("en-AU", { month: "short", year: "numeric" });
+}
+
+function getBaseUrl() {
+  return (process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/+$/, "");
+}
+
+function getDescriptionExcerpt(value: string | null | undefined) {
+  const cleaned = cleanText(value)
+    .replace(/Selling:\s*/gi, "")
+    .replace(/Condition:\s*/gi, "")
+    .replace(/Details:\s*/gi, "")
+    .trim();
+  if (!cleaned) return "";
+  return cleaned.length > 180 ? cleaned.slice(0, 177).trimEnd() + "..." : cleaned;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const listing = await prisma.listing.findUnique({
+    where: { id: params.id },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      price: true,
+      location: true,
+      images: true,
+    },
+  });
+
+  if (!listing) {
+    return {
+      title: "Listing not found | Bidra",
+      description: "This listing is no longer available.",
+    };
+  }
+
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}/listings/${listing.id}`;
+  const firstImage = Array.isArray(listing.images) ? cleanText(String(listing.images[0] || "")) : "";
+  const absoluteImage = firstImage
+    ? (firstImage.startsWith("http://") || firstImage.startsWith("https://")
+        ? firstImage
+        : `${baseUrl}${firstImage.startsWith("/") ? "" : "/"}${firstImage}`)
+    : "";
+  const priceText = money(listing.price);
+  const locationText = cleanText(listing.location) || "Location on request";
+  const excerpt = getDescriptionExcerpt(listing.description);
+  const listingTitle = cleanText(listing.title) || "Bidra listing";
+  const metaDescription = excerpt || `${priceText} • ${locationText}`;
+  const title = `${listingTitle} | ${priceText} • ${locationText} | Bidra`;
+
+  return {
+    title,
+    description: metaDescription,
+    alternates: { canonical: `/listings/${listing.id}` },
+    openGraph: {
+      type: "website",
+      url,
+      title: `${listingTitle} • ${priceText}`,
+      description: `${locationText}${excerpt ? ` • ${excerpt}` : ""}`,
+      images: absoluteImage ? [{ url: absoluteImage }] : undefined,
+    },
+    twitter: {
+      card: absoluteImage ? "summary_large_image" : "summary",
+      title: `${listingTitle} • ${priceText}`,
+      description: `${locationText}${excerpt ? ` • ${excerpt}` : ""}`,
+      images: absoluteImage ? [absoluteImage] : undefined,
+    },
+  };
 }
 
 export default async function ListingDetailPage({
@@ -96,6 +171,8 @@ export default async function ListingDetailPage({
   const sellerRatingAvg = typeof sellerRating?._avg?.rating === "number" ? Number(sellerRating._avg.rating) : null;
   const sellerRatingCount = Number(sellerRating?._count?.rating || 0);
   const images = (listing as any).images || [];
+  const baseUrl = getBaseUrl();
+  const listingUrl = `${baseUrl}/listings/${listing.id}`;
 
   return (
     <main className="bg-[#F7F9FC]">
@@ -165,6 +242,12 @@ export default async function ListingDetailPage({
                   <WatchlistButton listingId={listing.id} authed={!!userId} loginHref="/auth/login" />
                   <MessageSellerButton listingId={listing.id} />
                 </div>
+                <ShareActions
+                  url={listingUrl}
+                  title={cleanText(listing.title)}
+                  text={`Take a look at this listing on Bidra: ${cleanText(listing.title)}`}
+                  label="Share listing"
+                />
               </div>
 
               {isOwner && isTimedOffers && !isSold && topOffer ? (
