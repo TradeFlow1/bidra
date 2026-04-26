@@ -7,7 +7,6 @@ import ListingCard from "@/components/listing-card";
 import MobileFiltersToggle from "@/components/mobile-filters-toggle";
 import { authOptions } from "@/lib/auth";
 import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
-import { SEO_LOCATIONS } from "@/lib/listing-seo";
 import { prisma } from "@/lib/prisma";
 
 type ListingsSearchParams = {
@@ -247,7 +246,6 @@ export default async function ListingsPage({
   const categoryShortcuts = CATEGORY_GROUPS.slice(0, 6).map(function (group) {
     return group.parent;
   });
-  const locationShortcuts = SEO_LOCATIONS.slice(0, 6);
 
   const FiltersForm = () => (
     <form action="/listings" method="get" className="space-y-3">
@@ -289,10 +287,10 @@ export default async function ListingsPage({
 
         <select name="condition" defaultValue={condition} className="bd-input">
           <option value="">Any condition</option>
-          <option value="NEW">NEW</option>
-          <option value="USED_LIKE_NEW">USED_LIKE_NEW</option>
-          <option value="USED_GOOD">USED_GOOD</option>
-          <option value="USED_FAIR">USED_FAIR</option>
+          <option value="NEW">New</option>
+          <option value="USED_LIKE_NEW">Used - Like New</option>
+          <option value="USED_GOOD">Used - Good</option>
+          <option value="USED_FAIR">Used - Fair</option>
         </select>
 
         <div className="grid grid-cols-2 gap-3">
@@ -375,17 +373,6 @@ export default async function ListingsPage({
                       className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-1.5 text-xs font-semibold text-[#0F172A]"
                     >
                       {label}
-                    </Link>
-                  );
-                })}
-                {locationShortcuts.map(function (place) {
-                  return (
-                    <Link
-                      key={place.slug}
-                      href={buildHref({ q, category, type, condition, min, max, sort, location: place.label })}
-                      className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-1.5 text-xs font-semibold text-[#0F172A]"
-                    >
-                      {place.label}
                     </Link>
                   );
                 })}
