@@ -83,7 +83,7 @@ export default async function AdminReports({
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin reports</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Marketplace reports</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review open and resolved reports, inspect listing context, and move quickly through moderation work.
+                Review report reason, listing context, reporter details, status, and action links before taking moderation action.
               </p>
             </div>
 
@@ -116,9 +116,9 @@ export default async function AdminReports({
 
         {reports.length === 0 ? (
           <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="text-sm font-extrabold bd-ink">No reports found</div>
+            <div className="text-sm font-extrabold bd-ink">{showResolved ? "No resolved reports yet" : "No reports need review right now"}</div>
             <div className="mt-2 text-sm bd-ink2 leading-7">
-              {showResolved ? "There are no resolved reports yet." : "There are no open reports right now."}
+              {showResolved ? "Resolved reports will appear here after moderators close them." : "No reports need review right now."}
             </div>
           </section>
         ) : (

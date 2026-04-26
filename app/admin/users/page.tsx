@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -41,9 +41,18 @@ export default async function AdminUsers() {
 
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-2xl font-bold">Users</h1>
+      <div>
+        <h1 className="text-2xl font-bold">Users</h1>
+        <p className="mt-2 text-sm text-neutral-600">Review account status, policy strikes, block state, and account age before taking user moderation action.</p>
+      </div>
 
       <div className="grid gap-3">
+        {users.length === 0 ? (
+          <Card>
+            <div className="p-4 text-sm text-neutral-600">No users to review right now.</div>
+          </Card>
+        ) : null}
+
         {users.map((u: AdminUserRow) => (
           <Card key={u.id}>
             <div className="flex items-start justify-between gap-3">

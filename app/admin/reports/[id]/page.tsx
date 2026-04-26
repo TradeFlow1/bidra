@@ -158,6 +158,15 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
           </div>
         </div>
 
+        <SectionCard title="Review checklist">
+          <ul className="list-disc space-y-2 pl-5 text-sm bd-ink2 leading-7">
+            <li>Read the report reason and any details before taking action.</li>
+            <li>Check the linked listing, seller state, reporter, and related history where available.</li>
+            <li>Use existing admin actions only when the evidence supports it.</li>
+            <li>Keep auditability in mind before resolving or reopening the report.</li>
+          </ul>
+        </SectionCard>
+
         <AiRecommendActions
           recommendation={ai.recommendation}
           sellerId={sellerId}

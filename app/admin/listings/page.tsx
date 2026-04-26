@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -41,9 +41,18 @@ export default async function AdminListings() {
 
   return (
     <div className="flex flex-col gap-3">
-      <h1 className="text-2xl font-bold">Listings</h1>
+      <div>
+        <h1 className="text-2xl font-bold">Listings</h1>
+        <p className="mt-2 text-sm text-neutral-600">Review listing state, price, category, location, and age before taking moderation action.</p>
+      </div>
 
       <div className="grid gap-3">
+        {listings.length === 0 ? (
+          <Card>
+            <div className="p-4 text-sm text-neutral-600">No listings to review right now.</div>
+          </Card>
+        ) : null}
+
         {listings.map((l: AdminListingRow) => (
           <Card key={l.id}>
             <div className="p-4">

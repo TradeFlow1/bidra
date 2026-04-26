@@ -69,7 +69,7 @@ export default async function AdminFeedbackPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin feedback</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Feedback submissions</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review site and Friend Test feedback submissions, scan recent themes, and jump into broader admin event history when needed.
+                Review site and Friend Test feedback submissions by type, user, category, date, and message before deciding whether follow-up is needed.
               </p>
             </div>
 
@@ -108,7 +108,7 @@ export default async function AdminFeedbackPage() {
           </div>
 
           {items.length === 0 ? (
-            <div className="px-6 py-8 text-sm bd-ink2">No feedback yet.</div>
+            <div className="px-6 py-8 text-sm bd-ink2">No feedback submissions to review right now.</div>
           ) : (
             <div className="divide-y divide-black/10">
               {items.map((e) => {
@@ -161,7 +161,7 @@ export default async function AdminFeedbackPage() {
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Admin note</div>
           <div className="mt-2 text-sm bd-ink2 leading-7">
-            Keep Friend Test feedback enabled only during private testing.
+            Scan feedback for repeated themes, product issues, and moderation concerns before deciding whether follow-up is needed. Keep Friend Test feedback enabled only during private testing.
           </div>
         </section>
       </div>
