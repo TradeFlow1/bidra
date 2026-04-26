@@ -14,7 +14,7 @@ export const fetchCache = "force-no-store";
 function SafetyNotice() {
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-950 shadow-sm">
-      Use messages to arrange pickup or postage, agree on key details, and keep a clear record.
+      Use Messages to confirm pickup or postage details and keep agreements in one place for both buyer and seller.
     </div>
   );
 }
@@ -81,7 +81,7 @@ export default async function MessagesInboxPage() {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
                 <p className="mt-2 text-sm text-[var(--bidra-ink-2)] sm:text-base">
-                  Stay on top of your listing conversations in one place.
+                  Keep listing and order conversations in one place, including pickup and postage agreements.
                 </p>
               </div>
 
@@ -112,7 +112,7 @@ export default async function MessagesInboxPage() {
               <div className="mx-auto max-w-xl">
                 <div className="text-xl font-extrabold text-neutral-900">No messages yet</div>
                 <p className="mt-2 text-sm text-neutral-600">
-                  Start a conversation from a listing and your messages will show up here.
+                  Messages from listings and orders will appear here.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
                   <Link href="/listings" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
