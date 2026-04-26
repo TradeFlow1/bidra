@@ -170,6 +170,9 @@ export default async function ListingDetailPage({
   const sellerPhoneVerified = !!cleanText((listing.seller as any)?.phone);
   const sellerRatingAvg = typeof sellerRating?._avg?.rating === "number" ? Number(sellerRating._avg.rating) : null;
   const sellerRatingCount = Number(sellerRating?._count?.rating || 0);
+  const listedDate = listing.createdAt
+    ? new Date(listing.createdAt).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })
+    : "";
   const images = (listing as any).images || [];
   const baseUrl = getBaseUrl();
   const listingUrl = `${baseUrl}/listings/${listing.id}`;
@@ -190,10 +193,14 @@ export default async function ListingDetailPage({
                         : "rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-800"
                     }
                   >
-                    {isTimedOffers ? "Make an offer" : "Buy now"}
+                    {isTimedOffers ? "Offers" : "Buy now"}
                   </span>
                   {listing.condition ? (
                     <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{cleanText(listing.condition)}</span>
+                  ) : null}
+                  <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{cleanText(listing.location) || "Location on request"}</span>
+                  {isSold ? (
+                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-700">Sold</span>
                   ) : null}
                 </div>
 
@@ -225,7 +232,11 @@ export default async function ListingDetailPage({
 
               <div className="mt-4 space-y-3">
                 {isSold ? (
-                  <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#475569]">Sold.</div>
+                  <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#475569]">
+                    <div className="font-semibold">Sold.</div>
+                    <div className="mt-1">This listing has been completed. Browse similar active listings below.</div>
+                    <Link href="/listings" className="mt-2 inline-flex text-sm font-semibold text-[#0F172A] underline underline-offset-2">Browse listings</Link>
+                  </div>
                 ) : isTimedOffers ? (
                   <div className="space-y-2">
                     <p className="text-sm text-[#64748B]">Offers let the seller choose whether to accept. Keep questions in Messages.</p>
@@ -288,10 +299,11 @@ export default async function ListingDetailPage({
         <section className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_17rem]">
           <div className="space-y-3">
             <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
+              <div className="text-sm font-semibold text-[#0F172A]">Item details</div>
               <div className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-3">
                 <div className="rounded-2xl bg-[#F8FAFC] p-2.5">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Type</div>
-                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{isTimedOffers ? "Make an offer" : "Buy now"}</div>
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Sale type</div>
+                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{isTimedOffers ? "Offers" : "Buy now"}</div>
                 </div>
                 <div className="rounded-2xl bg-[#F8FAFC] p-2.5">
                   <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Condition</div>
@@ -302,10 +314,31 @@ export default async function ListingDetailPage({
                   <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{cleanText(listing.category) || "Marketplace"}</div>
                 </div>
               </div>
+              <div className="mt-2 rounded-2xl bg-[#F8FAFC] p-3 text-sm text-[#334155]">
+                <div><span className="font-semibold text-[#0F172A]">Location:</span> {cleanText(listing.location) || "Location on request"}</div>
+                {listedDate ? <div><span className="font-semibold text-[#0F172A]">Listed:</span> {listedDate}</div> : null}
+                {isTimedOffers ? (
+                  <>
+                    <div><span className="font-semibold text-[#0F172A]">Offer activity:</span> {offerCount} {offerCount === 1 ? "offer" : "offers"}</div>
+                    <div><span className="font-semibold text-[#0F172A]">Current highest offer:</span> {currentOffer !== null ? money(currentOffer) : "No offers yet"}</div>
+                  </>
+                ) : null}
+                {isSold ? <div><span className="font-semibold text-[#0F172A]">Status:</span> Sold</div> : null}
+              </div>
 
               <div className="mt-2">
                 <p className="whitespace-pre-wrap text-sm leading-[1.55] text-[#334155]">{cleanText(listing.description).replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided."}</p>
               </div>
+            </div>
+
+            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
+              <div className="text-sm font-semibold text-[#0F172A]">Good questions to ask</div>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#475569]">
+                <li>Is the item still in the same condition shown in the photos?</li>
+                <li>Is pickup or postage available?</li>
+                <li>Are there any faults, missing parts, or extra accessories?</li>
+                <li>Can you confirm pickup time, suburb, and handover details in Messages?</li>
+              </ul>
             </div>
           </div>
 
@@ -330,6 +363,7 @@ export default async function ListingDetailPage({
               <div className="mt-2">
                 <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
               </div>
+              <p className="mt-2 text-sm text-[#64748B]">Review the seller profile and keep arrangements in Messages.</p>
             </div>
 
             <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
