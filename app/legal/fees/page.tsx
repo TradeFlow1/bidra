@@ -79,7 +79,7 @@ export default function FeesPage() {
 
         <SectionCard title="Order handling">
           <p className="text-black/75 leading-7">
-            Bidra may apply listing, promotion, or order-related fees as described in-product. Orders are sold-item records, and buyers and sellers use messages to arrange pickup or postage. Bidra does not hold pooled customer funds.
+            Bidra may apply listing, promotion, or order-related fees as described in-product. Orders are sold-item records, and buyers and sellers use Messages to arrange pickup, postage, and handover details. Bidra does not hold pooled customer funds.
           </p>
         </SectionCard>
 
