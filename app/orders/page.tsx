@@ -51,10 +51,9 @@ export default async function OrdersPage() {
             <div className="max-w-3xl">
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Sold-item records for what you bought or sold. Use messages to finalise pickup or postage.
+                Sold-item records for your buys and sales. Open any order to message the other person and arrange pickup or postage.
               </p>
             </div>
-
           </div>
         </div>
 
@@ -78,7 +77,7 @@ export default async function OrdersPage() {
             <div className="mx-auto max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">No orders yet</div>
               <p className="mt-2 text-sm text-neutral-600">
-                When you buy now or a seller accepts your highest offer, sold items will appear here.
+                When Buy Now is used or your offer is accepted, the sold-item record appears here so you can continue in Messages.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <Link href="/listings" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Browse listings</Link>

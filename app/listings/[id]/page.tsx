@@ -228,12 +228,12 @@ export default async function ListingDetailPage({
                   <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#475569]">Sold.</div>
                 ) : isTimedOffers ? (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">When the seller accepts the highest offer, the item is sold. Use messages to arrange pickup or postage.</p>
+                    <p className="text-sm text-[#64748B]">Offers let the seller choose whether to accept. Keep questions in Messages.</p>
                     <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">Buy now marks the item as sold. Arrange pickup or postage in messages.</p>
+                    <p className="text-sm text-[#64748B]">Buy Now creates a sold-item record so you and the seller can arrange the handover.</p>
                     <BuyNowButton listingId={listing.id} />
                   </div>
                 )}
@@ -248,6 +248,17 @@ export default async function ListingDetailPage({
                   text={`Take a look at this listing on Bidra: ${cleanText(listing.title)}`}
                   label="Share listing"
                 />
+                <div className="mt-4 rounded-2xl border border-[#E2E8F0] bg-white px-3.5 py-3">
+                  <div className="text-sm font-semibold text-[#0F172A]">What happens next</div>
+                  <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm text-[#475569]">
+                    <li>Ask questions before you buy if anything is unclear.</li>
+                    <li>After a sale, use Messages to arrange pickup or postage.</li>
+                    <li>Keep pickup, postage, and payment details in Bidra messages.</li>
+                    <li>Check photos, description, condition, location, and seller profile.</li>
+                    <li>Meet safely for pickup or use tracked postage where practical.</li>
+                    <li>If anything feels suspicious, report the listing.</li>
+                  </ul>
+                </div>
               </div>
 
               {isOwner && isTimedOffers && !isSold && topOffer ? (
