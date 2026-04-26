@@ -1,4 +1,4 @@
-﻿import Link from "next/link"
+import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { redirect } from "next/navigation"
@@ -23,7 +23,7 @@ export default async function AdminHome() {
     <main>
       <h1 className="text-3xl font-semibold">Admin</h1>
       <p className="mt-2 text-sm text-black/60">
-        Moderate reports, listings, and users. Actions are logged.
+        Use Admin to review reports, listings, users, feedback, and audit activity before taking action. Actions are logged.
       </p>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2">
