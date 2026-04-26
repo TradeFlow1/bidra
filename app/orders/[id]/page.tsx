@@ -131,6 +131,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                 </span>
               ) : null}
             </div>
+            <p className="text-sm bd-ink2">
+              Use Messages to confirm pickup, postage, and handover details.
+            </p>
           </div>
         </div>
 

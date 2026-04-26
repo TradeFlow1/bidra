@@ -161,12 +161,13 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <SafetyNote />
 
           <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink)] shadow-sm">
-            <div className="font-extrabold">What to do here</div>
+            <div className="font-extrabold">Handover checklist</div>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-[var(--bidra-ink-2)]">
-              <li>Agree on price (if offer), pickup or postage, and timing.</li>
-              <li>Keep key details in messages for reference.</li>
-              <li>Avoid deposits unless you trust the seller.</li>
-              <li>Once agreed, the item is considered sold.</li>
+              <li>Confirm pickup suburb and time, or confirm the exact postage method.</li>
+              <li>Confirm item condition and what accessories are included.</li>
+              <li>Keep handover agreements in Bidra messages.</li>
+              <li>Meet safely for pickup where practical, and use tracked postage where practical.</li>
+              <li>If anything seems suspicious, report it.</li>
             </ul>
           </div>
 
