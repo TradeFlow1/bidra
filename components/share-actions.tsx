@@ -7,9 +7,10 @@ type ShareActionsProps = {
   title?: string;
   text?: string;
   label?: string;
+  description?: string;
 };
 
-export default function ShareActions({ url, title, text, label = "Share listing" }: ShareActionsProps) {
+export default function ShareActions({ url, title, text, label = "Share listing", description = "Send this listing to someone who might be interested." }: ShareActionsProps) {
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
   const canShare = typeof navigator !== "undefined" && typeof navigator.share === "function";
 
@@ -51,7 +52,7 @@ export default function ShareActions({ url, title, text, label = "Share listing"
   return (
     <div className="rounded-2xl border border-[#E2E8F0] bg-white/80 p-3">
       <div className="text-xs font-semibold uppercase tracking-[0.16em] text-[#64748B]">{label}</div>
-      <p className="mt-1 text-sm text-[#64748B]">Send this listing to someone who might be interested.</p>
+      <p className="mt-1 text-sm text-[#64748B]">{description}</p>
       <div className="mt-2 flex flex-wrap gap-2">
         {canShare ? (
           <button
