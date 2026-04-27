@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 
-// TODO(watchlist-notifications): When a persisted notification model exists,
+// Watchlist notifications are intentionally inactive until a persisted notification model exists.
 // add watchlist event counts/hooks for:
 // - watched listing ending soon
 // - watched listing receiving a new offer
