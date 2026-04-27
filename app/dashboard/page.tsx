@@ -184,7 +184,7 @@ export default async function DashboardPage({
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
-            Your Bidra control center
+            Your Bidra account hub
           </h1>
         </div>
 
@@ -192,13 +192,13 @@ export default async function DashboardPage({
           <Link href="/dashboard/listings" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listings</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{myListingsCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Manage listings and offers.</div>
+            <div className="mt-1 text-sm text-neutral-600">Manage your listings, drafts, and offers.</div>
           </Link>
 
           <Link href="/orders" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Orders</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{ordersAsBuyerCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Review purchases and follow-ups.</div>
+            <div className="mt-1 text-sm text-neutral-600">Review purchases and handover follow-ups.</div>
           </Link>
 
           <Link href="/orders" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
@@ -212,7 +212,7 @@ export default async function DashboardPage({
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">
               {isBlocked || !adult.ok ? "Review" : "Clear"}
             </div>
-            <div className="mt-1 text-sm text-neutral-600">Restrictions and trust status.</div>
+            <div className="mt-1 text-sm text-neutral-600">Restrictions and account status.</div>
           </Link>
 
 
@@ -266,7 +266,7 @@ export default async function DashboardPage({
               <div>
                 <div className="text-sm font-extrabold bd-ink">Edit account</div>
                 <div className="mt-1 text-sm bd-ink2">
-                  Keep your name and general location up to date for trust and smoother buying and selling.
+                  Keep your display name and general location up to date so buyers and sellers have clearer context.
                 </div>
               </div>
 
@@ -282,7 +282,7 @@ export default async function DashboardPage({
 
               <div className="rounded-2xl border border-black/10 bg-neutral-50 p-5">
                 <div className="text-sm font-semibold">Location</div>
-                <div className="mt-1 text-sm bd-ink2">Use postcode, suburb, and state. No street address.</div>
+                <div className="mt-1 text-sm bd-ink2">Use postcode, suburb, and state only. Do not enter a street address.</div>
 
                 <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-end">
                   <div className="sm:col-span-1">
