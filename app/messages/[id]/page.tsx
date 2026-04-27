@@ -150,7 +150,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                 <ThreadActions threadId={thread.id} />
                 <Link
                   href={`/listings/${thread.listing.id}`}
-                  className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
+                  className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto"
                 >
                   View listing
                 </Link>
@@ -242,8 +242,8 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               Please try again shortly.
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
-              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/messages">Back to inbox</Link>
-              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/support">Support</Link>
+              <Link className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto" href="/messages">Back to inbox</Link>
+              <Link className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto" href="/support">Support</Link>
             </div>
           </div>
         </div>

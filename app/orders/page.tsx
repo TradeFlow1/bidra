@@ -80,8 +80,8 @@ export default async function OrdersPage() {
                 When Buy Now is used or your offer is accepted, the sold-item record appears here so you can continue in Messages.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
-                <Link href="/listings" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Browse listings</Link>
-                <Link href="/sell/new" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Create a listing</Link>
+                <Link href="/listings" className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto">Browse listings</Link>
+                <Link href="/sell/new" className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto">Create a listing</Link>
               </div>
             </div>
           </div>
@@ -161,7 +161,7 @@ export default async function OrdersPage() {
                         </Link>
                       )}
 
-                      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-1">
+                      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-1">
                         <Link
                           href={`/listings/${o.listingId}`}
                           className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"

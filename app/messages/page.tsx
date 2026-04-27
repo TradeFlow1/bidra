@@ -85,7 +85,7 @@ export default async function MessagesInboxPage() {
                 </p>
               </div>
 
-              <div className="grid min-w-[220px] gap-2 sm:grid-cols-2 md:min-w-[280px]">
+              <div className="grid w-full gap-2 sm:grid-cols-2 md:w-auto md:min-w-[280px]">
                 <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
                   <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Conversations</div>
                   <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{items.length}</div>
@@ -115,10 +115,10 @@ export default async function MessagesInboxPage() {
                   Messages from listings and orders will appear here.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
-                  <Link href="/listings" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+                  <Link href="/listings" className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto">
                     Browse listings
                   </Link>
-                  <Link href="/dashboard" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+                  <Link href="/dashboard" className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto">
                     Back to dashboard
                   </Link>
                 </div>
@@ -217,8 +217,8 @@ export default async function MessagesInboxPage() {
               Please try again shortly. If this keeps happening, use Support.
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
-              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/dashboard">Dashboard</Link>
-              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/support">Support</Link>
+              <Link className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto" href="/dashboard">Dashboard</Link>
+              <Link className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto" href="/support">Support</Link>
             </div>
           </div>
         </div>

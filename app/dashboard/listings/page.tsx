@@ -221,7 +221,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                       </div>
 
                       <div className="flex flex-col gap-3 lg:w-[260px]">
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-2">
                           <Link href={"/listings/" + l.id} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
                             View listing
                           </Link>
