@@ -215,7 +215,7 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {latestListings.length ? latestListings.map(renderCard) : (
               <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No active listings yet. Check back soon or start the first listing.</p>
             )}
@@ -232,7 +232,7 @@ export default async function HomePage() {
               View all
             </Link>
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {offerableListings.length ? offerableListings.map(renderCard) : (
               <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No offer listings right now.</p>
             )}
@@ -249,7 +249,7 @@ export default async function HomePage() {
               View all
             </Link>
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {buyNowListings.length ? buyNowListings.map(renderCard) : (
               <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No buy now listings right now.</p>
             )}

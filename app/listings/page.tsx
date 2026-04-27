@@ -411,7 +411,7 @@ export default async function ListingsPage({
               ) : null}
             </div>
 
-            <div className="browseList w-full grid grid-cols-2 gap-4 lg:grid-cols-3 2xl:grid-cols-4">
+            <div className="browseList w-full grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {listings.length === 0 ? (
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto max-w-md">
