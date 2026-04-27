@@ -36,7 +36,7 @@ export default function AboutPage() {
                 A simpler, safer local marketplace
               </h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Bidra is an Australian-focused marketplace built from scratch with original design and copy. List items for Buy Now or receive offers, message clearly, and complete local pickups with confidence.
+                Bidra is an Australian-focused marketplace built from scratch with original design and copy. List items for Buy Now or receive offers, keep agreements in Messages, and arrange pickup or postage directly with the other person.
               </p>
             </div>
 

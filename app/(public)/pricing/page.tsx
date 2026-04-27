@@ -24,7 +24,7 @@ export default function PricingPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Pricing</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Simple, visible pricing</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Bidra keeps pricing straightforward. Fees may change over time, but we will always show costs clearly in-product before you commit.
+                Bidra keeps pricing straightforward. Fees may change over time, but any applicable costs are shown in-product before you commit. Orders remain sold-item records, and buyers and sellers arrange handover directly.
               </p>
             </div>
 

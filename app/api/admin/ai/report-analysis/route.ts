@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import type { AiReportAnalysis } from "@/lib/ai/types";
@@ -8,7 +8,7 @@ type AiRiskLevel = "LOW" | "MEDIUM" | "HIGH";
 type AiRecommendation = "IGNORE" | "WARN" | "SUSPEND" | "DELETE";
 
 
-// Admin-only. Deterministic stub analysis for Sprint A.
+// Admin-only deterministic report analysis helper. No external AI calls are made here.
 // Later we can swap the analysis engine to OpenAI without changing the UI contract.
 
 function clampRisk(level: AiRiskLevel): AiRiskLevel {
