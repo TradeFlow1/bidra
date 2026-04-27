@@ -47,7 +47,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           </div>
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-base font-semibold bd-ink">Order not found</div>
-            <p className="mt-2 text-sm bd-ink2">This order could not be found.</p>
+            <p className="mt-2 text-sm bd-ink2">This order could not be found, may have moved, or may not be available to this account.</p>
             <div className="mt-5">
               <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/orders">Back to Orders</Link>
             </div>

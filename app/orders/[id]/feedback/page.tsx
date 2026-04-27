@@ -51,10 +51,10 @@ export default async function FeedbackPage({
           <section className="py-10">
             <div className="bd-card">
               <h1 className="text-2xl font-extrabold tracking-tight">Leave feedback</h1>
-              <p className="mt-2 text-black/70">Order not found.</p>
+              <p className="mt-2 text-black/70">This order could not be found, so feedback is not available from this page.</p>
               <div className="mt-5">
-                <Link className="bd-btn bd-btn-ghost text-center" href="/account">
-                  Back to My account
+                <Link className="bd-btn bd-btn-ghost text-center" href="/orders">
+                  Back to orders
                 </Link>
               </div>
             </div>
@@ -76,8 +76,8 @@ export default async function FeedbackPage({
               <h1 className="text-2xl font-extrabold tracking-tight">Leave feedback</h1>
               <p className="mt-2 text-black/70">You do not have access to this order.</p>
               <div className="mt-5">
-                <Link className="bd-btn bd-btn-ghost text-center" href="/account">
-                  Back to My account
+                <Link className="bd-btn bd-btn-ghost text-center" href="/orders">
+                  Back to orders
                 </Link>
               </div>
             </div>
@@ -108,7 +108,7 @@ export default async function FeedbackPage({
             </div>
 
             <nav className="flex flex-wrap gap-3">
-              <Link className="bd-btn bd-btn-ghost text-center" href="/account">
+              <Link className="bd-btn bd-btn-ghost text-center" href="/orders">
                 My account
               </Link>
               <Link className="bd-btn bd-btn-ghost text-center" href={`/listings/${order.listing.id}`}>
