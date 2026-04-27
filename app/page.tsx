@@ -217,7 +217,7 @@ export default async function HomePage() {
 
           <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
             {latestListings.length ? latestListings.map(renderCard) : (
-              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No listings yet. Check back soon.</p>
+              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No active listings yet. Check back soon or start the first listing.</p>
             )}
           </div>
         </section>
