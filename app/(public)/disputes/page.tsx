@@ -1,4 +1,4 @@
-﻿import { PLATFORM_LANGUAGE } from "@/lib/platform-language";
+import { PLATFORM_LANGUAGE } from "@/lib/platform-language";
 
 export const metadata = { title: "Bidra | Disputes & Resolution" };
 
@@ -13,7 +13,7 @@ export default function Page() {
         </p>
 
         <p>
-          This page is provided for transparency and user understanding. It does not replace professional advice.
+          Keep evidence such as messages, listing links, screenshots, and order details. Contact Support if you need platform review or need to report rule-breaking behaviour.
         </p>
 
         <p>
