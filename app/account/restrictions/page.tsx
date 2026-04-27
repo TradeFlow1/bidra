@@ -66,7 +66,7 @@ export default async function RestrictionsPage() {
             <div className="max-w-3xl">
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Account status</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Check whether your account has any marketplace restrictions and what to do next.
+                Check whether your account has marketplace restrictions, what they affect, and how to contact support if something looks wrong.
               </p>
             </div>
 
