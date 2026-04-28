@@ -239,12 +239,12 @@ export default async function ListingDetailPage({
                   </div>
                 ) : isTimedOffers ? (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">Offers let the seller choose whether to accept. Keep questions in Messages.</p>
+                    <p className="text-sm text-[#64748B]">Offers are non-binding until the seller accepts. Ask questions in Messages before raising your offer.</p>
                     <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">Buy Now creates a sold-item record so you and the seller can arrange the handover.</p>
+                    <p className="text-sm text-[#64748B]">Buy Now creates a Bidra order record. Keep payment, pickup, and postage arrangements in Messages.</p>
                     <BuyNowButton listingId={listing.id} />
                   </div>
                 )}
@@ -259,13 +259,17 @@ export default async function ListingDetailPage({
                   text={`Take a look at this listing on Bidra: ${cleanText(listing.title)}`}
                   label="Share listing"
                 />
+                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-3.5 py-3 text-sm text-emerald-900">
+                  <div className="font-semibold">Bidra trust reminder</div>
+                  <p className="mt-1">Active listings should stay on-platform from questions through handover, with reports available if something feels wrong.</p>
+                </div>
                 <div className="mt-4 rounded-2xl border border-[#E2E8F0] bg-white px-3.5 py-3">
-                  <div className="text-sm font-semibold text-[#0F172A]">What happens next</div>
+                  <div className="text-sm font-semibold text-[#0F172A]">Buyer confidence checklist</div>
                   <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm text-[#475569]">
-                    <li>Ask questions before you buy if anything is unclear.</li>
-                    <li>After a sale, use Messages to arrange pickup or postage.</li>
-                    <li>Keep pickup, postage, and payment details in Bidra messages.</li>
-                    <li>Check photos, description, condition, location, and seller profile.</li>
+                    <li>Ask questions before you buy or offer if anything is unclear.</li>
+                    <li>After a sale, keep pickup, postage, and payment details in Bidra Messages.</li>
+                    <li>Do not move arrangements to off-platform chats before trust is established.</li>
+                    <li>Check photos, description, condition, location, seller profile, and verification badges.</li>
                     <li>Meet safely for pickup or use tracked postage where practical.</li>
                     <li>If anything feels suspicious, report the listing.</li>
                   </ul>
@@ -337,7 +341,7 @@ export default async function ListingDetailPage({
                 <li>Is the item still in the same condition shown in the photos?</li>
                 <li>Is pickup or postage available?</li>
                 <li>Are there any faults, missing parts, or extra accessories?</li>
-                <li>Can you confirm pickup time, suburb, and handover details in Messages?</li>
+                <li>Can you confirm pickup time, suburb, handover details, and payment expectations in Messages?</li>
               </ul>
             </div>
           </div>
@@ -363,15 +367,15 @@ export default async function ListingDetailPage({
               <div className="mt-2">
                 <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
               </div>
-              <p className="mt-2 text-sm text-[#64748B]">Review the seller profile and keep arrangements in Messages.</p>
+              <p className="mt-2 text-sm text-[#64748B]">Review the seller profile, verification badges, and listing history before you buy or offer.</p>
             </div>
 
             <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Trust tips</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Safe buying tips</div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#475569]">
-                <li>Meet in a safe public place for local pickup.</li>
-                <li>Inspect the item before paying.</li>
-                <li>Use messages to confirm details.</li>
+                <li>Meet in a safe public place for local pickup and avoid sharing unnecessary personal details.</li>
+                <li>Inspect the item and match it to the listing photos before paying.</li>
+                <li>Use Bidra Messages to confirm details so there is a clear record if something goes wrong.</li>
               </ul>
             </div>
           </aside>
