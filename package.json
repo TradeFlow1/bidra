@@ -24,7 +24,7 @@
     "dependencies":  {
                          "@aws-sdk/client-ses":  "^3.966.0",
                          "@aws-sdk/client-sts":  "^3.971.0",
-                         "@prisma/client":  "6.19.0",
+                         "@prisma/client":  "7.4.0",
                          "@vercel/blob":  "^2.0.0",
                          "bcryptjs":  "^3.0.3",
                          "next":  "14.2.35",
