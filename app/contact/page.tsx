@@ -29,7 +29,7 @@ export default async function ContactPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Contact</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Contact support</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Need help with a listing, message, order, or account? Send the details and we will review it.
+                Need help with a listing, message, order, report, or account? Send the details, relevant links, and screenshots so support can review the issue.
               </p>
             </div>
 
@@ -86,7 +86,7 @@ export default async function ContactPage() {
               <div>
                 <div className="font-extrabold bd-ink">Include these details</div>
                 <ul className="mt-2 list-disc pl-5 space-y-1">
-                  <li>Listing, order, or message thread link.</li>
+                  <li>Listing, order, report, or message thread link.</li>
                   <li>What happened and what you expected.</li>
                   <li>Screenshots or exact error text.</li>
                 </ul>

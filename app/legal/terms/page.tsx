@@ -112,7 +112,7 @@ export default function TermsPage() {
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>When an order exists, the item is sold and the order records the sale details.</li>
             <li>Bidra does not run in-app payment, escrow, pickup scheduling, or completion workflows.</li>
-            <li>Buyers and sellers should use messages to agree pickup or postage details and keep records such as messages and photos.</li>
+            <li>Buyers and sellers should use Messages to agree pickup, postage, and handover details, and keep records such as messages and photos.</li>
             <li>Disputes are usually resolved between buyer and seller. Bidra may take platform actions, including restrictions, where misuse or fraud is detected.</li>
           </ul>
         </SectionCard>

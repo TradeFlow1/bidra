@@ -100,8 +100,8 @@ export default function HowItWorksPage() {
 
         <StepCard step="Step 3" title="Messages and handover">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Use Messages to ask questions, arrange pickup or postage, and keep a clear record.</li>
-            <li>For safety, keep communication respectful and clear. If anything feels off, report it.</li>
+            <li>Use Messages to ask questions, confirm pickup or postage, agree handover details, and keep a clear record.</li>
+            <li>For safety, keep communication respectful and clear, meet carefully for pickup where practical, and report anything suspicious.</li>
             <li>Never send ID photos or sensitive information you would not want exposed.</li>
           </ul>
         </StepCard>

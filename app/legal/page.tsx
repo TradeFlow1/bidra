@@ -37,7 +37,7 @@ export default function LegalHubPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Legal and policies</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Legal hub</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                These pages explain how Bidra works, what is allowed, and how we handle privacy, fees, and safety. Bidra is a platform marketplace and items are listed and sold by users.
+                These pages explain how Bidra works, what is allowed, and how we handle privacy, fees, and safety. Bidra is a platform marketplace: items are listed and sold by users, and handover details are agreed between buyer and seller.
               </p>
             </div>
 
@@ -75,7 +75,7 @@ export default function LegalHubPage() {
         <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Quick start</div>
           <div className="mt-2 text-sm bd-ink2 leading-7">
-            New here? Read{" "}
+            New here? Start with the plain-language marketplace flow in{" "}
             <Link href="/how-it-works" className="bd-link font-semibold">How it works</Link>, then{" "}
             <Link href="/legal/terms" className="bd-link font-semibold">Terms</Link> and{" "}
             <Link href="/legal/privacy" className="bd-link font-semibold">Privacy</Link>.

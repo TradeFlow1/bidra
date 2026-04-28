@@ -99,7 +99,7 @@ export default function ProhibitedItemsPage() {
 
         <SectionCard title="Safety and compliance notes">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>If you are unsure, do not list it. Contact Support first.</li>
+            <li>If you are unsure, do not list it. Check these rules and contact Support first.</li>
             <li>Bidra may use automated checks and manual review to enforce these rules.</li>
             <li>We may remove listings, restrict accounts, or take additional platform action where repeated or serious breaches occur.</li>
             <li>These examples are not exhaustive. Bidra may remove listings that present comparable safety, fraud, abuse, or compliance risks.</li>
