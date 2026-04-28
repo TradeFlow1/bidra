@@ -74,7 +74,7 @@ export default async function CategorySeoPage({ params }: Props) {
             {listings.length === 0 ? (
               <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                 <div className="text-lg font-bold text-[#0F172A]">No active {category.label} listings right now</div>
-                <p className="mt-2 text-sm text-[#475569]">Check back soon for new listings in this category.</p>
+                <p className="mt-2 text-sm text-[#475569]">Check back soon for new active listings in this category, or broaden your search across all listings.</p>
               </div>
             ) : (
               listings.map(function (listing) {
