@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Stop"
 
 $ExpectedRoot = "C:\Users\jpdup\Documents\Bidra\bidra-main-git"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -50,7 +50,9 @@ Set-PackageScript -Scripts $PackageJson.scripts -Name "typecheck" -Value "tsc --
 Set-PackageScript -Scripts $PackageJson.scripts -Name "test" -Value "node tools/control-02-regression-check.cjs"
 Set-PackageScript -Scripts $PackageJson.scripts -Name "test:smoke" -Value "node tools/control-02-public-route-smoke.cjs"
 
-$PackageJson | ConvertTo-Json -Depth 20 | Set-Content -Path $PackagePath -Encoding UTF8
+$PackageOutput = $PackageJson | ConvertTo-Json -Depth 20
+$Utf8NoBom = New-Object System.Text.UTF8Encoding $false
+[System.IO.File]::WriteAllText((Join-Path $ResolvedRepoRoot "package.json"), $PackageOutput + [Environment]::NewLine, $Utf8NoBom)
 
 $RegressionPath = ".\tools\control-02-regression-check.cjs"
 $RegressionLines = @(
@@ -162,7 +164,7 @@ $RegressionLines = @(
     'console.log("[CONTROL-02] Regression harness checks completed.");'
 )
 
-Set-Content -Path $RegressionPath -Value $RegressionLines -Encoding UTF8
+[System.IO.File]::WriteAllText((Join-Path $ResolvedRepoRoot "tools\control-02-regression-check.cjs"), ($RegressionLines -join [Environment]::NewLine) + [Environment]::NewLine, $Utf8NoBom)
 
 $SmokePath = ".\tools\control-02-public-route-smoke.cjs"
 $SmokeLines = @(
@@ -261,7 +263,7 @@ $SmokeLines = @(
     'console.log("[CONTROL-02:SMOKE] Public route smoke checks completed.");'
 )
 
-Set-Content -Path $SmokePath -Value $SmokeLines -Encoding UTF8
+[System.IO.File]::WriteAllText((Join-Path $ResolvedRepoRoot "tools\control-02-public-route-smoke.cjs"), ($SmokeLines -join [Environment]::NewLine) + [Environment]::NewLine, $Utf8NoBom)
 
 Write-Host "CONTROL-02 patch applied."
 Write-Host "Updated package scripts and created:"

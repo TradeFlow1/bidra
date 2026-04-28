@@ -1,4 +1,4 @@
-﻿const fs = require("fs");
+const fs = require("fs");
 const path = require("path");
 
 const repoRoot = path.resolve(__dirname, "..");
@@ -14,7 +14,14 @@ function pass(message) {
 
 function readJson(relativePath) {
   const fullPath = path.join(repoRoot, relativePath);
-  return JSON.parse(fs.readFileSync(fullPath, "utf8"));
+  let text = fs.readFileSync(fullPath, "utf8");
+
+  if (text.charCodeAt(0) === 0xfeff) {
+    fail("File has UTF-8 BOM and must be rewritten without BOM: " + relativePath);
+    text = text.slice(1);
+  }
+
+  return JSON.parse(text);
 }
 
 function assertFile(relativePath) {
