@@ -74,7 +74,7 @@ export default async function ListingsPage({
 }: {
   searchParams?: ListingsSearchParams;
 }) {
-  const q = cleanStr(searchParams?.q);
+  const q = cleanStr(searchParams?.q).replace(/\s+/g, " ");
   const category = normalizeCategoryValue(cleanStr(searchParams?.category));
   const location = cleanStr(searchParams?.location);
   const type = cleanStr(searchParams?.type);
@@ -254,7 +254,7 @@ export default async function ListingsPage({
         type="search"
         enterKeyHint="search"
         defaultValue={q}
-        placeholder="Search keyword"
+        placeholder="Search title, category, suburb, or postcode"
         className="bd-input"
       />
 
@@ -277,7 +277,7 @@ export default async function ListingsPage({
           })}
         </select>
 
-        <input name="location" defaultValue={location} placeholder="Location" className="bd-input" />
+        <input name="location" defaultValue={location} placeholder="Suburb, city, state, or postcode" className="bd-input" />
 
         <select name="type" defaultValue={type} className="bd-input">
           <option value="">Sale type: All</option>
@@ -320,7 +320,7 @@ export default async function ListingsPage({
 
       {moneyErr ? (
         <div className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">
-          Use numbers for price filters.
+          Use whole numbers for price filters, for example 50 or 250.
         </div>
       ) : null}
 
@@ -333,7 +333,7 @@ export default async function ListingsPage({
       <div className="mx-auto w-full max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse listings</h1>
-          <p className="mt-2 text-sm text-[#475569]">Find active listings faster with keyword search, sale type, and location filters.</p>
+          <p className="mt-2 text-sm text-[#475569]">Find active listings faster with keyword, category, suburb, postcode, sale type, and trusted seller filters.</p>
         </section>
 
         <section className="mt-5 grid gap-4 xl:grid-cols-[18rem_minmax(0,1fr)]">
@@ -415,9 +415,9 @@ export default async function ListingsPage({
               {listings.length === 0 ? (
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto max-w-md">
-                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No listings match those filters yet." : "No active listings yet"}</div>
+                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No trusted matches for those filters yet." : "No active listings yet"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
-                      {hasFilters ? "Try clearing filters or browse all active listings." : "New local listings will appear here as sellers publish them."}
+                      {hasFilters ? "Try fewer filters, check spelling, or browse all active listings. Bidra only shows active marketplace listings here." : "New local listings will appear here as sellers publish them."}
                     </p>
                     <div className="mt-4 flex flex-wrap justify-center gap-2">
                       <Link href="/listings" className="bd-btn bd-btn-primary">Browse all listings</Link>
