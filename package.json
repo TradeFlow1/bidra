@@ -13,7 +13,10 @@
                     "db:migrate":  "prisma migrate dev",
                     "db:deploy":  "prisma migrate deploy",
                     "db:studio":  "prisma studio",
-                    "db:seed":  "prisma db seed"
+                    "db:seed":  "prisma db seed",
+                    "typecheck":  "tsc --noEmit",
+                    "test":  "node tools/control-02-regression-check.cjs",
+                    "test:smoke":  "node tools/control-02-public-route-smoke.cjs"
                 },
     "prisma":  {
                    "seed":  "node prisma/seed.cjs"
