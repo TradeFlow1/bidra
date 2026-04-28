@@ -1,4 +1,4 @@
-﻿import SellNewClient from "./sell-new-client";
+import SellNewClient from "./sell-new-client";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getFeedbackGate } from "@/lib/feedback-gate";
@@ -34,11 +34,11 @@ export default async function SellNewPage() {
     return (
       <main className="bd-container py-10">
         <div className="container max-w-5xl">
-          <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Action required</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Finish feedback before selling</h1>
 
           <p className="mt-2 text-sm bd-ink2">
             You have {gate.pendingCount} pending feedback task(s) older than {gate.graceHours} hours.
-            Please submit feedback to continue creating listings.
+            Bidra pauses new listings until overdue feedback is complete so buyers and sellers can rely on recent transaction history.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
@@ -67,7 +67,7 @@ export default async function SellNewPage() {
       <div className="container max-w-5xl">
         <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Create a listing</h1>
         <p className="mt-2 text-sm bd-ink2">
-          Follow the guided flow: photos, details, price &amp; sale type, then review before publishing.
+          Create a trusted listing with clear photos, accurate details, a local pickup area, and safe pricing before publishing.
         </p>
 
         <div className="mt-6">

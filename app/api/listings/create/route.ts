@@ -64,7 +64,10 @@ function isValidAuLocation(s: string): boolean {
 export async function POST(req: Request) {
   const gate = await requireAdult();
   if (!gate.ok) {
-    return NextResponse.json({ ok: false, reason: gate.reason }, {
+    const message = gate.status === 401
+      ? "Sign in required before creating a listing."
+      : "Your account is not eligible to create listings."; 
+    return NextResponse.json({ ok: false, error: message }, {
       status: gate.status,
       headers: { "content-type": "application/json" },
     });
@@ -195,7 +198,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ listing: listing });
   } catch (e: any) {
     console.error("Create listing error:", e);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "We could not create your listing. Please check your details and try again." }, { status: 500 });
   }
 }
 
