@@ -22,7 +22,7 @@ function statusTone(status: string, outcome: string | null | undefined) {
 export default async function OrdersPage() {
   const session = await auth();
   const user = session?.user;
-  if (!user) redirect("/auth/login");
+  if (!user) redirect("/auth/login?next=/orders");
 
   const gate = await requireAdult(session);
   if (!gate.ok) redirect("/account/restrictions");
