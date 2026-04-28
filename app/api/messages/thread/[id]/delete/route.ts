@@ -1,14 +1,14 @@
-﻿import { NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
 
 export async function POST(_req: Request, ctx: { params: { id: string } }) {
   const session = await auth()
-  if (!session?.user?.id) return NextResponse.json({ error: "Not authenticated" }, { status: 401 })
+  if (!session?.user?.id) return NextResponse.json({ error: "Sign in required to use Bidra messages." }, { status: 401 })
 
   const adult = await requireAdult(session)
-  if (!adult.ok) return NextResponse.json({ error: adult.reason || "Restricted" }, { status: 403 })
+  if (!adult.ok) return NextResponse.json({ error: "Your account is not eligible to use Bidra messages." }, { status: 403 })
 
   const me = session.user.id
   const id = String(ctx?.params?.id || "").trim()
@@ -20,7 +20,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
   })
 
   if (!thread) return NextResponse.json({ error: "Thread not found" }, { status: 404 })
-  if (me !== thread.buyerId && me !== thread.sellerId) return NextResponse.json({ error: "Forbidden" }, { status: 403 })
+  if (me !== thread.buyerId && me !== thread.sellerId) return NextResponse.json({ error: "You can only access message threads you are part of." }, { status: 403 })
 
   const data: any = {}
   if (me === thread.buyerId) data.buyerDeletedAt = new Date()

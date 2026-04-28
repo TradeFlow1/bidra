@@ -21,7 +21,7 @@ function SafetyNote() {
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-sm">
       <span className="font-semibold">Safety tip:</span>{" "}
-      Use Bidra messages to keep a clear record. You can share pickup details when needed, but never share passwords, verification codes, or suspicious payment requests.
+      Use Bidra Messages to keep a clear record. Confirm pickup, postage, payment expectations, and handover details here. Never share passwords, verification codes, or suspicious payment requests.
     </div>
   );
 }
@@ -165,9 +165,9 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
             <ul className="mt-2 list-disc space-y-1 pl-5 text-[var(--bidra-ink-2)]">
               <li>Confirm pickup suburb and time, or confirm the exact postage method.</li>
               <li>Confirm item condition and what accessories are included.</li>
-              <li>Keep handover agreements in Bidra messages.</li>
+              <li>Keep pickup, postage, payment expectations, and handover agreements in Bidra Messages.</li>
               <li>Meet safely for pickup where practical, and use tracked postage where practical.</li>
-              <li>If anything seems suspicious, report it.</li>
+              <li>If anything seems suspicious, report the chat so Bidra can review the conversation history.</li>
             </ul>
           </div>
 
@@ -217,7 +217,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
             <div className="text-sm font-semibold text-[var(--bidra-ink)]">Send a message</div>
             <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-              Keep messages relevant to the item, pickup, and sale. Never share passwords, verification codes, or suspicious payment requests.
+              Keep messages relevant to the item, pickup, postage, payment expectations, and sale. Do not move arrangements off-platform before trust is established.
             </div>
             <div className="mt-4">
               <SendBox threadId={thread.id} />
