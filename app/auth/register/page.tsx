@@ -209,7 +209,7 @@ export default function RegisterPage() {
 
     const data = await res.json().catch(function (): unknown { return {}; });
     if (!res.ok) {
-      setError((data as any)?.error || "Registration failed");
+      setError("We could not create your account. Please check your details and try again.");
       setLoading(false);
       return;
     }
@@ -232,7 +232,7 @@ export default function RegisterPage() {
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Join Bidra</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Create your account</h1>
             <p className="mt-2 text-sm bd-ink2 sm:text-base">
-              Set up your marketplace account, verify your email, and get ready to buy or sell with confidence.
+              Set up your marketplace account, verify your email, and keep your buying and selling activity protected.
             </p>
           </div>
         </div>
@@ -275,7 +275,7 @@ export default function RegisterPage() {
               <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
                 <p className="text-lg font-extrabold text-[#0b1220]">Account created</p>
                 <p className="mt-1 text-sm text-black/60">
-                  Your account is ready. Log in to start using Bidra.
+                  Your account was created. Check your email and verify your account before logging in.
                 </p>
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row">
                   <Link href="/auth/login" className="bd-btn bd-btn-primary text-center">

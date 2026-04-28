@@ -73,13 +73,13 @@ export default function ResetPasswordPage({
 
       const data = await res.json().catch(function (): unknown { return {}; });
       if (!res.ok || !(data as any)?.ok) {
-        setError(String((data as any)?.error || "Unable to reset password. Please request a new link."));
+        setError("We could not reset your password. Please request a new link and try again.");
         return;
       }
 
       setOk(true);
     } catch {
-      setError("Unable to reset password. Please try again.");
+      setError("We could not reset your password. Please try again shortly.");
     } finally {
       setLoading(false);
     }
