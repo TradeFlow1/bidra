@@ -22,7 +22,7 @@ export default function TermsPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Terms</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Terms of use</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                These Terms govern your use of Bidra. By accessing or using Bidra, you agree to these Terms. Bidra is a marketplace platform only. We are not the seller of items and not a payment provider.
+                These Terms govern your use of Bidra. By accessing or using Bidra, you agree to these Terms. Bidra is a marketplace platform only. We are not the seller of items, an auctioneer, an escrow holder, a payment provider, a shipping provider, or a pickup scheduler.
               </p>
             </div>
 
@@ -53,7 +53,7 @@ export default function TermsPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Orders</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">No funds held</div>
-            <div className="mt-1 text-sm text-neutral-600">Orders are sold-item records. Buyers and sellers arrange pickup or postage in messages.</div>
+            <div className="mt-1 text-sm text-neutral-600">Orders are sold-item records. Buyers and sellers arrange pickup, postage, payment, and handover details in messages.</div>
           </div>
         </div>
 
@@ -111,7 +111,7 @@ export default function TermsPage() {
         <SectionCard title="5) Orders and messages">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>When an order exists, the item is sold and the order records the sale details.</li>
-            <li>Bidra does not run in-app payment, escrow, pickup scheduling, or completion workflows.</li>
+            <li>Bidra does not run in-app payment, escrow, shipping, pickup scheduling, or forced completion workflows.</li>
             <li>Buyers and sellers should use messages to agree pickup or postage details and keep records such as messages and photos.</li>
             <li>Disputes are usually resolved between buyer and seller. Bidra may take platform actions, including restrictions, where misuse or fraud is detected.</li>
           </ul>
