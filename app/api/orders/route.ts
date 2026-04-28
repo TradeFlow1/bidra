@@ -10,7 +10,12 @@ export async function GET(_req: Request) {
   try {
     const session = await auth();
     const gate = await requireAdult(session);
-    if (!gate.ok) return NextResponse.json({ ok: false, error: gate.reason }, { status: gate.status });
+    if (!gate.ok) {
+      const message = gate.status === 401
+        ? "Sign in required."
+        : "Your account is not eligible to access orders.";
+      return NextResponse.json({ ok: false, error: message }, { status: gate.status });
+    }
     const userId = String(gate.dbUser && gate.dbUser.id ? gate.dbUser.id : "");
     if (!userId) return NextResponse.json({ ok: false, error: "Not signed in." }, { status: 401 });
 
