@@ -138,7 +138,7 @@ export default async function WatchlistPage() {
             <div className="mx-auto max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">Your watchlist is empty</div>
               <p className="mt-2 text-sm text-neutral-600">
-                Save listings as you browse to track prices, offers, and time windows in one place.
+                Save listings as you browse to track prices, offers, and time windows without contacting the seller until you are ready.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <Link href="/listings" className="bd-btn bd-btn-primary text-center">Browse listings</Link>

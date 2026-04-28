@@ -415,9 +415,9 @@ export default async function ListingsPage({
               {listings.length === 0 ? (
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto max-w-md">
-                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No listings match those filters yet." : "No listings found"}</div>
+                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No listings match those filters yet." : "No active listings yet"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
-                      {hasFilters ? "Try clearing filters or browse all listings." : "Check back soon for more active local listings."}
+                      {hasFilters ? "Try clearing filters or browse all active listings." : "New local listings will appear here as sellers publish them."}
                     </p>
                     <div className="mt-4 flex flex-wrap justify-center gap-2">
                       <Link href="/listings" className="bd-btn bd-btn-primary">Browse all listings</Link>
