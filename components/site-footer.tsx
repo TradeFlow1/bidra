@@ -51,9 +51,9 @@ export default function SiteFooter() {
         <div className="grid gap-5 border-b border-[#E6EDF7] pb-4 sm:gap-6 sm:pb-6 md:grid-cols-[minmax(0,1.2fr)_1fr_1fr_1fr]">
           <div className="max-w-sm">
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Bidra marketplace</div>
-            <h2 className="mt-2 text-[1.55rem] font-extrabold tracking-tight text-[#0F172A] sm:text-[1.9rem]">Buy now. Make offers.</h2>
+            <h2 className="mt-2 text-[1.55rem] font-extrabold tracking-tight text-[#0F172A] sm:text-[1.9rem]">Buy now. Make offers. Arrange handover.</h2>
             <p className="mt-2 text-sm leading-6 text-[#475569] sm:mt-3">
-              Trust-first marketplace for straightforward buying and highest-offer listings.
+              Trust-first local marketplace for Buy Now sales and seller-accepted offers. Buyers and sellers arrange pickup or postage in messages.
             </p>
           </div>
 
@@ -64,7 +64,7 @@ export default function SiteFooter() {
 
         <div className="flex flex-col gap-2 pt-3 text-xs text-[#64748B] sm:pt-4 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Bidra. All rights reserved.</p>
-          <p>Buy now. Make offers.</p>
+          <p>Buy now. Make offers. Arrange handover in messages.</p>
         </div>
       </div>
     </footer>

@@ -22,7 +22,7 @@ export default function SupportPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Support and safety</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help, trust, and safer trading</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Bidra is a community marketplace. We work hard to keep it safe, but buyers and sellers should still use common sense and follow strong safety habits.
+                Bidra is a trust-first local marketplace. We provide listing, offer, messaging, reporting, and sold-item record tools, but buyers and sellers remain responsible for pickup, postage, payment, and handover decisions.
               </p>
             </div>
 
@@ -53,7 +53,7 @@ export default function SupportPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Best practice</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Stay on Bidra</div>
-            <div className="mt-1 text-sm text-neutral-600">Keep communication and transaction steps on-platform wherever possible.</div>
+            <div className="mt-1 text-sm text-neutral-600">Keep important listing, pickup, postage, payment, and handover details in Bidra messages wherever possible.</div>
           </div>
         </div>
 
@@ -99,7 +99,7 @@ export default function SupportPage() {
 
         <SectionCard title="Disputes">
           <p className="text-black/75">
-            Most issues are resolved between buyer and seller. If you cannot resolve it, contact Support with your order ID, listing link, messages, and evidence. Bidra may take platform actions such as removing listings or restricting accounts, but does not act as a seller, escrow holder, shipping provider, or payment provider.
+            Most issues are resolved between buyer and seller. If you cannot resolve it, contact Support with your order ID, listing link, messages, and evidence. Bidra may take platform actions such as removing listings or restricting accounts, but does not act as a seller, escrow holder, payment provider, shipping provider, or pickup scheduler.
           </p>
         </SectionCard>
 
