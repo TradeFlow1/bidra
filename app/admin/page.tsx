@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic"
 
 export default async function AdminHome() {
   const session = await auth()
-  if (!session?.user?.id) redirect("/auth/login")
+  if (!session?.user?.id) redirect("/auth/login?next=/admin")
 
   const adult = await requireAdult(session)
   if (!adult.ok) redirect("/account/restrictions")

@@ -40,6 +40,7 @@ function isProtected(pathname: string) {
     pathname.startsWith("/sell") ||
     pathname.startsWith("/messages") ||
     pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/dash") ||
     pathname.startsWith("/account") ||
     pathname.startsWith("/orders") ||
     pathname.startsWith("/profile") ||
@@ -56,6 +57,7 @@ function needsPhoneGate(pathname: string) {
     pathname.startsWith("/sell") ||
     pathname.startsWith("/messages") ||
     pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/dash") ||
     pathname.startsWith("/account") ||
     pathname.startsWith("/orders")
   );
