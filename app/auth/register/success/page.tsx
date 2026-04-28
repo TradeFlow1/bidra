@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ export default function RegisterSuccessPage() {
       <div className={card}>
         <h1 className="text-2xl font-extrabold tracking-tight text-[#0b1220]">Account created ✅</h1>
         <p className="mt-2 text-sm text-black/60">
-          Next: log in to start using Bidra. Then you can browse and create your first listing.
+          Next: check your email and verify your account. After verification, log in to start buying, selling, and messaging safely.
         </p>
 
         <div className="mt-5 grid grid-cols-1 gap-3">
@@ -24,7 +24,7 @@ export default function RegisterSuccessPage() {
           </Link>
 
           <Link href="/auth/login" className="bd-btn w-full text-center">
-            Log in
+            Go to login
           </Link>
         </div>
 
