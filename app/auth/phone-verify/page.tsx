@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -67,7 +67,7 @@ export default function PhoneVerifyPage() {
       <div className="bd-card p-6 sm:p-8 max-w-[560px] mx-auto">
         <h1 className="text-2xl font-extrabold tracking-tight bd-ink">Verify your phone</h1>
         <p className="mt-2 text-sm bd-ink2">
-          Phone verification is required before you can list, make offers, or message.
+          Phone verification is only required when Bidra enables the phone gate for protected marketplace actions.
         </p>
 
         {error ? (
