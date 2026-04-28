@@ -77,7 +77,7 @@ export default async function OrdersPage() {
             <div className="mx-auto max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">No orders yet</div>
               <p className="mt-2 text-sm text-neutral-600">
-                When Buy Now is used or your offer is accepted, the sold-item record appears here so you can continue in Messages.
+                When Buy Now is used or your offer is accepted, the sold-item record appears here so you can continue safely in Messages.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <Link href="/listings" className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto">Browse listings</Link>

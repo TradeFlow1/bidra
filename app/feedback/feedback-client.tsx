@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -72,7 +72,7 @@ export default function FeedbackClient() {
 
       const j = await res.json().catch(() => null as any);
       if (!res.ok) {
-        setStatus(j?.error ? String(j.error) : "Failed to send feedback.");
+        setStatus("We could not send your feedback. Please check your message and try again.");
         return;
       }
 
@@ -80,7 +80,7 @@ export default function FeedbackClient() {
       setEmail("");
       setStatus("Thanks — we received your feedback.");
     } catch {
-      setStatus("Failed to send feedback.");
+      setStatus("We could not send your feedback. Please try again shortly.");
     }
   }
 
@@ -106,7 +106,7 @@ export default function FeedbackClient() {
         <div className="text-sm font-extrabold bd-ink">Send feedback</div>
 
         {loading ? (
-          <div className="mt-4 text-sm bd-ink2">Loading…</div>
+          <div className="mt-4 text-sm bd-ink2">Checking your feedback options…</div>
         ) : (
           <div className="mt-4 space-y-3">
             {/* Honeypot (hidden) */}

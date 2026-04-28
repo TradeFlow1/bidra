@@ -28,13 +28,13 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
           });
           const data = await res.json().catch(() => ({}));
           if (!res.ok || !data?.ok) {
-            setError(String(data?.error || "Failed to send message."));
+            setError("We could not send your message. Please check your details and try again.");
             return;
           }
           (e.currentTarget as HTMLFormElement).reset();
           setNote("Message sent. We’ll get back to you as soon as we can.");
         } catch {
-          setError("Failed to send message. Please try again.");
+          setError("We could not send your message. Please try again shortly.");
         }
       }}
     >
