@@ -143,13 +143,27 @@ foreach ($Item in $Items) {
     $ExistingIssues = @()
 
     if (-not [string]::IsNullOrWhiteSpace($ExistingJson)) {
-        $ExistingIssues = @($ExistingJson | ConvertFrom-Json)
+        $ParsedExistingIssues = $ExistingJson | ConvertFrom-Json
+
+        if ($null -ne $ParsedExistingIssues) {
+            $ExistingIssues = @($ParsedExistingIssues)
+        }
     }
 
     $AlreadyExists = $false
 
     foreach ($ExistingIssue in $ExistingIssues) {
-        if ($ExistingIssue.title.Contains("[" + $Item.ID + "]")) {
+        if ($null -eq $ExistingIssue) {
+            continue
+        }
+
+        $ExistingTitle = [string]$ExistingIssue.title
+
+        if ([string]::IsNullOrWhiteSpace($ExistingTitle)) {
+            continue
+        }
+
+        if ($ExistingTitle.Contains("[" + $Item.ID + "]")) {
             $AlreadyExists = $true
         }
     }
@@ -225,3 +239,4 @@ foreach ($Item in $Items) {
 
 Write-Host ""
 Write-Host "GitHub issue seeding complete."
+
