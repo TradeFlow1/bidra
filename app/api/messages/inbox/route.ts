@@ -1,14 +1,14 @@
-﻿import { NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
 
 export async function GET() {
   const session = await auth()
-  if (!session?.user?.id) return NextResponse.json({ error: "Not authenticated" }, { status: 401 })
+  if (!session?.user?.id) return NextResponse.json({ error: "Sign in required to use Bidra messages." }, { status: 401 })
 
   const adult = await requireAdult(session)
-  if (!adult.ok) return NextResponse.json({ error: adult.reason || "Restricted" }, { status: 403 })
+  if (!adult.ok) return NextResponse.json({ error: "Your account is not eligible to use Bidra messages." }, { status: 403 })
 
   const me = session.user.id
 

@@ -1,14 +1,14 @@
-﻿import { NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
 
 export async function POST(req: Request) {
   const session = await auth()
-  if (!session?.user?.id) return NextResponse.json({ error: "Not authenticated" }, { status: 401 })
+  if (!session?.user?.id) return NextResponse.json({ error: "Sign in required to use Bidra messages." }, { status: 401 })
 
   const adult = await requireAdult(session)
-  if (!adult.ok) return NextResponse.json({ error: adult.reason || "Restricted" }, { status: 403 })
+  if (!adult.ok) return NextResponse.json({ error: "Your account is not eligible to use Bidra messages." }, { status: 403 })
 
   const body = await req.json().catch(() => ({}))
   const listingId = String(body.listingId || "")
@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     select: { id: true, sellerId: true, status: true },
   })
   if (!listing) return NextResponse.json({ error: "Listing not found" }, { status: 404 })
-  if (listing.status === "DELETED") return NextResponse.json({ error: "Listing unavailable" }, { status: 400 })
+  if (listing.status !== "ACTIVE") return NextResponse.json({ error: "Messages can only be started from active listings." }, { status: 400 })
 
   const me = session.user.id
   if (me === listing.sellerId) {

@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
@@ -8,12 +8,12 @@ import { contactInfoSignals } from "@/lib/message-safety";
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const session = await auth();
   if (!session?.user?.id) {
-    return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    return NextResponse.json({ error: "Sign in required to use Bidra messages." }, { status: 401 });
   }
 
   const adult = await requireAdult(session);
   if (!adult.ok) {
-    return NextResponse.json({ error: adult.reason || "Restricted" }, { status: 403 });
+    return NextResponse.json({ error: "Your account is not eligible to use Bidra messages." }, { status: 403 });
   }
 
   const threadId = String(params?.id || "").trim();
@@ -47,7 +47,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
   const isParticipant = thread.buyerId === me || thread.sellerId === me;
   if (!isParticipant) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return NextResponse.json({ error: "You can only access message threads you are part of." }, { status: 403 });
   }
 
   const now = new Date();

@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -49,7 +49,7 @@ export default function SendBox({ threadId }: { threadId: string }) {
             send()
           }
         }}
-        placeholder="Write your message…"
+        placeholder="Ask about the item, pickup, postage, payment expectations, or handover details…"
         aria-label="Message text"
       />
 
