@@ -1,0 +1,144 @@
+﻿$ErrorActionPreference = "Stop"
+
+$ExpectedRoot = "C:\Users\jpdup\Documents\Bidra\bidra-main-git"
+$ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$RepoRoot = Split-Path -Parent $ScriptDir
+$ResolvedRepoRoot = (Resolve-Path $RepoRoot).Path
+$ResolvedExpectedRoot = (Resolve-Path $ExpectedRoot).Path
+
+if ($ResolvedRepoRoot -ine $ResolvedExpectedRoot) {
+    throw "Refusing to run outside C:\Users\jpdup\Documents\Bidra\bidra-main-git. Script resolved repo root as: $ResolvedRepoRoot"
+}
+
+Set-Location -Path $ResolvedRepoRoot
+
+if (-not (Test-Path ".\package.json")) {
+    throw "package.json not found at repo root."
+}
+
+if (-not (Test-Path ".\app")) {
+    throw "app folder not found at repo root."
+}
+
+$DocsDir = Join-Path $ResolvedRepoRoot "docs"
+
+if (-not (Test-Path $DocsDir)) {
+    New-Item -ItemType Directory -Path $DocsDir | Out-Null
+}
+
+function New-FixItem {
+    param(
+        [string]$Id,
+        [string]$Priority,
+        [string]$Area,
+        [string]$Milestone,
+        [string]$Title,
+        [string]$Description,
+        [string]$Acceptance,
+        [string]$Regression,
+        [string]$Labels
+    )
+
+    return [pscustomobject]([ordered]@{
+        ID = $Id
+        Priority = $Priority
+        Area = $Area
+        Milestone = $Milestone
+        Title = $Title
+        Description = $Description
+        Acceptance = $Acceptance
+        Regression = $Regression
+        Labels = $Labels
+        Status = "Backlog"
+        Branch = ""
+        PR = ""
+        TestName = ""
+    })
+}
+
+$FixItems = @()
+
+$FixItems += New-FixItem "CONTROL-01" "P0" "Process" "P0 Control System" "Create GitHub labels, milestones, and issue backlog" "Known fix list is converted into tracked GitHub issues with labels and milestones." "Every known fix has a GitHub issue with acceptance criteria." "Run issue import twice and confirm it does not duplicate issues." "P0;process;github"
+$FixItems += New-FixItem "CONTROL-02" "P0" "Testing" "P0 Control System" "Add regression test harness" "Add typecheck, unit or integration test, and smoke-test commands so fixes cannot silently regress." "package.json has test scripts and public route, auth, and listing smoke coverage." "CI fails when a protected public route breaks." "P0;testing;ci"
+$FixItems += New-FixItem "CONTROL-03" "P0" "CI" "P0 Control System" "Expand GitHub Actions quality gate" "CI should run install, Prisma generate, typecheck, tests, smoke tests, build, and lint." "Pull requests cannot pass with build-only confidence." "Break a smoke route locally and confirm CI or tests catch it." "P0;ci;testing"
+$FixItems += New-FixItem "CONTROL-04" "P0" "PR Quality" "P0 Control System" "Add PR proof template" "Every PR must show issue ID, commands run, test added, screenshots where relevant, and rollback notes." "PRs without proof are not accepted." "Create a sample PR body and verify required sections exist." "P0;process;github"
+
+$FixItems += New-FixItem "PRODUCT-01" "P0" "Product Promise" "P0 Trust and Launch Blocking" "Lock V1 and V2 marketplace promise" "Make homepage, how-it-works, listing pages, dashboard, legal, and support copy agree on what Bidra currently does." "No page promises escrow, in-app payment, shipping, or scheduling unless the feature fully works." "Route smoke test checks approved product-promise phrases." "P0;trust;copy"
+$FixItems += New-FixItem "TRUST-01" "P0" "Public Trust" "P0 Trust and Launch Blocking" "Make legal and trust pages public and consistent" "Privacy, terms, prohibited items, fees, support, safety, and feedback pages must not require login." "Logged-out users can access all public trust pages." "Smoke test visits each public trust route while logged out." "P0;trust;routing"
+$FixItems += New-FixItem "TRUST-02" "P0" "Public UX" "P0 Trust and Launch Blocking" "Replace blank and loading public states" "Public pages must never show blank chrome or permanent Loading text." "Signed-out and empty states have clear explanation and CTA." "Smoke test rejects visible permanent Loading text on public routes." "P0;trust;ux"
+$FixItems += New-FixItem "ROUTE-01" "P0" "Routing" "P0 Trust and Launch Blocking" "Fix unknown route behavior" "Unknown routes should render branded 404 instead of redirecting to login." "Random invalid public route shows 404 and no auth fallback." "Smoke test visits invalid route and expects 404 content." "P0;routing;auth"
+
+$FixItems += New-FixItem "AUTH-01" "P0" "Auth" "P0 Auth and Security" "Fix forgot-password route" "Login forgot-password link must route to a working public forgot-password page." "User can reach forgot-password from login while logged out." "Smoke test clicks forgot-password and confirms route." "P0;auth;routing"
+$FixItems += New-FixItem "AUTH-02" "P0" "Auth" "P0 Auth and Security" "Replace raw auth errors" "Provider codes and ugly auth strings must be replaced with clear user-safe copy." "Bad login shows friendly message, not raw provider error." "Auth test submits bad credentials and checks error copy." "P0;auth;ux"
+$FixItems += New-FixItem "AUTH-03" "P0" "Security" "P0 Auth and Security" "Add login rate limiting" "Add per-IP and per-account throttling with friendly 429 response." "Repeated failed login attempts are throttled." "Security test simulates repeated attempts and expects throttle." "P0;security;auth"
+$FixItems += New-FixItem "AUTH-04" "P1" "Account UX" "P1 Core Marketplace Flows" "Clarify buyer seller admin role" "Menu and dashboard must show the current account role clearly." "Buyer, seller, and admin sessions are visibly distinct." "Role display test checks dashboard and header output." "P1;auth;ux"
+
+$FixItems += New-FixItem "SEARCH-01" "P0" "Search" "P0 Trust and Launch Blocking" "Make search submit on Enter" "Search must be a real form with submit handling and accessible button." "Enter key and button both navigate to results." "Smoke test types search and presses Enter." "P0;search;ux"
+$FixItems += New-FixItem "LISTING-01" "P0" "Listings" "P0 Trust and Launch Blocking" "Replace raw unauthenticated listing CTA" "Logged-out offer and message areas should show premium sign-in prompt with return path." "No NOT_AUTHENTICATED text appears in UI." "Smoke test checks listing detail while logged out." "P0;listings;auth"
+$FixItems += New-FixItem "LISTING-02" "P1" "Seller Listings" "P1 Core Marketplace Flows" "Fix seller edit delete confirmation flow" "Seller edit links must work and delete must use branded modal with success state." "Seller can edit or delete listing without native confirm dialog." "Seller smoke test validates edit link and delete modal." "P1;listings;seller"
+$FixItems += New-FixItem "WATCH-01" "P1" "Watchlist" "P1 Core Marketplace Flows" "Fix watchlist toggle and empty state" "Watch and unwatch should be one click with visible state, toast, and useful empty page." "No multiple-click watchlist behavior remains." "Watchlist smoke test toggles listing and checks empty state." "P1;watchlist;ux"
+
+$FixItems += New-FixItem "MESSAGE-01" "P0" "Messaging" "P0 Transaction Safety" "Block off-platform contact details server-side" "Messages containing prohibited off-platform contact details should be blocked or redacted server-side and logged." "Client warning is not the only protection." "API test attempts phone or email and expects blocked response." "P0;messages;safety"
+$FixItems += New-FixItem "MESSAGE-02" "P1" "Messaging" "P1 Core Marketplace Flows" "Fix message sending state reliability" "Sending state must resolve to sent, failed, or retry. No indefinite spinner." "Message send cannot hang silently." "Message smoke test checks success and failure states." "P1;messages;ux"
+$FixItems += New-FixItem "OFFER-01" "P0" "Offers" "P0 Transaction Safety" "Add offer confirmation and instant UI update" "Offer submit must await API response, show confirmation, and update visible offer state." "User sees clear Offer sent state." "Offer smoke test submits once and checks confirmation." "P0;offers;ux"
+$FixItems += New-FixItem "OFFER-02" "P0" "Idempotency" "P0 Transaction Safety" "Prevent duplicate critical actions" "Signup, login, listing creation, message send, offer submit, accept offer, and reports need duplicate protection." "Double-click or refresh does not create duplicate critical records." "API test sends duplicate idempotency key and expects safe response." "P0;safety;api"
+$FixItems += New-FixItem "ORDER-01" "P1" "Orders" "P1 Core Marketplace Flows" "Make order feedback payment next actions clear" "Every order state must show one obvious next action or explanation." "No dead-end Pay now or Leave feedback flows." "Order smoke test checks key order states." "P1;orders;feedback"
+
+$FixItems += New-FixItem "ADMIN-01" "P1" "Admin" "P1 Admin and Moderation" "Build admin user moderation controls" "Admin user detail page needs correct user mapping, strike, block, unblock, reset, and audit log." "Clicked user opens correct admin detail page." "Admin test opens two users and verifies distinct IDs." "P1;admin;moderation"
+$FixItems += New-FixItem "ADMIN-02" "P1" "Admin" "P1 Admin and Moderation" "Build admin listing moderation controls" "Admin listing detail should support suspend, delete, restore, reason, and audit log." "Admin can moderate listing without only opening public page." "Admin test verifies moderation action creates audit entry." "P1;admin;listings"
+$FixItems += New-FixItem "ADMIN-03" "P2" "Admin UX" "P2 Premium UX" "Replace admin native dialogs" "Admin confirm and prompt flows should use branded modal with clear consequences." "No browser alert confirm prompt remains in admin flows." "Static check rejects alert confirm prompt in admin files." "P2;admin;ux"
+
+$FixItems += New-FixItem "UX-01" "P1" "Design System" "P2 Premium UX" "Standardize toast error modal components" "Every success and failure should use consistent components, placement, copy, and next action." "No raw codes or silent failures in core flows." "Component test checks standard error and toast usage." "P1;ux;design-system"
+$FixItems += New-FixItem "SEO-01" "P1" "SEO" "P3 Growth and Marketplace Density" "Add marketplace SEO structure" "Add category, location, listing metadata, canonical URLs, sitemap coverage, and product structured data." "Important marketplace pages are indexable and have metadata." "Route test validates metadata on category and listing pages." "P1;seo;growth"
+$FixItems += New-FixItem "PERF-01" "P2" "Performance" "P2 Premium UX" "Improve accessibility performance image quality" "Improve tap targets, keyboard navigation, image loading, and layout stability." "Core pages meet defined accessibility and performance checks." "A11y and smoke checks cover public browse and listing pages." "P2;performance;accessibility"
+$FixItems += New-FixItem "GROWTH-01" "P1" "Marketplace Supply" "P3 Growth and Marketplace Density" "Seed real marketplace liquidity" "Add enough real listings, remove duplicates, improve categories and locations." "Marketplace no longer feels empty or duplicated." "Listing audit checks duplicate titles and minimum seeded listing count in staging." "P1;growth;listings"
+
+$CsvPath = Join-Path $DocsDir "BIDRA_FIX_REGISTER.csv"
+$PlanPath = Join-Path $DocsDir "BIDRA_MILLION_DOLLAR_FIX_PLAN.md"
+
+$FixItems | Export-Csv -Path $CsvPath -NoTypeInformation -Encoding UTF8
+
+$PlanLines = @()
+$PlanLines += "# Bidra Million Dollar Fix Plan"
+$PlanLines += ""
+$PlanLines += "Generated: " + (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+$PlanLines += ""
+$PlanLines += "Rule: no issue is done until it has a GitHub issue, acceptance criteria, a scripted patch, and a regression test or smoke check."
+$PlanLines += ""
+$PlanLines += "## Fix register"
+$PlanLines += ""
+$PlanLines += "| ID | Priority | Area | Milestone | Title | Status |"
+$PlanLines += "|---|---:|---|---|---|---|"
+
+foreach ($Item in $FixItems) {
+    $PlanLines += "| " + $Item.ID + " | " + $Item.Priority + " | " + $Item.Area + " | " + $Item.Milestone + " | " + $Item.Title + " | " + $Item.Status + " |"
+}
+
+$PlanLines += ""
+$PlanLines += "## Definition of Done"
+$PlanLines += ""
+$PlanLines += "- GitHub issue exists with the same ID."
+$PlanLines += "- Patch is applied by PowerShell script from repo root."
+$PlanLines += "- Patch script refuses to run outside C:\Users\jpdup\Documents\Bidra\bidra-main-git."
+$PlanLines += "- Fix includes a regression test, smoke test, or explicit route check."
+$PlanLines += "- npm run lint passes."
+$PlanLines += "- npm run build passes."
+$PlanLines += "- After the test harness exists, npm run test and npm run test:smoke pass."
+$PlanLines += "- PR body includes issue ID, acceptance proof, and command output."
+$PlanLines += ""
+$PlanLines += "## Fix order"
+$PlanLines += ""
+$PlanLines += "1. CONTROL-01 to CONTROL-04"
+$PlanLines += "2. PRODUCT-01, TRUST-01, TRUST-02, ROUTE-01"
+$PlanLines += "3. AUTH-01 to AUTH-04"
+$PlanLines += "4. SEARCH-01, LISTING-01, LISTING-02, WATCH-01"
+$PlanLines += "5. MESSAGE-01, MESSAGE-02, OFFER-01, OFFER-02, ORDER-01"
+$PlanLines += "6. ADMIN-01 to ADMIN-03"
+$PlanLines += "7. UX-01, SEO-01, PERF-01, GROWTH-01"
+
+Set-Content -Path $PlanPath -Value $PlanLines -Encoding UTF8
+
+Write-Host "Created fix register:"
+Write-Host $CsvPath
+Write-Host "Created plan:"
+Write-Host $PlanPath
