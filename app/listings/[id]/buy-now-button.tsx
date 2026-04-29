@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 
@@ -37,7 +37,7 @@ export default function BuyNowButton({ listingId }: { listingId: string }) {
         return;
       }
 
-      window.location.reload();
+      setMsg("Order created. Open Orders to continue in Bidra Messages.");
     } catch {
       setMsg("Buy Now failed.");
     } finally {

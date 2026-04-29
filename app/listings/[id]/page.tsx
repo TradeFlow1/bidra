@@ -233,8 +233,8 @@ export default async function ListingDetailPage({
               <div className="mt-4 space-y-3">
                 {isSold ? (
                   <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#475569]">
-                    <div className="font-semibold">Sold.</div>
-                    <div className="mt-1">This listing has been completed. Browse similar active listings below.</div>
+                    <div className="font-semibold">Sold - order record created.</div>
+                    <div className="mt-1">This listing is no longer available. The buyer and seller should keep payment, pickup, postage, and handover details in Bidra Messages.</div>
                     <Link href="/listings" className="mt-2 inline-flex text-sm font-semibold text-[#0F172A] underline underline-offset-2">Browse listings</Link>
                   </div>
                 ) : isTimedOffers ? (
@@ -244,7 +244,7 @@ export default async function ListingDetailPage({
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">Buy Now creates a Bidra order record. Keep payment, pickup, and postage arrangements in Messages.</p>
+                    <p className="text-sm text-[#64748B]">Buy Now creates a Bidra order record and redirects you to order details. Keep payment, pickup, postage, and handover arrangements in Messages.</p>
                     <BuyNowButton listingId={listing.id} />
                   </div>
                 )}
@@ -278,7 +278,7 @@ export default async function ListingDetailPage({
 
               {isOwner && isTimedOffers && !isSold && topOffer ? (
                 <div className="mt-3 rounded-2xl border border-[#FDE68A] bg-[#FFFBEB] p-3.5">
-                  <div className="mt-1 text-sm font-semibold text-[#92400E]">Accepting the highest offer creates an order record and marks this listing as sold.</div>
+                  <div className="mt-1 text-sm font-semibold text-[#92400E]">Accepting the highest offer creates a pending order record, marks the listing as sold, and opens order details for next steps.</div>
                   <div className="mt-2">
                     <AcceptHighestOfferButton listingId={listing.id} />
                   </div>

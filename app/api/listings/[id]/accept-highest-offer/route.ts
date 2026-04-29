@@ -49,9 +49,9 @@ export async function POST(
     }
 
     const offer = listing.offers[0];
-  if (!offer) {
-    return NextResponse.json({ ok: false, error: "There is no offer to accept yet." }, { status: 400 });
-  }
+    if (!offer) {
+      return NextResponse.json({ ok: false, error: "There is no offer to accept yet." }, { status: 400 });
+    }
 
     const result = await prisma.$transaction(async function (tx) {
       const updated = await tx.listing.updateMany({
@@ -66,7 +66,7 @@ export async function POST(
           select: { id: true },
         });
         if (existing) {
-          return { ok: true, orderId: existing.id };
+          return { ok: true, orderId: existing.id, reusedExistingOrder: true };
         }
         throw new Error("LISTING_NOT_ACTIVE");
       }
@@ -100,7 +100,7 @@ export async function POST(
         select: { id: true },
       });
 
-      return { ok: true, orderId: order.id };
+      return { ok: true, orderId: order.id, reusedExistingOrder: false };
     });
 
     return NextResponse.json({

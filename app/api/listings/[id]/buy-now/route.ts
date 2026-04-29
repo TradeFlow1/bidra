@@ -14,13 +14,13 @@ function jsonError(message: string, status = 400) {
 export async function POST(_req: Request, ctx: { params: { id: string } }) {
   try {
     const session = await auth();
-    if (!session?.user?.id) return jsonError("Not authenticated", 401);
+    if (!session?.user?.id) return jsonError("Sign in required before using Buy Now.", 401);
 
     const adult = await requireAdult(session);
-    if (!adult.ok) return jsonError(String(adult.reason || "Restricted"), 403);
+    if (!adult.ok) return jsonError("Your account is not eligible to use Buy Now.", 403);
 
     const id = String(ctx?.params?.id || "").trim();
-    if (!id) return jsonError("Missing listing id", 400);
+    if (!id) return jsonError("Listing id is required before using Buy Now.", 400);
 
     const listing = await prisma.listing.findUnique({
       where: { id: id },
@@ -29,8 +29,8 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       },
     });
 
-    if (!listing) return jsonError("Listing not found", 404);
-    if (listing.status !== "ACTIVE") return jsonError("Listing is not active.", 400);
+    if (!listing) return jsonError("Listing not found.", 404);
+    if (listing.status !== "ACTIVE") return jsonError("Buy Now is only available on active listings.", 400);
 
     const amount = listing.type === "BUY_NOW"
       ? listing.price
@@ -62,7 +62,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
           orderBy: { createdAt: "desc" },
           select: { id: true },
         });
-        if (existing) return { order: { id: existing.id } };
+        if (existing) return { order: { id: existing.id }, reusedExistingOrder: true };
         throw new Error("LISTING_NOT_ACTIVE");
       }
 
@@ -93,7 +93,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
         });
       } catch (_auditErr) {}
 
-      return { order: order };
+      return { order: order, reusedExistingOrder: false };
     });
 
     try {
@@ -129,14 +129,19 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       }
     } catch (_emailErr) {}
 
-    return NextResponse.json({ ok: true, orderId: result.order.id });
+    return NextResponse.json({
+      ok: true,
+      orderId: result.order.id,
+      nextStep: "Order created. Keep payment, pickup, postage, and handover arrangements in Bidra Messages.",
+      reusedExistingOrder: !!result.reusedExistingOrder,
+    });
   } catch (e: any) {
     console.error("Buy Now error:", e);
 
     if (e?.message === "LISTING_NOT_ACTIVE") {
-      return jsonError("Listing is not active.", 400);
+      return jsonError("Buy Now is no longer available for this listing.", 400);
     }
 
-    return jsonError("Server error", 500);
+    return jsonError("We could not create the order. Please try again.", 500);
   }
 }
