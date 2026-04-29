@@ -11,16 +11,16 @@ export default function RegisterSuccessPage() {
       <div className={card}>
         <h1 className="text-2xl font-extrabold tracking-tight text-[#0b1220]">Account created ✅</h1>
         <p className="mt-2 text-sm text-black/60">
-          Next: check your email and verify your account. After verification, log in to start buying, selling, and messaging safely.
+          Next: check your email and verify your account. After verification, log in to browse active listings, watch items, create listings, buy, offer, and message safely.
         </p>
 
         <div className="mt-5 grid grid-cols-1 gap-3">
           <Link href="/listings" className="bd-btn w-full text-center">
-            Browse listings
+            Browse active listings
           </Link>
 
           <Link href="/sell/new" className="bd-btn bd-btn-primary w-full text-center">
-            Create a listing
+            Create a buyer-ready listing
           </Link>
 
           <Link href="/auth/login" className="bd-btn w-full text-center">

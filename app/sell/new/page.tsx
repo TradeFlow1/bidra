@@ -65,9 +65,9 @@ export default async function SellNewPage() {
   return (
     <main className="bd-container py-10">
       <div className="container max-w-5xl">
-        <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Create a listing</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Create a buyer-ready listing</h1>
         <p className="mt-2 text-sm bd-ink2">
-          Create a trusted listing with clear photos, accurate details, a local pickup area, and safe pricing before publishing.
+          Create a trusted listing with clear photos, accurate details, a local pickup area, safe pricing, and a sale format that helps buyers act with confidence.
         </p>
 
         <div className="mt-6">

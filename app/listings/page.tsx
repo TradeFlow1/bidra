@@ -352,8 +352,8 @@ export default async function ListingsPage({
     <main className="bg-[#F7F9FC]">
       <div className="mx-auto w-full max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse listings</h1>
-          <p className="mt-2 text-sm text-[#475569]">Search active Australian marketplace listings by keyword, category, suburb, city, postcode, sale type, condition, and trusted seller signals.</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse active marketplace listings</h1>
+          <p className="mt-2 text-sm text-[#475569]">Search active Australian marketplace listings by keyword, category, suburb, city, postcode, sale type, condition, and trusted seller signals. Create a free account to watch items, buy, offer, sell, and message safely.</p>
         </section>
 
         <section className="mt-5 grid gap-4 xl:grid-cols-[18rem_minmax(0,1fr)]">
@@ -366,7 +366,7 @@ export default async function ListingsPage({
                 <div className="hidden xl:block">
                   <div className="mb-4 border-b border-[#E2E8F0] pb-4">
                     <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Search and filter</div>
-                    <div className="mt-2 text-sm text-[#475569]">Keyword, category, location, sale type, condition, and sort create shareable discovery URLs.</div>
+                    <div className="mt-2 text-sm text-[#475569]">Keyword, category, location, sale type, condition, and sort create shareable discovery URLs buyers can revisit and sellers can promote.</div>
                   </div>
                   <FiltersForm />
                 </div>
@@ -404,7 +404,7 @@ export default async function ListingsPage({
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Results</div>
                   <div className="mt-1 text-sm font-semibold text-[#0F172A]">{listings.length} results</div>
-                  {hasFilters ? <p className="mt-1 text-xs text-[#64748B]">{filterSummary}</p> : null}
+                  {hasFilters ? <p className="mt-1 text-xs text-[#64748B]">{filterSummary}. Sign up to watch items, message sellers, buy now, or place offers.</p> : null}
                 </div>
                 {hasFilters ? (
                   <Link href="/listings" className="text-xs font-semibold text-[#1D4ED8] underline underline-offset-2">
@@ -437,7 +437,7 @@ export default async function ListingsPage({
                   <div className="mx-auto max-w-md">
                     <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No trusted matches for those filters yet." : "No active listings yet"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
-                      {hasFilters ? "Try fewer filters, check spelling, or browse all active Australian marketplace listings. Bidra only shows active listings that are available to buy or make offers on." : "New local listings will appear here as sellers publish active items for Buy Now or offers."}
+                      {hasFilters ? "Try fewer filters, check spelling, or browse all active Australian marketplace listings. Bidra only shows active listings that are available to buy or make offers on, and sellers can create new buyer-ready listings anytime." : "New local listings will appear here as sellers publish active items for Buy Now or offers."}
                     </p>
                     <div className="mt-4 flex flex-wrap justify-center gap-2">
                       <Link href="/listings" className="bd-btn bd-btn-primary">Browse all listings</Link>

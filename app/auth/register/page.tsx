@@ -230,9 +230,9 @@ export default function RegisterPage() {
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
           <div className="max-w-3xl">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Join Bidra</div>
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Create your account</h1>
+            <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Create your free marketplace account</h1>
             <p className="mt-2 text-sm bd-ink2 sm:text-base">
-              Set up your marketplace account, verify your email, and keep your buying and selling activity protected.
+              Set up your Bidra account, verify your email, add your general location, and start buying, selling, watching, and messaging with trust signals.
             </p>
           </div>
         </div>
@@ -240,7 +240,7 @@ export default function RegisterPage() {
         <div className="grid gap-4 sm:gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="order-2 space-y-4 sm:space-y-5 lg:order-1">
             <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6">
-              <div className="text-sm font-extrabold bd-ink">Before you create an account</div>
+              <div className="text-sm font-extrabold bd-ink">Activate your account with trust basics</div>
               <div className="mt-3 space-y-3 sm:mt-4 sm:space-y-4">
                 <div className="rounded-2xl border border-black/10 bg-neutral-50 p-3.5 sm:p-4">
                   <div className="text-sm font-semibold bd-ink">Email verification required</div>
@@ -291,7 +291,7 @@ export default function RegisterPage() {
                 <div>
                   <div className="text-sm font-extrabold bd-ink">Account registration</div>
                   <div className="mt-1 text-sm bd-ink2">
-                    Complete the details below to create your Bidra account.
+                    Complete the details below to activate browsing, watchlist, buying, selling, and messaging.
                   </div>
                 </div>
 
@@ -505,7 +505,7 @@ export default function RegisterPage() {
                     disabled={!canSubmit}
                     className={cx("bd-btn bd-btn-primary w-full", loading && "opacity-70 cursor-not-allowed")}
                   >
-                    {loading ? "Creating..." : "Create account"}
+                    {loading ? "Creating..." : "Create free account"}
                   </button>
 
                   <div className="text-sm text-black/60">

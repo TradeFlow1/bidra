@@ -3,8 +3,8 @@ import Link from "next/link";
 const marketplaceLinks = [
   { href: "/", label: "Home" },
   { href: "/listings", label: "Browse listings" },
-  { href: "/watchlist", label: "Watchlist" },
-  { href: "/sell", label: "Sell" },
+  { href: "/auth/register", label: "Create account" },
+  { href: "/sell/new", label: "Start selling" },
 ];
 
 const supportLinks = [
@@ -53,7 +53,7 @@ export default function SiteFooter() {
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Bidra marketplace</div>
             <h2 className="mt-2 text-[1.55rem] font-extrabold tracking-tight text-[#0F172A] sm:text-[1.9rem]">Buy now. Make offers. Arrange handover.</h2>
             <p className="mt-2 text-sm leading-6 text-[#475569] sm:mt-3">
-              Trust-first local marketplace for Buy Now sales and seller-accepted offers. Buyers and sellers arrange pickup or postage in messages.
+              Trust-first local marketplace for Buy Now sales and seller-accepted offers. Create a free account to browse, watch, sell, buy, offer, and keep pickup or postage details in Messages.
             </p>
           </div>
 
@@ -64,7 +64,7 @@ export default function SiteFooter() {
 
         <div className="flex flex-col gap-2 pt-3 text-xs text-[#64748B] sm:pt-4 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Bidra. All rights reserved.</p>
-          <p>Buy now. Make offers. Arrange handover in messages.</p>
+          <p>Create an account. Browse active listings. Buy now, make offers, and arrange handover in Messages.</p>
         </div>
       </div>
     </footer>

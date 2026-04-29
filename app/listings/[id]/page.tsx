@@ -261,10 +261,10 @@ export default async function ListingDetailPage({
                 />
                 <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-3.5 py-3 text-sm text-emerald-900">
                   <div className="font-semibold">Bidra trust reminder</div>
-                  <p className="mt-1">Active listings should stay on-platform from questions through handover, with reports available if something feels wrong.</p>
+                  <p className="mt-1">Create a free account to watch this item, message the seller, buy now, or place an offer while keeping questions through handover on Bidra.</p>
                 </div>
                 <div className="mt-4 rounded-2xl border border-[#E2E8F0] bg-white px-3.5 py-3">
-                  <div className="text-sm font-semibold text-[#0F172A]">Buyer confidence checklist</div>
+                  <div className="text-sm font-semibold text-[#0F172A]">Buyer activation checklist</div>
                   <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm text-[#475569]">
                     <li>Ask questions before you buy or offer if anything is unclear.</li>
                     <li>After a sale, keep pickup, postage, and payment details in Bidra Messages.</li>
@@ -367,7 +367,7 @@ export default async function ListingDetailPage({
               <div className="mt-2">
                 <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
               </div>
-              <p className="mt-2 text-sm text-[#64748B]">Review the seller profile, verification badges, and listing history before you buy or offer.</p>
+              <p className="mt-2 text-sm text-[#64748B]">Review the seller profile, verification badges, and listing history before you buy, offer, or message.</p>
             </div>
 
             <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">

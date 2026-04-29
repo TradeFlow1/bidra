@@ -166,8 +166,8 @@ export default async function HomePage() {
             <div className="grid gap-2 rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
               <HomeCategorySelect />
               <div className="grid gap-2">
-                <Link href="/listings" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2.5 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse listings</Link>
-                <Link href="/watchlist" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2.5 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Watchlist</Link>
+                <Link href="/listings" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2.5 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse active listings</Link>
+                <Link href="/auth/register" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2.5 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Create a free account</Link>
               </div>
             </div>
           </div>
@@ -177,7 +177,7 @@ export default async function HomePage() {
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Explore</div>
-              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Featured categories</h2>
+              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Discover active marketplace categories</h2>
             </div>
             <Link href="/listings" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
               View all
@@ -199,15 +199,15 @@ export default async function HomePage() {
               })}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-[#64748B]">Categories will appear as listings become active.</p>
+            <p className="mt-4 text-sm text-[#64748B]">Categories will appear as sellers publish active Buy Now and offer listings.</p>
           )}
         </section>
 
         <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse now</div>
-              <h2 className="mt-1 text-[1.9rem] font-extrabold tracking-tight text-[#0F172A]">Latest listings</h2>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Start buying</div>
+              <h2 className="mt-1 text-[1.9rem] font-extrabold tracking-tight text-[#0F172A]">Latest active listings</h2>
             </div>
 
             <Link href="/listings" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
@@ -217,7 +217,7 @@ export default async function HomePage() {
 
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {latestListings.length ? latestListings.map(renderCard) : (
-              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No active listings yet. Check back soon or start the first listing.</p>
+              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No active listings yet. Create a free account and start the first trusted listing.</p>
             )}
           </div>
         </section>
@@ -226,7 +226,7 @@ export default async function HomePage() {
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Offer listings</div>
-              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Make an offer</h2>
+              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Make seller-reviewed offers</h2>
             </div>
             <Link href="/listings?type=OFFERABLE" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
               View all
@@ -234,7 +234,7 @@ export default async function HomePage() {
           </div>
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {offerableListings.length ? offerableListings.map(renderCard) : (
-              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No offer listings right now.</p>
+              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No offer listings right now. Sellers can create timed-offer listings from the sell flow.</p>
             )}
           </div>
         </section>
@@ -243,7 +243,7 @@ export default async function HomePage() {
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Buy now listings</div>
-              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Ready to buy</h2>
+              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Buy Now activation</h2>
             </div>
             <Link href="/listings?type=BUY_NOW" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
               View all
@@ -251,7 +251,7 @@ export default async function HomePage() {
           </div>
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {buyNowListings.length ? buyNowListings.map(renderCard) : (
-              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No buy now listings right now.</p>
+              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No Buy Now listings right now. Create a listing with a clear fixed price to activate buyers faster.</p>
             )}
           </div>
         </section>
