@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!category || !location) return {};
 
   const title = `${category.label} listings in ${location.label} | Bidra`;
-  const description = `Browse active ${category.label} listings near ${location.label} on Bidra.`;
+  const description = `Discover ${category.label} marketplace listings near ${location.label} on Bidra. Compare local Buy Now and offer listings with seller trust signals and safer handover guidance.`;
   const canonicalPath = `/listings/c/${category.slug}/${location.slug}`;
   const url = `${getSiteUrl()}${canonicalPath}`;
 
@@ -45,7 +45,7 @@ export default async function CategoryLocationSeoPage({ params }: Props) {
       <div className="mx-auto w-full max-w-7xl px-4 py-6 lg:px-6">
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">{category.label} listings in {location.label}</h1>
-          <p className="mt-2 text-sm text-[#475569]">Active {category.label} listings near {location.label}.</p>
+          <p className="mt-2 text-sm text-[#475569]">Active {category.label} listings near {location.label}, with Buy Now and offer options, seller trust signals, and pickup, postage, or handover details kept in Messages.</p>
           <div className="mt-4 flex flex-wrap gap-3">
             <Link href={`/listings/c/${category.slug}`} className="text-sm font-semibold text-[#1D4ED8] underline underline-offset-2">View all {category.label}</Link>
             <Link href="/listings" className="text-sm font-semibold text-[#1D4ED8] underline underline-offset-2">Back to all listings</Link>

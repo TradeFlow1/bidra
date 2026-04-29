@@ -1,11 +1,36 @@
-﻿import "./globals.css";
+import type { Metadata } from "next";
+import "./globals.css";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import Providers from "@/components/providers";
 
-export const metadata = {
-  title: "Bidra",
-  description: "An Australian marketplace to buy and sell items safely",
+export const metadata: Metadata = {
+  metadataBase: new URL("https://bidra.com.au"),
+  title: {
+    default: "Bidra | Australian marketplace for local buying and selling",
+    template: "%s | Bidra",
+  },
+  description: "Discover active Australian marketplace listings by category, suburb, city, and postcode. Buy Now or make offers while keeping pickup, postage, and handover details in Bidra Messages.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Bidra | Australian marketplace for local buying and selling",
+    description: "Browse active Australian marketplace listings by category and location, then buy safely with Bidra order records and Messages.",
+    url: "/",
+    siteName: "Bidra",
+    type: "website",
+    locale: "en_AU",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bidra | Australian marketplace for local buying and selling",
+    description: "Discover active Australian marketplace listings by category, suburb, city, and postcode.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: "/brand/bidra-kangaroo-icon.png",
   },

@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!category) return {};
 
   const title = `${category.label} listings | Bidra`;
-  const description = `Browse active ${category.label} listings on Bidra.`;
+  const description = `Browse active ${category.label} listings on Bidra by location, price, condition, and seller trust signals. Buy Now or make offers with handover details kept in Messages.`;
   const canonicalPath = `/listings/c/${category.slug}`;
   const url = `${getSiteUrl()}${canonicalPath}`;
 
@@ -44,7 +44,7 @@ export default async function CategorySeoPage({ params }: Props) {
       <div className="mx-auto w-full max-w-7xl px-4 py-6 lg:px-6">
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">{category.label} listings</h1>
-          <p className="mt-2 text-sm text-[#475569]">Browse active {category.label} listings on Bidra.</p>
+          <p className="mt-2 text-sm text-[#475569]">Browse active {category.label} listings on Bidra by location, price, condition, and seller trust signals. Buy Now or make offers, then keep pickup, postage, and handover details in Messages.</p>
           <div className="mt-4">
             <Link href="/listings" className="text-sm font-semibold text-[#1D4ED8] underline underline-offset-2">Back to all listings</Link>
           </div>
@@ -52,7 +52,7 @@ export default async function CategorySeoPage({ params }: Props) {
 
         {locationLinks.length ? (
           <section className="mt-5 rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
-            <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse by location</h2>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse {category.label} by location</h2>
             <div className="mt-3 flex flex-wrap gap-2">
               {locationLinks.map(function (location) {
                 return (
@@ -74,7 +74,7 @@ export default async function CategorySeoPage({ params }: Props) {
             {listings.length === 0 ? (
               <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                 <div className="text-lg font-bold text-[#0F172A]">No active {category.label} listings right now</div>
-                <p className="mt-2 text-sm text-[#475569]">Check back soon for new active listings in this category, or broaden your search across all listings.</p>
+                <p className="mt-2 text-sm text-[#475569]">Check back soon for new active {category.label} listings, or broaden your search across all active Australian marketplace listings.</p>
               </div>
             ) : (
               listings.map(function (listing) {

@@ -8,8 +8,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticEntries: MetadataRoute.Sitemap = [
-    { url: `${baseUrl}/`, lastModified: now },
-    { url: `${baseUrl}/listings`, lastModified: now },
+    { url: `${baseUrl}/`, lastModified: now, changeFrequency: "daily", priority: 1 },
+    { url: `${baseUrl}/listings`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
   ];
 
   const combos = process.env.DATABASE_URL ? await getSeoSitemapCombos() : [];
@@ -22,6 +22,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return {
       url: `${baseUrl}${path}`,
       lastModified: now,
+      changeFrequency: "daily",
+      priority: combo.locationSlug ? 0.75 : 0.8,
     };
   });
 
