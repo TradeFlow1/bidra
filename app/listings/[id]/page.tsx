@@ -239,7 +239,7 @@ export default async function ListingDetailPage({
                   </div>
                 ) : isTimedOffers ? (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">Offers are non-binding until the seller accepts. Ask questions in Messages before raising your offer.</p>
+                    <p className="text-sm text-[#64748B]">Offers stay pending until the seller accepts. Ask questions in Messages first, then place only an amount you are prepared to honour.</p>
                     <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
                   </div>
                 ) : (
@@ -278,7 +278,7 @@ export default async function ListingDetailPage({
 
               {isOwner && isTimedOffers && !isSold && topOffer ? (
                 <div className="mt-3 rounded-2xl border border-[#FDE68A] bg-[#FFFBEB] p-3.5">
-                  <div className="mt-1 text-sm font-semibold text-[#92400E]">Accept the highest offer to mark this listing as sold.</div>
+                  <div className="mt-1 text-sm font-semibold text-[#92400E]">Accepting the highest offer creates an order record and marks this listing as sold.</div>
                   <div className="mt-2">
                     <AcceptHighestOfferButton listingId={listing.id} />
                   </div>

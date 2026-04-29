@@ -47,7 +47,7 @@ export default function PlaceOfferClient({
   }, [endsAtIso]);
 
   const hardDisabled = Boolean(disabled) || Boolean(clientEnded);
-  const hardDisabledText = clientEnded ? "Offers are closed." : (disabledText || "Waiting for seller decision.");
+  const hardDisabledText = clientEnded ? "Offers are closed for this listing." : (disabledText || "Waiting for seller decision.");
 
   async function submit() {
     if (hardDisabled) { setMsg(hardDisabledText); return; }
@@ -59,7 +59,7 @@ export default function PlaceOfferClient({
 
     const value = Number(amount);
     if (!Number.isFinite(value) || value <= 0) {
-      setMsg("Enter a valid amount.");
+      setMsg("Enter a valid offer amount before submitting.");
       return;
     }
 
@@ -89,7 +89,7 @@ export default function PlaceOfferClient({
           return;
         }
 
-        setMsg(raw || "Offer failed.");
+        setMsg(raw || "We could not place your offer. Please try again.");
         return;
       }
 
@@ -104,7 +104,7 @@ export default function PlaceOfferClient({
       setMsg("");
       router.refresh();
     } catch {
-      setMsg("Offer failed.");
+      setMsg("We could not place your offer. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -116,7 +116,7 @@ export default function PlaceOfferClient({
         <div className="rounded-xl border border-black/10 bg-white p-4">
           <div className="text-sm font-extrabold text-neutral-900">Sign in to make an offer</div>
           <div className="mt-1 text-xs text-neutral-700">
-            You need an account to place offers on Bidra.
+            Sign in so your offer can be linked to your account and kept with the listing conversation.
           </div>
           <button
             type="button"
@@ -134,7 +134,7 @@ export default function PlaceOfferClient({
     <div className="space-y-3">
       {lastResult ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2">
-          <div className="text-sm font-extrabold text-neutral-900">Offer submitted ✅</div>
+          <div className="text-sm font-extrabold text-neutral-900">Offer submitted</div>
           <div className="mt-0.5 text-xs text-neutral-700">
             Max offer:{" "}
             <span className="font-semibold text-neutral-900">
@@ -151,9 +151,9 @@ export default function PlaceOfferClient({
           </div>
           <div className="mt-1 text-xs text-neutral-700">
             {lastResult.isTop ? (
-              <>You are currently the highest offer.</>
+              <>You are currently the highest offer. Keep questions and handover expectations in Messages.</>
             ) : (
-              <>You have been out-offered. Increase your offer to stay on top.</>
+              <>You have been out-offered. Increase your offer only if you are prepared to honour it.</>
             )}
           </div>
         </div>
@@ -161,12 +161,12 @@ export default function PlaceOfferClient({
 
       {viewerHasAnyOffer && offerState === "TOP" ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900">
-          You are the highest offer.
+          You are the highest offer. Keep questions and handover expectations in Messages.
         </div>
       ) : viewerHasAnyOffer && offerState === "OUTBID" ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2">
           <div className="text-sm font-extrabold text-neutral-900">You have been out-offered.</div>
-          <div className="mt-0.5 text-xs text-neutral-700">Increase your offer to stay on top.</div>
+          <div className="mt-0.5 text-xs text-neutral-700">Increase your offer only if you are prepared to honour it.</div>
         </div>
       ) : null}
 
@@ -183,7 +183,7 @@ export default function PlaceOfferClient({
           onChange={(e) => setAmount(e.target.value)}
           onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } }}
           inputMode="decimal"
-          placeholder="e.g. 25.50"
+          placeholder="Enter your offer amount, e.g. 25.50"
           disabled={hardDisabled || loading}
           className="h-11 w-full rounded-xl border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-3 py-2 text-sm text-[var(--bidra-fg)] placeholder:text-[var(--bidra-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--bidra-link)] disabled:opacity-60"
         />
@@ -194,7 +194,7 @@ export default function PlaceOfferClient({
           disabled={loading || hardDisabled}
           className="w-full rounded-full border border-[#1D4ED8] bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D4ED8] disabled:opacity-60"
         >
-          {loading ? "Submitting..." : "Place offer"}
+          {loading ? "Submitting..." : "Place offer safely"}
         </button>
       </div>
 

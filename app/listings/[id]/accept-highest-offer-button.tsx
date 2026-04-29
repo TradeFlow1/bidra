@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -20,7 +20,7 @@ export default function AcceptHighestOfferButton(props: { listingId: string }) {
       })
       const data = await res.json().catch((): unknown => ({}))
       if (!res.ok) {
-        setErr(String(data?.error || "Unable to proceed with the highest offer."))
+        setErr(String(data?.error || "Unable to accept the highest offer right now."))
         setLoading(false)
         return
       }
@@ -34,7 +34,7 @@ export default function AcceptHighestOfferButton(props: { listingId: string }) {
       // Fallback: seller can view orders list
       r.push(`/orders`)
     } catch (e: any) {
-      setErr("Network error. Please try again.")
+      setErr("We could not accept the highest offer. Please try again.")
       setLoading(false)
     }
   }
@@ -47,11 +47,11 @@ export default function AcceptHighestOfferButton(props: { listingId: string }) {
         disabled={loading}
         className="bd-btn-primary w-full disabled:opacity-60"
       >
-        {loading ? "Proceeding..." : "Proceed with highest offer"}
+        {loading ? "Accepting..." : "Accept highest offer"}
       </button>
 
       <div className="text-xs text-neutral-600">
-        This does not auto-complete a sale. It creates an order so you and the buyer can arrange payment/pickup.
+        This creates an order record. Keep payment, pickup, postage, and handover arrangements in Bidra Messages.
       </div>
 
       {err ? <div className="text-xs text-red-600">{err}</div> : null}
