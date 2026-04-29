@@ -9,15 +9,18 @@ export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
   const gate = await requireAdult();
   if (!gate.ok) {
+    const message = gate?.status === 401
+      ? "Sign in required before making an offer."
+      : "Your account is not eligible to make offers.";
     return NextResponse.json(
-      { ok: false, error: String(gate?.reason || "Not allowed") },
+      { ok: false, error: message },
       { status: gate?.status || 403 }
     );
   }
 
   const userId = gate?.session?.user?.id ? String(gate.session.user.id) : "";
   if (!userId) {
-    return NextResponse.json({ ok: false, error: "Not signed in" }, { status: 401 });
+    return NextResponse.json({ ok: false, error: "Sign in required before making an offer." }, { status: 401 });
   }
 
   const body = await req.json().catch(function () { return {}; });
@@ -25,7 +28,7 @@ export async function POST(req: Request) {
   const amountDollars = Number(body?.amount);
 
   if (!listingId || !Number.isFinite(amountDollars) || amountDollars <= 0) {
-    return NextResponse.json({ ok: false, error: "Invalid offer" }, { status: 400 });
+    return NextResponse.json({ ok: false, error: "Enter a valid offer amount before submitting." }, { status: 400 });
   }
 
   const amountCents = Math.round(amountDollars * 100);
@@ -51,7 +54,7 @@ export async function POST(req: Request) {
   }
 
   if (listing.status !== "ACTIVE") {
-    return NextResponse.json({ ok: false, error: "Listing is not active" }, { status: 400 });
+    return NextResponse.json({ ok: false, error: "Offers can only be placed on active listings." }, { status: 400 });
   }
 
   if (listing.type !== "OFFERABLE") {
@@ -69,7 +72,7 @@ export async function POST(req: Request) {
   }
 
   if (highest > 0 && amountCents <= highest) {
-    return NextResponse.json({ ok: false, error: "Offer must be higher than the current top offer." }, { status: 400 });
+    return NextResponse.json({ ok: false, error: "Your offer must be higher than the current highest offer." }, { status: 400 });
   }
   try {
     const offer = await prisma.offer.create({
@@ -121,6 +124,6 @@ export async function POST(req: Request) {
     });
   } catch (e) {
     console.error("offers/place failed", e);
-    return NextResponse.json({ ok: false, error: "Offer failed." }, { status: 500 });
+    return NextResponse.json({ ok: false, error: "We could not place your offer. Please try again." }, { status: 500 });
   }
 }

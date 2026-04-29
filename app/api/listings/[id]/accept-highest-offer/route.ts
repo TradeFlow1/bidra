@@ -11,19 +11,19 @@ export async function POST(
   try {
     const session = await auth();
     if (!session?.user?.id) {
-      return NextResponse.json({ ok: false, error: "Not authenticated" }, { status: 401 });
+      return NextResponse.json({ ok: false, error: "Sign in required before accepting an offer." }, { status: 401 });
     }
 
     const adult = await requireAdult(session);
     if (!adult.ok) {
-      return NextResponse.json({ ok: false, error: String(adult.reason || "Restricted") }, { status: adult.status || 403 });
+      return NextResponse.json({ ok: false, error: "Your account is not eligible to accept offers." }, { status: adult.status || 403 });
     }
 
     const me = session.user as unknown as { id?: string } | undefined;
 
     const listingId = String(params?.id || "").trim();
     if (!listingId) {
-      return NextResponse.json({ ok: false }, { status: 400 });
+      return NextResponse.json({ ok: false, error: "Listing id is required before accepting an offer." }, { status: 400 });
     }
 
     const listing = await prisma.listing.findUnique({
@@ -37,11 +37,11 @@ export async function POST(
     });
 
     if (!listing) {
-      return NextResponse.json({ ok: false }, { status: 404 });
+      return NextResponse.json({ ok: false, error: "Listing not found." }, { status: 404 });
     }
 
     if (listing.sellerId !== me?.id) {
-      return NextResponse.json({ ok: false }, { status: 403 });
+      return NextResponse.json({ ok: false, error: "Only the seller can accept the highest offer." }, { status: 403 });
     }
 
     if (listing.status !== "ENDED") {
@@ -49,9 +49,9 @@ export async function POST(
     }
 
     const offer = listing.offers[0];
-    if (!offer) {
-      return NextResponse.json({ ok: false }, { status: 400 });
-    }
+  if (!offer) {
+    return NextResponse.json({ ok: false, error: "There is no offer to accept yet." }, { status: 400 });
+  }
 
     const result = await prisma.$transaction(async function (tx) {
       const updated = await tx.listing.updateMany({
@@ -111,6 +111,6 @@ export async function POST(
     });
   } catch (e) {
     console.error("Accept highest offer error:", e);
-    return NextResponse.json({ ok: false }, { status: 500 });
+    return NextResponse.json({ ok: false, error: "We could not accept the highest offer. Please try again." }, { status: 500 });
   }
 }
