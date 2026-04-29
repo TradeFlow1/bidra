@@ -47,11 +47,11 @@ export default function AcceptHighestOfferButton(props: { listingId: string }) {
         disabled={loading}
         className="bd-btn-primary w-full disabled:opacity-60"
       >
-        {loading ? "Accepting..." : "Accept highest offer"}
+        {loading ? "Creating order..." : "Accept highest offer and create order"}
       </button>
 
       <div className="text-xs text-neutral-600">
-        This creates an order record. Keep payment, pickup, postage, and handover arrangements in Bidra Messages.
+        This creates a pending order record and redirects to order details. Keep payment, pickup, postage, and handover arrangements in Bidra Messages.
       </div>
 
       {err ? <div className="text-xs text-red-600">{err}</div> : null}

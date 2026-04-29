@@ -51,7 +51,7 @@ export default async function OrdersPage() {
             <div className="max-w-3xl">
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Sold-item records for your buys and sales. Open any order to message the other person and arrange pickup or postage.
+                Sold-item records for your buys and sales. Open any order to message the other person and confirm payment, pickup, postage, and handover details.
               </p>
             </div>
           </div>
@@ -59,9 +59,9 @@ export default async function OrdersPage() {
 
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Sold</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Order records</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{soldCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Items bought or sold.</div>
+            <div className="mt-1 text-sm text-neutral-600">Pending and completed sold-item records.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
@@ -149,7 +149,7 @@ export default async function OrdersPage() {
                           className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
                         >
                           <span className="block">Order details</span>
-                          <span className="mt-1 block text-xs bd-ink2">Arrange pickup or postage</span>
+                          <span className="mt-1 block text-xs bd-ink2">Confirm payment and handover in Messages</span>
                         </Link>
                       ) : (
                         <Link
