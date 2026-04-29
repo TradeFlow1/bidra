@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -29,9 +29,11 @@ export async function POST(req: Request) {
       entityType: "LISTING",
       entityId: listingId,
       listingId,
-meta: { toStatus: "DELETED" },
+      meta: { toStatus: "DELETED", note: "Listing removed from public view after trust-operations review." },
     },
-  });await prisma.report.updateMany({
+  });
+
+  await prisma.report.updateMany({
     where: { listingId, resolved: false },
     data: { resolved: true },
   });

@@ -23,13 +23,13 @@ export default async function AdminHome() {
     <main>
       <h1 className="text-3xl font-semibold">Admin</h1>
       <p className="mt-2 text-sm text-black/60">
-        Use Admin to review reports, listings, users, feedback, and audit activity before taking action. Actions are logged.
+        Use Admin as a trust operations workspace: review evidence, choose proportional actions, and keep every moderation decision auditable.
       </p>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2">
         <div className={card}>
           <div className={title}>Reports</div>
-          <div className={sub}>Review open and resolved reports.</div>
+          <div className={sub}>Triage open reports, inspect evidence, and close the loop with an auditable decision.</div>
           <div className="mt-3 flex gap-2">
             <Link href="/admin/reports" className="bd-btn bd-btn-primary">Open reports</Link>
             <Link href="/admin/reports?status=RESOLVED" className="bd-btn bd-btn-ghost">Resolved</Link>
@@ -38,7 +38,7 @@ export default async function AdminHome() {
 
         <div className={card}>
           <div className={title}>Users</div>
-          <div className={sub}>Strikes, blocks, and user status.</div>
+          <div className={sub}>Review account status, strikes, and blocks before applying user restrictions.</div>
           <div className="mt-3">
             <Link href="/admin/users" className="bd-btn bd-btn-primary">Manage users</Link>
           </div>
@@ -46,7 +46,7 @@ export default async function AdminHome() {
 
         <div className={card}>
           <div className={title}>Listings</div>
-          <div className={sub}>Inspect, suspend, delete, and review listing states.</div>
+          <div className={sub}>Inspect listing state and report context before suspending, restoring, or removing content.</div>
           <div className="mt-3">
             <Link href="/admin/listings" className="bd-btn bd-btn-primary">Manage listings</Link>
           </div>
@@ -54,7 +54,7 @@ export default async function AdminHome() {
 
         <div className={card}>
           <div className={title}>Audit log</div>
-          <div className={sub}>See what moderation actions occurred and when.</div>
+          <div className={sub}>Trace moderator actions, related reports, listing IDs, user IDs, and captured metadata.</div>
           <div className="mt-3">
             <Link href="/admin/audit" className="bd-btn bd-btn-primary">View audit</Link>
             <Link href="/admin/events" className="bd-btn bd-btn-ghost">Events</Link>

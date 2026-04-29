@@ -43,13 +43,13 @@ export default async function AdminUsers() {
     <div className="flex flex-col gap-3">
       <div>
         <h1 className="text-2xl font-bold">Users</h1>
-        <p className="mt-2 text-sm text-neutral-600">Review account status, policy strikes, block state, and account age before taking user moderation action.</p>
+        <p className="mt-2 text-sm text-neutral-600">Review account status, policy strikes, block state, account age, and related report context before taking user moderation action.</p>
       </div>
 
       <div className="grid gap-3">
         {users.length === 0 ? (
           <Card>
-            <div className="p-4 text-sm text-neutral-600">No users to review right now.</div>
+            <div className="p-4 text-sm text-neutral-600">No users need trust-operations review right now.</div>
           </Card>
         ) : null}
 
@@ -86,7 +86,7 @@ export default async function AdminUsers() {
                     <button
                       type="submit"
                       className="bd-btn bd-btn-ghost"
-                      title="Remove one policy strike"
+                      title="Remove one policy strike after review"
                     >
                       Unstrike
                     </button>

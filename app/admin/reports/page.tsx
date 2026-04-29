@@ -83,7 +83,7 @@ export default async function AdminReports({
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin reports</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Marketplace reports</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review report reason, listing context, reporter details, status, and action links before taking moderation action.
+                Review report reason, listing context, reporter details, status, and action links before taking proportional moderation action.
               </p>
             </div>
 
@@ -98,19 +98,19 @@ export default async function AdminReports({
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Current view</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{showResolved ? "Resolved reports" : "Open reports"}</div>
-            <div className="mt-1 text-sm text-neutral-600">{showResolved ? "Completed moderation history." : "Active moderation queue."}</div>
+            <div className="mt-1 text-sm text-neutral-600">{showResolved ? "Completed moderation history with audit trail." : "Active moderation queue requiring evidence review."}</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Open count</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{openCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Reports still awaiting resolution.</div>
+            <div className="mt-1 text-sm text-neutral-600">Reports still awaiting evidence review and decision.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Resolved count</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{resolvedCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Reports already actioned or cleared.</div>
+            <div className="mt-1 text-sm text-neutral-600">Reports already actioned, cleared, or reopened with history.</div>
           </div>
         </div>
 

@@ -123,7 +123,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin report detail</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Moderation report</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review report context, AI analysis, listing state, reporter details, and enforcement actions from one place.
+                Review report context, AI analysis, listing state, reporter details, and enforcement actions before making an auditable trust decision.
               </p>
             </div>
 
@@ -139,7 +139,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">State</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{isResolved ? "Resolved" : "Open"}</div>
-            <div className="mt-1 text-sm text-neutral-600">Current moderation state.</div>
+            <div className="mt-1 text-sm text-neutral-600">Current moderation state for this report.</div>
           </div>
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Risk</div>
@@ -162,8 +162,8 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
           <ul className="list-disc space-y-2 pl-5 text-sm bd-ink2 leading-7">
             <li>Read the report reason and any details before taking action.</li>
             <li>Check the linked listing, seller state, reporter, and related history where available.</li>
-            <li>Use existing admin actions only when the evidence supports it.</li>
-            <li>Keep auditability in mind before resolving or reopening the report.</li>
+            <li>Use existing admin actions only when the evidence supports a proportional response.</li>
+            <li>Keep auditability in mind before resolving, reopening, suspending, deleting, striking, or blocking.</li>
           </ul>
         </SectionCard>
 
@@ -208,14 +208,14 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
                     <form action="/api/admin/reports/resolve" method="post">
                       <input type="hidden" name="reportId" value={report.id} />
                       <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                      <button type="submit" className="bd-btn bd-btn-primary">Resolve</button>
+                      <button type="submit" className="bd-btn bd-btn-primary">Resolve after review</button>
                     </form>
                   ) : null}
                   {isResolved ? (
                     <form action="/api/admin/reports/reopen" method="post">
                       <input type="hidden" name="reportId" value={report.id} />
                       <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                      <button type="submit" className="bd-btn bd-btn-ghost">Re-open</button>
+                      <button type="submit" className="bd-btn bd-btn-ghost">Reopen for more evidence</button>
                     </form>
                   ) : null}
                 </>
@@ -235,7 +235,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
                       <input type="hidden" name="listingId" value={report.listing.id} />
                       <input type="hidden" name="reportId" value={report.id} />
                       <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                      <button type="submit" className="bd-btn bd-btn-primary">Suspend listing</button>
+                      <button type="submit" className="bd-btn bd-btn-primary">Suspend listing after review</button>
                     </form>
                   ) : null}
                   {!isResolved ? (
@@ -243,7 +243,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
                       <input type="hidden" name="listingId" value={report.listing.id} />
                       <input type="hidden" name="reportId" value={report.id} />
                       <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                      <button type="submit" className="bd-btn bd-btn-ghost">Unsuspend listing</button>
+                      <button type="submit" className="bd-btn bd-btn-ghost">Restore listing after review</button>
                     </form>
                   ) : null}
                   {!isResolved ? (
@@ -251,7 +251,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
                       <input type="hidden" name="listingId" value={report.listing.id} />
                       <input type="hidden" name="reportId" value={report.id} />
                       <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                      <ConfirmSubmitButton className="bd-btn bd-btn-ghost !border-red-200 !bg-red-50 !text-red-900 hover:!bg-red-100" confirmMessage="Delete this listing now? This removes it from public view.">
+                      <ConfirmSubmitButton className="bd-btn bd-btn-ghost !border-red-200 !bg-red-50 !text-red-900 hover:!bg-red-100" confirmMessage="Remove this listing from public view after reviewing the report evidence?">
                         Delete listing
                       </ConfirmSubmitButton>
                     </form>
@@ -274,7 +274,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
                 </div>
               ) : null}
               <div className="mt-4 text-sm bd-ink2 leading-7">
-                Tip: deleted listings are removed from public view.
+                Tip: deleted listings are removed from public view, while suspended listings can be restored after review.
               </div>
             </SectionCard>
 

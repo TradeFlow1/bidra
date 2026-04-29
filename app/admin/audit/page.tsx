@@ -112,7 +112,7 @@ export default async function AdminAuditPage({
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin audit</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Admin audit log</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review the latest admin actions, filter by entity type, and inspect related links and captured metadata.
+                Review the latest admin actions, filter by entity type, and inspect related links, report IDs, listing IDs, user IDs, and captured metadata.
               </p>
             </div>
 
@@ -128,7 +128,7 @@ export default async function AdminAuditPage({
           <InfoCard
             title="Rows shown"
             value={rows.length}
-            note="Latest 200 matching audit actions."
+            note="Latest 200 matching trust-operation actions."
           />
           <InfoCard
             title="Type filter"
@@ -145,7 +145,7 @@ export default async function AdminAuditPage({
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm space-y-4">
           <div>
             <div className="text-sm font-extrabold bd-ink">Filters</div>
-            <div className="mt-1 text-sm bd-ink2">Filter by entity type or search across action and related IDs.</div>
+            <div className="mt-1 text-sm bd-ink2">Filter by entity type or search across actions, report IDs, listing IDs, user IDs, and admin IDs.</div>
           </div>
 
           <div className="flex flex-wrap gap-2">

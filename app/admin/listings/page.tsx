@@ -43,13 +43,13 @@ export default async function AdminListings() {
     <div className="flex flex-col gap-3">
       <div>
         <h1 className="text-2xl font-bold">Listings</h1>
-        <p className="mt-2 text-sm text-neutral-600">Review listing state, price, category, location, and age before taking moderation action.</p>
+        <p className="mt-2 text-sm text-neutral-600">Review listing state, price, category, location, age, and report context before taking moderation action.</p>
       </div>
 
       <div className="grid gap-3">
         {listings.length === 0 ? (
           <Card>
-            <div className="p-4 text-sm text-neutral-600">No listings to review right now.</div>
+            <div className="p-4 text-sm text-neutral-600">No listings need trust-operations review right now.</div>
           </Card>
         ) : null}
 
