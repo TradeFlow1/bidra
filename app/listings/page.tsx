@@ -1,5 +1,6 @@
 export const revalidate = 10;
 
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { Prisma, ListingType } from "@prisma/client";
@@ -8,6 +9,25 @@ import MobileFiltersToggle from "@/components/mobile-filters-toggle";
 import { authOptions } from "@/lib/auth";
 import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
 import { prisma } from "@/lib/prisma";
+
+export const metadata: Metadata = {
+  title: "Browse active listings",
+  description: "Search active Bidra marketplace listings by keyword, category, suburb, city, postcode, sale type, and condition. Compare Buy Now and offer listings with seller trust signals.",
+  alternates: {
+    canonical: "/listings",
+  },
+  openGraph: {
+    title: "Browse active listings | Bidra",
+    description: "Find active Australian marketplace listings by category and location, with Buy Now, offers, and trusted seller filters.",
+    url: "/listings",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Browse active listings | Bidra",
+    description: "Search active Bidra marketplace listings by category, location, sale type, and condition.",
+  },
+};
 
 type ListingsSearchParams = {
   q?: string;
@@ -333,7 +353,7 @@ export default async function ListingsPage({
       <div className="mx-auto w-full max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse listings</h1>
-          <p className="mt-2 text-sm text-[#475569]">Find active listings faster with keyword, category, suburb, postcode, sale type, and trusted seller filters.</p>
+          <p className="mt-2 text-sm text-[#475569]">Search active Australian marketplace listings by keyword, category, suburb, city, postcode, sale type, condition, and trusted seller signals.</p>
         </section>
 
         <section className="mt-5 grid gap-4 xl:grid-cols-[18rem_minmax(0,1fr)]">
@@ -346,7 +366,7 @@ export default async function ListingsPage({
                 <div className="hidden xl:block">
                   <div className="mb-4 border-b border-[#E2E8F0] pb-4">
                     <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Search and filter</div>
-                    <div className="mt-2 text-sm text-[#475569]">Keyword, category, location, sale type, and sort are shareable in the URL.</div>
+                    <div className="mt-2 text-sm text-[#475569]">Keyword, category, location, sale type, condition, and sort create shareable discovery URLs.</div>
                   </div>
                   <FiltersForm />
                 </div>
@@ -363,7 +383,7 @@ export default async function ListingsPage({
 
           <div className="space-y-3">
             <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Popular shortcuts</h2>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Popular marketplace shortcuts</h2>
               <div className="mt-3 flex flex-wrap gap-2">
                 {categoryShortcuts.map(function (label) {
                   return (
@@ -417,7 +437,7 @@ export default async function ListingsPage({
                   <div className="mx-auto max-w-md">
                     <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No trusted matches for those filters yet." : "No active listings yet"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
-                      {hasFilters ? "Try fewer filters, check spelling, or browse all active listings. Bidra only shows active marketplace listings here." : "New local listings will appear here as sellers publish them."}
+                      {hasFilters ? "Try fewer filters, check spelling, or browse all active Australian marketplace listings. Bidra only shows active listings that are available to buy or make offers on." : "New local listings will appear here as sellers publish active items for Buy Now or offers."}
                     </p>
                     <div className="mt-4 flex flex-wrap justify-center gap-2">
                       <Link href="/listings" className="bd-btn bd-btn-primary">Browse all listings</Link>
