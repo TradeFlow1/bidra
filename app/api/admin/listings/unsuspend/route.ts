@@ -31,7 +31,9 @@ export async function POST(req: Request) {
       entityType: "LISTING",
       entityId: listingId,
       listingId,
-meta: { toStatus: "ACTIVE" },
+      meta: { toStatus: "ACTIVE", note: "Listing restored after trust-operations review." },
     },
-  });return NextResponse.redirect(new URL(backTo, req.url));
+  });
+
+  return NextResponse.redirect(new URL(backTo, req.url));
 }

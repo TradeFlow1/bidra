@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -17,15 +17,15 @@ async function recalcActiveStrikes(userId: string) {
     where: { id: userId },
     data: { policyStrikes: activeCount },
   });
-return activeCount;
+  return activeCount;
 }
 
 export async function POST(req: Request) {
   const session = await auth();
   const admin = session?.user;
 
-  if (!admin) return NextResponse.json({ ok: false, error: "Not signed in" }, { status: 401 });
-  if (admin.role !== "ADMIN") return NextResponse.json({ ok: false, error: "Forbidden" }, { status: 403 });
+  if (!admin) return NextResponse.json({ ok: false, error: "Sign in required before using admin actions." }, { status: 401 });
+  if (admin.role !== "ADMIN") return NextResponse.json({ ok: false, error: "Admin role required for this trust operation." }, { status: 403 });
 
   const form = await req.formData();
 
@@ -33,14 +33,14 @@ export async function POST(req: Request) {
   const backTo = String(form.get("backTo") || "");
   const clearedReason = String(form.get("clearedReason") || "Issue resolved").trim() || "Issue resolved";
 
-  if (!strikeId) return NextResponse.json({ ok: false, error: "Missing strikeId" }, { status: 400 });
+  if (!strikeId) return NextResponse.json({ ok: false, error: "Strike id is required before clearing this policy strike." }, { status: 400 });
 
   const strike = await prisma.policyStrike.findUnique({
     where: { id: strikeId },
     select: { id: true, userId: true, clearedAt: true },
   });
 
-  if (!strike) return NextResponse.json({ ok: false, error: "Strike not found" }, { status: 404 });
+  if (!strike) return NextResponse.json({ ok: false, error: "Policy strike not found for this admin action." }, { status: 404 });
 
   // If already cleared, just recalc and return
   if (!strike.clearedAt) {

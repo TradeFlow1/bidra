@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { ListingStatus, PolicyStrikeAction } from "@prisma/client";
@@ -27,15 +27,15 @@ async function recalcActiveStrikes(userId: string) {
     where: { id: userId },
     data: { policyStrikes: activeCount },
   });
-return activeCount;
+  return activeCount;
 }
 
 export async function POST(req: Request) {
   const session = await auth();
   const admin = session?.user;
 
-  if (!admin) return NextResponse.json({ ok: false, error: "Not signed in" }, { status: 401 });
-  if (admin.role !== "ADMIN") return NextResponse.json({ ok: false, error: "Forbidden" }, { status: 403 });
+  if (!admin) return NextResponse.json({ ok: false, error: "Sign in required before using admin actions." }, { status: 401 });
+  if (admin.role !== "ADMIN") return NextResponse.json({ ok: false, error: "Admin role required for this trust operation." }, { status: 403 });
 
   const form = await req.formData();
 
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
   const actionRaw = String(form.get("action") || "WARN").toUpperCase();
   const reason = String(form.get("reason") || "Policy strike").trim() || "Policy strike";
 
-  if (!userId) return NextResponse.json({ ok: false, error: "Missing userId" }, { status: 400 });
+  if (!userId) return NextResponse.json({ ok: false, error: "User id is required before applying this admin action." }, { status: 400 });
 
   const requestedAction = actionRaw;
   const action = PolicyStrikeAction.WARN;
@@ -83,7 +83,9 @@ export async function POST(req: Request) {
       listingId: listingId,
       meta: { strikeAction: action, requestedAction, reason },
     },
-  });// 3) If threshold reached, block + suspend ACTIVE listings
+  });
+
+  // 3) If threshold reached, block + suspend ACTIVE listings
   if (activeStrikes >= STRIKE_THRESHOLD) {
     const blockedUntil = new Date(Date.now() + BLOCK_DAYS * 24 * 60 * 60 * 1000);
 
@@ -91,7 +93,7 @@ export async function POST(req: Request) {
       where: { id: userId },
       data: { policyBlockedUntil: blockedUntil },
     });
-await prisma.listing.updateMany({
+    await prisma.listing.updateMany({
       where: { sellerId: userId, status: ListingStatus.ACTIVE },
       data: { status: ListingStatus.SUSPENDED },
     });

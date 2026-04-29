@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -29,7 +29,9 @@ export async function POST(req: Request) {
       entityType: "LISTING",
       entityId: listingId,
       listingId,
-meta: { toStatus: "SUSPENDED" },
+      meta: { toStatus: "SUSPENDED", note: "Listing suspended after trust-operations review." },
     },
-  });return NextResponse.redirect(new URL(backTo, req.url));
+  });
+
+  return NextResponse.redirect(new URL(backTo, req.url));
 }
