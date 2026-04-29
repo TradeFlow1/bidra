@@ -30,10 +30,10 @@ export default function HowItWorksPage() {
 
             <div className="flex flex-wrap gap-2">
               <Link href="/sell/new" className="bd-btn bd-btn-primary text-center">
-                Create a listing
+                Start selling
               </Link>
-              <Link href="/support" className="bd-btn bd-btn-ghost text-center">
-                Support and safety
+              <Link href="/listings" className="bd-btn bd-btn-ghost text-center">
+                Browse trusted listings
               </Link>
             </div>
           </div>
@@ -59,18 +59,18 @@ export default function HowItWorksPage() {
           </div>
         </div>
 
-        <StepCard step="Step 1" title="Create an account">
+        <StepCard step="Step 1" title="Create a free account and activate trust">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li><strong>18+ only:</strong> accounts are for adults. Under 18s can browse publicly but cannot transact or message.</li>
             <li>Set your <strong>location</strong> using suburb, state, and postcode so buyers see realistic pickup context.</li>
-            <li>Keep your Dashboard account details accurate because it helps trust and reduces disputes.</li>
+            <li>Keep your Dashboard account details accurate because it helps buyers and sellers decide who to transact with.</li>
           </ul>
         </StepCard>
 
-        <StepCard step="Step 2" title="List an item">
+        <StepCard step="Step 2" title="List an item with buyer-ready details">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>Add a clear title, honest description, condition, and photos that show the actual item.</li>
-            <li>Choose the sale format that matches how you want to sell.</li>
+            <li>Choose Buy Now for fast fixed-price activation or Timed Offers when you want to review buyer interest before accepting.</li>
           </ul>
 
           <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -98,22 +98,22 @@ export default function HowItWorksPage() {
           </div>
         </StepCard>
 
-        <StepCard step="Step 3" title="Messages and handover">
+        <StepCard step="Step 3" title="Convert interest in Messages">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Use Messages to ask questions, arrange pickup or postage, and keep a clear record.</li>
+            <li>Use Messages to ask questions, confirm intent, arrange pickup or postage, and keep a clear record.</li>
             <li>For safety, keep communication respectful and clear. If anything feels off, report it.</li>
             <li>Never send ID photos or sensitive information you would not want exposed.</li>
           </ul>
         </StepCard>
 
-        <StepCard step="Step 4" title="Completing the order">
+        <StepCard step="Step 4" title="Complete the order record">
           <p className="text-black/75">
             For Buy Now purchases, the item is sold immediately. Use messages to arrange pickup or postage; Bidra does not run in-app payment, escrow, shipping, or pickup scheduling.
           </p>
           <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
             <li>There is no in-app payment, escrow, shipping, pickup scheduling, or forced completion workflow in Bidra V1.</li>
             <li>After handover, leave feedback if available or report an issue if something went wrong.</li>
-            <li>Leave feedback to help the community make better decisions.</li>
+            <li>Leave feedback to strengthen seller and buyer trust signals for future transactions.</li>
           </ul>
         </StepCard>
 

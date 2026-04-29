@@ -171,6 +171,7 @@ export default function ListingCard({
     <Link
       href={"/listings/" + listing.id}
       className="group block overflow-hidden rounded-[22px] border border-[#D8E1F0] bg-white shadow-sm transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]"
+      aria-label={"View listing and trust signals for " + title}
     >
       <div className="relative aspect-[1.12/1] w-full overflow-hidden bg-[#EEF2F7]">
         {hasMulti ? (
