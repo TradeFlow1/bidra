@@ -14,9 +14,11 @@ const supportLinks = [
 ];
 
 const legalLinks = [
-  { href: "/privacy", label: "Privacy" },
-  { href: "/terms", label: "Terms" },
-  { href: "/prohibited-items", label: "Prohibited items" },
+  { href: "/legal", label: "Legal hub" },
+  { href: "/legal/privacy", label: "Privacy" },
+  { href: "/legal/terms", label: "Terms" },
+  { href: "/legal/fees", label: "Fees" },
+  { href: "/legal/prohibited-items", label: "Prohibited items" },
 ];
 
 function FooterLinkGroup({
@@ -64,7 +66,7 @@ export default function SiteFooter() {
 
         <div className="flex flex-col gap-2 pt-3 text-xs text-[#64748B] sm:pt-4 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Bidra. All rights reserved.</p>
-          <p>Create an account. Browse active listings. Buy now, make offers, and arrange handover in Messages.</p>
+          <p>Read the legal hub before trading. Bidra is a platform marketplace; buyers and sellers remain responsible for payment, pickup, postage, and handover decisions.</p>
         </div>
       </div>
     </footer>

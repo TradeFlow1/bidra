@@ -22,7 +22,7 @@ export default function SupportPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Support and safety</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help, trust, and safer trading</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Bidra is a trust-first local marketplace. We provide listing, offer, messaging, reporting, and sold-item record tools, but buyers and sellers remain responsible for pickup, postage, payment, and handover decisions.
+                Bidra is a trust-first local marketplace. We provide listing, offer, messaging, reporting, and sold-item record tools, but buyers and sellers remain responsible for payment, pickup, postage, refunds, and handover decisions.
               </p>
             </div>
 
@@ -53,7 +53,7 @@ export default function SupportPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Best practice</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Stay on Bidra</div>
-            <div className="mt-1 text-sm text-neutral-600">Keep important listing, pickup, postage, payment, and handover details in Bidra messages wherever possible.</div>
+            <div className="mt-1 text-sm text-neutral-600">Keep important listing, payment, pickup, postage, refund, and handover details in Bidra Messages wherever possible.</div>
           </div>
         </div>
 
@@ -71,7 +71,7 @@ export default function SupportPage() {
               <li>Meet in a public place for pickups. Bring a friend if possible.</li>
               <li>Inspect items before handing over money, especially electronics, bikes, and high-value goods.</li>
               <li>Be cautious of unrealistic prices, urgency pressure, or requests to rush key decisions.</li>
-              <li>Arrange pickup or postage in messages and keep the conversation on Bidra.</li>
+              <li>Arrange payment, pickup, postage, refunds, and handover details in Messages and keep the conversation on Bidra.</li>
             </ul>
           </SectionCard>
 
@@ -79,7 +79,7 @@ export default function SupportPage() {
             <ul className="list-disc pl-5 text-black/75 space-y-2">
               <li>Use clear photos and honest descriptions to reduce disputes.</li>
               <li>Do not rely on screenshots or unverified claims. Keep important details in Bidra messages.</li>
-              <li>If something changes, agree the new pickup or postage details in messages.</li>
+              <li>If something changes, agree the new payment, pickup, postage, refund, or handover details in Messages.</li>
               <li>Never share your passwords, one-time codes, or other sensitive login details.</li>
             </ul>
           </SectionCard>
@@ -88,18 +88,18 @@ export default function SupportPage() {
         <SectionCard title="Scams and red flags">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>Someone asks you to continue the transaction outside Bidra to avoid fees or records.</li>
-              <li>Someone offers overpayment with a request to refund the difference.</li>
-              <li>Someone refuses pickup inspection or pressures you to move everything outside Bidra messages.</li>
-            <li>Someone pressures you to communicate only by SMS or WhatsApp before agreeing key terms.</li>
+            <li>Someone offers overpayment with a request to refund the difference.</li>
+            <li>Someone refuses pickup inspection or pressures you to move everything outside Bidra Messages.</li>
+            <li>Someone pressures you to communicate only by SMS, WhatsApp, or another app before agreeing key terms in Bidra Messages.</li>
           </ul>
           <p className="mt-3 text-sm text-black/60">
-            If you see these patterns, stop and report. We investigate abusive behaviour and may restrict accounts.
+            If you see these patterns, stop and report. We investigate abusive behaviour, preserve relevant records, and may restrict accounts.
           </p>
         </SectionCard>
 
         <SectionCard title="Disputes">
           <p className="text-black/75">
-            Most issues are resolved between buyer and seller. If you cannot resolve it, contact Support with your order ID, listing link, messages, and evidence. Bidra may take platform actions such as removing listings or restricting accounts, but does not act as a seller, escrow holder, payment provider, shipping provider, or pickup scheduler.
+            Most issues are resolved between buyer and seller. If you cannot resolve it, contact Support with your order ID, listing link, Messages, and evidence. Bidra may take platform actions such as removing listings or restricting accounts, but does not act as a seller, escrow holder, payment provider, refund decision-maker, shipping provider, or pickup scheduler.
           </p>
         </SectionCard>
 

@@ -22,7 +22,7 @@ export default function PrivacyPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Privacy</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Privacy on Bidra</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                This page explains how Bidra collects and uses personal information. We aim to minimise data collection and use only what is needed to operate the marketplace, improve safety, and comply with Australian requirements.
+                This page explains how Bidra collects and uses personal information. We aim to minimise data collection and use only what is needed to operate the marketplace, provide account and listing tools, improve safety, investigate reports, preserve audit records, and comply with Australian requirements.
               </p>
             </div>
 
@@ -53,7 +53,7 @@ export default function PrivacyPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Trust</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Safety and compliance</div>
-            <div className="mt-1 text-sm text-neutral-600">Some information is retained where needed for disputes, fraud prevention, and legal obligations.</div>
+            <div className="mt-1 text-sm text-neutral-600">Some information is retained where needed for disputes, reports, fraud prevention, audit records, and legal obligations.</div>
           </div>
         </div>
 
@@ -61,16 +61,16 @@ export default function PrivacyPage() {
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>Account information such as email, username, and basic profile details you choose to provide.</li>
             <li>Location information for marketplace context using suburb, state, and postcode, shown in a privacy-safe way.</li>
-            <li>Activity and usage data such as logs and actions taken to prevent abuse, diagnose issues, and improve reliability.</li>
-            <li>Content you create including listings, offers, feedback, and reports to operate the service and enforce rules.</li>
-            <li>Messages you send through Bidra to provide messaging features and support safety investigations where needed.</li>
+            <li>Activity and usage data such as logs, moderation actions, report activity, and security events used to prevent abuse, diagnose issues, and improve reliability.</li>
+            <li>Content you create including listings, offers, feedback, reports, support requests, and order-related records to operate the service and enforce rules.</li>
+            <li>Messages you send through Bidra to provide messaging features, preserve transaction context, and support safety or fraud investigations where needed.</li>
           </ul>
         </SectionCard>
 
         <SectionCard title="How we use information">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>Provide and maintain the marketplace including listings, messaging, offers, orders, and support.</li>
-            <li>Detect and prevent fraud, spam, prohibited items, and abusive behaviour.</li>
+            <li>Detect and prevent fraud, spam, prohibited items, unsafe handover patterns, and abusive behaviour.</li>
             <li>Enforce our Terms and help keep the community safer.</li>
             <li>Communicate important service updates and account notices.</li>
           </ul>
