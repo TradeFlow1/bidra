@@ -149,6 +149,11 @@ export default async function DashboardPage({
     where: { buyerId: me },
   });
 
+  const isAdminAccount = String(session.user.role || "").toUpperCase() === "ADMIN";
+  const roleSummary = isAdminAccount ? "Admin account" : "Buyer / seller account";
+  const sellerModeSummary = myListingsCount > 0 ? "Seller tools active" : "Seller tools ready";
+  const buyerModeSummary = ordersAsBuyerCount > 0 ? "Buyer tools active" : "Buyer tools ready";
+
   const graceHours = 48;
   const cutoff = new Date(Date.now() - graceHours * 60 * 60 * 1000);
 
@@ -183,20 +188,29 @@ export default async function DashboardPage({
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
-            Your Bidra account hub
+          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Current account role</div>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
+            {roleSummary}
           </h1>
+          <p className="mt-2 max-w-3xl text-sm bd-ink2 sm:text-base">
+            Bidra accounts can act as buyers and sellers. Admin accounts also show the trust operations workspace when available.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {ordersAsBuyerCount > 0 ? <Pill tone="ok">{buyerModeSummary}</Pill> : <Pill>{buyerModeSummary}</Pill>}
+            {myListingsCount > 0 ? <Pill tone="ok">{sellerModeSummary}</Pill> : <Pill>{sellerModeSummary}</Pill>}
+            {isAdminAccount ? <Pill tone="ok">Admin workspace enabled</Pill> : null}
+          </div>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Link href="/dashboard/listings" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listings</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Seller listings</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{myListingsCount}</div>
             <div className="mt-1 text-sm text-neutral-600">Manage your listings, drafts, and offers.</div>
           </Link>
 
           <Link href="/orders" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Orders</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Buyer orders</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{ordersAsBuyerCount}</div>
             <div className="mt-1 text-sm text-neutral-600">Review purchases and handover follow-ups.</div>
           </Link>
@@ -234,6 +248,7 @@ export default async function DashboardPage({
         <div id="account-details" className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">Account details</div>
+            <div className="mt-1 text-sm bd-ink2">Current visible role: {roleSummary}. Buyer and seller activity is based on your orders, listings, offers, and messages.</div>
             <div className="mt-4 space-y-4">
               <div>
                 <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Display name</div>

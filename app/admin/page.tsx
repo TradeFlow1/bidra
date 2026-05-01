@@ -21,9 +21,10 @@ export default async function AdminHome() {
 
   return (
     <main>
-      <h1 className="text-3xl font-semibold">Admin</h1>
+      <div className="text-xs font-semibold uppercase tracking-wide text-black/50">Current role: Admin account</div>
+      <h1 className="mt-2 text-3xl font-semibold">Admin workspace</h1>
       <p className="mt-2 text-sm text-black/60">
-        Use Admin as a trust operations workspace: review evidence, choose proportional actions, and keep every moderation decision auditable.
+        Use Admin as a trust operations workspace: review evidence, choose proportional actions, and keep every moderation decision auditable. Buyer and seller account tools remain available from the account dashboard.
       </p>
 
       <div className="mt-6 grid gap-4 md:grid-cols-2">

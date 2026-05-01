@@ -7,6 +7,7 @@ import SearchBar from "./search-bar";
 type SessionLike = {
   user?: {
     id?: string;
+    role?: string | null;
   } | null;
 } | null | undefined;
 
@@ -29,6 +30,11 @@ export default function SiteHeaderClient({
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
 
   const isAuthed = !!session?.user?.id;
+  const rawRole = String(session?.user?.role || "USER").toUpperCase();
+  const accountRoleLabel = rawRole === "ADMIN" ? "Admin account" : "Buyer / seller account";
+  const accountRoleDescription = rawRole === "ADMIN"
+    ? "Admin access visible - trust operations and marketplace account tools"
+    : "Buyer and seller tools visible - browse, buy, sell, orders, and messages";
 
   useEffect(function () {
     function onDocClick(e: MouseEvent) {
@@ -59,15 +65,11 @@ export default function SiteHeaderClient({
     };
   }, []);
 
-  function utilityButtonClass(isOpen: boolean) {
-    if (isOpen) {
-      return "inline-flex h-10 items-center justify-center rounded-full border border-white/22 bg-[#0F172A] px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-[#111827]";
-    }
-    return "inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white/10 px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16";
-  }
-
-  function railLinkClass() {
-    return "inline-flex h-10 items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]";
+  function utilityButtonClass(active: boolean) {
+    return "inline-flex h-10 items-center justify-center rounded-full border px-4 text-[13px] font-semibold shadow-sm transition " +
+      (active
+        ? "border-white bg-white text-[#0F172A]"
+        : "border-white/18 bg-white/10 text-white hover:bg-white/16");
   }
 
   const searchInputClass = "w-full rounded-full border border-[#CBD5E1] bg-white px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-neutral-500 shadow-sm focus:border-[#1D4ED8]";
@@ -81,12 +83,18 @@ export default function SiteHeaderClient({
 
   function renderAccountMenu(closeMenu: () => void) {
     return (
-      <div className="absolute right-0 top-full z-[120] mt-3 w-60 overflow-hidden rounded-3xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]" role="menu" onClick={function (e) { e.stopPropagation(); }}>
+      <div className="absolute right-0 top-full z-[120] mt-3 w-64 overflow-hidden rounded-3xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]" role="menu" onClick={function (e) { e.stopPropagation(); }}>
+        <div className="border-b border-black/10 px-4 py-3">
+          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Current role</div>
+          <div className="mt-1 text-sm font-extrabold text-[#0F172A]">{accountRoleLabel}</div>
+          <div className="mt-1 text-xs leading-5 text-neutral-600">{accountRoleDescription}</div>
+        </div>
         <div className="p-2">
-          <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>Dashboard</Link>
-          <Link href="/dashboard/listings" className={menuLinkClass} onClick={closeMenu}>My listings</Link>
-          <Link href="/orders" className={menuLinkClass} onClick={closeMenu}>Orders</Link>
-          <Link href="/messages" className={menuLinkClass} onClick={closeMenu}>Messages</Link>
+          {rawRole === "ADMIN" ? <Link href="/admin" className={menuLinkClass} onClick={closeMenu}>Admin workspace</Link> : null}
+          <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>Account dashboard</Link>
+          <Link href="/dashboard/listings" className={menuLinkClass} onClick={closeMenu}>Seller listings</Link>
+          <Link href="/orders" className={menuLinkClass} onClick={closeMenu}>Buyer orders</Link>
+          <Link href="/messages" className={menuLinkClass} onClick={closeMenu}>Buyer / seller messages</Link>
           <Link href="/watchlist" className={menuLinkClass} onClick={closeMenu}>Watchlist</Link>
           <Link href="/notifications" className={menuLinkClass} onClick={closeMenu}>Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}</Link>
           <Link href="/account/restrictions" className={menuLinkClass} onClick={closeMenu}>Account status</Link>
@@ -112,15 +120,21 @@ export default function SiteHeaderClient({
 
           {isAuthed ? (
             <div className="mt-2.5 border-t border-black/10 pt-2.5">
+              <div className="mb-2 rounded-2xl border border-black/10 bg-neutral-50 px-3 py-2">
+                <div className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">Current role</div>
+                <div className="mt-1 text-sm font-extrabold text-[#0F172A]">{accountRoleLabel}</div>
+                <div className="mt-1 text-xs leading-5 text-neutral-600">{accountRoleDescription}</div>
+              </div>
               <div className="grid grid-cols-1 gap-2">
-                <Link href="/dashboard" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Dashboard</Link>
-                <Link href="/dashboard/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>My listings</Link>
-                <Link href="/messages" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Messages</Link>
-                <Link href="/orders" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Orders</Link>
+                {rawRole === "ADMIN" ? <Link href="/admin" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Admin workspace</Link> : null}
+                <Link href="/dashboard" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Account dashboard</Link>
+                <Link href="/dashboard/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Seller listings</Link>
+                <Link href="/messages" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buyer / seller messages</Link>
+                <Link href="/orders" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buyer orders</Link>
                 <Link href="/watchlist" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Watchlist</Link>
                 <Link href="/notifications" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}</Link>
                 <Link href="/account/restrictions" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Account status</Link>
-                      <div className="mt-2 border-t border-black/10 pt-2">
+                <div className="mt-2 border-t border-black/10 pt-2">
                   <Link href="/logout" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Sign out</Link>
                 </div>
               </div>
@@ -143,17 +157,17 @@ export default function SiteHeaderClient({
       <div className="hidden md:block">
         <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_15rem_auto] items-center gap-4 px-4 py-2 lg:px-6">
           <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
-            {DESKTOP_LINKS.map(function (item) {
+            {DESKTOP_LINKS.map(function (link) {
               return (
-                <Link key={item.href + ":" + item.label} href={item.href} className={railLinkClass()}>
-                  {item.label}
+                <Link key={link.href} href={link.href} className="rounded-full px-3 py-2 text-[13px] font-semibold text-white/92 transition hover:bg-white/12">
+                  {link.label}
                 </Link>
               );
             })}
           </div>
 
-          <div className="justify-self-end w-full max-w-[15rem]">
-            <SearchBar className="w-full" inputClassName={searchInputClass} placeholder="Search Bidra" />
+          <div className="min-w-0">
+            <SearchBar inputClassName={searchInputClass} />
           </div>
 
           <div className="flex shrink-0 items-center gap-3 justify-self-end">
@@ -173,7 +187,7 @@ export default function SiteHeaderClient({
                   aria-haspopup="menu"
                   aria-expanded={desktopAcctOpen ? "true" : "false"}
                 >
-                  Account
+                  {rawRole === "ADMIN" ? "Admin" : "Account"}
                   {badge}
                 </button>
                 {desktopAcctOpen ? renderAccountMenu(function () { setDesktopAcctOpen(false); }) : null}
@@ -191,10 +205,10 @@ export default function SiteHeaderClient({
       </div>
 
       <div className="md:hidden">
-        <div className="mx-auto px-4 pt-2 pb-2">
-          <div className="flex items-center justify-between gap-2">
-            <Link href="/" className="inline-flex h-10 items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">
-              Home
+        <div className="px-3 py-2.5">
+          <div className="flex items-center gap-2">
+            <Link href="/" className="rounded-full px-2 py-1 text-sm font-extrabold tracking-tight text-white">
+              Bidra
             </Link>
 
             <div className="ml-auto flex items-center gap-2">
@@ -219,12 +233,6 @@ export default function SiteHeaderClient({
                 {mobileMenuOpen ? renderMobileMenu() : null}
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="border-t border-white/12 bg-[#132657]/95 px-4 py-2 backdrop-blur">
-          <div className="mx-auto max-w-6xl">
-            <SearchBar className="w-full" inputClassName={searchInputClass} placeholder="Search Bidra" />
           </div>
         </div>
       </div>

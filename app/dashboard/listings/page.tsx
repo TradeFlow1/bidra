@@ -106,7 +106,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Seller dashboard</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">My listings</h1>
                 <p className="mt-2 max-w-2xl text-sm bd-ink2 sm:text-base">
-                  Manage active listings, drafts, ended listings, and offer visibility in one place.
+                  Seller mode is active here. Manage active listings, drafts, ended listings, and offer visibility in one place.
                 </p>
               </div>
 
