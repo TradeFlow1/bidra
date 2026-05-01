@@ -41,7 +41,7 @@ export default function SupportPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Report issues</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Listings and messages</div>
-            <div className="mt-1 text-sm text-neutral-600">Use in-product reporting when content or behaviour breaks rules.</div>
+            <div className="mt-1 text-sm text-neutral-600">Use in-product reporting when content or behaviour breaks rules so moderation context and evidence are preserved.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
@@ -59,9 +59,9 @@ export default function SupportPage() {
 
         <SectionCard title="If you need help">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Use <strong>Report</strong> on listings and message threads for rule-breaking content or behaviour.</li>
+            <li>Use <strong>Report</strong> on listings and message threads for rule-breaking content or behaviour so the moderation queue receives the right context.</li>
             <li>For account and order issues, contact us via <Link className="bd-link font-semibold" href="/contact">Contact</Link>.</li>
-            <li>Include links, screenshots, and order or listing IDs so we can investigate quickly.</li>
+            <li>Include links, screenshots, message context, timestamps, and order or listing IDs so moderators can triage quickly.</li>
           </ul>
         </SectionCard>
 
@@ -78,7 +78,7 @@ export default function SupportPage() {
           <SectionCard title="Safe selling (recommended)">
             <ul className="list-disc pl-5 text-black/75 space-y-2">
               <li>Use clear photos and honest descriptions to reduce disputes.</li>
-              <li>Do not rely on screenshots or unverified claims. Keep important details in Bidra messages.</li>
+              <li>Do not rely on screenshots or unverified claims. Keep important details in Bidra Messages.</li>
               <li>If something changes, agree the new payment, pickup, postage, refund, or handover details in Messages.</li>
               <li>Never share your passwords, one-time codes, or other sensitive login details.</li>
             </ul>
@@ -93,7 +93,7 @@ export default function SupportPage() {
             <li>Someone pressures you to communicate only by SMS, WhatsApp, or another app before agreeing key terms in Bidra Messages.</li>
           </ul>
           <p className="mt-3 text-sm text-black/60">
-            If you see these patterns, stop and report. We investigate abusive behaviour, preserve relevant records, and may restrict accounts.
+            If you see these patterns, stop and report. We investigate abusive behaviour, preserve relevant records, triage evidence, and may restrict accounts.
           </p>
         </SectionCard>
 

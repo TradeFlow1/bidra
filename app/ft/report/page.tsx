@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 
@@ -63,7 +63,7 @@ export default function FtReportPage() {
     <main className="mx-auto max-w-xl p-6">
       <h1 className="text-xl font-bold">Report a bug (Friend Test)</h1>
       <p className="mt-2 text-sm text-gray-600">
-        Use this for broken behaviour during testing. (Not for listing/user safety reports.)
+        Use this for broken behaviour during testing. For listing, user, scam, prohibited-item, or message safety reports, use the in-product Report flow so moderation evidence is preserved.
       </p>
 
       <form onSubmit={submit} className="mt-4 space-y-4">

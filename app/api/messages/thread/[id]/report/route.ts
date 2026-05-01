@@ -48,7 +48,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     "User details:",
     userDetails,
     "",
-    "Recent messages (last 10):",
+    "Recent messages captured for moderation evidence (last 10):",
     recentText || "(none)",
   ].join("\n")
 
@@ -62,7 +62,7 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
     select: { id: true },
   })
 
-  // Admin audit trail (for reconstructing messaging actions)
+  // Admin audit trail for reconstructing message-report evidence and triage actions
   await prisma.adminEvent.create({
     data: {
       type: "MESSAGE_THREAD_REPORTED",

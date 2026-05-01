@@ -123,7 +123,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin report detail</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Moderation report</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review report context, AI analysis, listing state, reporter details, and enforcement actions before making an auditable trust decision.
+                Review report context, evidence quality, AI analysis, listing state, reporter details, and enforcement actions before making an auditable trust decision.
               </p>
             </div>
 
@@ -139,12 +139,12 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">State</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{isResolved ? "Resolved" : "Open"}</div>
-            <div className="mt-1 text-sm text-neutral-600">Current moderation state for this report.</div>
+            <div className="mt-1 text-sm text-neutral-600">Current moderation state: open reports need triage; resolved reports have a recorded admin decision.</div>
           </div>
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Risk</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{ai.riskLevel}</div>
-            <div className="mt-1 text-sm text-neutral-600">Deterministic AI assessment.</div>
+            <div className="mt-1 text-sm text-neutral-600">Deterministic AI assessment for triage support only; admins make the final moderation decision.</div>
           </div>
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Recommendation</div>
@@ -154,16 +154,16 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Created</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950"><DateTimeText value={report.createdAt} /></div>
-            <div className="mt-1 text-sm text-neutral-600">Original report timestamp.</div>
+            <div className="mt-1 text-sm text-neutral-600">Original report timestamp for audit and response-time review.</div>
           </div>
         </div>
 
         <SectionCard title="Review checklist">
           <ul className="list-disc space-y-2 pl-5 text-sm bd-ink2 leading-7">
-            <li>Read the report reason and any details before taking action.</li>
-            <li>Check the linked listing, seller state, reporter, and related history where available.</li>
-            <li>Use existing admin actions only when the evidence supports a proportional response.</li>
-            <li>Keep auditability in mind before resolving, reopening, suspending, deleting, striking, or blocking.</li>
+            <li>Read the report reason, details, linked messages, listing context, and any screenshots or IDs before taking action.</li>
+            <li>Check the linked listing, seller state, reporter, repeated reports, prior restrictions, and related history where available.</li>
+            <li>Use existing admin actions only when the evidence supports a proportional response such as clear, resolve, suspend, delete, strike, block, or reopen.</li>
+            <li>Keep auditability in mind: every resolve, reopen, suspend, delete, strike, or block should be explainable from the report evidence.</li>
           </ul>
         </SectionCard>
 
@@ -201,27 +201,28 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
               title="Report details"
               actions={
                 <>
-                  <MetaPill>{report.resolved ? "RESOLVED" : "OPEN"}</MetaPill>
+                  <MetaPill>{report.resolved ? "RESOLVED - decision recorded" : "OPEN - needs triage"}</MetaPill>
                   <MetaPill>Reason: {String(report.reason)}</MetaPill>
                   <MetaPill>Listing: {listingStatusLabel}</MetaPill>
                   {!isResolved ? (
                     <form action="/api/admin/reports/resolve" method="post">
                       <input type="hidden" name="reportId" value={report.id} />
                       <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                      <button type="submit" className="bd-btn bd-btn-primary">Resolve after review</button>
+                      <button type="submit" className="bd-btn bd-btn-primary">Resolve after evidence review</button>
                     </form>
                   ) : null}
                   {isResolved ? (
                     <form action="/api/admin/reports/reopen" method="post">
                       <input type="hidden" name="reportId" value={report.id} />
                       <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                      <button type="submit" className="bd-btn bd-btn-ghost">Reopen for more evidence</button>
+                      <button type="submit" className="bd-btn bd-btn-ghost">Reopen for fresh evidence</button>
                     </form>
                   ) : null}
                 </>
               }
             >
-              <div className="whitespace-pre-wrap text-sm bd-ink2 leading-7">{report.details || "(no details)"}</div>
+              <div className="mb-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-950">Evidence guide: compare the reporter details with listing content, recent messages, account history, and any attached IDs before actioning this report.</div>
+              <div className="whitespace-pre-wrap text-sm bd-ink2 leading-7">{report.details || "(no details supplied - use surrounding listing, message, and account context before deciding)"}</div>
             </SectionCard>
 
             <SectionCard
@@ -235,7 +236,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
                       <input type="hidden" name="listingId" value={report.listing.id} />
                       <input type="hidden" name="reportId" value={report.id} />
                       <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                      <button type="submit" className="bd-btn bd-btn-primary">Suspend listing after review</button>
+                      <button type="submit" className="bd-btn bd-btn-primary">Suspend listing after evidence review</button>
                     </form>
                   ) : null}
                   {!isResolved ? (
@@ -243,7 +244,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
                       <input type="hidden" name="listingId" value={report.listing.id} />
                       <input type="hidden" name="reportId" value={report.id} />
                       <input type="hidden" name="backTo" value={"/admin/reports/" + report.id} />
-                      <button type="submit" className="bd-btn bd-btn-ghost">Restore listing after review</button>
+                      <button type="submit" className="bd-btn bd-btn-ghost">Restore listing after evidence review</button>
                     </form>
                   ) : null}
                   {!isResolved ? (
@@ -274,7 +275,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
                 </div>
               ) : null}
               <div className="mt-4 text-sm bd-ink2 leading-7">
-                Tip: deleted listings are removed from public view, while suspended listings can be restored after review.
+                Tip: deleted listings are removed from public view, while suspended listings can be restored after evidence review. Preserve context before actioning.
               </div>
             </SectionCard>
 

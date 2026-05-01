@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
   await prisma.adminActionLog.create({
     data: {
       adminId: user.id,
-      action: "REPORT_REOPEN",
+      action: "REPORT_REOPEN_FOR_FRESH_EVIDENCE",
       entityType: "REPORT",
       entityId: reportId,
       reportId,

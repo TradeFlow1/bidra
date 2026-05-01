@@ -83,7 +83,7 @@ export default async function AdminReports({
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin reports</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Marketplace reports</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review report reason, listing context, reporter details, status, and action links before taking proportional moderation action.
+                Triage open reports by reason, listing context, reporter details, evidence quality, status, and action links before taking proportional moderation action.
               </p>
             </div>
 
@@ -97,20 +97,20 @@ export default async function AdminReports({
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Current view</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{showResolved ? "Resolved reports" : "Open reports"}</div>
-            <div className="mt-1 text-sm text-neutral-600">{showResolved ? "Completed moderation history with audit trail." : "Active moderation queue requiring evidence review."}</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{showResolved ? "Resolved reports" : "Open triage records"}</div>
+            <div className="mt-1 text-sm text-neutral-600">{showResolved ? "Completed moderation history with audit trail." : "Active moderation queue requiring evidence review and a clear next action."}</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Open count</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{openCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Reports still awaiting evidence review and decision.</div>
+            <div className="mt-1 text-sm text-neutral-600">Reports still awaiting evidence review, safety assessment, and decision.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Resolved count</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{resolvedCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Reports already actioned, cleared, or reopened with history.</div>
+            <div className="mt-1 text-sm text-neutral-600">Reports already actioned, cleared, or reopened with admin history.</div>
           </div>
         </div>
 
@@ -118,7 +118,7 @@ export default async function AdminReports({
           <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">{showResolved ? "No resolved reports yet" : "No reports need review right now"}</div>
             <div className="mt-2 text-sm bd-ink2 leading-7">
-              {showResolved ? "Resolved reports will appear here after moderators close them." : "No reports need review right now."}
+              {showResolved ? "Resolved reports will appear here after moderators record a decision and close the report." : "No reports need review right now. New safety, scam, prohibited-item, and message reports will appear in the open triage queue."}
             </div>
           </section>
         ) : (
@@ -138,7 +138,7 @@ export default async function AdminReports({
                     </h2>
 
                     <div className="mt-3 flex flex-wrap gap-2">
-                      <MetaPill>{r.resolved ? "RESOLVED" : "OPEN"}</MetaPill>
+                      <MetaPill>{r.resolved ? "RESOLVED - decision recorded" : "OPEN - needs triage"}</MetaPill>
                       <MetaPill>Reason: {r.reason}</MetaPill>
                       <MetaPill>Listing: {r.listing?.status ? String(r.listing.status) : "UNKNOWN"}</MetaPill>
                       <MetaPill>Reporter: {r.reporter?.email ? r.reporter.email : "Unknown"}</MetaPill>
@@ -147,7 +147,7 @@ export default async function AdminReports({
 
                   <div className="flex flex-wrap gap-2">
                     <Link href={"/admin/reports/" + r.id} className="bd-btn bd-btn-ghost text-center">
-                      Open report
+                      Open triage record
                     </Link>
                     <Link
                       href={"/listings/" + r.listingId + "?returnTo=" + encodeURIComponent("/admin/reports/" + r.id)}
