@@ -84,6 +84,11 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const isSeller = order.listing?.sellerId === user.id;
   const roleLabel = isBuyer ? "Buyer" : "Seller";
   const statusLabel = order.outcome === "COMPLETED" ? "COMPLETED" : "SOLD - HANDOVER PENDING";
+  const primaryNextAction = order.outcome === "COMPLETED"
+    ? "Leave feedback if you have not already, or keep the order record for reference."
+    : "Message the other person to agree payment, pickup, postage, and handover.";
+  const primaryNextHref = order.outcome === "COMPLETED" ? feedbackHref : messageHref;
+  const primaryNextLabel = order.outcome === "COMPLETED" ? "Review feedback options" : (isBuyer ? "Message seller" : "Message buyer");
   const canLeave =
     order.outcome === "COMPLETED" &&
     ((isBuyer && !order.buyerFeedbackAt) || (isSeller && !order.sellerFeedbackAt));
@@ -107,14 +112,20 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
               <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Sold item</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                This sold-item record confirms the listing has sold. Use Bidra Messages to confirm payment, pickup, postage, and handover details before completion.
-              </p>
+                This sold-item record confirms the listing has sold. There is no in-app Pay now step in Bidra V1.
+              </p>              <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
+                <div className="font-extrabold">Next action</div>
+                <div className="mt-1">{primaryNextAction}</div>
+              </div>
               <div className="mt-3 text-sm bd-ink2">
                 Created <DateTimeText value={order.createdAt} />
               </div>
             </div>
 
             <div className="flex flex-wrap gap-2">
+              <Link href={primaryNextHref} className="rounded-xl border border-[var(--bidra-blue)] bg-[var(--bidra-blue)] px-5 py-3 text-center text-sm font-extrabold text-white shadow-sm hover:opacity-95">
+                {primaryNextLabel}
+              </Link>
               <Link href={messageHref} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
                 {isBuyer ? "Message seller" : "Message buyer"}
               </Link>
@@ -132,7 +143,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               ) : null}
             </div>
             <p className="text-sm bd-ink2">
-              Use Bidra Messages to confirm payment, pickup, postage, and handover details.
+              No dead-end Pay now or completion step is required. Use the highlighted next action above.
             </p>
           </div>
         </div>
@@ -160,11 +171,11 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">Post-sale next steps</div>
             <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-              <li>This order is a sold-item record while payment and handover are arranged.</li>
-              <li>Use Bidra Messages to confirm payment, pickup, postage, and timing with the other person.</li>
+              <li>There is no in-app Pay now step in Bidra V1.</li>
+              <li>If the order is pending, the next action is to message the other person and agree payment, pickup, postage, and handover.</li>
+              <li>If the order is completed, the next action is to leave feedback if it is available.</li>
               <li>Keep important agreements and handover details in Bidra Messages.</li>
               <li>Follow safety guidance before final handover or postage dispatch.</li>
-              <li>After completion, leave feedback if it is available for this order.</li>
             </ul>
           </Card>
 

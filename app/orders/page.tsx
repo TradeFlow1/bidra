@@ -93,6 +93,9 @@ export default async function OrdersPage() {
               const feedbackDue = isCompleted && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt));
               const feedbackSubmitted = isCompleted && ((o.buyerId === user.id && !!o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !!o.sellerFeedbackAt));
               const roleLabel = o.buyerId === user.id ? "Buying" : "Selling";
+              const nextActionCopy = isCompleted
+                ? (feedbackDue ? "Next action: leave feedback." : "Next action: no action needed.")
+                : "Next action: message to agree payment and handover.";
               const statusLabel = isCompleted ? "FEEDBACK OPEN" : "SOLD";
 
               return (
@@ -139,6 +142,10 @@ export default async function OrdersPage() {
                           <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Status</div>
                           <div className="mt-1 text-sm font-medium text-neutral-700">{statusLabel}</div>
                         </div>
+                        <div>
+                          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Next action</div>
+                          <div className="mt-1 text-sm font-medium text-neutral-700">{nextActionCopy}</div>
+                        </div>
                       </div>
                     </div>
 
@@ -149,7 +156,7 @@ export default async function OrdersPage() {
                           className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
                         >
                           <span className="block">Order details</span>
-                          <span className="mt-1 block text-xs bd-ink2">Confirm payment and handover in Messages</span>
+                          <span className="mt-1 block text-xs bd-ink2">Next action: message to agree payment and handover</span>
                         </Link>
                       ) : (
                         <Link
