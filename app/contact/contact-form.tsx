@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import StatusMessage from "@/components/status-message";
 
 const SUPPORT_EMAIL = "support@bidra.com.au";
 
@@ -75,8 +76,8 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
         Send message
       </button>
 
-      {note ? <div className="text-sm text-green-700 break-words">{note}</div> : null}
-      {error ? <div className="text-sm text-red-700 break-words">{error}</div> : null}
+      {note ? <StatusMessage tone="success">{note}</StatusMessage> : null}
+      {error ? <StatusMessage tone="error">{error}</StatusMessage> : null}
     </form>
   );
 }
