@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Card, Badge } from "@/components/ui";
 import { isTimedOffersType } from "@/lib/listing-type";
+import DeleteListingButton from "@/components/delete-listing-button";
 
 type PageProps = {
   searchParams?: { err?: string; ok?: string };
@@ -35,6 +36,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
 
   const err = searchParams?.err ? decodeURIComponent(String(searchParams.err)) : "";
   const ok = cleanOk(searchParams?.ok);
+  const okMessage = String(searchParams?.ok || "") === "deleted" ? "Listing deleted successfully." : "Your listing status was updated successfully.";
 
   const listings = await prisma.listing.findMany({
     where: { sellerId: userId, status: { not: "DELETED" } },
@@ -144,7 +146,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
           {ok ? (
             <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3">
               <div className="text-sm font-extrabold text-emerald-900">Listing updated</div>
-              <div className="mt-1 text-sm text-emerald-800">Your listing status was updated successfully.</div>
+              <div className="mt-1 text-sm text-emerald-800">{okMessage}</div>
             </div>
           ) : null}
 
@@ -229,6 +231,8 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                             Edit listing
                           </Link>
                         </div>
+
+                        <DeleteListingButton listingId={String(l.id)} listingTitle={String(l.title || "this listing")} />
 
                         <form action={updateStatus} className="rounded-2xl border border-black/10 bg-neutral-50 p-3">
                           <input type="hidden" name="id" value={l.id} />
