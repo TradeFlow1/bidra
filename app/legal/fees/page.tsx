@@ -20,9 +20,9 @@ export default function FeesPage() {
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Fees</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Fees on Bidra</h1>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Bidra fees</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Bidra is a marketplace platform. Fees help cover platform operations, support, safety tooling, and ongoing improvements. Any applicable fees are shown in-app before you confirm actions, and Bidra does not control off-platform payment, refunds, pickup, postage, or handover arrangements.
+                Current launch pricing is simple: creating an account is free, browsing is free, messaging is free, creating a standard listing is free, placing an offer is free, and using Buy Now is free for buyers. The current seller success fee is 0% during launch.
               </p>
             </div>
 
@@ -30,8 +30,8 @@ export default function FeesPage() {
               <Link href="/legal" className="bd-btn bd-btn-primary text-center">
                 Legal hub
               </Link>
-              <Link href="/legal/terms" className="bd-btn bd-btn-ghost text-center">
-                Terms
+              <Link href="/support" className="bd-btn bd-btn-ghost text-center">
+                Support
               </Link>
             </div>
           </div>
@@ -39,47 +39,44 @@ export default function FeesPage() {
 
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Source of truth</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">In-app fee display</div>
-            <div className="mt-1 text-sm text-neutral-600">The fee shown in the Bidra UI at the time of action is the source of truth; off-platform payment or refund arrangements are user responsibility.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Buyer fees</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">$0</div>
+            <div className="mt-1 text-sm text-neutral-600">Buyers do not pay Bidra a fee to browse, watch, message, make offers, or use Buy Now during launch.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listings</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Usually free</div>
-            <div className="mt-1 text-sm text-neutral-600">Listing is generally free unless a paid option is explicitly shown in-product.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Seller listing fees</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">$0</div>
+            <div className="mt-1 text-sm text-neutral-600">Sellers can create standard listings for free during launch.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Sales</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Fee rules may vary</div>
-            <div className="mt-1 text-sm text-neutral-600">Buy Now and Timed Offers can have different fee handling depending on the flow.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Seller success fee</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">0%</div>
+            <div className="mt-1 text-sm text-neutral-600">Bidra does not charge a seller success fee during launch.</div>
           </div>
         </div>
 
-        <SectionCard title="Listing fees">
-          <p className="text-black/75 leading-7">
-            Creating a listing is generally free unless the product experience explicitly shows a paid option at the time you list.
-          </p>
-        </SectionCard>
-
-        <SectionCard title="Success fees">
-          <p className="text-black/75 leading-7">
-            For completed <strong>Buy Now</strong> sales, Bidra may charge a seller success fee. <strong>The fee shown in the Bidra UI at the time of sale is the source of truth.</strong>
-          </p>
-          <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
-            <li>Typical structure: a small percentage of the sale price, for example 7%.</li>
-            <li>Fees, if any, are displayed before confirmation and are recorded on the order as part of the sold-item record.</li>
-            <li>Timed Offers may have different fee rules depending on how the sale is completed.</li>
+        <SectionCard title="Current launch fee model">
+          <ul className="list-disc space-y-2 pl-5 text-black/75">
+            <li><strong>Account:</strong> $0 to create and use a Bidra account.</li>
+            <li><strong>Browse, watch, and message:</strong> $0 for buyers and sellers.</li>
+            <li><strong>Standard listings:</strong> $0 for sellers during launch.</li>
+            <li><strong>Offers:</strong> $0 to place or accept an offer during launch.</li>
+            <li><strong>Buy Now:</strong> $0 Bidra buyer fee during launch.</li>
+            <li><strong>Seller success fee:</strong> 0% during launch.</li>
           </ul>
-          <p className="mt-3 text-sm text-black/60">
-            Note: fee structures can evolve over time as Bidra adds new features. We will always display fees clearly in-app.
+        </SectionCard>
+
+        <SectionCard title="Payment and handover">
+          <p className="text-black/75 leading-7">
+            Bidra creates listing, offer, messaging, and sold-item records. Buyers and sellers arrange payment, refunds, pickup, postage, and handover directly with each other in Messages. Bidra does not hold pooled customer funds, process marketplace payments, or act as escrow.
           </p>
         </SectionCard>
 
-        <SectionCard title="Order handling">
+        <SectionCard title="If fees change later">
           <p className="text-black/75 leading-7">
-            Bidra may apply listing, promotion, or order-related fees as described in-product. Orders are sold-item records, and buyers and sellers use Messages to arrange payment, refunds, pickup, postage, and handover. Bidra does not hold pooled customer funds or act as escrow.
+            If Bidra introduces paid upgrades, listing promotion, payment processing, or seller success fees later, the current fee will be shown before the user confirms that paid action. This page is the public source of truth for the current fee model.
           </p>
         </SectionCard>
 
@@ -87,6 +84,7 @@ export default function FeesPage() {
           <div className="text-sm font-extrabold bd-ink">See also</div>
           <div className="mt-3 flex flex-wrap gap-2 text-sm">
             <Link className="bd-btn bd-btn-ghost text-center" href="/legal/terms">Terms</Link>
+            <Link className="bd-btn bd-btn-ghost text-center" href="/support">Support</Link>
             <Link className="bd-btn bd-btn-ghost text-center" href="/how-it-works">How it works</Link>
           </div>
         </section>
