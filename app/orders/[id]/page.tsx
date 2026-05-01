@@ -112,7 +112,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
               <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Sold item</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                This sold-item record confirms the listing has sold. There is no in-app Pay now step in Bidra V1.
+                This sold-item record confirms the listing has sold. There is no in-app Pay now step in Bidra V1. Launch pricing: $0 buyer fees, $0 standard listing fees, and 0% seller success fee during launch.
               </p>              <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
                 <div className="font-extrabold">Next action</div>
                 <div className="mt-1">{primaryNextAction}</div>
@@ -171,7 +171,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">Post-sale next steps</div>
             <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-              <li>There is no in-app Pay now step in Bidra V1.</li>
+              <li>There is no in-app Pay now step in Bidra V1. Launch pricing: $0 buyer fees, $0 standard listing fees, and 0% seller success fee during launch.</li>
               <li>If the order is pending, the next action is to message the other person and agree payment, pickup, postage, and handover.</li>
               <li>If the order is completed, the next action is to leave feedback if it is available.</li>
               <li>Keep important agreements and handover details in Bidra Messages.</li>

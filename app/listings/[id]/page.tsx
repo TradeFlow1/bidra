@@ -262,6 +262,7 @@ export default async function ListingDetailPage({
                 <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-3.5 py-3 text-sm text-emerald-900">
                   <div className="font-semibold">Bidra trust reminder</div>
                   <p className="mt-1">Create a free account to watch this item, message the seller, buy now, or place an offer while keeping questions through handover on Bidra.</p>
+                  <p className="mt-2">Launch pricing: $0 buyer fees, $0 standard listing fees, and 0% seller success fee. <Link className="font-semibold underline underline-offset-2" href="/legal/fees">Read fees</Link>.</p>
                 </div>
                 <div className="mt-4 rounded-2xl border border-[#E2E8F0] bg-white px-3.5 py-3">
                   <div className="text-sm font-semibold text-[#0F172A]">Buyer activation checklist</div>
