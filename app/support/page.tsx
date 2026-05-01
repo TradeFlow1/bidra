@@ -60,7 +60,7 @@ export default function SupportPage() {
         <SectionCard title="If you need help">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>Use <strong>Report</strong> on listings and message threads for rule-breaking content or behaviour so the moderation queue receives the right context.</li>
-            <li>For account and order issues, contact us via <Link className="bd-link font-semibold" href="/contact">Contact</Link>.</li>
+            <li>For account and order issues, contact us via <Link className="bd-link font-semibold" href="/contact">Contact</Link>. No login required for contact support.</li>
             <li>For current pricing, read <Link className="bd-link font-semibold" href="/legal/fees">Bidra fees</Link>: $0 buyer fees, $0 standard listing fees, and 0% seller success fee during launch.</li>
             <li>Include links, screenshots, message context, timestamps, and order or listing IDs so moderators can triage quickly.</li>
           </ul>
