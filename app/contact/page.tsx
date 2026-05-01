@@ -47,30 +47,14 @@ export default async function ContactPage() {
         <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <SectionTitle>Send a support message</SectionTitle>
-
-            {!user ? (
-              <div className="mt-4 rounded-2xl border border-black/10 bg-neutral-50 p-5">
-                <div className="text-sm bd-ink2 leading-7">
-                  To reduce spam, the support form requires you to be signed in. You can still email us at{" "}
-                  <a className="bd-link font-semibold" href={"mailto:" + SUPPORT_EMAIL}>
-                    {SUPPORT_EMAIL}
-                  </a>
-                  .
+            <div className="mt-4">
+              {!user ? (
+                <div className="mb-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
+                  You can send support a message without logging in. Add your email so we can reply. A hidden spam field and rate limit help protect the form.
                 </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  <Link href="/auth/login?next=/contact" className={buttonClass}>
-                    Log in to use the form
-                  </Link>
-                  <Link href="/auth/register" className={buttonClass}>
-                    Create account
-                  </Link>
-                </div>
-              </div>
-            ) : (
-              <div className="mt-4">
-                <ContactForm defaultEmail={defaultEmail} />
-              </div>
-            )}
+              ) : null}
+              <ContactForm defaultEmail={defaultEmail} />
+            </div>
           </div>
 
           <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
@@ -78,6 +62,7 @@ export default async function ContactPage() {
             <div className="mt-4 space-y-5 text-sm bd-ink2 leading-7">
               <div>
                 <div className="font-extrabold bd-ink">Email support</div>
+                <p className="mt-1">No account required. Use the form or email us directly.</p>
                 <a className="bd-link font-semibold" href={"mailto:" + SUPPORT_EMAIL}>
                   {SUPPORT_EMAIL}
                 </a>
