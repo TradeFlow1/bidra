@@ -15,6 +15,7 @@ export default function WatchlistButton(props: Props) {
   const [loading, setLoading] = useState(false);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
   const label = useMemo(function () {
     if (!props.authed) return "Log in to watch";
@@ -29,6 +30,7 @@ export default function WatchlistButton(props: Props) {
       setReady(true);
       setWatched(false);
       setError("");
+      setMessage("");
       return function () {
         alive = false;
       };
@@ -37,6 +39,7 @@ export default function WatchlistButton(props: Props) {
     async function loadStatus() {
       try {
         setError("");
+        setMessage("");
         const res = await fetch("/api/watchlist/status?listingId=" + encodeURIComponent(props.listingId), {
           method: "GET",
           credentials: "same-origin",
@@ -53,7 +56,9 @@ export default function WatchlistButton(props: Props) {
           return;
         }
 
-        setWatched(Boolean(data?.watched));
+        const nextWatched = Boolean(data?.watched);
+      setWatched(nextWatched);
+      setMessage(nextWatched ? "Added to watchlist." : "Removed from watchlist.");
         setReady(true);
       } catch (e) {
         if (!alive) return;
@@ -81,6 +86,7 @@ export default function WatchlistButton(props: Props) {
     try {
       setLoading(true);
       setError("");
+      setMessage("");
 
       const res = await fetch("/api/watchlist/toggle", {
         method: "POST",
@@ -101,7 +107,9 @@ export default function WatchlistButton(props: Props) {
         return;
       }
 
-      setWatched(Boolean(data?.watched));
+      const nextWatched = Boolean(data?.watched);
+      setWatched(nextWatched);
+      setMessage(nextWatched ? "Added to watchlist." : "Removed from watchlist.");
     } catch (e) {
       setError("Unable to update watchlist.");
     } finally {
@@ -122,8 +130,12 @@ export default function WatchlistButton(props: Props) {
         {ready ? label : "Loading..."}
       </button>
 
+      {message ? (
+        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-900" role="status" aria-live="polite">{message}</div>
+      ) : null}
+
       {error ? (
-        <div className="text-xs text-red-600">{error}</div>
+        <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700" role="status" aria-live="polite">{error}</div>
       ) : null}
     </div>
   );
