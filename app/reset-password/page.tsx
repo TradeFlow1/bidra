@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { checkPasswordPolicy, passwordGuidanceText } from "@/lib/password-policy";
 import { useMemo, useState } from "react";
 
 function cx(...classes: Array<string | false | null | undefined>) {
@@ -24,6 +25,10 @@ export default function ResetPasswordPage({
 
   const pwTooShort = useMemo(function () {
     return pw.length > 0 && pw.length < 8;
+  }, [pw]);
+
+  const pwPolicy = useMemo(function () {
+    return checkPasswordPolicy(pw);
   }, [pw]);
 
   const pwMismatch = useMemo(function () {
@@ -73,7 +78,8 @@ export default function ResetPasswordPage({
 
       const data = await res.json().catch(function (): unknown { return {}; });
       if (!res.ok || !(data as any)?.ok) {
-        setError("We could not reset your password. Please request a new link and try again.");
+        const apiError = data && typeof (data as any).error === "string" ? String((data as any).error) : "";
+        setError(apiError ? apiError + " Request a new link if this one has expired." : "We could not reset your password. Please request a new link and try again.");
         return;
       }
 
@@ -113,7 +119,7 @@ export default function ResetPasswordPage({
                 <div className="rounded-2xl border border-black/10 bg-white p-4">
                   <div className="text-sm font-semibold bd-ink">Choose a strong password</div>
                   <div className="mt-1 text-sm bd-ink2">
-                    Use a password that is easy for you to remember and hard for others to guess.
+                    Use at least 8 characters, avoid passwords reused from another site, and use Show password to check typing before saving.
                   </div>
                 </div>
 
@@ -184,7 +190,15 @@ export default function ResetPasswordPage({
                         {showPassword ? "Hide" : "Show"}
                       </button>
                     </div>
-                    <div className="mt-1 text-xs bd-ink2">Minimum 8 characters.</div>
+                    <div className="mt-1 text-xs bd-ink2">{passwordGuidanceText()}</div>
+                    {!pwTooShort && pw.length > 0 && pwPolicy && pwPolicy.warning ? (
+                      <div className="mt-1 text-xs font-semibold text-amber-800">
+                        {(pwPolicy.label ? "Password strength: " + pwPolicy.label.toUpperCase() + ". " : "") + pwPolicy.warning}
+                      </div>
+                    ) : null}
+                    {!pwTooShort && pw.length > 0 && pwPolicy && !pwPolicy.ok && pwPolicy.reason ? (
+                      <div className="mt-1 text-xs font-semibold text-red-700">{pwPolicy.reason}</div>
+                    ) : null}
                     {pwTooShort ? (
                       <div className="mt-1 text-xs font-semibold text-red-700">Must be at least 8 characters.</div>
                     ) : null}

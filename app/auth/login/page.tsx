@@ -9,7 +9,9 @@ import { Card, Button, Input } from "@/components/ui";
 function friendlyAuthError(raw: string) {
   const s = String(raw || "");
   if (s === "EMAIL_NOT_VERIFIED") return "Please verify your email before logging in. Use the resend link above if you cannot find it.";
-  if (s === "CredentialsSignin") return "Incorrect email or password.";
+  if (s === "ACCOUNT_RESTRICTED") return "This account is restricted. Visit account restrictions or contact support if you think this is wrong.";
+  if (s === "ACCOUNT_DISABLED") return "This account is disabled. Contact support before trying again.";
+  if (s === "CredentialsSignin") return "Incorrect email or password. Check your email, password, and whether your account email has been verified.";
   if (s.toLowerCase().includes("credentials")) return "Incorrect email or password.";
   if (s.toLowerCase().includes("signin")) return "Incorrect email or password.";
   if (s.toLowerCase().includes("too many login attempts")) return "Too many login attempts. Please wait 15 minutes and try again.";
@@ -85,6 +87,15 @@ export default function Login() {
                   <li>Age verification continues separately after account access where required.</li>
                 </ul>
               </div>
+              <div className="rounded-2xl border border-black/10 bg-white p-4">
+                <div className="text-sm font-semibold bd-ink">Login confidence checklist</div>
+                <ul className="mt-2 list-disc pl-5 text-sm bd-ink2 space-y-2">
+                  <li>Use the same email address you verified during signup.</li>
+                  <li>Passwords are case-sensitive; use Show password if you need to check typing.</li>
+                  <li>If you are locked out, wait 15 minutes or reset your password.</li>
+                </ul>
+              </div>
+
 
               <div className="rounded-2xl border border-black/10 bg-white p-4">
                 <div className="text-sm font-semibold bd-ink">Need help?</div>
