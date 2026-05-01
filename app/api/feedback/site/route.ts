@@ -1,7 +1,8 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
+import { rateLimit } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -14,6 +15,12 @@ function getClientIp(req: Request) {
 }
 
 export async function POST(req: Request) {
+  const ip = getClientIp(req) || "unknown";
+
+  if (!rateLimit("feedback:site:" + ip, 5, 60_000)) {
+    return NextResponse.json({ error: "Too many feedback messages. Please wait a minute and try again." }, { status: 429 });
+  }
+
   const session = await auth();
   const userId = session?.user?.id ? String(session.user.id) : null;
 

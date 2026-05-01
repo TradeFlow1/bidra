@@ -15,6 +15,7 @@ export default function FtReportPage() {
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [website, setWebsite] = useState("");
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
