@@ -209,7 +209,12 @@ export default function RegisterPage() {
 
     const data = await res.json().catch(function (): unknown { return {}; });
     if (!res.ok) {
-      setError("We could not create your account. Please check your details and try again.");
+      const apiError = data && typeof (data as any).error === "string" ? String((data as any).error) : "";
+      if (apiError) {
+        setError(apiError + " Check the highlighted form guidance and try again.");
+      } else {
+        setError("We could not create your account. Please check your details, password guidance, and verification requirements, then try again.");
+      }
       setLoading(false);
       return;
     }
@@ -242,6 +247,15 @@ export default function RegisterPage() {
             <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6">
               <div className="text-sm font-extrabold bd-ink">Activate your account with trust basics</div>
               <div className="mt-3 space-y-3 sm:mt-4 sm:space-y-4">
+                <div className="rounded-2xl border border-black/10 bg-neutral-50 p-3.5 sm:p-4">
+                  <div className="text-sm font-semibold bd-ink">Password confidence</div>
+                  <ul className="mt-2 list-disc pl-5 text-sm bd-ink2 space-y-2">
+                    <li>Use at least 8 characters.</li>
+                    <li>Use a password that is hard to guess and not reused from another site.</li>
+                    <li>Use the Show buttons to check both password fields before creating your account.</li>
+                  </ul>
+                </div>
+
                 <div className="rounded-2xl border border-black/10 bg-neutral-50 p-3.5 sm:p-4">
                   <div className="text-sm font-semibold bd-ink">Email verification required</div>
                   <div className="mt-1 text-sm bd-ink2">
