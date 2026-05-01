@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import StatusMessage from "@/components/status-message";
 
 const FT_ENABLED =
   process.env.NEXT_PUBLIC_FT_ENABLED === "1" ||
@@ -13,12 +14,14 @@ export default function FtReportPage() {
   const [url, setUrl] = useState("");
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!title.trim() || !message.trim()) return;
 
     setBusy(true);
+    setError("");
     try {
       await fetch("/api/ft/report", {
         method: "POST",
@@ -33,7 +36,7 @@ export default function FtReportPage() {
       });
       setSent(true);
     } catch {
-      alert("Failed to send report. Please try again.");
+      setError("Failed to send report. Please try again.");
     } finally {
       setBusy(false);
     }

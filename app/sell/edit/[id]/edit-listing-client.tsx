@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import React, { useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import BdModal from "@/components/bd-modal";
 import { FULL_CATEGORIES, CATEGORY_GROUPS , joinCategory} from "@/lib/categories";
 import { isTimedOffersType } from "@/lib/listing-type";
 
@@ -109,6 +110,8 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
 
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [endOpen, setEndOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   const previews = useMemo(() => {
     return files.slice(0, 10).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
@@ -191,7 +194,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
 
   async function endListing() {
     if (isSaving) return;
-    if (!confirm("End this listing now? This will stop new offers and mark it as ended.")) return;
+    if (!true) return;
 
     setError(null);
     setIsSaving(true);
@@ -240,7 +243,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
 
   async function deleteListing() {
     if (isSaving) return;
-    if (!confirm("Delete this listing? It will be removed from public view.")) return;
+    if (!true) return;
 
     setError(null);
     setIsSaving(true);
@@ -283,7 +286,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
               {status === "ACTIVE" ? (
                 <button
                   type="button"
-                  onClick={endListing}
+                  onClick={function () { setError(null); setEndOpen(true); }}
                   disabled={isSaving}
                   className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
                 >
@@ -293,7 +296,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
 
               <button
                 type="button"
-                onClick={deleteListing}
+                onClick={function () { setError(null); setDeleteOpen(true); }}
                 disabled={isSaving}
                 className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
               >
@@ -646,6 +649,29 @@ buyNowPrice:
           </div>
         </div>
       </div>
+      <BdModal
+        open={endOpen}
+        title="End this listing?"
+        onClose={function () { if (!isSaving) setEndOpen(false); }}
+        onConfirm={async function () { await endListing(); setEndOpen(false); }}
+        confirmText={isSaving ? "Ending..." : "End listing"}
+        cancelText="Keep active"
+        confirmDisabled={isSaving}
+      >
+        This will stop new offers and mark the listing as ended.
+      </BdModal>
+
+      <BdModal
+        open={deleteOpen}
+        title="Delete this listing?"
+        onClose={function () { if (!isSaving) setDeleteOpen(false); }}
+        onConfirm={async function () { await deleteListing(); setDeleteOpen(false); }}
+        confirmText={isSaving ? "Deleting..." : "Delete listing"}
+        cancelText="Keep listing"
+        confirmDisabled={isSaving}
+      >
+        This listing will be removed from public view.
+      </BdModal>
     </main>
   );
 }
