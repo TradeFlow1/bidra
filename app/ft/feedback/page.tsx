@@ -13,6 +13,7 @@ export default function FtFeedbackPage() {
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [website, setWebsite] = useState("");
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -28,6 +29,7 @@ export default function FtFeedbackPage() {
           message,
           email: email || null,
           source: "FT-P1",
+          website,
         }),
       });
       setSent(true);

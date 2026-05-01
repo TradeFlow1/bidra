@@ -20,12 +20,13 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
         const fd = new FormData(e.currentTarget);
         const email = String(fd.get("email") || "").trim();
         const message = String(fd.get("message") || "").trim();
+        const website = String(fd.get("website") || "").trim();
 
         try {
           const res = await fetch("/api/contact", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, message }),
+            body: JSON.stringify({ email, message, website }),
           });
           const data = await res.json().catch(() => ({}));
           if (!res.ok || !data?.ok) {
@@ -40,6 +41,11 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
       }}
     >
       <div className="text-sm font-extrabold bd-ink">Contact Bidra Support</div>
+
+      <div style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }} aria-hidden="true">
+        <label>Website</label>
+        <input name="website" autoComplete="off" tabIndex={-1} />
+      </div>
 
       <div className="text-xs bd-ink2">
         Prefer email?{" "}

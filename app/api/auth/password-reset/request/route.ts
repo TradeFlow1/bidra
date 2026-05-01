@@ -1,9 +1,23 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
 import { sendPasswordResetEmail } from "\@/lib/email";
+import { rateLimit } from "@/lib/rate-limit";
+
+
+function getClientIp(req: Request) {
+  const xf = req.headers.get("x-forwarded-for") || "";
+  const ip = xf.split(",")[0]?.trim();
+  return ip || "unknown";
+}
 
 export async function POST(req: Request) {
+  const ip = getClientIp(req);
+
+  if (!rateLimit("auth:password-reset:" + ip, 5, 60_000)) {
+    return NextResponse.json({ ok: true });
+  }
+
   try {
     const body = await req.json().catch(() => ({}));
     const email = String(body?.email || "").trim().toLowerCase();
