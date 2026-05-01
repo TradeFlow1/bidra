@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import StatusMessage from "@/components/status-message";
 import { useEffect, useMemo, useState } from "react";
 
 type SessionUser = { id?: string; role?: string } | null;
@@ -15,6 +16,7 @@ export default function FeedbackClient() {
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<string>("");
+  const [statusTone, setStatusTone] = useState<"success" | "error" | "info" | "warning">("info");
 
   // honeypot
   const [website, setWebsite] = useState("");
@@ -51,8 +53,10 @@ export default function FeedbackClient() {
 
   async function submit() {
     setStatus("");
+    setStatusTone("info");
     const msg = (message || "").trim();
     if (!msg) {
+      setStatusTone("error");
       setStatus("Please enter a message.");
       return;
     }
@@ -72,14 +76,17 @@ export default function FeedbackClient() {
 
       const j = await res.json().catch(() => null as any);
       if (!res.ok) {
+        setStatusTone("error");
         setStatus("We could not send your feedback. Please check your message and try again.");
         return;
       }
 
       setMessage("");
       setEmail("");
+      setStatusTone("success");
       setStatus("Thanks — we received your feedback.");
     } catch {
+      setStatusTone("error");
       setStatus("We could not send your feedback. Please try again shortly.");
     }
   }
@@ -163,9 +170,7 @@ export default function FeedbackClient() {
               <Link href="/contact" className="bd-btn bd-btn-outline">Contact</Link>
             </div>
 
-            {status ? (
-              <div className="text-sm bd-ink2" aria-live="polite">{status}</div>
-            ) : null}
+            {status ? <StatusMessage tone={statusTone}>{status}</StatusMessage> : null}
           </div>
         )}
       </div>

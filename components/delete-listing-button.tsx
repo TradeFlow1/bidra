@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import StatusMessage from "@/components/status-message";
 
 type Props = {
   listingId: string;
@@ -66,7 +67,7 @@ export default function DeleteListingButton({ listingId, listingTitle }: Props) 
               This removes <strong>{listingTitle}</strong> from your seller listings.
             </p>
 
-            {error ? <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-900">{error}</div> : null}
+            {error ? <StatusMessage tone="error" className="mt-4">{error}</StatusMessage> : null}
 
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               <button

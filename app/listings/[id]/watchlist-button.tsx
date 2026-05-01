@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import StatusMessage from "@/components/status-message";
 
 type Props = {
   listingId: string;
@@ -130,13 +131,9 @@ export default function WatchlistButton(props: Props) {
         {ready ? label : "Loading..."}
       </button>
 
-      {message ? (
-        <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-900" role="status" aria-live="polite">{message}</div>
-      ) : null}
+      {message ? <StatusMessage tone="success" className="text-xs">{message}</StatusMessage> : null}
 
-      {error ? (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700" role="status" aria-live="polite">{error}</div>
-      ) : null}
+      {error ? <StatusMessage tone="error" className="text-xs">{error}</StatusMessage> : null}
     </div>
   );
 }
