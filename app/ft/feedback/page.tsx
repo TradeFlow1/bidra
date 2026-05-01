@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
+import StatusMessage from "@/components/status-message";
 
 const FT_ENABLED =
   process.env.NEXT_PUBLIC_FT_ENABLED === "1" ||
@@ -11,12 +12,14 @@ export default function FtFeedbackPage() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     if (!message.trim()) return;
 
     setBusy(true);
+    setError("");
     try {
       await fetch("/api/ft/feedback", {
         method: "POST",
@@ -29,7 +32,7 @@ export default function FtFeedbackPage() {
       });
       setSent(true);
     } catch {
-      alert("Failed to send feedback. Please try again.");
+      setError("Failed to send feedback. Please try again.");
     } finally {
       setBusy(false);
     }
