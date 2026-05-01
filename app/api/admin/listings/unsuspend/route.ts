@@ -11,7 +11,8 @@ export async function POST(req: Request) {
 
   const form = await req.formData();
   const listingId = String(form.get("listingId") || "");
-  const backTo = String(form.get("backTo") || "/admin/listings");
+    const reason = String(form.get("reason") || "").trim();
+const backTo = String(form.get("backTo") || "/admin/listings");
 
   if (!listingId) return NextResponse.redirect(new URL(backTo, req.url));
 
@@ -31,7 +32,7 @@ export async function POST(req: Request) {
       entityType: "LISTING",
       entityId: listingId,
       listingId,
-      meta: { toStatus: "ACTIVE", note: "Listing restored after trust-operations review." },
+      meta: { toStatus: "ACTIVE", reason: reason || null, note: reason || "Listing restored after trust-operations review." },
     },
   });
 

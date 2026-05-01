@@ -64,12 +64,15 @@ export default async function AdminListings() {
 
                   <Link
                     className="mt-1 block font-semibold hover:underline truncate"
-                    href={"/listings/" + l.id}
+                    href={"/admin/listings/" + l.id}
                     title={l.title}
                   >
-                    {l.title}
-                  </Link>
-
+                    {l.title}</Link>
+                  <div className="mt-2">
+                    <Link className="text-xs font-semibold text-blue-700 hover:underline" href={"/listings/" + l.id}>
+                      View public listing
+                    </Link>
+                  </div>
                   <div className="mt-2 flex flex-wrap items-center gap-2">
                     <Badge>{l.type}</Badge>
                     <Badge>{l.status}</Badge>
