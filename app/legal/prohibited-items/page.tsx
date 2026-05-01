@@ -22,7 +22,7 @@ export default function ProhibitedItemsPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Prohibited items</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Items that cannot be listed</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                To keep Bidra safe and compliant, some goods, animals, services, and categories cannot be listed. Listings that breach these rules may be removed, and repeated attempts may result in account restrictions.
+                To keep Bidra safe and compliant, some goods, animals, services, and categories cannot be listed. Listings that breach these rules may be removed, reports may be investigated, and repeated or serious attempts may result in account restrictions.
               </p>
             </div>
 
@@ -41,7 +41,7 @@ export default function ProhibitedItemsPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Rule level</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Always prohibited</div>
-            <div className="mt-1 text-sm text-neutral-600">These categories are not allowed on Bidra and may be removed without warning.</div>
+            <div className="mt-1 text-sm text-neutral-600">These categories are not allowed on Bidra and may be removed without warning, even if a listing was already published.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
@@ -77,7 +77,7 @@ export default function ProhibitedItemsPage() {
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>Some categories may have additional restrictions depending on Australian law and local regulations.</li>
             <li>Bidra may prohibit certain items even if they may be legal in limited contexts, where they create elevated safety, fraud, compliance, or moderation risk.</li>
-            <li>If an item requires specialist licensing, age-gating, transport controls, or compliance proof, do not assume it is allowed on Bidra.</li>
+            <li>If an item requires specialist licensing, age-gating, transport controls, safety checks, or compliance proof, do not assume it is allowed on Bidra.</li>
           </ul>
         </SectionCard>
 
@@ -101,7 +101,7 @@ export default function ProhibitedItemsPage() {
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>If you are unsure, do not list it. Contact Support first.</li>
             <li>Bidra may use automated checks and manual review to enforce these rules.</li>
-            <li>We may remove listings, restrict accounts, or take additional platform action where repeated or serious breaches occur.</li>
+            <li>We may remove listings, restrict accounts, preserve audit records, or take additional platform action where repeated or serious breaches occur.</li>
             <li>These examples are not exhaustive. Bidra may remove listings that present comparable safety, fraud, abuse, or compliance risks.</li>
           </ul>
         </SectionCard>

@@ -22,7 +22,7 @@ export default function FeesPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Fees</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Fees on Bidra</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Bidra is a marketplace platform. Fees help cover platform operations, support, safety tooling, and ongoing improvements. Any applicable fees are shown in-app before you confirm actions.
+                Bidra is a marketplace platform. Fees help cover platform operations, support, safety tooling, and ongoing improvements. Any applicable fees are shown in-app before you confirm actions, and Bidra does not control off-platform payment, refunds, pickup, postage, or handover arrangements.
               </p>
             </div>
 
@@ -41,7 +41,7 @@ export default function FeesPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Source of truth</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">In-app fee display</div>
-            <div className="mt-1 text-sm text-neutral-600">The fee shown in the Bidra UI at the time of action is the source of truth.</div>
+            <div className="mt-1 text-sm text-neutral-600">The fee shown in the Bidra UI at the time of action is the source of truth; off-platform payment or refund arrangements are user responsibility.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
@@ -69,7 +69,7 @@ export default function FeesPage() {
           </p>
           <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
             <li>Typical structure: a small percentage of the sale price, for example 7%.</li>
-            <li>Fees, if any, are displayed before confirmation and are recorded on the order.</li>
+            <li>Fees, if any, are displayed before confirmation and are recorded on the order as part of the sold-item record.</li>
             <li>Timed Offers may have different fee rules depending on how the sale is completed.</li>
           </ul>
           <p className="mt-3 text-sm text-black/60">
@@ -79,7 +79,7 @@ export default function FeesPage() {
 
         <SectionCard title="Order handling">
           <p className="text-black/75 leading-7">
-            Bidra may apply listing, promotion, or order-related fees as described in-product. Orders are sold-item records, and buyers and sellers use messages to arrange pickup or postage. Bidra does not hold pooled customer funds.
+            Bidra may apply listing, promotion, or order-related fees as described in-product. Orders are sold-item records, and buyers and sellers use Messages to arrange payment, refunds, pickup, postage, and handover. Bidra does not hold pooled customer funds or act as escrow.
           </p>
         </SectionCard>
 

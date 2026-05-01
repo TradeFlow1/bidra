@@ -37,7 +37,7 @@ export default function LegalHubPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Legal and policies</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Legal hub</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                These pages explain how Bidra works, what is allowed, and how we handle privacy, fees, and safety. Bidra is a platform marketplace and items are listed and sold by users.
+                These pages explain how Bidra works, what is allowed, how fees and privacy are handled, and what risks remain with buyers and sellers. Bidra is a platform marketplace: items are listed and sold by users, and users remain responsible for payment, pickup, postage, and handover decisions.
               </p>
             </div>
 
@@ -62,13 +62,13 @@ export default function LegalHubPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Core rules</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Terms and privacy</div>
-            <div className="mt-1 text-sm text-neutral-600">Understand account rules, platform role, data handling, and user responsibilities.</div>
+            <div className="mt-1 text-sm text-neutral-600">Understand account rules, platform-only role, data handling, marketplace risk, and user responsibilities.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Safety</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Policies and restrictions</div>
-            <div className="mt-1 text-sm text-neutral-600">Review prohibited items, fees, and support guidance before trading.</div>
+            <div className="mt-1 text-sm text-neutral-600">Review prohibited items, fees, support guidance, and marketplace risk before trading.</div>
           </div>
         </div>
 
@@ -89,7 +89,7 @@ export default function LegalHubPage() {
               <LegalCard
                 title="Terms of Use"
                 href="/legal/terms"
-                desc="Rules for using Bidra, eligibility requirements, platform-only role, and the two sale models: Buy Now and Timed Offers."
+                desc="Rules for using Bidra, eligibility requirements, platform-only role, user responsibility, marketplace risk, and the two sale models: Buy Now and Timed Offers."
               />
               <LegalCard
                 title="Privacy Policy"
