@@ -62,6 +62,13 @@ export default async function AdminHome() {
           </div>
         </div>
       </div>
+        <div className={card}>
+          <div className={title}>Operator diagnostics</div>
+          <div className={sub}>Check production readiness, required environment variables, deployment metadata, and database connectivity.</div>
+          <div className="mt-3">
+            <Link href="/admin/ops" className="bd-btn bd-btn-primary">Open diagnostics</Link>
+          </div>
+        </div>
     </main>
   )
 }
