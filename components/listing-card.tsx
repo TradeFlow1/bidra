@@ -69,7 +69,6 @@ function shortCategory(value: string | null | undefined) {
   const v = cleanText(value);
   if (!v) return "";
   if (v.indexOf(" > ") >= 0) return v.split(" > ").pop() || v;
-  if (v.indexOf(" â€º ") >= 0) return v.split(" â€º ").pop() || v;
   return v;
 }
 
@@ -89,7 +88,7 @@ function formatMemberSince(value: string | Date | null | undefined) {
 function renderStars(avg: number) {
   const safe = Math.max(0, Math.min(5, avg));
   const full = Math.round(safe);
-  return "★".repeat(full) + "☆".repeat(5 - full);
+  return String(full) + "/5";
 }
 
 export default function ListingCard({
@@ -206,7 +205,7 @@ export default function ListingCard({
             ? "rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-800 shadow-sm"
             : "rounded-full border border-black/10 bg-white/96 px-2.5 py-1 text-[11px] font-semibold text-neutral-800 shadow-sm"
           }>
-            {isTimedOffers ? "Offers" : hasBuyNow ? "Buy Now" : "Fixed"}
+            {isTimedOffers ? "Highest offers" : hasBuyNow ? "Buy Now" : "Fixed price"}
           </span>
           {ends ? (
             <span
@@ -242,11 +241,23 @@ export default function ListingCard({
           {title}
         </div>
 
-        <div className="text-[22px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
+        <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Current best offer" : hasBuyNow ? "Buy now price" : "Price"}</div>
+          <div className="mt-1 text-[23px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
+          <div className="mt-1 text-[11px] font-medium text-[#64748B]">
+            {isTimedOffers ? (
+              currentOffer !== null ? "Lead with your strongest offer." : "Be the first to make an offer." 
+            ) : hasBuyNow ? (
+              "Buy now before someone else does." 
+            ) : (
+              "Check details and message the seller." 
+            )}
+          </div>
+        </div>
         {isTimedOffers ? (
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-[#64748B]">
             <span>{currentOffer !== null ? `Current offer ${money(currentOffer)}` : "No offers yet"}</span>
-            {offerCount && offerCount > 0 ? <span>{offerCount} {offerCount === 1 ? "offer" : "offers"}</span> : null}
+            <span>{offerCount && offerCount > 0 ? `${offerCount} ${offerCount === 1 ? "offer" : "offers"}` : "No offer history yet"}</span>
           </div>
         ) : null}
 
@@ -272,7 +283,7 @@ export default function ListingCard({
         <div className="flex items-center justify-between gap-2.5 text-[11px] text-[#64748B]">
           <div className="min-w-0 truncate">{location || "Location on request"}</div>
           <div className="flex items-center gap-2">
-            <div className="font-semibold text-[#0F172A]">View</div>
+            <div className="font-semibold text-[#0F172A]">{isTimedOffers ? "View offers" : hasBuyNow ? "Buy now" : "View item"}</div>
             {showWatchButton ? (
               <button
                 type="button"
