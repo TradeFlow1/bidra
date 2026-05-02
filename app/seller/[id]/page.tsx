@@ -33,8 +33,8 @@ function formatMemberSince(value: Date | string | null | undefined) {
 
 function renderStars(avg: number) {
   const safe = Math.max(0, Math.min(5, avg));
-  const full = Math.round(safe);
-  return "★".repeat(full) + "☆".repeat(5 - full);
+  const rounded = Math.round(safe * 10) / 10;
+  return `${rounded.toFixed(1)}/5`; 
 }
 
 async function getSellerProfileData(sellerId: string) {
@@ -174,6 +174,14 @@ export default async function SellerPage({ params }: PageProps) {
   const sellerPhoneVerified = !!cleanText(seller.phone);
   const ratingAvg = typeof sellerRating._avg.rating === "number" ? Number(sellerRating._avg.rating) : null;
   const ratingCount = Number(sellerRating._count.rating || 0);
+  const profileSignals = [
+    seller.emailVerified ? "Email verified" : "",
+    sellerPhoneVerified ? "Phone verified" : "",
+    sellerMemberSince ? `Member since ${sellerMemberSince}` : "",
+    sellerLocation ? `Location shown: ${sellerLocation}` : "",
+    completedSales > 0 ? `${completedSales} completed ${completedSales === 1 ? "sale" : "sales"}` : "",
+    ratingAvg !== null && ratingCount > 0 ? `${renderStars(ratingAvg)} from ${ratingCount} ${ratingCount === 1 ? "review" : "reviews"}` : "",
+  ].filter(Boolean);
   const visibleRecentFeedback = recentFeedback.filter((entry) => cleanText(entry.comment).length > 0);
 
   const watchedIds = userId
@@ -198,6 +206,7 @@ export default async function SellerPage({ params }: PageProps) {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Seller profile</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-neutral-950 sm:text-4xl">{sellerName}</h1>
               {username ? <p className="mt-1 text-sm font-medium text-neutral-600">@{username}</p> : null}
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-neutral-700">Review this seller profile before you message, buy, or make an offer. Bidra highlights verified contact signals, transaction history, active listings, and recent completed-order feedback where available.</p>
               <div className="mt-3 flex flex-wrap gap-2 text-sm text-neutral-700">
                 {sellerMemberSince ? <span className="rounded-full border border-black/10 bg-white px-3 py-1">Member since {sellerMemberSince}</span> : null}
                 {sellerLocation && <span className="rounded-full border border-black/10 bg-white px-3 py-1">{sellerLocation}</span>}
@@ -234,13 +243,30 @@ export default async function SellerPage({ params }: PageProps) {
               description="Share this seller profile."
             />
           </div>
+
+          <div className="mt-5 rounded-2xl border border-[#D8E1F0] bg-white p-4 shadow-sm">
+            <div className="text-sm font-bold text-neutral-950">Buyer confidence checklist</div>
+            <p className="mt-1 text-sm text-neutral-600">Use these signals together before arranging pickup, postage, or payment outside Bidra.</p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {profileSignals.length > 0 ? profileSignals.map((signal) => (
+                <div key={signal} className="rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-neutral-700">{signal}</div>
+              )) : (
+                <div className="rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-neutral-700">No profile signals yet</div>
+              )}
+            </div>
+            <div className="mt-3 grid gap-3 text-xs text-neutral-600 sm:grid-cols-3">
+              <div><span className="font-bold text-neutral-900">Check listings.</span> Compare active items, descriptions, photos, and price clarity.</div>
+              <div><span className="font-bold text-neutral-900">Message clearly.</span> Ask about condition, handover, postage, and what is included.</div>
+              <div><span className="font-bold text-neutral-900">Stay safe.</span> Keep arrangements in Messages and use safe public handover locations.</div>
+            </div>
+          </div>
         </section>
 
         <section className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <div className="text-sm font-semibold text-neutral-950">Active listings</div>
-              <div className="mt-1 text-sm text-neutral-600">Browse what this seller currently has available on Bidra.</div>
+              <div className="mt-1 text-sm text-neutral-600">Browse active items from this seller and compare price, condition, location, and offer activity before contacting them.</div>
             </div>
 
             <Link href="/listings" className="bd-btn bd-btn-ghost text-center">
@@ -253,7 +279,7 @@ export default async function SellerPage({ params }: PageProps) {
               <div className="rounded-2xl border border-dashed border-black/15 bg-neutral-50 px-6 py-10 text-center">
                 <div className="mx-auto max-w-xl">
                   <div className="text-lg font-bold text-neutral-900">No active listings right now</div>
-                  <p className="mt-2 text-sm text-neutral-600">This seller has no active listings right now.</p>
+                  <p className="mt-2 text-sm text-neutral-600">This seller has no active listings right now. You can still review their profile signals and recent completed-order feedback where available.</p>
                 </div>
               </div>
             ) : (
