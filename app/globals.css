@@ -1,2 +1,37 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 @import "../styles/bidra-theme.css";
+
+/* PERF-02 mobile premium tap targets */
+.bd-btn,
+.bd-input,
+button,
+input,
+select,
+textarea {
+  min-height: 44px;
+}
+
+a.bd-btn,
+button.bd-btn {
+  min-height: 44px;
+}
+
+.bd-mobile-tap-target {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+
+.bd-mobile-scroll-safe {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .bd-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .bd-mobile-stack {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}

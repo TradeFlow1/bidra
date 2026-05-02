@@ -166,8 +166,8 @@ export default async function HomePage() {
             <div className="grid gap-2 rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
               <HomeCategorySelect />
               <div className="grid gap-2">
-                <Link href="/listings" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2.5 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse active listings</Link>
-                <Link href="/auth/register" className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2.5 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Create a free account</Link>
+                <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse active listings</Link>
+                <Link href="/auth/register" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Create a free account</Link>
               </div>
             </div>
           </div>
@@ -179,7 +179,7 @@ export default async function HomePage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Explore</div>
               <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Discover active marketplace categories</h2>
             </div>
-            <Link href="/listings" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+            <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
               View all
             </Link>
           </div>
@@ -190,7 +190,7 @@ export default async function HomePage() {
                   <Link
                     key={entry[0]}
                     href={"/listings?category=" + encodeURIComponent(entry[0])}
-                    className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white"
+                    className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white"
                   >
                     <span>{entry[0]}</span>
                     <span className="ml-2 text-xs font-medium text-[#64748B]">({entry[1]})</span>
@@ -210,7 +210,7 @@ export default async function HomePage() {
               <h2 className="mt-1 text-[1.9rem] font-extrabold tracking-tight text-[#0F172A]">Latest active listings</h2>
             </div>
 
-            <Link href="/listings" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+            <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
               View all
             </Link>
           </div>
@@ -228,7 +228,7 @@ export default async function HomePage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Offer listings</div>
               <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Make seller-reviewed offers</h2>
             </div>
-            <Link href="/listings?type=OFFERABLE" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+            <Link href="/listings?type=OFFERABLE" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
               View all
             </Link>
           </div>
@@ -245,7 +245,7 @@ export default async function HomePage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Buy now listings</div>
               <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Buy Now activation</h2>
             </div>
-            <Link href="/listings?type=BUY_NOW" className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+            <Link href="/listings?type=BUY_NOW" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
               View all
             </Link>
           </div>
