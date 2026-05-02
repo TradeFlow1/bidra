@@ -141,6 +141,13 @@ export default async function HomePage() {
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-4">
         <section className="overflow-hidden rounded-[30px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
           <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-[minmax(0,1.55fr)_18rem] lg:items-center lg:p-5">
+            <div className="grid gap-3 rounded-[24px] border border-[#D8E1F0] bg-white/85 p-5 shadow-sm">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#1D4ED8]">Bidra Marketplace</p>
+              <div className="grid gap-2">
+                <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Buy now, make offers, and sell locally with confidence</h1>
+                <p className="max-w-2xl text-sm leading-6 text-[#475569] sm:text-base">Bidra is a trust-first marketplace for buyers who want simple local deals and sellers who want fast, serious offers.</p>
+              </div>
+            </div>
             <div className="relative flex min-h-[9rem] items-center overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[#EFF4FB] px-5 py-4 sm:min-h-[10rem] sm:px-6 lg:min-h-[11rem] lg:px-7">
               <Image
                 src="/brand/hero-clouds.png"
@@ -166,8 +173,26 @@ export default async function HomePage() {
             <div className="grid gap-2 rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
               <HomeCategorySelect />
               <div className="grid gap-2">
-                <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse active listings</Link>
-                <Link href="/auth/register" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Create a free account</Link>
+                <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse live deals</Link>
+                {userId ? (
+                  <Link href="/sell" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Sell an item</Link>
+                ) : (
+                  <Link href="/auth/register" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Create a free account</Link>
+                )}
+              </div>
+              <div className="grid gap-3 pt-2 text-sm text-slate-700 sm:grid-cols-3">
+                <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm">
+                  <p className="font-semibold text-slate-950">No buyer fees</p>
+                  <p className="mt-1">See the price, message the seller, and decide with confidence.</p>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm">
+                  <p className="font-semibold text-slate-950">Buy now or offer</p>
+                  <p className="mt-1">Choose instant purchase intent or make your strongest offer.</p>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm">
+                  <p className="font-semibold text-slate-950">Safer handover</p>
+                  <p className="mt-1">Use profiles, clear listing details, and local pickup planning.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -217,7 +242,7 @@ export default async function HomePage() {
 
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {latestListings.length ? latestListings.map(renderCard) : (
-              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No active listings yet. Create a free account and start the first trusted listing.</p>
+              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No active listings yet. Start the first trusted listing when you are ready to sell.</p>
             )}
           </div>
         </section>
