@@ -1,0 +1,12 @@
+Fix ID,Priority,Area,Title,Goal,Acceptance,Status
+PHASE3-00,P0,Control,Create Phase 3 growth register,Define the growth/conversion/trust work before product changes,Register exists with checks and no product-code drift,In Progress
+GROWTH-02,P0,Homepage,Sharpen homepage conversion,Make the homepage clearer and more action-oriented for new buyers and sellers,Hero and primary CTAs explain value within seconds and route users to browse/register/sell,Planned
+LISTING-04,P0,Marketplace,Improve listing card conversion,Make browse/listing cards feel more premium and decision-ready,Cards show trust/location/price/action cues cleanly on mobile and desktop,Planned
+SEARCH-03,P0,Discovery,Improve zero-state and guided discovery,Help users find useful listings even when search/filter results are thin,Empty states include suggested categories searches and clear reset paths,Planned
+SELLER-02,P1,Seller Trust,Improve seller profile confidence,Make seller pages feel trustworthy before messaging or purchase,Seller pages show joined date activity listing count and trust/support cues,Planned
+ONBOARD-01,P1,Activation,Improve first-run buyer and seller onboarding,Reduce uncertainty after signup and guide first useful action,New users see next-step routes for browse sell watchlist messages and profile setup,Planned
+SEO-03,P1,SEO,Expand marketplace landing SEO,Create stronger category/location landing content without spam,Category/location pages have useful copy metadata and internal links,Planned
+TRUST-05,P1,Trust,Add safety education moments,Make safe payment handover and reporting guidance visible where decisions happen,Listing/order/message surfaces include concise safety cues without blocking flow,Planned
+SUPPORT-03,P1,Support,Improve help center task routing,Make support feel complete and easy to act on,Help/support pages route users by issue type with clear contact escalation,Planned
+ANALYTICS-01,P1,Ops,Add privacy-safe conversion event plan,Define measurable conversion events without invasive tracking,Documented event names and safe client/server placement for future analytics,Planned
+POLISH-01,P2,UX,Premium microcopy and consistency sweep,Remove rough wording and make key flows feel complete,Top public/auth/marketplace routes have consistent CTA language status text and empty states,Planned
