@@ -28,6 +28,24 @@ function FilterTab(props: {
   );
 }
 
+function auditPriority(action: string) {
+  const a = action.toUpperCase();
+  if (a.includes("DELETE") || a.includes("SUSPEND") || a.includes("BLOCK") || a.includes("STRIKE")) return "High";
+  if (a.includes("RESOLVE") || a.includes("REOPEN") || a.includes("UNBLOCK") || a.includes("UNSUSPEND")) return "Medium";
+  return "Normal";
+}
+
+function shortJsonSummary(value: unknown) {
+  if (!value || typeof value !== "object") return "No metadata";
+  const data = value as Record<string, unknown>;
+  const keys = ["reason", "decision", "note", "status", "ip", "source", "category", "url", "pageUrl", "userAgent"];
+  const parts = keys
+    .filter((key) => data[key] !== undefined && data[key] !== null && String(data[key]).trim())
+    .slice(0, 4)
+    .map((key) => key + ": " + String(data[key]).slice(0, 80));
+  return parts.length ? parts.join(" | ") : "Metadata captured";
+}
+
 function InfoCard(props: {
   title: string;
   value: React.ReactNode;
@@ -195,6 +213,7 @@ export default async function AdminAuditPage({
                 <tbody className="divide-y divide-black/10">
                   {rows.map((r) => {
                     const links: React.ReactNode[] = [];
+                    const metaSummary = shortJsonSummary(r.meta);
                     if (r.reportId) links.push(<Link key="rep" href={"/admin/reports/" + r.reportId} className="bd-btn bd-btn-ghost text-center">Report</Link>);
                     if (r.listingId) links.push(<Link key="lst" href={"/listings/" + r.listingId} className="bd-btn bd-btn-ghost text-center">Listing</Link>);
                     if (r.userId) links.push(<Link key="usr" href={"/seller/" + r.userId} className="bd-btn bd-btn-ghost text-center">User</Link>);
@@ -205,6 +224,7 @@ export default async function AdminAuditPage({
                         <td className="px-4 py-4 bd-ink2">
                           <div className="font-extrabold bd-ink">{r.action}</div>
                           <div className="mt-1 text-xs opacity-80">admin: {r.adminId}</div>
+                          <div className="mt-2 text-xs bd-ink2">Review cue: {metaSummary}</div>
                         </td>
                         <td className="px-4 py-4">
                           <MetaPill>{r.entityType}</MetaPill>
