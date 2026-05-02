@@ -44,6 +44,15 @@ export default async function AdminOpsPage() {
   const requiredEnv = ["DATABASE_URL", "NEXTAUTH_SECRET", "NEXTAUTH_URL", "NEXT_PUBLIC_SITE_URL"];
   const optionalEnv = ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "RESEND_API_KEY", "BLOB_READ_WRITE_TOKEN", "FT_ENABLED", "PHONE_GATE_ENABLED"];
 
+  const paymentReadiness = {
+    model: "External handover",
+    inAppPaymentsEnabled: false,
+    stripeConfigured:
+      envPresent("STRIPE_SECRET_KEY") &&
+      envPresent("STRIPE_WEBHOOK_SECRET") &&
+      envPresent("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"),
+  };
+
   const checks: Check[] = [];
 
   try {
@@ -115,6 +124,23 @@ export default async function AdminOpsPage() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </section>
+
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <div className="text-sm font-extrabold bd-ink">Payment readiness</div>
+              <p className="mt-2 text-sm bd-ink2">
+                Current launch model: in-app payments are disabled. Bidra does not process marketplace payments, hold pooled customer funds, or act as escrow.
+              </p>
+            </div>
+            <StatusPill status="ok" />
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <InfoCard title="Payment model" value={paymentReadiness.model} note="Buyer and seller arrange payment and handover directly." />
+            <InfoCard title="In-app payments" value={paymentReadiness.inAppPaymentsEnabled ? "Enabled" : "Disabled"} note="Stripe webhook intentionally returns PAYMENTS_DISABLED." />
+            <InfoCard title="Stripe configured" value={paymentReadiness.stripeConfigured ? "Yes" : "Optional"} note="Stripe keys are not required for the current launch model." />
           </div>
         </section>
 

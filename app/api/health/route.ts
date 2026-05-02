@@ -15,6 +15,22 @@ function requiredEnvStatus() {
   }));
 }
 
+function paymentReadinessStatus() {
+  const stripeSecret = Boolean(String(process.env.STRIPE_SECRET_KEY || "").trim());
+  const stripeWebhook = Boolean(String(process.env.STRIPE_WEBHOOK_SECRET || "").trim());
+  const stripePublic = Boolean(String(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || "").trim());
+
+  return {
+    model: "external_handover",
+    inAppPaymentsEnabled: false,
+    stripeConfigured: stripeSecret && stripeWebhook && stripePublic,
+    stripeSecretPresent: stripeSecret,
+    stripeWebhookPresent: stripeWebhook,
+    stripePublishablePresent: stripePublic,
+    note: "Stripe keys are optional while Bidra launch payments are arranged directly between buyer and seller.",
+  };
+}
+
 function deploymentMeta() {
   return {
     environment: process.env.NODE_ENV || "unknown",
