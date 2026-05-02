@@ -183,6 +183,14 @@ export default async function DashboardPage({
     String(user.state ?? "").trim(),
     String(user.postcode ?? "").trim(),
   ].filter(Boolean).join(" - ");
+  const isFirstRunBuyer = ordersAsBuyerCount === 0 && counts.unreadThreads === 0;
+  const isFirstRunSeller = myListingsCount === 0;
+  const showFirstRunSetup = isFirstRunBuyer || isFirstRunSeller || !locationSummary;
+  const onboardingSteps = [
+    { title: "Set up trust basics", body: locationSummary ? "Your general location is added." : "Add suburb, state, and postcode so marketplace context is clear.", href: "#account-details", cta: "Update account" },
+    { title: "Start as a buyer", body: "Browse active listings, watch items, and ask clear questions before pickup or postage.", href: "/listings", cta: "Browse listings" },
+    { title: "Start as a seller", body: "Create a buyer-ready listing with photos, condition, price, and handover notes.", href: "/sell/new", cta: "Create listing" },
+  ];
 
   return (
     <main className="bd-container py-10">
@@ -201,6 +209,24 @@ export default async function DashboardPage({
             {isAdminAccount ? <Pill tone="ok">Admin workspace enabled</Pill> : null}
           </div>
         </div>
+
+        {showFirstRunSetup ? (
+          <section className="rounded-3xl border border-[#D8E1F0] bg-white p-5 shadow-sm">
+            <div className="text-sm font-extrabold bd-ink">First-run setup</div>
+            <p className="mt-1 text-sm bd-ink2">
+              Choose your buyer or seller path without changing account type. Complete the basics once, then use Dashboard to manage listings, orders, messages, and account status.
+            </p>
+            <div className="mt-4 grid gap-3 md:grid-cols-3">
+              {onboardingSteps.map((step) => (
+                <Link key={step.title} href={step.href} className="rounded-2xl border border-black/10 bg-neutral-50 p-4 shadow-sm hover:bg-black/5">
+                  <div className="text-sm font-extrabold text-neutral-950">{step.title}</div>
+                  <div className="mt-1 text-sm text-neutral-600">{step.body}</div>
+                  <div className="mt-3 text-sm font-extrabold text-[#0F4C81]">{step.cta}</div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Link href="/dashboard/listings" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
@@ -281,7 +307,7 @@ export default async function DashboardPage({
               <div>
                 <div className="text-sm font-extrabold bd-ink">Edit account</div>
                 <div className="mt-1 text-sm bd-ink2">
-                  Keep your display name and general location up to date so buyers and sellers have clearer context.
+                  Keep your display name and general location up to date so buyers and sellers have clearer context. This is the first setup step for safer buying and selling.
                 </div>
               </div>
 

@@ -312,7 +312,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
   const reviewSaleType = isTimedOffers ? "Make Offer (timed offers)" : "Buy Now";
   const reviewPrice = isTimedOffers
-    ? `${startingBid ? `$${startingBid} starting` : "Not set"}${buyNowPrice ? ` · Buy Now $${buyNowPrice}` : ""}`
+    ? `${startingBid ? `$${startingBid} starting` : "Not set"}${buyNowPrice ? ` | Buy Now $${buyNowPrice}` : ""}`
     : (price ? `$${price}` : "Not set");
 
   const previews = useMemo(() => {
@@ -494,7 +494,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         <section className="rounded-xl border border-black/10 bg-white p-4">
           <h2 className="text-base font-extrabold bd-ink">1) Photos</h2>
           <p className="mt-1 text-xs bd-ink2">
-            Add clear photos of the actual item. Your first photo becomes the main image shoppers see first.
+            Add clear photos of the actual item. Your first photo becomes the main image shoppers see first and is the fastest buyer trust signal.
             Avoid unrelated screenshots or edited collages.
           </p>
 
@@ -560,7 +560,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
         <section className="rounded-xl border border-black/10 bg-white p-4">
           <h2 className="text-base font-extrabold bd-ink">2) Details</h2>
-          <p className="mt-1 text-xs bd-ink2">Add clear details so buyers can trust what they are viewing.</p>
+          <p className="mt-1 text-xs bd-ink2">Add clear details so first-time buyers can trust what they are viewing before they message, buy, or make an offer.</p>
           <div className="mt-3 grid gap-4">
             <div>
               <label className="text-sm font-medium">Title</label>
@@ -741,7 +741,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
         <section className="rounded-xl border border-black/10 bg-white p-4">
           <h2 className="text-base font-extrabold bd-ink">4) Review</h2>
-          <p className="mt-1 text-xs bd-ink2">Quick check before publishing.</p>
+          <p className="mt-1 text-xs bd-ink2">Quick first-listing check before publishing.</p>
           <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
             <div><dt className="text-xs uppercase tracking-wide bd-ink2">Title</dt><dd className="font-medium bd-ink">{title.trim() || "Not set"}</dd></div>
             <div><dt className="text-xs uppercase tracking-wide bd-ink2">Sale type</dt><dd className="font-medium bd-ink">{reviewSaleType}</dd></div>
