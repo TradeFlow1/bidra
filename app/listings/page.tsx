@@ -56,7 +56,7 @@ function cleanStr(v: string | null | undefined) {
 function normalizeCategoryValue(value: string) {
   if (!value) return value;
   if (value.indexOf(" > ") >= 0) return value;
-  if (value.indexOf(" Ãƒ") >= 0) return value.split(" ")[0] || value;
+  if (value.indexOf("mojibake") >= 0) return value.split(" ")[0] || value;
   return value;
 }
 
@@ -253,7 +253,7 @@ export default async function ListingsPage({
   if (sort) activeFilters.push({ label: `Sort: ${sortLabel(sort)}`, href: buildHref({ q, category, location, type, condition, min, max }) });
 
   const filterSummary = [
-    q ? `keyword “${q}”` : "",
+    q ? `keyword ${q}` : "",
     category ? `category ${category}` : "",
     location ? `location ${location}` : "",
     type === "BUY_NOW" ? "Buy Now" : type === "OFFERABLE" ? "Offers" : "",
@@ -261,7 +261,7 @@ export default async function ListingsPage({
     min ? `min $${min}` : "",
     max ? `max $${max}` : "",
     sort ? `sorted by ${sortLabel(sort)}` : "",
-  ].filter(Boolean).join(" • ");
+  ].filter(Boolean).join(" | ");
 
   const categoryShortcuts = CATEGORY_GROUPS.slice(0, 6).map(function (group) {
     return group.parent;
@@ -383,8 +383,12 @@ export default async function ListingsPage({
 
           <div className="space-y-3">
             <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Popular marketplace shortcuts</h2>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Guided discovery shortcuts</h2>
+              <p className="mt-1 text-xs text-[#64748B]">Start broad, then narrow by category, Buy Now, offers, or local pickup confidence.</p>
               <div className="mt-3 flex flex-wrap gap-2">
+                <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#0F172A]">All active listings</Link>
+                <Link href={buildHref({ q, category, location, condition, min, max, sort, type: "BUY_NOW" })} className="bd-mobile-tap-target inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800">Buy Now deals</Link>
+                <Link href={buildHref({ q, category, location, condition, min, max, sort, type: "OFFERABLE" })} className="bd-mobile-tap-target inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-800">Offer listings</Link>
                 {categoryShortcuts.map(function (label) {
                   return (
                     <Link
@@ -423,7 +427,7 @@ export default async function ListingsPage({
                         className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-2 text-xs font-medium text-[#334155] shadow-sm"
                       >
                         <span>{item.label}</span>
-                        <span className="ml-2 text-[#94A3B8]" aria-hidden="true">×</span>
+                        <span className="ml-2 text-[#94A3B8]" aria-hidden="true">x</span>
                       </Link>
                     );
                   })}
@@ -434,13 +438,29 @@ export default async function ListingsPage({
             <div className="browseList w-full grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {listings.length === 0 ? (
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
-                  <div className="mx-auto max-w-md">
+                  <div className="mx-auto max-w-2xl">
                     <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No trusted matches for those filters yet." : "No active listings yet"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
-                      {hasFilters ? "Try fewer filters, check spelling, or browse all active Australian marketplace listings. Bidra only shows active listings that are available to buy or make offers on, and sellers can create new buyer-ready listings anytime." : "New local listings will appear here as sellers publish active items for Buy Now or offers."}
+                      {hasFilters ? "Try a broader search path: remove one filter, check spelling, browse Buy Now, or scan offer listings. Bidra only shows active listings that are available to buy or make offers on." : "New local listings will appear here as sellers publish active items for Buy Now or offers. Start with broad discovery links while the marketplace fills up."}
                     </p>
+                    <div className="mt-5 grid gap-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-left sm:grid-cols-3">
+                      <div>
+                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Broaden</div>
+                        <p className="mt-1 text-xs text-[#475569]">Clear filters first, then add category or location back one at a time.</p>
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Compare</div>
+                        <p className="mt-1 text-xs text-[#475569]">Check Buy Now for fast purchases or Offers when you want seller-reviewed interest.</p>
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Search safely</div>
+                        <p className="mt-1 text-xs text-[#475569]">Use clear keywords, suburb or postcode, and trusted seller signals before messaging.</p>
+                      </div>
+                    </div>
                     <div className="mt-4 flex flex-wrap justify-center gap-2">
                       <Link href="/listings" className="bd-btn bd-btn-primary">Browse all listings</Link>
+                      <Link href={buildHref({ type: "BUY_NOW" })} className="bd-btn bd-btn-secondary">Browse Buy Now</Link>
+                      <Link href={buildHref({ type: "OFFERABLE" })} className="bd-btn bd-btn-secondary">Browse offers</Link>
                     </div>
                   </div>
                 </div>
