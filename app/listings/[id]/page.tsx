@@ -235,7 +235,7 @@ export default async function ListingDetailPage({
                   <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#475569]">
                     <div className="font-semibold">Sold - order record created.</div>
                     <div className="mt-1">This listing is no longer available. The buyer and seller should keep payment, pickup, postage, and handover details in Bidra Messages.</div>
-                    <Link href="/listings" className="mt-2 inline-flex text-sm font-semibold text-[#0F172A] underline underline-offset-2">Browse listings</Link>
+                    <Link href="/listings" className="bd-mobile-tap-target mt-2 inline-flex items-center text-sm font-semibold text-[#0F172A] underline underline-offset-2">Browse listings</Link>
                   </div>
                 ) : isTimedOffers ? (
                   <div className="space-y-2">
@@ -366,7 +366,7 @@ export default async function ListingDetailPage({
                 </div>
               ) : null}
               <div className="mt-2">
-                <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
+                <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
               </div>
               <p className="mt-2 text-sm text-[#64748B]">Review the seller profile, verification badges, and listing history before you buy, offer, or message.</p>
             </div>

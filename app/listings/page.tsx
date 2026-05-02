@@ -373,7 +373,7 @@ export default async function ListingsPage({
               </div>
               {hasFilters ? (
                 <div className="border-t border-[#E2E8F0] px-5 py-4">
-                  <Link href="/listings" className="text-sm font-semibold text-[#1D4ED8] underline underline-offset-2">
+                  <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center text-sm font-semibold text-[#1D4ED8] underline underline-offset-2">
                     Clear filters
                   </Link>
                 </div>
@@ -390,7 +390,7 @@ export default async function ListingsPage({
                     <Link
                       key={label}
                       href={buildHref({ q, location, type, condition, min, max, sort, category: label })}
-                      className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-1.5 text-xs font-semibold text-[#0F172A]"
+                      className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#0F172A]"
                     >
                       {label}
                     </Link>
@@ -407,7 +407,7 @@ export default async function ListingsPage({
                   {hasFilters ? <p className="mt-1 text-xs text-[#64748B]">{filterSummary}. Sign up to watch items, message sellers, buy now, or place offers.</p> : null}
                 </div>
                 {hasFilters ? (
-                  <Link href="/listings" className="text-xs font-semibold text-[#1D4ED8] underline underline-offset-2">
+                  <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center text-xs font-semibold text-[#1D4ED8] underline underline-offset-2">
                     Clear filters
                   </Link>
                 ) : null}
@@ -420,7 +420,7 @@ export default async function ListingsPage({
                       <Link
                         key={item.label + ":" + item.href}
                         href={item.href}
-                        className="inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-xs font-medium text-[#334155] shadow-sm"
+                        className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-2 text-xs font-medium text-[#334155] shadow-sm"
                       >
                         <span>{item.label}</span>
                         <span className="ml-2 text-[#94A3B8]" aria-hidden="true">×</span>
