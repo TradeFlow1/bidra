@@ -26,6 +26,19 @@ function FilterChip(props: {
   );
 }
 
+function eventPriority(type: string) {
+  const t = type.toUpperCase();
+  if (t.includes("REPORT") || t.includes("NO_SHOW") || t.includes("BUG")) return "High";
+  if (t.includes("FEEDBACK") || t.includes("RESCHEDULE")) return "Medium";
+  return "Normal";
+}
+
+function dataText(data: Record<string, unknown> | null, key: string) {
+  if (!data || data[key] === undefined || data[key] === null) return null;
+  const value = String(data[key]).trim();
+  return value || null;
+}
+
 function InfoCard(props: {
   title: string;
   value: React.ReactNode;
@@ -210,6 +223,12 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
                 <tbody className="divide-y divide-black/10">
                   {rows.map((r) => {
                     const d = r.data && typeof r.data === "object" ? (r.data as Record<string, unknown>) : null;
+                    const priority = eventPriority(r.type);
+                    const sourceText = dataText(d, "source");
+                    const ipText = dataText(d, "ip");
+                    const urlText = dataText(d, "url") || dataText(d, "pageUrl");
+                    const categoryText = dataText(d, "category");
+                    const userAgentText = dataText(d, "userAgent") || dataText(d, "ua");
                     const requestedByRole = d && typeof d["requestedByRole"] === "string" ? String(d["requestedByRole"]) : null;
                     const reportedByRole = d && typeof d["reportedByRole"] === "string" ? String(d["reportedByRole"]) : null;
                     const actorRole = requestedByRole || reportedByRole || null;
@@ -242,6 +261,11 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
                             <div><span className="font-extrabold bd-ink">Reason:</span> {reasonText || "-"}</div>
                             {isNoShowReviewed ? <div><span className="font-extrabold bd-ink">Decision:</span> {decisionText || "-"}</div> : null}
                             {isNoShowReviewed ? <div><span className="font-extrabold bd-ink">Note:</span> {noteText || "-"}</div> : null}
+                            <div><span className="font-extrabold bd-ink">Source:</span> {sourceText || "-"}</div>
+                            <div><span className="font-extrabold bd-ink">IP:</span> {ipText || "-"}</div>
+                            <div><span className="font-extrabold bd-ink">URL:</span> {urlText || "-"}</div>
+                            <div><span className="font-extrabold bd-ink">Category:</span> {categoryText || "-"}</div>
+                            <div><span className="font-extrabold bd-ink">User agent:</span> {userAgentText ? userAgentText.slice(0, 120) : "-"}</div>
                           </div>
                         </td>
                         <td className="px-4 py-4 text-xs bd-ink2">
