@@ -113,7 +113,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Sold item</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 This sold-item record confirms the listing has sold. There is no in-app Pay now step in Bidra V1. Launch pricing: $0 buyer fees, $0 standard listing fees, and 0% seller success fee during launch.
-              </p>              <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
+              </p>
+              <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
                 <div className="font-extrabold">Next action</div>
                 <div className="mt-1">{primaryNextAction}</div>
               </div>
@@ -177,6 +178,15 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <li>Keep important agreements and handover details in Bidra Messages.</li>
               <li>Follow safety guidance before final handover or postage dispatch.</li>
             </ul>
+            <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+              <div className="font-extrabold">Handover safety checkpoint</div>
+              <ul className="mt-2 list-disc space-y-1.5 pl-5">
+                <li>Confirm the exact item, amount, payment expectation, pickup suburb or postage method, and timing before handover.</li>
+                <li>Use a public pickup location where practical and inspect the item before money changes hands.</li>
+                <li>For postage, agree tracking, packaging, dispatch timing, and who carries delivery risk before sending.</li>
+                <li>If the other person changes terms suddenly or asks for unsafe payment methods, stop and contact Support.</li>
+              </ul>
+            </div>
           </Card>
 
           <SafetyCallout title="Safety guidance">
