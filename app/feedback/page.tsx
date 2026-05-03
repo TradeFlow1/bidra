@@ -1,7 +1,7 @@
 import FeedbackClient from "./feedback-client";
 import Link from "next/link";
 
-export const metadata = { title: "Feedback â€” Bidra" };
+export const metadata = { title: "Feedback - Bidra" };
 
 function InfoCard(props: {
   title: string;

@@ -67,7 +67,7 @@ export default async function OrdersPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Feedback due</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{feedbackDueCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Optional trust follow-up.</div>
+            <div className="mt-1 text-sm text-neutral-600">Trust follow-up available.</div>
           </div>
 
         </div>
@@ -94,7 +94,7 @@ export default async function OrdersPage() {
               const feedbackSubmitted = isCompleted && ((o.buyerId === user.id && !!o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !!o.sellerFeedbackAt));
               const roleLabel = o.buyerId === user.id ? "Buying" : "Selling";
               const nextActionCopy = isCompleted
-                ? (feedbackDue ? "Next action: leave feedback." : "Next action: no action needed.")
+                ? (feedbackDue ? "Next action: leave feedback." : "Next action: no further action needed.")
                 : "Next action: message to agree payment and handover.";
               const statusLabel = isCompleted ? "FEEDBACK OPEN" : "SOLD";
 
