@@ -20,8 +20,12 @@ function displayName(u: any) {
 function SafetyNote() {
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-sm">
-      <span className="font-semibold">Safety tip:</span>{" "}
-      Use Bidra Messages to keep a clear record. Confirm pickup, postage, payment expectations, and handover details here. Never share passwords, verification codes, or suspicious payment requests.
+      <div className="font-extrabold">Safety checkpoint in Messages</div>
+      <ul className="mt-2 list-disc space-y-1.5 pl-5">
+        <li>Keep pickup, postage, payment expectations, refunds, and handover details in this thread.</li>
+        <li>Never share passwords, one-time codes, ID photos, gift cards, crypto transfers, or suspicious payment links.</li>
+        <li>Stop and report the thread if someone pressures you to leave Bidra before the key terms are clear.</li>
+      </ul>
     </div>
   );
 }
