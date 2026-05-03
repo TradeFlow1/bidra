@@ -439,9 +439,9 @@ export default async function ListingsPage({
               {listings.length === 0 ? (
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto max-w-2xl">
-                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No trusted matches for those filters yet." : "No active listings yet"}</div>
+                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches for those filters yet." : "No active listings yet"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
-                      {hasFilters ? "Try a broader search path: remove one filter, check spelling, browse Buy Now, or scan offer listings. Bidra only shows active listings that are available to buy or make offers on." : "New local listings will appear here as sellers publish active items for Buy Now or offers. Start with broad discovery links while the marketplace fills up."}
+                      {hasFilters ? "Try a broader search path: remove one filter, check spelling, browse Buy Now, or scan offer listings. Bidra only shows active listings that are available to buy or make offers on right now." : "New local listings will appear here as sellers publish active items for Buy Now or offers. Start with broad discovery links while the marketplace fills up."}
                     </p>
                     <div className="mt-5 grid gap-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-left sm:grid-cols-3">
                       <div>
@@ -453,7 +453,7 @@ export default async function ListingsPage({
                         <p className="mt-1 text-xs text-[#475569]">Check Buy Now for fast purchases or Offers when you want seller-reviewed interest.</p>
                       </div>
                       <div>
-                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Search safely</div>
+                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Search with confidence</div>
                         <p className="mt-1 text-xs text-[#475569]">Use clear keywords, suburb or postcode, and trusted seller signals before messaging.</p>
                       </div>
                     </div>
