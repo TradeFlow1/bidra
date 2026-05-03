@@ -58,12 +58,29 @@ export default function SupportPage() {
         </div>
 
         <SectionCard title="If you need help">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Use <strong>Report</strong> on listings and message threads for rule-breaking content or behaviour so the moderation queue receives the right context.</li>
-            <li>For account and order issues, contact us via <Link className="bd-link font-semibold" href="/contact">Contact</Link>. No login required for contact support.</li>
-            <li>For current pricing, read <Link className="bd-link font-semibold" href="/legal/fees">Bidra fees</Link>: $0 buyer fees, $0 standard listing fees, and 0% seller success fee during launch.</li>
-            <li>Include links, screenshots, message context, timestamps, and order or listing IDs so moderators can triage quickly.</li>
-          </ul>
+          <div className="grid gap-3 md:grid-cols-2">
+            <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+              <div className="text-sm font-extrabold bd-ink">Use Report for moderation</div>
+              <p className="mt-2 text-sm text-black/70">Report listings or message threads when the issue is unsafe behaviour, scams, prohibited items, abuse, or rule-breaking content.</p>
+            </div>
+            <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+              <div className="text-sm font-extrabold bd-ink">Use Contact for support cases</div>
+              <p className="mt-2 text-sm text-black/70">Contact support for account access, order questions, technical problems, or cases where you need a reply.</p>
+            </div>
+            <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+              <div className="text-sm font-extrabold bd-ink">Use Feedback for product ideas</div>
+              <p className="mt-2 text-sm text-black/70">Send feedback for confusing copy, rough flow, feature ideas, or marketplace improvements that are not urgent support issues.</p>
+            </div>
+            <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+              <div className="text-sm font-extrabold bd-ink">Bring the right evidence</div>
+              <p className="mt-2 text-sm text-black/70">Include listing links, order IDs, message context, screenshots, timestamps, and exact error text so the right queue can act faster.</p>
+            </div>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/contact">Contact support</Link>
+            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/feedback">Send feedback</Link>
+            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/legal/fees">Read fees</Link>
+          </div>
         </SectionCard>
 
         <div className="grid gap-5 lg:grid-cols-2">
