@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
@@ -7,9 +8,72 @@ import HomeCategorySelect from "@/components/home-category-select";
 
 export const revalidate = 10;
 
+export const metadata: Metadata = {
+  title: "Bidra marketplace | Buy Now and offers in Australia",
+  description: "Browse Bidra, an Australian trust-first marketplace for active local listings, Buy Now deals, seller-reviewed offers, safe messages, pickup, postage, and buyer-ready selling.",
+  alternates: { canonical: "/" },
+  keywords: [
+    "Australian marketplace",
+    "local marketplace Australia",
+    "Buy Now listings",
+    "seller-reviewed offers",
+    "safe local selling",
+    "Bidra marketplace",
+  ],
+  openGraph: {
+    title: "Bidra marketplace | Buy Now and offers in Australia",
+    description: "Find active Australian marketplace listings by category and location, compare Buy Now and offer listings, and keep handover details in Bidra Messages.",
+    url: "/",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bidra marketplace | Buy Now and offers in Australia",
+    description: "Browse active local listings, Buy Now deals, and seller-reviewed offers on Bidra.",
+  },
+};
+
 export default async function HomePage() {
   const session = await auth();
   const userId = session?.user?.id ?? null;
+  const siteUrl = "https://bidra.com.au";
+  const marketplaceJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${siteUrl}/#organization`,
+        name: "Bidra",
+        url: siteUrl,
+        logo: `${siteUrl}/brand/bidra-kangaroo-icon.png`,
+        areaServed: "AU",
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        name: "Bidra",
+        url: siteUrl,
+        inLanguage: "en-AU",
+        publisher: { "@id": `${siteUrl}/#organization` },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: `${siteUrl}/listings?q={search_term_string}`,
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${siteUrl}/#marketplace-list`,
+        name: "Active Bidra marketplace listings",
+        description: "Australian marketplace landing page for Buy Now listings, seller-reviewed offers, local pickup, postage, and safer handover details in Messages.",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Browse active listings", url: `${siteUrl}/listings` },
+          { "@type": "ListItem", position: 2, name: "Buy Now listings", url: `${siteUrl}/listings?type=BUY_NOW` },
+          { "@type": "ListItem", position: 3, name: "Offer listings", url: `${siteUrl}/listings?type=OFFERABLE` },
+        ],
+      },
+    ],
+  };
 
   const listings = await prisma.listing.findMany({
     where: {
@@ -138,6 +202,11 @@ export default async function HomePage() {
 
   return (
     <main className="bg-[#F7F9FC]">
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning={true}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(marketplaceJsonLd) }}
+      />
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-4">
         <section className="overflow-hidden rounded-[30px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
           <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-[minmax(0,1.55fr)_18rem] lg:items-center lg:p-5">
