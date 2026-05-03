@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { listingLooksProhibited } from "@/lib/prohibited-items";
 import { isPolicyBlocked } from "@/lib/policy-strike";
 import { FULL_CATEGORIES } from "@/lib/categories";
+import { getIdempotencyKey } from "@/lib/transaction-safety";
 
 function sanitizeDescription(desc: string): string {
   const raw = String(desc || "");
@@ -154,6 +155,35 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Images must be uploaded via Bidra (invalid image URL)." }, { status: 400 });
     }
 
+    const idempotencyKey = getIdempotencyKey(req, [session.user.id, title, category, location, type, priceIn]);
+
+    const recentSince = new Date(Date.now() - 60 * 1000);
+    const existingListing = await prisma.listing.findFirst({
+      where: {
+        sellerId: session.user.id,
+        title: title,
+        category: category,
+        location: location,
+        price: priceIn as number,
+        createdAt: { gte: recentSince },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (existingListing) {
+      try {
+        await prisma.adminEvent.create({
+          data: {
+            type: "LISTING_CREATE_DUPLICATE_REUSED",
+            userId: session.user.id,
+            data: { listingId: existingListing.id, idempotencyKey },
+          },
+        });
+      } catch (_auditErr) {}
+
+      return NextResponse.json({ listing: existingListing, duplicateReused: true });
+    }
+
     if (listingLooksProhibited({ title, description, category, tags, images: images.map(function (img: any) { return String((img && img.url) || ""); }) })) {
       try {
         await prisma.adminEvent.create({
@@ -201,5 +231,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "We could not create your listing. Please check your details and try again." }, { status: 500 });
   }
 }
-
-

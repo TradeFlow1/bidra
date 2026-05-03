@@ -1,7 +1,8 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
+import { getIdempotencyKey } from "@/lib/transaction-safety";
 
 const ALLOWED_REASONS = new Set([
   "PROHIBITED_ITEM",
@@ -23,7 +24,6 @@ export async function POST(req: Request) {
     });
   }
 
-  // Enforce 18+ (browse-only for under-18)
   const gate = await requireAdult(session);
   if (!gate.ok) {
     return NextResponse.json({ ok: false, reason: gate.reason || "UNDER_18" }, {
@@ -49,6 +49,33 @@ export async function POST(req: Request) {
       select: { id: true },
     });
     if (!exists) return NextResponse.json({ error: "Listing not found" }, { status: 404 });
+
+    const idempotencyKey = getIdempotencyKey(req, [reporterId, listingId, reason, details]);
+    const recentSince = new Date(Date.now() - 60 * 1000);
+    const existingReport = await prisma.report.findFirst({
+      where: {
+        listingId,
+        reporterId,
+        reason,
+        details: details ? details : null,
+        createdAt: { gte: recentSince },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (existingReport) {
+      try {
+        await prisma.adminEvent.create({
+          data: {
+            type: "REPORT_DUPLICATE_REUSED",
+            userId: reporterId,
+            data: { listingId, reportId: existingReport.id, reason, idempotencyKey },
+          },
+        });
+      } catch (_auditErr) {}
+
+      return NextResponse.json({ ok: true, report: existingReport, duplicateReused: true });
+    }
 
     const report = await prisma.report.create({
       data: {

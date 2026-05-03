@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { sendNewMessageEmail } from "@/lib/email";
-import { contactInfoSignals } from "@/lib/message-safety";
+import { getIdempotencyKey, hasBlockedMessageSafetySignal, messageSafetySignals } from "@/lib/transaction-safety";
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const session = await auth();
@@ -31,10 +31,30 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     return NextResponse.json({ error: "Message too long." }, { status: 400 });
   }
 
-  const signals = contactInfoSignals(text);
-  const hasContact = signals.email || signals.phone || signals.payment;
-
+  const signals = messageSafetySignals(text);
+  const hasContact = hasBlockedMessageSafetySignal(signals);
   const me = session.user.id;
+
+  if (hasContact) {
+    await prisma.adminEvent.create({
+      data: {
+        type: "MESSAGE_CONTACT_DETAILS_BLOCKED",
+        userId: me,
+        data: {
+          threadId,
+          bodyLen: text.length,
+          signals,
+        },
+      },
+    });
+
+    return NextResponse.json(
+      { ok: false, error: "For safety, keep contact details and payment details inside Bidra messages." },
+      { status: 400 }
+    );
+  }
+
+  const idempotencyKey = getIdempotencyKey(req, [me, threadId, text]);
 
   const thread = await prisma.messageThread.findUnique({
     where: { id: threadId },
@@ -53,8 +73,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   const now = new Date();
 
   const msg = await prisma.$transaction(async (tx) => {
-    // Fix 40: Deduplicate accidental double-sends (same user+thread+body in last 10s)
-    const since = new Date(now.getTime() - 10 * 1000)
+    const since = new Date(now.getTime() - 60 * 1000);
     const existing = await tx.message.findFirst({
       where: {
         threadId: thread.id,
@@ -64,8 +83,19 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       },
       orderBy: { createdAt: "desc" },
       select: { id: true, body: true, createdAt: true, userId: true, threadId: true, listingId: true },
-    })
-    if (existing) return existing
+    });
+
+    if (existing) {
+      await tx.adminEvent.create({
+        data: {
+          type: "MESSAGE_DUPLICATE_REUSED",
+          userId: me,
+          data: { threadId: thread.id, listingId: thread.listingId, messageId: existing.id, idempotencyKey },
+        },
+      });
+      return existing;
+    }
+
     const created = await tx.message.create({
       data: {
         threadId: thread.id,
@@ -87,7 +117,6 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       data,
     });
 
-    // Admin audit trail (for reconstructing messaging actions)
     await tx.adminEvent.create({
       data: {
         type: "MESSAGE_SENT",
@@ -97,30 +126,14 @@ export async function POST(req: Request, { params }: { params: { id: string } })
           listingId: thread.listingId,
           messageId: created.id,
           bodyLen: text.length,
+          idempotencyKey,
         },
       },
     });
 
-    // Launch mode: allow contact details in messages and only log contact/payment signals when present.
-    if (hasContact) {
-      await tx.adminEvent.create({
-        data: {
-          type: "MESSAGE_CONTACT_DETAILS_SHARED",
-          userId: me,
-          data: {
-            threadId: thread.id,
-            listingId: thread.listingId,
-            messageId: created.id,
-            signals,
-          },
-        },
-      });
-    }
-
     return created;
   });
 
-  // Email notify the other participant (SES-gated; dev logs when disabled)
   try {
     const otherId = thread.buyerId === me ? thread.sellerId : thread.buyerId;
     const other = await prisma.user.findUnique({ where: { id: otherId }, select: { email: true } });
