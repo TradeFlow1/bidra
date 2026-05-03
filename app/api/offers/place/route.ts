@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
 import { sendNewTopOfferEmail } from "@/lib/email";
+import { getIdempotencyKey } from "@/lib/transaction-safety";
 
 export const dynamic = "force-dynamic";
-
 
 export async function POST(req: Request) {
   const gate = await requireAdult();
@@ -32,6 +32,7 @@ export async function POST(req: Request) {
   }
 
   const amountCents = Math.round(amountDollars * 100);
+  const idempotencyKey = getIdempotencyKey(req, [userId, listingId, amountCents]);
 
   const listing = await prisma.listing.findUnique({
     where: { id: listingId },
@@ -74,7 +75,40 @@ export async function POST(req: Request) {
   if (highest > 0 && amountCents <= highest) {
     return NextResponse.json({ ok: false, error: "Your offer must be higher than the current highest offer." }, { status: 400 });
   }
+
   try {
+    const recentSince = new Date(Date.now() - 60 * 1000);
+    const existingOffer = await prisma.offer.findFirst({
+      where: {
+        listingId: listing.id,
+        buyerId: userId,
+        amount: amountCents,
+        createdAt: { gte: recentSince },
+      },
+      orderBy: { createdAt: "desc" },
+      select: { id: true, amount: true, buyerId: true },
+    });
+
+    if (existingOffer) {
+      try {
+        await prisma.adminEvent.create({
+          data: {
+            type: "OFFER_DUPLICATE_REUSED",
+            userId: userId,
+            data: { listingId: listing.id, buyerId: userId, amount: amountCents, offerId: existingOffer.id, idempotencyKey },
+          },
+        });
+      } catch (_auditErr) {}
+
+      return NextResponse.json({
+        ok: true,
+        status: "PLACED",
+        duplicateReused: true,
+        offerId: existingOffer.id,
+        currentOfferCents: existingOffer.amount,
+      });
+    }
+
     const offer = await prisma.offer.create({
       data: {
         amount: amountCents,
@@ -94,6 +128,7 @@ export async function POST(req: Request) {
             listingId: listing.id,
             buyerId: userId,
             amount: offer.amount,
+            idempotencyKey: idempotencyKey,
           },
         },
       });
