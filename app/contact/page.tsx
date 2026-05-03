@@ -69,11 +69,20 @@ export default async function ContactPage() {
               </div>
 
               <div>
+                <div className="font-extrabold bd-ink">Choose the right queue</div>
+                <ul className="mt-2 list-disc pl-5 space-y-1">
+                  <li>Use Contact for account access, order help, billing or fee questions, and technical problems that need a reply.</li>
+                  <li>Use in-product Report for unsafe listings, scams, abuse, prohibited items, or message-thread behaviour that needs moderation evidence.</li>
+                  <li>Use Feedback for product ideas, confusing copy, or non-urgent marketplace improvements.</li>
+                </ul>
+              </div>
+
+              <div>
                 <div className="font-extrabold bd-ink">Include these details</div>
                 <ul className="mt-2 list-disc pl-5 space-y-1">
                   <li>Listing, order, or message thread link.</li>
                   <li>What happened and what you expected.</li>
-                  <li>Screenshots or exact error text.</li>
+                  <li>Screenshots, timestamps, exact error text, and the best reply email.</li>
                 </ul>
               </div>
 

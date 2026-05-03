@@ -118,6 +118,39 @@ export default function HelpPage() {
           </ol>
         </section>
 
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-extrabold tracking-tight bd-ink">Choose the right help route</h2>
+          <p className="mt-2 text-sm bd-ink2 leading-7">
+            Start with the route that matches the job. This keeps reports, support requests, and product feedback in the right queue.
+          </p>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <HelpCard
+              title="Report a listing or message"
+              desc="Use the in-product Report action when content, behaviour, scams, prohibited items, or unsafe messages need moderation review with evidence attached."
+              href="/support"
+              cta="Open safety guidance"
+            />
+            <HelpCard
+              title="Get help with an order or account"
+              desc="Use Contact when you need support to investigate an order, account access, technical issue, or anything that needs a reply."
+              href="/contact"
+              cta="Contact support"
+            />
+            <HelpCard
+              title="Learn the marketplace flow"
+              desc="Use How it works for Buy Now, offers, sold-item records, messages, pickup, postage, feedback, and platform-only limits."
+              href="/how-it-works"
+              cta="Review flow"
+            />
+            <HelpCard
+              title="Share product feedback"
+              desc="Use Feedback for suggestions, confusing wording, rough edges, or ideas that do not need urgent support action."
+              href="/feedback"
+              cta="Send feedback"
+            />
+          </div>
+        </section>
+
         <section className="space-y-3">
           <h2 className="text-xl font-extrabold tracking-tight bd-ink">Frequently asked questions</h2>
           <div className="grid gap-3">
