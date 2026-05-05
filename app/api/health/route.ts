@@ -67,6 +67,7 @@ export async function GET() {
       ok,
       checkedAt: new Date().toISOString(),
       deployment: deploymentMeta(),
+      paymentReadiness: paymentReadinessStatus(),
       checks,
       env,
     },

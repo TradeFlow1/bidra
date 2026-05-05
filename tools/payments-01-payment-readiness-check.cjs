@@ -27,7 +27,7 @@ check("app/api/stripe/webhook/route.ts", "PAYMENTS_DISABLED");
 check("app/api/stripe/webhook/route.ts", "external_handover");
 check("app/api/stripe/webhook/route.ts", "Cache-Control");
 check("app/api/health/route.ts", "function paymentReadinessStatus");
-check("app/api/health/route.ts", "paymentReadiness");
+check("app/api/health/route.ts", "paymentReadiness: paymentReadinessStatus(),");
 check("app/admin/ops/page.tsx", "Payment readiness");
 check("app/admin/ops/page.tsx", "In-app payments");
 check("app/admin/ops/page.tsx", "Stripe configured");
