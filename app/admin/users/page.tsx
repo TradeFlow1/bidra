@@ -58,7 +58,7 @@ export default async function AdminUsers() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <div className="font-semibold">
-                  <Link className="hover:underline" href={"/profile?user=" + u.id}>
+                  <Link className="hover:underline" href={"/admin/users/" + u.id}>
                     {u.username}
                   </Link>
                 </div>
@@ -78,7 +78,8 @@ export default async function AdminUsers() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <Link href={"/admin/users/" + u.id} className="bd-btn bd-btn-primary">Open admin detail</Link>
                 {u.policyStrikes > 0 ? (
                   <form action="/api/admin/users/unstrike" method="post">
                     <input type="hidden" name="userId" value={u.id} />
