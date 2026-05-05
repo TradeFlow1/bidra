@@ -14,7 +14,7 @@ function friendlyAuthError(raw: string) {
   if (s === "CredentialsSignin") return "Incorrect email or password. Check your email, password, and whether your account email has been verified.";
   if (s.toLowerCase().includes("credentials")) return "Incorrect email or password.";
   if (s.toLowerCase().includes("signin")) return "Incorrect email or password.";
-  if (s.toLowerCase().includes("too many login attempts")) return "Too many login attempts. Please wait 15 minutes and try again.";
+  if (s.startsWith("AUTH_RATE_LIMITED")) return "Too many login attempts. Please wait before trying again or reset your password.";
   return "Could not log you in. Please check your details and try again.";
 }
 
