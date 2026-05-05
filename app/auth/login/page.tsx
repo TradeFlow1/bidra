@@ -92,7 +92,7 @@ export default function Login() {
                 <ul className="mt-2 list-disc pl-5 text-sm bd-ink2 space-y-2">
                   <li>Use the same email address you verified during signup.</li>
                   <li>Passwords are case-sensitive; use Show password if you need to check typing.</li>
-                  <li>If you are locked out, wait 15 minutes or reset your password.</li>
+                  <li>If you are locked out, wait before trying again or reset your password.</li>
                 </ul>
               </div>
 
