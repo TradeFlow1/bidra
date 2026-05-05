@@ -273,13 +273,15 @@ export default async function ListingsPage({
         name="q"
         type="search"
         enterKeyHint="search"
+        autoComplete="off"
+        aria-label="Search listings by title, category, suburb, or postcode"
         defaultValue={q}
         placeholder="Search title, category, suburb, or postcode"
         className="bd-input"
       />
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-1">
-        <select name="category" defaultValue={category} className="bd-input">
+        <select name="category" defaultValue={category} className="bd-input" aria-label="Filter by category">
           <option value="">All categories</option>
           {CATEGORY_GROUPS.map(function (g) {
             return (
@@ -297,15 +299,15 @@ export default async function ListingsPage({
           })}
         </select>
 
-        <input name="location" defaultValue={location} placeholder="Suburb, city, state, or postcode" className="bd-input" />
+        <input name="location" defaultValue={location} placeholder="Suburb, city, state, or postcode" className="bd-input" aria-label="Filter by location" />
 
-        <select name="type" defaultValue={type} className="bd-input">
+        <select name="type" defaultValue={type} className="bd-input" aria-label="Filter by sale type">
           <option value="">Sale type: All</option>
           <option value="BUY_NOW">Sale type: Buy Now</option>
           <option value="OFFERABLE">Sale type: Offers</option>
         </select>
 
-        <select name="condition" defaultValue={condition} className="bd-input">
+        <select name="condition" defaultValue={condition} className="bd-input" aria-label="Filter by condition">
           <option value="">Any condition</option>
           <option value="NEW">New</option>
           <option value="USED_LIKE_NEW">Used - Like New</option>
@@ -320,6 +322,7 @@ export default async function ListingsPage({
             placeholder="Min price"
             className="bd-input"
             inputMode="decimal"
+            aria-label="Minimum price"
           />
           <input
             name="max"
@@ -327,10 +330,11 @@ export default async function ListingsPage({
             placeholder="Max price"
             className="bd-input"
             inputMode="decimal"
+            aria-label="Maximum price"
           />
         </div>
 
-        <select name="sort" defaultValue={sort} className="bd-input">
+        <select name="sort" defaultValue={sort} className="bd-input" aria-label="Sort listings">
           <option value="">Sort: Newest</option>
           <option value="price_asc">Sort: Price low to high</option>
           <option value="price_desc">Sort: Price high to low</option>
@@ -339,7 +343,7 @@ export default async function ListingsPage({
       </div>
 
       {moneyErr ? (
-        <div className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">
+        <div role="alert" className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">
           Use whole numbers for price filters, for example 50 or 250.
         </div>
       ) : null}
@@ -382,7 +386,7 @@ export default async function ListingsPage({
           </aside>
 
           <div className="space-y-3">
-            <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4">
+            <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4" role="status" aria-live="polite">
               <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Guided discovery shortcuts</h2>
               <p className="mt-1 text-xs text-[#64748B]">Start broad, then narrow by category, Buy Now, offers, or local pickup confidence.</p>
               <div className="mt-3 flex flex-wrap gap-2">
@@ -403,7 +407,7 @@ export default async function ListingsPage({
               </div>
             </div>
 
-            <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4">
+            <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4" role="status" aria-live="polite">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Results</div>
