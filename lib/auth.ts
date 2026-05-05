@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth/next";
 import { getBaseUrl } from "@/lib/base-url";
-import { rateLimit } from "@/lib/rate-limit";
+import { clientIpFromHeaders, rateLimitResult } from "@/lib/rate-limit";
 
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
@@ -22,29 +22,14 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) return null;
 
         const email = String(credentials.email).trim().toLowerCase();
-
-        // P0: login rate-limit + temporary lockout (in-memory, per-instance)
         const windowMs = 15 * 60 * 1000;
+        const ip = clientIpFromHeaders((req as any)?.headers);
+        const ipLimit = rateLimitResult(`login:ip:${ip}`, 20, windowMs);
+        const emailLimit = rateLimitResult(`login:email:${email}`, 8, windowMs);
 
-        const headersAny = (req as any)?.headers;
-        const xf =
-          typeof headersAny?.get === "function"
-            ? String(headersAny.get("x-forwarded-for") || "")
-            : String((headersAny && (headersAny["x-forwarded-for"] || headersAny["X-Forwarded-For"])) || "");
-
-        const xr =
-          typeof headersAny?.get === "function"
-            ? String(headersAny.get("x-real-ip") || "")
-            : String((headersAny && (headersAny["x-real-ip"] || headersAny["X-Real-Ip"])) || "");
-
-        const ipRaw = (xf.split(",")[0] || xr || "").trim();
-        const ip = ipRaw || "unknown";
-
-        const okIp = rateLimit(`login:ip:${ip}`, 20, windowMs);
-        const okEmail = rateLimit(`login:email:${email}`, 8, windowMs);
-
-        if (!okIp || !okEmail) {
-          throw new Error("Too many login attempts. Please wait 15 minutes and try again.");
+        if (!ipLimit.ok || !emailLimit.ok) {
+          const retryAfter = Math.max(ipLimit.retryAfterSeconds, emailLimit.retryAfterSeconds, 60);
+          throw new Error(`AUTH_RATE_LIMITED:${retryAfter}`);
         }
 
         const user = await prisma.user.findUnique({
