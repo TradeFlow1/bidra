@@ -91,6 +91,7 @@ export default async function FeedbackPage({
   const otherPartyLabel = isBuyer ? "seller" : "buyer";
   const alreadySubmitted = isBuyer ? !!order.buyerFeedbackAt : !!order.sellerFeedbackAt;
   const canSubmit = order.outcome === "COMPLETED" && !alreadySubmitted;
+  const completionRequiredCopy = "Feedback opens only after the sold-item record is completed. Use Messages to confirm payment, pickup, postage, and handover first.";
 
   return (
     <main className="bd-container">
@@ -116,6 +117,13 @@ export default async function FeedbackPage({
               </Link>
             </nav>
           </header>
+
+          {!canSubmit && !alreadySubmitted ? (
+            <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+              <div className="font-extrabold">Feedback not open yet</div>
+              <p className="mt-1">{completionRequiredCopy}</p>
+            </div>
+          ) : null}
 
           <div className="mt-6">
             <FeedbackClient
