@@ -1,12 +1,49 @@
 # Bidra
 
-Bidra is a trust-first Australian household marketplace focused on reliable completion.
+Bidra is a trust-first Australian household marketplace focused on reliable local trading, clear sold-item records, and safer buyer/seller handover.
 
-## Core V2 rules
+## Current launch model
 
-- Buy Now is binding.
-- Offers do not auto-sell and do not create an automatic winner.
-- Pickup is scheduled in-app.
-- Messaging supports clarification only and must not override platform order flow.
-- Reliability matters: repeated no-shows, late reschedules, and misuse can lead to restrictions.
-- Bidra is a platform only. It is not a payment provider, not an escrow service, and not an auctioneer.
+- Bidra is a platform marketplace only. It is not a seller, auctioneer, payment provider, escrow service, refund decision-maker, shipping provider, or pickup scheduler.
+- Buyers and sellers arrange payment, pickup, postage, refunds, and handover details directly in Bidra Messages.
+- Orders are sold-item records. There is no forced in-app Pay now, checkout, escrow, shipping, pickup scheduling, or completion workflow in the current launch model.
+- Current launch pricing: $0 buyer fees, $0 standard listing fees, and 0% seller success fee during launch.
+- Stripe integration remains disabled for marketplace payment capture; `/api/stripe/webhook` intentionally returns `PAYMENTS_DISABLED`.
+
+## Production go-live checks
+
+Run these from the repository root before launch or after a production-risk change:
+
+```powershell
+node .\tools\prod-01-production-readiness-gate-check.cjs
+npm.cmd run typecheck
+npm.cmd run test
+npm.cmd run test:smoke
+npm.cmd run lint
+npm.cmd run build
+```
+
+Required production environment variables are documented in `.env.example`:
+
+- `DATABASE_URL`
+- `NEXTAUTH_SECRET`
+- `NEXTAUTH_URL`
+- `NEXT_PUBLIC_SITE_URL`
+
+Operator readiness surfaces:
+
+- `/api/health` for machine-readable database, environment, deployment, and payment-readiness checks.
+- `/admin/ops` for admin-facing production diagnostics.
+- `docs/BIDRA_PRODUCTION_READINESS_GATE.md` for the manual go/no-go checklist and rollback path.
+
+## Local development
+
+```powershell
+npm.cmd install
+npm.cmd run db:generate
+npm.cmd run typecheck
+npm.cmd run test
+npm.cmd run test:smoke
+npm.cmd run lint
+npm.cmd run build
+```
