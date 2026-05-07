@@ -112,7 +112,7 @@ export default async function MessagesInboxPage() {
               <div className="mx-auto max-w-xl">
                 <div className="text-xl font-extrabold text-neutral-900">No messages yet</div>
                 <p className="mt-2 text-sm text-neutral-600">
-                  Messages from listings and sold-item records will appear here. Keep pickup, postage, payment expectations, and handover details in Bidra Messages.
+                  Start the conversation by asking about pickup, condition, or availability. Messages from listings and sold-item records will appear here.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
                   <Link href="/listings" className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto">

@@ -360,9 +360,9 @@ export default async function ListingsPage({
           <p className="mt-2 text-sm text-[#475569]">Search active Australian marketplace listings by keyword, category, suburb, city, postcode, sale type, condition, and trusted seller signals. Create a free account to watch items, buy, offer, sell, and message safely.</p>
         </section>
 
-        <section className="mt-5 grid gap-4 xl:grid-cols-[18rem_minmax(0,1fr)]">
-          <aside className="xl:sticky xl:top-24 xl:self-start">
-            <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
+        <section className="mt-5 grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-[18rem_minmax(0,1fr)]">
+          <aside className="min-w-0 xl:sticky xl:top-24 xl:self-start">
+            <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm xl:block">
               <div className="p-4 sm:p-5">
                 <MobileFiltersToggle>
                   <FiltersForm />
@@ -439,13 +439,13 @@ export default async function ListingsPage({
               ) : null}
             </div>
 
-            <div className="browseList w-full grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+            <div className="browseList grid w-full min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
               {listings.length === 0 ? (
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto max-w-2xl">
-                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches for those filters yet." : "No active listings yet"}</div>
+                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches yet" : "No active listings yet"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
-                      {hasFilters ? "Try a broader search path: remove one filter, check spelling, browse Buy Now, or scan offer listings. Bidra only shows active listings that are available to buy or make offers on right now." : "New local listings will appear here as sellers publish active items for Buy Now or offers. Start with broad discovery links while the marketplace fills up."}
+                      {hasFilters ? "No active matches yet. Try broader keywords or browse categories." : "New local listings will appear here as sellers publish active items for Buy Now or offers. Start with broad discovery links while the marketplace fills up."}
                     </p>
                     <div className="mt-5 grid gap-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-left sm:grid-cols-3">
                       <div>

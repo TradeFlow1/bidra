@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Stop"
 
 $ExpectedRoot = "C:\Users\jpdup\Documents\Bidra\bidra-main-git"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -91,7 +91,7 @@ $FixItems += New-FixItem "ADMIN-03" "P2" "Admin UX" "P2 Premium UX" "Replace adm
 $FixItems += New-FixItem "UX-01" "P1" "Design System" "P2 Premium UX" "Standardize toast error modal components" "Every success and failure should use consistent components, placement, copy, and next action." "No raw codes or silent failures in core flows." "Component test checks standard error and toast usage." "P1;ux;design-system"
 $FixItems += New-FixItem "SEO-01" "P1" "SEO" "P3 Growth and Marketplace Density" "Add marketplace SEO structure" "Add category, location, listing metadata, canonical URLs, sitemap coverage, and product structured data." "Important marketplace pages are indexable and have metadata." "Route test validates metadata on category and listing pages." "P1;seo;growth"
 $FixItems += New-FixItem "PERF-01" "P2" "Performance" "P2 Premium UX" "Improve accessibility performance image quality" "Improve tap targets, keyboard navigation, image loading, and layout stability." "Core pages meet defined accessibility and performance checks." "A11y and smoke checks cover public browse and listing pages." "P2;performance;accessibility"
-$FixItems += New-FixItem "GROWTH-01" "P1" "Marketplace Supply" "P3 Growth and Marketplace Density" "Seed real marketplace liquidity" "Add enough real listings, remove duplicates, improve categories and locations." "Marketplace no longer feels empty or duplicated." "Listing audit checks duplicate titles and minimum seeded listing count in staging." "P1;growth;listings"
+$FixItems += New-FixItem "GROWTH-01" "P1" "Marketplace Supply" "P3 Growth and Marketplace Density" "Seed real marketplace liquidity" "Add enough real listings, remove duplicates, improve categories and locations." "Marketplace no longer feels empty or duplicated." "Listing audit checks duplicate titles and minimum seeded listing count before launch." "P1;growth;listings"
 
 $CsvPath = Join-Path $DocsDir "BIDRA_FIX_REGISTER.csv"
 $PlanPath = Join-Path $DocsDir "BIDRA_MILLION_DOLLAR_FIX_PLAN.md"

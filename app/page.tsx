@@ -207,10 +207,10 @@ export default async function HomePage() {
         suppressHydrationWarning={true}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(marketplaceJsonLd) }}
       />
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-4">
-        <section className="overflow-hidden rounded-[30px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
-          <div className="grid gap-4 p-4 sm:p-5 lg:grid-cols-[minmax(0,1.55fr)_18rem] lg:items-center lg:p-5">
-            <div className="relative flex min-h-[9rem] items-center overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[#EFF4FB] px-5 py-4 sm:min-h-[10rem] sm:px-6 lg:min-h-[11rem] lg:px-7">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:gap-4 sm:py-4 lg:px-6 lg:py-4">
+        <section className="overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
+          <div className="grid gap-3 p-3 sm:gap-4 sm:p-5 lg:grid-cols-[minmax(0,1.55fr)_18rem] lg:items-center lg:p-5">
+            <div className="relative flex min-h-[6.5rem] items-center overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-[#EFF4FB] px-4 py-3 sm:min-h-[10rem] sm:px-6 lg:min-h-[11rem] lg:px-7">
               <Image
                 src="/brand/hero-clouds.png"
                 alt=""
@@ -220,19 +220,23 @@ export default async function HomePage() {
                 sizes="(max-width: 1024px) 100vw, 60vw"
               />
               <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,249,252,0.78)_0%,rgba(247,249,252,0.55)_42%,rgba(247,249,252,0.28)_100%)]" />
-              <div className="relative z-10 h-[7rem] w-[24rem] sm:h-[8rem] sm:w-[28rem] lg:h-[9rem] lg:w-[32rem] xl:h-[9.75rem] xl:w-[35rem]">
+              <div className="relative z-10 h-[5.25rem] w-[18rem] sm:h-[8rem] sm:w-[28rem] lg:h-[9rem] lg:w-[32rem] xl:h-[9.75rem] xl:w-[35rem]">
                 <Image
                   src="/brand/bidra-kangaroo-logo-tight.png"
                   alt="Bidra"
                   fill
                   priority
                   className="object-contain object-left drop-shadow-[0_8px_24px_rgba(15,23,42,0.16)]"
-                  sizes="(max-width: 640px) 24rem, (max-width: 1024px) 28rem, (max-width: 1280px) 32rem, 35rem"
+                  sizes="(max-width: 640px) 18rem, (max-width: 1024px) 28rem, (max-width: 1280px) 32rem, 35rem"
                 />
               </div>
             </div>
 
             <div className="grid gap-2 rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
+              <div>
+                <div className="text-sm font-extrabold text-[#0F172A]">Australia's trust-first local marketplace</div>
+                <p className="mt-1 text-xs text-[#64748B]">Browse early-access listings or create a free account to sell safely.</p>
+              </div>
               <HomeCategorySelect />
               <div className="grid gap-2">
                 <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse active listings</Link>
@@ -286,44 +290,44 @@ export default async function HomePage() {
 
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {latestListings.length ? latestListings.map(renderCard) : (
-              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No active listings yet. Create a free account and start the first trusted listing.</p>
+              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">Bidra is in early access. New local listings will appear here as sellers publish active items.</p>
             )}
           </div>
         </section>
 
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
-            <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Offer listings</div>
-              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Make seller-reviewed offers</h2>
+        {offerableListings.length ? (
+          <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Offer listings</div>
+                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Make seller-reviewed offers</h2>
+              </div>
+              <Link href="/listings?type=OFFERABLE" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+                View all
+              </Link>
             </div>
-            <Link href="/listings?type=OFFERABLE" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
-              View all
-            </Link>
-          </div>
-          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {offerableListings.length ? offerableListings.map(renderCard) : (
-              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No offer listings right now. Sellers can create timed-offer listings from the sell flow.</p>
-            )}
-          </div>
-        </section>
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {offerableListings.map(renderCard)}
+            </div>
+          </section>
+        ) : null}
 
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
-            <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Buy now listings</div>
-              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Buy Now activation</h2>
+        {buyNowListings.length ? (
+          <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Buy now listings</div>
+                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Buy Now activation</h2>
+              </div>
+              <Link href="/listings?type=BUY_NOW" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+                View all
+              </Link>
             </div>
-            <Link href="/listings?type=BUY_NOW" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
-              View all
-            </Link>
-          </div>
-          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {buyNowListings.length ? buyNowListings.map(renderCard) : (
-              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">No Buy Now listings right now. Create a listing with a clear fixed price to activate buyers faster.</p>
-            )}
-          </div>
-        </section>
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {buyNowListings.map(renderCard)}
+            </div>
+          </section>
+        ) : null}
       </div>
     </main>
   );
