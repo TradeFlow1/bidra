@@ -156,18 +156,18 @@ export default function ListingImageGallery(props: { images: any; title?: string
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/35 to-transparent" />
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/45 to-transparent" />
 
-                <div className="pointer-events-none absolute left-4 top-4 flex items-center gap-2">
+                <div className="pointer-events-none absolute left-3 top-3 flex items-center gap-2 sm:left-4 sm:top-4">
                   <span className="rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-neutral-900 shadow-sm ring-1 ring-black/5">
                     Gallery
                   </span>
                   {isMulti ? (
-                    <span className="rounded-full bg-black/65 px-3 py-1 text-[11px] font-semibold text-white shadow-sm">
+                    <span className="rounded-full bg-black/75 px-3 py-1.5 text-xs font-extrabold text-white shadow-sm ring-1 ring-white/20">
                       {idx + 1} of {imgs.length}
                     </span>
                   ) : null}
                 </div>
 
-                <div className="pointer-events-none absolute bottom-4 right-4 rounded-full bg-black/70 px-3 py-1.5 text-xs font-semibold text-white shadow-sm">
+                <div className="pointer-events-none absolute bottom-3 right-3 rounded-full bg-black/75 px-3 py-1.5 text-xs font-extrabold text-white shadow-sm ring-1 ring-white/20 sm:bottom-4 sm:right-4">
                   Photo {i + 1} / {imgs.length}
                 </div>
               </div>
@@ -180,7 +180,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
             <button
               type="button"
               onClick={prev}
-              className="absolute left-4 top-1/2 z-50 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/90 text-black shadow-lg backdrop-blur transition hover:scale-[1.02] hover:bg-white"
+              className="absolute left-3 top-1/2 z-50 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-white/95 text-black shadow-lg backdrop-blur transition hover:scale-[1.02] hover:bg-white sm:left-4"
               aria-label="Previous photo"
             >
               <span className="text-[22px] leading-none">&lsaquo;</span>
@@ -188,7 +188,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
             <button
               type="button"
               onClick={next}
-              className="absolute right-4 top-1/2 z-50 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/90 text-black shadow-lg backdrop-blur transition hover:scale-[1.02] hover:bg-white"
+              className="absolute right-3 top-1/2 z-50 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-white/95 text-black shadow-lg backdrop-blur transition hover:scale-[1.02] hover:bg-white sm:right-4"
               aria-label="Next photo"
             >
               <span className="text-[22px] leading-none">&rsaquo;</span>
@@ -207,7 +207,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
                 type="button"
                 onClick={() => go(i)}
                 aria-label={`View photo ${i + 1}`}
-                className={active ? "h-2.5 w-7 rounded-full bg-neutral-900 transition-all" : "h-2.5 w-2.5 rounded-full bg-neutral-300 transition-all hover:bg-neutral-400"}
+                className={active ? "min-h-11 w-8 rounded-full bg-neutral-900 transition-all" : "min-h-11 w-5 rounded-full bg-neutral-300 transition-all hover:bg-neutral-400"}
               />
             );
           })}

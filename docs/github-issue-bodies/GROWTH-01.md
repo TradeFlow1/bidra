@@ -1,4 +1,4 @@
-﻿# GROWTH-01 - Seed real marketplace liquidity
+# GROWTH-01 - Seed real marketplace liquidity
 
 **Priority:** P1
 
@@ -16,7 +16,7 @@ Marketplace no longer feels empty or duplicated.
 
 ## Regression requirement
 
-Listing audit checks duplicate titles and minimum seeded listing count in staging.
+Listing audit checks duplicate titles and minimum seeded listing count before launch.
 
 ## Definition of Done
 

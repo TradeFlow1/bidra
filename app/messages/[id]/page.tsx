@@ -212,7 +212,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               <div className="rounded-2xl border border-dashed border-black/15 bg-neutral-50 px-6 py-10 text-center">
                 <div className="text-base font-semibold text-neutral-900">No messages yet</div>
                 <div className="mt-1 text-sm text-neutral-600">
-                  Use this conversation for item questions, pickup details, and important agreements.
+                  Start the conversation by asking about pickup, condition, or availability.
                 </div>
               </div>
             )}

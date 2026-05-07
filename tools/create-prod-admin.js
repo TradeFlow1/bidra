@@ -1,4 +1,4 @@
-﻿const path = require('path');
+const path = require('path');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
 dotenv.config({ path: path.join(process.cwd(), '.env.vercel.prodcheck') });
@@ -34,7 +34,7 @@ async function main() {
       role: 'ADMIN',
       emailVerified: true,
       isActive: true,
-      name: 'Bidra Admin'
+      name: 'Bidra Support'
     },
     select: {
       id: true,

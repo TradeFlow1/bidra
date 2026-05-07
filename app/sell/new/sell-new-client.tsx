@@ -277,38 +277,44 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     setSubcategoryKey(suggestedCategory.subcategoryKey || "");
   }, [suggestedCategory, categoryTouched, category]);
 
-  const canSubmit = useMemo(() => {
+  const missingRequirements = useMemo(() => {
+    const missing: string[] = [];
     const t = title.trim();
     const d = description.trim();
     const loc = location.trim();
-
-    if (t.length < 3) return false;
-    if (d.length < 3) return false;
-    if (!category) return false;
-    if (!loc) return false;
-    if (files.length < 1) return false;
-
     const fixedPriceCents = dollarsToCentsOrNull(price);
     const startBidCents = dollarsToCentsOrNull(startingBid);
     const buyNowCents = dollarsToCentsOrNull(buyNowPrice);
 
-    if (!Number.isFinite(Number(durationDays))) return false;
+    if (t.length < 3) missing.push("Add a listing title");
+    if (d.length < 3) missing.push("Add a description");
+    if (!category) missing.push("Select a category");
+    if (!loc) missing.push("Add a location");
+    if (files.length < 1) missing.push("Add at least 1 photo");
 
     if (!isTimedOffers) {
-      if (fixedPriceCents === null || Number.isNaN(fixedPriceCents) || fixedPriceCents <= 0) return false;
-      return true;
+      if (fixedPriceCents === null || Number.isNaN(fixedPriceCents) || fixedPriceCents <= 0) {
+        missing.push("Enter a valid Buy Now price");
+      }
+      return missing;
     }
 
-    if (startBidCents === null || Number.isNaN(startBidCents) || startBidCents <= 0) return false;
+    if (startBidCents === null || Number.isNaN(startBidCents) || startBidCents <= 0) {
+      missing.push("Enter a valid starting offer");
+    }
 
     if (buyNowCents !== null) {
-      if (Number.isNaN(buyNowCents)) return false;
-      if (buyNowCents <= 0) return false;
-      if (buyNowCents < startBidCents) return false;
+      if (Number.isNaN(buyNowCents) || buyNowCents <= 0) {
+        missing.push("Enter a valid Buy Now price");
+      } else if (startBidCents !== null && !Number.isNaN(startBidCents) && buyNowCents < startBidCents) {
+        missing.push("Buy Now price must be at least the starting offer");
+      }
     }
 
-    return true;
-  }, [title, description, category, location, price, startingBid, buyNowPrice, durationDays, isTimedOffers, files.length]);
+    return missing;
+  }, [title, description, category, location, price, startingBid, buyNowPrice, isTimedOffers, files.length]);
+
+  const publishReady = missingRequirements.length === 0;
 
   const reviewSaleType = isTimedOffers ? "Make Offer (timed offers)" : "Buy Now";
   const reviewPrice = isTimedOffers
@@ -751,9 +757,27 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             <div><dt className="text-xs uppercase tracking-wide bd-ink2">Location</dt><dd className="font-medium bd-ink">{location.trim() || "Not set"}</dd></div>
             <div><dt className="text-xs uppercase tracking-wide bd-ink2">Photos</dt><dd className="font-medium bd-ink">{files.length}</dd></div>
           </dl>
+
+          <div className={publishReady ? "mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4" : "mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4"}>
+            <div className={publishReady ? "text-sm font-extrabold text-emerald-950" : "text-sm font-extrabold text-amber-950"}>
+              {publishReady ? "Ready to publish" : "Before you publish"}
+            </div>
+            {publishReady ? (
+              <p className="mt-1 text-sm text-emerald-900">All required listing details are complete.</p>
+            ) : (
+              <ul className="mt-2 grid gap-2 text-sm text-amber-950 sm:grid-cols-2">
+                {missingRequirements.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span aria-hidden="true" className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-100 text-xs font-extrabold text-amber-900">!</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </section>
 
-        <button type="submit" disabled={busy || !canSubmit} className="mx-auto rounded-xl border border-black/20 bg-white px-8 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+        <button type="submit" disabled={busy || !publishReady} className="mx-auto rounded-xl border border-black/20 bg-black px-8 py-3 text-center text-sm font-extrabold text-white shadow-sm hover:bg-black/80 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none">
           {busy ? "Saving..." : "Publish listing"}
         </button>
       </form>

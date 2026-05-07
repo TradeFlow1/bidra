@@ -30,10 +30,10 @@ const statusRoute = read("app/api/watchlist/status/route.ts");
 const bundle = detailButton + "\n" + card + "\n" + watchlistPage + "\n" + toggleRoute + "\n" + statusRoute;
 
 check(detailButton, "const [message, setMessage]");
-check(detailButton, "Added to watchlist.");
-check(detailButton, "Removed from watchlist.");
-check(detailButton, "role=\"status\"");
-check(detailButton, "aria-live=\"polite\"");
+check(detailButton, "Saved to watchlist.");
+check(detailButton, "Listing removed from watchlist.");
+check(detailButton, "<StatusMessage tone=\"info\"");
+check(detailButton, "setMessage(\"\");");
 check(card, "initiallyWatched");
 check(card, "setWatched(function (v) { return !v; });");
 check(card, "Saving...");

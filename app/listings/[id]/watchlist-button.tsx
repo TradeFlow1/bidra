@@ -58,8 +58,7 @@ export default function WatchlistButton(props: Props) {
         }
 
         const nextWatched = Boolean(data?.watched);
-      setWatched(nextWatched);
-      setMessage(nextWatched ? "Added to watchlist." : "Removed from watchlist.");
+        setWatched(nextWatched);
         setReady(true);
       } catch (e) {
         if (!alive) return;
@@ -75,6 +74,17 @@ export default function WatchlistButton(props: Props) {
       alive = false;
     };
   }, [props.authed, props.listingId]);
+
+
+  useEffect(function () {
+    if (!message) return;
+    const timer = window.setTimeout(function () {
+      setMessage("");
+    }, 2500);
+    return function () {
+      window.clearTimeout(timer);
+    };
+  }, [message]);
 
   async function onClick() {
     if (!props.authed) {
@@ -110,7 +120,7 @@ export default function WatchlistButton(props: Props) {
 
       const nextWatched = Boolean(data?.watched);
       setWatched(nextWatched);
-      setMessage(nextWatched ? "Added to watchlist." : "Removed from watchlist.");
+      setMessage(nextWatched ? "Saved to watchlist." : "Listing removed from watchlist.");
     } catch (e) {
       setError("Unable to update watchlist.");
     } finally {
@@ -131,7 +141,7 @@ export default function WatchlistButton(props: Props) {
         {ready ? label : "Loading..."}
       </button>
 
-      {message ? <StatusMessage tone="success" className="text-xs">{message}</StatusMessage> : null}
+      {message ? <StatusMessage tone="info" className="text-xs">{message}</StatusMessage> : null}
 
       {error ? <StatusMessage tone="error" className="text-xs">{error}</StatusMessage> : null}
     </div>
