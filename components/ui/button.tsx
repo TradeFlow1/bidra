@@ -25,10 +25,10 @@ const sizeClasses: Record<ButtonSize, string> = {
   lg: "min-h-12 px-5 text-base",
 };
 
-export function Button({ className, variant = "outline", size = "md", loading = false, disabled, children, ...props }: Props) {
+export function Button({ className, variant, size = "md", loading = false, disabled, children, ...props }: Props) {
   return (
     <button
-      className={cn("bd-btn border", variantClasses[variant], sizeClasses[size], className)}
+      className={cn("bd-btn border", variant ? variantClasses[variant] : null, sizeClasses[size], className)}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
       {...props}
