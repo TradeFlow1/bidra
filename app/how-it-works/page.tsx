@@ -55,11 +55,11 @@ export default function HowItWorksPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Current flow</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Simple marketplace handover</div>
-            <div className="mt-1 text-sm text-neutral-600">After the item is sold, use messages to arrange pickup or postage. Orders are sold-item records, not forced payment, shipping, or pickup-scheduling workflows.</div>
+            <div className="mt-1 text-sm text-neutral-600">After the item is sold, use messages to arrange pickup or postage. Orders confirm the item has sold; buyers and sellers then arrange payment, pickup, postage, and handover in Messages.</div>
           </div>
         </div>
 
-        <StepCard step="Step 1" title="Use your account and activate trust">
+        <StepCard step="Step 1" title="Set up your marketplace account">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li><strong>18+ only:</strong> accounts are for adults. Under 18s can browse publicly but cannot transact or message.</li>
             <li>Set your <strong>location</strong> using suburb, state, and postcode so buyers see realistic pickup context.</li>
@@ -106,12 +106,12 @@ export default function HowItWorksPage() {
           </ul>
         </StepCard>
 
-        <StepCard step="Step 4" title="Complete the order record">
+        <StepCard step="Step 4" title="Complete the order">
           <p className="text-black/75">
-            For Buy Now purchases, the item is sold immediately. Use messages to arrange pickup or postage; Bidra does not run in-app payment, escrow, shipping, or pickup scheduling.
+            For Buy Now purchases, the item is sold immediately. Use Messages to arrange payment, pickup, postage, and handover; Bidra does not act as a payment provider, escrow service, shipping provider, or pickup scheduler.
           </p>
           <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
-            <li>There is no in-app payment, escrow, shipping, pickup scheduling, or forced completion workflow in Bidra V1.</li>
+            <li>Bidra does not act as a payment provider, escrow service, shipping provider, or pickup scheduler.</li>
             <li>After handover, leave feedback if available or report an issue if something went wrong.</li>
             <li>Leave feedback to strengthen seller and buyer trust signals for future transactions.</li>
           </ul>

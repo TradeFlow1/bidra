@@ -145,7 +145,7 @@ export default async function WatchlistPage() {
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <Link href="/listings" className="bd-btn bd-btn-primary text-center">Browse listings</Link>
                 <Link href="/listings?type=OFFERABLE" className="bd-btn bd-btn-ghost text-center">View offer listings</Link>
-                <Link href="/sell" className="bd-btn bd-btn-ghost text-center">Sell an item</Link>
+                <Link href="/sell/new" className="bd-btn bd-btn-ghost text-center">Sell an item</Link>
               </div>
             </div>
           </div>

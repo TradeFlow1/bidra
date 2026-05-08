@@ -62,13 +62,13 @@ export default async function NotificationsPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Updates</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Messages and orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Keep up with unread messages, sold items, and simple follow-up.
+                Keep up with unread messages, orders, and follow-up.
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
               <CountPill label="Unread" value={counts.unreadThreads} />
-              <CountPill label="Sold" value={counts.actionOrders} />
+              <CountPill label="Orders" value={counts.actionOrders} />
               <CountPill label="Feedback" value={counts.pendingFeedback} />
             </div>
           </div>
@@ -92,7 +92,7 @@ export default async function NotificationsPage() {
             href="/orders"
             action="Open orders"
           >
-            Review sold items, message the other person, and handle pickup, postage, or follow-up.
+            Review orders, message the other person, and handle pickup, postage, or follow-up.
           </UpdateCard>
         </div>
 
@@ -121,7 +121,7 @@ export default async function NotificationsPage() {
             <div className="mx-auto max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">You are all caught up</div>
               <div className="mt-2 text-sm text-neutral-600">
-                New messages, sold items, and optional feedback will appear here. Saved listing and marketplace updates will show up here when those alerts are available.
+                New messages, orders, and optional feedback will appear here.
               </div>
             </div>
           </div>

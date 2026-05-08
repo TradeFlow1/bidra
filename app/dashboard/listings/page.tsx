@@ -108,15 +108,15 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Seller dashboard</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">My listings</h1>
                 <p className="mt-2 max-w-2xl text-sm bd-ink2 sm:text-base">
-                  Seller mode is active here. Manage active listings, drafts, ended listings, and offer visibility in one place.
+                  Manage active listings, drafts, ended listings, and offer visibility in one place.
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-2">
-                <Link href="/sell/new" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                <Link href="/sell/new" className="bd-btn bd-btn-secondary text-center">
                   Create new listing
                 </Link>
-                <Link href="/listings" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                <Link href="/listings" className="bd-btn bd-btn-secondary text-center">
                   Browse marketplace
                 </Link>
               </div>
@@ -139,7 +139,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
             <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Drafts</div>
               <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{draftCount}</div>
-              <div className="mt-1 text-sm text-neutral-600">Listings saved before going live in the marketplace.</div>
+              <div className="mt-1 text-sm text-neutral-600">Listings saved before they go live.</div>
             </div>
           </div>
 
@@ -165,10 +165,10 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                   Start with your first listing, add clear details, and keep handover expectations in Messages.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
-                  <Link href="/sell/new" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                  <Link href="/sell/new" className="bd-btn bd-btn-secondary text-center">
                     Create listing
                   </Link>
-                  <Link href="/how-it-works" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                  <Link href="/how-it-works" className="bd-btn bd-btn-secondary text-center">
                     How it works
                   </Link>
                 </div>
@@ -224,10 +224,10 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
 
                       <div className="flex flex-col gap-3 lg:w-[260px]">
                         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-2">
-                          <Link href={"/listings/" + l.id} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                          <Link href={"/listings/" + l.id} className="bd-btn bd-btn-secondary text-center">
                             View listing
                           </Link>
-                          <Link href={"/sell/edit/" + l.id} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                          <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-secondary text-center">
                             Edit listing
                           </Link>
                         </div>
@@ -243,7 +243,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                               <option value="ACTIVE">Active</option>
                               <option value="ENDED">Ended</option>
                             </select>
-                            <button type="submit" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                            <button type="submit" className="bd-btn bd-btn-secondary text-center">
                               Update
                             </button>
                           </div>

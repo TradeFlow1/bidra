@@ -101,7 +101,7 @@ export default function LegalHubPage() {
               <LegalCard
                 title="Fees"
                 href="/legal/fees"
-                desc="Current launch fee model: $0 buyer fees, $0 standard listing fees, and 0% seller success fee during launch."
+                desc="Current fee model: $0 buyer fees, $0 standard listing fees, and 0% seller success fee."
               />
               <LegalCard
                 title="Prohibited Items"
