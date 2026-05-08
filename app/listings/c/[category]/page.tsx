@@ -46,7 +46,7 @@ export default async function CategorySeoPage({ params }: Props) {
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">{category.label} listings</h1>
           <p className="mt-2 text-sm text-[#475569]">Browse active {category.label} listings on Bidra by location, price, condition, and seller trust signals. Buy Now or make offers, then keep pickup, postage, and handover details in Messages.</p>
           <div className="mt-4">
-            <Link href="/listings" className="text-sm font-semibold text-[#1D4ED8] underline underline-offset-2">Back to all listings</Link>
+            <div className="flex flex-wrap gap-2"><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Back to all listings</Link><Link href="/sell/new" className="bd-btn bd-btn-primary text-center">List in this category</Link></div>
           </div>
         </section>
 
@@ -74,7 +74,7 @@ export default async function CategorySeoPage({ params }: Props) {
             {listings.length === 0 ? (
               <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                 <div className="text-lg font-bold text-[#0F172A]">No active {category.label} listings right now</div>
-                <p className="mt-2 text-sm text-[#475569]">Check back soon for new active {category.label} listings, or broaden your search across all active Australian marketplace listings.</p>
+                <p className="mt-2 text-sm text-[#475569]">No real seller has published an active {category.label} listing yet. Browse all listings or create a buyer-ready listing in this category if you have an item to sell.</p><div className="mt-5 flex flex-wrap justify-center gap-2"><Link href="/sell/new" className="bd-btn bd-btn-primary text-center">Create a {category.label} listing</Link><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Browse all listings</Link></div>
               </div>
             ) : (
               listings.map(function (listing) {

@@ -160,13 +160,13 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
           {!listings.length ? (
             <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center">
               <div className="mx-auto max-w-xl">
-                <div className="text-xl font-extrabold text-neutral-900">No listings yet</div>
+                <div className="text-xl font-extrabold text-neutral-900">List your first real item</div>
                 <p className="mt-2 text-sm text-neutral-600">
-                  Start with your first listing, add clear details, and keep handover expectations in Messages.
+                  Start with one genuine item. Add real photos, accurate condition, price, location, and pickup or postage notes so buyers can act with confidence.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
                   <Link href="/sell/new" className="bd-btn bd-btn-secondary text-center">
-                    Create listing
+                    Create your first listing
                   </Link>
                   <Link href="/how-it-works" className="bd-btn bd-btn-secondary text-center">
                     How it works

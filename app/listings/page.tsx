@@ -443,9 +443,9 @@ export default async function ListingsPage({
               {listings.length === 0 ? (
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto max-w-2xl">
-                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches yet" : "Listings are being added"}</div>
+                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches yet" : "Be one of the first sellers here"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
-                      {hasFilters ? "No active matches yet. Try broader keywords or browse categories." : "New local listings will appear here as sellers publish active Buy Now and offer items."}
+                      {hasFilters ? "No active matches yet. Try broader keywords, clear filters, or list a matching item if you have one to sell." : "Bidra only shows real listings from sellers. List a genuine item with clear photos, price, condition, and pickup or postage notes."}
                     </p>
                     <div className="mt-5 grid gap-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-left sm:grid-cols-3">
                       <div>
@@ -457,12 +457,13 @@ export default async function ListingsPage({
                         <p className="mt-1 text-xs text-[#475569]">Check Buy Now for fast purchases or Offers when you want seller-reviewed interest.</p>
                       </div>
                       <div>
-                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Search with confidence</div>
-                        <p className="mt-1 text-xs text-[#475569]">Use clear keywords, suburb or postcode, and trusted seller signals before messaging.</p>
+                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Sell into demand</div>
+                        <p className="mt-1 text-xs text-[#475569]">If the item is not listed yet, create a buyer-ready listing with real photos and clear handover notes.</p>
                       </div>
                     </div>
                     <div className="mt-4 flex flex-wrap justify-center gap-2">
-                      <Link href="/listings" className="bd-btn bd-btn-primary">Browse all listings</Link>
+                      <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary">Create a listing</Link>
+                      <Link href="/listings" className="bd-btn bd-btn-secondary">Browse all listings</Link>
                       <Link href={buildHref({ type: "BUY_NOW" })} className="bd-btn bd-btn-secondary">Browse Buy Now</Link>
                       <Link href={buildHref({ type: "OFFERABLE" })} className="bd-btn bd-btn-secondary">Browse offers</Link>
                     </div>
