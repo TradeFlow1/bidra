@@ -37,9 +37,9 @@ export default function BuyNowButton({ listingId }: { listingId: string }) {
         return;
       }
 
-      setMsg("Order created. Open Orders to continue in Bidra Messages.");
+      setMsg("Sold item created. Opening order details so buyer and seller can confirm next steps.");
     } catch {
-      setMsg("Buy Now failed.");
+      setMsg("Buy Now could not be completed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -51,12 +51,12 @@ export default function BuyNowButton({ listingId }: { listingId: string }) {
         type="button"
         onClick={buyNow}
         disabled={loading}
-        className="w-full rounded-xl bg-[#1DA1F2] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-95 active:brightness-90 disabled:opacity-60"
+        className="bd-btn bd-btn-primary w-full"
       >
-        {loading ? "Processing..." : "Buy Now"}
+        {loading ? "Securing item..." : "Buy Now"}
       </button>
 
-      {msg ? <div className="text-xs text-neutral-600">{msg}</div> : null}
+      {msg ? <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#475569]">{msg}</div> : null}
     </div>
   );
 }

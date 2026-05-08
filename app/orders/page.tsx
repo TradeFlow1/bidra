@@ -53,7 +53,7 @@ export default async function OrdersPage() {
             <div className="max-w-3xl">
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Sold-item records for your buys and sales. Open any order to message the other person and confirm payment, pickup, postage, and handover details.
+                Track your buys and sales. Open any order to message the other person and confirm payment, pickup, postage, and handover details.
               </p>
             </div>
           </div>
@@ -61,9 +61,9 @@ export default async function OrdersPage() {
 
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Order records</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Orders</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{soldCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Pending and completed sold-item records.</div>
+            <div className="mt-1 text-sm text-neutral-600">Active and completed buys or sales.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
@@ -77,9 +77,9 @@ export default async function OrdersPage() {
         {!orders.length ? (
           <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
             <div className="mx-auto max-w-xl">
-              <div className="text-xl font-extrabold text-neutral-900">No orders yet</div>
+              <div className="text-xl font-extrabold text-neutral-900">No buys or sales yet</div>
               <p className="mt-2 text-sm text-neutral-600">
-                When Buy Now is used or your offer is accepted, the sold-item record appears here so you can continue safely in Messages.
+                When you buy an item or a seller accepts an offer, it appears here so both sides can confirm next steps in Messages.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <Link href="/listings" className="w-full bd-btn bd-btn-secondary text-center sm:w-auto">Browse listings</Link>
@@ -97,7 +97,7 @@ export default async function OrdersPage() {
               const roleLabel = o.buyerId === user.id ? "Buying" : "Selling";
               const nextActionCopy = isCompleted
                 ? (feedbackDue ? "Next action: leave feedback." : "Next action: no further action needed.")
-                : "Next action: message to agree payment and handover.";
+                : "Next action: confirm payment and handover in Messages.";
               const statusLabel = isCompleted ? "FEEDBACK OPEN" : "SOLD";
 
               return (
@@ -158,7 +158,7 @@ export default async function OrdersPage() {
                           className="bd-btn bd-btn-secondary text-center"
                         >
                           <span className="block">Order details</span>
-                          <span className="mt-1 block text-xs bd-ink2">Next action: message to agree payment and handover</span>
+                          <span className="mt-1 block text-xs bd-ink2">Confirm payment and handover in Messages</span>
                         </Link>
                       ) : (
                         <Link
@@ -173,7 +173,7 @@ export default async function OrdersPage() {
                       <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-1">
                         <Link
                           href={`/listings/${o.listingId}`}
-                          className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
+                          className="bd-btn bd-btn-secondary text-center"
                         >
                           View listing
                         </Link>
@@ -181,7 +181,7 @@ export default async function OrdersPage() {
                         {feedbackDue ? (
                           <Link
                             href={`/orders/${o.id}/feedback`}
-                            className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
+                            className="bd-btn bd-btn-secondary text-center"
                           >
                             Leave feedback
                           </Link>
