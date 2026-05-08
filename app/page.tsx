@@ -240,7 +240,7 @@ export default async function HomePage() {
               <HomeCategorySelect />
               <div className="grid gap-2">
                 <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse active listings</Link>
-                <Link href="/auth/register" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Start selling</Link>
+                <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Start selling</Link>
               </div>
             </div>
           </div>
