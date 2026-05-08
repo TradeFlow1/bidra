@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import EditListingClient from "./edit-listing-client";
+import { BackButton } from "@/components/ui/back-button";
 
 export default async function EditListingPage({ params }: { params: { id: string } }) {
   const session = await auth();
@@ -22,7 +23,11 @@ export default async function EditListingPage({ params }: { params: { id: string
   });
   const highestOfferCents = highest?.amount ?? 0;
   return (
-    <EditListingClient
+    <>
+      <main className="bd-container py-5">
+        <BackButton href={`/listings/${listing.id}`} label="Back to listing" />
+      </main>
+      <EditListingClient
       listing={{
         id: listing.id,
         title: listing.title,
@@ -40,7 +45,8 @@ export default async function EditListingPage({ params }: { params: { id: string
         buyNowPriceDollars: (listing as unknown as { buyNowPrice?: unknown }).buyNowPrice != null ? Number((listing as unknown as { buyNowPrice?: unknown }).buyNowPrice as number) / 100 : null,
         highestOfferCents,
       }}
-    />
+      />
+    </>
   );
 }
 

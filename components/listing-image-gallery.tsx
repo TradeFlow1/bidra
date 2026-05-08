@@ -140,13 +140,13 @@ export default function ListingImageGallery(props: { images: any; title?: string
         >
           {imgs.map((src, i) => (
             <div key={i} className="relative w-full flex-shrink-0 snap-start">
-              <div className="relative h-[320px] w-full md:h-[520px]">
+              <div className="relative h-[300px] w-full bg-[#F1F5F9] sm:h-[420px] md:h-[520px]">
                 <Image
                   src={src}
                   alt={title}
                   fill
                   sizes="100vw"
-                  className="object-cover select-none"
+                  className="object-contain select-none"
                   draggable={false}
                   onDragStart={(e) => e.preventDefault()}
                   onContextMenu={(e) => e.preventDefault()}

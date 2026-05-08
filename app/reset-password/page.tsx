@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { checkPasswordPolicy, passwordGuidanceText } from "@/lib/password-policy";
 import { useMemo, useState } from "react";
+import { BackButton } from "@/components/ui/back-button";
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -93,6 +94,7 @@ export default function ResetPasswordPage({
 
   return (
     <main className="bd-container py-10">
+      <div className="mx-auto mb-4 w-full max-w-5xl"><BackButton href="/auth/login" label="Back to login" /></div>
       <div className="container max-w-5xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="max-w-3xl">

@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
 import SafetyCallout from "../../../components/safety-callout";
+import { BackButton } from "@/components/ui/back-button";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -40,6 +41,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   if (!order) {
     return (
       <main className="bd-container py-10">
+        <div className="mx-auto mb-4 w-full max-w-5xl"><BackButton href="/orders" label="Back to orders" /></div>
         <div className="container max-w-5xl space-y-5">
           <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Order</div>
@@ -60,6 +62,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   if (order.buyerId !== user.id && order.listing?.sellerId !== user.id) {
     return (
       <main className="bd-container py-10">
+        <div className="mx-auto mb-4 w-full max-w-5xl"><BackButton href="/orders" label="Back to orders" /></div>
         <div className="container max-w-5xl space-y-5">
           <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Order</div>
@@ -98,7 +101,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   return (
     <main className="bd-container py-10">
-      <div className="container max-w-5xl space-y-5">
+        <div className="mx-auto mb-4 w-full max-w-5xl"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-5xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
