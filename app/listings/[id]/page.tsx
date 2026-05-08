@@ -230,7 +230,7 @@ export default async function ListingDetailPage({
 
               <div className="p-4 sm:p-5">
                 <div className="rounded-[24px] bg-white p-0">
-                  <p className="whitespace-pre-wrap text-base leading-7 text-[#1E293B] sm:text-[17px] sm:leading-8">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided."}</p>
+                  <p className="whitespace-pre-wrap text-base leading-7 text-[#1E293B] sm:text-[17px] sm:leading-8">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided. Message the seller before buying or making an offer."}</p>
                 </div>
 
                 <div className="mt-4 text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Item details</div>
@@ -284,8 +284,8 @@ export default async function ListingDetailPage({
               <div className="mt-4 space-y-3">
                 {isSold ? (
                   <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#475569]">
-                    <div className="font-semibold">Sold - order record created.</div>
-                    <div className="mt-1">This listing is no longer available. The buyer and seller should keep payment, pickup, postage, and handover details in Bidra Messages.</div>
+                    <div className="font-semibold">Sold item.</div>
+                    <div className="mt-1">This listing is no longer available. Buyer and seller should keep payment, pickup, postage, and handover details in Bidra Messages.</div>
                     <Link href="/listings" className="bd-mobile-tap-target mt-2 inline-flex items-center text-sm font-semibold text-[#0F172A] underline underline-offset-2">Browse listings</Link>
                   </div>
                 ) : isTimedOffers ? (
@@ -295,7 +295,7 @@ export default async function ListingDetailPage({
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    <p className="text-sm leading-6 text-[#475569]">Buy Now creates a sold-item record. Confirm payment, pickup, postage, and handover details in Messages.</p>
+                    <p className="text-sm leading-6 text-[#475569]">Buy Now marks the item as sold. Confirm payment, pickup, postage, and handover details in Messages.</p>
                     <BuyNowButton listingId={listing.id} />
                   </div>
                 )}
