@@ -272,7 +272,7 @@ export default async function HomePage() {
               })}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-[#64748B]">Categories will appear as sellers publish active Buy Now and offer listings.</p>
+            <div className="mt-4 rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] p-5 text-center"><div className="text-base font-extrabold text-[#0F172A]">Help build your local category</div><p className="mx-auto mt-2 max-w-2xl text-sm text-[#64748B]">Categories appear as sellers publish real Buy Now and offer listings. List a real item with clear photos, condition, price, and pickup or postage notes.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">List an item</Link><Link href="/how-it-works" className="bd-btn bd-btn-secondary text-center">How selling works</Link></div></div>
           )}
         </section>
 
@@ -290,7 +290,7 @@ export default async function HomePage() {
 
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {latestListings.length ? latestListings.map(renderCard) : (
-              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">New local listings will appear here as sellers publish active Buy Now and offer items.</p>
+              <div className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-5 py-8 text-center"><div className="text-base font-extrabold text-[#0F172A]">Be one of the first sellers in your area</div><p className="mx-auto mt-2 max-w-2xl text-sm text-[#64748B]">Bidra only shows real listings from sellers. Add a genuine item with photos and clear handover notes so buyers can discover it here.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">Create a listing</Link><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Browse listings</Link></div></div>
             )}
           </div>
         </section>

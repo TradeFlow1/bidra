@@ -190,7 +190,7 @@ export default async function DashboardPage({
   const onboardingSteps = [
     { title: "Set up trust basics", body: locationSummary ? "Your general location is added." : "Add suburb, state, and postcode so marketplace context is clear.", href: "#account-details", cta: "Update account" },
     { title: "Start as a buyer", body: "Browse active listings, watch items, and ask clear questions before pickup or postage.", href: "/listings", cta: "Browse listings" },
-    { title: "Start as a seller", body: "Create a buyer-ready listing with photos, condition, price, and handover notes.", href: "/sell/new", cta: "Create listing" },
+    { title: "Add real inventory", body: "Create a buyer-ready listing with real photos, condition, price, and pickup or postage notes.", href: "/sell/new", cta: "List an item" },
   ];
 
   return (
@@ -216,7 +216,7 @@ export default async function DashboardPage({
           <section className="rounded-3xl border border-[#D8E1F0] bg-white p-5 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">First-run setup</div>
             <p className="mt-1 text-sm bd-ink2">
-              Choose your buyer or seller path without changing account type. Complete the basics once, then use Dashboard to manage listings, orders, messages, and account status.
+              Choose your buyer or seller path without changing account type. Real local inventory is what makes the marketplace useful, so start by listing one genuine item if you are ready to sell.
             </p>
             <div className="mt-4 grid gap-3 md:grid-cols-3">
               {onboardingSteps.map((step) => (
