@@ -127,6 +127,10 @@ export default function ListingCard({
   const isUnder1h = typeof timeRemainingMs === "number" && timeRemainingMs > 0 && timeRemainingMs < 60 * 60 * 1000;
 
   const title = cleanText(listing.title);
+  const description = cleanText(listing.description)
+    .replace(/Selling:\s*/gi, "")
+    .replace(/Condition:\s*/gi, "")
+    .replace(/Details:\s*/gi, "");
   const category = shortCategory(listing.category);
   const condition = shortCondition(listing.condition);
   const location = cleanText(listing.location);
@@ -240,6 +244,20 @@ export default function ListingCard({
           {title}
         </div>
 
+        {description ? (
+          <p
+            className="text-[12px] font-medium leading-5 text-[#475569]"
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            } as CSSProperties}
+          >
+            {description}
+          </p>
+        ) : null}
+
         <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
           <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Current best offer" : hasBuyNow ? "Price" : "Price"}</div>
           <div className="mt-1 text-[23px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
@@ -247,7 +265,7 @@ export default function ListingCard({
             {isTimedOffers ? (
               currentOffer !== null ? "Lead with your strongest offer." : "Be the first to make an offer." 
             ) : hasBuyNow ? (
-              "Ready to buy."
+              "Fixed price listing."
             ) : (
               "Check details and message the seller." 
             )}
@@ -282,7 +300,7 @@ export default function ListingCard({
         <div className="flex items-center justify-between gap-2.5 text-[11px] text-[#64748B]">
           <div className="min-w-0 truncate">{location || "Location on request"}</div>
           <div className="flex items-center gap-2">
-            <div className="font-semibold text-[#0F172A]">{isTimedOffers ? "View offers" : hasBuyNow ? "Buy now" : "View item"}</div>
+            <div className="font-semibold text-[#0F172A]">{isTimedOffers ? "View offers" : "View item"}</div>
             {showWatchButton ? (
               <button
                 type="button"

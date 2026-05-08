@@ -180,18 +180,18 @@ export default function ListingImageGallery(props: { images: any; title?: string
             <button
               type="button"
               onClick={prev}
-              className="absolute left-3 top-1/2 z-50 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-white/95 text-black shadow-lg backdrop-blur transition hover:scale-[1.02] hover:bg-white sm:left-4"
+              className="absolute left-3 top-1/2 z-50 flex min-h-12 min-w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white text-black shadow-xl backdrop-blur transition hover:scale-[1.03] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB] sm:left-4 sm:min-h-14 sm:min-w-14"
               aria-label="Previous photo"
             >
-              <span className="text-[22px] leading-none">&lsaquo;</span>
+              <span className="text-[28px] leading-none sm:text-[32px]">&lsaquo;</span>
             </button>
             <button
               type="button"
               onClick={next}
-              className="absolute right-3 top-1/2 z-50 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-white/95 text-black shadow-lg backdrop-blur transition hover:scale-[1.02] hover:bg-white sm:right-4"
+              className="absolute right-3 top-1/2 z-50 flex min-h-12 min-w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white text-black shadow-xl backdrop-blur transition hover:scale-[1.03] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB] sm:right-4 sm:min-h-14 sm:min-w-14"
               aria-label="Next photo"
             >
-              <span className="text-[22px] leading-none">&rsaquo;</span>
+              <span className="text-[28px] leading-none sm:text-[32px]">&rsaquo;</span>
             </button>
           </>
         ) : null}
@@ -207,7 +207,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
                 type="button"
                 onClick={() => go(i)}
                 aria-label={`View photo ${i + 1}`}
-                className={active ? "min-h-11 w-8 rounded-full bg-neutral-900 transition-all" : "min-h-11 w-5 rounded-full bg-neutral-300 transition-all hover:bg-neutral-400"}
+                className={active ? "min-h-11 w-9 rounded-full bg-neutral-900 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB]" : "min-h-11 w-6 rounded-full bg-neutral-300 transition-all hover:bg-neutral-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB]"}
               />
             );
           })}
