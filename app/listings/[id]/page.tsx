@@ -16,6 +16,7 @@ import MessageSellerButton from "./message-seller-button";
 import ReportListingButton from "./report-listing-button";
 import DeleteListingButton from "./delete-listing-button";
 import RelistButton from "./relist-button";
+import BackLink from "@/components/back-link";
 
 export const revalidate = 10;
 
@@ -179,8 +180,9 @@ export default async function ListingDetailPage({
 
   return (
     <main className="bg-[#F7F9FC]">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-5">
-        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
+      <div className="bd-page">
+        <BackLink href="/listings" label="Back to listings" />
+        <section className="bd-card p-4 sm:p-5">
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-start">
             <div className="space-y-3">
               <div>

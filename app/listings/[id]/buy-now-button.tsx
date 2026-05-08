@@ -51,7 +51,7 @@ export default function BuyNowButton({ listingId }: { listingId: string }) {
         type="button"
         onClick={buyNow}
         disabled={loading}
-        className="w-full rounded-xl bg-[#1DA1F2] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-95 active:brightness-90 disabled:opacity-60"
+        className="bd-btn bd-btn-primary w-full"
       >
         {loading ? "Processing..." : "Buy Now"}
       </button>

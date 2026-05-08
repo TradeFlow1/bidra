@@ -1,16 +1,30 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-type Props = React.ButtonHTMLAttributes<HTMLButtonElement>;
+type ButtonVariant = "primary" | "secondary" | "outline" | "ghost" | "destructive";
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: ButtonVariant;
+  loading?: boolean;
+};
 
-export function Button({ className, ...props }: Props) {
+const variantClass: Record<ButtonVariant, string> = {
+  primary: "bd-btn-primary",
+  secondary: "bd-btn-secondary",
+  outline: "bd-btn-outline",
+  ghost: "bd-btn-ghost",
+  destructive: "bd-btn-destructive",
+};
+
+export function Button({ className, variant = "secondary", loading = false, disabled, children, ...props }: Props) {
   return (
     <button
-      className={cn(
-        "inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50 disabled:opacity-50 disabled:pointer-events-none",
-        className
-      )}
+      className={cn("bd-btn", variantClass[variant], loading && "bd-btn-loading", className)}
+      disabled={disabled || loading}
+      aria-busy={loading ? "true" : undefined}
       {...props}
-    />
+    >
+      {loading ? <span aria-hidden="true">…</span> : null}
+      {children}
+    </button>
   );
 }

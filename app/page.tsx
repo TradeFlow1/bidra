@@ -4,6 +4,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
+import EmptyState from "@/components/empty-state";
 import HomeCategorySelect from "@/components/home-category-select";
 
 export const revalidate = 10;
@@ -239,8 +240,8 @@ export default async function HomePage() {
               </div>
               <HomeCategorySelect />
               <div className="grid gap-2">
-                <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse active listings</Link>
-                <Link href="/auth/register" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Create a free account</Link>
+                <Link href="/listings" className="bd-btn bd-btn-secondary bd-btn-mobile-full">Browse active listings</Link>
+                <Link href="/auth/register" className="bd-btn bd-btn-secondary bd-btn-mobile-full">Create a free account</Link>
               </div>
             </div>
           </div>
@@ -252,7 +253,7 @@ export default async function HomePage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Explore</div>
               <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Discover active marketplace categories</h2>
             </div>
-            <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+            <Link href="/listings" className="bd-btn bd-btn-secondary">
               View all
             </Link>
           </div>
@@ -263,7 +264,7 @@ export default async function HomePage() {
                   <Link
                     key={entry[0]}
                     href={"/listings?category=" + encodeURIComponent(entry[0])}
-                    className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white"
+                    className="bd-btn bd-btn-secondary bd-btn-mobile-full"
                   >
                     <span>{entry[0]}</span>
                     <span className="ml-2 text-xs font-medium text-[#64748B]">({entry[1]})</span>
@@ -272,7 +273,7 @@ export default async function HomePage() {
               })}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-[#64748B]">Categories will appear as sellers publish active Buy Now and offer listings.</p>
+            <div className="mt-4"><EmptyState title="Categories are warming up" description="Categories appear automatically as active listings are published." actionHref="/listings" actionLabel="Browse listings" /></div>
           )}
         </section>
 
@@ -283,14 +284,14 @@ export default async function HomePage() {
               <h2 className="mt-1 text-[1.9rem] font-extrabold tracking-tight text-[#0F172A]">Latest active listings</h2>
             </div>
 
-            <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+            <Link href="/listings" className="bd-btn bd-btn-secondary">
               View all
             </Link>
           </div>
 
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {latestListings.length ? latestListings.map(renderCard) : (
-              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">Bidra is in early access. New local listings will appear here as sellers publish active items.</p>
+              <EmptyState title="No active listings yet" description="New local listings will appear here as sellers publish items. You can still browse categories or create the first listing for your area." actionHref="/sell/new" actionLabel="Create a listing" />
             )}
           </div>
         </section>
@@ -302,7 +303,7 @@ export default async function HomePage() {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Offer listings</div>
                 <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Make seller-reviewed offers</h2>
               </div>
-              <Link href="/listings?type=OFFERABLE" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+              <Link href="/listings?type=OFFERABLE" className="bd-btn bd-btn-secondary">
                 View all
               </Link>
             </div>
@@ -317,9 +318,9 @@ export default async function HomePage() {
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Buy now listings</div>
-                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Buy Now activation</h2>
+                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Ready-to-buy listings</h2>
               </div>
-              <Link href="/listings?type=BUY_NOW" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
+              <Link href="/listings?type=BUY_NOW" className="bd-btn bd-btn-secondary">
                 View all
               </Link>
             </div>

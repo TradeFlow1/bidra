@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "../styles/bidra-theme.css";
 
-/* PERF-02 mobile premium tap targets */
 .bd-btn,
 .bd-input,
 button,
@@ -26,12 +25,12 @@ button.bd-btn {
 }
 
 @media (max-width: 640px) {
-  .bd-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
   .bd-mobile-stack {
     grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .bd-btn-mobile-full {
+    width: 100%;
+    justify-content: center;
   }
 }

@@ -58,7 +58,7 @@ export default function ShareActions({ url, title, text, label = "Share listing"
           <button
             type="button"
             onClick={handleShare}
-            className="inline-flex items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] transition hover:bg-white"
+            className="bd-btn bd-btn-secondary"
           >
             Share
           </button>
@@ -66,7 +66,7 @@ export default function ShareActions({ url, title, text, label = "Share listing"
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#0F172A] transition hover:bg-white"
+          className="bd-btn bd-btn-secondary"
         >
           {copyState === "copied" ? "Copied" : copyState === "failed" ? "Copy failed" : "Copy link"}
         </button>

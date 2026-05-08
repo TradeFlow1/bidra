@@ -121,7 +121,7 @@ export default function PlaceOfferClient({
           <button
             type="button"
             onClick={() => router.push("/auth/login?next=" + encodeURIComponent("/listings/" + listingId))}
-            className="mt-3 w-full rounded-full border border-[#1D4ED8] bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D4ED8]"
+            className="bd-btn bd-btn-primary mt-3 w-full"
           >
             Log in
           </button>
@@ -185,14 +185,14 @@ export default function PlaceOfferClient({
           inputMode="decimal"
           placeholder="Enter your offer amount, e.g. 25.50"
           disabled={hardDisabled || loading}
-          className="h-11 w-full rounded-xl border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-3 py-2 text-sm text-[var(--bidra-fg)] placeholder:text-[var(--bidra-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--bidra-link)] disabled:opacity-60"
+          className="bd-input"
         />
 
         <button
           type="button"
           onClick={submit}
           disabled={loading || hardDisabled}
-          className="w-full rounded-full border border-[#1D4ED8] bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D4ED8] disabled:opacity-60"
+          className="bd-btn bd-btn-primary w-full"
         >
           {loading ? "Submitting..." : "Place offer safely"}
         </button>
