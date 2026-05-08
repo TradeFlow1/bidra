@@ -169,10 +169,10 @@ export default function ListingCard({
   return (
     <Link
       href={"/listings/" + listing.id}
-      className="group block overflow-hidden rounded-[22px] border border-[#D8E1F0] bg-white shadow-sm transition duration-200 hover:-translate-y-[2px] hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]"
+      className="group block overflow-hidden bd-card bd-card-clickable focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
       aria-label={"View listing and trust signals for " + title}
     >
-      <div className="relative aspect-[1.12/1] w-full overflow-hidden bg-[#EEF2F7]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#EEF2F7]">
         {hasMulti ? (
           <ListingThumbCarousel images={listing.images} title={title} />
         ) : (
@@ -182,7 +182,7 @@ export default function ListingCard({
               alt={title}
               fill
               sizes="(max-width: 768px) 50vw, (max-width: 1400px) 33vw, 25vw"
-              className={isNoPhotos ? "select-none object-contain p-8 opacity-90" : "select-none object-cover transition duration-300 group-hover:scale-[1.02]"}
+              className={isNoPhotos ? "select-none object-contain p-10 opacity-85" : "select-none object-cover transition duration-300 group-hover:scale-[1.02]"}
               draggable={false}
               onDragStart={function (e) { e.preventDefault(); }}
               onContextMenu={function (e) { e.preventDefault(); }}
@@ -191,7 +191,7 @@ export default function ListingCard({
 
             {isNoPhotos ? (
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-black/10 bg-white/96 px-3 py-1 text-[11px] font-semibold tracking-tight text-neutral-700 shadow-sm">
-                Photo coming soon
+                No photo yet
               </div>
             ) : null}
           </>

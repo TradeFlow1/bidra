@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BackButton } from "@/components/ui/back-button";
 import { useEffect, useMemo, useState } from "react";
 import { checkPasswordPolicy, passwordGuidanceText } from "@/lib/password-policy";
 import LocationSuggest from "./location-suggest";
@@ -231,7 +232,8 @@ export default function RegisterPage() {
 
   return (
     <main className={shell}>
-      <div className="container max-w-6xl space-y-4 sm:space-y-5">
+      <div className="mx-auto mb-4 w-full max-w-2xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+<div className="container max-w-6xl space-y-4 sm:space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
           <div className="max-w-3xl">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Join Bidra</div>

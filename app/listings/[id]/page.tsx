@@ -16,6 +16,7 @@ import MessageSellerButton from "./message-seller-button";
 import ReportListingButton from "./report-listing-button";
 import DeleteListingButton from "./delete-listing-button";
 import RelistButton from "./relist-button";
+import { BackButton } from "@/components/ui/back-button";
 
 export const revalidate = 10;
 
@@ -180,6 +181,7 @@ export default async function ListingDetailPage({
   return (
     <main className="bg-[#F7F9FC]">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-5">
+        <BackButton href="/listings" label="Back to listings" />
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_17rem] lg:items-start">
             <div className="space-y-3">
@@ -249,7 +251,7 @@ export default async function ListingDetailPage({
                   </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                   <WatchlistButton listingId={listing.id} authed={!!userId} loginHref="/auth/login" />
                   <MessageSellerButton listingId={listing.id} />
                 </div>

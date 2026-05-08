@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { BackButton } from "@/components/ui/back-button";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -72,7 +73,8 @@ export default async function MessagesInboxPage() {
 
     return (
       <main className="bd-container py-5 sm:py-10">
-        <div className="container max-w-5xl space-y-4 sm:space-y-5">
+        <div className="bd-auto-back-nav mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/dashboard" label="Back to account" /></div>
+<div className="container max-w-5xl space-y-4 sm:space-y-5">
           <InboxAutoRefresh />
 
           <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">

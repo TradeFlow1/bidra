@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 import { prisma } from "@/lib/prisma";
+import { PageHeader } from "@/components/ui/page-header";
 
 export const dynamic = "force-dynamic";
 
@@ -65,23 +66,26 @@ export default async function SellNewPage() {
   return (
     <main className="bd-container py-10">
       <div className="container max-w-5xl">
-        <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Create a buyer-ready listing</h1>
-        <p className="mt-2 text-sm bd-ink2">
-          Follow the first-listing checklist: clear photos, accurate condition, local pickup context, simple pricing, and handover notes that keep buyers confident before they message or buy.
-        </p>
+        <PageHeader
+          title="Create a buyer-ready listing"
+          eyebrow="Sell on Bidra"
+          backHref="/listings"
+          backLabel="Back to marketplace"
+          description="Follow the first-listing checklist: clear photos, accurate condition, local pickup context, simple pricing, and handover notes that keep buyers confident before they message or buy."
+        />
 
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="bd-card p-4">
             <div className="text-xs font-bold uppercase tracking-wide text-neutral-500">Step 1</div>
             <div className="mt-1 text-sm font-extrabold bd-ink">Photos and condition</div>
             <p className="mt-1 text-xs bd-ink2">Show the actual item and mention marks, faults, size, model, and what is included.</p>
           </div>
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="bd-card p-4">
             <div className="text-xs font-bold uppercase tracking-wide text-neutral-500">Step 2</div>
             <div className="mt-1 text-sm font-extrabold bd-ink">Price and sale path</div>
             <p className="mt-1 text-xs bd-ink2">Choose Buy Now for a clear fixed price or timed offers when you want to review interest.</p>
           </div>
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="bd-card p-4">
             <div className="text-xs font-bold uppercase tracking-wide text-neutral-500">Step 3</div>
             <div className="mt-1 text-sm font-extrabold bd-ink">Safe handover notes</div>
             <p className="mt-1 text-xs bd-ink2">Use suburb, state, pickup or postage notes, and keep final details in Messages.</p>

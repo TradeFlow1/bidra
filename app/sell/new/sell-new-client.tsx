@@ -497,7 +497,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
       )}
 
       <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="mt-6 grid gap-5">
-        <section className="rounded-xl border border-black/10 bg-white p-4">
+        <section className="bd-form-card">
           <h2 className="text-base font-extrabold bd-ink">1) Photos</h2>
           <p className="mt-1 text-xs bd-ink2">
             Add clear photos of the actual item. Your first photo becomes the main image shoppers see first and is the fastest buyer trust signal.
@@ -505,11 +505,11 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </p>
 
           <div className="mt-3">
-            <label className="text-sm font-medium">Photos</label>
+            <label className="bd-label">Photos</label>
             <div className="mt-2 flex items-center gap-2 flex-wrap">
               <button
                 type="button"
-                className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
+                className="bd-btn bd-btn-secondary"
                 onClick={() => cameraInputRef.current?.click()}
               >
                 Take photo
@@ -517,7 +517,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
               <button
                 type="button"
-                className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
+                className="bd-btn bd-btn-secondary"
                 onClick={() => galleryInputRef.current?.click()}
               >
                 Add photos
@@ -545,18 +545,18 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             />
 
             {previews.length > 0 && (
-              <div className="mt-3 grid grid-cols-3 gap-2">
+              <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {previews.map((p, idx) => (
-                  <div key={p.url} className="relative h-24 overflow-hidden rounded-md border">
+                  <div key={p.url} className="relative h-32 overflow-hidden rounded-2xl border border-[#D8E1F0] bg-[#F1F5F9] shadow-sm">
                     <button
                       type="button"
                       aria-label="Remove photo"
-                      className="absolute right-1 top-1 rounded-md bg-white/90 px-2 py-1 text-xs font-semibold bd-ink shadow"
+                      className="absolute right-2 top-2 z-10 inline-flex min-h-9 min-w-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white/95 px-2 text-sm font-extrabold text-[#0F172A] shadow"
                       onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
                     >
-                      -
+                      Remove
                     </button>
-                    <Image src={p.url} alt={p.name} fill unoptimized className="object-cover" />
+                    <Image src={p.url} alt={p.name} fill unoptimized className="object-contain p-1" />
                   </div>
                 ))}
               </div>
@@ -564,17 +564,17 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </section>
 
-        <section className="rounded-xl border border-black/10 bg-white p-4">
+        <section className="bd-form-card">
           <h2 className="text-base font-extrabold bd-ink">2) Details</h2>
           <p className="mt-1 text-xs bd-ink2">Add clear details so first-time buyers can trust what they are viewing before they message, buy, or make an offer.</p>
           <div className="mt-3 grid gap-4">
             <div>
-              <label className="text-sm font-medium">Title</label>
-              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <label className="bd-label">Title</label>
+              <input className="mt-1 bd-input" value={title} onChange={(e) => setTitle(e.target.value)} />
               <p className="mt-1 text-xs bd-ink2">Use a specific title with brand/model and key features.</p>
             </div>
 
-            <div className="rounded-xl border border-black/10 bg-white p-4">
+            <div className="bd-form-card">
               <div className="text-sm font-semibold bd-ink">Category</div>
               <div className="mt-1 text-xs bd-ink2">
                 Choose the closest category and subcategory so the listing appears in the right searches.
@@ -599,9 +599,9 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             <div>
-              <label className="text-sm font-medium">Top category</label>
+              <label className="bd-label">Top category</label>
               <select
-                className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
+                className="mt-1 bd-input"
                 value={topCategoryKey}
                 onChange={(e) => {
                   setCategoryTouched(true);
@@ -617,9 +617,9 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             </div>
 
             <div>
-              <label className="text-sm font-medium">Subcategory</label>
+              <label className="bd-label">Subcategory</label>
               <select
-                className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
+                className="mt-1 bd-input"
                 value={subcategoryKey}
                 onChange={(e) => {
                   setCategoryTouched(true);
@@ -644,8 +644,8 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             </div>
 
             <div>
-              <label className="text-sm font-medium">Condition</label>
-              <select className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={condition} onChange={(e) => setCondition(e.target.value)}>
+              <label className="bd-label">Condition</label>
+              <select className="mt-1 bd-input" value={condition} onChange={(e) => setCondition(e.target.value)}>
                 <option value="NEW">New</option>
                 <option value="LIKE_NEW">Like new</option>
                 <option value="USED">Used</option>
@@ -655,8 +655,8 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             </div>
 
             <div>
-              <label className="text-sm font-medium">Description</label>
-              <textarea className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" rows={8} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
+              <label className="bd-label">Description</label>
+              <textarea className="mt-1 bd-input" rows={8} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
               <p className="mt-1 text-xs bd-ink2">Include what is included, faults, and pickup or postage notes.</p>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <button
@@ -681,8 +681,8 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             </div>
 
             <div>
-              <label className="text-sm font-medium">Location</label>
-              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="4000 Brisbane, QLD" />
+              <label className="bd-label">Location</label>
+              <input className="mt-1 bd-input" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="4000 Brisbane, QLD" />
               <p className="mt-1 text-xs text-black/60">
                 Enter suburb/postcode and state so buyers know where pickup or shipping starts.
               </p>
@@ -690,16 +690,16 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </section>
 
-        <section className="rounded-xl border border-black/10 bg-white p-4">
+        <section className="bd-form-card">
           <h2 className="text-base font-extrabold bd-ink">3) Price &amp; sale type</h2>
           <p className="mt-1 text-xs bd-ink2">
             Buy Now sells at a fixed price. Make Offer (timed offers) starts with offers and you choose the outcome at the end.
           </p>
           <div className="mt-3 grid gap-4">
             <div>
-              <label className="text-sm font-medium">Sale type</label>
+              <label className="bd-label">Sale type</label>
               <select
-                className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm"
+                className="mt-1 bd-input"
                 value={type}
                 onChange={(e) => setType(e.target.value as ListingTypeUI)}
               >
@@ -710,30 +710,30 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
         {!isTimedOffers && (
           <div>
-            <label className="text-sm font-medium">Price (AUD)</label>
-            <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={price} onChange={(e) => setPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
+            <label className="bd-label">Price (AUD)</label>
+            <input className="mt-1 bd-input" value={price} onChange={(e) => setPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
           </div>
         )}
 
         {isTimedOffers && (
           <>
             <div>
-              <label className="text-sm font-medium">Starting offer (AUD)</label>
-              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
+              <label className="bd-label">Starting offer (AUD)</label>
+              <input className="mt-1 bd-input" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
               <div className="mt-2 rounded-lg border border-black/10 bg-white px-3 py-3 text-sm bd-ink2">
                 Reserve is not available in this launch version.
               </div>
             </div>
 
             <div>
-              <label className="text-sm font-medium">Buy Now price (AUD) (optional)</label>
-              <input className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={buyNowPrice} onChange={(e) => setBuyNowPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 200" inputMode="decimal" />
+              <label className="bd-label">Buy Now price (AUD) (optional)</label>
+              <input className="mt-1 bd-input" value={buyNowPrice} onChange={(e) => setBuyNowPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 200" inputMode="decimal" />
               <div className="mt-1 text-xs bd-ink2">Only shown until met/exceeded.</div>
             </div>
 
             <div>
-              <label className="text-sm font-medium">Duration</label>
-              <select className="mt-1 w-full rounded-lg border border-black/10 bg-white px-3 py-2 text-sm" value={durationDays} onChange={(e) => setDurationDays(e.target.value)}>
+              <label className="bd-label">Duration</label>
+              <select className="mt-1 bd-input" value={durationDays} onChange={(e) => setDurationDays(e.target.value)}>
                 <option value="3">3 days</option>
                 <option value="5">5 days</option>
                 <option value="7">7 days</option>
@@ -745,7 +745,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </section>
 
-        <section className="rounded-xl border border-black/10 bg-white p-4">
+        <section className="bd-form-card">
           <h2 className="text-base font-extrabold bd-ink">4) Review</h2>
           <p className="mt-1 text-xs bd-ink2">Quick first-listing check before publishing.</p>
           <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
