@@ -38,7 +38,7 @@ function UpdateCard(props: {
           <CountPill label={props.countLabel} value={props.count} />
         </div>
 
-        <div className="mt-6 inline-flex rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+        <div className="mt-6 inline-flex bd-btn bd-btn-secondary text-center">
           {props.action}
         </div>
       </div>
@@ -109,7 +109,7 @@ export default async function NotificationsPage() {
                 </div>
               </div>
 
-              <div className="inline-flex w-fit rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+              <div className="inline-flex w-fit bd-btn bd-btn-secondary text-center">
                 View orders
               </div>
             </div>

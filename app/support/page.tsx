@@ -29,10 +29,10 @@ export default function SupportPage() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <Link href="/contact" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+              <Link href="/contact" className="bd-btn bd-btn-secondary text-center">
                 Contact support
               </Link>
-              <Link href="/how-it-works" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+              <Link href="/how-it-works" className="bd-btn bd-btn-secondary text-center">
                 How it works
               </Link>
             </div>
@@ -79,9 +79,9 @@ export default function SupportPage() {
             </div>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/contact">Contact support</Link>
-            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/feedback">Send feedback</Link>
-            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/legal/fees">Read fees</Link>
+            <Link className="bd-btn bd-btn-secondary text-center" href="/contact">Contact support</Link>
+            <Link className="bd-btn bd-btn-secondary text-center" href="/feedback">Send feedback</Link>
+            <Link className="bd-btn bd-btn-secondary text-center" href="/legal/fees">Read fees</Link>
           </div>
         </SectionCard>
 
@@ -126,9 +126,9 @@ export default function SupportPage() {
         <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Read more</div>
           <div className="mt-3 flex flex-wrap gap-2 text-sm">
-            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/how-it-works">How it works</Link>
-            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/legal/prohibited-items">Prohibited items</Link>
-            <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/legal/terms">Terms</Link>
+            <Link className="bd-btn bd-btn-secondary text-center" href="/how-it-works">How it works</Link>
+            <Link className="bd-btn bd-btn-secondary text-center" href="/legal/prohibited-items">Prohibited items</Link>
+            <Link className="bd-btn bd-btn-secondary text-center" href="/legal/terms">Terms</Link>
           </div>
         </div>
       </div>

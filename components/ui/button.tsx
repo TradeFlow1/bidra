@@ -28,7 +28,7 @@ const sizeClasses: Record<ButtonSize, string> = {
 export function Button({ className, variant, size = "md", loading = false, disabled, children, ...props }: Props) {
   return (
     <button
-      className={cn("bd-btn border", variant ? variantClasses[variant] : null, sizeClasses[size], className)}
+      className={cn("bd-btn border", variant ? variant ? variantClasses[variant] : null : null, sizeClasses[size], className)}
       type="button"
       disabled={disabled || loading}
       aria-busy={loading || undefined}

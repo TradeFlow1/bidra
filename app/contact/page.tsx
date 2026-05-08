@@ -14,7 +14,7 @@ function SectionTitle(props: { children: React.ReactNode }) {
   return <h2 className="text-lg font-extrabold tracking-tight bd-ink">{props.children}</h2>;
 }
 
-const buttonClass = "rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5";
+const buttonClass = "bd-btn bd-btn-secondary text-center";
 
 export default async function ContactPage() {
   const session = await auth();

@@ -73,7 +73,7 @@ export default async function MessagesInboxPage() {
 
     return (
       <main className="bd-container py-5 sm:py-10">
-        <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/dashboard" label="Back to account" /></div>
+        <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
         <div className="container max-w-5xl space-y-4 sm:space-y-5">
           <InboxAutoRefresh />
 
@@ -117,10 +117,10 @@ export default async function MessagesInboxPage() {
                   Start the conversation by asking about pickup, condition, or availability. Messages from listings and sold-item records will appear here.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
-                  <Link href="/listings" className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto">
+                  <Link href="/listings" className="w-full bd-btn bd-btn-secondary text-center sm:w-auto">
                     Browse listings
                   </Link>
-                  <Link href="/dashboard" className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto">
+                  <Link href="/dashboard" className="w-full bd-btn bd-btn-secondary text-center sm:w-auto">
                     Back to dashboard
                   </Link>
                 </div>
@@ -219,8 +219,8 @@ export default async function MessagesInboxPage() {
               Please try again shortly. If this keeps happening, use Support.
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
-              <Link className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto" href="/dashboard">Dashboard</Link>
-              <Link className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto" href="/support">Support</Link>
+              <Link className="w-full bd-btn bd-btn-secondary text-center sm:w-auto" href="/dashboard">Dashboard</Link>
+              <Link className="w-full bd-btn bd-btn-secondary text-center sm:w-auto" href="/support">Support</Link>
             </div>
           </div>
         </div>

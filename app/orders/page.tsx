@@ -46,7 +46,7 @@ export default async function OrdersPage() {
   const feedbackDueCount = orders.filter((o: any) => String(o.outcome) === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))).length;
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/dashboard" label="Back to account" /></div>
+      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -82,8 +82,8 @@ export default async function OrdersPage() {
                 When Buy Now is used or your offer is accepted, the sold-item record appears here so you can continue safely in Messages.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
-                <Link href="/listings" className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto">Browse listings</Link>
-                <Link href="/sell/new" className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto">Create a listing</Link>
+                <Link href="/listings" className="w-full bd-btn bd-btn-secondary text-center sm:w-auto">Browse listings</Link>
+                <Link href="/sell/new" className="w-full bd-btn bd-btn-secondary text-center sm:w-auto">Create a listing</Link>
               </div>
             </div>
           </div>
@@ -155,7 +155,7 @@ export default async function OrdersPage() {
                       {isPending ? (
                         <Link
                           href={`/orders/${o.id}`}
-                          className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
+                          className="bd-btn bd-btn-secondary text-center"
                         >
                           <span className="block">Order details</span>
                           <span className="mt-1 block text-xs bd-ink2">Next action: message to agree payment and handover</span>
@@ -163,7 +163,7 @@ export default async function OrdersPage() {
                       ) : (
                         <Link
                           href={`/orders/${o.id}`}
-                          className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5"
+                          className="bd-btn bd-btn-secondary text-center"
                         >
                           <span className="block">Order details</span>
                           <span className="mt-1 block text-xs bd-ink2">Order ID: {String(o.id).slice(-6)}</span>
