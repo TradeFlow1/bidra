@@ -34,7 +34,7 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
             return;
           }
           (e.currentTarget as HTMLFormElement).reset();
-          setNote("Message sent. We’ll get back to you as soon as we can.");
+          setNote("Message sent. Weâ€™ll get back to you as soon as we can.");
         } catch {
           setError("We could not send your message. Please try again shortly.");
         }
@@ -78,7 +78,7 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
         />
       </div>
 
-      <button type="submit" className="inline-flex w-fit rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+      <button type="submit" className="inline-flex w-fit bd-btn bd-btn-secondary text-center">
         Send message
       </button>
 

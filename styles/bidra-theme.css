@@ -1,4 +1,6 @@
-﻿/* Bidra Theme Tokens (v1)
+/* Generic bd-* utilities are authored in app/globals.css.
+   Keep this file focused on theme tokens, hero, header, text helpers, and brand-level styling. */
+/* Bidra Theme Tokens (v1)
    HARD RULE: Brand ICON + LOGO do not change.
    This file only defines supporting colours + surfaces.
 */

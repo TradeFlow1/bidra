@@ -549,16 +549,16 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             {previews.length > 0 && (
               <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {previews.map((p, idx) => (
-                  <div key={p.url} className="relative h-32 overflow-hidden rounded-2xl border border-[#D8E1F0] bg-[#F1F5F9] shadow-sm">
+                  <div key={p.url} className="relative h-32 overflow-hidden rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] shadow-sm">
                     <button
                       type="button"
                       aria-label="Remove photo"
-                      className="absolute right-2 top-2 z-10 inline-flex min-h-9 min-w-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white/95 px-2 text-sm font-extrabold text-[#0F172A] shadow"
+                      className="absolute right-2 top-2 z-10 inline-flex min-h-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white/95 px-3 text-xs font-extrabold text-[#0F172A] shadow-sm hover:bg-[#F8FAFC]"
                       onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
                     >
                       Remove
                     </button>
-                    <Image src={p.url} alt={p.name} fill unoptimized className="object-contain p-1" />
+                    <Image src={p.url} alt={p.name} fill unoptimized className="object-contain p-2" />
                   </div>
                 ))}
               </div>
@@ -573,7 +573,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             <div>
               <label className="bd-label" htmlFor="field-title">Title</label>
               <input id="field-title" className="mt-1 bd-input" value={title} onChange={(e) => setTitle(e.target.value)} />
-              <p className="mt-1 text-xs bd-ink2">Use a specific title with brand/model and key features.</p>
+              <p className="mt-1 text-xs bd-ink2">Use a specific title with brand, model, size, colour, or key features where relevant.</p>
             </div>
 
             <div className="bd-form-card">
@@ -587,7 +587,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                   <span>Suggested: <span className="font-semibold bd-ink">{suggestedCategory.categoryLabel}</span></span>
                   <button
                     type="button"
-                    className="rounded-xl border border-black/20 bg-white px-4 py-2 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
+                    className="bd-btn bd-btn-secondary"
                     onClick={() => {
                       setCategoryTouched(true);
                       setTopCategoryKey(suggestedCategory.categoryKey);
@@ -665,7 +665,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <button
                   type="button"
-                  className="rounded-xl border border-black/20 bg-white px-4 py-2 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
+                  className="bd-btn bd-btn-secondary"
                   onClick={() => {
                     const priceLabel = type === "TIMED_OFFERS" ? (startingBid ? `$${startingBid} starting` : "") : (price ? `$${price}` : "");
                     const draft = suggestDescriptionDraft({
@@ -752,7 +752,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
         <section className="bd-form-card">
           <h2 className="text-base font-extrabold bd-ink">4) Review</h2>
-          <p className="mt-1 text-xs bd-ink2">Quick first-listing check before publishing.</p>
+          <p className="mt-1 text-xs bd-ink2">Review the buyer-facing details before publishing.</p>
           <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
             <div><dt className="text-xs uppercase tracking-wide bd-ink2">Title</dt><dd className="font-medium bd-ink">{title.trim() || "Not set"}</dd></div>
             <div><dt className="text-xs uppercase tracking-wide bd-ink2">Sale type</dt><dd className="font-medium bd-ink">{reviewSaleType}</dd></div>

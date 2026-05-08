@@ -70,3 +70,127 @@ button.bd-btn {
   .bd-page-title { font-size: 1.875rem; line-height: 2.25rem; }
   .bd-card, .bd-empty-state { border-radius: 22px; }
 }
+/* BIDRA_MILLION_DOLLAR_POLISH_START */
+
+/*
+  Bidra public-launch marketplace polish.
+  Keep this block focused on visual consistency, mobile usability, trust clarity,
+  and safe marketplace interaction states. Do not put product claims here.
+*/
+
+@layer utilities {
+  .bd-marketplace-section { @apply rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6; }
+  .bd-marketplace-muted { @apply text-sm leading-6 text-[#475569]; }
+  .bd-marketplace-title { @apply text-2xl font-extrabold tracking-tight text-[#0F172A] sm:text-3xl; }
+  .bd-marketplace-subtitle { @apply mt-2 max-w-3xl text-sm leading-6 text-[#475569] sm:text-base; }
+  .bd-action-row { @apply flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center; }
+  .bd-action-row > .bd-btn, .bd-action-row > a.bd-btn, .bd-action-row > button.bd-btn { @apply w-full sm:w-auto; }
+  .bd-trust-panel { @apply rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950; }
+  .bd-warning-panel { @apply rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950; }
+  .bd-info-panel { @apply rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-950; }
+  .bd-danger-panel { @apply rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-950; }
+  .bd-card-grid { @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4; }
+  .bd-readable-prose { @apply text-sm leading-7 text-[#334155] sm:text-base; }
+  .bd-readable-prose h2 { @apply mt-6 text-xl font-extrabold tracking-tight text-[#0F172A]; }
+  .bd-readable-prose h3 { @apply mt-5 text-base font-extrabold tracking-tight text-[#0F172A]; }
+  .bd-readable-prose p { @apply mt-3; }
+  .bd-readable-prose ul { @apply mt-3 list-disc space-y-2 pl-5; }
+  .bd-readable-prose a { @apply font-semibold text-[#1D4ED8] underline underline-offset-4; }
+  .bd-image-frame { @apply overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC]; }
+  .bd-image-contain { object-fit: contain; }
+  .bd-image-cover { object-fit: cover; }
+  .bd-form-stack { @apply grid gap-4; }
+  .bd-form-row { @apply grid gap-3 sm:grid-cols-2; }
+  .bd-sticky-safe { scroll-margin-top: 96px; }
+}
+
+a.bd-btn, button.bd-btn {
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+button.bd-btn[aria-busy='true'],
+button[aria-busy='true'] {
+  cursor: wait;
+}
+
+.bd-btn svg,
+.bd-back-link svg {
+  flex-shrink: 0;
+}
+
+.bd-card,
+.bd-form-card,
+.bd-empty-state,
+.bd-marketplace-section {
+  overflow-wrap: anywhere;
+}
+
+.bd-input:focus,
+.bd-btn:focus-visible,
+.bd-back-link:focus-visible {
+  outline-offset: 3px;
+}
+
+.bd-card img,
+.bd-image-frame img {
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .bd-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .bd-page-shell {
+    padding-top: 1rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .bd-page-title,
+  .bd-marketplace-title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    letter-spacing: -0.03em;
+  }
+
+  .bd-page-description,
+  .bd-marketplace-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.6rem;
+  }
+
+  .bd-card,
+  .bd-form-card,
+  .bd-empty-state,
+  .bd-marketplace-section {
+    border-radius: 22px;
+  }
+
+  .bd-btn {
+    min-height: 46px;
+  }
+
+  .bd-badge {
+    min-height: 28px;
+  }
+
+  .bd-mobile-full-actions > .bd-btn,
+  .bd-mobile-full-actions > a.bd-btn,
+  .bd-mobile-full-actions > button.bd-btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bd-card-clickable,
+  .bd-btn,
+  .bd-back-link {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* BIDRA_MILLION_DOLLAR_POLISH_END */

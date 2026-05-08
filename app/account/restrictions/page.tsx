@@ -71,10 +71,10 @@ export default async function RestrictionsPage() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <Link href="/dashboard" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+              <Link href="/dashboard" className="bd-btn bd-btn-secondary text-center">
                 Dashboard
               </Link>
-              <Link href="/contact" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+              <Link href="/contact" className="bd-btn bd-btn-secondary text-center">
                 Contact support
               </Link>
             </div>
