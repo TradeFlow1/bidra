@@ -697,7 +697,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         <section className="bd-form-card">
           <h2 className="text-base font-extrabold bd-ink">3) Price &amp; sale type</h2>
           <p className="mt-1 text-xs bd-ink2">
-            Buy Now sells at a fixed price. Make Offer (timed offers) starts with offers and you choose the outcome at the end.
+            Buy Now sells at a fixed price. Timed offers let buyers place offers and you choose the outcome when the offer window ends.
           </p>
           <div className="mt-3 grid gap-4">
             <div>
@@ -726,14 +726,14 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                   <label className="bd-label" htmlFor="field-starting-bid">Starting offer (AUD)</label>
                   <input id="field-starting-bid" className="mt-1 bd-input" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
                   <div className="mt-2 rounded-lg border border-black/10 bg-white px-3 py-3 text-sm bd-ink2">
-                    Reserve is not available in this launch version.
+                    Reserve price is not available for this sale type.
                   </div>
                 </div>
 
                 <div>
                   <label className="bd-label" htmlFor="field-buy-now-price">Buy Now price (AUD) (optional)</label>
                   <input id="field-buy-now-price" className="mt-1 bd-input" value={buyNowPrice} onChange={(e) => setBuyNowPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 200" inputMode="decimal" />
-                  <div className="mt-1 text-xs bd-ink2">Only shown until met/exceeded.</div>
+                  <div className="mt-1 text-xs bd-ink2">Optional instant-buy price for buyers who do not want to wait.</div>
                 </div>
 
                 <div>
@@ -768,7 +768,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               {publishReady ? "Ready to publish" : "Before you publish"}
             </div>
             {publishReady ? (
-              <p className="mt-1 text-sm text-emerald-900">All required listing details are complete.</p>
+              <p className="mt-1 text-sm text-emerald-900">All required buyer-facing details are complete.</p>
             ) : (
               <ul className="mt-2 grid gap-2 text-sm text-amber-950 sm:grid-cols-2">
                 {missingRequirements.map((item) => (
@@ -782,7 +782,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </section>
 
-        <button type="submit" disabled={busy || !publishReady} className="mx-auto rounded-xl border border-black/20 bg-black px-8 py-3 text-center text-sm font-extrabold text-white shadow-sm hover:bg-black/80 disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none">
+        <button type="submit" disabled={busy || !publishReady} className="bd-btn bd-btn-primary mx-auto w-full sm:w-auto">
           {busy ? "Saving..." : "Publish listing"}
         </button>
       </form>

@@ -24,7 +24,7 @@ function SafetyNote() {
       <ul className="mt-2 list-disc space-y-1.5 pl-5">
         <li>Keep pickup, postage, payment expectations, refunds, and handover details in this thread.</li>
         <li>Never share passwords, one-time codes, ID photos, gift cards, crypto transfers, or suspicious payment links.</li>
-        <li>Stop and report the thread if someone pressures you to leave Bidra before the key terms are clear.</li>
+        <li>Report the thread if someone pressures you to leave Bidra before the key terms are clear.</li>
       </ul>
     </div>
   );
@@ -221,7 +221,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
             <div className="text-sm font-semibold text-[var(--bidra-ink)]">Send a message</div>
             <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-              Keep messages relevant to the item, pickup, postage, payment expectations, and sale. Do not move arrangements off-platform before trust is established.
+              Keep messages focused on the item, pickup, postage, payment expectations, and handover details.
             </div>
             <div className="mt-4">
               <SendBox threadId={thread.id} />

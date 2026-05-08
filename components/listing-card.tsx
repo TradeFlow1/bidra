@@ -195,7 +195,7 @@ export default function ListingCard({
 
             {isNoPhotos ? (
               <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-black/10 bg-white/96 px-3 py-1 text-[11px] font-semibold tracking-tight text-neutral-700 shadow-sm">
-                No photo yet
+                No photo
               </div>
             ) : null}
           </>
@@ -263,18 +263,18 @@ export default function ListingCard({
           <div className="mt-1 text-[23px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
           <div className="mt-1 text-[11px] font-medium text-[#64748B]">
             {isTimedOffers ? (
-              currentOffer !== null ? "Lead with your strongest offer." : "Be the first to make an offer." 
+              currentOffer !== null ? "Place your strongest offer." : "Be first to offer."
             ) : hasBuyNow ? (
-              "Fixed price listing."
+              "Fixed price."
             ) : (
-              "Check details and message the seller." 
+              "Check details first."
             )}
           </div>
         </div>
         {isTimedOffers ? (
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-[#64748B]">
             <span>{currentOffer !== null ? `Current offer ${money(currentOffer)}` : "No offers yet"}</span>
-            <span>{offerCount && offerCount > 0 ? `${offerCount} ${offerCount === 1 ? "offer" : "offers"}` : "No offer history yet"}</span>
+            <span>{offerCount && offerCount > 0 ? `${offerCount} ${offerCount === 1 ? "offer" : "offers"}` : "No offers yet"}</span>
           </div>
         ) : null}
 
