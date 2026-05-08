@@ -59,7 +59,7 @@ export default function MessageSellerButton(props: { listingId: string }) {
 
       const threadId = data?.thread?.id
       if (!threadId) {
-        setErr("Missing thread id from server.")
+        setErr("We could not open messages. Please try again.")
         setBusy(false)
         return
       }
@@ -77,7 +77,7 @@ export default function MessageSellerButton(props: { listingId: string }) {
         type="button"
         onClick={onClick}
         disabled={busy}
-        className="w-full rounded-xl border border-black/20 bg-white px-4 py-3 text-[15px] font-extrabold text-black shadow-sm hover:bg-black/5 disabled:opacity-60"
+        className="bd-btn bd-btn-secondary w-full"
       >
         {busy ? "Opening chat..." : "Message seller"}
       </button>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card, Button, Input } from "@/components/ui";
+import BackLink from "@/components/back-link";
 
 function friendlyAuthError(raw: string) {
   const s = String(raw || "");
@@ -54,6 +55,7 @@ export default function Login() {
   return (
     <main className="bd-container py-5 sm:py-10">
       <div className="container max-w-5xl space-y-4 sm:space-y-5">
+        <BackLink href="/" label="Back to marketplace" />
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
           <div className="max-w-3xl">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Welcome back</div>
@@ -181,7 +183,7 @@ export default function Login() {
                 </Link>
               </div>
 
-              <Button type="submit" className="bd-btn bd-btn-primary w-full">
+              <Button type="submit" variant="primary" className="w-full">
                 Log in
               </Button>
 

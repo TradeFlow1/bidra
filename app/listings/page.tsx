@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { Prisma, ListingType } from "@prisma/client";
 import ListingCard from "@/components/listing-card";
+import BackLink from "@/components/back-link";
 import MobileFiltersToggle from "@/components/mobile-filters-toggle";
 import { authOptions } from "@/lib/auth";
 import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
@@ -354,7 +355,8 @@ export default async function ListingsPage({
 
   return (
     <main className="bg-[#F7F9FC]">
-      <div className="mx-auto w-full max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
+      <div className="bd-page">
+        <BackLink href="/" label="Back to home" />
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse active marketplace listings</h1>
           <p className="mt-2 text-sm text-[#475569]">Search active Australian marketplace listings by keyword, category, suburb, city, postcode, sale type, condition, and trusted seller signals. Create a free account to watch items, buy, offer, sell, and message safely.</p>
@@ -390,15 +392,15 @@ export default async function ListingsPage({
               <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Guided discovery shortcuts</h2>
               <p className="mt-1 text-xs text-[#64748B]">Start broad, then narrow by category, Buy Now, offers, or local pickup confidence.</p>
               <div className="mt-3 flex flex-wrap gap-2">
-                <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#0F172A]">All active listings</Link>
-                <Link href={buildHref({ q, category, location, condition, min, max, sort, type: "BUY_NOW" })} className="bd-mobile-tap-target inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800">Buy Now deals</Link>
-                <Link href={buildHref({ q, category, location, condition, min, max, sort, type: "OFFERABLE" })} className="bd-mobile-tap-target inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-800">Offer listings</Link>
+                <Link href="/listings" className="bd-badge">All active listings</Link>
+                <Link href={buildHref({ q, category, location, condition, min, max, sort, type: "BUY_NOW" })} className="bd-badge bd-badge-green">Buy Now deals</Link>
+                <Link href={buildHref({ q, category, location, condition, min, max, sort, type: "OFFERABLE" })} className="bd-badge bd-badge-amber">Offer listings</Link>
                 {categoryShortcuts.map(function (label) {
                   return (
                     <Link
                       key={label}
                       href={buildHref({ q, location, type, condition, min, max, sort, category: label })}
-                      className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#0F172A]"
+                      className="bd-badge"
                     >
                       {label}
                     </Link>
@@ -428,7 +430,7 @@ export default async function ListingsPage({
                       <Link
                         key={item.label + ":" + item.href}
                         href={item.href}
-                        className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-2 text-xs font-medium text-[#334155] shadow-sm"
+                        className="bd-badge"
                       >
                         <span>{item.label}</span>
                         <span className="ml-2 text-[#94A3B8]" aria-hidden="true">x</span>

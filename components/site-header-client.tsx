@@ -66,14 +66,14 @@ export default function SiteHeaderClient({
   }, []);
 
   function utilityButtonClass(active: boolean) {
-    return "inline-flex h-10 items-center justify-center rounded-full border px-4 text-[13px] font-semibold shadow-sm transition " +
+    return "inline-flex min-h-11 items-center justify-center rounded-[14px] border px-4 text-[13px] font-bold shadow-sm transition " +
       (active
         ? "border-white bg-white text-[#0F172A]"
         : "border-white/18 bg-white/10 text-white hover:bg-white/16");
   }
 
-  const searchInputClass = "w-full rounded-full border border-[#CBD5E1] bg-white px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-neutral-500 shadow-sm focus:border-[#1D4ED8]";
-  const menuLinkClass = "block w-full rounded-xl px-3 py-2.5 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
+  const searchInputClass = "bd-input rounded-[14px] bg-white text-sm shadow-sm";
+  const menuLinkClass = "block min-h-11 w-full rounded-[14px] px-3 py-3 text-left text-[13px] font-bold text-[#0F172A] transition hover:bg-[#EEF4FF]";
 
   const badge = notificationCount > 0 ? (
     <span className="ml-2 inline-flex min-w-[20px] items-center justify-center rounded-full bg-[#2563EB] px-1.5 py-0.5 text-[11px] font-bold text-white">
@@ -171,7 +171,7 @@ export default function SiteHeaderClient({
           </div>
 
           <div className="flex shrink-0 items-center gap-3 justify-self-end">
-            <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
+            <Link href="/sell" className="inline-flex min-h-11 items-center justify-center rounded-[14px] border border-white/16 bg-white px-4 text-[13px] font-bold text-[#0F172A] shadow-sm transition hover:bg-white/95">
               Sell
             </Link>
 
@@ -195,7 +195,7 @@ export default function SiteHeaderClient({
             ) : (
               <>
                 <Link href="/auth/login" className={utilityButtonClass(false)}>Sign in</Link>
-                <Link href="/auth/register" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white/10 px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16">
+                <Link href="/auth/register" className="inline-flex min-h-11 items-center justify-center rounded-[14px] border border-white/18 bg-white/10 px-4 text-[13px] font-bold text-white shadow-sm transition hover:bg-white/16">
                   Create account
                 </Link>
               </>
@@ -212,7 +212,7 @@ export default function SiteHeaderClient({
             </Link>
 
             <div className="ml-auto flex items-center gap-2">
-              <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
+              <Link href="/sell" className="inline-flex min-h-11 items-center justify-center rounded-[14px] border border-white/18 bg-white px-4 text-[13px] font-bold text-[#0F172A] shadow-sm transition hover:bg-white/95">
                 Sell
               </Link>
 

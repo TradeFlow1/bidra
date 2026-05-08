@@ -5,6 +5,7 @@ import type { ListingStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Card, Badge } from "@/components/ui";
+import BackLink from "@/components/back-link";
 import { isTimedOffersType } from "@/lib/listing-type";
 import DeleteListingButton from "@/components/delete-listing-button";
 
@@ -101,6 +102,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
   return (
     <main className="bd-container py-10">
       <div className="container max-w-6xl">
+        <BackLink href="/dashboard" label="Back to account" className="mb-4" />
         <div className="flex flex-col gap-5">
           <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -113,10 +115,10 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
               </div>
 
               <div className="flex flex-wrap gap-2">
-                <Link href="/sell/new" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                <Link href="/sell/new" className="bd-btn bd-btn-secondary text-center">
                   Create new listing
                 </Link>
-                <Link href="/listings" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                <Link href="/listings" className="bd-btn bd-btn-secondary text-center">
                   Browse marketplace
                 </Link>
               </div>
@@ -165,10 +167,10 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                   Start with your first listing, add clear details, and keep handover expectations in Messages.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
-                  <Link href="/sell/new" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                  <Link href="/sell/new" className="bd-btn bd-btn-secondary text-center">
                     Create listing
                   </Link>
-                  <Link href="/how-it-works" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                  <Link href="/how-it-works" className="bd-btn bd-btn-secondary text-center">
                     How it works
                   </Link>
                 </div>
@@ -224,10 +226,10 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
 
                       <div className="flex flex-col gap-3 lg:w-[260px]">
                         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-2">
-                          <Link href={"/listings/" + l.id} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                          <Link href={"/listings/" + l.id} className="bd-btn bd-btn-secondary text-center">
                             View listing
                           </Link>
-                          <Link href={"/sell/edit/" + l.id} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                          <Link href={"/sell/edit/" + l.id} className="bd-btn bd-btn-secondary text-center">
                             Edit listing
                           </Link>
                         </div>
@@ -243,7 +245,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                               <option value="ACTIVE">Active</option>
                               <option value="ENDED">Ended</option>
                             </select>
-                            <button type="submit" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                            <button type="submit" className="bd-btn bd-btn-secondary text-center">
                               Update
                             </button>
                           </div>

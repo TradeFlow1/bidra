@@ -103,8 +103,8 @@ export default function ListingImageGallery(props: { images: any; title?: string
   if (!imgs.length) {
     return (
       <div className="w-full">
-        <div className="overflow-hidden rounded-[28px] border border-black/10 bg-gradient-to-br from-neutral-50 to-neutral-100 shadow-sm">
-          <div className="flex h-[280px] items-center justify-center px-6 text-center md:h-[480px]">
+        <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-gradient-to-br from-slate-50 to-slate-100 shadow-sm">
+          <div className="flex h-[300px] items-center justify-center px-6 text-center sm:h-[420px] md:h-[520px]">
             <div className="max-w-sm">
               <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-sm font-semibold text-neutral-800 shadow-sm">
                 Photo
@@ -122,14 +122,14 @@ export default function ListingImageGallery(props: { images: any; title?: string
 
   return (
     <div className="w-full">
-      <div className="relative overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-sm">
+      <div className="relative overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
         <div
           ref={scroller}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
           onMouseUp={endDrag}
           onMouseLeave={endDrag}
-          className="flex w-full overflow-x-auto scroll-smooth snap-x snap-mandatory select-none bg-neutral-100"
+          className="flex w-full overflow-x-auto scroll-smooth snap-x snap-mandatory select-none bg-[#F8FAFC]"
           style={{
             scrollbarWidth: "none",
             userSelect: "none",
@@ -140,13 +140,13 @@ export default function ListingImageGallery(props: { images: any; title?: string
         >
           {imgs.map((src, i) => (
             <div key={i} className="relative w-full flex-shrink-0 snap-start">
-              <div className="relative h-[320px] w-full md:h-[520px]">
+              <div className="relative h-[320px] w-full sm:h-[440px] md:h-[560px]">
                 <Image
                   src={src}
                   alt={title}
                   fill
                   sizes="100vw"
-                  className="object-cover select-none"
+                  className="object-contain select-none"
                   draggable={false}
                   onDragStart={(e) => e.preventDefault()}
                   onContextMenu={(e) => e.preventDefault()}
@@ -206,8 +206,8 @@ export default function ListingImageGallery(props: { images: any; title?: string
                 key={i}
                 type="button"
                 onClick={() => go(i)}
-                aria-label={`View photo ${i + 1}`}
-                className={active ? "min-h-11 w-8 rounded-full bg-neutral-900 transition-all" : "min-h-11 w-5 rounded-full bg-neutral-300 transition-all hover:bg-neutral-400"}
+                aria-label={`View photo ${i + 1} of ${imgs.length}`}
+                className={active ? "min-h-11 w-8 rounded-full bg-[#0F172A] transition-all" : "min-h-11 w-5 rounded-full bg-[#CBD5E1] transition-all hover:bg-[#94A3B8]"}
               />
             );
           })}

@@ -6,6 +6,7 @@ import { requireAdult } from "@/lib/require-adult";
 import DateTimeText from "@/components/date-time-text";
 import { getNotificationCounts } from "@/lib/notifications";
 import { Card, Button, Input } from "@/components/ui";
+import BackLink from "@/components/back-link";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -195,6 +196,7 @@ export default async function DashboardPage({
   return (
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
+        <BackLink href="/" label="Back to marketplace" />
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Current account role</div>
           <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
@@ -356,7 +358,7 @@ export default async function DashboardPage({
                 </div>
               </div>
 
-              <Button type="submit" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5">
+              <Button type="submit" variant="primary">
                 Save changes
               </Button>
 

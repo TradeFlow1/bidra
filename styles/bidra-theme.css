@@ -1,138 +1,95 @@
-﻿/* Bidra Theme Tokens (v1)
-   HARD RULE: Brand ICON + LOGO do not change.
-   This file only defines supporting colours + surfaces.
+/* Bidra Theme Tokens (launch polish)
+   HARD RULE: Brand icon + logo do not change.
 */
 :root{
-  /* Canvas / surfaces */
   --bidra-canvas:#F7F8FB;
   --bidra-surface:#FFFFFF;
-  --bidra-surface-2:#F2F4F8;
-
-  /* Borders */
-  --bidra-border:#E6E8EF;
-
-  /* Text */
-  --bidra-ink:#111827;
-  --bidra-ink-2:#6B7280;
-  --bidra-ink-3:#9CA3AF;
-
-  /* Brand */
-  --bidra-blue:#3B82F6;
-  --bidra-blue-2:#2563EB;
-  --bidra-blue-soft:#EAF1FF;
-
-  /* Header / footer dark */
-  
-/* Header matches hero */
-.bd-header{
-  background:
-    radial-gradient(1200px 420px at 15% 10%, rgba(59,130,246,0.22), rgba(0,0,0,0)),
-    linear-gradient(180deg, rgba(15,23,42,0.96), rgba(15,23,42,0.78));
-}
---bidra-dark:#0F172A;
+  --bidra-surface-2:#F2F5FA;
+  --bidra-border:#D8E1F0;
+  --bidra-border-soft:#E6EDF7;
+  --bidra-ink:#0F172A;
+  --bidra-ink-2:#475569;
+  --bidra-ink-3:#64748B;
+  --bidra-blue:#2563EB;
+  --bidra-blue-2:#1D4ED8;
+  --bidra-blue-soft:#EFF6FF;
+  --bidra-success:#047857;
+  --bidra-warning:#B45309;
+  --bidra-danger:#B91C1C;
+  --bidra-dark:#0F172A;
   --bidra-dark-2:#111C33;
-
-  /* Radii */
-  --bidra-radius-card:14px;
-  --bidra-radius-input:12px;
-  --bidra-radius-btn:12px;
-
-  /* Shadows (clean + premium, not heavy) */
-  --bidra-shadow-card:0 10px 30px rgba(15,23,42,.08);
-  --bidra-shadow-float:0 18px 60px rgba(15,23,42,.14);
+  --bidra-radius-card:24px;
+  --bidra-radius-input:14px;
+  --bidra-radius-btn:14px;
+  --bidra-shadow-card:0 10px 30px rgba(15,23,42,.07);
+  --bidra-shadow-hover:0 18px 42px rgba(15,23,42,.11);
+  --bidra-shadow-float:0 20px 60px rgba(15,23,42,.16);
 }
 
-/* Page defaults */
-html,body{
-  background:var(--bidra-canvas);
-  color:var(--bidra-ink);
-}
-
-/* Links */
+html,body{ background:var(--bidra-canvas); color:var(--bidra-ink); }
 a{ color:var(--bidra-blue-2); }
 a:hover{ color:var(--bidra-blue); }
+:focus-visible{ outline:3px solid rgba(37,99,235,.28); outline-offset:3px; }
 
-/* Focus ring (premium, not neon) */
-:focus-visible{
-  outline:2px solid rgba(59,130,246,.35);
-  outline-offset:2px;
+.bd-header{
+  background:radial-gradient(1200px 420px at 15% 10%, rgba(59,130,246,0.22), rgba(0,0,0,0)),linear-gradient(180deg, rgba(15,23,42,0.96), rgba(15,23,42,0.82));
 }
- 
-/* Bidra System A Utilities (v1)
-   Use these across ALL pages. No inline styles.
-   NOTE: Color is driven by CSS variables (var(--bidra-*)), not Tailwind theme colors.
-*/
+
 @layer utilities {
-  .bd-container { @apply mx-auto w-full max-w-[980px] px-4; }
+  .bd-container { @apply mx-auto w-full max-w-7xl px-4 sm:px-5 lg:px-6; }
+  .bd-page { @apply mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:gap-5 sm:px-5 sm:py-6 lg:px-6; }
+  .bd-narrow { @apply mx-auto w-full max-w-5xl px-4 sm:px-5 lg:px-6; }
 
-  .bd-card {
-    @apply rounded-2xl border;
-    border-color: var(--bidra-border);
-    background: var(--bidra-surface);
-  
-    box-shadow: var(--bidra-shadow-card);
-}
-
-  .bd-card-soft {
-    @apply rounded-2xl border;
-    border-color: var(--bidra-border);
-    background: var(--bidra-surface-2);
-  }
+  .bd-card { @apply rounded-3xl border bg-white; border-color:var(--bidra-border); box-shadow:var(--bidra-shadow-card); }
+  .bd-card-soft { @apply rounded-3xl border; border-color:var(--bidra-border); background:var(--bidra-surface-2); }
+  .bd-card-clickable { @apply transition duration-200; }
+  .bd-card-clickable:hover { transform:translateY(-2px); box-shadow:var(--bidra-shadow-hover); }
 
   .bd-section { @apply mt-8; }
-  .bd-section-title { @apply text-xs font-bold uppercase tracking-wider; color: var(--bidra-ink-3); }
+  .bd-section-title { @apply text-xs font-bold uppercase tracking-[0.16em]; color:var(--bidra-ink-3); }
+  .bd-page-title { @apply text-3xl font-extrabold tracking-tight sm:text-4xl; color:var(--bidra-ink); }
+  .bd-card-title { @apply text-base font-extrabold leading-snug; color:var(--bidra-ink); }
+  .bd-body { @apply text-sm leading-6; color:var(--bidra-ink-2); }
+  .bd-meta { @apply text-xs font-medium leading-5; color:var(--bidra-ink-3); }
+  .bd-ink { color:var(--bidra-ink); }
+  .bd-ink2 { color:var(--bidra-ink-2); }
+  .bd-ink3 { color:var(--bidra-ink-3); }
+  .bd-link { color:var(--bidra-blue-2); }
+  .bd-link:hover { color:var(--bidra-blue); }
 
-  /* Text helpers */
-  .bd-ink { color: var(--bidra-ink); }
-  .bd-ink2 { color: var(--bidra-ink-2); }
-  .bd-ink3 { color: var(--bidra-ink-3); }
+  .bd-btn { @apply inline-flex min-h-11 items-center justify-center gap-2 whitespace-nowrap rounded-[14px] border px-4 py-2.5 text-sm font-bold leading-none shadow-sm transition disabled:pointer-events-none disabled:cursor-not-allowed disabled:border-slate-200 disabled:bg-slate-100 disabled:text-slate-400 disabled:shadow-none; }
+  .bd-btn-primary { border-color:var(--bidra-blue-2); background:var(--bidra-blue); color:#fff !important; }
+  .bd-btn-primary:hover { background:var(--bidra-blue-2); color:#fff !important; }
+  .bd-btn-secondary { border-color:var(--bidra-border); background:#fff; color:var(--bidra-ink) !important; }
+  .bd-btn-secondary:hover { background:#F8FAFC; color:var(--bidra-ink) !important; }
+  .bd-btn-outline { border-color:var(--bidra-border); background:transparent; color:var(--bidra-ink) !important; }
+  .bd-btn-outline:hover { background:#fff; color:var(--bidra-ink) !important; }
+  .bd-btn-ghost { border-color:transparent; background:transparent; color:var(--bidra-ink) !important; box-shadow:none; }
+  .bd-btn-ghost:hover { background:#EEF4FF; color:var(--bidra-blue-2) !important; }
+  .bd-btn-destructive { border-color:#FECACA; background:#FEF2F2; color:var(--bidra-danger) !important; }
+  .bd-btn-destructive:hover { background:#FEE2E2; }
+  .bd-btn-loading { @apply opacity-80; }
 
-  /* Links */
-  .bd-link { color: var(--bidra-blue-2); }
-  .bd-link:hover { color: var(--bidra-blue); }
+  .bd-back-link { @apply inline-flex min-h-11 w-fit items-center gap-2 rounded-[14px] border px-3.5 py-2 text-sm font-bold shadow-sm transition; border-color:var(--bidra-border); background:#fff; color:var(--bidra-ink) !important; }
+  .bd-back-link:hover { background:#F8FAFC; color:var(--bidra-blue-2) !important; }
 
-  /* Hero (premium marketplace) */
-  .bd-hero {
-    @apply rounded-[22px] border px-6 py-6 text-white;
-    border-color: rgba(255,255,255,0.10);
-    background:
-      radial-gradient(1200px 420px at 15% 10%, rgba(59,130,246,0.22), rgba(0,0,0,0)),
-      linear-gradient(180deg, rgba(15,23,42,0.96), rgba(15,23,42,0.78));
-    box-shadow: 0 18px 50px rgba(0,0,0,0.28);
-  }
+  .bd-input { @apply w-full rounded-[14px] border bg-white px-3.5 py-3 text-[15px] outline-none transition disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500; border-color:var(--bidra-border); color:var(--bidra-ink); }
+  .bd-input::placeholder { color:rgba(100,116,139,.78); }
+  .bd-input:focus { border-color:rgba(37,99,235,.65); box-shadow:0 0 0 4px rgba(37,99,235,.10); }
+  .bd-label { @apply text-sm font-bold; color:var(--bidra-ink); }
+  .bd-help { @apply mt-1 text-xs leading-5; color:var(--bidra-ink-2); }
 
-  .bd-hero-row { @apply flex items-center gap-3; }
+  .bd-badge { @apply inline-flex h-7 items-center justify-center whitespace-nowrap rounded-full border px-3 text-[11px] font-bold leading-none; border-color:var(--bidra-border); background:#F8FAFC; color:var(--bidra-ink-2); }
+  .bd-badge-blue { border-color:#BFDBFE; background:#EFF6FF; color:#1D4ED8; }
+  .bd-badge-green { border-color:#A7F3D0; background:#ECFDF5; color:#047857; }
+  .bd-badge-amber { border-color:#FDE68A; background:#FFFBEB; color:#B45309; }
+  .bd-badge-red { border-color:#FECACA; background:#FEF2F2; color:#B91C1C; }
 
-  /* White logo on dark hero */
-  .bd-hero-logoWrap { @apply inline-flex items-center justify-center rounded-2xl px-2 py-2; }
-  .bd-hero-logo { /* HERO_LOGO_X3 */ height: 170px; width: auto; filter: drop-shadow(0 10px 18px rgba(0,0,0,0.25)); }
+  .bd-empty-state { @apply col-span-full rounded-3xl border border-dashed bg-white px-6 py-10 text-center shadow-sm; border-color:#CBD5E1; }
+  .bd-empty-state h3 { @apply text-lg font-extrabold tracking-tight; color:var(--bidra-ink); }
+  .bd-empty-state p { @apply mx-auto mt-2 max-w-xl text-sm leading-6; color:var(--bidra-ink-2); }
+  .bd-empty-state .bd-btn { @apply mt-5; }
+  .bd-empty-icon { @apply mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl border text-2xl leading-none; border-color:var(--bidra-border); background:#F8FAFC; color:var(--bidra-blue); }
 
-  .bd-hero-eyebrow { @apply text-[12px] font-bold tracking-[0.18em]; color: rgba(255,255,255,0.70); }
-  .bd-hero-h1 { @apply mt-2 text-[32px] font-extrabold leading-[1.12] tracking-tight; color: #fff; }
-  .bd-hero-p { @apply mt-2 max-w-[560px] text-[15px] leading-[1.65]; color: rgba(255,255,255,0.80); }
-  .bd-hero-fine { @apply mt-4 text-xs; color: rgba(255,255,255,0.60); }
-
-  /* Buttons */
-  .bd-btn { @apply inline-flex items-center justify-center rounded-xl px-4 py-3 text-sm font-extrabold transition; }
-
-  /* HERO_CTA_TEXT_FIX: hero has higher-specificity link color rules; force button text dark on white CTAs */
-  .bd-hero a.bd-btn-primary,
-  .bd-hero a.bd-btn-ghost {
-    color: #0B0E11;
-  }
-  .bd-btn-primary { /* HERO_CTA_WHITE */ /* HERO_CTA_TEXT_IMPORTANT */ background: #fff; color: #0B0E11 !important; }
-  .bd-btn-primary:hover { filter: brightness(1.08); }
-  .bd-btn-ghost { /* HERO_CTA_WHITE */ /* HERO_CTA_TEXT_IMPORTANT */ border: 1px solid rgba(15,23,42,0.18); background: #fff; color: #0B0E11 !important; }
-  .bd-btn-ghost:hover { background: rgba(255,255,255,0.92); }
-
-  /* Forms */
-  .bd-input {
-    @apply w-full rounded-xl border px-3 py-2.5 text-[15px] outline-none transition;
-    border-color: var(--bidra-border);
-    background: var(--bidra-surface);
-    color: var(--bidra-ink);
-  }
-  .bd-input::placeholder { color: rgba(95,107,122,0.65); }
-  .bd-label { @apply text-sm font-semibold; color: var(--bidra-ink); }
-  .bd-help { @apply mt-1 text-xs; color: var(--bidra-ink-2); }
+  .bd-hero { @apply rounded-[24px] border px-5 py-6 text-white sm:px-7 sm:py-8; border-color:rgba(255,255,255,.10); background:radial-gradient(1200px 420px at 15% 10%, rgba(59,130,246,.22), rgba(0,0,0,0)),linear-gradient(180deg, rgba(15,23,42,.96), rgba(15,23,42,.78)); box-shadow:0 18px 50px rgba(0,0,0,.22); }
 }

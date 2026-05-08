@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { checkPasswordPolicy, passwordGuidanceText } from "@/lib/password-policy";
 import LocationSuggest from "./location-suggest";
+import BackLink from "@/components/back-link";
 
 type FormState = {
   email: string;
@@ -225,13 +226,14 @@ export default function RegisterPage() {
   }
 
   const shell = "bd-container py-5 sm:py-10";
-  const label = "text-sm font-medium";
-  const helper = "mt-1 text-xs text-black/55";
-  const input = "mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5";
+  const label = "bd-label";
+  const helper = "bd-help";
+  const input = "bd-input mt-1";
 
   return (
     <main className={shell}>
       <div className="container max-w-6xl space-y-4 sm:space-y-5">
+        <BackLink href="/" label="Back to marketplace" />
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
           <div className="max-w-3xl">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Join Bidra</div>
@@ -295,7 +297,7 @@ export default function RegisterPage() {
                   <Link href="/auth/login" className="bd-btn bd-btn-primary text-center">
                     Go to login
                   </Link>
-                  <Link href="/" className="bd-btn text-center">
+                  <Link href="/" className="bd-btn bd-btn-secondary text-center">
                     Back to home
                   </Link>
                 </div>
@@ -519,7 +521,7 @@ export default function RegisterPage() {
                     disabled={!canSubmit}
                     className={cx("bd-btn bd-btn-primary w-full", loading && "opacity-70 cursor-not-allowed")}
                   >
-                    {loading ? "Creating..." : "Create free account"}
+                    {loading ? "Creating account..." : "Create free account"}
                   </button>
 
                   <div className="text-sm text-black/60">
