@@ -235,12 +235,12 @@ export default async function HomePage() {
             <div className="grid gap-2 rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
               <div>
                 <div className="text-sm font-extrabold text-[#0F172A]">Australia's trust-first local marketplace</div>
-                <p className="mt-1 text-xs text-[#64748B]">Browse early-access listings or create a free account to sell safely.</p>
+                <p className="mt-1 text-xs text-[#64748B]">Browse active listings or start selling safely.</p>
               </div>
               <HomeCategorySelect />
               <div className="grid gap-2">
                 <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse active listings</Link>
-                <Link href="/auth/register" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Create a free account</Link>
+                <Link href="/auth/register" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Start selling</Link>
               </div>
             </div>
           </div>

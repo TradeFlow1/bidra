@@ -241,13 +241,13 @@ export default function ListingCard({
         </div>
 
         <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Current best offer" : hasBuyNow ? "Buy now price" : "Price"}</div>
+          <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Current best offer" : hasBuyNow ? "Price" : "Price"}</div>
           <div className="mt-1 text-[23px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
           <div className="mt-1 text-[11px] font-medium text-[#64748B]">
             {isTimedOffers ? (
               currentOffer !== null ? "Lead with your strongest offer." : "Be the first to make an offer." 
             ) : hasBuyNow ? (
-              "Buy now before someone else does." 
+              "Ready to buy."
             ) : (
               "Check details and message the seller." 
             )}

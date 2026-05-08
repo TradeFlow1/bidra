@@ -194,3 +194,101 @@ button[aria-busy='true'] {
 }
 
 /* BIDRA_MILLION_DOLLAR_POLISH_END */
+
+/* BIDRA_LISTING_DETAIL_TRUST_POLISH_START */
+
+/* Listing detail and marketplace trust polish.
+   Fixes large dead-space layouts, small gallery controls, repetitive marketplace CTAs,
+   and logged-in/logged-out trust copy presentation. */
+
+@layer utilities {
+  .bd-listing-detail-layout { @apply grid gap-4 lg:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_320px]; }
+  .bd-listing-main-column { @apply grid min-w-0 gap-4; }
+  .bd-listing-side-column { @apply grid min-w-0 gap-4 self-start lg:sticky lg:top-24; }
+  .bd-listing-gallery-card { @apply rounded-[28px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-4; }
+  .bd-listing-under-gallery { @apply grid gap-4 rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5; }
+  .bd-listing-description { @apply text-sm leading-7 text-[#334155] sm:text-base; }
+  .bd-listing-description-title { @apply text-base font-extrabold tracking-tight text-[#0F172A] sm:text-lg; }
+  .bd-listing-meta-grid { @apply grid gap-3 sm:grid-cols-3; }
+  .bd-listing-meta-tile { @apply rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3; }
+  .bd-listing-meta-label { @apply text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]; }
+  .bd-listing-meta-value { @apply mt-1 text-sm font-extrabold text-[#0F172A]; }
+  .bd-gallery-control { @apply inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-[#D8E1F0] bg-white text-base font-extrabold text-[#0F172A] shadow-md transition hover:bg-[#F8FAFC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB]; }
+  .bd-gallery-count { @apply rounded-full bg-[#0F172A] px-3 py-1.5 text-xs font-extrabold text-white shadow; }
+  .bd-gallery-dot { @apply h-4 w-4 rounded-full bg-[#CBD5E1] transition; }
+  .bd-gallery-dot-active { @apply h-7 w-7 rounded-full bg-[#0F172A]; }
+  .bd-card-primary-action { @apply text-sm font-extrabold text-[#0F172A]; }
+  .bd-card-secondary-action { @apply text-sm font-bold text-[#475569]; }
+  .bd-own-listing-note { @apply rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-bold leading-5 text-amber-950; }
+  .bd-trust-copy-compact { @apply text-sm leading-6 text-[#334155]; }
+}
+
+.bd-listing-gallery-card + .bd-listing-under-gallery {
+  margin-top: 0;
+}
+
+.bd-listing-detail-layout .bd-listing-gallery-card {
+  min-height: 0;
+}
+
+.bd-listing-detail-layout .bd-listing-gallery-card:has(.bd-image-frame) {
+  align-self: start;
+}
+
+@media (max-width: 1023px) {
+  .bd-listing-detail-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .bd-listing-side-column {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .bd-listing-gallery-card {
+    border-radius: 22px;
+    padding: 0.75rem;
+  }
+  .bd-listing-under-gallery {
+    border-radius: 22px;
+    padding: 1rem;
+  }
+  .bd-gallery-control {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  .bd-gallery-dot {
+    height: 0.875rem;
+    width: 0.875rem;
+  }
+  .bd-gallery-dot-active {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}
+
+/* BIDRA_LISTING_DETAIL_TRUST_POLISH_END */
+
+/* BIDRA_LISTING_DETAIL_STRUCTURAL_FIX_START */
+
+/* Structural fix for listing detail pages.
+   Prevents the gallery side of the page from stretching to the height of the action/trust sidebar. */
+
+@layer utilities {
+  .bd-listing-detail-grid { @apply grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_320px]; }
+  .bd-listing-detail-main { @apply grid min-w-0 gap-4 self-start; }
+  .bd-listing-detail-sidebar { @apply grid min-w-0 gap-4 self-start lg:sticky lg:top-24; }
+}
+
+.bd-listing-detail-grid > *,
+.bd-listing-detail-main > *,
+.bd-listing-detail-sidebar > * {
+  min-height: 0;
+}
+
+.bd-listing-gallery-card,
+.bd-listing-under-gallery {
+  align-self: start;
+}
+
+/* BIDRA_LISTING_DETAIL_STRUCTURAL_FIX_END */
