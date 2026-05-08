@@ -9,6 +9,7 @@ import MobileFiltersToggle from "@/components/mobile-filters-toggle";
 import { authOptions } from "@/lib/auth";
 import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
 import { prisma } from "@/lib/prisma";
+import { BackButton } from "@/components/ui/back-button";
 
 export const metadata: Metadata = {
   title: "Browse active listings",
@@ -354,6 +355,7 @@ export default async function ListingsPage({
 
   return (
     <main className="bg-[#F7F9FC]">
+      <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/" label="Back to home" /></div>
       <div className="mx-auto w-full max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse active marketplace listings</h1>
