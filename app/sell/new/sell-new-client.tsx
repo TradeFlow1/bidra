@@ -505,7 +505,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </p>
 
           <div className="mt-3">
-            <label className="bd-label">Photos</label>
+            <label className="bd-label" htmlFor="field-photos-camera">Photos</label>
             <div className="mt-2 flex items-center gap-2 flex-wrap">
               <button
                 type="button"
@@ -528,6 +528,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
             <input
               ref={cameraInputRef}
+              id="field-photos-camera"
               className="hidden"
               type="file"
               accept="image/*"
@@ -537,6 +538,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
             <input
               ref={galleryInputRef}
+              id="field-photos-gallery"
               className="hidden"
               type="file"
               accept="image/*"
@@ -569,8 +571,8 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           <p className="mt-1 text-xs bd-ink2">Add clear details so first-time buyers can trust what they are viewing before they message, buy, or make an offer.</p>
           <div className="mt-3 grid gap-4">
             <div>
-              <label className="bd-label">Title</label>
-              <input className="mt-1 bd-input" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <label className="bd-label" htmlFor="field-title">Title</label>
+              <input id="field-title" className="mt-1 bd-input" value={title} onChange={(e) => setTitle(e.target.value)} />
               <p className="mt-1 text-xs bd-ink2">Use a specific title with brand/model and key features.</p>
             </div>
 
@@ -597,55 +599,57 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                 </div>
               ) : null}
 
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            <div>
-              <label className="bd-label">Top category</label>
-              <select
-                className="mt-1 bd-input"
-                value={topCategoryKey}
-                onChange={(e) => {
-                  setCategoryTouched(true);
-                  setTopCategoryKey(e.target.value);
-                  setSubcategoryKey("");
-                }}
-              >
-                <option value="">Select top category...</option>
-                {BIDRA_CATEGORIES.map((item) => (
-                  <option key={item.key} value={item.key}>{item.label}</option>
-                ))}
-              </select>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="bd-label" htmlFor="field-category-top">Top category</label>
+                  <select
+                    id="field-category-top"
+                    className="mt-1 bd-input"
+                    value={topCategoryKey}
+                    onChange={(e) => {
+                      setCategoryTouched(true);
+                      setTopCategoryKey(e.target.value);
+                      setSubcategoryKey("");
+                    }}
+                  >
+                    <option value="">Select top category...</option>
+                    {BIDRA_CATEGORIES.map((item) => (
+                      <option key={item.key} value={item.key}>{item.label}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="bd-label" htmlFor="field-subcategory">Subcategory</label>
+                  <select
+                    id="field-subcategory"
+                    className="mt-1 bd-input"
+                    value={subcategoryKey}
+                    onChange={(e) => {
+                      setCategoryTouched(true);
+                      setSubcategoryKey(e.target.value);
+                    }}
+                    disabled={!selectedCategory}
+                  >
+                    <option value="">{selectedCategory ? "Select subcategory..." : "Choose top category first"}</option>
+                    {selectedCategory ? selectedCategory.subcategories.map((item) => (
+                      <option key={item.key} value={item.key}>{item.label}</option>
+                    )) : null}
+                  </select>
+                </div>
+              </div>
+
+              {category ? (
+                <div className="mt-3 rounded-lg border border-black/10 bg-[var(--bidra-bg)] px-3 py-2 text-sm">
+                  <span className="text-xs uppercase tracking-wide text-black/50">Selected</span>
+                  <div className="mt-1 font-medium bd-ink">{category}</div>
+                </div>
+              ) : null}
             </div>
 
             <div>
-              <label className="bd-label">Subcategory</label>
-              <select
-                className="mt-1 bd-input"
-                value={subcategoryKey}
-                onChange={(e) => {
-                  setCategoryTouched(true);
-                  setSubcategoryKey(e.target.value);
-                }}
-                disabled={!selectedCategory}
-              >
-                <option value="">{selectedCategory ? "Select subcategory..." : "Choose top category first"}</option>
-                {selectedCategory ? selectedCategory.subcategories.map((item) => (
-                  <option key={item.key} value={item.key}>{item.label}</option>
-                )) : null}
-              </select>
-            </div>
-          </div>
-
-          {category ? (
-            <div className="mt-3 rounded-lg border border-black/10 bg-[var(--bidra-bg)] px-3 py-2 text-sm">
-              <span className="text-xs uppercase tracking-wide text-black/50">Selected</span>
-              <div className="mt-1 font-medium bd-ink">{category}</div>
-            </div>
-          ) : null}
-            </div>
-
-            <div>
-              <label className="bd-label">Condition</label>
-              <select className="mt-1 bd-input" value={condition} onChange={(e) => setCondition(e.target.value)}>
+              <label className="bd-label" htmlFor="field-condition">Condition</label>
+              <select id="field-condition" className="mt-1 bd-input" value={condition} onChange={(e) => setCondition(e.target.value)}>
                 <option value="NEW">New</option>
                 <option value="LIKE_NEW">Like new</option>
                 <option value="USED">Used</option>
@@ -655,8 +659,8 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             </div>
 
             <div>
-              <label className="bd-label">Description</label>
-              <textarea className="mt-1 bd-input" rows={8} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
+              <label className="bd-label" htmlFor="field-description">Description</label>
+              <textarea id="field-description" className="mt-1 bd-input" rows={8} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
               <p className="mt-1 text-xs bd-ink2">Include what is included, faults, and pickup or postage notes.</p>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <button
@@ -681,8 +685,8 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             </div>
 
             <div>
-              <label className="bd-label">Location</label>
-              <input className="mt-1 bd-input" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="4000 Brisbane, QLD" />
+              <label className="bd-label" htmlFor="field-location">Location</label>
+              <input id="field-location" className="mt-1 bd-input" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="4000 Brisbane, QLD" />
               <p className="mt-1 text-xs text-black/60">
                 Enter suburb/postcode and state so buyers know where pickup or shipping starts.
               </p>
@@ -697,8 +701,9 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </p>
           <div className="mt-3 grid gap-4">
             <div>
-              <label className="bd-label">Sale type</label>
+              <label className="bd-label" htmlFor="field-sale-type">Sale type</label>
               <select
+                id="field-sale-type"
                 className="mt-1 bd-input"
                 value={type}
                 onChange={(e) => setType(e.target.value as ListingTypeUI)}
@@ -708,39 +713,39 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               </select>
             </div>
 
-        {!isTimedOffers && (
-          <div>
-            <label className="bd-label">Price (AUD)</label>
-            <input className="mt-1 bd-input" value={price} onChange={(e) => setPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
-          </div>
-        )}
-
-        {isTimedOffers && (
-          <>
-            <div>
-              <label className="bd-label">Starting offer (AUD)</label>
-              <input className="mt-1 bd-input" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
-              <div className="mt-2 rounded-lg border border-black/10 bg-white px-3 py-3 text-sm bd-ink2">
-                Reserve is not available in this launch version.
+            {!isTimedOffers && (
+              <div>
+                <label className="bd-label" htmlFor="field-price">Price (AUD)</label>
+                <input id="field-price" className="mt-1 bd-input" value={price} onChange={(e) => setPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
               </div>
-            </div>
+            )}
 
-            <div>
-              <label className="bd-label">Buy Now price (AUD) (optional)</label>
-              <input className="mt-1 bd-input" value={buyNowPrice} onChange={(e) => setBuyNowPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 200" inputMode="decimal" />
-              <div className="mt-1 text-xs bd-ink2">Only shown until met/exceeded.</div>
-            </div>
+            {isTimedOffers && (
+              <>
+                <div>
+                  <label className="bd-label" htmlFor="field-starting-bid">Starting offer (AUD)</label>
+                  <input id="field-starting-bid" className="mt-1 bd-input" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
+                  <div className="mt-2 rounded-lg border border-black/10 bg-white px-3 py-3 text-sm bd-ink2">
+                    Reserve is not available in this launch version.
+                  </div>
+                </div>
 
-            <div>
-              <label className="bd-label">Duration</label>
-              <select className="mt-1 bd-input" value={durationDays} onChange={(e) => setDurationDays(e.target.value)}>
-                <option value="3">3 days</option>
-                <option value="5">5 days</option>
-                <option value="7">7 days</option>
-              </select>
-            </div>
-          </>
-        )}
+                <div>
+                  <label className="bd-label" htmlFor="field-buy-now-price">Buy Now price (AUD) (optional)</label>
+                  <input id="field-buy-now-price" className="mt-1 bd-input" value={buyNowPrice} onChange={(e) => setBuyNowPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 200" inputMode="decimal" />
+                  <div className="mt-1 text-xs bd-ink2">Only shown until met/exceeded.</div>
+                </div>
+
+                <div>
+                  <label className="bd-label" htmlFor="field-duration">Duration</label>
+                  <select id="field-duration" className="mt-1 bd-input" value={durationDays} onChange={(e) => setDurationDays(e.target.value)}>
+                    <option value="3">3 days</option>
+                    <option value="5">5 days</option>
+                    <option value="7">7 days</option>
+                  </select>
+                </div>
+              </>
+            )}
 
           </div>
         </section>

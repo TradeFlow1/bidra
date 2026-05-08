@@ -195,8 +195,8 @@ export default async function DashboardPage({
 
   return (
     <main className="bd-container py-10">
-      <div className="bd-auto-back-nav mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/dashboard" label="Back to account" /></div>
-<div className="container max-w-6xl space-y-5">
+      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+      <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Current account role</div>
           <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
