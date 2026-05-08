@@ -372,42 +372,6 @@ export default async function ListingDetailPage({
           </div>
         </section>
 
-        <section className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_17rem]">
-          <div className="hidden lg:block" aria-hidden="true"></div>
-          <aside className="space-y-4">
-            <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
-              <div className="mt-1.5 text-[1.7rem] font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
-              <div className="mt-2 space-y-1 text-sm text-[#64748B]">
-                <div>{sellerLocation}</div>
-                {sellerMemberSince ? <div>Member since {sellerMemberSince}</div> : null}
-                <div>{sellerActiveListings} active listings</div>
-              </div>
-              {(sellerEmailVerified || sellerPhoneVerified || (typeof sellerRatingAvg === "number" && sellerRatingCount > 0)) ? (
-                <div className="mt-2 flex flex-wrap gap-1.5 text-[11px]">
-                  {sellerEmailVerified ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 font-semibold text-emerald-700">Email verified</span> : null}
-                  {sellerPhoneVerified ? <span className="rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 font-semibold text-sky-700">Phone verified</span> : null}
-                  {(typeof sellerRatingAvg === "number" && sellerRatingCount > 0) ? (
-                    <span className="font-semibold text-amber-700">{"★".repeat(Math.round(Math.max(0, Math.min(5, sellerRatingAvg)))) + "☆".repeat(5 - Math.round(Math.max(0, Math.min(5, sellerRatingAvg))))} ({sellerRatingCount})</span>
-                  ) : null}
-                </div>
-              ) : null}
-              <div className="mt-2">
-                <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
-              </div>
-              <p className="mt-2 text-sm text-[#64748B]">Review the seller profile, verification badges, and listing history before you buy, offer, or message.</p>
-            </div>
-
-            <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
-              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Safe buying</div>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#475569]">
-                <li>Inspect the item before paying.</li>
-                <li>Meet safely for pickup or use tracked postage.</li>
-                <li>Keep agreements in Bidra Messages.</li>
-              </ul>
-            </div>
-          </aside>
-        </section>
       </div>
     </main>
   );
