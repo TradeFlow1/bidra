@@ -138,7 +138,7 @@ export default function HelpPage() {
             />
             <HelpCard
               title="Learn the marketplace flow"
-              desc="Use How it works for Buy Now, offers, sold-item records, messages, pickup, postage, feedback, and platform-only limits."
+              desc="Use How it works for Buy Now, offers, orders, messages, pickup, postage, feedback, and platform-only limits."
               href="/how-it-works"
               cta="Review flow"
             />

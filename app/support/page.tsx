@@ -24,7 +24,7 @@ export default function SupportPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Support and safety</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help, trust, and safer trading</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Bidra is a trust-first local marketplace. We provide listing, offer, messaging, reporting, and sold-item record tools, but buyers and sellers remain responsible for payment, pickup, postage, refunds, and handover decisions.
+                Bidra is a trust-first local marketplace. We provide listing, offer, messaging, reporting, and order tools, but buyers and sellers remain responsible for payment, pickup, postage, refunds, and handover decisions.
               </p>
             </div>
 

@@ -235,7 +235,7 @@ export default async function HomePage() {
             <div className="grid gap-2 rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
               <div>
                 <div className="text-sm font-extrabold text-[#0F172A]">Australia's trust-first local marketplace</div>
-                <p className="mt-1 text-xs text-[#64748B]">Browse active listings or start selling safely.</p>
+                <p className="mt-1 text-xs text-[#64748B]">Browse active listings or list an item safely.</p>
               </div>
               <HomeCategorySelect />
               <div className="grid gap-2">
@@ -290,7 +290,7 @@ export default async function HomePage() {
 
           <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {latestListings.length ? latestListings.map(renderCard) : (
-              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">Bidra is in early access. New local listings will appear here as sellers publish active items.</p>
+              <p className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-4 py-8 text-center text-sm text-[#64748B]">New local listings will appear here as sellers publish active Buy Now and offer items.</p>
             )}
           </div>
         </section>
@@ -317,7 +317,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Buy now listings</div>
-                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Buy Now activation</h2>
+                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Ready-to-buy listings</h2>
               </div>
               <Link href="/listings?type=BUY_NOW" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
                 View all

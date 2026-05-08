@@ -114,7 +114,7 @@ export default async function MessagesInboxPage() {
               <div className="mx-auto max-w-xl">
                 <div className="text-xl font-extrabold text-neutral-900">No messages yet</div>
                 <p className="mt-2 text-sm text-neutral-600">
-                  Start the conversation by asking about pickup, condition, or availability. Messages from listings and sold-item records will appear here.
+                  Start the conversation by asking about pickup, condition, or availability. Messages from listings and orders will appear here.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
                   <Link href="/listings" className="w-full bd-btn bd-btn-secondary text-center sm:w-auto">
