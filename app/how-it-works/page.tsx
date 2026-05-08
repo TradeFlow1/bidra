@@ -59,7 +59,7 @@ export default function HowItWorksPage() {
           </div>
         </div>
 
-        <StepCard step="Step 1" title="Create a free account and activate trust">
+        <StepCard step="Step 1" title="Use your account and activate trust">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li><strong>18+ only:</strong> accounts are for adults. Under 18s can browse publicly but cannot transact or message.</li>
             <li>Set your <strong>location</strong> using suburb, state, and postcode so buyers see realistic pickup context.</li>

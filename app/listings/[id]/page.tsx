@@ -221,39 +221,41 @@ export default async function ListingDetailPage({
 
               {/* BIDRA_MOVED_ITEM_DETAILS_START */}
           <div className="space-y-3">
-            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
-              <div className="text-sm font-semibold text-[#0F172A]">Item details</div>
-              <div className="grid gap-2.5 sm:grid-cols-3 lg:grid-cols-3">
-                <div className="rounded-2xl bg-[#F8FAFC] p-2.5">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Sale type</div>
-                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{isTimedOffers ? "Offers" : "Buy now"}</div>
-                </div>
-                <div className="rounded-2xl bg-[#F8FAFC] p-2.5">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Condition</div>
-                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{cleanText(listing.condition) || "Not specified"}</div>
-                </div>
-                <div className="rounded-2xl bg-[#F8FAFC] p-2.5">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Category</div>
-                  <div className="mt-1.5 text-sm font-bold text-[#0F172A]">{cleanText(listing.category) || "Marketplace"}</div>
-                </div>
-              </div>
-              <div className="mt-2 rounded-2xl bg-[#F8FAFC] p-3 text-sm text-[#334155]">
-                <div><span className="font-semibold text-[#0F172A]">Location:</span> {cleanText(listing.location) || "Location on request"}</div>
-                {listedDate ? <div><span className="font-semibold text-[#0F172A]">Listed:</span> {listedDate}</div> : null}
-                {isTimedOffers ? (
-                  <>
-                    <div><span className="font-semibold text-[#0F172A]">Offer activity:</span> {offerCount} {offerCount === 1 ? "offer" : "offers"}</div>
-                    <div><span className="font-semibold text-[#0F172A]">Current highest offer:</span> {currentOffer !== null ? money(currentOffer) : "No offers yet"}</div>
-                  </>
-                ) : null}
-                {isSold ? <div><span className="font-semibold text-[#0F172A]">Status:</span> Sold</div> : null}
+            <section className="overflow-hidden rounded-[32px] border border-[#D8E1F0] bg-white shadow-sm" aria-labelledby="listing-description-heading">
+              <div className="border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 sm:px-5">
+                <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Item description</div>
+                <h2 id="listing-description-heading" className="mt-1 text-xl font-extrabold tracking-tight text-[#0F172A] sm:text-2xl">About this item</h2>
+                <p className="mt-1 text-sm leading-6 text-[#475569]">Read what the seller says before messaging, buying, or making an offer.</p>
               </div>
 
-              <div className="mt-2">
-                <p className="whitespace-pre-wrap text-sm leading-[1.55] text-[#334155]">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided."}</p>
-              </div>
-            </div>
+              <div className="p-4 sm:p-5">
+                <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
+                  <p className="whitespace-pre-wrap text-base leading-7 text-[#1E293B] sm:text-[17px] sm:leading-8">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided."}</p>
+                </div>
 
+                <div className="mt-4 text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Item details</div>
+                <div className="mt-2 grid gap-2.5 sm:grid-cols-3 lg:grid-cols-3">
+                  <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
+                    <div className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#64748B]">Sale type</div>
+                    <div className="mt-1.5 text-sm font-extrabold text-[#0F172A]">{isTimedOffers ? "Offers" : "Buy now"}</div>
+                  </div>
+                  <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
+                    <div className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#64748B]">Condition</div>
+                    <div className="mt-1.5 text-sm font-extrabold text-[#0F172A]">{cleanText(listing.condition)}</div>
+                  </div>
+                  <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
+                    <div className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#64748B]">Category</div>
+                    <div className="mt-1.5 text-sm font-extrabold text-[#0F172A]">{cleanText(listing.category)}</div>
+                  </div>
+                </div>
+
+                <div className="mt-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3 text-sm leading-6 text-[#334155]">
+                  <div><span className="font-extrabold text-[#0F172A]">Location:</span> {cleanText(listing.location)}</div>
+                  <div><span className="font-extrabold text-[#0F172A]">Listed:</span> {new Date(listing.createdAt).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })}</div>
+                  {isSold ? <div><span className="font-extrabold text-[#0F172A]">Status:</span> Sold</div> : null}
+                </div>
+              </div>
+            </section>
             <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
               <div className="text-sm font-semibold text-[#0F172A]">Questions to ask before buying</div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#475569]">
@@ -298,10 +300,16 @@ export default async function ListingDetailPage({
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                  <WatchlistButton listingId={listing.id} authed={!!userId} loginHref="/auth/login" />
-                  <MessageSellerButton listingId={listing.id} />
-                </div>
+                {isOwner ? (
+                  <div className="rounded-2xl border border-amber-200 bg-amber-50 px-3.5 py-3 text-sm font-semibold leading-6 text-amber-950">
+                    This is your listing. Buyer actions are hidden so you do not accidentally start your own purchase or message thread.
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                    <WatchlistButton listingId={listing.id} authed={!!userId} loginHref="/auth/login" />
+                    <MessageSellerButton listingId={listing.id} />
+                  </div>
+                )}
                 <ShareActions
                   url={listingUrl}
                   title={cleanText(listing.title)}
