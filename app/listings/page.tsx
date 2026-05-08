@@ -388,7 +388,7 @@ export default async function ListingsPage({
           <div className="space-y-3">
             <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4" role="status" aria-live="polite">
               <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Guided discovery shortcuts</h2>
-              <p className="mt-1 text-xs text-[#64748B]">Start broad, then use filters to narrow by category, price, condition, and location.</p>
+              <p className="mt-1 text-xs text-[#64748B]">Use filters to narrow by category, price, condition, and location.</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#0F172A]">All active listings</Link>
                 <Link href={buildHref({ q, category, location, condition, min, max, sort, type: "BUY_NOW" })} className="bd-mobile-tap-target inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800">Buy Now deals</Link>
@@ -443,9 +443,9 @@ export default async function ListingsPage({
               {listings.length === 0 ? (
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto max-w-2xl">
-                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches yet" : "No active listings yet"}</div>
+                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches yet" : "Listings are being added"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
-                      {hasFilters ? "No active matches yet. Try broader keywords or browse categories." : "New local listings will appear here as sellers publish active items for Buy Now or offers. Start with broad discovery links while the marketplace fills up."}
+                      {hasFilters ? "No active matches yet. Try broader keywords or browse categories." : "New local listings will appear here as sellers publish active Buy Now and offer items."}
                     </p>
                     <div className="mt-5 grid gap-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-left sm:grid-cols-3">
                       <div>

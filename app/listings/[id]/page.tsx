@@ -180,10 +180,10 @@ export default async function ListingDetailPage({
 
   return (
     <main className="bg-[#F7F9FC]">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 lg:px-6 lg:py-5">
+      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 px-4 py-4 lg:px-6 lg:py-5">
         <BackButton href="/listings" label="Back to listings" />
-        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
-          <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_17rem]">
+        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6">
+          <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_21rem] xl:grid-cols-[minmax(0,1fr)_23rem]">
             <div className="space-y-3">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -214,7 +214,7 @@ export default async function ListingDetailPage({
               </div>
 
               <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
-                <div className="p-3 sm:p-4">
+                <div className="p-2.5 sm:p-3">
                   <ListingImageGallery images={images} title={cleanText(listing.title)} />
                 </div>
               </div>
@@ -225,11 +225,11 @@ export default async function ListingDetailPage({
               <div className="border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 sm:px-5">
                 <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Item description</div>
                 <h2 id="listing-description-heading" className="mt-1 text-xl font-extrabold tracking-tight text-[#0F172A] sm:text-2xl">About this item</h2>
-                <p className="mt-1 text-sm leading-6 text-[#475569]">Read what the seller says before messaging, buying, or making an offer.</p>
+                <p className="mt-1 text-sm leading-6 text-[#475569]">The seller description is the main source of item condition, pickup, and handover detail.</p>
               </div>
 
               <div className="p-4 sm:p-5">
-                <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
+                <div className="rounded-[24px] bg-white p-0">
                   <p className="whitespace-pre-wrap text-base leading-7 text-[#1E293B] sm:text-[17px] sm:leading-8">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided."}</p>
                 </div>
 
@@ -256,7 +256,7 @@ export default async function ListingDetailPage({
                 </div>
               </div>
             </section>
-            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
+            <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
               <div className="text-sm font-semibold text-[#0F172A]">Questions to ask before buying</div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#475569]">
                 <li>Is the item still in the same condition shown in the photos?</li>
@@ -290,12 +290,12 @@ export default async function ListingDetailPage({
                   </div>
                 ) : isTimedOffers ? (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">Offers stay pending until the seller accepts. Ask questions in Messages first, then place only an amount you are prepared to honour.</p>
+                    <p className="text-sm leading-6 text-[#475569]">Offers are seller-reviewed. Ask questions first, then place an amount you are prepared to honour.</p>
                     <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    <p className="text-sm text-[#64748B]">Buy Now creates an order record. Buyer and seller confirm payment, pickup, postage, and handover details in Messages.</p>
+                    <p className="text-sm leading-6 text-[#475569]">Buy Now creates a sold-item record. Confirm payment, pickup, postage, and handover details in Messages.</p>
                     <BuyNowButton listingId={listing.id} />
                   </div>
                 )}
@@ -310,6 +310,23 @@ export default async function ListingDetailPage({
                     <MessageSellerButton listingId={listing.id} />
                   </div>
                 )}
+
+                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm">
+                  <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
+                  <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
+                  <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+                    <div className="rounded-xl bg-[#F8FAFC] p-2">
+                      <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Location</div>
+                      <div className="mt-1 font-bold text-[#0F172A]">{sellerLocation}</div>
+                    </div>
+                    <div className="rounded-xl bg-[#F8FAFC] p-2">
+                      <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Listings</div>
+                      <div className="mt-1 font-bold text-[#0F172A]">{sellerActiveListings} active</div>
+                    </div>
+                  </div>
+                  <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target mt-3 inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
+                </div>
+
                 <ShareActions
                   url={listingUrl}
                   title={cleanText(listing.title)}
@@ -317,19 +334,16 @@ export default async function ListingDetailPage({
                   label="Share listing"
                 />
                 <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-3.5 py-3 text-sm text-emerald-900">
-                  <div className="font-semibold">Bidra trust reminder</div>
+                  <div className="font-extrabold">Trade safely on Bidra</div>
                   <p className="mt-1">Keep questions, payment arrangements, pickup, postage, and handover details in Bidra Messages.</p>
-                  <p className="mt-2">Launch pricing: $0 buyer fees, $0 standard listing fees, and 0% seller success fee. <Link className="font-semibold underline underline-offset-2" href="/legal/fees">Read fees</Link>.</p>
+                  <p className="mt-2">Launch pricing is currently $0 for buyers, standard listings, and seller success fees. <Link className="font-semibold underline underline-offset-2" href="/legal/fees">Read fees</Link>.</p>
                 </div>
-                <div className="mt-4 rounded-2xl border border-[#E2E8F0] bg-white px-3.5 py-3">
-                  <div className="text-sm font-semibold text-[#0F172A]">Buyer activation checklist</div>
-                  <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm text-[#475569]">
-                    <li>Ask questions before you buy or offer if anything is unclear.</li>
-                    <li>After a sale, keep pickup, postage, and payment details in Bidra Messages.</li>
-                    <li>Do not move arrangements to off-platform chats before trust is established.</li>
-                    <li>Check photos, description, condition, location, seller profile, and verification badges.</li>
-                    <li>Meet safely for pickup or use tracked postage where practical.</li>
-                    <li>If anything feels suspicious, report the listing.</li>
+                <div className="rounded-2xl border border-[#E2E8F0] bg-white px-3.5 py-3">
+                  <div className="text-sm font-extrabold text-[#0F172A]">Before you act</div>
+                  <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-6 text-[#475569]">
+                    <li>Check the photos, description, condition, location, and seller profile.</li>
+                    <li>Keep payment, pickup, postage, and handover details in Bidra Messages.</li>
+                    <li>Report anything that feels suspicious before committing.</li>
                   </ul>
                 </div>
               </div>
@@ -361,7 +375,7 @@ export default async function ListingDetailPage({
         <section className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_17rem]">
           <div className="hidden lg:block" aria-hidden="true"></div>
           <aside className="space-y-4">
-            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
+            <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
               <div className="mt-1.5 text-[1.7rem] font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
               <div className="mt-2 space-y-1 text-sm text-[#64748B]">
@@ -384,12 +398,12 @@ export default async function ListingDetailPage({
               <p className="mt-2 text-sm text-[#64748B]">Review the seller profile, verification badges, and listing history before you buy, offer, or message.</p>
             </div>
 
-            <div className="rounded-[32px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Safe buying tips</div>
+            <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Safe buying</div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#475569]">
-                <li>Meet in a safe public place for local pickup and avoid sharing unnecessary personal details.</li>
-                <li>Inspect the item and match it to the listing photos before paying.</li>
-                <li>Use Bidra Messages to confirm details so there is a clear record if something goes wrong.</li>
+                <li>Inspect the item before paying.</li>
+                <li>Meet safely for pickup or use tracked postage.</li>
+                <li>Keep agreements in Bidra Messages.</li>
               </ul>
             </div>
           </aside>

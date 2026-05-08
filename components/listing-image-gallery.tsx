@@ -104,7 +104,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
     return (
       <div className="w-full">
         <div className="overflow-hidden rounded-[28px] border border-black/10 bg-gradient-to-br from-neutral-50 to-neutral-100 shadow-sm">
-          <div className="flex h-[280px] items-center justify-center px-6 text-center md:h-[480px]">
+          <div className="flex h-[260px] items-center justify-center px-6 text-center md:h-[420px]">
             <div className="max-w-sm">
               <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-sm font-semibold text-neutral-800 shadow-sm">
                 Photo
@@ -140,12 +140,12 @@ export default function ListingImageGallery(props: { images: any; title?: string
         >
           {imgs.map((src, i) => (
             <div key={i} className="relative w-full flex-shrink-0 snap-start">
-              <div className="relative h-[300px] w-full bg-[#F1F5F9] sm:h-[420px] md:h-[520px]">
+              <div className="relative h-[280px] w-full bg-[#F1F5F9] sm:h-[360px] md:h-[440px] xl:h-[480px]">
                 <Image
                   src={src}
                   alt={title}
                   fill
-                  sizes="100vw"
+                  sizes="(max-width: 768px) 100vw, 900px"
                   className="object-contain select-none"
                   draggable={false}
                   onDragStart={(e) => e.preventDefault()}
@@ -198,8 +198,8 @@ export default function ListingImageGallery(props: { images: any; title?: string
       </div>
 
       {isMulti ? (
-        <div className="mt-4 flex items-center justify-center gap-2">
-          {imgs.map((_, i) => {
+        <div className="mt-3 flex items-center justify-center gap-2 overflow-x-auto px-1 pb-1">
+          {imgs.map((src, i) => {
             const active = i === clamp(idx);
             return (
               <button
@@ -207,8 +207,18 @@ export default function ListingImageGallery(props: { images: any; title?: string
                 type="button"
                 onClick={() => go(i)}
                 aria-label={`View photo ${i + 1}`}
-                className={active ? "min-h-11 w-9 rounded-full bg-neutral-900 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB]" : "min-h-11 w-6 rounded-full bg-neutral-300 transition-all hover:bg-neutral-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB]"}
-              />
+                className={active ? "relative h-14 w-16 flex-none overflow-hidden rounded-xl border-2 border-[#0F172A] bg-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB]" : "relative h-14 w-16 flex-none overflow-hidden rounded-xl border border-[#CBD5E1] bg-white opacity-75 transition hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB]"}
+              >
+                <Image
+                  src={src}
+                  alt={`${title} photo ${i + 1}`}
+                  fill
+                  sizes="64px"
+                  className="object-cover"
+                  draggable={false}
+                  unoptimized
+                />
+              </button>
             );
           })}
         </div>
