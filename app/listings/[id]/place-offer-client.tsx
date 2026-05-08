@@ -121,7 +121,7 @@ export default function PlaceOfferClient({
           <button
             type="button"
             onClick={() => router.push("/auth/login?next=" + encodeURIComponent("/listings/" + listingId))}
-            className="mt-3 w-full rounded-full border border-[#1D4ED8] bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D4ED8]"
+            className="bd-btn bd-btn-primary mt-3 w-full"
           >
             Log in
           </button>
@@ -151,7 +151,7 @@ export default function PlaceOfferClient({
           </div>
           <div className="mt-1 text-xs text-neutral-700">
             {lastResult.isTop ? (
-              <>You are currently the highest offer. Keep questions and handover expectations in Messages.</>
+              <>You are currently the highest offer. Keep questions, pickup, postage, payment, and handover details in Messages.</>
             ) : (
               <>You have been out-offered. Increase your offer only if you are prepared to honour it.</>
             )}
@@ -161,7 +161,7 @@ export default function PlaceOfferClient({
 
       {viewerHasAnyOffer && offerState === "TOP" ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900">
-          You are the highest offer. Keep questions and handover expectations in Messages.
+          You are the highest offer. Keep pickup, postage, payment, and handover details in Messages.
         </div>
       ) : viewerHasAnyOffer && offerState === "OUTBID" ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2">
@@ -192,14 +192,14 @@ export default function PlaceOfferClient({
           type="button"
           onClick={submit}
           disabled={loading || hardDisabled}
-          className="w-full rounded-full border border-[#1D4ED8] bg-[#2563EB] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#1D4ED8] disabled:opacity-60"
+          className="bd-btn bd-btn-primary w-full"
         >
-          {loading ? "Submitting..." : "Place offer safely"}
+          {loading ? "Submitting offer..." : "Place offer"}
         </button>
       </div>
 
       {(hardDisabled && !msg) ? <div className="text-xs text-[var(--bidra-muted)]">{hardDisabledText}</div> : null}
-      {msg ? <div className="text-xs text-[var(--bidra-muted)]">{msg}</div> : null}
+      {msg ? <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#475569]">{msg}</div> : null}
     </div>
   );
 }

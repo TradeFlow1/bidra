@@ -51,7 +51,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div className="text-base font-semibold bd-ink">Order not found</div>
             <p className="mt-2 text-sm bd-ink2">This order could not be found, may have moved, or may not be available to this account.</p>
             <div className="mt-5">
-              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/orders">Back to Orders</Link>
+              <Link className="bd-btn bd-btn-secondary text-center" href="/orders">Back to Orders</Link>
             </div>
           </Card>
         </div>
@@ -72,7 +72,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div className="text-base font-semibold bd-ink">Access restricted</div>
             <p className="mt-2 text-sm bd-ink2">You do not have access to this order.</p>
             <div className="mt-5">
-              <Link className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5" href="/orders">Back to Orders</Link>
+              <Link className="bd-btn bd-btn-secondary text-center" href="/orders">Back to Orders</Link>
             </div>
           </Card>
         </div>
@@ -89,7 +89,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const statusLabel = order.outcome === "COMPLETED" ? "COMPLETED" : "SOLD - HANDOVER PENDING";
   const primaryNextAction = order.outcome === "COMPLETED"
     ? "Leave feedback if you have not already, or keep the order record for reference."
-    : "Message the other person to agree payment, pickup, postage, and handover.";
+    : "Message the other person to confirm payment, pickup, postage, and handover details.";
   const primaryNextHref = order.outcome === "COMPLETED" ? feedbackHref : messageHref;
   const primaryNextLabel = order.outcome === "COMPLETED" ? "Review feedback options" : (isBuyer ? "Message seller" : "Message buyer");
   const canLeave =
@@ -116,7 +116,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
               <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Sold item</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                This sold-item record confirms the listing has sold. There is no in-app Pay now step in Bidra V1. Launch pricing: $0 buyer fees, $0 standard listing fees, and 0% seller success fee during launch.
+                This order confirms the listing has sold. Use Messages to agree payment, pickup, postage, and handover details before completing the transaction.
               </p>
               <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
                 <div className="font-extrabold">Next action</div>
@@ -128,16 +128,16 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <Link href={primaryNextHref} className="rounded-xl border border-[var(--bidra-blue)] bg-[var(--bidra-blue)] px-5 py-3 text-center text-sm font-extrabold text-white shadow-sm hover:opacity-95">
+              <Link href={primaryNextHref} className="bd-btn bd-btn-primary text-center">
                 {primaryNextLabel}
               </Link>
-              <Link href={messageHref} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+              <Link href={messageHref} className="bd-btn bd-btn-secondary text-center">
                 {isBuyer ? "Message seller" : "Message buyer"}
               </Link>
-              <Link href="/orders" className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">Orders</Link>
-              <Link href={listingHref} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">View listing</Link>
+              <Link href="/orders" className="bd-btn bd-btn-secondary text-center">Orders</Link>
+              <Link href={listingHref} className="bd-btn bd-btn-secondary text-center">View listing</Link>
               {canLeave ? (
-                <Link href={feedbackHref} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5">
+                <Link href={feedbackHref} className="bd-btn bd-btn-secondary text-center">
                   Leave feedback
                 </Link>
               ) : null}
@@ -148,7 +148,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               ) : null}
             </div>
             <p className="text-sm bd-ink2">
-              No dead-end Pay now or completion step is required. Use the highlighted next action above.
+              Use the highlighted next action above to keep the transaction moving.
             </p>
           </div>
         </div>
@@ -176,8 +176,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">Post-sale next steps</div>
             <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-              <li>There is no in-app Pay now step in Bidra V1. Launch pricing: $0 buyer fees, $0 standard listing fees, and 0% seller success fee during launch.</li>
-              <li>If the order is pending, the next action is to message the other person and agree payment, pickup, postage, and handover.</li>
+              <li>Use Messages to confirm payment, pickup, postage, and handover details before completing the transaction.</li>
+              <li>If the order is pending, confirm payment, pickup, postage, and handover details in Messages.</li>
               <li>If the order is completed, the next action is to leave feedback if it is available.</li>
               <li>Keep important agreements and handover details in Bidra Messages.</li>
               <li>Follow safety guidance before final handover or postage dispatch.</li>
