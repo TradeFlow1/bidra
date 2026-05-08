@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Link from "next/link";
+import { BackButton } from "@/components/ui/back-button";
 
 function HelpCard(props: {
   title: string;
@@ -39,6 +40,7 @@ function FaqItem(props: {
 export default function HelpPage() {
   return (
     <main className="bd-container py-10">
+      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/" label="Back to home" /></div>
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">

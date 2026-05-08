@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { BackButton } from "@/components/ui/back-button";
 
 function e164Hint(v: string) {
   const s = (v ?? "").trim();
@@ -64,6 +65,7 @@ export default function PhoneVerifyPage() {
 
   return (
     <main className="bd-container py-6 pb-14">
+      <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/dashboard" label="Back to dashboard" /></div>
       <div className="bd-card p-6 sm:p-8 max-w-[560px] mx-auto">
         <h1 className="text-2xl font-extrabold tracking-tight bd-ink">Verify your phone</h1>
         <p className="mt-2 text-sm bd-ink2">

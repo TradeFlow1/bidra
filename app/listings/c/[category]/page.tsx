@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ListingCard from "@/components/listing-card";
 import { getSeoCategoryBySlug, getSeoCategoryLocationLinks, getSeoListings, getSiteUrl } from "@/lib/listing-seo";
+import { BackButton } from "@/components/ui/back-button";
 
 type Props = {
   params: { category: string };
@@ -41,6 +42,7 @@ export default async function CategorySeoPage({ params }: Props) {
 
   return (
     <main className="bg-[#F7F9FC]">
+      <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/listings" label="Back to listings" /></div>
       <div className="mx-auto w-full max-w-7xl px-4 py-6 lg:px-6">
         <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">{category.label} listings</h1>

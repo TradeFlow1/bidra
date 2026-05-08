@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import StatusMessage from "@/components/status-message";
+import { BackButton } from "@/components/ui/back-button";
 
 const FT_ENABLED =
   process.env.NEXT_PUBLIC_FT_ENABLED === "1" ||
@@ -43,6 +44,7 @@ export default function FtFeedbackPage() {
   if (!FT_ENABLED) {
     return (
       <main className="mx-auto max-w-xl p-6">
+      <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/feedback" label="Back to feedback" /></div>
         <h1 className="text-xl font-bold">Feedback (Friend Test only)</h1>
         <p className="mt-2 text-sm text-gray-600">
           This page is only available during the private Friend Test.
@@ -54,6 +56,7 @@ export default function FtFeedbackPage() {
   if (sent) {
     return (
       <main className="mx-auto max-w-xl p-6">
+      <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/feedback" label="Back to feedback" /></div>
         <h1 className="text-xl font-bold">Thanks 🙏</h1>
         <p className="mt-2 text-sm">Your feedback helps us find issues before launch.</p>
       </main>
@@ -62,6 +65,7 @@ export default function FtFeedbackPage() {
 
   return (
     <main className="mx-auto max-w-xl p-6">
+      <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/feedback" label="Back to feedback" /></div>
       <h1 className="text-xl font-bold">Help us improve Bidra</h1>
       <p className="mt-2 text-sm text-gray-600">
         Found something confusing or broken? Tell us here.

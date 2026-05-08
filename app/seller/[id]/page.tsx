@@ -7,6 +7,7 @@ import ShareActions from "@/components/share-actions";
 import { authOptions } from "@/lib/auth";
 import { getBaseUrl } from "@/lib/base-url";
 import { prisma } from "@/lib/prisma";
+import { BackButton } from "@/components/ui/back-button";
 
 interface PageProps {
   params: { id: string };
@@ -199,6 +200,7 @@ export default async function SellerPage({ params }: PageProps) {
 
   return (
     <main className="bd-container py-10">
+      <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/listings" label="Back to listings" /></div>
       <div className="container max-w-6xl space-y-5">
         <section className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">

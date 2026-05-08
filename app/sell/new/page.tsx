@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/ui/page-header";
+import { BackButton } from "@/components/ui/back-button";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +35,7 @@ export default async function SellNewPage() {
   if (gate.blocked) {
     return (
       <main className="bd-container py-10">
+      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/dashboard" label="Back to dashboard" /></div>
         <div className="container max-w-5xl">
           <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Finish feedback before selling</h1>
 
@@ -65,6 +67,7 @@ export default async function SellNewPage() {
 
   return (
     <main className="bd-container py-10">
+      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/dashboard" label="Back to dashboard" /></div>
       <div className="container max-w-5xl">
         <PageHeader
           title="Create a buyer-ready listing"
