@@ -15,7 +15,7 @@ export const fetchCache = "force-no-store";
 function SafetyNotice() {
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-950 shadow-sm">
-      Use Bidra Messages to confirm pickup, postage, payment expectations, and handover details. Keep agreements on-platform for both buyer and seller.
+      Use Bidra Messages to confirm pickup, postage, payment expectations, and handover details. Keep agreements on-platform for both buyer and seller, and refresh the page if you are waiting for the newest reply.
     </div>
   );
 }
@@ -83,7 +83,7 @@ export default async function MessagesInboxPage() {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
                 <p className="mt-2 text-sm text-[var(--bidra-ink-2)] sm:text-base">
-                  Keep listing and order conversations in one trusted place, including pickup, postage, payment expectations, and handover agreements.
+                  Keep listing and order conversations in one trusted place, including pickup, postage, payment expectations, and handover agreements. The inbox refreshes for new activity, but Bidra does not currently use WebSockets, typing indicators, mobile push notifications, or live delivery receipts.
                 </p>
               </div>
 
@@ -101,6 +101,10 @@ export default async function MessagesInboxPage() {
           </div>
 
           <SafetyNotice />
+          <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950 shadow-sm">
+            <div className="font-extrabold">Message freshness</div>
+            <p className="mt-1">Bidra shows unread conversations and refreshes the inbox for new activity. It does not currently provide WebSocket live chat, typing indicators, push notifications, attachment uploads, or guaranteed delivery receipts.</p>
+          </div>
 
           {unreadCount > 0 ? (
             <div className="rounded-2xl border border-[var(--bidra-blue)]/20 bg-[var(--bidra-blue)]/10 px-4 py-2.5 text-sm text-[var(--bidra-ink)] shadow-sm">

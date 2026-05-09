@@ -127,6 +127,8 @@ export async function POST(req: Request, { params }: { params: { id: string } })
           messageId: created.id,
           bodyLen: text.length,
           idempotencyKey,
+          deliveryMode: "stored-message-email-notification",
+          realtimeProvider: "none",
         },
       },
     });

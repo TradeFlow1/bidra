@@ -141,6 +141,11 @@ export default function SupportPage() {
             Bidra does not currently sell shipping labels, calculate live postage rates, insure parcels, or manage Australia Post, Sendle, courier, or carrier claims. If buyer and seller agree postage, keep the carrier, tracking number, packaging photos, dispatch timing, and who pays postage in Messages.
           </p>
         </SectionCard>
+        <SectionCard title="Message freshness and chat limits">
+          <p className="text-black/75">
+            Bidra messages keep listing and order conversations in one place with unread status, stored conversation history, reporting, deletion, and email notifications where available. Bidra does not currently provide WebSocket live chat, typing indicators, attachment uploads, mobile push notifications, or guaranteed delivery receipts.
+          </p>
+        </SectionCard>
 
         <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Read more</div>
