@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendVerifyEmail } from "@/lib/email";
 import bcrypt from "bcryptjs";
@@ -79,7 +79,7 @@ export async function POST(req: Request) {
   const hasSuburb = suburb.length > 0;
   const hasState = state.length > 0;
 
-  // Rule (launch): postcode + suburb + state are all required. No street address.
+  // Rule: postcode + suburb + state are all required. No street address.
   if (!hasPostcode || !hasSuburb || !hasState) {
     return NextResponse.json({ error: "Location required: postcode + suburb + state." }, { status: 400 });
   }
@@ -151,5 +151,3 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ ok: true });
 }
-
-
