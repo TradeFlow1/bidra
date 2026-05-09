@@ -11,6 +11,10 @@ type AdminUserRow = {
   username: string;
   role: string;
   isActive: boolean;
+  emailVerified: boolean;
+  phoneVerified: boolean;
+  ageVerified: boolean;
+  phone: string | null;
   policyStrikes: number;
   policyBlockedUntil: Date | null;
   createdAt: Date;
@@ -31,6 +35,10 @@ export default async function AdminUsers() {
       username: true,
       role: true,
       isActive: true,
+      emailVerified: true,
+      phoneVerified: true,
+      ageVerified: true,
+      phone: true,
       policyStrikes: true,
       policyBlockedUntil: true,
       createdAt: true,
@@ -43,7 +51,7 @@ export default async function AdminUsers() {
     <div className="flex flex-col gap-3">
       <div>
         <h1 className="text-2xl font-bold">Users</h1>
-        <p className="mt-2 text-sm text-neutral-600">Review account status, policy strikes, block state, account age, and related report context before taking user moderation action.</p>
+        <p className="mt-2 text-sm text-neutral-600">Review account status, contact confirmation signals, policy strikes, block state, account age, and related report context before taking user moderation action. Email and phone confirmation are account signals, not government ID checks.</p>
       </div>
 
       <div className="grid gap-3">
@@ -68,6 +76,9 @@ export default async function AdminUsers() {
                   <Badge>{u.role}</Badge>
                   <Badge>{u.isActive ? "ACTIVE" : "INACTIVE"}</Badge>
                   <Badge>Strikes {u.policyStrikes}</Badge>
+                  <Badge>{u.emailVerified ? "Email confirmed" : "Email unconfirmed"}</Badge>
+                  <Badge>{u.phoneVerified ? "Phone confirmed" : "Phone unconfirmed"}</Badge>
+                  <Badge>{u.ageVerified ? "18+ recorded" : "18+ not recorded"}</Badge>
                   {u.policyBlockedUntil ? (
                     <Badge>Blocked until <DateTimeText value={u.policyBlockedUntil} /></Badge>
                   ) : null}

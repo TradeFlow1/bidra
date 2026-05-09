@@ -126,6 +126,11 @@ export default function SupportPage() {
             <Link href="/contact" className="bd-btn bd-btn-secondary text-center">Contact support</Link>
           </div>
         </SectionCard>
+        <SectionCard title="What account signals mean">
+          <p className="text-black/75">
+            Email confirmed, phone confirmed, 18+ recorded, member-since, completed-order feedback, and policy standing are account trust signals. They help users make better marketplace decisions, but they are not government ID verification, biometric checks, escrow, payment protection, delivery insurance, or a guarantee that a transaction will go smoothly.
+          </p>
+        </SectionCard>
 
         <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Read more</div>

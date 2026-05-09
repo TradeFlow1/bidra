@@ -176,8 +176,8 @@ export default async function SellerPage({ params }: PageProps) {
   const ratingAvg = typeof sellerRating._avg.rating === "number" ? Number(sellerRating._avg.rating) : null;
   const ratingCount = Number(sellerRating._count.rating || 0);
   const profileSignals = [
-    seller.emailVerified ? "Email verified" : "",
-    sellerPhoneVerified ? "Phone verified" : "",
+    seller.emailVerified ? "Email confirmed" : "",
+    sellerPhoneVerified ? "Phone confirmed" : "",
     sellerMemberSince ? `Member since ${sellerMemberSince}` : "",
     sellerLocation ? `Location shown: ${sellerLocation}` : "",
     completedSales > 0 ? `${completedSales} completed ${completedSales === 1 ? "sale" : "sales"}` : "",
@@ -215,8 +215,8 @@ export default async function SellerPage({ params }: PageProps) {
               </div>
               {(seller.emailVerified || sellerPhoneVerified || (ratingAvg !== null && ratingCount > 0)) ? (
                 <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
-                  {seller.emailVerified ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-700">Email verified</span> : null}
-                  {sellerPhoneVerified ? <span className="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-1 text-sky-700">Phone verified</span> : null}
+                  {seller.emailVerified ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-700">Email confirmed</span> : null}
+                  {sellerPhoneVerified ? <span className="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-1 text-sky-700">Phone confirmed</span> : null}
                   {(ratingAvg !== null && ratingCount > 0) ? (
                     <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-amber-700">{renderStars(ratingAvg)} ({ratingCount})</span>
                   ) : null}
@@ -249,6 +249,10 @@ export default async function SellerPage({ params }: PageProps) {
           <div className="mt-5 rounded-2xl border border-[#D8E1F0] bg-white p-4 shadow-sm">
             <div className="text-sm font-bold text-neutral-950">Seller confidence signals</div>
             <p className="mt-1 text-sm text-neutral-600">Use these signals together before arranging pickup, postage, payment, or handover details.</p>
+            <div className="mt-3 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-950">
+              <div className="font-extrabold">Identity verification note</div>
+              <p className="mt-1">Email and phone signals mean the seller has confirmed account contact channels available to Bidra. They are not government ID, biometric, escrow, payment, or delivery guarantees.</p>
+            </div>
             <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {profileSignals.length > 0 ? profileSignals.map((signal) => (
                 <div key={signal} className="rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-neutral-700">{signal}</div>

@@ -13,6 +13,10 @@ type AdminUserDetail = {
   username: string;
   role: string;
   isActive: boolean;
+  emailVerified: boolean;
+  phoneVerified: boolean;
+  ageVerified: boolean;
+  phone: string | null;
   policyStrikes: number;
   policyBlockedUntil: Date | null;
   createdAt: Date;
@@ -41,6 +45,10 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
       username: true,
       role: true,
       isActive: true,
+      emailVerified: true,
+      phoneVerified: true,
+      ageVerified: true,
+      phone: true,
       policyStrikes: true,
       policyBlockedUntil: true,
       createdAt: true,
@@ -76,7 +84,7 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin user detail</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">{target.username || target.email}</h1>
-              <p className="mt-2 text-sm bd-ink2 sm:text-base">Review account state, policy strikes, block status, and moderation actions before applying a proportional restriction.</p>
+              <p className="mt-2 text-sm bd-ink2 sm:text-base">Review account state, contact confirmation signals, policy strikes, block status, and moderation actions before applying a proportional restriction.</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <Link href="/admin/users" className="bd-btn bd-btn-ghost text-center">Back to users</Link>
@@ -91,6 +99,18 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
           <Field label="Status"><Badge>{target.isActive ? "ACTIVE" : "INACTIVE"}</Badge></Field>
           <Field label="Policy strikes"><Badge>Strikes {target.policyStrikes}</Badge></Field>
           <Field label="Blocked">{isBlocked ? <Badge>Blocked until <DateTimeText value={target.policyBlockedUntil as Date} /></Badge> : <Badge>Not blocked</Badge>}</Field>
+        </section>
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="text-sm font-extrabold bd-ink">Verification signals</div>
+          <p className="mt-2 text-sm leading-7 bd-ink2">
+            These are account contact and eligibility signals available to Bidra today. They are not provider-backed government ID, biometric, liveness, escrow, payment, or shipping verification.
+          </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-4">
+            <Field label="Email">{target.emailVerified ? <Badge>Email confirmed</Badge> : <Badge>Email unconfirmed</Badge>}</Field>
+            <Field label="Phone">{target.phoneVerified ? <Badge>Phone confirmed</Badge> : <Badge>Phone unconfirmed</Badge>}</Field>
+            <Field label="18+ account">{target.ageVerified ? <Badge>Recorded</Badge> : <Badge>Not recorded</Badge>}</Field>
+            <Field label="Phone on file">{target.phone ? <Badge>Present</Badge> : <Badge>Missing</Badge>}</Field>
+          </div>
         </section>
 
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
