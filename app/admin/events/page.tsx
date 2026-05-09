@@ -129,7 +129,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin events</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Internal event stream</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review internal audit and risk-signal events, filter by event type, and inspect summary context alongside raw payload data. These events support human review; they are not automated fraud decisions.
+                Review internal audit, marketplace, notification, risk-signal, and operational analytics events. These rows support human review and platform operations; they are not external analytics tracking, attribution data, or automated fraud decisions.
               </p>
             </div>
 
@@ -148,7 +148,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
           <InfoCard
             title="Rows shown"
             value={rows.length}
-            note="Up to 200 matching admin events."
+            note="Up to 200 matching internal AdminEvent rows."
           />
           <InfoCard
             title="Type filter"
@@ -165,7 +165,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm space-y-4">
           <div>
             <div className="text-sm font-extrabold bd-ink">Event filters</div>
-            <div className="mt-1 text-sm bd-ink2">Choose a type shortcut or apply a text filter.</div>
+            <div className="mt-1 text-sm bd-ink2">Choose a type shortcut or apply a text filter. This is an internal event stream, not GA4, Meta Pixel, PostHog, Segment, or Mixpanel.</div>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -202,7 +202,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
           <div className="border-b border-black/10 px-6 py-4">
             <div className="text-sm font-extrabold bd-ink">Event table</div>
             <div className="mt-1 text-sm bd-ink2">
-              Summary fields are shown beside raw payload data for faster inspection.
+              Summary fields are shown beside raw payload data for faster inspection. Treat these as operational review records, not complete attribution or revenue analytics.
             </div>
           </div>
 
