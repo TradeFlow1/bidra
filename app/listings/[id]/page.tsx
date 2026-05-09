@@ -6,6 +6,8 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { isTimedOffersType } from "@/lib/listing-type";
 import { formatTimeRemaining } from "@/lib/time-remaining";
+import ListingCard from "@/components/listing-card";
+import { getRecommendationFoundationSummary, getRelatedListingWhere } from "@/lib/recommendations";
 import ListingImageGallery from "@/components/listing-image-gallery";
 import ShareActions from "@/components/share-actions";
 import BuyNowButton from "./buy-now-button";
@@ -22,6 +24,8 @@ export const revalidate = 10;
 
 function money(cents: number | null | undefined) {
   const v = typeof cents === "number" ? cents : 0;
+
+
   return (v / 100).toLocaleString("en-AU", { style: "currency", currency: "AUD" });
 }
 
@@ -183,6 +187,50 @@ export default async function ListingDetailPage({
   const images = (listing as any).images || [];
   const baseUrl = getBaseUrl();
   const listingUrl = `${baseUrl}/listings/${listing.id}`;
+
+  const recommendationSummary = getRecommendationFoundationSummary();
+  const relatedListings = await prisma.listing.findMany({
+    where: getRelatedListingWhere({
+      currentListingId: listing.id,
+      category: listing.category,
+      location: listing.location,
+      sellerId: listing.sellerId,
+    }),
+    orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    take: 4,
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      price: true,
+      buyNowPrice: true,
+      type: true,
+      category: true,
+      condition: true,
+      location: true,
+      images: true,
+      status: true,
+      createdAt: true,
+      offers: {
+        orderBy: { amount: "desc" },
+        take: 1,
+        select: { amount: true },
+      },
+      _count: {
+        select: { offers: true },
+      },
+      seller: {
+        select: {
+          username: true,
+          name: true,
+          createdAt: true,
+          location: true,
+          emailVerified: true,
+          phone: true,
+        },
+      },
+    },
+  });
 
   return (
     <main className="bg-[#F7F9FC]">
@@ -392,7 +440,72 @@ export default async function ListingDetailPage({
           </div>
         </section>
 
+        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Related discovery</div>
+              <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#0F172A]">Browse similar active listings</h2>
+              <p className="mt-1 max-w-3xl text-sm leading-6 text-[#475569]">{recommendationSummary.summary}</p>
+            </div>
+            <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View all listings</Link>
+          </div>
+
+          <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-950">
+            <div className="font-extrabold">Recommendation limits</div>
+            <p className="mt-1">These suggestions use active listing category, location, seller, and recency signals only. Bidra does not currently use AI personalisation, machine-learning ranking, vector search, behavioural profiling, or paid placement ranking.</p>
+          </div>
+
+          {relatedListings.length ? (
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {relatedListings.map(function (related) {
+                const relatedIsTimedOffers = isTimedOffersType(related.type);
+                const relatedCurrentOffer = related.offers.length ? related.offers[0].amount : null;
+                const relatedDisplayPrice = relatedIsTimedOffers ? (relatedCurrentOffer ?? related.price) : (related.buyNowPrice ?? related.price);
+                return (
+                  <ListingCard
+                    key={related.id}
+                    listing={{
+                      id: related.id,
+                      title: related.title,
+                      description: related.description,
+                      price: relatedDisplayPrice,
+                      buyNowPrice: related.buyNowPrice,
+                      type: related.type,
+                      category: related.category,
+                      condition: related.condition,
+                      location: related.location,
+                      images: (related as unknown as { images?: unknown[] | null }).images ?? null,
+                      status: related.status ?? "ACTIVE",
+                      endsAt: null,
+                      offerCount: (related as unknown as { _count?: { offers?: number } })._count?.offers ?? 0,
+                      currentOffer: relatedCurrentOffer,
+                      seller: {
+                        name: related.seller?.name || related.seller?.username || null,
+                        memberSince: related.seller?.createdAt ?? null,
+                        location: related.seller?.location ?? null,
+                        emailVerified: related.seller?.emailVerified ?? false,
+                        phone: related.seller?.phone ?? null,
+                      },
+                    }}
+                    initiallyWatched={false}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            <div className="mt-4 rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-5 py-8 text-center">
+              <div className="text-base font-extrabold text-[#0F172A]">No related active listings yet</div>
+              <p className="mx-auto mt-2 max-w-2xl text-sm text-[#64748B]">Related listings appear as sellers publish real items in matching categories, locations, or seller inventories.</p>
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
+                <Link href="/listings" className="bd-btn bd-btn-secondary text-center">Browse all listings</Link>
+                <Link href="/sell/new" className="bd-btn bd-btn-primary text-center">Create a listing</Link>
+              </div>
+            </div>
+          )}
+        </section>
+
       </div>
     </main>
+
   );
 }
