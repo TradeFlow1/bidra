@@ -148,5 +148,15 @@ export async function POST(req: Request, { params }: { params: { id: string } })
     console.warn("[EMAIL_NOTIFY] message notify failed", e);
   }
 
-  return NextResponse.json({ ok: true, message: msg });
+  return NextResponse.json({
+    ok: true,
+    message: msg,
+    notifications: {
+      inAppCounts: true,
+      emailNotificationAttempted: true,
+      webPush: false,
+      nativeMobilePush: false,
+      backgroundDeliveryGuarantee: false,
+    },
+  });
 }
