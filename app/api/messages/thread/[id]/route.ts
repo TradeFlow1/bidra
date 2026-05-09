@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { prisma } from "@/lib/prisma"
@@ -40,5 +40,5 @@ export async function GET(_req: Request, ctx: { params: { id: string } }) {
     select: { id: true, body: true, createdAt: true, userId: true },
   })
 
-  return NextResponse.json({ thread, messages })
+  return NextResponse.json({ thread, messages, realtime: { mode: "stored_messages", websocket: false, typingIndicators: false, pushNotifications: false } })
 }

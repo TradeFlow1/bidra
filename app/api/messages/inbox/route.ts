@@ -29,5 +29,5 @@ export async function GET() {
     },
   })
 
-  return NextResponse.json({ threads })
+  return NextResponse.json({ threads, realtime: { mode: "refresh", websocket: false, pushNotifications: false } })
 }
