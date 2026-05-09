@@ -146,6 +146,11 @@ export default function SupportPage() {
             Bidra messages keep listing and order conversations in one place with unread status, stored conversation history, reporting, deletion, and email notifications where available. Bidra does not currently provide WebSocket live chat, typing indicators, attachment uploads, mobile push notifications, or guaranteed delivery receipts.
           </p>
         </SectionCard>
+        <SectionCard title="Notifications and push limits">
+          <p className="text-black/75">
+            Bidra currently surfaces notification-style updates through in-app counts and email notifications where email is configured. Browser push notifications, service worker push handling, Firebase Cloud Messaging, Apple Push Notification service, native mobile push, and guaranteed background delivery are not active yet.
+          </p>
+        </SectionCard>
 
         <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Read more</div>

@@ -71,3 +71,16 @@ export async function getNotificationCounts(userId: string) {
     primaryType,
   };
 }
+export function getNotificationChannelSummary() {
+  return {
+    inAppCounts: true,
+    emailWhenConfigured: true,
+    webPush: false,
+    nativeMobilePush: false,
+    serviceWorkerPush: false,
+    firebaseCloudMessaging: false,
+    applePushNotifications: false,
+    backgroundDeliveryGuarantee: false,
+    summary: "Bidra currently uses in-app counts and email notifications where configured. Push notifications are not active yet.",
+  };
+}

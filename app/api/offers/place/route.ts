@@ -129,6 +129,8 @@ export async function POST(req: Request) {
             buyerId: userId,
             amount: offer.amount,
             idempotencyKey: idempotencyKey,
+            notificationChannel: "email-if-configured",
+            pushNotification: false,
           },
         },
       });

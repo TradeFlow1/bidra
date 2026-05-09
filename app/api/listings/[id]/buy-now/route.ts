@@ -86,6 +86,8 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
             data: {
               listingId: listing.id,
               buyerId: session.user.id,
+              notificationChannel: "email-if-configured",
+              pushNotification: false,
               sellerId: listing.sellerId,
               amount: amount,
             },
