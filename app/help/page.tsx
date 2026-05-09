@@ -174,7 +174,7 @@ export default function HelpPage() {
             />
             <FaqItem
               question="Where do I see order progress?"
-              answer={<>Sold items and message actions are shown in your <Link href="/orders" className="bd-link font-semibold">Orders</Link> area.</>}
+              answer={<>Orders and message actions are shown in your <Link href="/orders" className="bd-link font-semibold">Orders</Link> area.</>}
             />
             <FaqItem
               question="What if I still need help?"

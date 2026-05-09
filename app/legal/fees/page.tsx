@@ -24,7 +24,7 @@ export default function FeesPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Fees</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Bidra fees</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Current launch pricing is simple: creating an account is free, browsing is free, messaging is free, creating a standard listing is free, placing an offer is free, and using Buy Now is free for buyers. The current seller success fee is 0% during launch.
+                Current pricing is simple: creating an account is free, browsing is free, messaging is free, creating a standard listing is free, placing an offer is free, and using Buy Now is free for buyers. The current seller success fee is 0%.
               </p>
             </div>
 
@@ -43,36 +43,36 @@ export default function FeesPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Buyer fees</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">$0</div>
-            <div className="mt-1 text-sm text-neutral-600">Buyers do not pay Bidra a fee to browse, watch, message, make offers, or use Buy Now during launch.</div>
+            <div className="mt-1 text-sm text-neutral-600">Buyers do not pay Bidra a fee to browse, watch, message, make offers, or use Buy Now under the current fee model.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Seller listing fees</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">$0</div>
-            <div className="mt-1 text-sm text-neutral-600">Sellers can create standard listings for free during launch.</div>
+            <div className="mt-1 text-sm text-neutral-600">Sellers can create standard listings for free under the current fee model.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Seller success fee</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">0%</div>
-            <div className="mt-1 text-sm text-neutral-600">Bidra does not charge a seller success fee during launch.</div>
+            <div className="mt-1 text-sm text-neutral-600">Bidra does not currently charge a seller success fee.</div>
           </div>
         </div>
 
-        <SectionCard title="Current launch fee model">
+        <SectionCard title="Current fee model">
           <ul className="list-disc space-y-2 pl-5 text-black/75">
             <li><strong>Account:</strong> $0 to create and use a Bidra account.</li>
             <li><strong>Browse, watch, and message:</strong> $0 for buyers and sellers.</li>
-            <li><strong>Standard listings:</strong> $0 for sellers during launch.</li>
-            <li><strong>Offers:</strong> $0 to place or accept an offer during launch.</li>
-            <li><strong>Buy Now:</strong> $0 Bidra buyer fee during launch.</li>
-            <li><strong>Seller success fee:</strong> 0% during launch.</li>
+            <li><strong>Standard listings:</strong> $0 for sellers under the current fee model.</li>
+            <li><strong>Offers:</strong> $0 to place or accept an offer under the current fee model.</li>
+            <li><strong>Buy Now:</strong> $0 Bidra buyer fee under the current fee model.</li>
+            <li><strong>Seller success fee:</strong> 0% under the current fee model.</li>
           </ul>
         </SectionCard>
 
         <SectionCard title="Payment and handover">
           <p className="text-black/75 leading-7">
-            Bidra creates listing, offer, messaging, and sold-item records. Buyers and sellers arrange payment, refunds, pickup, postage, tracking, packaging, dispatch, and handover directly with each other in Messages. Bidra does not hold pooled customer funds, process marketplace payments, sell shipping labels, calculate live postage rates, insure parcels, manage carrier claims, or act as escrow.
+            Bidra provides listing, offer, messaging, and order records. Buyers and sellers arrange payment, refunds, pickup, postage, tracking, packaging, dispatch, and handover directly with each other in Messages. Bidra does not hold pooled customer funds, process marketplace payments, sell shipping labels, calculate live postage rates, insure parcels, manage carrier claims, or act as escrow.
           </p>
         </SectionCard>
 

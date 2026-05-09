@@ -122,7 +122,7 @@ export async function POST(req: Request) {
 
   if (order.outcome !== "COMPLETED") {
     return NextResponse.json({
-      error: "Feedback is only available after the sold-item record is completed. Use Messages to confirm handover first.",
+      error: "Feedback is only available after the order is completed. Use Messages to confirm handover first.",
     }, { status: 409 });
   }
 

@@ -55,7 +55,7 @@ export default function TermsPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Orders</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">No funds held</div>
-            <div className="mt-1 text-sm text-neutral-600">Orders are sold-item records only. Buyers and sellers arrange payment, pickup, postage, refunds, and handover details in Messages.</div>
+            <div className="mt-1 text-sm text-neutral-600">Orders record the sale only. Buyers and sellers arrange payment, pickup, postage, refunds, and handover details in Messages.</div>
           </div>
         </div>
 
@@ -107,7 +107,7 @@ export default function TermsPage() {
             </div>
           </div>
 
-          <p className="mt-3 text-sm text-black/60">Bidra provides tools for listings, offers, sold-item records, and Messages. Buyers and sellers are responsible for checking items, agreeing payment, coordinating pickup or postage, and managing handover risk.</p>
+          <p className="mt-3 text-sm text-black/60">Bidra provides tools for listings, offers, orders, and Messages. Buyers and sellers are responsible for checking items, agreeing payment, coordinating pickup or postage, and managing handover risk.</p>
         </SectionCard>
 
         <SectionCard title="5) Orders and messages">

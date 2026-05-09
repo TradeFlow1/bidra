@@ -404,7 +404,7 @@ export default async function ListingDetailPage({
                   <p className="mt-1">If postage is agreed, buyer and seller should confirm carrier, tracking, packaging, dispatch timing, delivery risk, and who pays postage in Messages. Bidra does not currently provide shipping labels, live rates, insurance, or carrier claim handling.</p>
                 </div>
                   <p className="mt-1">Keep questions, payment arrangements, pickup, postage method, tracking details, packaging expectations, and handover details in Bidra Messages.</p>
-                  <p className="mt-2">Launch pricing is currently $0 for buyers, standard listings, and seller success fees. <Link className="font-semibold underline underline-offset-2" href="/legal/fees">Read fees</Link>.</p>
+                  <p className="mt-2">Current pricing is $0 for buyers, standard listings, and seller success fees. <Link className="font-semibold underline underline-offset-2" href="/legal/fees">Read fees</Link>.</p>
                 </div>
                 <div className="rounded-2xl border border-[#E2E8F0] bg-white px-3.5 py-3">
                   <div className="text-sm font-extrabold text-[#0F172A]">Before you act</div>

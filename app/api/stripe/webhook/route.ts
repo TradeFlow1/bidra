@@ -9,7 +9,7 @@ export async function POST() {
     {
       ok: false,
       code: "PAYMENTS_DISABLED",
-      error: "In-app payments are disabled for the current Bidra launch model.",
+      error: "In-app payments are disabled for the current Bidra payment model.",
       paymentModel: "external_handover",
       operatorNote: "Stripe webhook is intentionally disabled while Bidra does not process marketplace payments, hold pooled customer funds, or act as escrow.",
     },

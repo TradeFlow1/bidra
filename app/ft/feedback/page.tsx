@@ -58,7 +58,7 @@ export default function FtFeedbackPage() {
       <main className="mx-auto max-w-xl p-6">
       <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/feedback" label="Back to feedback" /></div>
         <h1 className="text-xl font-bold">Thanks 🙏</h1>
-        <p className="mt-2 text-sm">Your feedback helps us find issues before launch.</p>
+        <p className="mt-2 text-sm">Your feedback helps us improve Bidra.</p>
       </main>
     );
   }
