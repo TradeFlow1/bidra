@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
+import { getRiskSignals, highestRiskLevel, riskLevelLabel } from "@/lib/risk-signals";
 
 type AdminUserRow = {
   id: string;
@@ -18,6 +19,8 @@ type AdminUserRow = {
   policyStrikes: number;
   policyBlockedUntil: Date | null;
   createdAt: Date;
+  reportCount: number;
+  unresolvedReportCount: number;
 };
 
 export default async function AdminUsers() {
@@ -45,23 +48,58 @@ export default async function AdminUsers() {
     },
   })) as AdminUserRow[];
 
+  const userIds = users.map(function (u) { return u.id; });
+  const reportCountsByUser = new Map<string, { total: number; open: number }>();
+
+  if (userIds.length > 0) {
+    const reportGroups = await prisma.report.groupBy({
+      by: ["reporterId", "resolved"],
+      where: { reporterId: { in: userIds } },
+      _count: { _all: true },
+    });
+
+    reportGroups.forEach(function (group) {
+      const current = reportCountsByUser.get(group.reporterId) || { total: 0, open: 0 };
+      current.total += group._count._all;
+      if (!group.resolved) current.open += group._count._all;
+      reportCountsByUser.set(group.reporterId, current);
+    });
+  }
+
+  const usersWithRisk = users.map(function (u) {
+    const counts = reportCountsByUser.get(u.id) || { total: 0, open: 0 };
+    return { ...u, reportCount: counts.total, unresolvedReportCount: counts.open };
+  });
+
   const backTo = "/admin/users";
 
   return (
     <div className="flex flex-col gap-3">
       <div>
         <h1 className="text-2xl font-bold">Users</h1>
-        <p className="mt-2 text-sm text-neutral-600">Review account status, contact confirmation signals, policy strikes, block state, account age, and related report context before taking user moderation action. Email and phone confirmation are account signals, not government ID checks.</p>
+        <p className="mt-2 text-sm text-neutral-600">Review account status, contact confirmation signals, policy strikes, block state, report history, account age, and related evidence before taking user moderation action. Risk labels are review aids, not automated fraud decisions.</p>
       </div>
 
       <div className="grid gap-3">
-        {users.length === 0 ? (
+        {usersWithRisk.length === 0 ? (
           <Card>
             <div className="p-4 text-sm text-neutral-600">No users need trust-operations review right now.</div>
           </Card>
         ) : null}
 
-        {users.map((u: AdminUserRow) => (
+        {usersWithRisk.map((u: AdminUserRow) => {
+          const riskSignals = getRiskSignals({
+            policyStrikes: u.policyStrikes,
+            policyBlockedUntil: u.policyBlockedUntil,
+            reportCount: u.reportCount,
+            unresolvedReportCount: u.unresolvedReportCount,
+            emailVerified: u.emailVerified,
+            phoneVerified: u.phoneVerified,
+            ageVerified: u.ageVerified,
+            createdAt: u.createdAt,
+          });
+          const riskLevel = highestRiskLevel(riskSignals);
+          return (
           <Card key={u.id}>
             <div className="flex items-start justify-between gap-3">
               <div>
@@ -79,6 +117,8 @@ export default async function AdminUsers() {
                   <Badge>{u.emailVerified ? "Email confirmed" : "Email unconfirmed"}</Badge>
                   <Badge>{u.phoneVerified ? "Phone confirmed" : "Phone unconfirmed"}</Badge>
                   <Badge>{u.ageVerified ? "18+ recorded" : "18+ not recorded"}</Badge>
+                  <Badge>Risk level: {riskLevelLabel(riskLevel)}</Badge>
+                  <Badge>Reports {u.reportCount} / open {u.unresolvedReportCount}</Badge>
                   {u.policyBlockedUntil ? (
                     <Badge>Blocked until <DateTimeText value={u.policyBlockedUntil} /></Badge>
                   ) : null}
@@ -107,7 +147,8 @@ export default async function AdminUsers() {
               </div>
             </div>
           </Card>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

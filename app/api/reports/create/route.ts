@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { getIdempotencyKey } from "@/lib/transaction-safety";
+import { clientIpFromHeaders } from "@/lib/rate-limit";
 
 const ALLOWED_REASONS = new Set([
   "PROHIBITED_ITEM",
@@ -51,6 +52,8 @@ export async function POST(req: Request) {
     if (!exists) return NextResponse.json({ error: "Listing not found" }, { status: 404 });
 
     const idempotencyKey = getIdempotencyKey(req, [reporterId, listingId, reason, details]);
+    const riskIp = clientIpFromHeaders(req.headers);
+    const riskUserAgent = String(req.headers.get("user-agent") || "").slice(0, 240);
     const recentSince = new Date(Date.now() - 60 * 1000);
     const existingReport = await prisma.report.findFirst({
       where: {
@@ -86,7 +89,25 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({ ok: true, report });
+
+    if (reason === "SCAM_OR_FRAUD" || reason === "SAFETY_RISK") {
+      try {
+        await prisma.adminEvent.create({
+          data: {
+            type: "REPORT_RISK_SIGNAL_RECORDED",
+            userId: reporterId,
+            data: {
+              listingId,
+              reportId: report.id,
+              reason,
+              ip: riskIp,
+              userAgent: riskUserAgent,
+              source: "listing-report",
+            },
+          },
+        });
+      } catch (_riskAuditErr) {}
+    }return NextResponse.json({ ok: true, report });
   } catch (e: any) {
     console.error("Report create error:", e);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

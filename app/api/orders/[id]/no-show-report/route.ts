@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { clientIpFromHeaders } from "@/lib/rate-limit";
 import { requireAdult } from "@/lib/require-adult";
 
 export async function POST(req: Request, ctx: { params: { id: string } }) {
@@ -21,6 +22,8 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
 
     const body = await req.json().catch(function () { return {}; });
     const reason = String(body && body.reason ? body.reason : "").trim();
+    const riskIp = clientIpFromHeaders(req.headers);
+    const riskUserAgent = String(req.headers.get("user-agent") || "").slice(0, 240);
     if (reason.length < 8) {
       return NextResponse.json({ ok: false, error: "Please provide a short reason for the report." }, { status: 400 });
     }
@@ -59,7 +62,11 @@ export async function POST(req: Request, ctx: { params: { id: string } }) {
           reportedByRole: isBuyer ? "BUYER" : "SELLER",
           status: order.status,
           outcome: order.outcome,
-          reason: reason
+          reason: reason,
+          ip: riskIp,
+          userAgent: riskUserAgent,
+          source: "order-issue-report",
+          riskSignal: "ORDER_ISSUE_REPORTED"
         }
       }
     });
