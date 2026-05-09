@@ -142,7 +142,7 @@ export default function ListingCard({
   const ratingAvg = hasRating ? Number(listing.seller?.ratingAvg ?? 0) : 0;
   const ratingCount = hasRating ? Number(listing.seller?.ratingCount ?? 0) : 0;
   const verificationBadge = !hasRating
-    ? (hasEmailVerified ? "Email verified" : hasPhoneVerified ? "Phone verified" : "")
+    ? (hasEmailVerified ? "Email confirmed" : hasPhoneVerified ? "Phone confirmed" : "")
     : "";
   const offerCount = typeof listing.offerCount === "number" ? listing.offerCount : null;
   const currentOffer = typeof listing.currentOffer === "number" ? listing.currentOffer : null;

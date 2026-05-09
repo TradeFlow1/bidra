@@ -171,6 +171,12 @@ export default async function ListingDetailPage({
   const sellerPhoneVerified = !!cleanText((listing.seller as any)?.phone);
   const sellerRatingAvg = typeof sellerRating?._avg?.rating === "number" ? Number(sellerRating._avg.rating) : null;
   const sellerRatingCount = Number(sellerRating?._count?.rating || 0);
+  const sellerTrustSignals = [
+    sellerEmailVerified ? "Email confirmed" : "",
+    sellerPhoneVerified ? "Phone confirmed" : "",
+    sellerMemberSince ? "Member since " + sellerMemberSince : "",
+    sellerRatingAvg !== null && sellerRatingCount > 0 ? "Rated by completed orders" : "",
+  ].filter(Boolean);
   const listedDate = listing.createdAt
     ? new Date(listing.createdAt).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })
     : "";
@@ -319,6 +325,16 @@ export default async function ListingDetailPage({
                       <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Location</div>
                       <div className="mt-1 font-bold text-[#0F172A]">{sellerLocation}</div>
                     </div>
+                  {sellerTrustSignals.length > 0 ? (
+                    <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
+                      {sellerTrustSignals.map((signal) => (
+                        <span key={signal} className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1 text-[#334155]">{signal}</span>
+                      ))}
+                    </div>
+                  ) : null}
+                  <div className="mt-3 rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs leading-5 text-blue-950">
+                    <span className="font-extrabold">Account signal note:</span> Email and phone confirmation are account contact signals, not government ID, escrow, payment, shipping, or delivery guarantees.
+                  </div>
                     <div className="rounded-xl bg-[#F8FAFC] p-2">
                       <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Listings</div>
                       <div className="mt-1 font-bold text-[#0F172A]">{sellerActiveListings} active</div>

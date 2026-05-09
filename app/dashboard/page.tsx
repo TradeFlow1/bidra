@@ -184,7 +184,10 @@ export default async function DashboardPage({
     String(user.state ?? "").trim(),
     String(user.postcode ?? "").trim(),
   ].filter(Boolean).join(" - ");
-  const isFirstRunBuyer = ordersAsBuyerCount === 0 && counts.unreadThreads === 0;
+
+  const accountSignalCount = [user.emailVerified, user.phoneVerified, user.ageVerified, Boolean(locationSummary)].filter(Boolean).length;
+  const accountSignalLabel = accountSignalCount + "/4 account signals complete";
+  const trustSignalSummary = accountSignalCount >= 3 ? "Strong account signal coverage" : "Add more account signals";const isFirstRunBuyer = ordersAsBuyerCount === 0 && counts.unreadThreads === 0;
   const isFirstRunSeller = myListingsCount === 0;
   const showFirstRunSetup = isFirstRunBuyer || isFirstRunSeller || !locationSummary;
   const onboardingSteps = [
@@ -212,6 +215,46 @@ export default async function DashboardPage({
           </div>
         </div>
 
+        <section className="rounded-3xl border border-[#D8E1F0] bg-white p-5 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div className="max-w-3xl">
+              <div className="text-sm font-extrabold bd-ink">Account trust signals</div>
+              <p className="mt-1 text-sm leading-6 bd-ink2">
+                These are account-level signals that help buyers and sellers judge context before they message, buy, offer, or arrange handover. They do not mean Bidra has completed government ID or biometric verification.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] px-4 py-3 text-sm font-extrabold text-[#0F172A]">
+              {accountSignalLabel}
+            </div>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] p-4">
+              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Email</div>
+              <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{user.emailVerified ? "Confirmed" : "Not confirmed"}</div>
+              <div className="mt-1 text-sm text-neutral-600">Email confirmation supports account access and recovery.</div>
+            </div>
+            <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] p-4">
+              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Phone</div>
+              <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{user.phoneVerified ? "Confirmed" : "Not confirmed"}</div>
+              <div className="mt-1 text-sm text-neutral-600">{user.phoneVerified ? "Phone confirmation is active." : "Phone confirmation may be requested for protected marketplace actions."}</div>
+            </div>
+            <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] p-4">
+              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">18+ account check</div>
+              <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{user.ageVerified ? "Recorded" : "Review if needed"}</div>
+              <div className="mt-1 text-sm text-neutral-600">Bidra accounts are intended for adults. Restrictions apply where age checks fail.</div>
+            </div>
+            <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] p-4">
+              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Policy standing</div>
+              <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{isBlocked || !adult.ok ? "Needs review" : "Clear"}</div>
+              <div className="mt-1 text-sm text-neutral-600">{trustSignalSummary}. Policy strikes: {user.policyStrikes ?? 0}.</div>
+            </div>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Link href="/auth/phone-verify" className="bd-btn bd-btn-secondary text-center">Confirm phone</Link>
+            <Link href="/account/restrictions" className="bd-btn bd-btn-secondary text-center">View account status</Link>
+            <Link href="/support" className="bd-btn bd-btn-ghost text-center">What these signals mean</Link>
+          </div>
+        </section>
         {showFirstRunSetup ? (
           <section className="rounded-3xl border border-[#D8E1F0] bg-white p-5 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">First-run setup</div>

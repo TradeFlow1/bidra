@@ -69,7 +69,7 @@ export default function PhoneVerifyPage() {
       <div className="bd-card p-6 sm:p-8 max-w-[560px] mx-auto">
         <h1 className="text-2xl font-extrabold tracking-tight bd-ink">Verify your phone</h1>
         <p className="mt-2 text-sm bd-ink2">
-          Phone verification is only required when Bidra enables the phone gate for protected marketplace actions.
+          Phone confirmation helps strengthen account trust signals for protected marketplace actions. It is not government ID verification, biometric verification, escrow, payment protection, or a delivery guarantee.
         </p>
 
         {error ? (
