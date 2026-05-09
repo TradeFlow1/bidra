@@ -6,7 +6,7 @@ Improve Bidra's messaging confidence, navigation, freshness wording, and order-t
 
 ## Included in this PR
 
-- Adds /orders/[id]/message as a bridge route into the existing listing message thread.
+- Confirms /orders/[id]/message uses the existing route-handler bridge into the listing message thread.
 - Adds inbox Message freshness guidance.
 - Adds thread Chat freshness guidance.
 - Tightens message-thread safety copy around pickup, postage, tracking, packaging, dispatch, payment expectations, and handover.
@@ -30,7 +30,7 @@ Improve Bidra's messaging confidence, navigation, freshness wording, and order-t
 
 - Open /messages and confirm Message freshness appears naturally.
 - Open /messages/[id] and confirm Chat freshness appears naturally.
-- From /orders/[id], click Message buyer or Message seller and confirm it redirects to the existing thread.
+- From /orders/[id], click Message buyer or Message seller and confirm the existing route-handler bridge redirects to the existing thread.
 - Send a message and confirm the message appears after navigation or refresh.
 - Confirm unsafe contact/payment wording is still blocked by the send API.
 - Confirm /support explains current chat limits without overclaiming realtime infrastructure.
