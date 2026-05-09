@@ -1,26 +1,99 @@
-import { PLATFORM_LANGUAGE } from "@/lib/platform-language";
+import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
 
-export const metadata = { title: "Bidra | Disputes & Resolution" };
+export const metadata = { title: "Bidra | Resolution Centre" };
+
+function StepCard(props: { title: string; body: string; items?: string[] }) {
+  return (
+    <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+      <div className="text-sm font-extrabold bd-ink">{props.title}</div>
+      <p className="mt-2 text-sm leading-7 bd-ink2">{props.body}</p>
+      {props.items && props.items.length ? (
+        <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm leading-7 bd-ink2">
+          {props.items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
+}
 
 export default function Page() {
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
+    <main className="bd-container py-10">
       <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/support" label="Back to support" /></div>
-      <h1 className="text-2xl font-semibold">Disputes & Resolution</h1>
+      <div className="container max-w-6xl space-y-5">
+        <section className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Resolution centre</div>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help with order, listing, and message issues</h1>
+              <p className="mt-2 text-sm leading-7 bd-ink2 sm:text-base">
+                Use this page when something goes wrong with a Bidra listing, message thread, pickup, postage arrangement, or sold order. Start with the other person in Messages, keep evidence, then contact support or report unsafe behaviour if it cannot be resolved.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/contact" className="bd-btn bd-btn-primary text-center">Contact support</Link>
+              <Link href="/support" className="bd-btn bd-btn-secondary text-center">Safety guidance</Link>
+            </div>
+          </div>
+        </section>
 
-      <div className="mt-4 space-y-4 text-sm leading-6 opacity-90">
-        <p>
-          {PLATFORM_LANGUAGE.notParty} {PLATFORM_LANGUAGE.noGuarantee}
-        </p>
+        <section className="grid gap-3 md:grid-cols-3">
+          <StepCard
+            title="1. Keep the record clear"
+            body="Use Bidra Messages to confirm what happened and what each side expected."
+            items={["Keep listing links, order IDs, photos, screenshots, dates, times, and tracking details.", "Do not delete messages that explain the agreement or the problem."]}
+          />
+          <StepCard
+            title="2. Try a practical resolution"
+            body="Most marketplace problems are resolved directly between buyer and seller."
+            items={["Agree changes in Messages before pickup, postage, refund, or handover.", "Pause if terms suddenly change or the other person pressures you to leave Bidra."]}
+          />
+          <StepCard
+            title="3. Escalate the right way"
+            body="Choose the route that preserves the right evidence for review."
+            items={["Use Report for unsafe listings, scams, abuse, prohibited items, or message-thread behaviour.", "Use Contact for order, account, technical, or billing questions that need a reply."]}
+          />
+        </section>
 
-        <p>
-          Keep evidence such as messages, listing links, screenshots, and order details. Contact Support if you need platform review or need to report rule-breaking behaviour.
-        </p>
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-extrabold tracking-tight bd-ink">What Bidra can review</h2>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+              <div className="text-sm font-extrabold bd-ink">Platform safety issues</div>
+              <p className="mt-2 text-sm leading-7 bd-ink2">Scams, prohibited items, abuse, unsafe behaviour, misleading listings, and message-thread conduct can be reviewed through reports and admin evidence tools.</p>
+            </div>
+            <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+              <div className="text-sm font-extrabold bd-ink">Order support issues</div>
+              <p className="mt-2 text-sm leading-7 bd-ink2">Order IDs, listing links, messages, pickup notes, postage details, and screenshots help support understand what happened and route the request.</p>
+            </div>
+          </div>
+        </section>
 
-        <p>
-          {PLATFORM_LANGUAGE.payments}
-        </p>
+        <section className="rounded-3xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
+          <h2 className="text-xl font-extrabold tracking-tight text-amber-950">Important limits</h2>
+          <p className="mt-3 text-sm leading-7 text-amber-950">
+            Bidra is a marketplace platform. Bidra does not currently process marketplace payments, hold escrow, decide refunds, provide shipping labels, insure delivery, or act as a pickup scheduler. We can review platform evidence, preserve report history, and take platform actions such as restricting accounts or removing rule-breaking listings where evidence supports it.
+          </p>
+        </section>
+
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-extrabold tracking-tight bd-ink">Evidence checklist</h2>
+          <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 bd-ink2">
+            <li>Order ID or listing link.</li>
+            <li>Message thread link or screenshots of the relevant messages.</li>
+            <li>Photos of item condition, packaging, pickup, or delivery where relevant.</li>
+            <li>Payment, pickup, postage, refund, or handover terms that were agreed in Messages.</li>
+            <li>Dates, times, tracking numbers, usernames, and exact error text.</li>
+          </ul>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <Link href="/contact" className="bd-btn bd-btn-primary text-center">Start a support request</Link>
+            <Link href="/orders" className="bd-btn bd-btn-secondary text-center">Open orders</Link>
+            <Link href="/messages" className="bd-btn bd-btn-secondary text-center">Open messages</Link>
+          </div>
+        </section>
       </div>
     </main>
   );

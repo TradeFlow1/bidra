@@ -91,7 +91,8 @@ export default async function FeedbackPage({
   const otherPartyLabel = isBuyer ? "seller" : "buyer";
   const alreadySubmitted = isBuyer ? !!order.buyerFeedbackAt : !!order.sellerFeedbackAt;
   const canSubmit = order.outcome === "COMPLETED" && !alreadySubmitted;
-  const completionRequiredCopy = "Feedback opens only after the sold-item record is completed. Use Messages to confirm payment, pickup, postage, and handover first.";
+  const completionRequiredCopy = "Feedback opens only after the order is completed. Use Messages to confirm payment, pickup, postage, and handover first.";
+
 
   return (
     <main className="bd-container">
@@ -110,7 +111,10 @@ export default async function FeedbackPage({
 
             <nav className="flex flex-wrap gap-3">
               <Link className="bd-btn bd-btn-ghost text-center" href="/orders">
-                My account
+                Orders
+              </Link>
+              <Link className="bd-btn bd-btn-ghost text-center" href="/disputes">
+                Need help?
               </Link>
               <Link className="bd-btn bd-btn-ghost text-center" href={`/listings/${order.listing.id}`}>
                 View listing

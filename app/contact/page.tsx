@@ -42,6 +42,9 @@ export default async function ContactPage() {
               <Link href="/support" className={buttonClass}>
                 Support and safety
               </Link>
+              <Link href="/disputes" className={buttonClass}>
+                Resolution centre
+              </Link>
             </div>
           </div>
         </div>
@@ -73,7 +76,7 @@ export default async function ContactPage() {
               <div>
                 <div className="font-extrabold bd-ink">Choose the right queue</div>
                 <ul className="mt-2 list-disc pl-5 space-y-1">
-                  <li>Use Contact for account access, order help, billing or fee questions, and technical problems that need a reply.</li>
+                  <li>Use Contact for account access, order help, billing or fee questions, and technical problems that need a reply. For order evidence and next steps, start with the Resolution Centre.</li>
                   <li>Use in-product Report for unsafe listings, scams, abuse, prohibited items, or message-thread behaviour that needs moderation evidence.</li>
                   <li>Use Feedback for product ideas, confusing copy, or non-urgent marketplace improvements.</li>
                 </ul>

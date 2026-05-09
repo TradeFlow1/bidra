@@ -178,6 +178,13 @@ export default async function OrdersPage() {
                           View listing
                         </Link>
 
+                        <Link
+                          href="/disputes"
+                          className="bd-btn bd-btn-secondary text-center"
+                        >
+                          Need help?
+                        </Link>
+
                         {feedbackDue ? (
                           <Link
                             href={`/orders/${o.id}/feedback`}

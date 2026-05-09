@@ -136,6 +136,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </Link>
               <Link href="/orders" className="bd-btn bd-btn-secondary text-center">Orders</Link>
               <Link href={listingHref} className="bd-btn bd-btn-secondary text-center">View listing</Link>
+              <Link href="/disputes" className="bd-btn bd-btn-secondary text-center">Need help?</Link>
               {canLeave ? (
                 <Link href={feedbackHref} className="bd-btn bd-btn-secondary text-center">
                   Leave feedback
@@ -192,6 +193,14 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </ul>
             </div>
           </Card>
+            <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
+              <div className="font-extrabold">Need help with this order?</div>
+              <p className="mt-1">Use the Resolution Centre to collect the right order ID, listing link, Messages, screenshots, pickup notes, and postage details before contacting support.</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Link href="/disputes" className="bd-btn bd-btn-secondary text-center">Open resolution centre</Link>
+                <Link href="/contact" className="bd-btn bd-btn-secondary text-center">Contact support</Link>
+              </div>
+            </div>
 
           <SafetyCallout title="Safety guidance">
             <ul className="list-disc pl-5 space-y-2">
