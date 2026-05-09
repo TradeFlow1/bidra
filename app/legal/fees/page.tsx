@@ -72,7 +72,7 @@ export default function FeesPage() {
 
         <SectionCard title="Payment and handover">
           <p className="text-black/75 leading-7">
-            Bidra creates listing, offer, messaging, and sold-item records. Buyers and sellers arrange payment, refunds, pickup, postage, and handover directly with each other in Messages. Bidra does not hold pooled customer funds, process marketplace payments, or act as escrow.
+            Bidra creates listing, offer, messaging, and sold-item records. Buyers and sellers arrange payment, refunds, pickup, postage, tracking, packaging, dispatch, and handover directly with each other in Messages. Bidra does not hold pooled customer funds, process marketplace payments, sell shipping labels, calculate live postage rates, insure parcels, manage carrier claims, or act as escrow.
           </p>
         </SectionCard>
 

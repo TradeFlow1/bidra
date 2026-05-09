@@ -44,7 +44,7 @@ export default function Page() {
           <StepCard
             title="1. Keep the record clear"
             body="Use Bidra Messages to confirm what happened and what each side expected."
-            items={["Keep listing links, order IDs, photos, screenshots, dates, times, and tracking details.", "Do not delete messages that explain the agreement or the problem."]}
+            items={["Keep listing links, order IDs, photos, screenshots, dates, times, carrier names, tracking details, packaging photos, and dispatch proof.", "Do not delete messages that explain the agreement or the problem."]}
           />
           <StepCard
             title="2. Try a practical resolution"
@@ -67,7 +67,7 @@ export default function Page() {
             </div>
             <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
               <div className="text-sm font-extrabold bd-ink">Order support issues</div>
-              <p className="mt-2 text-sm leading-7 bd-ink2">Order IDs, listing links, messages, pickup notes, postage details, and screenshots help support understand what happened and route the request.</p>
+              <p className="mt-2 text-sm leading-7 bd-ink2">Order IDs, listing links, messages, pickup notes, carrier names, tracking numbers, packaging photos, dispatch proof, postage details, and screenshots help support understand what happened and route the request.</p>
             </div>
           </div>
         </section>
@@ -84,9 +84,9 @@ export default function Page() {
           <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 bd-ink2">
             <li>Order ID or listing link.</li>
             <li>Message thread link or screenshots of the relevant messages.</li>
-            <li>Photos of item condition, packaging, pickup, or delivery where relevant.</li>
+            <li>Photos of item condition, packaging, pickup, dispatch, or delivery where relevant.</li>
             <li>Payment, pickup, postage, refund, or handover terms that were agreed in Messages.</li>
-            <li>Dates, times, tracking numbers, usernames, and exact error text.</li>
+            <li>Dates, times, carrier names, tracking numbers, dispatch receipts, usernames, and exact error text.</li>
           </ul>
           <div className="mt-5 flex flex-wrap gap-2">
             <Link href="/contact" className="bd-btn bd-btn-primary text-center">Start a support request</Link>

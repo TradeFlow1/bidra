@@ -231,7 +231,7 @@ export default async function ListingDetailPage({
               <div className="border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 sm:px-5">
                 <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Item description</div>
                 <h2 id="listing-description-heading" className="mt-1 text-xl font-extrabold tracking-tight text-[#0F172A] sm:text-2xl">About this item</h2>
-                <p className="mt-1 text-sm leading-6 text-[#475569]">The seller description is the main source of item condition, pickup, and handover detail.</p>
+                <p className="mt-1 text-sm leading-6 text-[#475569]">The seller description is the main source of item condition, pickup, postage, packaging, dispatch, and handover detail.</p>
               </div>
 
               <div className="p-4 sm:p-5">
@@ -266,9 +266,9 @@ export default async function ListingDetailPage({
               <div className="text-sm font-semibold text-[#0F172A]">Questions to ask before buying</div>
               <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#475569]">
                 <li>Is the item still in the same condition shown in the photos?</li>
-                <li>Is pickup or postage available?</li>
+                <li>Is pickup or postage available, and who pays postage?</li>
                 <li>Are there any faults, missing parts, or extra accessories?</li>
-                <li>Can you confirm pickup time, suburb, handover details, and payment expectations in Messages?</li>
+                <li>Can you confirm pickup time, suburb, postage method, tracking expectations, handover details, and payment expectations in Messages?</li>
               </ul>
             </div>
           </div>
@@ -351,14 +351,18 @@ export default async function ListingDetailPage({
                 />
                 <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-3.5 py-3 text-sm text-emerald-900">
                   <div className="font-extrabold">Trade safely on Bidra</div>
-                  <p className="mt-1">Keep questions, payment arrangements, pickup, postage, and handover details in Bidra Messages.</p>
+                <div className="rounded-2xl border border-blue-200 bg-blue-50 px-3.5 py-3 text-sm text-blue-950">
+                  <div className="font-extrabold">Postage and delivery limits</div>
+                  <p className="mt-1">If postage is agreed, buyer and seller should confirm carrier, tracking, packaging, dispatch timing, delivery risk, and who pays postage in Messages. Bidra does not currently provide shipping labels, live rates, insurance, or carrier claim handling.</p>
+                </div>
+                  <p className="mt-1">Keep questions, payment arrangements, pickup, postage method, tracking details, packaging expectations, and handover details in Bidra Messages.</p>
                   <p className="mt-2">Launch pricing is currently $0 for buyers, standard listings, and seller success fees. <Link className="font-semibold underline underline-offset-2" href="/legal/fees">Read fees</Link>.</p>
                 </div>
                 <div className="rounded-2xl border border-[#E2E8F0] bg-white px-3.5 py-3">
                   <div className="text-sm font-extrabold text-[#0F172A]">Before you act</div>
                   <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-6 text-[#475569]">
                     <li>Check the photos, description, condition, location, and seller profile.</li>
-                    <li>Keep payment, pickup, postage, and handover details in Bidra Messages.</li>
+                    <li>Keep payment, pickup, postage method, tracking number, packaging, dispatch timing, and handover details in Bidra Messages.</li>
                     <li>Report anything that feels suspicious before committing.</li>
                   </ul>
                 </div>

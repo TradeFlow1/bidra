@@ -53,7 +53,7 @@ export default async function OrdersPage() {
             <div className="max-w-3xl">
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Track your buys and sales. Open any order to message the other person and confirm payment, pickup, postage, and handover details.
+                Track your buys and sales. Open any order to message the other person and confirm payment, pickup, postage method, tracking, packaging, dispatch timing, and handover details.
               </p>
             </div>
           </div>
@@ -97,7 +97,7 @@ export default async function OrdersPage() {
               const roleLabel = o.buyerId === user.id ? "Buying" : "Selling";
               const nextActionCopy = isCompleted
                 ? (feedbackDue ? "Next action: leave feedback." : "Next action: no further action needed.")
-                : "Next action: confirm payment and handover in Messages.";
+                : "Next action: confirm payment, pickup or postage, and handover in Messages.";
               const statusLabel = isCompleted ? "FEEDBACK OPEN" : "SOLD";
 
               return (
@@ -158,7 +158,7 @@ export default async function OrdersPage() {
                           className="bd-btn bd-btn-secondary text-center"
                         >
                           <span className="block">Order details</span>
-                          <span className="mt-1 block text-xs bd-ink2">Confirm payment and handover in Messages</span>
+                          <span className="mt-1 block text-xs bd-ink2">Confirm payment, pickup or postage, and handover in Messages</span>
                         </Link>
                       ) : (
                         <Link
