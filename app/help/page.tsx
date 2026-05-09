@@ -92,7 +92,7 @@ export default function HelpPage() {
           />
           <HelpCard
             title="Support and safety"
-            desc="Read safety guidance, dispute direction, reporting advice, and safer local trading tips."
+            desc="Read safety guidance, resolution steps, reporting advice, and safer local trading tips."
             href="/support"
             cta="Open support"
           />
@@ -166,7 +166,7 @@ export default function HelpPage() {
             />
             <FaqItem
               question="How do I report a problem?"
-              answer={<>Use reporting in listings or message threads for rule-breaking content or behaviour. For broader issues, use <Link href="/support" className="bd-link font-semibold">Support and safety</Link> or <Link href="/contact" className="bd-link font-semibold">Contact</Link>.</>}
+              answer={<>Use reporting in listings or message threads for rule-breaking content or behaviour. For order or handover issues, use the <Link href="/disputes" className="bd-link font-semibold">Resolution Centre</Link>, <Link href="/support" className="bd-link font-semibold">Support and safety</Link>, or <Link href="/contact" className="bd-link font-semibold">Contact</Link>.</>}
             />
             <FaqItem
               question="How do I update my location?"

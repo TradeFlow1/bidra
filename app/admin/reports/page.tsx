@@ -81,9 +81,9 @@ export default async function AdminReports({
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin reports</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Marketplace reports</h1>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Marketplace reports and resolution signals</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Triage open reports by reason, listing context, reporter details, evidence quality, status, and action links before taking proportional moderation action.
+                Triage open reports and order-related resolution signals by reason, listing context, reporter details, evidence quality, status, and action links before taking proportional trust or moderation action.
               </p>
             </div>
 

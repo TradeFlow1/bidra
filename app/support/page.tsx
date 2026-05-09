@@ -117,10 +117,14 @@ export default function SupportPage() {
           </p>
         </SectionCard>
 
-        <SectionCard title="Disputes">
+                <SectionCard title="Resolution centre">
           <p className="text-black/75">
-            Most issues are resolved between buyer and seller. If you cannot resolve it, contact Support with your order ID, listing link, Messages, and evidence. Bidra may take platform actions such as removing listings or restricting accounts, but does not act as a seller, escrow holder, payment provider, refund decision-maker, shipping provider, or pickup scheduler.
+            Most issues are resolved between buyer and seller. If something cannot be resolved, use the Resolution Centre to collect the right evidence, contact support, or report unsafe behaviour. Bidra can review platform evidence and take account or listing actions where supported, but does not act as escrow, payment provider, refund decision-maker, shipping provider, or pickup scheduler.
           </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Link href="/disputes" className="bd-btn bd-btn-primary text-center">Open resolution centre</Link>
+            <Link href="/contact" className="bd-btn bd-btn-secondary text-center">Contact support</Link>
+          </div>
         </SectionCard>
 
         <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">

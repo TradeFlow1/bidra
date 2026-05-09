@@ -160,7 +160,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
 
         <SectionCard title="Review checklist">
           <ul className="list-disc space-y-2 pl-5 text-sm bd-ink2 leading-7">
-            <li>Read the report reason, details, linked messages, listing context, and any screenshots or IDs before taking action.</li>
+            <li>Read the report reason, details, linked messages, listing context, order references, and any screenshots or IDs before taking action.</li>
             <li>Check the linked listing, seller state, reporter, repeated reports, prior restrictions, and related history where available.</li>
             <li>Use existing admin actions only when the evidence supports a proportional response such as clear, resolve, suspend, delete, strike, block, or reopen.</li>
             <li>Keep auditability in mind: every resolve, reopen, suspend, delete, strike, or block should be explainable from the report evidence.</li>
