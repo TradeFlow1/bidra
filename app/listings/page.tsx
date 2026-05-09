@@ -390,7 +390,7 @@ export default async function ListingsPage({
           <div className="space-y-3">
             <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4" role="status" aria-live="polite">
               <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Guided discovery shortcuts</h2>
-              <p className="mt-1 text-xs text-[#64748B]">Use filters to narrow by category, price, condition, and location.</p>
+              <p className="mt-1 text-xs text-[#64748B]">Use filters to narrow by category, price, condition, and location. Discovery shortcuts are rules-based and do not use AI personalisation, paid ranking, or behavioural profiling.</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#0F172A]">All active listings</Link>
                 <Link href={buildHref({ q, category, location, condition, min, max, sort, type: "BUY_NOW" })} className="bd-mobile-tap-target inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800">Buy Now deals</Link>

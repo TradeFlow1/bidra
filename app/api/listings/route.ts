@@ -108,7 +108,7 @@ export async function GET(req: Request) {
     const listings = await prisma.listing.findMany({
       where: {
         status: "ACTIVE",
-        
+
         images: { isEmpty: false },
         // Safety: never return listings that already have an order
         orders: { none: {} },
@@ -182,10 +182,28 @@ export async function GET(req: Request) {
         .map((x: any) => x.l)
         .slice(0, 24);
 
-      return NextResponse.json({ listings: ranked.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: respHeaders });
+      return NextResponse.json({
+        listings: ranked.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })),
+        recommendations: {
+          mode: "rules-based-local-discovery",
+          aiPersonalisation: false,
+          machineLearningRanking: false,
+          vectorSearch: false,
+          paidPlacement: false,
+        },
+      }, { headers: respHeaders });
     }
 
-    return NextResponse.json({ listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })) }, { headers: respHeaders });
+    return NextResponse.json({
+      listings: listings.map((l: any) => ({ ...l, title: sanitizeTitle(l.title) })),
+      recommendations: {
+        mode: "latest-active-listings",
+        aiPersonalisation: false,
+        machineLearningRanking: false,
+        vectorSearch: false,
+        paidPlacement: false,
+      },
+    }, { headers: respHeaders });
   } catch (err) {
     console.error("GET /api/listings failed", err);
     return NextResponse.json({ error: "Failed to load listings" }, { status: 500 });
