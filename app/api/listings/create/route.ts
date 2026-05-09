@@ -67,7 +67,7 @@ export async function POST(req: Request) {
   if (!gate.ok) {
     const message = gate.status === 401
       ? "Sign in required before creating a listing."
-      : "Your account is not eligible to create listings."; 
+      : "Your account is not eligible to create listings.";
     return NextResponse.json({ ok: false, error: message }, {
       status: gate.status,
       headers: { "content-type": "application/json" },
@@ -138,7 +138,7 @@ export async function POST(req: Request) {
     } else {
       if (priceIn === null || Number.isNaN(priceIn) || priceIn <= 0) return NextResponse.json({ error: "Starting offer must be greater than 0." }, { status: 400 });
       if (Number.isNaN(reservePriceIn)) return NextResponse.json({ error: "Reserve must be a number or blank." }, { status: 400 });
-      if (reservePriceIn !== null) return NextResponse.json({ error: "Reserve is not supported in this launch version." }, { status: 400 });
+      if (reservePriceIn !== null) return NextResponse.json({ error: "Reserve pricing is not currently supported." }, { status: 400 });
       if (durationDaysIn === null || Number.isNaN(durationDaysIn) || !(durationDaysIn === 3 || durationDaysIn === 5 || durationDaysIn === 7)) return NextResponse.json({ error: "Timed offers duration must be 3, 5, or 7 days." }, { status: 400 });
     }
 

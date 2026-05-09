@@ -21,7 +21,7 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     return NextResponse.json(
       {
         ok: false,
-        error: "This legacy endpoint is retired. Orders are sold-item records. Use messages to arrange pickup or postage.",
+        error: "This legacy endpoint is retired. Orders record the sale only. Use messages to arrange pickup or postage.",
       },
       { status: 410 }
     );

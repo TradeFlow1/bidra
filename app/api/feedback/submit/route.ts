@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
-// ORDER-02: post-sale feedback is intentionally gated to completed sold-item records.
+// ORDER-02: post-sale feedback is intentionally gated to completed orders.
 // Do not use this endpoint to mark orders complete or add a forced in-app completion workflow.
 
 export async function POST(req: Request) {
@@ -122,7 +122,7 @@ export async function POST(req: Request) {
 
   if (order.outcome !== "COMPLETED") {
     return NextResponse.json({
-      error: "Feedback is only available after the sold-item record is completed. Use Messages to confirm handover first.",
+      error: "Feedback is only available after the order is completed. Use Messages to confirm handover first.",
     }, { status: 409 });
   }
 

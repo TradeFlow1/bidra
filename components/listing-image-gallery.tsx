@@ -109,7 +109,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
               <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-sm font-semibold text-neutral-800 shadow-sm">
                 Photo
               </div>
-              <div className="text-lg font-semibold text-neutral-900">Photos coming soon</div>
+              <div className="text-lg font-semibold text-neutral-900">No gallery photos yet</div>
               <div className="mt-1 text-sm text-neutral-600">
                 This seller has not added gallery images yet. Review the description and message the seller if you need more detail.
               </div>

@@ -99,7 +99,7 @@ export default async function AdminOpsPage() {
 
         <section className="grid gap-3 sm:grid-cols-3">
           <InfoCard title="Checks passing" value={okCount} note="Operator checks currently OK." />
-          <InfoCard title="Needs attention" value={degradedCount} note="Checks that should be reviewed before launch." />
+          <InfoCard title="Needs attention" value={degradedCount} note="Checks that should be reviewed before public traffic or major releases." />
           <InfoCard title="Environment" value={process.env.VERCEL_ENV || process.env.NODE_ENV || "unknown"} note="Runtime deployment environment." />
           <InfoCard title="Analytics mode" value="Internal" note="AdminEvent, ActivitySession, and aggregate counts only." />
         </section>
@@ -141,7 +141,7 @@ export default async function AdminOpsPage() {
             <div>
               <div className="text-sm font-extrabold bd-ink">Payment readiness</div>
               <p className="mt-2 text-sm bd-ink2">
-                Current launch model: in-app payments are disabled. Bidra does not process marketplace payments, hold pooled customer funds, or act as escrow.
+                Current payment model: in-app payments are disabled. Bidra does not process marketplace payments, hold pooled customer funds, or act as escrow.
               </p>
             </div>
             <StatusPill status="ok" />
@@ -149,7 +149,7 @@ export default async function AdminOpsPage() {
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             <InfoCard title="Payment model" value={paymentReadiness.model} note="Buyer and seller arrange payment and handover directly." />
             <InfoCard title="In-app payments" value={paymentReadiness.inAppPaymentsEnabled ? "Enabled" : "Disabled"} note="Stripe webhook intentionally returns PAYMENTS_DISABLED." />
-            <InfoCard title="Stripe configured" value={paymentReadiness.stripeConfigured ? "Yes" : "Optional"} note="Stripe keys are not required for the current launch model." />
+            <InfoCard title="Stripe configured" value={paymentReadiness.stripeConfigured ? "Yes" : "Optional"} note="Stripe keys are not required for the current direct-payment model." />
           </div>
         </section>
 

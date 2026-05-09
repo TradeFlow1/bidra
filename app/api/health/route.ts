@@ -27,7 +27,7 @@ function paymentReadinessStatus() {
     stripeSecretPresent: stripeSecret,
     stripeWebhookPresent: stripeWebhook,
     stripePublishablePresent: stripePublic,
-    note: "Stripe keys are optional while Bidra launch payments are arranged directly between buyer and seller.",
+    note: "Stripe keys are optional while Bidra payments are arranged directly between buyer and seller.",
   };
 }
 
