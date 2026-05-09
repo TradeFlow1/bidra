@@ -63,7 +63,7 @@ export default async function NotificationsPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Updates</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Messages and orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Keep up with unread messages, orders, and follow-up. Bidra currently uses in-app counts and email where available; browser push, native mobile push, and background delivery are not active yet.
+                Keep up with unread messages, orders, and follow-up. Bidra currently uses in-app counts and email where available; browser push, native mobile push, and background delivery are not active yet. Bidra currently uses in-app counts and email where available; browser push, native mobile push, and background delivery are not active yet.
               </p>
             </div>
 
@@ -109,7 +109,7 @@ export default async function NotificationsPage() {
             href="/messages"
             action="Open inbox"
           >
-            Reply to buyers and sellers, ask questions, and keep pickup or postage details on Bidra. New message emails may be sent where email is configured.
+            Reply to buyers and sellers, ask questions, and keep pickup or postage details on Bidra. New message emails may be sent where email is configured. New message emails may be sent where email is configured.
           </UpdateCard>
 
           <UpdateCard
@@ -119,7 +119,7 @@ export default async function NotificationsPage() {
             href="/orders"
             action="Open orders"
           >
-            Review orders, message the other person, and handle pickup, postage, or follow-up. Order emails may be sent for supported events.
+            Review orders, message the other person, and handle pickup, postage, or follow-up. Order emails may be sent for supported events. Order emails may be sent for supported events.
           </UpdateCard>
         </div>
 
@@ -148,7 +148,7 @@ export default async function NotificationsPage() {
             <div className="mx-auto max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">You are all caught up</div>
               <div className="mt-2 text-sm text-neutral-600">
-                New messages, orders, and optional feedback will appear here. Keep checking this page and your email; Bidra does not currently send browser push or native mobile push notifications.
+                New messages, orders, and optional feedback will appear here. Keep checking this page and your email; Bidra does not currently send browser push or native mobile push notifications. Keep checking this page and your email; Bidra does not currently send browser push or native mobile push notifications.
               </div>
             </div>
           </div>
