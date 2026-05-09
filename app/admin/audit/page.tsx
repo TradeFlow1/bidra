@@ -130,7 +130,7 @@ export default async function AdminAuditPage({
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin audit</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Admin audit log</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review the latest admin actions, filter by entity type, and inspect related links, report IDs, listing IDs, user IDs, and captured metadata.
+                Review the latest admin actions, filter by entity type, and inspect related links, report IDs, listing IDs, user IDs, and captured metadata. Audit rows are operational records, not external analytics attribution.
               </p>
             </div>
 
@@ -191,7 +191,7 @@ export default async function AdminAuditPage({
           <div className="border-b border-black/10 px-6 py-4">
             <div className="text-sm font-extrabold bd-ink">Audit table</div>
             <div className="mt-1 text-sm bd-ink2">
-              Action context, related links, and raw metadata are shown together for review.
+              Action context, related links, and raw metadata are shown together for review. Use this for moderation traceability, not marketing analytics.
             </div>
           </div>
 

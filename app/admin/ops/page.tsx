@@ -101,6 +101,11 @@ export default async function AdminOpsPage() {
           <InfoCard title="Checks passing" value={okCount} note="Operator checks currently OK." />
           <InfoCard title="Needs attention" value={degradedCount} note="Checks that should be reviewed before launch." />
           <InfoCard title="Environment" value={process.env.VERCEL_ENV || process.env.NODE_ENV || "unknown"} note="Runtime deployment environment." />
+          <InfoCard title="Analytics mode" value="Internal" note="AdminEvent, ActivitySession, and aggregate counts only." />
+        </section>
+        <section className="rounded-3xl border border-blue-200 bg-blue-50 p-5 text-sm leading-7 text-blue-950 shadow-sm">
+          <div className="font-extrabold">Analytics foundation</div>
+          <p className="mt-1">Bidra currently uses internal operational records such as AdminEvent rows, ActivitySession rows, listing counts, order counts, offer counts, and message activity. External analytics providers such as GA4, Meta Pixel, PostHog, Segment, Mixpanel, and event warehouses are not active yet.</p>
         </section>
 
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">

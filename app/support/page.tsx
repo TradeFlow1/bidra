@@ -151,6 +151,11 @@ export default function SupportPage() {
             Bidra currently surfaces notification-style updates through in-app counts and email notifications where email is configured. Browser push notifications, service worker push handling, Firebase Cloud Messaging, Apple Push Notification service, native mobile push, and guaranteed background delivery are not active yet.
           </p>
         </SectionCard>
+        <SectionCard title="Analytics and privacy limits">
+          <p className="text-black/75">
+            Bidra currently uses internal operational records such as AdminEvent rows, ActivitySession rows, listing counts, order counts, offer counts, and message activity to understand platform health. Google Analytics, GA4, Meta Pixel, PostHog, Segment, Mixpanel, external attribution dashboards, and event warehouses are not active yet.
+          </p>
+        </SectionCard>
 
         <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Read more</div>

@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 async function safeJson(req: any) {
@@ -69,7 +69,18 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({
+      ok: true,
+      analyticsFoundation: {
+        mode: "internal-activity-session",
+        externalProviderForwarded: false,
+        googleAnalytics: false,
+        metaPixel: false,
+        postHog: false,
+        segment: false,
+        mixpanel: false,
+      },
+    });
   } catch (err) {
     console.error("activity ping failed", err);
     return NextResponse.json({ ok: false }, { status: 200 });
