@@ -131,6 +131,11 @@ export default function SupportPage() {
             Email confirmed, phone confirmed, 18+ recorded, member-since, completed-order feedback, and policy standing are account trust signals. They help users make better marketplace decisions, but they are not government ID verification, biometric checks, escrow, payment protection, delivery insurance, or a guarantee that a transaction will go smoothly.
           </p>
         </SectionCard>
+        <SectionCard title="How Bidra reviews risk signals">
+          <p className="text-black/75">
+            Bidra records safety reports, scam or fraud report reasons, policy strikes, temporary restrictions, and order issue events so administrators can review evidence consistently. These signals support human moderation. They do not automatically ban users, decide payment disputes, score payment fraud, or replace police, bank, carrier, or payment-provider processes.
+          </p>
+        </SectionCard>
 
         <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Read more</div>

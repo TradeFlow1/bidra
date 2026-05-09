@@ -28,7 +28,7 @@ function FilterChip(props: {
 
 function eventPriority(type: string) {
   const t = type.toUpperCase();
-  if (t.includes("REPORT") || t.includes("NO_SHOW") || t.includes("BUG")) return "High";
+  if (t.includes("RISK") || t.includes("FRAUD") || t.includes("REPORT") || t.includes("NO_SHOW") || t.includes("BUG")) return "High";
   if (t.includes("FEEDBACK") || t.includes("RESCHEDULE")) return "Medium";
   return "Normal";
 }
@@ -129,7 +129,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin events</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Internal event stream</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review internal audit events, filter by event type, and inspect summary context alongside raw payload data.
+                Review internal audit and risk-signal events, filter by event type, and inspect summary context alongside raw payload data. These events support human review; they are not automated fraud decisions.
               </p>
             </div>
 
@@ -176,6 +176,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
             <FilterChip href="/admin/events?type=ORDER_RESCHEDULE_CONFIRMED" active={type === "ORDER_RESCHEDULE_CONFIRMED"} label="Reschedule confirmed" />
             <FilterChip href="/admin/events?type=ORDER_NO_SHOW_REPORTED" active={type === "ORDER_NO_SHOW_REPORTED"} label="No-show reported" />
             <FilterChip href="/admin/events?type=ORDER_NO_SHOW_REPORT_REVIEWED" active={type === "ORDER_NO_SHOW_REPORT_REVIEWED"} label="No-show reviewed" />
+            <FilterChip href="/admin/events?type=RISK_SIGNAL_REVIEWED" active={type === "RISK_SIGNAL_REVIEWED"} label="Risk signal reviewed" />
           </div>
 
           <form method="get" className="flex flex-wrap items-center gap-3">

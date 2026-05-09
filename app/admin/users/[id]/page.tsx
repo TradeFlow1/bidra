@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
+import { getRiskSignals, highestRiskLevel, riskLevelLabel } from "@/lib/risk-signals";
 
 export const dynamic = "force-dynamic";
 
@@ -76,7 +77,33 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
   const blockedUntilMs = target.policyBlockedUntil ? new Date(target.policyBlockedUntil).getTime() : 0;
   const isBlocked = blockedUntilMs > Date.now();
 
-  return (
+
+  const reportCounts = await prisma.report.groupBy({
+    by: ["resolved"],
+    where: { reporterId: target.id },
+    _count: { _all: true },
+  });
+
+  const reportCount = reportCounts.reduce(function (sum, group) {
+    return sum + group._count._all;
+  }, 0);
+
+  const unresolvedReportCount = reportCounts
+    .filter(function (group) { return !group.resolved; })
+    .reduce(function (sum, group) { return sum + group._count._all; }, 0);
+
+  const riskSignals = getRiskSignals({
+    policyStrikes: target.policyStrikes,
+    policyBlockedUntil: target.policyBlockedUntil,
+    reportCount,
+    unresolvedReportCount,
+    emailVerified: target.emailVerified,
+    phoneVerified: target.phoneVerified,
+    ageVerified: target.ageVerified,
+    createdAt: target.createdAt,
+  });
+
+  const riskLevel = highestRiskLevel(riskSignals);return (
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
         <section className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
@@ -84,7 +111,7 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin user detail</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">{target.username || target.email}</h1>
-              <p className="mt-2 text-sm bd-ink2 sm:text-base">Review account state, contact confirmation signals, policy strikes, block status, and moderation actions before applying a proportional restriction.</p>
+              <p className="mt-2 text-sm bd-ink2 sm:text-base">Review account state, contact confirmation signals, policy strikes, block status, risk signals, and moderation actions before applying a proportional restriction.</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <Link href="/admin/users" className="bd-btn bd-btn-ghost text-center">Back to users</Link>
@@ -111,6 +138,25 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
             <Field label="18+ account">{target.ageVerified ? <Badge>Recorded</Badge> : <Badge>Not recorded</Badge>}</Field>
             <Field label="Phone on file">{target.phone ? <Badge>Present</Badge> : <Badge>Missing</Badge>}</Field>
           </div>
+        </section>
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <div className="text-sm font-extrabold bd-ink">Risk signal review</div>
+              <p className="mt-2 text-sm leading-7 bd-ink2">Signals below combine existing policy, report, restriction, account age, and confirmation data. They support human review and do not automatically ban, block, or label anyone as fraudulent.</p>
+            </div>
+            <Badge>Risk level: {riskLevelLabel(riskLevel)}</Badge>
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {riskSignals.map((signal) => (
+              <div key={signal.label} className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+                <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{riskLevelLabel(signal.level)}</div>
+                <div className="mt-1 text-sm font-extrabold bd-ink">{signal.label}</div>
+                <p className="mt-1 text-sm leading-6 bd-ink2">{signal.reason}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 text-xs leading-6 text-neutral-600">Report context: {reportCount} total report(s), {unresolvedReportCount} open report(s).</div>
         </section>
 
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
