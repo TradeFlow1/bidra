@@ -113,7 +113,7 @@ export default function TermsPage() {
         <SectionCard title="5) Orders and messages">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>When an order exists, the item is sold and the order records the sale details.</li>
-            <li>Bidra does not run in-app payment, escrow, refund handling, shipping, pickup scheduling, or forced completion workflows.</li>
+            <li>Bidra does not run in-app payment, escrow, refund handling, shipping labels, live postage rates, shipping insurance, carrier claims, pickup scheduling, or forced completion workflows.</li>
             <li>Buyers and sellers should use Messages to agree payment, pickup, postage, refunds, and handover details, and keep records such as messages and photos.</li>
             <li>Disputes, refunds, item condition issues, and handover problems are usually resolved between buyer and seller. Bidra may take platform actions, including restrictions, where misuse or fraud is detected.</li>
           </ul>

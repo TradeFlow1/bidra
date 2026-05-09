@@ -89,7 +89,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const statusLabel = order.outcome === "COMPLETED" ? "COMPLETED" : "SOLD - HANDOVER PENDING";
   const primaryNextAction = order.outcome === "COMPLETED"
     ? "Leave feedback if you have not already, or keep the order record for reference."
-    : "Message the other person to confirm payment, pickup, postage, and handover details.";
+    : "Message the other person to confirm payment, pickup or postage, tracking, packaging, dispatch timing, and handover details.";
   const primaryNextHref = order.outcome === "COMPLETED" ? feedbackHref : messageHref;
   const primaryNextLabel = order.outcome === "COMPLETED" ? "Review feedback options" : (isBuyer ? "Message seller" : "Message buyer");
   const canLeave =
@@ -116,7 +116,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
               <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Sold item</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                This order confirms the listing has sold. Use Messages to agree payment, pickup, postage, and handover details before completing the transaction.
+                This order confirms the listing has sold. Use Messages to agree payment, pickup or postage, tracking, packaging, dispatch timing, and handover details before completing the transaction.
               </p>
               <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
                 <div className="font-extrabold">Next action</div>
@@ -177,25 +177,29 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">Post-sale next steps</div>
             <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-              <li>Use Messages to confirm payment, pickup, postage, and handover details before completing the transaction.</li>
-              <li>If the order is pending, confirm payment, pickup, postage, and handover details in Messages.</li>
+              <li>Use Messages to confirm payment, pickup or postage, tracking, packaging, dispatch timing, and handover details before completing the transaction.</li>
+              <li>If the order is pending, confirm payment, pickup or postage, carrier, tracking expectations, and handover details in Messages.</li>
               <li>If the order is completed, the next action is to leave feedback if it is available.</li>
               <li>Keep important agreements and handover details in Bidra Messages.</li>
               <li>Follow safety guidance before final handover or postage dispatch.</li>
             </ul>
             <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
               <div className="font-extrabold">Handover safety checkpoint</div>
+            <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
+              <div className="font-extrabold">Shipping label status</div>
+              <p className="mt-1">Bidra does not currently create shipping labels, calculate live postage rates, insure parcels, or manage Australia Post, Sendle, courier, or carrier claims. Agree postage details in Messages and keep tracking evidence.</p>
+            </div>
               <ul className="mt-2 list-disc space-y-1.5 pl-5">
                 <li>Confirm the exact item, amount, payment expectation, pickup suburb or postage method, and timing before handover.</li>
                 <li>Use a public pickup location where practical and inspect the item before money changes hands.</li>
-                <li>For postage, agree tracking, packaging, dispatch timing, and who carries delivery risk before sending.</li>
+                <li>For postage, agree carrier, tracking, packaging, dispatch timing, item photos before dispatch, and who carries delivery risk before sending.</li>
                 <li>If the other person changes terms suddenly or asks for unsafe payment methods, stop and contact Support.</li>
               </ul>
             </div>
           </Card>
             <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
               <div className="font-extrabold">Need help with this order?</div>
-              <p className="mt-1">Use the Resolution Centre to collect the right order ID, listing link, Messages, screenshots, pickup notes, and postage details before contacting support.</p>
+              <p className="mt-1">Use the Resolution Centre to collect the right order ID, listing link, Messages, screenshots, pickup notes, carrier name, tracking number, packaging photos, dispatch proof, and postage details before contacting support.</p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link href="/disputes" className="bd-btn bd-btn-secondary text-center">Open resolution centre</Link>
                 <Link href="/contact" className="bd-btn bd-btn-secondary text-center">Contact support</Link>
@@ -204,9 +208,9 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
           <SafetyCallout title="Safety guidance">
             <ul className="list-disc pl-5 space-y-2">
-              <li>Keep payment, pickup, postage, and important details in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+              <li>Keep payment, pickup, postage method, carrier, tracking, packaging, dispatch, and important details in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
               <li>Meet in a safe public place for pickup where practical.</li>
-              <li>Use tracked delivery or postage where appropriate.</li>
+              <li>Use tracked delivery where appropriate, and save the tracking number and dispatch receipt.</li>
               <li>If anything feels suspicious, stop and report it.</li>
             </ul>
           </SafetyCallout>

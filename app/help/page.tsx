@@ -115,7 +115,7 @@ export default function HelpPage() {
           <ol className="mt-4 list-decimal pl-5 text-sm bd-ink2 leading-7 space-y-2">
             <li>Create a listing with clear details, honest condition notes, and accurate photos.</li>
             <li>Use messages for clarification only and keep communication respectful and on-platform.</li>
-            <li>After a sale, buyer and seller use messages to arrange pickup or postage. No extra approval step is needed.</li>
+            <li>After a sale, buyer and seller use messages to arrange pickup or postage, including carrier, tracking, packaging, dispatch timing, and who pays postage. No extra approval step is needed.</li>
             <li>After handover, leave feedback if available or report an issue if something went wrong.</li>
           </ol>
         </section>

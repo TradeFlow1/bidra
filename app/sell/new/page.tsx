@@ -74,7 +74,7 @@ export default async function SellNewPage() {
           eyebrow="Sell on Bidra"
           backHref="/listings"
           backLabel="Back to marketplace"
-          description="Follow the first-listing checklist: clear photos, accurate condition, local pickup context, simple pricing, and handover notes that keep buyers confident before they message or buy."
+          description="Follow the first-listing checklist: clear photos, accurate condition, local pickup or postage context, simple pricing, and handover notes that keep buyers confident before they message or buy."
         />
 
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -91,8 +91,12 @@ export default async function SellNewPage() {
           <div className="bd-card p-4">
             <div className="text-xs font-bold uppercase tracking-wide text-neutral-500">Step 3</div>
             <div className="mt-1 text-sm font-extrabold bd-ink">Safe handover notes</div>
-            <p className="mt-1 text-xs bd-ink2">Use suburb, state, pickup or postage notes, and keep final details in Messages.</p>
+            <p className="mt-1 text-xs bd-ink2">Use suburb, state, pickup or postage notes, tracking expectations, and keep final details in Messages.</p>
           </div>
+        </div>
+        <div className="mt-4 rounded-3xl border border-blue-200 bg-blue-50 p-5 text-sm leading-7 text-blue-950">
+          <div className="font-extrabold">Postage readiness</div>
+          <p className="mt-1">If you offer postage, say whether the buyer or seller pays postage, whether tracking will be used, how quickly you can dispatch, and how packaging risk is handled. Bidra does not currently sell labels, calculate carrier rates, insure delivery, or manage carrier claims.</p>
         </div>
 
         <div className="mt-6">
