@@ -246,7 +246,47 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-3 sm:p-6">
+        {/* Mobile collapsed Explore */}
+        <details className="sm:hidden rounded-[26px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+          <summary className="bd-mobile-tap-target flex cursor-pointer list-none items-center justify-between gap-3">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Explore</div>
+              <h2 className="mt-1 text-[1.25rem] font-extrabold tracking-tight text-[#0F172A]">Browse categories</h2>
+            </div>
+            <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm">
+              Show
+            </span>
+          </summary>
+
+          {featuredCategories.length ? (
+            <div className="mt-4 grid gap-2">
+              {featuredCategories.map(function (entry) {
+                return (
+                  <Link
+                    key={entry[0]}
+                    href={"/listings?category=" + encodeURIComponent(entry[0])}
+                    className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white"
+                  >
+                    <span>{entry[0]}</span>
+                    <span className="ml-2 text-xs font-medium text-[#64748B]">({entry[1]})</span>
+                  </Link>
+                );
+              })}
+              <Link
+                href="/listings"
+                className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm"
+              >
+                View all categories
+              </Link>
+            </div>
+          ) : (
+            <div className="mt-4 rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] p-4 text-sm font-semibold text-[#0F172A]">
+              No categories yet
+            </div>
+          )}
+        </details>
+
+        <section className="hidden rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:block sm:p-5 lg:p-3 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Explore</div>
