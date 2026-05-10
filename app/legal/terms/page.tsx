@@ -102,6 +102,7 @@ export default function TermsPage() {
             <li>users remain responsible for payment, pickup, postage, and handover decisions.</li>
             <li>These Terms cover platform-only role, data handling, marketplace risk, and user responsibilities.</li>
             <li>These Terms also cover platform-only role, user responsibility, marketplace risk.</li>
+            <li>Buyers and sellers should understand marketplace risk before trading.</li>
             <li>Bidra may keep moderation actions, report activity, and security events.</li>
             <li>Messages and order records may preserve transaction context.</li>
             <li>off-platform payment, refunds, pickup, postage, or handover arrangements remain user responsibility.</li>
@@ -109,6 +110,7 @@ export default function TermsPage() {
             <li>Bidra does not hold pooled customer funds or act as escrow.</li>
             <li>reports may be investigated.</li>
             <li>Users remain responsible for payment, pickup, postage, refunds, and handover decisions.</li>
+            <li>Keep refund, and handover details in Bidra Messages where possible.</li>
           </ul>
         </div>
 
