@@ -134,9 +134,7 @@ export default function WatchlistButton(props: Props) {
         type="button"
         onClick={onClick}
         disabled={loading || !ready}
-        className={watched
-          ? "bd-btn bd-btn-ghost w-full text-center !border-amber-300 !bg-amber-50 !text-amber-950 hover:!bg-amber-100 disabled:opacity-60"
-          : "bd-btn bd-btn-ghost w-full text-center disabled:opacity-60"}
+        className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {ready ? label : "Loading..."}
       </button>
