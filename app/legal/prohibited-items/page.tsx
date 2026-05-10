@@ -60,7 +60,7 @@ export default function ProhibitedItemsPage() {
           </div>
         </section>
 
-        <section className="grid gap-3 sm:grid-cols-3">
+        <section className="hidden gap-3 sm:grid sm:grid-cols-3">
           <InfoCard
             label="Rule level"
             title="Always prohibited"
