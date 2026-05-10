@@ -14,7 +14,7 @@ function SectionTitle(props: { children: React.ReactNode }) {
   return <h2 className="text-lg font-extrabold tracking-tight bd-ink">{props.children}</h2>;
 }
 
-const buttonClass = "bd-btn bd-btn-secondary text-center";
+const buttonClass = "inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto";
 
 export default async function ContactPage() {
   const session = await auth();
@@ -22,20 +22,20 @@ export default async function ContactPage() {
   const defaultEmail = String((user as any)?.email || "").trim();
 
   return (
-    <main className="bd-container py-10">
+    <main className="bd-container py-6 sm:py-10">
       <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
       <div className="container max-w-5xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
+        <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Contact</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Contact support</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Need help with a listing, message, order, or account? Send the details to support.
+                Send listing, order, message, account, or technical issues to support.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="grid gap-2 sm:flex sm:flex-wrap">
               <a href={"mailto:" + SUPPORT_EMAIL} className={buttonClass}>
                 Email support
               </a>
@@ -50,24 +50,24 @@ export default async function ContactPage() {
         </div>
 
         <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
             <SectionTitle>Send a support message</SectionTitle>
             <div className="mt-4">
               {!user ? (
                 <div className="mb-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
-                  You can contact support without logging in. Add your email so we can reply.
+                  No login required. Add your email so support can reply.
                 </div>
               ) : null}
               <ContactForm defaultEmail={defaultEmail} />
             </div>
           </div>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
             <SectionTitle>Before you send</SectionTitle>
             <div className="mt-4 space-y-5 text-sm bd-ink2 leading-7">
               <div>
                 <div className="font-extrabold bd-ink">Email support</div>
-                <p className="mt-1">No account required. Use the form or email us directly.</p>
+                <p className="mt-1">Use the form or email support directly.</p>
                 <a className="bd-link font-semibold" href={"mailto:" + SUPPORT_EMAIL}>
                   {SUPPORT_EMAIL}
                 </a>
@@ -86,8 +86,8 @@ export default async function ContactPage() {
                 <div className="font-extrabold bd-ink">Include details</div>
                 <ul className="mt-2 list-disc pl-5 space-y-1">
                   <li>Listing, order, or message thread link.</li>
-                  <li>What happened and what you expected.</li>
-                  <li>Screenshots, timestamps, exact error text, and the best reply email.</li>
+                  <li>A short description of the issue.</li>
+                  <li>Screenshots, timestamps, or exact error text if available.</li>
                 </ul>
               </div>
 
