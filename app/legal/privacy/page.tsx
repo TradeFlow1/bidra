@@ -1,128 +1,149 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+export const metadata = { title: "Privacy - Bidra" };
+
+const actionClass = "inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto";
+
+function InfoCard(props: {
+  label: string;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">{props.label}</div>
+      <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{props.title}</div>
+      <div className="mt-1 text-sm text-[#475569]">{props.desc}</div>
+    </div>
+  );
+}
 
 function SectionCard(props: {
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+    <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
       <h2 className="text-xl font-extrabold tracking-tight bd-ink">{props.title}</h2>
-      <div className="mt-3">{props.children}</div>
+      <div className="mt-3 text-sm bd-ink2 leading-7">{props.children}</div>
     </section>
   );
 }
 
 export default function PrivacyPage() {
   return (
-    <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+    <main className="bd-container py-6 sm:py-10">
+      <div className="mx-auto mb-4 w-full max-w-6xl px-4">
+        <BackButton href="/listings" label="Back to marketplace" />
+      </div>
+
       <div className="container max-w-6xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Privacy</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Privacy</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Privacy on Bidra</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                This page explains how Bidra collects and uses personal information. We aim to minimise data collection and use only what is needed to operate the marketplace, provide account and listing tools, improve safety, investigate reports, preserve audit records, and comply with Australian requirements.
+                How Bidra uses account, listing, message, support, report, and safety information.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              <Link href="/legal" className="bd-btn bd-btn-primary text-center">
+            <div className="grid gap-2 sm:flex sm:flex-wrap">
+              <Link href="/legal" className={actionClass}>
                 Legal hub
               </Link>
-              <Link href="/contact" className="bd-btn bd-btn-ghost text-center">
+              <Link href="/contact" className={actionClass}>
                 Contact
               </Link>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Principle</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Data minimisation</div>
-            <div className="mt-1 text-sm text-neutral-600">We aim to collect only what is needed to run the marketplace and support safety.</div>
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Marketplace context</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Privacy-safe location</div>
-            <div className="mt-1 text-sm text-neutral-600">Suburb, state, and postcode are used in a privacy-conscious way for local trading context.</div>
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Trust</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Safety and compliance</div>
-            <div className="mt-1 text-sm text-neutral-600">Some information is retained where needed for disputes, reports, fraud prevention, audit records, and legal obligations.</div>
-          </div>
-        </div>
+        <section className="grid gap-3 sm:grid-cols-3">
+          <InfoCard
+            label="Principle"
+            title="Collect what is needed"
+            desc="Bidra collects information needed to run accounts, listings, messages, support, and safety tools."
+          />
+          <InfoCard
+            label="Location"
+            title="General area only"
+            desc="Suburb, state, and postcode support local trading context. No street address is required."
+          />
+          <InfoCard
+            label="Trust"
+            title="Safety records"
+            desc="Some records are kept for reports, fraud prevention, disputes, audit, and legal obligations."
+          />
+        </section>
 
         <SectionCard title="What we collect">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Account information such as email, username, and basic profile details you choose to provide.</li>
-            <li>Location information for marketplace context using suburb, state, and postcode, shown in a privacy-safe way.</li>
-            <li>Activity and usage data such as logs, moderation actions, report activity, and security events used to prevent abuse, diagnose issues, and improve reliability.</li>
-            <li>Content you create including listings, offers, feedback, reports, support requests, and order-related records to operate the service and enforce rules.</li>
-            <li>Messages you send through Bidra to provide messaging features, preserve transaction context, and support safety or fraud investigations where needed.</li>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Account details such as email, username, and profile details you choose to provide.</li>
+            <li>Location context such as suburb, state, and postcode.</li>
+            <li>Listings, offers, orders, feedback, reports, support requests, and related records.</li>
+            <li>Messages sent through Bidra, including order and listing context.</li>
+            <li>Technical, security, moderation, and audit records used to protect the marketplace.</li>
           </ul>
         </SectionCard>
 
         <SectionCard title="How we use information">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Provide and maintain the marketplace including listings, messaging, offers, orders, and support.</li>
-            <li>Detect and prevent fraud, spam, prohibited items, unsafe handover patterns, and abusive behaviour.</li>
-            <li>Enforce our Terms and help keep the community safer.</li>
-            <li>Communicate important service updates and account notices.</li>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Operate accounts, listings, messaging, offers, orders, reports, and support.</li>
+            <li>Detect fraud, spam, unsafe behaviour, prohibited items, and abuse.</li>
+            <li>Enforce Terms, investigate reports, and protect marketplace integrity.</li>
+            <li>Send important account, security, and service notices.</li>
           </ul>
         </SectionCard>
 
         <SectionCard title="Sharing and disclosure">
-          <p className="text-black/75 leading-7">
-            We do not sell personal information. We may share information with trusted service providers only where needed to operate Bidra, such as hosting, email sending, analytics, and spam prevention. We may also disclose information where required by law or where reasonably necessary to protect users and the platform from harm, fraud, or security incidents.
+          <p>
+            Bidra does not sell personal information. Information may be shared with trusted service providers where needed to operate the platform, such as hosting, email delivery, analytics, security, and spam prevention. Information may also be disclosed where required by law or where reasonably necessary to protect users and the platform.
           </p>
         </SectionCard>
 
         <div className="grid gap-5 lg:grid-cols-2">
           <SectionCard title="Cookies and analytics">
-            <p className="text-black/75 leading-7">
-              Bidra uses cookies and similar technologies for essential functions such as keeping you signed in and helping us understand how the service is used. Where we use analytics or anti-abuse tools, we aim to choose privacy-respecting settings and collect only what we need.
+            <p>
+              Bidra uses cookies and similar technologies for core functions such as keeping users signed in, protecting accounts, and understanding service performance.
             </p>
           </SectionCard>
 
           <SectionCard title="Data retention">
-            <p className="text-black/75 leading-7">
-              We retain information only for as long as needed to operate Bidra, comply with legal obligations, respond to support requests, and resolve disputes. Some records may be retained for safety, fraud prevention, and audit purposes.
+            <p>
+              Information is kept only as long as needed to operate Bidra, comply with obligations, respond to support requests, resolve disputes, prevent fraud, and maintain audit records.
             </p>
           </SectionCard>
         </div>
 
         <div className="grid gap-5 lg:grid-cols-2">
           <SectionCard title="Security">
-            <p className="text-black/75 leading-7">
-              We use reasonable security measures to protect personal information. No system is perfectly secure, so please use a strong password and avoid sharing sensitive information in messages that you would not want exposed.
+            <p>
+              Bidra uses reasonable safeguards to protect personal information. No system is perfectly secure, so users should use strong passwords and avoid sharing sensitive details in messages.
             </p>
           </SectionCard>
 
           <SectionCard title="Your choices">
-            <ul className="list-disc pl-5 text-black/75 space-y-2">
-              <li>You can update many profile details in account settings.</li>
-              <li>You can contact us to request access or correction of personal information, subject to verification.</li>
-              <li>If you delete your account, some information may remain where required for safety, fraud prevention, or legal compliance.</li>
+            <ul className="list-disc space-y-2 pl-5">
+              <li>Update account details in account settings where available.</li>
+              <li>Contact Bidra to request access or correction, subject to verification.</li>
+              <li>Some records may remain after account deletion where required for safety, fraud prevention, disputes, audit, or legal compliance.</li>
             </ul>
           </SectionCard>
         </div>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="text-sm font-extrabold bd-ink">Questions?</div>
-          <div className="mt-3 flex flex-wrap gap-2 text-sm">
-            <Link className="bd-btn bd-btn-ghost text-center" href="/contact">Contact</Link>
-            <Link className="bd-btn bd-btn-ghost text-center" href="/legal/terms">Terms</Link>
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
+          <h2 className="text-xl font-extrabold tracking-tight bd-ink">Questions</h2>
+          <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap">
+            <Link className={actionClass} href="/contact">Contact</Link>
+            <Link className={actionClass} href="/legal/terms">Terms</Link>
           </div>
         </section>
       </div>
     </main>
   );
 }
-
