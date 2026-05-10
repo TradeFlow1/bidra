@@ -1,71 +1,90 @@
 import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
 
+export const metadata = { title: "Prohibited items - Bidra" };
+
+const actionClass = "inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto";
+
+function InfoCard(props: {
+  label: string;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">{props.label}</div>
+      <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{props.title}</div>
+      <div className="mt-1 text-sm text-[#475569]">{props.desc}</div>
+    </div>
+  );
+}
+
 function SectionCard(props: {
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+    <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
       <h2 className="text-xl font-extrabold tracking-tight bd-ink">{props.title}</h2>
-      <div className="mt-3">{props.children}</div>
+      <div className="mt-3 text-sm bd-ink2 leading-7">{props.children}</div>
     </section>
   );
 }
 
 export default function ProhibitedItemsPage() {
   return (
-    <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+    <main className="bd-container py-6 sm:py-10">
+      <div className="mx-auto mb-4 w-full max-w-6xl px-4">
+        <BackButton href="/listings" label="Back to marketplace" />
+      </div>
+
       <div className="container max-w-6xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Prohibited items</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Prohibited items</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Items that cannot be listed</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                To keep Bidra safe and compliant, some goods, animals, services, and categories cannot be listed. Listings that breach these rules may be removed, reports may be investigated, and repeated or serious attempts may result in account restrictions.
+                Some goods, animals, services, and listing types are not allowed on Bidra.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              <Link href="/legal" className="bd-btn bd-btn-primary text-center">
+            <div className="grid gap-2 sm:flex sm:flex-wrap">
+              <Link href="/legal" className={actionClass}>
                 Legal hub
               </Link>
-              <Link href="/support" className="bd-btn bd-btn-ghost text-center">
+              <Link href="/support" className={actionClass}>
                 Support
               </Link>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Rule level</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Always prohibited</div>
-            <div className="mt-1 text-sm text-neutral-600">These categories are not allowed on Bidra and may be removed without warning, even if a listing was already published.</div>
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Enforcement</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Automated and manual review</div>
-            <div className="mt-1 text-sm text-neutral-600">Bidra may use automated checks and manual review to enforce marketplace rules.</div>
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Unsure?</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Do not list first</div>
-            <div className="mt-1 text-sm text-neutral-600">If you are unsure whether something is allowed, contact support before listing it.</div>
-          </div>
-        </div>
+        <section className="grid gap-3 sm:grid-cols-3">
+          <InfoCard
+            label="Rule level"
+            title="Always prohibited"
+            desc="These categories are not allowed and may be removed."
+          />
+          <InfoCard
+            label="Review"
+            title="Automated and manual"
+            desc="Bidra may review listings to enforce marketplace rules."
+          />
+          <InfoCard
+            label="Unsure?"
+            title="Do not list first"
+            desc="Contact support before listing uncertain items."
+          />
+        </section>
 
         <SectionCard title="Always prohibited">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li><strong>Live animals</strong>, livestock, pets, wildlife, birds, fish, reptiles, insects, animal breeding listings, or listings for adoption, rehoming, or transfer of live animals.</li>
+          <ul className="list-disc space-y-2 pl-5">
+            <li><strong>Live animals</strong>, livestock, pets, wildlife, birds, fish, reptiles, insects, animal breeding listings, adoption, rehoming, or transfer of live animals.</li>
             <li><strong>Vapes and nicotine products</strong>, including e-cigarettes, vape devices, pods, nicotine pouches, and related consumables.</li>
-            <li><strong>Alcohol</strong>, including any alcoholic beverages.</li>
+            <li><strong>Alcohol</strong>, including alcoholic beverages.</li>
             <li><strong>Illegal drugs</strong> and drug paraphernalia intended for illicit use.</li>
-            <li><strong>Sexual or fetish content</strong>, including adult sexual products intended for stimulation, explicit sexual services, or pornographic material.</li>
+            <li><strong>Sexual or fetish content</strong>, explicit sexual services, pornographic material, or adult sexual products intended for stimulation.</li>
             <li><strong>Weapons and weapon parts</strong> where unlawful or restricted, including items marketed primarily as weapons.</li>
             <li><strong>Stolen goods</strong> or items suspected to be stolen.</li>
             <li><strong>Counterfeit goods</strong>, replicas passed off as genuine, or items infringing intellectual property rights.</li>
@@ -75,49 +94,46 @@ export default function ProhibitedItemsPage() {
           </ul>
         </SectionCard>
 
-        <SectionCard title="Restricted, regulated, or unsafe categories that may also be blocked">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Some categories may have additional restrictions depending on Australian law and local regulations.</li>
-            <li>Bidra may prohibit certain items even if they may be legal in limited contexts, where they create elevated safety, fraud, compliance, or moderation risk.</li>
-            <li>If an item requires specialist licensing, age-gating, transport controls, safety checks, or compliance proof, do not assume it is allowed on Bidra.</li>
+        <SectionCard title="Restricted, regulated, or unsafe items">
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Some categories may have extra restrictions under Australian law or local regulations.</li>
+            <li>Bidra may block items that create safety, fraud, compliance, or moderation risk.</li>
+            <li>If an item needs licensing, age-gating, transport controls, safety checks, or compliance proof, do not assume it is allowed.</li>
           </ul>
         </SectionCard>
 
         <SectionCard title="Fraud, deception, and unlawful activity">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Listings intended to scam, impersonate, mislead, or deceive other users are prohibited.</li>
-            <li>Listings for fake documents, forged credentials, manipulated serials, or tools designed primarily to enable fraud are prohibited.</li>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Listings intended to scam, impersonate, mislead, or deceive users are prohibited.</li>
+            <li>Fake documents, forged credentials, manipulated serials, or fraud-enabling tools are prohibited.</li>
             <li>Items that encourage unlawful conduct, bypass legal restrictions, or facilitate criminal activity are prohibited.</li>
           </ul>
         </SectionCard>
 
-        <SectionCard title="Services and non-item listings that are not allowed">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Listings for explicit sexual services or exploitative services are prohibited.</li>
-            <li>Listings that are primarily for unsafe, unlawful, or misleading services rather than legitimate goods are prohibited.</li>
-            <li>Bidra may remove listings that do not fit the intended marketplace model for physical goods and compliant local trading.</li>
+        <SectionCard title="Services and non-item listings">
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Explicit sexual services or exploitative services are prohibited.</li>
+            <li>Unsafe, unlawful, or misleading service listings are prohibited.</li>
+            <li>Bidra may remove listings that do not fit the marketplace model for physical goods and compliant local trading.</li>
           </ul>
         </SectionCard>
 
-        <SectionCard title="Safety and compliance notes">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>If you are unsure, do not list it. Contact Support first.</li>
-            <li>Bidra may use automated checks and manual review to enforce these rules.</li>
-            <li>We may remove listings, restrict accounts, preserve audit records, or take additional platform action where repeated or serious breaches occur.</li>
-            <li>These examples are not exhaustive. Bidra may remove listings that present comparable safety, fraud, abuse, or compliance risks.</li>
+        <SectionCard title="Enforcement">
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Bidra may remove listings, restrict accounts, preserve audit records, or take other platform action.</li>
+            <li>These examples are not exhaustive. Comparable safety, fraud, abuse, or compliance risks may also be removed.</li>
           </ul>
         </SectionCard>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="text-sm font-extrabold bd-ink">Need guidance?</div>
-          <div className="mt-3 flex flex-wrap gap-2 text-sm">
-            <Link className="bd-btn bd-btn-ghost text-center" href="/support">Support</Link>
-            <Link className="bd-btn bd-btn-ghost text-center" href="/legal/terms">Terms</Link>
-            <Link className="bd-btn bd-btn-ghost text-center" href="/contact">Contact</Link>
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
+          <h2 className="text-xl font-extrabold tracking-tight bd-ink">Need guidance?</h2>
+          <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap">
+            <Link className={actionClass} href="/support">Support</Link>
+            <Link className={actionClass} href="/legal/terms">Terms</Link>
+            <Link className={actionClass} href="/contact">Contact</Link>
           </div>
         </section>
       </div>
     </main>
   );
 }
-
