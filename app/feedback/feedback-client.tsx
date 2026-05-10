@@ -163,7 +163,7 @@ export default function FeedbackClient() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <button type="button" className="bd-btn bd-btn-solid" onClick={submit}>
+              <button type="button" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto" onClick={submit}>
                 Send feedback
               </button>
               <Link href="/support" className="bd-btn bd-btn-outline">Support &amp; Safety</Link>
