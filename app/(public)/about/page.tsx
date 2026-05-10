@@ -46,7 +46,7 @@ export default function AboutPage() {
               <Link href="/listings" className="bd-btn bd-btn-primary text-center">
                 Browse listings
               </Link>
-              <Link href="/how-it-works" className="bd-btn bd-btn-ghost text-center">
+              <Link href="/how-it-works" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
                 How it works
               </Link>
             </div>
@@ -111,16 +111,16 @@ export default function AboutPage() {
 
         <SectionCard title="Useful links">
           <div className="grid gap-2 sm:flex sm:flex-wrap">
-            <Link href="/how-it-works" className="bd-btn bd-btn-ghost text-center">
+            <Link href="/how-it-works" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
               How it works
             </Link>
-            <Link href="/support" className="bd-btn bd-btn-ghost text-center">
+            <Link href="/support" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
               Support
             </Link>
-            <Link href="/legal" className="bd-btn bd-btn-ghost text-center">
+            <Link href="/legal" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
               Legal hub
             </Link>
-            <Link href="/legal/prohibited-items" className="bd-btn bd-btn-ghost text-center">
+            <Link href="/legal/prohibited-items" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
               Prohibited items
             </Link>
           </div>
