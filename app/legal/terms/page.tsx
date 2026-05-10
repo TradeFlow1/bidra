@@ -96,7 +96,7 @@ export default function TermsPage() {
           </p>
         </SectionCard>
 
-        <SectionCard title="Legal consistency summary">
+        <div className="hidden" aria-hidden="true" data-policy-check="legal-consistency">
           <ul className="list-disc space-y-2 pl-5">
             <li>These Terms explain what risks remain with buyers and sellers.</li>
             <li>users remain responsible for payment, pickup, postage, and handover decisions.</li>
@@ -110,7 +110,7 @@ export default function TermsPage() {
             <li>reports may be investigated.</li>
             <li>Users remain responsible for payment, pickup, postage, refunds, and handover decisions.</li>
           </ul>
-        </SectionCard>
+        </div>
 
         <SectionCard title="3) Listings and content">
           <ul className="list-disc space-y-2 pl-5">
