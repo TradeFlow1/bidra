@@ -43,7 +43,7 @@ export default function AboutPage() {
             </div>
 
             <div className="grid gap-2 sm:flex sm:flex-wrap">
-              <Link href="/listings" className="bd-btn bd-btn-primary text-center">
+              <Link href="/listings" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
                 Browse listings
               </Link>
               <Link href="/how-it-works" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
