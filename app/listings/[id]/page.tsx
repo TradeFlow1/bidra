@@ -234,10 +234,10 @@ export default async function ListingDetailPage({
 
   return (
     <main className="bg-[#F7F9FC]">
-      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-4 px-4 py-4 lg:px-6 lg:py-5">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-4 sm:px-6 lg:py-6">
         <BackButton href="/listings" label="Back to listings" />
-        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6">
-          <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_21rem] xl:grid-cols-[minmax(0,1fr)_23rem]">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6">
+          <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] xl:grid-cols-[minmax(0,1fr)_22rem]">
             <div className="space-y-3">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -260,26 +260,26 @@ export default async function ListingDetailPage({
                   ) : null}
                 </div>
 
-                <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-[2.2rem]">{cleanText(listing.title)}</h1>
+                <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">{cleanText(listing.title)}</h1>
 
                 <div className="mt-2 text-sm text-[#64748B]">
                   <span>{cleanText(listing.location) || "Location on request"}</span>
                 </div>
               </div>
 
-              <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
+              <div className="overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white shadow-sm">
                 <div className="p-2.5 sm:p-3">
                   <ListingImageGallery images={images} title={cleanText(listing.title)} />
                 </div>
               </div>
 
               {/* BIDRA_MOVED_ITEM_DETAILS_START */}
-          <div className="space-y-3">
-            <section className="overflow-hidden rounded-[32px] border border-[#D8E1F0] bg-white shadow-sm" aria-labelledby="listing-description-heading">
+              <div className="hidden space-y-3 lg:block">
+            <section className="overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white shadow-sm" aria-labelledby="listing-description-heading">
               <div className="border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 sm:px-5">
                 <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Item description</div>
                 <h2 id="listing-description-heading" className="mt-1 text-xl font-extrabold tracking-tight text-[#0F172A] sm:text-2xl">About this item</h2>
-                <p className="mt-1 text-sm leading-6 text-[#475569]">The seller description is the main source of item condition, pickup, postage, packaging, dispatch, and handover detail.</p>
+                
               </div>
 
               <div className="p-4 sm:p-5">
@@ -310,22 +310,13 @@ export default async function ListingDetailPage({
                 </div>
               </div>
             </section>
-            <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
-              <div className="text-sm font-semibold text-[#0F172A]">Questions to ask before buying</div>
-              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[#475569]">
-                <li>Is the item still in the same condition shown in the photos?</li>
-                <li>Is pickup or postage available, and who pays postage?</li>
-                <li>Are there any faults, missing parts, or extra accessories?</li>
-                <li>Can you confirm pickup time, suburb, postage method, tracking expectations, handover details, and payment expectations in Messages?</li>
-              </ul>
-            </div>
           </div>
               {/* BIDRA_MOVED_ITEM_DETAILS_END */}
             </div>
 
-            <div className="rounded-[28px] border border-[#D8E1F0] bg-[linear-gradient(180deg,#FFFFFF_0%,#F8FAFC_100%)] p-4 shadow-sm">
+            <div className="rounded-[26px] border border-[#D8E1F0] bg-[linear-gradient(180deg,#FFFFFF_0%,#F8FAFC_100%)] p-4 shadow-sm lg:sticky lg:top-24">
               <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Highest offer" : "Price"}</div>
-              <div className="mt-1 text-[1.85rem] font-extrabold tracking-tight text-[#0F172A]">{money(displayPrice)}</div>
+              <div className="mt-1 text-4xl font-extrabold tracking-tight text-[#0F172A]">{money(displayPrice)}</div>
 
               {isTimedOffers ? (
                 <div className="mt-2 rounded-2xl border border-[#E2E8F0] bg-white/80 px-3 py-2 text-sm text-[#475569]">
@@ -344,19 +335,19 @@ export default async function ListingDetailPage({
                   </div>
                 ) : isTimedOffers ? (
                   <div className="space-y-2">
-                    <p className="text-sm leading-6 text-[#475569]">Offers are seller-reviewed. Ask questions first, then place an amount you are prepared to honour.</p>
+                    
                     <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    <p className="text-sm leading-6 text-[#475569]">Buy Now marks the item as sold. Confirm payment, pickup, postage, and handover details in Messages.</p>
+                    
                     <BuyNowButton listingId={listing.id} />
                   </div>
                 )}
 
                 {isOwner ? (
                   <div className="rounded-2xl border border-amber-200 bg-amber-50 px-3.5 py-3 text-sm font-semibold leading-6 text-amber-950">
-                    This is your listing. Buyer actions are hidden so you do not accidentally start your own purchase or message thread.
+                    This is your listing.
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
@@ -365,14 +356,26 @@ export default async function ListingDetailPage({
                   </div>
                 )}
 
+                                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm lg:hidden">
+                  <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Description</div>
+                  <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-[#1E293B]">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided. Message the seller before buying or making an offer."}</p>
+                </div>
+
                 <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm">
                   <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
                   <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
-                  <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
                     <div className="rounded-xl bg-[#F8FAFC] p-2">
                       <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Location</div>
                       <div className="mt-1 font-bold text-[#0F172A]">{sellerLocation}</div>
                     </div>
+                    <div className="rounded-xl bg-[#F8FAFC] p-2">
+                      <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Listings</div>
+                      <div className="mt-1 font-bold text-[#0F172A]">{sellerActiveListings} active</div>
+                    </div>
+                  </div>
+
                   {sellerTrustSignals.length > 0 ? (
                     <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
                       {sellerTrustSignals.map((signal) => (
@@ -380,15 +383,8 @@ export default async function ListingDetailPage({
                       ))}
                     </div>
                   ) : null}
-                  <div className="mt-3 rounded-xl border border-blue-200 bg-blue-50 px-3 py-2 text-xs leading-5 text-blue-950">
-                    <span className="font-extrabold">Account signal note:</span> Email and phone confirmation are account contact signals, not government ID, escrow, payment, shipping, or delivery guarantees.
-                  </div>
-                    <div className="rounded-xl bg-[#F8FAFC] p-2">
-                      <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Listings</div>
-                      <div className="mt-1 font-bold text-[#0F172A]">{sellerActiveListings} active</div>
-                    </div>
-                  </div>
-                  <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target mt-3 inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-white">View seller profile</Link>
+
+                  <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target mt-3 inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">View seller profile</Link>
                 </div>
 
                 <ShareActions
@@ -397,21 +393,12 @@ export default async function ListingDetailPage({
                   text={`Take a look at this listing on Bidra: ${cleanText(listing.title)}`}
                   label="Share listing"
                 />
-                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-3.5 py-3 text-sm text-emerald-900">
-                  <div className="font-extrabold">Trade safely on Bidra</div>
-                <div className="rounded-2xl border border-blue-200 bg-blue-50 px-3.5 py-3 text-sm text-blue-950">
-                  <div className="font-extrabold">Postage and delivery limits</div>
-                  <p className="mt-1">If postage is agreed, buyer and seller should confirm carrier, tracking, packaging, dispatch timing, delivery risk, and who pays postage in Messages. Bidra does not currently provide shipping labels, live rates, insurance, or carrier claim handling.</p>
-                </div>
-                  <p className="mt-1">Keep questions, payment arrangements, pickup, postage method, tracking details, packaging expectations, and handover details in Bidra Messages.</p>
-                  <p className="mt-2">Current pricing is $0 for buyers, standard listings, and seller success fees. <Link className="font-semibold underline underline-offset-2" href="/legal/fees">Read fees</Link>.</p>
-                </div>
-                <div className="rounded-2xl border border-[#E2E8F0] bg-white px-3.5 py-3">
-                  <div className="text-sm font-extrabold text-[#0F172A]">Before you act</div>
-                  <ul className="mt-2 list-disc space-y-1.5 pl-5 text-sm leading-6 text-[#475569]">
+                                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 text-sm text-[#475569] shadow-sm">
+                  <div className="font-extrabold text-[#0F172A]">Before you act</div>
+                  <ul className="mt-2 list-disc space-y-1.5 pl-5 leading-6">
                     <li>Check the photos, description, condition, location, and seller profile.</li>
-                    <li>Keep payment, pickup, postage method, tracking number, packaging, dispatch timing, and handover details in Bidra Messages.</li>
-                    <li>Report anything that feels suspicious before committing.</li>
+                    <li>Keep payment, pickup, postage, and handover details in Messages.</li>
+                    <li>Report anything suspicious before committing.</li>
                   </ul>
                 </div>
               </div>
@@ -440,21 +427,15 @@ export default async function ListingDetailPage({
           </div>
         </section>
 
-        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Related discovery</div>
-              <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#0F172A]">Browse similar active listings</h2>
+              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">More listings</div>
+              <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#0F172A]">Similar listings</h2>
               <p className="mt-1 max-w-3xl text-sm leading-6 text-[#475569]">{recommendationSummary.summary}</p>
             </div>
             <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View all listings</Link>
           </div>
-
-          <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-950">
-            <div className="font-extrabold">Recommendation limits</div>
-            <p className="mt-1">These suggestions use active listing category, location, seller, and recency signals only. Bidra does not currently use AI personalisation, machine-learning ranking, vector search, behavioural profiling, or paid placement ranking.</p>
-          </div>
-
           {relatedListings.length ? (
             <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {relatedListings.map(function (related) {
