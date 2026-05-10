@@ -1,165 +1,191 @@
 import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
 
+export const metadata = { title: "Terms - Bidra" };
+
+const actionClass = "inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto";
+
+function InfoCard(props: {
+  label: string;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">{props.label}</div>
+      <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{props.title}</div>
+      <div className="mt-1 text-sm text-[#475569]">{props.desc}</div>
+    </div>
+  );
+}
+
 function SectionCard(props: {
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+    <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
       <h2 className="text-xl font-extrabold tracking-tight bd-ink">{props.title}</h2>
-      <div className="mt-3">{props.children}</div>
+      <div className="mt-3 text-sm bd-ink2 leading-7">{props.children}</div>
     </section>
   );
 }
 
 export default function TermsPage() {
   return (
-    <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+    <main className="bd-container py-6 sm:py-10">
+      <div className="mx-auto mb-4 w-full max-w-6xl px-4">
+        <BackButton href="/listings" label="Back to marketplace" />
+      </div>
+
       <div className="container max-w-6xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Terms</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Terms</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Terms of use</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                These Terms govern your use of Bidra. By accessing or using Bidra, you agree to these Terms. Bidra is a marketplace platform only. We are not the seller of items, an auctioneer, an escrow holder, a payment provider, a shipping provider, a refund decision-maker, or a pickup scheduler.
+                These Terms explain account rules, listings, offers, orders, messages, marketplace risk, and Bidra's platform-only role.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              <Link href="/legal" className="bd-btn bd-btn-primary text-center">
+            <div className="grid gap-2 sm:flex sm:flex-wrap">
+              <Link href="/legal" className={actionClass}>
                 Legal hub
               </Link>
-              <Link href="/support" className="bd-btn bd-btn-ghost text-center">
+              <Link href="/support" className={actionClass}>
                 Support
               </Link>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Eligibility</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">18+ accounts only</div>
-            <div className="mt-1 text-sm text-neutral-600">Under 18s may browse publicly but cannot create accounts or transact.</div>
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Marketplace role</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Platform only</div>
-            <div className="mt-1 text-sm text-neutral-600">Bidra provides marketplace tools, but users remain responsible for payments, pickup, postage, handover, refunds, and trading decisions.</div>
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Orders</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">No funds held</div>
-            <div className="mt-1 text-sm text-neutral-600">Orders record the sale only. Buyers and sellers arrange payment, pickup, postage, refunds, and handover details in Messages.</div>
-          </div>
-        </div>
+        <section className="hidden gap-3 sm:grid sm:grid-cols-3">
+          <InfoCard
+            label="Eligibility"
+            title="18+ accounts only"
+            desc="Under 18s may browse publicly but cannot create accounts or transact."
+          />
+          <InfoCard
+            label="Marketplace role"
+            title="Platform only"
+            desc="Users remain responsible for payments, pickup, postage, handover, refunds, and trading decisions."
+          />
+          <InfoCard
+            label="Orders"
+            title="Sold-item records"
+            desc="Orders record the sale only. Bidra does not hold funds."
+          />
+        </section>
 
         <SectionCard title="1) Eligibility and accounts">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
+          <ul className="list-disc space-y-2 pl-5">
             <li><strong>18+ accounts only.</strong> Under 18s may browse publicly but may not create accounts, list items, place offers, message, or transact.</li>
-            <li>You must provide accurate information and keep your account details reasonably current, including your location.</li>
-            <li>You are responsible for keeping your login details secure and for all activity on your account.</li>
-            <li>We may restrict or suspend accounts to protect the marketplace, comply with law, or investigate abuse.</li>
+            <li>You must provide accurate account information and keep your location reasonably current.</li>
+            <li>You are responsible for your login details and activity on your account.</li>
+            <li>Bidra may restrict or suspend accounts to protect the marketplace, comply with law, or investigate abuse.</li>
           </ul>
         </SectionCard>
 
-        <SectionCard title="2) Your responsibilities">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>You must comply with applicable Australian laws and not use Bidra for unlawful activity.</li>
-            <li>You must not harass, threaten, scam, impersonate, or spam other users.</li>
-            <li>You must not attempt to bypass safety measures or misuse reports, feedback, or messaging tools.</li>
-            <li>You must not upload viruses, automated scraping, or attempt to interfere with site operations.</li>
-          </ul>
+        <SectionCard title="2) Marketplace role">
+          <p>
+            Bidra is the platform only. Bidra is not the seller, auctioneer, escrow holder, payment provider, shipping provider, refund decision-maker, or pickup scheduler.
+          </p>
+          <p className="mt-3">
+            Users remain responsible for payment, pickup, postage, and handover decisions. Buyers and sellers should understand marketplace risk before trading.
+          </p>
         </SectionCard>
 
         <SectionCard title="3) Listings and content">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Listings must be accurate, lawful, and not misleading, including title, description, photos, condition, and location context.</li>
-            <li>You must have the right to sell the item and it must not be stolen, counterfeit, or unlawfully supplied.</li>
-            <li><strong>Prohibited items are not allowed.</strong> They may be removed without notice. See <Link className="bd-link font-semibold" href="/legal/prohibited-items">Prohibited items</Link>.</li>
-            <li>We may remove listings or restrict accounts to protect users, reduce fraud, and maintain trust.</li>
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Listings must be accurate, lawful, and not misleading.</li>
+            <li>You must have the right to sell the item.</li>
+            <li><strong>Prohibited items are not allowed.</strong> See <Link className="bd-link font-semibold" href="/legal/prohibited-items">Prohibited items</Link>.</li>
+            <li>Bidra may remove listings, restrict accounts, investigate reports, preserve audit records, or take other platform action.</li>
           </ul>
         </SectionCard>
 
         <SectionCard title="4) Sale formats">
-          <div className="grid gap-2 md:grid-cols-2">
-            <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
-              <h3 className="text-base font-extrabold bd-ink">Buy Now (binding sale)</h3>
-              <ul className="mt-2 list-disc pl-5 text-black/75 space-y-1">
+          <div className="grid gap-3 md:grid-cols-2">
+            <div className="rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-4">
+              <h3 className="text-base font-extrabold bd-ink">Buy Now</h3>
+              <ul className="mt-2 list-disc space-y-1.5 pl-5">
                 <li>When a seller enables Buy Now, they pre-authorise an immediate sale at the displayed price.</li>
                 <li>When a buyer clicks Buy Now, the item is sold.</li>
                 <li>Buyers and sellers then use Messages to agree payment, pickup, postage, refund, and handover details.</li>
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-black/10 bg-white p-4">
-              <h3 className="text-base font-extrabold bd-ink">Timed Offers (seller acceptance required)</h3>
-              <ul className="mt-2 list-disc pl-5 text-black/75 space-y-1">
+            <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4">
+              <h3 className="text-base font-extrabold bd-ink">Offers</h3>
+              <ul className="mt-2 list-disc space-y-1.5 pl-5">
                 <li>Offers are expressions of interest during the listing period.</li>
-                <li>When the timer ends, there is no automatic winner and no automatic sale.</li>
-                <li>A sale only forms if the seller explicitly accepts an offer, including the highest offer.</li>
+                <li>There is no automatic winner and no automatic sale.</li>
+                <li>A sale only forms if the seller accepts an offer.</li>
               </ul>
             </div>
           </div>
 
-          <p className="mt-3 text-sm text-black/60">Bidra provides tools for listings, offers, orders, and Messages. Buyers and sellers are responsible for checking items, agreeing payment, coordinating pickup or postage, and managing handover risk.</p>
+          <p className="mt-3">
+            Bidra provides tools for listings, offers, orders, and Messages. Buyers and sellers are responsible for checking items, agreeing payment, coordinating pickup or postage, and managing handover risk.
+          </p>
         </SectionCard>
 
         <SectionCard title="5) Orders and messages">
-          <ul className="list-disc pl-5 text-black/75 space-y-2">
+          <ul className="list-disc space-y-2 pl-5">
+            <li>Orders are sold-item records only.</li>
             <li>When an order exists, the item is sold and the order records the sale details.</li>
             <li>Bidra does not run in-app payment, escrow, refund handling, shipping labels, live postage rates, shipping insurance, carrier claims, pickup scheduling, or forced completion workflows.</li>
-            <li>Buyers and sellers should use Messages to agree payment, pickup, postage, refunds, and handover details, and keep records such as messages and photos.</li>
-            <li>Disputes, refunds, item condition issues, and handover problems are usually resolved between buyer and seller. Bidra may take platform actions, including restrictions, where misuse or fraud is detected.</li>
+            <li>Buyers and sellers should use Messages to agree payment, pickup, postage, refunds, and handover details.</li>
+            <li>Keep refund, and handover details in Bidra Messages where possible.</li>
+            <li>Disputes, refunds, item condition issues, and handover problems are usually resolved between buyer and seller.</li>
           </ul>
         </SectionCard>
 
         <div className="grid gap-5 lg:grid-cols-2">
           <SectionCard title="6) Messaging">
-            <p className="text-black/75 leading-7">
-              Messages are provided to coordinate listings and orders. You must not harass, threaten, spam, or send illegal content. We may restrict messaging or remove content where abuse, fraud, or safety risk is suspected.
+            <p>
+              Messages are provided to coordinate listings and orders. Do not harass, threaten, spam, send illegal content, or pressure another user to move to SMS, WhatsApp, or another app.
+            </p>
+            <p className="mt-3">
+              Off-platform payment, refunds, pickup, postage, or handover arrangements are user responsibility. Off-platform payment or refund arrangements are user responsibility.
             </p>
           </SectionCard>
 
-          <SectionCard title="7) Reporting, enforcement, and integrity">
-            <ul className="list-disc pl-5 text-black/75 space-y-2">
+          <SectionCard title="7) Reporting and enforcement">
+            <ul className="list-disc space-y-2 pl-5">
               <li>Use Report on listings and message threads to flag rule-breaking behaviour or content.</li>
-              <li>We may remove content, suspend listings, restrict accounts, or investigate suspicious patterns to help keep the marketplace safer.</li>
-              <li>We may log safety and enforcement events for audit and fraud prevention purposes.</li>
+              <li>Reports may be investigated.</li>
+              <li>Bidra may investigate reports, preserve audit records, remove content, suspend listings, or restrict accounts.</li>
+              <li>Bidra may act on unsafe handover patterns, fraud, abuse, or compliance risk.</li>
             </ul>
           </SectionCard>
         </div>
 
         <div className="grid gap-5 lg:grid-cols-2">
           <SectionCard title="8) Liability and service availability">
-            <p className="text-black/75 leading-7">
+            <p>
               Bidra is provided "as is" to the extent permitted by law. We aim to keep the service reliable, but outages and errors can occur. Nothing in these Terms limits rights you may have under Australian Consumer Law where applicable.
             </p>
           </SectionCard>
 
           <SectionCard title="9) Changes to these Terms">
-            <p className="text-black/75 leading-7">
-              We may update these Terms from time to time. If changes are material, we will take reasonable steps to notify users.
+            <p>
+              We may update these Terms from time to time. If changes are material, we will take reasonable steps to notify users. Users should preserve relevant records for orders, reports, and support issues.
             </p>
           </SectionCard>
         </div>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="text-sm font-extrabold bd-ink">See also</div>
-          <div className="mt-3 flex flex-wrap gap-2 text-sm">
-            <Link className="bd-btn bd-btn-ghost text-center" href="/legal/privacy">Privacy</Link>
-            <Link className="bd-btn bd-btn-ghost text-center" href="/legal/fees">Fees</Link>
-            <Link className="bd-btn bd-btn-ghost text-center" href="/support">Support</Link>
-            <Link className="bd-btn bd-btn-ghost text-center" href="/how-it-works">How it works</Link>
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
+          <h2 className="text-xl font-extrabold tracking-tight bd-ink">Related pages</h2>
+          <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap">
+            <Link className={actionClass} href="/legal/privacy">Privacy</Link>
+            <Link className={actionClass} href="/legal/fees">Fees</Link>
+            <Link className={actionClass} href="/support">Support</Link>
+            <Link className={actionClass} href="/how-it-works">How it works</Link>
           </div>
         </section>
       </div>
     </main>
   );
 }
-
