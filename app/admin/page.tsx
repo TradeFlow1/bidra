@@ -1,4 +1,4 @@
-import Link from "next/link"
+﻿import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { redirect } from "next/navigation"
@@ -27,7 +27,7 @@ export default async function AdminHome() {
         Use Admin as a trust operations workspace: review evidence, choose proportional actions, and keep every moderation decision auditable. Buyer and seller account tools remain available from the account dashboard.
       </p>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
+      <div className="mt-6 grid gap-2 md:grid-cols-2">
         <div className={card}>
           <div className={title}>Reports</div>
           <div className={sub}>Triage open reports, inspect evidence, and close the loop with an auditable decision.</div>
@@ -72,3 +72,4 @@ export default async function AdminHome() {
     </main>
   )
 }
+

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { auth } from "@/lib/auth";
 import ContactForm from "./contact-form";
 import { BackButton } from "@/components/ui/back-button";
@@ -23,10 +23,10 @@ export default async function ContactPage() {
 
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
       <div className="container max-w-5xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Contact</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Contact support</h1>
@@ -108,3 +108,4 @@ export default async function ContactPage() {
     </main>
   );
 }
+

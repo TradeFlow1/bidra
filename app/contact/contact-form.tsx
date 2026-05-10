@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import StatusMessage from "@/components/status-message";
@@ -34,7 +34,7 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
             return;
           }
           (e.currentTarget as HTMLFormElement).reset();
-          setNote("Message sent. Weâ€™ll get back to you as soon as we can.");
+          setNote("Message sent. WeÃ¢â‚¬â„¢ll get back to you as soon as we can.");
         } catch {
           setError("We could not send your message. Please try again shortly.");
         }
@@ -87,3 +87,4 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
     </form>
   );
 }
+

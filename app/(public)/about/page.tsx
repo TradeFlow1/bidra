@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
 
 function SectionCard(props: {
@@ -28,10 +28,10 @@ function PrincipleCard(props: {
 export default function AboutPage() {
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/" label="Back to home" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/" label="Back to home" /></div>
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">About Bidra</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
@@ -129,3 +129,4 @@ export default function AboutPage() {
     </main>
   );
 }
+

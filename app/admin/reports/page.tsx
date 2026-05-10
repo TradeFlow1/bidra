@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -78,7 +78,7 @@ export default async function AdminReports({
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin reports</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Marketplace reports and resolution signals</h1>
@@ -125,10 +125,10 @@ export default async function AdminReports({
           <section className="space-y-3">
             {reports.map((r) => (
               <article key={r.id} className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm">
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
                   <div className="min-w-0 flex-1">
                     <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
-                      Report <span className="normal-case tracking-normal">• <DateTimeText value={r.createdAt} /></span>
+                      Report <span className="normal-case tracking-normal">â€¢ <DateTimeText value={r.createdAt} /></span>
                     </div>
 
                     <h2 className="mt-2 text-lg font-extrabold tracking-tight bd-ink">
@@ -165,3 +165,4 @@ export default async function AdminReports({
     </main>
   );
 }
+

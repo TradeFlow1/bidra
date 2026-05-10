@@ -7,7 +7,7 @@
           <div className="mt-3 h-4 w-64 rounded bg-black/10 animate-pulse" />
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
           {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="bd-card overflow-hidden">
               <div className="aspect-[4/3] bg-black/10 animate-pulse" />
@@ -22,3 +22,4 @@
     </main>
   );
 }
+

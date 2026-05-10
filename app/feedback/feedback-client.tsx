@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import StatusMessage from "@/components/status-message";
@@ -84,7 +84,7 @@ export default function FeedbackClient() {
       setMessage("");
       setEmail("");
       setStatusTone("success");
-      setStatus("Thanks — we received your feedback.");
+      setStatus("Thanks â€” we received your feedback.");
     } catch {
       setStatusTone("error");
       setStatus("We could not send your feedback. Please try again shortly.");
@@ -92,12 +92,12 @@ export default function FeedbackClient() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl">
-      <div className="flex flex-wrap items-end justify-between gap-4">
+    <div className="mx-auto w-full max-w-3xl">
+      <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Feedback</h1>
           <p className="mt-2 bd-ink2">
-            Tell us what’s confusing, broken, or missing. Include steps to reproduce if you can.
+            Tell us whatâ€™s confusing, broken, or missing. Include steps to reproduce if you can.
           </p>
         </div>
 
@@ -113,7 +113,7 @@ export default function FeedbackClient() {
         <div className="text-sm font-extrabold bd-ink">Send feedback</div>
 
         {loading ? (
-          <div className="mt-4 text-sm bd-ink2">Checking your feedback options…</div>
+          <div className="mt-4 text-sm bd-ink2">Checking your feedback optionsâ€¦</div>
         ) : (
           <div className="mt-4 space-y-3">
             {/* Honeypot (hidden) */}
@@ -129,7 +129,7 @@ export default function FeedbackClient() {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <option value="">Choose…</option>
+                <option value="">Chooseâ€¦</option>
                 <option value="Bug">Bug</option>
                 <option value="UX">UX / confusing</option>
                 <option value="Feature">Feature request</option>
@@ -181,3 +181,4 @@ export default function FeedbackClient() {
     </div>
   );
 }
+

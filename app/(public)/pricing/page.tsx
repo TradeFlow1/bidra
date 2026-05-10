@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
 
 function PricingCard(props: {
@@ -18,10 +18,10 @@ function PricingCard(props: {
 export default function PricingPage() {
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/" label="Back to home" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/" label="Back to home" /></div>
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Pricing</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Simple, visible pricing</h1>
@@ -61,7 +61,7 @@ export default function PricingPage() {
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-2 md:grid-cols-3">
           <PricingCard
             title="Browse"
             desc="Browsing listings is free. You can explore the marketplace, compare listings, and understand current local supply without an upfront browsing cost."
@@ -109,3 +109,4 @@ export default function PricingPage() {
     </main>
   );
 }
+

@@ -1,8 +1,8 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export const metadata = { title: "Feedback — Admin — Bidra" };
+export const metadata = { title: "Feedback â€” Admin â€” Bidra" };
 
 function InfoCard(props: {
   title: string;
@@ -64,7 +64,7 @@ export default async function AdminFeedbackPage() {
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin feedback</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Feedback submissions</h1>
@@ -120,7 +120,7 @@ export default async function AdminFeedbackPage() {
 
                 return (
                   <article key={e.id} className="px-6 py-5">
-                    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                    <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
                       <div className="min-w-0 flex-1">
                         <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
                           {new Date(e.createdAt).toLocaleString()}
@@ -135,7 +135,7 @@ export default async function AdminFeedbackPage() {
                         <div className="mt-4 text-sm bd-ink2 leading-7">
                           {msg ? (
                             <div>
-                              {msg}{fullMessage.length > 140 ? "…" : ""}
+                              {msg}{fullMessage.length > 140 ? "â€¦" : ""}
                             </div>
                           ) : (
                             <div>-</div>
@@ -168,3 +168,4 @@ export default async function AdminFeedbackPage() {
     </main>
   );
 }
+

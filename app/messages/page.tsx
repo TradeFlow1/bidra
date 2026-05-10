@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import InboxAutoRefresh from "./components/inbox-auto-refresh";
 import DateTimeText from "@/components/date-time-text";
@@ -73,7 +73,7 @@ export default async function MessagesInboxPage() {
 
     return (
       <main className="bd-container py-5 sm:py-10">
-        <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+        <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
         <div className="container max-w-5xl space-y-4 sm:space-y-5">
           <InboxAutoRefresh />
 
@@ -83,7 +83,7 @@ export default async function MessagesInboxPage() {
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
                 <p className="mt-2 text-sm text-[var(--bidra-ink-2)] sm:text-base">
-                  Keep listing and order conversations in one trusted place, including pickup, postage, payment expectations, and handover agreements. The inbox refreshes for new activity, but Bidra does not currently use WebSockets, typing indicators, mobile push notifications, or live delivery receipts.
+                  Use messages to arrange pickup or postage, agree on key details, and keep a clear record.
                 </p>
               </div>
 
@@ -115,7 +115,7 @@ export default async function MessagesInboxPage() {
 
           {items.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
-              <div className="mx-auto max-w-xl">
+              <div className="mx-auto w-full max-w-xl">
                 <div className="text-xl font-extrabold text-neutral-900">No messages yet</div>
                 <p className="mt-2 text-sm text-neutral-600">
                   Start the conversation by asking about pickup, condition, or availability. Messages from listings and orders will appear here.
@@ -156,7 +156,7 @@ export default async function MessagesInboxPage() {
                         : "border-black/10 bg-white"
                     }`}
                   >
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-start gap-2">
                       <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-black/10 bg-black/[0.03]">
                         {thumb ? (
                           <Image
@@ -232,3 +232,4 @@ export default async function MessagesInboxPage() {
     );
   }
 }
+

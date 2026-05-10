@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -125,7 +125,7 @@ export default async function AdminAuditPage({
     <main className="bd-container py-10">
       <div className="container max-w-7xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin audit</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Admin audit log</h1>
@@ -155,7 +155,7 @@ export default async function AdminAuditPage({
           />
           <InfoCard
             title="Query"
-            value={q || "—"}
+            value={q || "â€”"}
             note="Matches action and related IDs."
           />
         </div>
@@ -233,10 +233,10 @@ export default async function AdminAuditPage({
                           <div className="font-mono text-xs">{r.entityId}</div>
                         </td>
                         <td className="px-4 py-4">
-                          <div className="flex flex-wrap gap-2">{links.length ? links : <span className="text-sm bd-ink2 opacity-60">—</span>}</div>
+                          <div className="flex flex-wrap gap-2">{links.length ? links : <span className="text-sm bd-ink2 opacity-60">â€”</span>}</div>
                         </td>
                         <td className="px-4 py-4 bd-ink2 max-w-[420px]">
-                          <pre className="m-0 whitespace-pre-wrap break-words rounded-2xl border border-black/10 bg-neutral-50 p-3 text-[11px] leading-5">{r.meta ? JSON.stringify(r.meta, null, 2) : "—"}</pre>
+                          <pre className="m-0 whitespace-pre-wrap break-words rounded-2xl border border-black/10 bg-neutral-50 p-3 text-[11px] leading-5">{r.meta ? JSON.stringify(r.meta, null, 2) : "â€”"}</pre>
                         </td>
                       </tr>
                     );
@@ -250,3 +250,4 @@ export default async function AdminAuditPage({
     </main>
   );
 }
+

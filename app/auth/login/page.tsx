@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -54,7 +54,7 @@ export default function Login() {
 
   return (
     <main className="bd-container py-5 sm:py-10">
-      <div className="mx-auto mb-4 w-full max-w-md px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-none px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
 <div className="container max-w-5xl space-y-4 sm:space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
           <div className="max-w-3xl">
@@ -66,7 +66,7 @@ export default function Login() {
           </div>
         </div>
 
-        <div className="grid gap-4 sm:gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid gap-2 sm:gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <Card className="order-2 rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6 lg:order-1">
             <div className="text-sm font-extrabold bd-ink">Before you log in</div>
             <div className="mt-4 space-y-4">
@@ -112,7 +112,7 @@ export default function Login() {
           <Card className="order-1 rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6 lg:order-2">
             <form
               noValidate
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-2"
               onSubmit={async (e) => {
                 e.preventDefault();
                 setError(null);
@@ -225,3 +225,4 @@ export default function Login() {
     </main>
   );
 }
+

@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+﻿export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Link from "next/link";
@@ -29,7 +29,7 @@ function UpdateCard(props: {
   return (
     <Link href={props.href} className="block">
       <div className={`h-full rounded-3xl border bg-white p-6 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md ${hasCount ? "border-blue-300 ring-2 ring-blue-100" : "border-black/10"}`}>
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex items-start justify-between gap-2">
           <div>
             <div className="text-2xl font-extrabold tracking-tight bd-ink">{props.title}</div>
             <div className="mt-3 text-sm bd-ink2 leading-7">{props.children}</div>
@@ -58,7 +58,7 @@ export default async function NotificationsPage() {
     <main className="bd-container py-10">
       <div className="container max-w-5xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Updates</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Messages and orders</h1>
@@ -125,7 +125,7 @@ export default async function NotificationsPage() {
 
         <Link href="/orders" className="block">
           <div className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <div className="text-lg font-extrabold bd-ink">Feedback</div>
@@ -145,7 +145,7 @@ export default async function NotificationsPage() {
 
         {counts.total === 0 ? (
           <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
-            <div className="mx-auto max-w-xl">
+            <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">You are all caught up</div>
               <div className="mt-2 text-sm text-neutral-600">
                 New messages, orders, and optional feedback will appear here. Keep checking this page and your email; Bidra does not currently send browser push or native mobile push notifications. Keep checking this page and your email; Bidra does not currently send browser push or native mobile push notifications.
@@ -157,3 +157,4 @@ export default async function NotificationsPage() {
     </main>
   );
 }
+

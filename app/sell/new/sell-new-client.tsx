@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -569,7 +569,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         <section className="bd-form-card">
           <h2 className="text-base font-extrabold bd-ink">2) Details</h2>
           <p className="mt-1 text-xs bd-ink2">Add clear details so first-time buyers can trust what they are viewing before they message, buy, or make an offer.</p>
-          <div className="mt-3 grid gap-4">
+          <div className="mt-3 grid gap-2">
             <div>
               <label className="bd-label" htmlFor="field-title">Title</label>
               <input id="field-title" className="mt-1 bd-input" value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -699,7 +699,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           <p className="mt-1 text-xs bd-ink2">
             Buy Now sells at a fixed price. Timed offers let buyers place offers and you choose the outcome when the offer window ends.
           </p>
-          <div className="mt-3 grid gap-4">
+          <div className="mt-3 grid gap-2">
             <div>
               <label className="bd-label" htmlFor="field-sale-type">Sale type</label>
               <select
@@ -782,10 +782,11 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </section>
 
-        <button type="submit" disabled={busy || !publishReady} className="bd-btn bd-btn-primary mx-auto w-full sm:w-auto">
+        <button type="submit" disabled={busy || !publishReady} className="bd-btn bd-btn-primary mx-auto w-full w-full sm:w-auto">
           {busy ? "Saving..." : "Publish listing"}
         </button>
       </form>
     </div>
   );
 }
+

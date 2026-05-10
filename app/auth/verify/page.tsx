@@ -1,9 +1,9 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { BackButton } from "@/components/ui/back-button";
 
 export const metadata = {
-  title: "Verify your email — Bidra",
+  title: "Verify your email â€” Bidra",
 };
 
 function Shell(props: {
@@ -14,7 +14,7 @@ function Shell(props: {
 }) {
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/auth/login" label="Back to login" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/auth/login" label="Back to login" /></div>
       <div className="container max-w-5xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="max-w-3xl">
@@ -144,3 +144,4 @@ export default async function VerifyPage({ searchParams }: { searchParams: { tok
     </Shell>
   );
 }
+

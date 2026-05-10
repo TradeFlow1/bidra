@@ -17,7 +17,7 @@ export default function GlobalError({
   return (
     <html lang="en">
       <body>
-        <main className="mx-auto max-w-3xl px-4 py-10">
+        <main className="mx-auto w-full max-w-3xl px-4 py-10">
           <h1 className="text-2xl font-semibold">Something went wrong</h1>
           <p className="mt-2 text-sm opacity-80">
             Try again. If it keeps happening, it’s likely a temporary server issue.
@@ -39,3 +39,4 @@ export default function GlobalError({
     </html>
   );
 }
+

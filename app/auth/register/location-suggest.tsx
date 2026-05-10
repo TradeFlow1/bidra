@@ -122,3 +122,4 @@ export default function LocationSuggest(props: {
     </div>
   );
 }
+

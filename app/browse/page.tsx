@@ -1,4 +1,4 @@
-/* BIDRA_BACK_NAV_ALIAS_PAGE: route alias; canonical listings page owns visible back navigation */
+﻿/* BIDRA_BACK_NAV_ALIAS_PAGE: route alias; canonical listings page owns visible back navigation */
 import { redirect } from "next/navigation";
 
 export default function BrowsePage({
@@ -22,3 +22,4 @@ export default function BrowsePage({
   const qs = sp.toString();
   redirect(qs ? `/listings?${qs}` : "/listings");
 }
+

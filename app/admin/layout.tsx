@@ -1,4 +1,4 @@
-import Link from "next/link"
+﻿import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { redirect } from "next/navigation"
@@ -16,10 +16,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (role !== "ADMIN") redirect("/")
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-6">
+    <div className="mx-auto w-full w-full max-w-6xl px-4 py-6">
       <div className="flex items-center justify-between gap-3">
         <Link href="/admin" className="text-sm font-semibold hover:opacity-90">
-          ← Back to Admin
+          â† Back to Admin
         </Link>
 
         <div className="flex flex-wrap items-center gap-2 text-sm">
@@ -36,3 +36,4 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     </div>
   )
 }
+

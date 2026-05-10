@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { checkPasswordPolicy, passwordGuidanceText } from "@/lib/password-policy";
@@ -94,7 +94,7 @@ export default function ResetPasswordPage({
 
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-5xl"><BackButton href="/auth/login" label="Back to login" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-5xl"><BackButton href="/auth/login" label="Back to login" /></div>
       <div className="container max-w-5xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="max-w-3xl">
@@ -251,9 +251,9 @@ export default function ResetPasswordPage({
 
             <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
               <Link className="bd-link" href="/auth/login">Back to login</Link>
-              <span className="text-black/20">•</span>
+              <span className="text-black/20">â€¢</span>
               <Link className="bd-link" href="/legal/privacy">Privacy</Link>
-              <span className="text-black/20">•</span>
+              <span className="text-black/20">â€¢</span>
               <Link className="bd-link" href="/legal/terms">Terms</Link>
             </div>
           </div>
@@ -262,3 +262,4 @@ export default function ResetPasswordPage({
     </main>
   );
 }
+

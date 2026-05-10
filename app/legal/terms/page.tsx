@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
 
 function SectionCard(props: {
@@ -16,10 +16,10 @@ function SectionCard(props: {
 export default function TermsPage() {
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Terms</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Terms of use</h1>
@@ -87,7 +87,7 @@ export default function TermsPage() {
         </SectionCard>
 
         <SectionCard title="4) Sale formats">
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-2 md:grid-cols-2">
             <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
               <h3 className="text-base font-extrabold bd-ink">Buy Now (binding sale)</h3>
               <ul className="mt-2 list-disc pl-5 text-black/75 space-y-1">
@@ -162,3 +162,4 @@ export default function TermsPage() {
     </main>
   );
 }
+

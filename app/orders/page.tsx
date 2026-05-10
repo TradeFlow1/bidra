@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -46,10 +46,10 @@ export default async function OrdersPage() {
   const feedbackDueCount = orders.filter((o: any) => String(o.outcome) === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))).length;
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
@@ -76,7 +76,7 @@ export default async function OrdersPage() {
 
         {!orders.length ? (
           <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
-            <div className="mx-auto max-w-xl">
+            <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">No buys or sales yet</div>
               <p className="mt-2 text-sm text-neutral-600">
                 When you buy an item or a seller accepts an offer, it appears here so both sides can confirm next steps in Messages.
@@ -88,7 +88,7 @@ export default async function OrdersPage() {
             </div>
           </div>
         ) : (
-          <div className="grid gap-4">
+          <div className="grid gap-2">
             {orders.map((o: any) => {
               const isPending = String(o.status) === "PENDING";
               const isCompleted = String(o.outcome) === "COMPLETED";
@@ -105,7 +105,7 @@ export default async function OrdersPage() {
                   key={o.id}
                   className={`overflow-hidden rounded-3xl border bg-white p-5 shadow-sm ${isPending ? "border-blue-300 border-l-8 ring-2 ring-blue-100" : "border-black/10"}`}
                 >
-                  <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="inline-flex items-center rounded-full border border-black/10 bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-800">
@@ -170,7 +170,7 @@ export default async function OrdersPage() {
                         </Link>
                       )}
 
-                      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-1">
+                      <div className="grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-2">
                         <Link
                           href={`/listings/${o.listingId}`}
                           className="bd-btn bd-btn-secondary text-center"
@@ -211,3 +211,4 @@ export default async function OrdersPage() {
     </main>
   );
 }
+
