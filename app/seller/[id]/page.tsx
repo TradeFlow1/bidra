@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
@@ -101,12 +101,8 @@ async function getSellerProfileData(sellerId: string) {
     prisma.feedback.findMany({
       where: {
         toUserId: sellerId,
-        comment: {
-          not: null,
-        },
-        order: {
-          outcome: "COMPLETED",
-        },
+        comment: { not: null },
+        order: { outcome: "COMPLETED" },
       },
       orderBy: { createdAt: "desc" },
       take: 3,
@@ -160,6 +156,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+const actionClass = "inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto";
+
 export default async function SellerPage({ params }: PageProps) {
   const session = await getServerSession(authOptions);
   const userId = session?.user?.id ?? null;
@@ -175,14 +173,15 @@ export default async function SellerPage({ params }: PageProps) {
   const sellerPhoneVerified = !!cleanText(seller.phone);
   const ratingAvg = typeof sellerRating._avg.rating === "number" ? Number(sellerRating._avg.rating) : null;
   const ratingCount = Number(sellerRating._count.rating || 0);
+
   const profileSignals = [
     seller.emailVerified ? "Email confirmed" : "",
     sellerPhoneVerified ? "Phone confirmed" : "",
     sellerMemberSince ? `Member since ${sellerMemberSince}` : "",
-    sellerLocation ? `Location shown: ${sellerLocation}` : "",
-    completedSales > 0 ? `${completedSales} completed ${completedSales === 1 ? "sale" : "sales"}` : "",
+    sellerLocation ? sellerLocation : "",
     ratingAvg !== null && ratingCount > 0 ? `${renderStars(ratingAvg)} from ${ratingCount} ${ratingCount === 1 ? "review" : "reviews"}` : "",
   ].filter(Boolean);
+
   const visibleRecentFeedback = recentFeedback.filter((entry) => cleanText(entry.comment).length > 0);
 
   const watchedIds = userId
@@ -199,97 +198,71 @@ export default async function SellerPage({ params }: PageProps) {
   const sellerUrl = `${getBaseUrl().replace(/\/+$/, "")}/seller/${seller.id}`;
 
   return (
-    <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/listings" label="Back to listings" /></div>
+    <main className="bd-container py-6 sm:py-10">
+      <div className="mx-auto mb-4 w-full max-w-6xl px-4">
+        <BackButton href="/listings" label="Back to listings" />
+      </div>
+
       <div className="container max-w-6xl space-y-5">
-        <section className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Seller profile</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-neutral-950 sm:text-4xl">{sellerName}</h1>
-              {username ? <p className="mt-1 text-sm font-medium text-neutral-600">@{username}</p> : null}
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-neutral-700">Check the seller's verification signals, active listings, transaction history, and completed-order feedback before you message, buy, or make an offer.</p>
-              <div className="mt-3 flex flex-wrap gap-2 text-sm text-neutral-700">
-                {sellerMemberSince ? <span className="rounded-full border border-black/10 bg-white px-3 py-1">Member since {sellerMemberSince}</span> : null}
-                {sellerLocation && <span className="rounded-full border border-black/10 bg-white px-3 py-1">{sellerLocation}</span>}
-              </div>
-              {(seller.emailVerified || sellerPhoneVerified || (ratingAvg !== null && ratingCount > 0)) ? (
-                <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
-                  {seller.emailVerified ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-700">Email confirmed</span> : null}
-                  {sellerPhoneVerified ? <span className="rounded-full border border-sky-200 bg-sky-50 px-2.5 py-1 text-sky-700">Phone confirmed</span> : null}
-                  {(ratingAvg !== null && ratingCount > 0) ? (
-                    <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-amber-700">{renderStars(ratingAvg)} ({ratingCount})</span>
-                  ) : null}
-                </div>
-              ) : null}
-            </div>
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
+            <div className="min-w-0">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller profile</div>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">{sellerName}</h1>
+              {username ? <p className="mt-1 text-sm font-semibold text-[#64748B]">@{username}</p> : null}
 
-            <div className="grid min-w-[220px] gap-3 sm:grid-cols-2 md:min-w-[320px]">
-              <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
-                <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Active listings</div>
-                <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{activeListings.length}</div>
+              <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
+                {profileSignals.length > 0 ? profileSignals.map((signal) => (
+                  <span key={signal} className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#334155]">{signal}</span>
+                )) : (
+                  <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#334155]">Profile details limited</span>
+                )}
               </div>
-              <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
-                <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Completed sales</div>
-                <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{completedSales}</div>
+
+              <div className="mt-4 max-w-md">
+                <ShareActions
+                  url={sellerUrl}
+                  title={`${sellerName} on Bidra`}
+                  text={`Check out ${sellerName}'s seller profile on Bidra.`}
+                  label="Share seller profile"
+                  description="Share this seller profile."
+                />
               </div>
             </div>
-          </div>
 
-          <div className="mt-4 max-w-md">
-            <ShareActions
-              url={sellerUrl}
-              title={`${sellerName} on Bidra`}
-              text={`Check out ${sellerName}'s seller profile on Bidra.`}
-              label="Share seller profile"
-              description="Share this seller profile."
-            />
-          </div>
-
-          <div className="mt-5 rounded-2xl border border-[#D8E1F0] bg-white p-4 shadow-sm">
-            <div className="text-sm font-bold text-neutral-950">Seller confidence signals</div>
-            <p className="mt-1 text-sm text-neutral-600">Use these signals together before arranging pickup, postage, payment, or handover details.</p>
-            <div className="mt-3 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-950">
-              <div className="font-extrabold">Identity verification note</div>
-              <p className="mt-1">Email and phone signals mean the seller has confirmed account contact channels available to Bidra. They are not government ID, biometric, escrow, payment, or delivery guarantees.</p>
-            </div>
-            <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {profileSignals.length > 0 ? profileSignals.map((signal) => (
-                <div key={signal} className="rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-neutral-700">{signal}</div>
-              )) : (
-                <div className="rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-semibold text-neutral-700">Profile signals will appear after verification or completed transactions</div>
-              )}
-            </div>
-            <div className="mt-3 grid gap-3 text-xs text-neutral-600 sm:grid-cols-3">
-              <div><span className="font-bold text-neutral-900">Check listings.</span> Compare active items, descriptions, photos, and price clarity.</div>
-              <div><span className="font-bold text-neutral-900">Message clearly.</span> Ask about condition, handover, postage, and what is included.</div>
-              <div><span className="font-bold text-neutral-900">Stay safe.</span> Keep arrangements in Messages and use safe public handover locations.</div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Active listings</div>
+                <div className="mt-1 text-4xl font-extrabold tracking-tight text-[#0F172A]">{activeListings.length}</div>
+              </div>
+              <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Sales</div>
+                <div className="mt-1 text-4xl font-extrabold tracking-tight text-[#0F172A]">{completedSales}</div>
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <div className="text-sm font-semibold text-neutral-950">Active listings</div>
-              <div className="mt-1 text-sm text-neutral-600">Browse this seller's active items and compare price, condition, location, photos, and offer activity before contacting them.</div>
+              <div className="text-xl font-extrabold tracking-tight text-[#0F172A]">Active listings</div>
+              <div className="mt-1 text-sm text-[#64748B]">{activeListings.length} active {activeListings.length === 1 ? "listing" : "listings"}</div>
             </div>
 
-            <Link href="/listings" className="bd-btn bd-btn-ghost text-center">
+            <Link href="/listings" className={actionClass}>
               Browse marketplace
             </Link>
           </div>
 
           <div className="mt-5">
             {activeListings.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-black/15 bg-neutral-50 px-6 py-10 text-center">
-                <div className="mx-auto max-w-xl">
-                  <div className="text-lg font-bold text-neutral-900">No active listings right now</div>
-                  <p className="mt-2 text-sm text-neutral-600">This seller has no active listings right now. Review their verification signals and completed-order feedback where available.</p>
-                </div>
+              <div className="rounded-[24px] border border-dashed border-[#D8E1F0] bg-[#F8FAFC] px-6 py-10 text-center">
+                <div className="text-lg font-extrabold text-[#0F172A]">No active listings</div>
+                <p className="mt-2 text-sm text-[#64748B]">This seller has no active listings right now.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                 {activeListings.map((listing) => {
                   const currentOffer = listing.offers[0]?.amount ?? null;
                   const displayPrice =
@@ -336,16 +309,15 @@ export default async function SellerPage({ params }: PageProps) {
         </section>
 
         {visibleRecentFeedback.length > 0 ? (
-          <section className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm">
-            <div className="text-sm font-semibold text-neutral-950">Recent feedback</div>
-            <div className="mt-1 text-sm text-neutral-600">Latest completed-order feedback from recent transactions.</div>
+          <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
+            <div className="text-xl font-extrabold tracking-tight text-[#0F172A]">Recent feedback</div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               {visibleRecentFeedback.map((entry) => (
-                <article key={entry.id} className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
-                  <div className="text-xs font-semibold text-amber-700">{renderStars(entry.rating)}</div>
-                  <p className="mt-2 text-sm text-neutral-700">{cleanText(entry.comment) || ""}</p>
-                  <div className="mt-2 text-xs text-neutral-500">
+                <article key={entry.id} className="rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-4">
+                  <div className="text-xs font-extrabold text-amber-700">{renderStars(entry.rating)}</div>
+                  <p className="mt-2 text-sm leading-6 text-[#475569]">{cleanText(entry.comment) || ""}</p>
+                  <div className="mt-2 text-xs text-[#64748B]">
                     <time dateTime={entry.createdAt.toISOString()}>
                       {entry.createdAt.toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })}
                     </time>
@@ -359,4 +331,3 @@ export default async function SellerPage({ params }: PageProps) {
     </main>
   );
 }
-
