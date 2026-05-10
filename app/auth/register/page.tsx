@@ -232,29 +232,29 @@ export default function RegisterPage() {
 
   return (
     <main className={shell}>
-      <div className="mx-auto mb-4 w-full max-w-2xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-2xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
 <div className="container max-w-6xl space-y-4 sm:space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
           <div className="max-w-3xl">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Join Bidra</div>
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Create your free marketplace account</h1>
+            <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Create your account</h1>
             <p className="mt-2 text-sm bd-ink2 sm:text-base">
-              Set up your Bidra account, verify your email, add your general location, and start buying, selling, watching, and messaging with trust signals.
+              Create an account to buy, sell, message, and manage listings.
             </p>
           </div>
         </div>
 
-        <div className="grid gap-4 sm:gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid gap-2 sm:gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="order-2 space-y-4 sm:space-y-5 lg:order-1">
             <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6">
-              <div className="text-sm font-extrabold bd-ink">Activate your account with trust basics</div>
+              <div className="text-sm font-extrabold bd-ink">Account setup</div>
               <div className="mt-3 space-y-3 sm:mt-4 sm:space-y-4">
                 <div className="rounded-2xl border border-black/10 bg-neutral-50 p-3.5 sm:p-4">
                   <div className="text-sm font-semibold bd-ink">Password confidence</div>
                   <ul className="mt-2 list-disc pl-5 text-sm bd-ink2 space-y-2">
                     <li>Use at least 8 characters.</li>
-                    <li>Use a password that is hard to guess and not reused from another site.</li>
-                    <li>Use the Show buttons to check both password fields before creating your account.</li>
+                    <li>Use a strong password.</li>
+                    <li>Check both password fields before submitting.</li>
                   </ul>
                 </div>
 
@@ -272,7 +272,7 @@ export default function RegisterPage() {
                 <div className="rounded-2xl border border-black/10 bg-white p-3.5 sm:p-4">
                   <div className="text-sm font-semibold bd-ink">Age requirement</div>
                   <div className="mt-1 text-sm bd-ink2">
-                    Bidra accounts are <span className="font-semibold text-[#0b1220]">18+</span>. Under 18s may browse but cannot create accounts.
+                    Accounts are <span className="font-semibold text-[#0b1220]">18+</span>.
                   </div>
                 </div>
 
@@ -331,7 +331,7 @@ export default function RegisterPage() {
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-2">
                     <div>
                       <label className={label}>Password</label>
                       <div className="mt-1 flex gap-2">
@@ -435,7 +435,7 @@ export default function RegisterPage() {
                     </div>
                     <p className="mt-1 text-sm text-black/60">Enter <span className="font-semibold">postcode</span>, <span className="font-semibold">suburb</span>, and <span className="font-semibold">state</span>. No street address.</p>
 
-                    <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                    <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
                       <div className="sm:col-span-1">
                         <label className={label}>Postcode</label>
                         <input
@@ -464,7 +464,7 @@ export default function RegisterPage() {
                           onChange={(e) => setField("state", e.target.value)}
                           autoComplete="address-level1"
                         >
-                          <option value="">Select state/territory…</option>
+                          <option value="">Select state/territoryâ€¦</option>
                           <option value="QLD">QLD</option>
                           <option value="NSW">NSW</option>
                           <option value="VIC">VIC</option>
@@ -539,3 +539,4 @@ export default function RegisterPage() {
     </main>
   );
 }
+

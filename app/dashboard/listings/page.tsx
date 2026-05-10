@@ -103,7 +103,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
       <div className="container max-w-6xl">
         <div className="flex flex-col gap-5">
           <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Seller dashboard</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">My listings</h1>
@@ -127,19 +127,19 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
             <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Active</div>
               <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{activeCount}</div>
-              <div className="mt-1 text-sm text-neutral-600">Listings currently visible to buyers.</div>
+              <div className="mt-1 text-sm text-neutral-600">Visible to buyers.</div>
             </div>
 
             <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Ended</div>
               <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{endedCount}</div>
-              <div className="mt-1 text-sm text-neutral-600">Listings that can be reviewed, updated, or relisted.</div>
+              <div className="mt-1 text-sm text-neutral-600">Review or relist.</div>
             </div>
 
             <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Drafts</div>
               <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{draftCount}</div>
-              <div className="mt-1 text-sm text-neutral-600">Listings saved before they go live.</div>
+              <div className="mt-1 text-sm text-neutral-600">Saved drafts.</div>
             </div>
           </div>
 
@@ -159,7 +159,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
 
           {!listings.length ? (
             <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center">
-              <div className="mx-auto max-w-xl">
+              <div className="mx-auto w-full max-w-xl">
                 <div className="text-xl font-extrabold text-neutral-900">List your first real item</div>
                 <p className="mt-2 text-sm text-neutral-600">
                   Start with one genuine item. Add real photos, accurate condition, price, location, and pickup or postage notes so buyers can act with confidence.
@@ -175,7 +175,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
               </div>
             </div>
           ) : (
-            <div className="grid gap-4">
+            <div className="grid gap-2">
               {listings.map((l: any) => {
                 const listingTypeLabel = isTimedOffersType(l.type) ? "Timed offers" : "Buy Now";
                 const priceLabel = formatMoney(l.price);
@@ -188,7 +188,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                     key={l.id}
                     className="overflow-hidden rounded-3xl border border-black/10 bg-white p-5 shadow-sm"
                   >
-                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <Badge>{listingTypeLabel}</Badge>
@@ -223,7 +223,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                       </div>
 
                       <div className="flex flex-col gap-3 lg:w-[260px]">
-                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-2">
+                        <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 lg:grid-cols-2">
                           <Link href={"/listings/" + l.id} className="bd-btn bd-btn-secondary text-center">
                             View listing
                           </Link>
@@ -265,3 +265,4 @@ function cleanOk(v: unknown) {
   const s = String(v ?? "").trim();
   return s === "1";
 }
+

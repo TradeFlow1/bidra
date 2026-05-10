@@ -22,15 +22,15 @@ function StepCard(props: { title: string; body: string; items?: string[] }) {
 export default function Page() {
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/support" label="Back to support" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/support" label="Back to support" /></div>
       <div className="container max-w-6xl space-y-5">
         <section className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Resolution centre</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help with order, listing, and message issues</h1>
               <p className="mt-2 text-sm leading-7 bd-ink2 sm:text-base">
-                Use this page when something goes wrong with a Bidra listing, message thread, pickup, postage arrangement, or sold order. Start with the other person in Messages, keep evidence, then contact support or report unsafe behaviour if it cannot be resolved.
+                Get help with listings, messages, orders, pickup, or postage issues.
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -63,11 +63,11 @@ export default function Page() {
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
               <div className="text-sm font-extrabold bd-ink">Platform safety issues</div>
-              <p className="mt-2 text-sm leading-7 bd-ink2">Scams, prohibited items, abuse, unsafe behaviour, misleading listings, and message-thread conduct can be reviewed through reports and admin evidence tools.</p>
+              <p className="mt-2 text-sm leading-7 bd-ink2">Report scams, abuse, unsafe behaviour, prohibited items, or misleading listings.</p>
             </div>
             <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
               <div className="text-sm font-extrabold bd-ink">Order support issues</div>
-              <p className="mt-2 text-sm leading-7 bd-ink2">Order IDs, listing links, messages, pickup notes, carrier names, tracking numbers, packaging photos, dispatch proof, postage details, and screenshots help support understand what happened and route the request.</p>
+              <p className="mt-2 text-sm leading-7 bd-ink2">Include order IDs, listing links, messages, photos, tracking, and screenshots.</p>
             </div>
           </div>
         </section>
@@ -75,7 +75,7 @@ export default function Page() {
         <section className="rounded-3xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
           <h2 className="text-xl font-extrabold tracking-tight text-amber-950">Important limits</h2>
           <p className="mt-3 text-sm leading-7 text-amber-950">
-            Bidra is a marketplace platform. Bidra does not currently process marketplace payments, hold escrow, decide refunds, provide shipping labels, insure delivery, or act as a pickup scheduler. We can review platform evidence, preserve report history, and take platform actions such as restricting accounts or removing rule-breaking listings where evidence supports it.
+            Bidra can review platform evidence and take account or listing action. We do not process payments, hold escrow, decide refunds, or manage shipping.
           </p>
         </section>
 
@@ -98,3 +98,4 @@ export default function Page() {
     </main>
   );
 }
+

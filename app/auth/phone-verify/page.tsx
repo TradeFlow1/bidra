@@ -65,11 +65,11 @@ export default function PhoneVerifyPage() {
 
   return (
     <main className="bd-container py-6 pb-14">
-      <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/dashboard" label="Back to dashboard" /></div>
-      <div className="bd-card p-6 sm:p-8 max-w-[560px] mx-auto">
+      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/dashboard" label="Back to dashboard" /></div>
+      <div className="bd-card p-6 sm:p-8 max-w-[560px] mx-auto w-full">
         <h1 className="text-2xl font-extrabold tracking-tight bd-ink">Verify your phone</h1>
         <p className="mt-2 text-sm bd-ink2">
-          Phone confirmation helps strengthen account trust signals for protected marketplace actions. It is not government ID verification, biometric verification, escrow, payment protection, or a delivery guarantee.
+          Phone confirmation may be required for protected marketplace actions.
         </p>
 
         {error ? (
@@ -80,8 +80,8 @@ export default function PhoneVerifyPage() {
 
         {ok ? (
           <div className="mt-5 rounded-2xl border border-black/10 bg-white p-5">
-            <div className="text-lg font-extrabold bd-ink">Phone verified ✅</div>
-            <p className="mt-1 text-sm bd-ink2">Redirecting you to your dashboard…</p>
+            <div className="text-lg font-extrabold bd-ink">Phone verified âœ…</div>
+            <p className="mt-1 text-sm bd-ink2">Redirecting you to your dashboardâ€¦</p>
           </div>
         ) : (
           <div className="mt-5 space-y-4">
@@ -96,7 +96,7 @@ export default function PhoneVerifyPage() {
                 autoComplete="tel"
               />
               <p className="mt-1 text-xs text-black/55">
-                Tip: {phone ? `We’ll send to: ${e164Hint(phone)}` : "Use your AU mobile (04xx) or international + format."}
+                Tip: {phone ? `Weâ€™ll send to: ${e164Hint(phone)}` : "Use your AU mobile (04xx) or international + format."}
               </p>
             </div>
 
@@ -106,7 +106,7 @@ export default function PhoneVerifyPage() {
                 disabled={busy || phone.trim().length < 8}
                 onClick={sendCode}
               >
-                {busy ? "Sending…" : "Send code"}
+                {busy ? "Sendingâ€¦" : "Send code"}
               </button>
             ) : (
               <>
@@ -127,7 +127,7 @@ export default function PhoneVerifyPage() {
                   disabled={busy || code.trim().length < 3}
                   onClick={confirmCode}
                 >
-                  {busy ? "Verifying…" : "Verify phone"}
+                  {busy ? "Verifyingâ€¦" : "Verify phone"}
                 </button>
 
                 <button className="bd-btn w-full" disabled={busy} onClick={sendCode}>
@@ -145,3 +145,4 @@ export default function PhoneVerifyPage() {
     </main>
   );
 }
+

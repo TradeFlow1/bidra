@@ -18,15 +18,15 @@ function StepCard(props: {
 export default function HowItWorksPage() {
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/" label="Back to home" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/" label="Back to home" /></div>
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">How it works</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">How Bidra works</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Bidra is an Australian trust-first local marketplace. Users list items, buyers can use Buy Now or make offers, and buyers and sellers arrange pickup or postage in messages. Bidra is the platform only: we are not the seller, auctioneer, escrow holder, payment provider, shipping provider, or pickup scheduler.
+                List items, buy now, make offers, and arrange pickup or postage in messages.
               </p>
             </div>
 
@@ -45,7 +45,7 @@ export default function HowItWorksPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Platform only</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Users sell items</div>
-            <div className="mt-1 text-sm text-neutral-600">Bidra is not the seller, auctioneer, escrow holder, payment provider, shipping provider, or pickup scheduler.</div>
+            <div className="mt-1 text-sm text-neutral-600">Users sell items directly.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
@@ -57,7 +57,7 @@ export default function HowItWorksPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Current flow</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Simple marketplace handover</div>
-            <div className="mt-1 text-sm text-neutral-600">After the item is sold, use messages to arrange pickup or postage. Orders confirm the item has sold; buyers and sellers then arrange payment, pickup, postage, and handover in Messages.</div>
+            <div className="mt-1 text-sm text-neutral-600">Use messages to arrange pickup or postage after sale.</div>
           </div>
         </div>
 
@@ -65,7 +65,7 @@ export default function HowItWorksPage() {
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li><strong>18+ only:</strong> accounts are for adults. Under 18s can browse publicly but cannot transact or message.</li>
             <li>Set your <strong>location</strong> using suburb, state, and postcode so buyers see realistic pickup context.</li>
-            <li>Keep your Dashboard account details accurate because it helps buyers and sellers decide who to transact with.</li>
+            
           </ul>
         </StepCard>
 
@@ -75,7 +75,7 @@ export default function HowItWorksPage() {
             <li>Choose Buy Now for fast fixed-price activation or Timed Offers when you want to review buyer interest before accepting.</li>
           </ul>
 
-          <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <div className="mt-4 grid gap-2 md:grid-cols-2">
             <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
               <h3 className="text-base font-extrabold bd-ink">Buy Now (binding)</h3>
               <p className="mt-2 text-sm text-black/70">
@@ -83,7 +83,7 @@ export default function HowItWorksPage() {
               </p>
               <ul className="mt-3 list-disc pl-5 text-sm text-black/70 space-y-1">
                 <li>Seller sets the price by listing with Buy Now enabled.</li>
-                <li>Buyer commits to follow Bidra&apos;s marketplace rules and arrange handover in messages.</li>
+                <li>Buyer arranges handover in messages.</li>
               </ul>
             </div>
 
@@ -110,12 +110,12 @@ export default function HowItWorksPage() {
 
         <StepCard step="Step 4" title="Complete the order">
           <p className="text-black/75">
-            For Buy Now purchases, the item is sold immediately. Use Messages to arrange payment, pickup, postage, and handover; Bidra does not act as a payment provider, escrow service, shipping provider, or pickup scheduler.
+            For Buy Now, the item is sold immediately. Use messages to arrange handover.
           </p>
           <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
-            <li>Bidra does not act as a payment provider, escrow service, shipping provider, or pickup scheduler.</li>
+            
             <li>After handover, leave feedback if available or report an issue if something went wrong.</li>
-            <li>Leave feedback to strengthen seller and buyer trust signals for future transactions.</li>
+            
           </ul>
         </StepCard>
 
@@ -130,7 +130,7 @@ export default function HowItWorksPage() {
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-extrabold tracking-tight bd-ink">Important notes</h2>
           <ul className="mt-3 list-disc pl-5 text-black/75 space-y-2">
-            <li><strong>Bidra is the platform only.</strong> Items are sold by users, and we are not an auctioneer, escrow holder, payment provider, shipping provider, or pickup scheduler.</li>
+            <li><strong>Bidra is the platform only.</strong> Items are sold by users.</li>
             <li>Keep important details in Bidra messages for smoother resolution if something goes wrong.</li>
             <li>Fees, if any, are shown before you confirm actions. See <Link className="bd-link font-semibold" href="/legal/fees">Fees</Link>.</li>
             <li>Listings must follow our rules. Prohibited items are blocked. See <Link className="bd-link font-semibold" href="/legal/prohibited-items">Prohibited items</Link>.</li>
@@ -150,3 +150,4 @@ export default function HowItWorksPage() {
     </main>
   );
 }
+

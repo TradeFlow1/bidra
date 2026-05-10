@@ -198,7 +198,7 @@ export default async function DashboardPage({
 
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Current account role</div>
@@ -206,7 +206,7 @@ export default async function DashboardPage({
             {roleSummary}
           </h1>
           <p className="mt-2 max-w-3xl text-sm bd-ink2 sm:text-base">
-            Bidra accounts can act as buyers and sellers. Admin accounts also show the trust operations workspace when available.
+            Manage your buying, selling, messages, and account details.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             {ordersAsBuyerCount > 0 ? <Pill tone="ok">{buyerModeSummary}</Pill> : <Pill>{buyerModeSummary}</Pill>}
@@ -216,11 +216,11 @@ export default async function DashboardPage({
         </div>
 
         <section className="rounded-3xl border border-[#D8E1F0] bg-white p-5 shadow-sm">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-sm font-extrabold bd-ink">Account trust signals</div>
               <p className="mt-1 text-sm leading-6 bd-ink2">
-                These are account-level signals that help buyers and sellers judge context before they message, buy, offer, or arrange handover. They do not mean Bidra has completed government ID or biometric verification.
+                These signals help buyers and sellers understand account context.
               </p>
             </div>
             <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] px-4 py-3 text-sm font-extrabold text-[#0F172A]">
@@ -231,17 +231,17 @@ export default async function DashboardPage({
             <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Email</div>
               <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{user.emailVerified ? "Confirmed" : "Not confirmed"}</div>
-              <div className="mt-1 text-sm text-neutral-600">Email confirmation supports account access and recovery.</div>
+              <div className="mt-1 text-sm text-neutral-600">Supports access and recovery.</div>
             </div>
             <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Phone</div>
               <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{user.phoneVerified ? "Confirmed" : "Not confirmed"}</div>
-              <div className="mt-1 text-sm text-neutral-600">{user.phoneVerified ? "Phone confirmation is active." : "Phone confirmation may be requested for protected marketplace actions."}</div>
+              <div className="mt-1 text-sm text-neutral-600">{user.phoneVerified ? "Phone confirmation is active." : "May be required for protected actions."}</div>
             </div>
             <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">18+ account check</div>
               <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{user.ageVerified ? "Recorded" : "Review if needed"}</div>
-              <div className="mt-1 text-sm text-neutral-600">Bidra accounts are intended for adults. Restrictions apply where age checks fail.</div>
+              <div className="mt-1 text-sm text-neutral-600">Adults only.</div>
             </div>
             <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Policy standing</div>
@@ -259,7 +259,7 @@ export default async function DashboardPage({
           <section className="rounded-3xl border border-[#D8E1F0] bg-white p-5 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">First-run setup</div>
             <p className="mt-1 text-sm bd-ink2">
-              Choose your buyer or seller path without changing account type. Real local inventory is what makes the marketplace useful, so start by listing one genuine item if you are ready to sell.
+              Start with buying, selling, or account setup.
             </p>
             <div className="mt-4 grid gap-3 md:grid-cols-3">
               {onboardingSteps.map((step) => (
@@ -319,7 +319,7 @@ export default async function DashboardPage({
         <div id="account-details" className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
           <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">Account details</div>
-            <div className="mt-1 text-sm bd-ink2">Current visible role: {roleSummary}. Buyer and seller activity is based on your orders, listings, offers, and messages.</div>
+            <div className="mt-1 text-sm bd-ink2">Role: {roleSummary}.</div>
             <div className="mt-4 space-y-4">
               <div>
                 <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Display name</div>
@@ -352,7 +352,7 @@ export default async function DashboardPage({
               <div>
                 <div className="text-sm font-extrabold bd-ink">Edit account</div>
                 <div className="mt-1 text-sm bd-ink2">
-                  Keep your display name and general location up to date so buyers and sellers have clearer context. This is the first setup step for safer buying and selling.
+                  Update your display name and general location.
                 </div>
               </div>
 
@@ -368,15 +368,15 @@ export default async function DashboardPage({
 
               <div className="rounded-2xl border border-black/10 bg-neutral-50 p-5">
                 <div className="text-sm font-semibold">Location</div>
-                <div className="mt-1 text-sm bd-ink2">Use postcode, suburb, and state only. Do not enter a street address.</div>
+                <div className="mt-1 text-sm bd-ink2">Use postcode, suburb, and state only.</div>
 
-                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:items-end">
+                <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:items-end">
                   <div className="sm:col-span-1">
                     <label className="text-sm font-medium">Postcode</label>
                     <Input name="postcode" defaultValue={user.postcode ?? ""} placeholder="e.g. 4301" />
                   </div>
 
-                  <div className="sm:col-span-2 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div className="sm:col-span-2 grid grid-cols-2 gap-2 sm:grid-cols-2">
                     <div>
                       <label className="text-sm font-medium">Suburb</label>
                       <Input name="suburb" defaultValue={user.suburb ?? ""} placeholder="e.g. Redbank Plains" />
@@ -415,3 +415,4 @@ export default async function DashboardPage({
     </main>
   );
 }
+
