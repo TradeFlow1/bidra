@@ -74,16 +74,16 @@ export default async function ContactPage() {
               </div>
 
               <div>
-                <div className="font-extrabold bd-ink">Choose the right queue</div>
+                <div className="font-extrabold bd-ink">What can we help you with?</div>
                 <ul className="mt-2 list-disc pl-5 space-y-1">
-                  <li>Use Contact for account access, order help, billing or fee questions, and technical problems that need a reply. For order evidence and next steps, start with the Resolution Centre.</li>
-                  <li>Use in-product Report for unsafe listings, scams, abuse, prohibited items, or message-thread behaviour that needs moderation evidence.</li>
-                  <li>Use Feedback for product ideas, confusing copy, or non-urgent marketplace improvements.</li>
+                  <li>Use Contact for account, order, listing, billing, or technical issues.</li>
+                  <li>Use Report for scams, prohibited items, abuse, or unsafe behaviour.</li>
+                  <li>Use Feedback for product suggestions.</li>
                 </ul>
               </div>
 
               <div>
-                <div className="font-extrabold bd-ink">Include these details</div>
+                <div className="font-extrabold bd-ink">Include details</div>
                 <ul className="mt-2 list-disc pl-5 space-y-1">
                   <li>Listing, order, or message thread link.</li>
                   <li>What happened and what you expected.</li>
@@ -92,9 +92,9 @@ export default async function ContactPage() {
               </div>
 
               <div>
-                <div className="font-extrabold bd-ink">Use the right form</div>
+                <div className="font-extrabold bd-ink">Safety</div>
                 <p className="mt-1">
-                  If you feel unsafe, stop engaging and report the listing or message thread. For emergencies, contact local authorities.
+                  Report unsafe messages or listings. For emergencies, contact local authorities.
                 </p>
               </div>
 

@@ -25,9 +25,9 @@ export default function FeedbackPage() {
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Feedback</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help shape Bidra</h1>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Share feedback</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Tell us what is working, what feels rough, and what would make Bidra more useful. Product feedback helps improve trust, flow, and day-to-day marketplace quality.
+                Let us know what is working and what could be improved.
               </p>
             </div>
 
@@ -45,7 +45,7 @@ export default function FeedbackPage() {
         <div className="grid gap-3 sm:grid-cols-3">
           <InfoCard
             title="Best feedback"
-            desc="Clear examples, real friction points, and practical suggestions."
+            desc="Clear examples and practical suggestions."
           />
           <InfoCard
             title="Useful context"
@@ -61,7 +61,7 @@ export default function FeedbackPage() {
           <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">Share product feedback</div>
             <p className="mt-2 text-sm bd-ink2 leading-7">
-              Use this form for suggestions, usability issues, confusing product moments, or ideas that could improve the marketplace experience.
+              Use this form for product suggestions or confusing parts of the site.
             </p>
             <div className="mt-5">
               <FeedbackClient />
@@ -70,7 +70,7 @@ export default function FeedbackPage() {
 
           <div className="space-y-5">
             <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-              <div className="text-sm font-extrabold bd-ink">Good examples of feedback</div>
+              <div className="text-sm font-extrabold bd-ink">Examples</div>
               <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 leading-7 space-y-2">
                 <li>The order page made it hard to message the other person after buying or selling.</li>
                 <li>The sell flow needs clearer hints around pricing, photos, or category choice.</li>
@@ -80,11 +80,11 @@ export default function FeedbackPage() {
             </div>
 
             <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-              <div className="text-sm font-extrabold bd-ink">Use support instead when</div>
+              <div className="text-sm font-extrabold bd-ink">Use Support or Contact for</div>
               <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 leading-7 space-y-2">
-                <li>You need help with an account, order, listing, or technical problem right now.</li>
+                <li>Account, order, listing, or technical issues.</li>
                 <li>You need to report abuse, unsafe behaviour, or a rule-breaking listing.</li>
-                <li>You need investigation, not product feedback.</li>
+                <li>Issues that need investigation.</li>
               </ul>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link href="/support" className="bd-btn bd-btn-ghost text-center">

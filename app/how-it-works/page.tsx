@@ -72,14 +72,14 @@ export default function HowItWorksPage() {
         <StepCard step="Step 2" title="List an item with buyer-ready details">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>Add a clear title, honest description, condition, and photos that show the actual item.</li>
-            <li>Choose Buy Now for fast fixed-price activation or Timed Offers when you want to review buyer interest before accepting.</li>
+            <li>Choose Buy Now for a fixed price or Timed Offers to review buyer interest.</li>
           </ul>
 
           <div className="mt-4 grid gap-2 md:grid-cols-2">
             <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
               <h3 className="text-base font-extrabold bd-ink">Buy Now (binding)</h3>
               <p className="mt-2 text-sm text-black/70">
-                You set a fixed price. When a buyer clicks Buy Now, it becomes a binding sale. This is the fastest path to a sold item.
+                You set a fixed price. When a buyer clicks Buy Now, it becomes a binding sale. 
               </p>
               <ul className="mt-3 list-disc pl-5 text-sm text-black/70 space-y-1">
                 <li>Seller sets the price by listing with Buy Now enabled.</li>
@@ -94,7 +94,7 @@ export default function HowItWorksPage() {
               </p>
               <ul className="mt-3 list-disc pl-5 text-sm text-black/70 space-y-1">
                 <li>No automatic winner. Seller controls acceptance.</li>
-                <li>Seller may decline or relist.</li>
+                <li></li>
               </ul>
             </div>
           </div>
@@ -102,8 +102,8 @@ export default function HowItWorksPage() {
 
         <StepCard step="Step 3" title="Convert interest in Messages">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
-            <li>Use Messages to ask questions, confirm intent, arrange pickup or postage, and keep a clear record.</li>
-            <li>For safety, keep communication respectful and clear. Report scams, abuse, or rule-breaking content.</li>
+            <li>Use Messages to ask questions and arrange pickup or postage.</li>
+            <li>Keep messages respectful and report scams, abuse, or rule-breaking content.</li>
             <li>Never send ID photos or sensitive information you would not want exposed.</li>
           </ul>
         </StepCard>

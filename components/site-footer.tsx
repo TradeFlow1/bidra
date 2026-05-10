@@ -55,7 +55,7 @@ export default function SiteFooter() {
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Bidra marketplace</div>
             <h2 className="mt-2 text-[1.55rem] font-extrabold tracking-tight text-[#0F172A] sm:text-[1.9rem]">Buy now. Make offers. Arrange handover.</h2>
             <p className="mt-2 text-sm leading-6 text-[#475569] sm:mt-3">
-              Browse listings, buy now, make offers, and arrange pickup or postage. Current pricing: $0 buyer fees, $0 standard listing fees, and 0% seller success fee.
+              Browse listings, Buy Now, and make offers. No buyer or standard listing fees.
             </p>
           </div>
 

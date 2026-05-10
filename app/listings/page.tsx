@@ -389,7 +389,7 @@ export default async function ListingsPage({
 
           <div className="space-y-3">
             <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4" role="status" aria-live="polite">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Guided discovery shortcuts</h2>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse by category</h2>
               <p className="mt-1 text-xs text-[#64748B]"></p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#0F172A]">All active listings</Link>
@@ -447,20 +447,20 @@ export default async function ListingsPage({
                   <div className="mx-auto w-full max-w-2xl">
                     <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches yet" : "No listings here yet"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
-                      {hasFilters ? "No active matches yet. Try broader keywords, clear filters, or list a matching item if you have one to sell." : "Bidra only shows real listings from sellers. List a genuine item with clear photos, price, condition, and pickup or postage notes."}
+                      {hasFilters ? "No listings match your filters. Clear filters or adjust your search." : "Create a listing with clear photos, price, condition, and pickup or postage details."}
                     </p>
                     <div className="mt-5 grid gap-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-left sm:grid-cols-3">
                       <div>
                         <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Broaden</div>
-                        <p className="mt-1 text-xs text-[#475569]">Clear filters first, then add category or location back one at a time.</p>
+                        <p className="mt-1 text-xs text-[#475569]">Clear filters and try again.</p>
                       </div>
                       <div>
                         <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Compare</div>
-                        <p className="mt-1 text-xs text-[#475569]">Use Buy Now for direct purchases or Offers when you want to make an offer.</p>
+                        <p className="mt-1 text-xs text-[#475569]">Use Buy Now to buy now, or Offers to make an offer.</p>
                       </div>
                       <div>
-                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Sell into demand</div>
-                        <p className="mt-1 text-xs text-[#475569]">If the item is not listed yet, create a buyer-ready listing with real photos and clear handover notes.</p>
+                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Sell</div>
+                        <p className="mt-1 text-xs text-[#475569]">Create a listing with clear photos and pickup or postage details.</p>
                       </div>
                     </div>
                     <div className="mt-4 flex flex-wrap justify-center gap-2">

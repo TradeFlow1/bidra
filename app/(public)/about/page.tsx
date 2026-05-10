@@ -38,7 +38,7 @@ export default function AboutPage() {
                 A simpler, safer local marketplace
               </h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Bidra is an Australian-focused marketplace built from scratch with original design and copy. List items for Buy Now or receive offers, keep agreements in Messages, and arrange pickup or postage directly with the other person.
+                Bidra is a local marketplace built from scratch. List items, receive offers, and use messages to arrange pickup or postage.
               </p>
             </div>
 
@@ -63,7 +63,7 @@ export default function AboutPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Trust</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Clearer trade flow</div>
-            <div className="mt-1 text-sm text-neutral-600">Profiles, orders, messages, and support all work together to reduce confusion.</div>
+            <div className="mt-1 text-sm text-neutral-600">Profiles, orders, messages, and support are connected.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
@@ -75,7 +75,7 @@ export default function AboutPage() {
 
         <SectionCard title="What Bidra is built for">
           <p className="text-sm bd-ink2 leading-7">
-            Bidra is designed for people who want a cleaner local marketplace experience: clearer listings, better structure around offers and orders, and stronger trust signals around who they are dealing with.
+            Bidra provides clear listings, structured offers and orders, and transparent profiles.
           </p>
           <p className="mt-3 text-sm bd-ink2 leading-7">
             The goal is to make local buying and selling clearer and more dependable.
@@ -95,7 +95,7 @@ export default function AboutPage() {
             />
             <PrincipleCard
               title="Safety"
-              desc="Policies, reporting, and platform controls help reduce risky transactions and abuse."
+              desc="Policies and reporting help reduce risky behaviour."
             />
           </div>
         </section>

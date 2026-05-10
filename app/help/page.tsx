@@ -48,7 +48,7 @@ export default function HelpPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Help</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Help with listings, offers, orders, accounts, reports, and support.
+                Find help with listings, offers, orders, accounts, and reports.
               </p>
             </div>
 
@@ -73,7 +73,7 @@ export default function HelpPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Support</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Get help</div>
-            <div className="mt-1 text-sm text-neutral-600">Choose the right place to report an issue or contact support.</div>
+            <div className="mt-1 text-sm text-neutral-600">Find the right place to report an issue or get support.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
@@ -92,7 +92,7 @@ export default function HelpPage() {
           />
           <HelpCard
             title="Support"
-            desc="Get help with reports, account issues, orders, and marketplace rules."
+            desc="Get help with reports, account issues, orders, and rules."
             href="/support"
             cta="Open support"
           />
@@ -113,17 +113,17 @@ export default function HelpPage() {
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-extrabold tracking-tight bd-ink">Quick guidance</h2>
           <ol className="mt-4 list-decimal pl-5 text-sm bd-ink2 leading-7 space-y-2">
-            <li>Create a listing with clear details, honest condition notes, and accurate photos.</li>
+            <li>Create an honest listing with clear photos and details.</li>
             <li>Use messages to ask questions and arrange pickup or postage.</li>
             <li>After a sale, use messages to arrange pickup, postage, payment, and handover details.</li>
-            <li>After handover, leave feedback if available or report an issue if something went wrong.</li>
+            <li>After handover, leave feedback or report issues.</li>
           </ol>
         </section>
 
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <h2 className="text-xl font-extrabold tracking-tight bd-ink">Where to go</h2>
           <p className="mt-2 text-sm bd-ink2 leading-7">
-            Choose the option that best matches your issue.
+            Choose the closest option.
           </p>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             <HelpCard
@@ -134,7 +134,7 @@ export default function HelpPage() {
             />
             <HelpCard
               title="Get help with an order or account"
-              desc="Use Contact for account access, order questions, listing issues, or technical problems."
+              desc="Use Contact for account, order, listing, or technical issues."
               href="/contact"
               cta="Contact support"
             />
