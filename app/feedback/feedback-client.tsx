@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import StatusMessage from "@/components/status-message";
 import { useEffect, useMemo, useState } from "react";
 
@@ -10,8 +9,6 @@ type SessionShape = { user?: SessionUser } | null;
 export default function FeedbackClient() {
   const [loading, setLoading] = useState(true);
   const [signedIn, setSignedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-
   const [category, setCategory] = useState("");
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
@@ -33,16 +30,10 @@ export default function FeedbackClient() {
         const json = (await res.json()) as SessionShape;
 
         const hasUser = !!json?.user;
-        const role = (json?.user as any)?.role ? String((json?.user as any).role) : "";
-
         if (!alive) return;
-        setSignedIn(hasUser);
-        setIsAdmin(role === "ADMIN");
-      } catch {
+        setSignedIn(hasUser);      } catch {
         if (!alive) return;
-        setSignedIn(false);
-        setIsAdmin(false);
-      } finally {
+        setSignedIn(false);      } finally {
         if (!alive) return;
         setLoading(false);
       }
@@ -100,13 +91,6 @@ export default function FeedbackClient() {
             Tell us what is confusing, broken, or missing.
           </p>
         </div>
-
-        {isAdmin ? (
-          <div className="flex gap-2">
-            <Link href="/admin/feedback" className="bd-btn bd-btn-outline">Admin: Feedback</Link>
-            <Link href="/admin/events" className="bd-btn bd-btn-outline">Admin: Events</Link>
-          </div>
-        ) : null}
       </div>
 
       <div className="mt-5 rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
@@ -162,21 +146,15 @@ export default function FeedbackClient() {
               />
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="grid gap-2 sm:flex sm:flex-wrap">
               <button type="button" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto" onClick={submit}>
                 Send feedback
               </button>
-              <Link href="/support" className="bd-btn bd-btn-outline">Support &amp; Safety</Link>
-              <Link href="/contact" className="bd-btn bd-btn-outline">Contact</Link>
             </div>
 
             {status ? <StatusMessage tone={statusTone}>{status}</StatusMessage> : null}
           </div>
         )}
-      </div>
-
-      <div className="mt-4 text-xs bd-ink2">
-        Note: Bidra is a platform only and is not the seller of items listed.
       </div>
     </div>
   );
