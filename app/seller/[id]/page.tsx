@@ -35,7 +35,7 @@ function formatMemberSince(value: Date | string | null | undefined) {
 function renderStars(avg: number) {
   const safe = Math.max(0, Math.min(5, avg));
   const rounded = Math.round(safe * 10) / 10;
-  return `${rounded.toFixed(1)}/5`;
+  return rounded.toFixed(1) + "/5";
 }
 
 async function getSellerProfileData(sellerId: string) {
@@ -130,12 +130,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const sellerName = cleanText(data.seller.name) || cleanText(data.seller.username) || "Seller";
   const sellerLocation = formatLocation(data.seller);
   const activeCount = data.activeListings.length;
-  const title = `${sellerName} on Bidra`;
+  const title = sellerName + " on Bidra";
   const description = activeCount > 0
-    ? `View active listings from ${sellerName} on Bidra.`
-    : `View ${sellerName}'s seller profile on Bidra.`;
-  const canonicalPath = `/seller/${data.seller.id}`;
-  const url = `${getBaseUrl().replace(/\/+$/, "")}${canonicalPath}`;
+    ? "View active listings from " + sellerName + " on Bidra."
+    : "View " + sellerName + "'s seller profile on Bidra.";
+  const canonicalPath = "/seller/" + data.seller.id;
+  const url = getBaseUrl().replace(/\/+$/, "") + canonicalPath;
 
   return {
     title,
@@ -145,12 +145,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       type: "profile",
       url,
       title,
-      description: sellerLocation ? `${description} Location: ${sellerLocation}.` : description,
+      description: sellerLocation ? description + " Location: " + sellerLocation + "." : description,
     },
     twitter: {
       card: "summary",
       title,
-      description: sellerLocation ? `${description} Location: ${sellerLocation}.` : description,
+      description: sellerLocation ? description + " Location: " + sellerLocation + "." : description,
     },
   };
 }
@@ -173,12 +173,15 @@ export default async function SellerPage({ params }: PageProps) {
   const ratingAvg = typeof sellerRating._avg.rating === "number" ? Number(sellerRating._avg.rating) : null;
   const ratingCount = Number(sellerRating._count.rating || 0);
 
+  const ratingSignal = ratingAvg !== null && ratingCount > 0
+    ? renderStars(ratingAvg) + " from " + ratingCount + " " + (ratingCount === 1 ? "review" : "reviews")
+    : "";
+
   const profileSignals = [
     seller.emailVerified ? "Email confirmed" : "",
     sellerPhoneVerified ? "Phone confirmed" : "",
-    sellerMemberSince ? `Member since ${sellerMemberSince}` : "",
+    sellerMemberSince ? "Member since " + sellerMemberSince : "",
     sellerLocation ? sellerLocation : "",
-    ratingAvg !== null && ratingCount > 0 ? `${renderStars(ratingAvg)} from ${ratingCount} ${ratingCount === 1 ? "review" : "reviews"}` : "",
   ].filter(Boolean);
 
   const visibleRecentFeedback = recentFeedback;
@@ -194,7 +197,7 @@ export default async function SellerPage({ params }: PageProps) {
       )
     : new Set<string>();
 
-  const sellerUrl = `${getBaseUrl().replace(/\/+$/, "")}/seller/${seller.id}`;
+  const sellerUrl = getBaseUrl().replace(/\/+$/, "") + "/seller/" + seller.id;
 
   return (
     <main className="bd-container py-6 sm:py-10">
@@ -212,27 +215,26 @@ export default async function SellerPage({ params }: PageProps) {
 
               <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
                 {profileSignals.length > 0 ? profileSignals.map((signal) => (
-                  {signal.includes("/5 from") ? (
-                    <Link
-                      key={signal}
-                      href="#seller-feedback"
-                      className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-amber-800 underline-offset-2 hover:underline"
-                    >
-                      {signal}
-                    </Link>
-                  ) : (
-                    <span key={signal} className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#334155]">{signal}</span>
-                  )}
+                  <span key={signal} className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#334155]">{signal}</span>
                 )) : (
                   <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#334155]">Profile details limited</span>
                 )}
+
+                {ratingSignal ? (
+                  <Link
+                    href="#seller-feedback"
+                    className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-amber-800 underline-offset-2 hover:underline"
+                  >
+                    {ratingSignal}
+                  </Link>
+                ) : null}
               </div>
 
               <div className="mt-4 max-w-md">
                 <ShareActions
                   url={sellerUrl}
-                  title={`${sellerName} on Bidra`}
-                  text={`Check out ${sellerName}'s seller profile on Bidra.`}
+                  title={sellerName + " on Bidra"}
+                  text={"Check out " + sellerName + "'s seller profile on Bidra."}
                   label="Share seller profile"
                   description="Share this seller profile."
                 />
