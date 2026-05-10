@@ -101,11 +101,10 @@ async function getSellerProfileData(sellerId: string) {
     prisma.feedback.findMany({
       where: {
         toUserId: sellerId,
-        comment: { not: null },
         order: { outcome: "COMPLETED" },
       },
       orderBy: { createdAt: "desc" },
-      take: 3,
+      take: 12,
       select: {
         id: true,
         rating: true,
@@ -182,7 +181,7 @@ export default async function SellerPage({ params }: PageProps) {
     ratingAvg !== null && ratingCount > 0 ? `${renderStars(ratingAvg)} from ${ratingCount} ${ratingCount === 1 ? "review" : "reviews"}` : "",
   ].filter(Boolean);
 
-  const visibleRecentFeedback = recentFeedback.filter((entry) => cleanText(entry.comment).length > 0);
+  const visibleRecentFeedback = recentFeedback;
 
   const watchedIds = userId
     ? new Set(
@@ -213,7 +212,17 @@ export default async function SellerPage({ params }: PageProps) {
 
               <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
                 {profileSignals.length > 0 ? profileSignals.map((signal) => (
-                  <span key={signal} className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#334155]">{signal}</span>
+                  {signal.includes("/5 from") ? (
+                    <Link
+                      key={signal}
+                      href="#seller-feedback"
+                      className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-amber-800 underline-offset-2 hover:underline"
+                    >
+                      {signal}
+                    </Link>
+                  ) : (
+                    <span key={signal} className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#334155]">{signal}</span>
+                  )}
                 )) : (
                   <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#334155]">Profile details limited</span>
                 )}
@@ -309,14 +318,14 @@ export default async function SellerPage({ params }: PageProps) {
         </section>
 
         {visibleRecentFeedback.length > 0 ? (
-          <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
-            <div className="text-xl font-extrabold tracking-tight text-[#0F172A]">Recent feedback</div>
+          <section id="seller-feedback" className="scroll-mt-24 rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
+            <div className="text-xl font-extrabold tracking-tight text-[#0F172A]">Seller feedback</div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               {visibleRecentFeedback.map((entry) => (
                 <article key={entry.id} className="rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-4">
                   <div className="text-xs font-extrabold text-amber-700">{renderStars(entry.rating)}</div>
-                  <p className="mt-2 text-sm leading-6 text-[#475569]">{cleanText(entry.comment) || ""}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#475569]">{cleanText(entry.comment) || "No written comment."}</p>
                   <div className="mt-2 text-xs text-[#64748B]">
                     <time dateTime={entry.createdAt.toISOString()}>
                       {entry.createdAt.toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })}
