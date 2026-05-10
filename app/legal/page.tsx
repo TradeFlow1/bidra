@@ -4,24 +4,37 @@ import { BackButton } from "@/components/ui/back-button";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const metadata = { title: "Legal & Policies â€” Bidra" };
+export const metadata = { title: "Legal and policies - Bidra" };
 
-function SectionTitle(props: { children: React.ReactNode }) {
-  return <h2 className="text-lg font-extrabold tracking-tight bd-ink">{props.children}</h2>;
+const actionClass = "inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto";
+
+function InfoCard(props: {
+  label: string;
+  title: string;
+  desc: string;
+}) {
+  return (
+    <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">{props.label}</div>
+      <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{props.title}</div>
+      <div className="mt-1 text-sm text-[#475569]">{props.desc}</div>
+    </div>
+  );
 }
 
 function LegalCard(props: {
   title: string;
   desc: string;
   href: string;
+  cta: string;
 }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+    <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
       <div className="text-sm font-extrabold bd-ink">{props.title}</div>
-      <div className="mt-1 text-sm bd-ink2 leading-7">{props.desc}</div>
+      <div className="mt-2 text-sm bd-ink2 leading-7">{props.desc}</div>
       <div className="mt-4">
-        <Link className="bd-btn bd-btn-ghost text-center" href={props.href}>
-          Open
+        <Link className={actionClass} href={props.href}>
+          {props.cta}
         </Link>
       </div>
     </div>
@@ -30,105 +43,96 @@ function LegalCard(props: {
 
 export default function LegalHubPage() {
   return (
-    <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+    <main className="bd-container py-6 sm:py-10">
+      <div className="mx-auto mb-4 w-full max-w-6xl px-4">
+        <BackButton href="/listings" label="Back to marketplace" />
+      </div>
+
       <div className="container max-w-6xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Legal</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Legal</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Legal hub</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                These pages explain how Bidra works, what is allowed, how fees and privacy are handled, and what buyers and sellers are responsible for.
+                Key rules for using Bidra, listing items, privacy, fees, and prohibited items.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              <Link href="/how-it-works" className="bd-btn bd-btn-primary text-center">
+            <div className="grid gap-2 sm:flex sm:flex-wrap">
+              <Link href="/how-it-works" className={actionClass}>
                 How it works
               </Link>
-              <Link href="/support" className="bd-btn bd-btn-ghost text-center">
+              <Link href="/support" className={actionClass}>
                 Support
               </Link>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Overview</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">How it works</div>
-            <div className="mt-1 text-sm text-neutral-600">See how listings, offers, orders, and messages work.</div>
+        <section className="grid gap-3 sm:grid-cols-3">
+          <InfoCard
+            label="Overview"
+            title="How it works"
+            desc="Listings, offers, orders, messages, pickup, and postage."
+          />
+          <InfoCard
+            label="Core rules"
+            title="Terms and privacy"
+            desc="Account rules, privacy, user responsibility, and platform role."
+          />
+          <InfoCard
+            label="Safety"
+            title="Policies and restrictions"
+            desc="Prohibited items, fees, reports, and support guidance."
+          />
+        </section>
+
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
+          <h2 className="text-xl font-extrabold tracking-tight bd-ink">Core documents</h2>
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
+            <LegalCard
+              title="Terms"
+              href="/legal/terms"
+              cta="Read terms"
+              desc="Rules for accounts, listings, sale formats, orders, messages, reports, and platform responsibilities."
+            />
+            <LegalCard
+              title="Privacy"
+              href="/legal/privacy"
+              cta="Read privacy"
+              desc="What Bidra collects, why it is used, how long it is kept, and privacy choices."
+            />
+            <LegalCard
+              title="Fees"
+              href="/legal/fees"
+              cta="View fees"
+              desc="Current fees for buyers, sellers, listings, offers, Buy Now, and seller success fees."
+            />
+            <LegalCard
+              title="Prohibited items"
+              href="/legal/prohibited-items"
+              cta="View prohibited items"
+              desc="Items and listing types that cannot be listed on Bidra."
+            />
           </div>
+        </section>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Core rules</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Terms and privacy</div>
-            <div className="mt-1 text-sm text-neutral-600">Understand account rules, platform-only role, data handling, marketplace risk, and user responsibilities.</div>
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Safety</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Policies and restrictions</div>
-            <div className="mt-1 text-sm text-neutral-600">Review prohibited items, fees, and support guidance.</div>
-          </div>
-        </div>
-
-        <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="text-sm font-extrabold bd-ink">Start with</div>
-          <div className="mt-2 text-sm bd-ink2 leading-7">
-            Read{" "}
-            <Link href="/how-it-works" className="bd-link font-semibold">How it works</Link>, then{" "}
-            <Link href="/legal/terms" className="bd-link font-semibold">Terms</Link> and{" "}
-            <Link href="/legal/privacy" className="bd-link font-semibold">Privacy</Link>.
-          </div>
-        </div>
-
-        <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm space-y-6">
-          <section className="space-y-3">
-            <SectionTitle>Core documents</SectionTitle>
-            <div className="grid gap-3 lg:grid-cols-2">
-              <LegalCard
-                title="Terms of Use"
-                href="/legal/terms"
-                desc="Rules for using Bidra, eligibility requirements, platform-only role, user responsibility, marketplace risk, and the two sale models: Buy Now and Timed Offers."
-              />
-              <LegalCard
-                title="Privacy Policy"
-                href="/legal/privacy"
-                desc="What data we collect, why we collect it, who we share it with, how long we retain it, and your rights in Australia."
-              />
-              <LegalCard
-                title="Fees"
-                href="/legal/fees"
-                desc="Current fee model: $0 buyer fees, $0 standard listing fees, and 0% seller success fee."
-              />
-              <LegalCard
-                title="Prohibited Items"
-                href="/legal/prohibited-items"
-                desc="Items that cannot be listed. Prohibited items are blocked at listing creation and repeated attempts may lead to restrictions."
-              />
-            </div>
-          </section>
-
-          <section className="space-y-2">
-            <SectionTitle>Help and safety</SectionTitle>
-            <p className="text-sm bd-ink2 leading-7">
-              If you feel unsafe, stop engaging and report the listing or message thread. For emergencies, contact local authorities.
-            </p>
-            <div>
-              <Link href="/support" className="bd-btn bd-btn-ghost text-center">
-                Support
-              </Link>
-            </div>
-          </section>
-
-          <p className="text-xs bd-ink2 opacity-70">
-            Policy summaries for Australia. We may update policies over time, and the latest version is posted here.
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
+          <h2 className="text-xl font-extrabold tracking-tight bd-ink">Help and safety</h2>
+          <p className="mt-3 text-sm bd-ink2 leading-7">
+            For account, order, listing, report, or safety issues, use Support.
           </p>
-        </div>
+          <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap">
+            <Link href="/support" className={actionClass}>
+              Support
+            </Link>
+            <Link href="/contact" className={actionClass}>
+              Contact support
+            </Link>
+          </div>
+        </section>
       </div>
     </main>
   );
 }
-
