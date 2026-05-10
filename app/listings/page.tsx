@@ -355,14 +355,14 @@ export default async function ListingsPage({
 
   return (
     <main className="bg-[#F7F9FC]">
-      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/" label="Back to home" /></div>
-      <div className="mx-auto w-full w-full max-w-7xl px-4 py-5 lg:px-3 sm:px-6 lg:py-6">
-        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-3 sm:p-6">
+      <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/" label="Back to home" /></div>
+      <div className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-3 lg:py-6">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse active marketplace listings</h1>
           <p className="mt-2 text-sm text-[#475569]"></p>
         </section>
 
-        <section className="mt-5 grid min-w-0 grid-cols-2 gap-2 xl:grid-cols-[18rem_minmax(0,1fr)]">
+        <section className="mt-5 grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[18rem_minmax(0,1fr)]">
           <aside className="min-w-0 xl:sticky xl:top-24 xl:self-start">
             <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
               <div className="p-4 sm:p-5">
@@ -414,7 +414,7 @@ export default async function ListingsPage({
                 <div>
                   <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Results</div>
                   <div className="mt-1 text-sm font-semibold text-[#0F172A]">{listings.length} results</div>
-                  {hasFilters ? <p className="mt-1 text-xs text-[#64748B]">{filterSummary}. Review photos, seller details, item descriptions, and safe handover notes before acting.</p> : null}
+                  {hasFilters ? <p className="mt-1 text-xs text-[#64748B]">{filterSummary}</p> : null}
                 </div>
                 {hasFilters ? (
                   <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center text-xs font-semibold text-[#1D4ED8] underline underline-offset-2">
@@ -441,7 +441,7 @@ export default async function ListingsPage({
               ) : null}
             </div>
 
-            <div className="browseList grid w-full min-w-0 grid-cols-2 gap-1.5 sm:gap-3 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
+            <div className="browseList grid w-full min-w-0 grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 2xl:grid-cols-5">
               {listings.length === 0 ? (
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-3 sm:px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto w-full max-w-2xl">
