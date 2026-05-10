@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
 
 function SectionCard(props: {
@@ -68,7 +68,7 @@ export default function AboutPage() {
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Safety</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Policies with teeth</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Marketplace rules</div>
             <div className="mt-1 text-sm text-neutral-600">Reporting, restrictions, and platform rules help reduce risky behaviour.</div>
           </div>
         </div>
@@ -78,7 +78,7 @@ export default function AboutPage() {
             Bidra is designed for people who want a cleaner local marketplace experience: clearer listings, better structure around offers and orders, and stronger trust signals around who they are dealing with.
           </p>
           <p className="mt-3 text-sm bd-ink2 leading-7">
-            The goal is not just to list items. The goal is to make local buying and selling feel more serious, more understandable, and more dependable.
+            The goal is to make local buying and selling clearer and more dependable.
           </p>
         </SectionCard>
 
@@ -104,18 +104,18 @@ export default function AboutPage() {
           <ul className="list-disc pl-5 text-sm bd-ink2 leading-7 space-y-2">
             <li>Buy Now and Timed Offers are clearly separated so expectations are easier to understand.</li>
             <li>Bidra is platform-first: listings, messages, orders, and support are connected into one flow.</li>
-            <li>Trust matters: clearer account, order, and support surfaces help users make better decisions.</li>
+            <li>Clear account, order, and support pages help users make better decisions.</li>
             <li>Local trading stays practical: pickup context, messaging, and safety guidance are part of the product.</li>
           </ul>
         </SectionCard>
 
-        <SectionCard title="Read before you trade">
+        <SectionCard title="Useful links">
           <div className="flex flex-wrap gap-2">
             <Link href="/how-it-works" className="bd-btn bd-btn-ghost text-center">
               How it works
             </Link>
             <Link href="/support" className="bd-btn bd-btn-ghost text-center">
-              Support and safety
+              Support
             </Link>
             <Link href="/legal" className="bd-btn bd-btn-ghost text-center">
               Legal hub

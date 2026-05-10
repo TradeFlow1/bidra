@@ -1,4 +1,4 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Link from "next/link";
@@ -46,15 +46,15 @@ export default function HelpPage() {
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Help</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Quick help for using Bidra</h1>
+              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Find the right next step for listings, offers, orders, support, safety, and account questions. If you cannot find what you need, contact support.
+                Help with listings, offers, orders, accounts, reports, and support.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-2">
               <Link href="/support" className="bd-btn bd-btn-primary text-center">
-                Support and safety
+                Support
               </Link>
               <Link href="/contact" className="bd-btn bd-btn-ghost text-center">
                 Contact support
@@ -65,40 +65,40 @@ export default function HelpPage() {
 
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Start here</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Overview</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">How Bidra works</div>
-            <div className="mt-1 text-sm text-neutral-600">Get the plain-language overview of listings, offers, sold orders, messages, pickup, and postage.</div>
+            <div className="mt-1 text-sm text-neutral-600">See how listings, offers, orders, and messages work.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Need help fast</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Support routes</div>
-            <div className="mt-1 text-sm text-neutral-600">Use support, contact, and reporting tools to handle issues quickly and safely.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Support</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Get help</div>
+            <div className="mt-1 text-sm text-neutral-600">Choose the right place to report an issue or contact support.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Safety first</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Know the rules</div>
-            <div className="mt-1 text-sm text-neutral-600">Check prohibited items, platform rules, and safety guidance before trading.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Rules</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Before you list</div>
+            <div className="mt-1 text-sm text-neutral-600">Check prohibited items and marketplace rules before listing.</div>
           </div>
         </div>
 
         <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4">
           <HelpCard
             title="How it works"
-            desc="Learn the core marketplace flow for Buy Now, accepted offers, sold orders, messages, pickup, and postage."
+            desc="See how Buy Now, offers, orders, messages, pickup, and postage work."
             href="/how-it-works"
             cta="Open how it works"
           />
           <HelpCard
-            title="Support and safety"
-            desc="Read safety guidance, resolution steps, reporting advice, and safer local trading tips."
+            title="Support"
+            desc="Get help with reports, account issues, orders, and marketplace rules."
             href="/support"
             cta="Open support"
           />
           <HelpCard
             title="Contact support"
-            desc="Need account, order, listing, or technical help? Use the contact flow for direct support."
+            desc="Send account, order, listing, or technical support requests."
             href="/contact"
             cta="Open contact"
           />
@@ -114,39 +114,39 @@ export default function HelpPage() {
           <h2 className="text-xl font-extrabold tracking-tight bd-ink">Quick guidance</h2>
           <ol className="mt-4 list-decimal pl-5 text-sm bd-ink2 leading-7 space-y-2">
             <li>Create a listing with clear details, honest condition notes, and accurate photos.</li>
-            <li>Use messages for clarification only and keep communication respectful and on-platform.</li>
-            <li>After a sale, buyer and seller use messages to arrange pickup or postage, including carrier, tracking, packaging, dispatch timing, and who pays postage. No extra approval step is needed.</li>
+            <li>Use messages to ask questions and arrange pickup or postage.</li>
+            <li>After a sale, use messages to arrange pickup, postage, payment, and handover details.</li>
             <li>After handover, leave feedback if available or report an issue if something went wrong.</li>
           </ol>
         </section>
 
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <h2 className="text-xl font-extrabold tracking-tight bd-ink">Choose the right help route</h2>
+          <h2 className="text-xl font-extrabold tracking-tight bd-ink">Where to go</h2>
           <p className="mt-2 text-sm bd-ink2 leading-7">
-            Start with the route that matches the job. This keeps reports, support requests, and product feedback in the right queue.
+            Choose the option that best matches your issue.
           </p>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             <HelpCard
               title="Report a listing or message"
-              desc="Use the in-product Report action when content, behaviour, scams, prohibited items, or unsafe messages need moderation review with evidence attached."
+              desc="Use Report on a listing or message thread for scams, prohibited items, abuse, or rule-breaking content."
               href="/support"
               cta="Open safety guidance"
             />
             <HelpCard
               title="Get help with an order or account"
-              desc="Use Contact when you need support to investigate an order, account access, technical issue, or anything that needs a reply."
+              desc="Use Contact for account access, order questions, listing issues, or technical problems."
               href="/contact"
               cta="Contact support"
             />
             <HelpCard
               title="Learn the marketplace flow"
-              desc="Use How it works for Buy Now, offers, orders, messages, pickup, postage, feedback, and platform-only limits."
+              desc="Use How it works for Buy Now, offers, orders, messages, pickup, and postage."
               href="/how-it-works"
-              cta="Review flow"
+              cta="Open guide"
             />
             <HelpCard
               title="Share product feedback"
-              desc="Use Feedback for suggestions, confusing wording, rough edges, or ideas that do not need urgent support action."
+              desc="Use Feedback for suggestions or product feedback."
               href="/feedback"
               cta="Send feedback"
             />
@@ -166,7 +166,7 @@ export default function HelpPage() {
             />
             <FaqItem
               question="How do I report a problem?"
-              answer={<>Use reporting in listings or message threads for rule-breaking content or behaviour. For order or handover issues, use the <Link href="/disputes" className="bd-link font-semibold">Resolution Centre</Link>, <Link href="/support" className="bd-link font-semibold">Support and safety</Link>, or <Link href="/contact" className="bd-link font-semibold">Contact</Link>.</>}
+              answer={<>Use reporting in listings or message threads for rule-breaking content or behaviour. For order or handover issues, use the <Link href="/disputes" className="bd-link font-semibold">Resolution Centre</Link>, <Link href="/support" className="bd-link font-semibold">Support</Link>, or <Link href="/contact" className="bd-link font-semibold">Contact</Link>.</>}
             />
             <FaqItem
               question="How do I update my location?"

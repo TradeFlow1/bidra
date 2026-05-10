@@ -10,14 +10,14 @@ export const revalidate = 10;
 
 export const metadata: Metadata = {
   title: "Bidra marketplace | Buy Now and offers in Australia",
-  description: "Browse Bidra, an Australian trust-first marketplace for active local listings, Buy Now deals, seller-reviewed offers, safe messages, pickup, postage, and buyer-ready selling.",
+  description: "Browse Bidra for Australian marketplace listings, Buy Now items, offers, pickup, postage, and local handover details.",
   alternates: { canonical: "/" },
   keywords: [
     "Australian marketplace",
     "local marketplace Australia",
     "Buy Now listings",
-    "seller-reviewed offers",
-    "safe local selling",
+    "marketplace offers",
+    "local selling",
     "Bidra marketplace",
   ],
   openGraph: {
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Bidra marketplace | Buy Now and offers in Australia",
-    description: "Browse active local listings, Buy Now deals, and seller-reviewed offers on Bidra.",
+    description: "Browse local listings, Buy Now items, and offers on Bidra.",
   },
 };
 
@@ -65,9 +65,9 @@ export default async function HomePage() {
         "@type": "ItemList",
         "@id": `${siteUrl}/#marketplace-list`,
         name: "Active Bidra marketplace listings",
-        description: "Australian marketplace landing page for Buy Now listings, seller-reviewed offers, local pickup, postage, and safer handover details in Messages.",
+        description: "Australian marketplace landing page for Buy Now listings, offers, local pickup, postage, and handover details in Messages.",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Browse active listings", url: `${siteUrl}/listings` },
+          { "@type": "ListItem", position: 1, name: "Browse listings", url: `${siteUrl}/listings` },
           { "@type": "ListItem", position: 2, name: "Buy Now listings", url: `${siteUrl}/listings?type=BUY_NOW` },
           { "@type": "ListItem", position: 3, name: "Offer listings", url: `${siteUrl}/listings?type=OFFERABLE` },
         ],
@@ -234,13 +234,13 @@ export default async function HomePage() {
 
             <div className="grid gap-2 rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
               <div>
-                <div className="text-sm font-extrabold text-[#0F172A]">Australia's trust-first local marketplace</div>
-                <p className="mt-1 text-xs text-[#64748B]">Browse active listings or list an item safely.</p>
+                <div className="text-sm font-extrabold text-[#0F172A]">Buy and sell locally in Australia</div>
+                <p className="mt-1 text-xs text-[#64748B]">Browse listings or create your own.</p>
               </div>
               <HomeCategorySelect />
               <div className="grid gap-2">
-                <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] shadow-sm bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse active listings</Link>
-                <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] shadow-sm bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Start selling</Link>
+                <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] shadow-sm bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse listings</Link>
+                <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] shadow-sm bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Sell</Link>
               </div>
             </div>
           </div>
@@ -250,7 +250,7 @@ export default async function HomePage() {
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Explore</div>
-              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Discover active marketplace categories</h2>
+              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Browse categories</h2>
             </div>
             <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
               View all
@@ -272,15 +272,15 @@ export default async function HomePage() {
               })}
             </div>
           ) : (
-            <div className="mt-4 rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] p-5 text-center"><div className="text-base font-extrabold text-[#0F172A]">Help build your local category</div><p className="mx-auto w-full mt-2 max-w-2xl text-sm text-[#64748B]">Categories appear as sellers publish real Buy Now and offer listings. List a real item with clear photos, condition, price, and pickup or postage notes.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">List an item</Link><Link href="/how-it-works" className="bd-btn bd-btn-secondary text-center">How selling works</Link></div></div>
+            <div className="mt-4 rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] p-5 text-center"><div className="text-base font-extrabold text-[#0F172A]">No listings here yet</div><p className="mx-auto w-full mt-2 max-w-2xl text-sm text-[#64748B]">Listings will appear here when sellers add items in this category. Create a listing with clear photos, condition, price, and pickup or postage details.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">List an item</Link><Link href="/how-it-works" className="bd-btn bd-btn-secondary text-center">How it works</Link></div></div>
           )}
         </section>
 
         <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-3 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Start buying</div>
-              <h2 className="mt-1 text-[1.9rem] font-extrabold tracking-tight text-[#0F172A]">Latest active listings</h2>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Listings</div>
+              <h2 className="mt-1 text-[1.9rem] font-extrabold tracking-tight text-[#0F172A]">Latest listings</h2>
             </div>
 
             <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
@@ -290,7 +290,7 @@ export default async function HomePage() {
 
           <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {latestListings.length ? latestListings.map(renderCard) : (
-              <div className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-5 py-8 text-center"><div className="text-base font-extrabold text-[#0F172A]">Be one of the first sellers in your area</div><p className="mx-auto w-full mt-2 max-w-2xl text-sm text-[#64748B]">Bidra only shows real listings from sellers. Add a genuine item with photos and clear handover notes so buyers can discover it here.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">Create a listing</Link><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Browse listings</Link></div></div>
+              <div className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-5 py-8 text-center"><div className="text-base font-extrabold text-[#0F172A]">No listings yet</div><p className="mx-auto w-full mt-2 max-w-2xl text-sm text-[#64748B]">Create a listing with clear photos, condition, price, and location details.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">Create a listing</Link><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Browse listings</Link></div></div>
             )}
           </div>
         </section>
@@ -300,7 +300,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Offer listings</div>
-                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Make seller-reviewed offers</h2>
+                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Make an offer</h2>
               </div>
               <Link href="/listings?type=OFFERABLE" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
                 View all
@@ -317,7 +317,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Buy now listings</div>
-                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Ready-to-buy listings</h2>
+                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Buy Now listings</h2>
               </div>
               <Link href="/listings?type=BUY_NOW" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
                 View all

@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import ContactForm from "./contact-form";
 import { BackButton } from "@/components/ui/back-button";
@@ -31,7 +31,7 @@ export default async function ContactPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Contact</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Contact support</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Need help with a listing, message, order, or account? Send the details so support can route it clearly.
+                Need help with a listing, message, order, or account? Send the details to support.
               </p>
             </div>
 
@@ -40,7 +40,7 @@ export default async function ContactPage() {
                 Email support
               </a>
               <Link href="/support" className={buttonClass}>
-                Support and safety
+                Support
               </Link>
               <Link href="/disputes" className={buttonClass}>
                 Resolution centre
@@ -55,7 +55,7 @@ export default async function ContactPage() {
             <div className="mt-4">
               {!user ? (
                 <div className="mb-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
-                  You can send support a message without logging in. Add your email so we can reply. A hidden spam field and rate limit help protect the form.
+                  You can contact support without logging in. Add your email so we can reply.
                 </div>
               ) : null}
               <ContactForm defaultEmail={defaultEmail} />
@@ -92,14 +92,14 @@ export default async function ContactPage() {
               </div>
 
               <div>
-                <div className="font-extrabold bd-ink">Safety first</div>
+                <div className="font-extrabold bd-ink">Use the right form</div>
                 <p className="mt-1">
                   If you feel unsafe, stop engaging and report the listing or message thread. For emergencies, contact local authorities.
                 </p>
               </div>
 
               <Link href="/support" className={buttonClass}>
-                Support and safety
+                Support
               </Link>
             </div>
           </div>

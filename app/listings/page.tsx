@@ -445,7 +445,7 @@ export default async function ListingsPage({
               {listings.length === 0 ? (
                 <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-3 sm:px-6 py-12 text-center shadow-sm">
                   <div className="mx-auto w-full max-w-2xl">
-                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches yet" : "Be one of the first sellers here"}</div>
+                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches yet" : "No listings here yet"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
                       {hasFilters ? "No active matches yet. Try broader keywords, clear filters, or list a matching item if you have one to sell." : "Bidra only shows real listings from sellers. List a genuine item with clear photos, price, condition, and pickup or postage notes."}
                     </p>
@@ -456,7 +456,7 @@ export default async function ListingsPage({
                       </div>
                       <div>
                         <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Compare</div>
-                        <p className="mt-1 text-xs text-[#475569]">Check Buy Now for fast purchases or Offers when you want seller-reviewed interest.</p>
+                        <p className="mt-1 text-xs text-[#475569]">Use Buy Now for direct purchases or Offers when you want to make an offer.</p>
                       </div>
                       <div>
                         <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Sell into demand</div>

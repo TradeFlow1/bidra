@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
 
 function PricingCard(props: {
@@ -50,8 +50,8 @@ export default function PricingPage() {
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Simplicity</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">No hidden surprises</div>
-            <div className="mt-1 text-sm text-neutral-600">You should see costs before confirming key actions, not after the fact.</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Clear fees</div>
+            <div className="mt-1 text-sm text-neutral-600">Fees are shown before you confirm a paid action.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
@@ -102,7 +102,7 @@ export default function PricingPage() {
             Browse listings
           </Link>
           <Link href="/sell" className="bd-btn bd-btn-ghost text-center">
-            Start selling
+            Sell
           </Link>
         </div>
       </div>

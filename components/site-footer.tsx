@@ -4,11 +4,11 @@ const marketplaceLinks = [
   { href: "/", label: "Home" },
   { href: "/listings", label: "Browse listings" },
   { href: "/auth/register", label: "Create account" },
-  { href: "/sell/new", label: "Start selling" },
+  { href: "/sell/new", label: "Sell" },
 ];
 
 const supportLinks = [
-  { href: "/support", label: "Support & Safety" },
+  { href: "/support", label: "Support" },
   { href: "/contact", label: "Contact" },
   { href: "/feedback", label: "Feedback" },
 ];
@@ -55,7 +55,7 @@ export default function SiteFooter() {
             <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Bidra marketplace</div>
             <h2 className="mt-2 text-[1.55rem] font-extrabold tracking-tight text-[#0F172A] sm:text-[1.9rem]">Buy now. Make offers. Arrange handover.</h2>
             <p className="mt-2 text-sm leading-6 text-[#475569] sm:mt-3">
-              Trust-first local marketplace for Buy Now sales and seller-accepted offers. Current pricing: $0 buyer fees, $0 standard listing fees, and 0% seller success fee.
+              Browse listings, buy now, make offers, and arrange pickup or postage. Current pricing: $0 buyer fees, $0 standard listing fees, and 0% seller success fee.
             </p>
           </div>
 
@@ -66,7 +66,7 @@ export default function SiteFooter() {
 
         <div className="flex flex-col gap-2 pt-3 text-xs text-[#64748B] sm:pt-4 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Bidra. All rights reserved.</p>
-          <p>Read the legal hub before trading. Bidra is a platform marketplace; buyers and sellers remain responsible for payment, pickup, postage, and handover decisions.</p>
+          <p>Bidra is a marketplace platform. Buyers and sellers arrange payment, pickup, postage, and handover details.</p>
         </div>
       </div>
     </footer>

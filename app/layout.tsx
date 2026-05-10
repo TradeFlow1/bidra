@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import "./globals.css";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Bidra | Australian marketplace for local buying and selling",
-    description: "Browse active Australian marketplace listings by category and location, then buy safely with Bidra order records and Messages.",
+    description: "Browse Australian marketplace listings by category and location, with order records and messages in Bidra.",
     url: "/",
     siteName: "Bidra",
     type: "website",

@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
 
 function SectionCard(props: {
@@ -33,7 +33,7 @@ export default function TermsPage() {
                 Legal hub
               </Link>
               <Link href="/support" className="bd-btn bd-btn-ghost text-center">
-                Support and safety
+                Support
               </Link>
             </div>
           </div>
@@ -154,7 +154,7 @@ export default function TermsPage() {
           <div className="mt-3 flex flex-wrap gap-2 text-sm">
             <Link className="bd-btn bd-btn-ghost text-center" href="/legal/privacy">Privacy</Link>
             <Link className="bd-btn bd-btn-ghost text-center" href="/legal/fees">Fees</Link>
-            <Link className="bd-btn bd-btn-ghost text-center" href="/support">Support and safety</Link>
+            <Link className="bd-btn bd-btn-ghost text-center" href="/support">Support</Link>
             <Link className="bd-btn bd-btn-ghost text-center" href="/how-it-works">How it works</Link>
           </div>
         </section>

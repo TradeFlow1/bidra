@@ -1,4 +1,4 @@
-﻿import FeedbackClient from "./feedback-client";
+import FeedbackClient from "./feedback-client";
 import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
 
@@ -88,7 +88,7 @@ export default function FeedbackPage() {
               </ul>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link href="/support" className="bd-btn bd-btn-ghost text-center">
-                  Support and safety
+                  Support
                 </Link>
                 <Link href="/contact" className="bd-btn bd-btn-ghost text-center">
                   Contact

@@ -32,10 +32,10 @@ export default function HowItWorksPage() {
 
             <div className="flex flex-wrap gap-2">
               <Link href="/sell/new" className="bd-btn bd-btn-primary text-center">
-                Start selling
+                Sell
               </Link>
               <Link href="/listings" className="bd-btn bd-btn-ghost text-center">
-                Browse trusted listings
+                Browse listings
               </Link>
             </div>
           </div>
@@ -103,7 +103,7 @@ export default function HowItWorksPage() {
         <StepCard step="Step 3" title="Convert interest in Messages">
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>Use Messages to ask questions, confirm intent, arrange pickup or postage, and keep a clear record.</li>
-            <li>For safety, keep communication respectful and clear. If anything feels off, report it.</li>
+            <li>For safety, keep communication respectful and clear. Report scams, abuse, or rule-breaking content.</li>
             <li>Never send ID photos or sensitive information you would not want exposed.</li>
           </ul>
         </StepCard>
@@ -123,7 +123,7 @@ export default function HowItWorksPage() {
           <ul className="list-disc pl-5 text-black/75 space-y-2">
             <li>If a listing breaks rules, use <strong>Report</strong> on the listing or message thread.</li>
             <li>If something goes wrong, keep records such as screenshots, messages, and photos, then contact Support.</li>
-            <li>Bidra may remove listings, restrict accounts, or investigate patterns of abuse to keep the marketplace safer.</li>
+            <li>Bidra may remove listings or restrict accounts where misuse is detected.</li>
           </ul>
         </StepCard>
 
@@ -138,7 +138,7 @@ export default function HowItWorksPage() {
         </section>
 
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="text-sm font-extrabold bd-ink">Want the fine print?</div>
+          <div className="text-sm font-extrabold bd-ink">Legal pages</div>
           <div className="mt-3 flex flex-wrap gap-2 text-sm">
             <Link className="bd-btn bd-btn-ghost text-center" href="/legal/terms">Terms</Link>
             <Link className="bd-btn bd-btn-ghost text-center" href="/legal/privacy">Privacy</Link>

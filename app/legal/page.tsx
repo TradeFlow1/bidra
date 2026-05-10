@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
 
 export const dynamic = "force-dynamic";
@@ -36,10 +36,10 @@ export default function LegalHubPage() {
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Legal and policies</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Legal</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Legal hub</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                These pages explain how Bidra works, what is allowed, how fees and privacy are handled, and what risks remain with buyers and sellers. Bidra is a platform marketplace: items are listed and sold by users, and users remain responsible for payment, pickup, postage, and handover decisions.
+                These pages explain how Bidra works, what is allowed, how fees and privacy are handled, and what buyers and sellers are responsible for.
               </p>
             </div>
 
@@ -48,7 +48,7 @@ export default function LegalHubPage() {
                 How it works
               </Link>
               <Link href="/support" className="bd-btn bd-btn-ghost text-center">
-                Support and safety
+                Support
               </Link>
             </div>
           </div>
@@ -56,9 +56,9 @@ export default function LegalHubPage() {
 
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Start here</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Overview</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">How it works</div>
-            <div className="mt-1 text-sm text-neutral-600">Get the plain-language overview before reading detailed legal pages.</div>
+            <div className="mt-1 text-sm text-neutral-600">See how listings, offers, orders, and messages work.</div>
           </div>
 
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
@@ -70,14 +70,14 @@ export default function LegalHubPage() {
           <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Safety</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Policies and restrictions</div>
-            <div className="mt-1 text-sm text-neutral-600">Review prohibited items, fees, support guidance, and marketplace risk before trading.</div>
+            <div className="mt-1 text-sm text-neutral-600">Review prohibited items, fees, and support guidance.</div>
           </div>
         </div>
 
         <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-          <div className="text-sm font-extrabold bd-ink">Quick start</div>
+          <div className="text-sm font-extrabold bd-ink">Start with</div>
           <div className="mt-2 text-sm bd-ink2 leading-7">
-            New here? Read{" "}
+            Read{" "}
             <Link href="/how-it-works" className="bd-link font-semibold">How it works</Link>, then{" "}
             <Link href="/legal/terms" className="bd-link font-semibold">Terms</Link> and{" "}
             <Link href="/legal/privacy" className="bd-link font-semibold">Privacy</Link>.
@@ -118,13 +118,13 @@ export default function LegalHubPage() {
             </p>
             <div>
               <Link href="/support" className="bd-btn bd-btn-ghost text-center">
-                Support and safety
+                Support
               </Link>
             </div>
           </section>
 
           <p className="text-xs bd-ink2 opacity-70">
-            Plain-language summaries for Australia. We may update policies over time, and the latest version is always posted here.
+            Policy summaries for Australia. We may update policies over time, and the latest version is posted here.
           </p>
         </div>
       </div>
