@@ -6,7 +6,7 @@ function SectionCard(props: {
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+    <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
       <h2 className="text-xl font-extrabold tracking-tight bd-ink">{props.title}</h2>
       <div className="mt-3">{props.children}</div>
     </section>
@@ -18,7 +18,7 @@ function PrincipleCard(props: {
   desc: string;
 }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+    <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
       <div className="text-sm font-extrabold bd-ink">{props.title}</div>
       <div className="mt-1 text-sm bd-ink2 leading-7">{props.desc}</div>
     </div>
@@ -30,19 +30,19 @@ export default function AboutPage() {
     <main className="bd-container py-10">
       <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/" label="Back to home" /></div>
       <div className="container max-w-6xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
+        <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">About Bidra</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
-                A simpler, safer local marketplace
+                About Bidra
               </h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Bidra is a local marketplace built from scratch. List items, receive offers, and use messages to arrange pickup or postage.
+                Bidra helps people list items, receive offers, and arrange pickup or postage through messages.
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="grid gap-2 sm:flex sm:flex-wrap">
               <Link href="/listings" className="bd-btn bd-btn-primary text-center">
                 Browse listings
               </Link>
@@ -54,19 +54,19 @@ export default function AboutPage() {
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Marketplace model</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Local and direct</div>
             <div className="mt-1 text-sm text-neutral-600">People list items and connect directly for local handover.</div>
           </div>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Trust</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Clearer trade flow</div>
             <div className="mt-1 text-sm text-neutral-600">Profiles, orders, messages, and support are connected.</div>
           </div>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Safety</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Marketplace rules</div>
             <div className="mt-1 text-sm text-neutral-600">Reporting, restrictions, and platform rules help reduce risky behaviour.</div>
@@ -82,7 +82,7 @@ export default function AboutPage() {
           </p>
         </SectionCard>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
           <h2 className="text-xl font-extrabold tracking-tight bd-ink">Marketplace principles</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-3">
             <PrincipleCard
@@ -110,7 +110,7 @@ export default function AboutPage() {
         </SectionCard>
 
         <SectionCard title="Useful links">
-          <div className="flex flex-wrap gap-2">
+          <div className="grid gap-2 sm:flex sm:flex-wrap">
             <Link href="/how-it-works" className="bd-btn bd-btn-ghost text-center">
               How it works
             </Link>
