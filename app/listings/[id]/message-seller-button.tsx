@@ -77,12 +77,12 @@ export default function MessageSellerButton(props: { listingId: string }) {
         type="button"
         onClick={onClick}
         disabled={busy}
-        className="bd-btn bd-btn-secondary w-full"
+        className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {busy ? "Opening Messages..." : "Message seller"}
       </button>
 
-      {err ? <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">{err}</div> : null}
+      {err ? <div className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">{err}</div> : null}
     </div>
   )
 }
