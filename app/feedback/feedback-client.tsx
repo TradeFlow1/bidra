@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import StatusMessage from "@/components/status-message";
@@ -84,7 +84,7 @@ export default function FeedbackClient() {
       setMessage("");
       setEmail("");
       setStatusTone("success");
-      setStatus("Thanks â€” we received your feedback.");
+      setStatus("Thanks — we received your feedback.");
     } catch {
       setStatusTone("error");
       setStatus("We could not send your feedback. Please try again shortly.");
@@ -95,9 +95,9 @@ export default function FeedbackClient() {
     <div className="mx-auto w-full max-w-3xl">
       <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Feedback</h1>
+          <h2 className="text-2xl font-extrabold tracking-tight bd-ink">Feedback</h2>
           <p className="mt-2 bd-ink2">
-            Tell us whatâ€™s confusing, broken, or missing. Include steps to reproduce if you can.
+            Tell us what is confusing, broken, or missing.
           </p>
         </div>
 
@@ -109,11 +109,11 @@ export default function FeedbackClient() {
         ) : null}
       </div>
 
-      <div className="mt-6 rounded-xl border bd-bd bg-white p-5">
+      <div className="mt-5 rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
         <div className="text-sm font-extrabold bd-ink">Send feedback</div>
 
         {loading ? (
-          <div className="mt-4 text-sm bd-ink2">Checking your feedback optionsâ€¦</div>
+          <div className="mt-4 text-sm bd-ink2">Checking your feedback options...</div>
         ) : (
           <div className="mt-4 space-y-3">
             {/* Honeypot (hidden) */}
@@ -129,7 +129,7 @@ export default function FeedbackClient() {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <option value="">Chooseâ€¦</option>
+                <option value="">Choose...</option>
                 <option value="Bug">Bug</option>
                 <option value="UX">UX / confusing</option>
                 <option value="Feature">Feature request</option>
@@ -156,7 +156,7 @@ export default function FeedbackClient() {
               <label className="text-xs font-semibold bd-ink">Message</label>
               <textarea
                 className="mt-1 w-full min-h-[160px] rounded-xl border bd-bd px-3 py-2"
-                placeholder="What happened? What did you expect? Steps to reproduce?"
+                placeholder="What happened? What should change?"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
               />
