@@ -69,7 +69,7 @@ export default function SiteHeaderClient({
     return "inline-flex h-10 items-center justify-center rounded-full border px-4 text-[13px] font-semibold shadow-sm transition " +
       (active
         ? "border-white bg-white text-[#0F172A]"
-        : "border-white/18 bg-white/10 text-white hover:bg-white/16");
+        : "border-white/16 bg-white text-[#0F172A] hover:bg-white/95");
   }
 
   const searchInputClass = "w-full rounded-full border border-[#CBD5E1] bg-white px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-neutral-500 shadow-sm focus:border-[#1D4ED8]";
@@ -115,8 +115,7 @@ export default function SiteHeaderClient({
             <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buy now</Link>
             <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Make an offer</Link>
             <Link href="/watchlist" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Watchlist</Link>
-            <Link href="/sell" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Sell</Link>
-          </div>
+</div>
 
           {isAuthed ? (
             <div className="mt-2.5 border-t border-black/10 pt-2.5">
@@ -159,7 +158,7 @@ export default function SiteHeaderClient({
           <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
             {DESKTOP_LINKS.map(function (link) {
               return (
-                <Link key={link.href} href={link.href} className="rounded-full px-3 py-2 text-[13px] font-semibold text-white/92 transition hover:bg-white/12">
+                <Link key={link.href} href={link.href} className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
                   {link.label}
                 </Link>
               );
@@ -171,11 +170,7 @@ export default function SiteHeaderClient({
           </div>
 
           <div className="flex shrink-0 items-center gap-3 justify-self-end">
-            <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
-              Sell
-            </Link>
-
-            {isAuthed ? (
+{isAuthed ? (
               <div ref={desktopAccountRef} className="relative">
                 <button
                   type="button"
@@ -195,7 +190,7 @@ export default function SiteHeaderClient({
             ) : (
               <>
                 <Link href="/auth/login" className={utilityButtonClass(false)}>Sign in</Link>
-                <Link href="/auth/register" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white/10 px-4 text-[13px] font-semibold text-white shadow-sm transition hover:bg-white/16">
+                <Link href="/auth/register" className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
                   Create account
                 </Link>
               </>
@@ -212,11 +207,7 @@ export default function SiteHeaderClient({
             </Link>
 
             <div className="ml-auto flex items-center gap-2">
-              <Link href="/sell" className="inline-flex h-10 items-center justify-center rounded-full border border-white/18 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
-                Sell
-              </Link>
-
-              <div ref={mobileMenuRef} className="relative">
+<div ref={mobileMenuRef} className="relative">
                 <button
                   type="button"
                   onClick={function (e) {
