@@ -472,9 +472,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   }
 
   return (
-    <div className="bd-card p-5">
-
-
+    <div className="rounded-[30px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-5">
       {err && (
         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div>
       )}
@@ -496,13 +494,10 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         </div>
       )}
 
-      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="mt-6 grid gap-5">
+      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="grid gap-3 sm:gap-4">
         <section className="bd-form-card">
           <h2 className="text-base font-extrabold bd-ink">1) Photos</h2>
-          <p className="mt-1 text-xs bd-ink2">
-            Add clear photos of the actual item. Your first photo becomes the main image shoppers see first and is the fastest buyer trust signal.
-            Avoid unrelated screenshots or edited collages.
-          </p>
+          <p className="mt-1 text-xs bd-ink2">Add at least one clear photo of the actual item.</p>
 
           <div className="mt-3">
             <label className="bd-label" htmlFor="field-photos-camera">Photos</label>
@@ -523,7 +518,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                 Add photos
               </button>
 
-              <div className="text-xs bd-ink2">{files.length}/10 selected (minimum 1, max 8MB each)</div>
+              <div className="text-xs bd-ink2">{files.length}/10 selected (min 1, max 10)</div>
             </div>
 
             <input
@@ -567,20 +562,16 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         </section>
 
         <section className="bd-form-card">
-          <h2 className="text-base font-extrabold bd-ink">2) Details</h2>
-          <p className="mt-1 text-xs bd-ink2">Add clear details so first-time buyers can trust what they are viewing before they message, buy, or make an offer.</p>
+          <h2 className="text-base font-extrabold bd-ink">2) Item details</h2>
+          <p className="mt-1 text-xs bd-ink2">Title, category, condition, description, and location.</p>
           <div className="mt-3 grid gap-2">
             <div>
               <label className="bd-label" htmlFor="field-title">Title</label>
               <input id="field-title" className="mt-1 bd-input" value={title} onChange={(e) => setTitle(e.target.value)} />
-              <p className="mt-1 text-xs bd-ink2">Use a specific title with brand, model, size, colour, or key features where relevant.</p>
             </div>
 
-            <div className="bd-form-card">
+            <div className="rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-3">
               <div className="text-sm font-semibold bd-ink">Category</div>
-              <div className="mt-1 text-xs bd-ink2">
-                Choose the closest category and subcategory so the listing appears in the right searches.
-              </div>
 
               {suggestedCategory && suggestedCategory.categoryLabel !== category ? (
                 <div className="mt-3 flex flex-wrap items-center gap-2 text-xs bd-ink2">
@@ -640,7 +631,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               </div>
 
               {category ? (
-                <div className="mt-3 rounded-lg border border-black/10 bg-[var(--bidra-bg)] px-3 py-2 text-sm">
+                <div className="mt-3 rounded-[18px] border border-[#D8E1F0] bg-white px-3 py-2 text-sm">
                   <span className="text-xs uppercase tracking-wide text-black/50">Selected</span>
                   <div className="mt-1 font-medium bd-ink">{category}</div>
                 </div>
@@ -655,13 +646,11 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                 <option value="USED">Used</option>
                 <option value="FOR_PARTS">For parts</option>
               </select>
-              <p className="mt-1 text-xs bd-ink2">Choose the most accurate condition and mention wear in the description.</p>
             </div>
 
             <div>
               <label className="bd-label" htmlFor="field-description">Description</label>
-              <textarea id="field-description" className="mt-1 bd-input" rows={8} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
-              <p className="mt-1 text-xs bd-ink2">Include what is included, faults, and pickup or postage notes.</p>
+              <textarea id="field-description" className="mt-1 bd-input" rows={5} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <button
                   type="button"
@@ -687,18 +676,12 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             <div>
               <label className="bd-label" htmlFor="field-location">Location</label>
               <input id="field-location" className="mt-1 bd-input" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="4000 Brisbane, QLD" />
-              <p className="mt-1 text-xs text-black/60">
-                Enter suburb/postcode and state so buyers know where pickup or shipping starts.
-              </p>
             </div>
           </div>
         </section>
 
         <section className="bd-form-card">
-          <h2 className="text-base font-extrabold bd-ink">3) Price &amp; sale type</h2>
-          <p className="mt-1 text-xs bd-ink2">
-            Buy Now sells at a fixed price. Timed offers let buyers place offers and you choose the outcome when the offer window ends.
-          </p>
+          <h2 className="text-base font-extrabold bd-ink">3) Price</h2>
           <div className="mt-3 grid gap-2">
             <div>
               <label className="bd-label" htmlFor="field-sale-type">Sale type</label>
@@ -725,15 +708,11 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                 <div>
                   <label className="bd-label" htmlFor="field-starting-bid">Starting offer (AUD)</label>
                   <input id="field-starting-bid" className="mt-1 bd-input" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
-                  <div className="mt-2 rounded-lg border border-black/10 bg-white px-3 py-3 text-sm bd-ink2">
-                    Reserve price is not available for this sale type.
-                  </div>
                 </div>
 
                 <div>
                   <label className="bd-label" htmlFor="field-buy-now-price">Buy Now price (AUD) (optional)</label>
                   <input id="field-buy-now-price" className="mt-1 bd-input" value={buyNowPrice} onChange={(e) => setBuyNowPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 200" inputMode="decimal" />
-                  <div className="mt-1 text-xs bd-ink2">Optional instant-buy price for buyers who do not want to wait.</div>
                 </div>
 
                 <div>
@@ -751,38 +730,46 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         </section>
 
         <section className="bd-form-card">
-          <h2 className="text-base font-extrabold bd-ink">4) Review</h2>
-          <p className="mt-1 text-xs bd-ink2">Review the buyer-facing details before publishing.</p>
-          <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
-            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Title</dt><dd className="font-medium bd-ink">{title.trim() || "Not set"}</dd></div>
-            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Sale type</dt><dd className="font-medium bd-ink">{reviewSaleType}</dd></div>
-            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Price</dt><dd className="font-medium bd-ink">{reviewPrice}</dd></div>
-            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Category</dt><dd className="font-medium bd-ink">{category || "Not set"}</dd></div>
-            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Condition</dt><dd className="font-medium bd-ink">{condition || "Not set"}</dd></div>
-            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Location</dt><dd className="font-medium bd-ink">{location.trim() || "Not set"}</dd></div>
-            <div><dt className="text-xs uppercase tracking-wide bd-ink2">Photos</dt><dd className="font-medium bd-ink">{files.length}</dd></div>
-          </dl>
+          <h2 className="text-base font-extrabold bd-ink">4) Publish</h2>
 
-          <div className={publishReady ? "mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4" : "mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4"}>
-            <div className={publishReady ? "text-sm font-extrabold text-emerald-950" : "text-sm font-extrabold text-amber-950"}>
-              {publishReady ? "Ready to publish" : "Before you publish"}
+          <div className="mt-3 rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-3 text-sm">
+            <div className="grid gap-2 sm:grid-cols-2">
+              <div>
+                <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Listing</div>
+                <div className="mt-1 font-extrabold bd-ink">{title.trim() || "Untitled listing"}</div>
+              </div>
+              <div>
+                <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Price</div>
+                <div className="mt-1 font-extrabold bd-ink">{reviewPrice}</div>
+              </div>
+              <div>
+                <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Category</div>
+                <div className="mt-1 font-extrabold bd-ink">{category || "Not set"}</div>
+              </div>
+              <div>
+                <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Photos</div>
+                <div className="mt-1 font-extrabold bd-ink">{files.length}</div>
+              </div>
             </div>
-            {publishReady ? (
-              <p className="mt-1 text-sm text-emerald-900">All required buyer-facing details are complete.</p>
-            ) : (
-              <ul className="mt-2 grid gap-2 text-sm text-amber-950 sm:grid-cols-2">
+          </div>
+
+          {!publishReady ? (
+            <div className="mt-3 rounded-[24px] border border-amber-200 bg-amber-50 p-3">
+              <div className="text-sm font-extrabold text-amber-950">Finish these first</div>
+              <ul className="mt-2 grid gap-1.5 text-sm text-amber-950">
                 {missingRequirements.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <span aria-hidden="true" className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-100 text-xs font-extrabold text-amber-900">!</span>
-                    <span>{item}</span>
-                  </li>
+                  <li key={item}>- {item}</li>
                 ))}
               </ul>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="mt-3 rounded-[24px] border border-emerald-200 bg-emerald-50 p-3 text-sm font-extrabold text-emerald-950">
+              Ready to publish.
+            </div>
+          )}
         </section>
 
-        <button type="submit" disabled={busy || !publishReady} className="bd-btn bd-btn-primary mx-auto w-full w-full sm:w-auto">
+        <button type="submit" disabled={busy || !publishReady} className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033] disabled:cursor-not-allowed disabled:opacity-60">
           {busy ? "Saving..." : "Publish listing"}
         </button>
       </form>
