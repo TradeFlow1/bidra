@@ -267,11 +267,88 @@ export default async function ListingDetailPage({
                 </div>
               </div>
 
+              {/* BIDRA_MOBILE_ACTION_START */}
+              <div className="rounded-[26px] border border-[#D8E1F0] bg-[linear-gradient(180deg,#FFFFFF_0%,#F8FAFC_100%)] p-4 shadow-sm lg:hidden">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Highest offer" : "Price"}</div>
+                <div className="mt-1 text-4xl font-extrabold tracking-tight text-[#0F172A]">{money(displayPrice)}</div>
+
+                {isTimedOffers ? (
+                  <div className="mt-3 rounded-2xl border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#475569]">
+                    <div>{currentOffer !== null ? "Current highest offer: " + money(currentOffer) : "No offers yet."}</div>
+                    <div>{offerCount} {offerCount === 1 ? "offer" : "offers"}</div>
+                    <div>{offerWindowText}</div>
+                  </div>
+                ) : null}
+
+                <div className="mt-4 space-y-3">
+                  {isSold ? (
+                    <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 text-sm text-[#475569]">
+                      <div className="font-semibold">Sold item.</div>
+                      <Link href="/listings" className="bd-mobile-tap-target mt-2 inline-flex items-center text-sm font-semibold text-[#0F172A] underline underline-offset-2">Browse listings</Link>
+                    </div>
+                  ) : isTimedOffers ? (
+                    <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
+                  ) : (
+                    <BuyNowButton listingId={listing.id} />
+                  )}
+
+                  {isOwner ? (
+                    <div className="rounded-2xl border border-amber-200 bg-amber-50 px-3.5 py-3 text-sm font-semibold leading-6 text-amber-950">
+                      This is your listing.
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 gap-2.5">
+                      <WatchlistButton listingId={listing.id} authed={!!userId} loginHref="/auth/login" />
+                      <MessageSellerButton listingId={listing.id} />
+                    </div>
+                  )}
+                </div>
+              </div>
+              {/* BIDRA_MOBILE_ACTION_END */}
+
+
               <div className="min-w-0 overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white shadow-sm">
                 <div className="p-2.5 sm:p-3">
                   <ListingImageGallery images={images} title={cleanText(listing.title)} />
                 </div>
               </div>
+
+              {/* BIDRA_MOBILE_INFO_START */}
+              <div className="space-y-3 lg:hidden">
+                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm">
+                  <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Description</div>
+                  <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-[#1E293B]">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided. Message the seller before buying or making an offer."}</p>
+                </div>
+
+                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm">
+                  <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
+                  <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
+
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                    <div className="rounded-xl bg-[#F8FAFC] p-2">
+                      <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Location</div>
+                      <div className="mt-1 font-bold text-[#0F172A]">{sellerLocation}</div>
+                    </div>
+                    <div className="rounded-xl bg-[#F8FAFC] p-2">
+                      <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Listings</div>
+                      <div className="mt-1 font-bold text-[#0F172A]">{sellerActiveListings} active</div>
+                    </div>
+                  </div>
+
+                  <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target mt-3 inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">View seller profile</Link>
+                </div>
+
+                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 text-sm text-[#475569] shadow-sm">
+                  <div className="font-extrabold text-[#0F172A]">Before you act</div>
+                  <ul className="mt-2 list-disc space-y-1.5 pl-5 leading-6">
+                    <li>Check the photos, description, condition, location, and seller profile.</li>
+                    <li>Keep payment, pickup, postage, and handover details in Messages.</li>
+                    <li>Report anything suspicious before committing.</li>
+                  </ul>
+                </div>
+              </div>
+              {/* BIDRA_MOBILE_INFO_END */}
+
 
               {/* BIDRA_MOVED_ITEM_DETAILS_START */}
               <div className="hidden space-y-3 lg:block">
@@ -314,7 +391,7 @@ export default async function ListingDetailPage({
               {/* BIDRA_MOVED_ITEM_DETAILS_END */}
             </div>
 
-            <div className="w-full min-w-0 overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-[linear-gradient(180deg,#FFFFFF_0%,#F8FAFC_100%)] p-4 shadow-sm lg:sticky lg:top-24">
+            <div className="hidden w-full min-w-0 overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-[linear-gradient(180deg,#FFFFFF_0%,#F8FAFC_100%)] p-4 shadow-sm lg:sticky lg:top-24 lg:block">
               <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Highest offer" : "Price"}</div>
               <div className="mt-1 text-4xl font-extrabold tracking-tight text-[#0F172A]">{money(displayPrice)}</div>
 
