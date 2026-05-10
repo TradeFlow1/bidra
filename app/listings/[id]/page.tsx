@@ -234,10 +234,10 @@ export default async function ListingDetailPage({
 
   return (
     <main className="bg-[#F7F9FC]">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-4 sm:px-6 lg:py-6">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 overflow-hidden px-4 py-4 sm:px-6 lg:overflow-visible lg:py-6">
         <BackButton href="/listings" label="Back to listings" />
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6">
-          <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] xl:grid-cols-[minmax(0,1fr)_22rem]">
+        <section className="min-w-0 overflow-hidden rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6">
+          <div className="grid min-w-0 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] xl:grid-cols-[minmax(0,1fr)_22rem]">
             <div className="space-y-3">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -267,7 +267,7 @@ export default async function ListingDetailPage({
                 </div>
               </div>
 
-              <div className="overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white shadow-sm">
+              <div className="min-w-0 overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white shadow-sm">
                 <div className="p-2.5 sm:p-3">
                   <ListingImageGallery images={images} title={cleanText(listing.title)} />
                 </div>
@@ -314,7 +314,7 @@ export default async function ListingDetailPage({
               {/* BIDRA_MOVED_ITEM_DETAILS_END */}
             </div>
 
-            <div className="rounded-[26px] border border-[#D8E1F0] bg-[linear-gradient(180deg,#FFFFFF_0%,#F8FAFC_100%)] p-4 shadow-sm lg:sticky lg:top-24">
+            <div className="w-full min-w-0 overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-[linear-gradient(180deg,#FFFFFF_0%,#F8FAFC_100%)] p-4 shadow-sm lg:sticky lg:top-24">
               <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Highest offer" : "Price"}</div>
               <div className="mt-1 text-4xl font-extrabold tracking-tight text-[#0F172A]">{money(displayPrice)}</div>
 
@@ -365,7 +365,7 @@ export default async function ListingDetailPage({
                   <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
                   <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
 
-                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
+                  <div className="mt-3 grid min-w-0 grid-cols-2 gap-2 text-xs">
                     <div className="rounded-xl bg-[#F8FAFC] p-2">
                       <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Location</div>
                       <div className="mt-1 font-bold text-[#0F172A]">{sellerLocation}</div>
@@ -377,7 +377,7 @@ export default async function ListingDetailPage({
                   </div>
 
                   {sellerTrustSignals.length > 0 ? (
-                    <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
+                    <div className="mt-3 flex min-w-0 flex-wrap gap-2 text-xs font-semibold">
                       {sellerTrustSignals.map((signal) => (
                         <span key={signal} className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1 text-[#334155]">{signal}</span>
                       ))}
