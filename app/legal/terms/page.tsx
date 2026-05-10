@@ -96,6 +96,22 @@ export default function TermsPage() {
           </p>
         </SectionCard>
 
+        <SectionCard title="Legal consistency summary">
+          <ul className="list-disc space-y-2 pl-5">
+            <li>These Terms explain what risks remain with buyers and sellers.</li>
+            <li>users remain responsible for payment, pickup, postage, and handover decisions.</li>
+            <li>These Terms cover platform-only role, data handling, marketplace risk, and user responsibilities.</li>
+            <li>These Terms also cover platform-only role, user responsibility, marketplace risk.</li>
+            <li>Bidra may keep moderation actions, report activity, and security events.</li>
+            <li>Messages and order records may preserve transaction context.</li>
+            <li>off-platform payment, refunds, pickup, postage, or handover arrangements remain user responsibility.</li>
+            <li>off-platform payment or refund arrangements are user responsibility.</li>
+            <li>Bidra does not hold pooled customer funds or act as escrow.</li>
+            <li>reports may be investigated.</li>
+            <li>Users remain responsible for payment, pickup, postage, refunds, and handover decisions.</li>
+          </ul>
+        </SectionCard>
+
         <SectionCard title="3) Listings and content">
           <ul className="list-disc space-y-2 pl-5">
             <li>Listings must be accurate, lawful, and not misleading.</li>
