@@ -207,10 +207,10 @@ export default async function HomePage() {
         suppressHydrationWarning={true}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(marketplaceJsonLd) }}
       />
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:gap-4 sm:py-4 lg:px-6 lg:py-4">
+      <div className="mx-auto w-full flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:gap-2 sm:py-4 lg:px-3 sm:px-6 lg:py-4">
         <section className="overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
-          <div className="grid gap-3 p-3 sm:gap-4 sm:p-5 lg:grid-cols-[minmax(0,1.55fr)_18rem] lg:items-center lg:p-5">
-            <div className="relative flex min-h-[6.5rem] items-center overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-[#EFF4FB] px-4 py-3 sm:min-h-[10rem] sm:px-6 lg:min-h-[11rem] lg:px-7">
+          <div className="grid gap-3 p-3 sm:gap-2 sm:p-5 lg:grid-cols-[minmax(0,1.55fr)_18rem] lg:items-center lg:p-5">
+            <div className="relative flex min-h-[6.5rem] items-center overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-[#EFF4FB] px-4 py-3 sm:min-h-[10rem] sm:px-3 sm:px-6 lg:min-h-[11rem] lg:px-7">
               <Image
                 src="/brand/hero-clouds.png"
                 alt=""
@@ -239,14 +239,14 @@ export default async function HomePage() {
               </div>
               <HomeCategorySelect />
               <div className="grid gap-2">
-                <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse active listings</Link>
-                <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Start selling</Link>
+                <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] shadow-sm bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse active listings</Link>
+                <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] shadow-sm bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Start selling</Link>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-3 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Explore</div>
@@ -263,7 +263,7 @@ export default async function HomePage() {
                   <Link
                     key={entry[0]}
                     href={"/listings?category=" + encodeURIComponent(entry[0])}
-                    className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white"
+                    className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] shadow-sm bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white"
                   >
                     <span>{entry[0]}</span>
                     <span className="ml-2 text-xs font-medium text-[#64748B]">({entry[1]})</span>
@@ -272,11 +272,11 @@ export default async function HomePage() {
               })}
             </div>
           ) : (
-            <div className="mt-4 rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] p-5 text-center"><div className="text-base font-extrabold text-[#0F172A]">Help build your local category</div><p className="mx-auto mt-2 max-w-2xl text-sm text-[#64748B]">Categories appear as sellers publish real Buy Now and offer listings. List a real item with clear photos, condition, price, and pickup or postage notes.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">List an item</Link><Link href="/how-it-works" className="bd-btn bd-btn-secondary text-center">How selling works</Link></div></div>
+            <div className="mt-4 rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] p-5 text-center"><div className="text-base font-extrabold text-[#0F172A]">Help build your local category</div><p className="mx-auto w-full mt-2 max-w-2xl text-sm text-[#64748B]">Categories appear as sellers publish real Buy Now and offer listings. List a real item with clear photos, condition, price, and pickup or postage notes.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">List an item</Link><Link href="/how-it-works" className="bd-btn bd-btn-secondary text-center">How selling works</Link></div></div>
           )}
         </section>
 
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-3 sm:p-6">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Start buying</div>
@@ -288,15 +288,15 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {latestListings.length ? latestListings.map(renderCard) : (
-              <div className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-5 py-8 text-center"><div className="text-base font-extrabold text-[#0F172A]">Be one of the first sellers in your area</div><p className="mx-auto mt-2 max-w-2xl text-sm text-[#64748B]">Bidra only shows real listings from sellers. Add a genuine item with photos and clear handover notes so buyers can discover it here.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">Create a listing</Link><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Browse listings</Link></div></div>
+              <div className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-5 py-8 text-center"><div className="text-base font-extrabold text-[#0F172A]">Be one of the first sellers in your area</div><p className="mx-auto w-full mt-2 max-w-2xl text-sm text-[#64748B]">Bidra only shows real listings from sellers. Add a genuine item with photos and clear handover notes so buyers can discover it here.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">Create a listing</Link><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Browse listings</Link></div></div>
             )}
           </div>
         </section>
 
         {offerableListings.length ? (
-          <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+          <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-3 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Offer listings</div>
@@ -306,14 +306,14 @@ export default async function HomePage() {
                 View all
               </Link>
             </div>
-            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {offerableListings.map(renderCard)}
             </div>
           </section>
         ) : null}
 
         {buyNowListings.length ? (
-          <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-6">
+          <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-3 sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Buy now listings</div>
@@ -323,7 +323,7 @@ export default async function HomePage() {
                 View all
               </Link>
             </div>
-            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {buyNowListings.map(renderCard)}
             </div>
           </section>
@@ -332,3 +332,5 @@ export default async function HomePage() {
     </main>
   );
 }
+
+

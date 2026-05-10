@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -82,10 +82,10 @@ export default async function WatchlistPage() {
 
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
       <div className="container max-w-6xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Watchlist</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Saved listings</h1>
@@ -137,7 +137,7 @@ export default async function WatchlistPage() {
 
         {!items.length ? (
           <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
-            <div className="mx-auto max-w-xl">
+            <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">Your watchlist is empty</div>
               <p className="mt-2 text-sm text-neutral-600">
                 Save listings as you browse to track prices, offers, and time windows without contacting the seller until you are ready.
@@ -150,7 +150,7 @@ export default async function WatchlistPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-4">
             {items.map(function (item: any) {
               if (!item.listing) return null;
               return (
@@ -178,3 +178,5 @@ export default async function WatchlistPage() {
     </main>
   );
 }
+
+

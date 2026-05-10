@@ -4,9 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, type CSSProperties, type MouseEvent } from "react";
 import { useRouter } from "next/navigation";
-import ListingThumbCarousel from "@/components/listing-thumb-carousel";
-import { isTimedOffersType } from "@/lib/listing-type";
-import { formatTimeRemaining } from "@/lib/time-remaining";
 
 type ListingCardListing = {
   id: string;
@@ -23,15 +20,7 @@ type ListingCardListing = {
   status?: string | null;
   offerCount?: number | null;
   currentOffer?: number | null;
-  seller?: {
-    name?: string | null;
-    memberSince?: string | Date | null;
-    location?: string | null;
-    emailVerified?: boolean | null;
-    phone?: string | null;
-    ratingAvg?: number | null;
-    ratingCount?: number | null;
-  } | null;
+  seller?: any;
 };
 
 type ListingCardProps = {
@@ -43,52 +32,14 @@ type ListingCardProps = {
 
 function money(cents: number | null | undefined) {
   const v = typeof cents === "number" ? cents : 0;
-  return (v / 100).toLocaleString("en-AU", { style: "currency", currency: "AUD" });
-}
-
-function endsLabel(endsAt: any) {
-  const t = formatTimeRemaining(endsAt);
-  if (!t) return null;
-  if (t === "Ended") return "Ended";
-  return "Ends in " + t;
-}
-
-function getTimeRemainingMs(endsAt: Date | string | null | undefined) {
-  if (!endsAt) return null;
-  const end = endsAt instanceof Date ? endsAt : new Date(endsAt);
-  const endMs = end.getTime();
-  if (!Number.isFinite(endMs)) return null;
-  return endMs - Date.now();
+  return (v / 100).toLocaleString("en-AU", {
+    style: "currency",
+    currency: "AUD"
+  });
 }
 
 function cleanText(value: string | null | undefined) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
-}
-
-function shortCategory(value: string | null | undefined) {
-  const v = cleanText(value);
-  if (!v) return "";
-  if (v.indexOf(" > ") >= 0) return v.split(" > ").pop() || v;
-  return v;
-}
-
-function shortCondition(value: string | null | undefined) {
-  const v = cleanText(value);
-  if (!v) return "";
-  return v.replaceAll("_", " ");
-}
-
-function formatMemberSince(value: string | Date | null | undefined) {
-  if (!value) return "";
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return "";
-  return d.toLocaleDateString("en-AU", { month: "short", year: "numeric" });
-}
-
-function renderStars(avg: number) {
-  const safe = Math.max(0, Math.min(5, avg));
-  const full = Math.round(safe);
-  return String(full) + "/5";
 }
 
 export default function ListingCard({
@@ -98,6 +49,7 @@ export default function ListingCard({
   showWatchButton = false,
 }: ListingCardProps) {
   const router = useRouter();
+
   const [watched, setWatched] = useState<boolean>(!!initiallyWatched);
   const [saving, setSaving] = useState<boolean>(false);
 
@@ -106,64 +58,42 @@ export default function ListingCard({
   }, [initiallyWatched]);
 
   const imgs = Array.isArray(listing.images) ? listing.images : null;
-  const hasMulti = !!(imgs && imgs.length > 1);
+
   const isNoPhotos = !imgs || imgs.length === 0;
 
   const fallback =
     (imgs && imgs.length > 0 && (imgs[0]?.url || imgs[0]?.src || imgs[0])) ||
     "/brand/bidra-kangaroo-icon.png";
 
-  const isTimedOffers = isTimedOffersType(listing.type);
-  const hasBuyNow = typeof listing.buyNowPrice === "number";
-
-  const primaryCents = isTimedOffers
-    ? Number(listing.price)
-    : (hasBuyNow ? (listing.buyNowPrice as number) : Number(listing.price));
-
-  const isActive = String(listing.status || "ACTIVE") === "ACTIVE";
-  const ends = isTimedOffers && isActive ? endsLabel(listing.endsAt) : null;
-  const timeRemainingMs = isTimedOffers && isActive ? getTimeRemainingMs(listing.endsAt) : null;
-  const isUnder24h = typeof timeRemainingMs === "number" && timeRemainingMs > 0 && timeRemainingMs < 24 * 60 * 60 * 1000;
-  const isUnder1h = typeof timeRemainingMs === "number" && timeRemainingMs > 0 && timeRemainingMs < 60 * 60 * 1000;
+  const primaryCents = Number(listing.price);
 
   const title = cleanText(listing.title);
-  const description = cleanText(listing.description)
-    .replace(/Selling:\s*/gi, "")
-    .replace(/Condition:\s*/gi, "")
-    .replace(/Details:\s*/gi, "");
-  const category = shortCategory(listing.category);
-  const condition = shortCondition(listing.condition);
   const location = cleanText(listing.location);
-  const sellerName = cleanText(listing.seller?.name);
-  const sellerMemberSince = formatMemberSince(listing.seller?.memberSince);
-  const hasEmailVerified = !!listing.seller?.emailVerified;
-  const hasPhoneVerified = !!cleanText(listing.seller?.phone);
-  const hasRating = typeof listing.seller?.ratingAvg === "number" && typeof listing.seller?.ratingCount === "number" && (listing.seller?.ratingCount ?? 0) > 0;
-  const ratingAvg = hasRating ? Number(listing.seller?.ratingAvg ?? 0) : 0;
-  const ratingCount = hasRating ? Number(listing.seller?.ratingCount ?? 0) : 0;
-  const verificationBadge = !hasRating
-    ? (hasEmailVerified ? "Email confirmed" : hasPhoneVerified ? "Phone confirmed" : "")
-    : "";
-  const offerCount = typeof listing.offerCount === "number" ? listing.offerCount : null;
-  const currentOffer = typeof listing.currentOffer === "number" ? listing.currentOffer : null;
 
   async function onToggleWatch(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     e.stopPropagation();
+
     if (!viewerAuthed) {
       router.push("/auth/login?next=" + encodeURIComponent("/listings/" + listing.id));
       return;
     }
+
     if (saving) return;
+
     setSaving(true);
+
     try {
       const res = await fetch("/api/watchlist/toggle", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ listingId: listing.id }),
       });
+
       if (res.ok) {
-        setWatched(function (v) { return !v; });
+        setWatched(function (v) {
+          return !v;
+        });
       }
     } finally {
       setSaving(false);
@@ -173,80 +103,50 @@ export default function ListingCard({
   return (
     <Link
       href={"/listings/" + listing.id}
-      className="group block overflow-hidden bd-card bd-card-clickable focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
-      aria-label={"View listing and trust signals for " + title}
+      className="group block rounded-xl border border-[#D8E1F0] bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-[#AFC3DD] hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+      aria-label={"View listing " + title}
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#EEF2F7]">
-        {hasMulti ? (
-          <ListingThumbCarousel images={listing.images} title={title} />
-        ) : (
-          <>
-            <Image
-              src={fallback}
-              alt={title}
-              fill
-              sizes="(max-width: 768px) 50vw, (max-width: 1400px) 33vw, 25vw"
-              className={isNoPhotos ? "select-none object-contain p-10 opacity-85" : "select-none object-cover transition duration-300 group-hover:scale-[1.02]"}
-              draggable={false}
-              onDragStart={function (e) { e.preventDefault(); }}
-              onContextMenu={function (e) { e.preventDefault(); }}
-              style={{ userSelect: "none", WebkitUserSelect: "none", WebkitUserDrag: "none" } as CSSProperties}
-            />
+      <div className="overflow-hidden rounded-xl bg-white">
+        <div className="relative aspect-[1/0.9] overflow-hidden rounded-t-2xl border-b border-[#E5E7EB] bg-[#F1F5F9]">
+          <Image
+            src={fallback}
+            alt={title}
+            fill
+            sizes="(max-width: 768px) 50vw, (max-width: 1400px) 25vw, 20vw"
+            className={isNoPhotos ? "object-cover p-0 opacity-100" : "object-cover transition duration-300 group-hover:scale-[1.02]"}
+            draggable={false}
+            onDragStart={function (e) {
+              e.preventDefault();
+            }}
+            onContextMenu={function (e) {
+              e.preventDefault();
+            }}
+            style={{
+              userSelect: "none",
+              WebkitUserSelect: "none",
+              WebkitUserDrag: "none"
+            } as CSSProperties}
+          />
 
-            {isNoPhotos ? (
-              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-black/10 bg-white/96 px-3 py-1 text-[11px] font-semibold tracking-tight text-neutral-700 shadow-sm">
-                No photo
-              </div>
-            ) : null}
-          </>
-        )}
-
-        <div className="pointer-events-none absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3">
-          <span className={isTimedOffers
-            ? "rounded-full border border-amber-200 bg-[#FFFBEB] px-2.5 py-1 text-[11px] font-semibold text-amber-800 shadow-sm"
-            : hasBuyNow
-            ? "rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-800 shadow-sm"
-            : "rounded-full border border-black/10 bg-white/96 px-2.5 py-1 text-[11px] font-semibold text-neutral-800 shadow-sm"
-          }>
-            {isTimedOffers ? "Highest offers" : hasBuyNow ? "Buy Now" : "Fixed price"}
-          </span>
-          {ends ? (
-            <span
-              className={
-                isUnder1h
-                  ? "rounded-full border border-rose-300 bg-rose-600 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm"
-                  : isUnder24h
-                  ? "rounded-full border border-amber-300 bg-amber-600 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm"
-                  : "rounded-full bg-black/78 px-2.5 py-1 text-[11px] font-semibold text-white shadow-sm"
-              }
+          {showWatchButton ? (
+            <button
+              type="button"
+              onClick={onToggleWatch}
+              className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-[#E5E7EB] bg-white text-[18px] shadow-sm transition hover:scale-105"
+              aria-label="Save listing"
             >
-              {ends}
-            </span>
+              {watched ? "♥" : "♡"}
+            </button>
           ) : null}
         </div>
-      </div>
 
-      <div className="space-y-2 p-3.5">
-        <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium text-[#475569]">
-          {category ? <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{category}</span> : null}
-          {condition ? <span className="rounded-full bg-[#F8FAFC] px-2.5 py-1">{condition}</span> : null}
-        </div>
+        <div className="px-2 pb-2 pt-1.5 sm:px-3 sm:pb-3 sm:pt-2">
+          <div className="text-[15px] font-extrabold tracking-tight text-[#0F172A] sm:text-[17px]">
+            {money(primaryCents)}
+          </div>
 
-        <div
-          className="text-[16px] font-bold leading-snug text-[#0F172A] line-clamp-2"
-          style={{
-            display: "-webkit-box",
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-          } as CSSProperties}
-        >
-          {title}
-        </div>
-
-        {description ? (
-          <p
-            className="text-[12px] font-medium leading-5 text-[#475569]"
+          <div
+            className="mt-1 line-clamp-2 text-[12px] font-semibold leading-[15px] text-[#111827] sm:text-[13px] sm:leading-4"
             style={{
               display: "-webkit-box",
               WebkitLineClamp: 2,
@@ -254,72 +154,27 @@ export default function ListingCard({
               overflow: "hidden",
             } as CSSProperties}
           >
-            {description}
-          </p>
-        ) : null}
-
-        <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">{isTimedOffers ? "Current best offer" : hasBuyNow ? "Price" : "Price"}</div>
-          <div className="mt-1 text-[23px] font-extrabold tracking-tight text-[#0F172A]">{money(primaryCents)}</div>
-          <div className="mt-1 text-[11px] font-medium text-[#64748B]">
-            {isTimedOffers ? (
-              currentOffer !== null ? "Place your strongest offer." : "Be first to offer."
-            ) : hasBuyNow ? (
-              "Fixed price."
-            ) : (
-              "Check details first."
-            )}
+            {title}
           </div>
-        </div>
-        {isTimedOffers ? (
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-medium text-[#64748B]">
-            <span>{currentOffer !== null ? `Current offer ${money(currentOffer)}` : "No offers yet"}</span>
-            <span>{offerCount && offerCount > 0 ? `${offerCount} ${offerCount === 1 ? "offer" : "offers"}` : "No offers yet"}</span>
-          </div>
-        ) : null}
 
-        {(sellerName || sellerMemberSince || hasRating || verificationBadge) ? (
-          <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-2.5 py-2">
-            {sellerName ? (
-              <div className="truncate text-[11px] font-semibold text-[#334155]">{sellerName}</div>
-            ) : null}
-            <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[10px] text-[#64748B]">
-              {sellerMemberSince ? <span>Member since {sellerMemberSince}</span> : null}
-            </div>
-            {(hasRating || verificationBadge) ? (
-              <div className="mt-1.5 flex flex-wrap gap-1.5 text-[10px]">
-                {hasRating ? <span className="font-semibold text-amber-700">{renderStars(ratingAvg)} ({ratingCount})</span> : null}
-                {!hasRating && verificationBadge ? (
-                  <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 font-semibold text-emerald-700">{verificationBadge}</span>
-                ) : null}
-              </div>
-            ) : null}
-          </div>
-        ) : null}
-
-        <div className="flex items-center justify-between gap-2.5 text-[11px] text-[#64748B]">
-          <div className="min-w-0 truncate">{location || "Location on request"}</div>
-          <div className="flex items-center gap-2">
-            <div className="font-semibold text-[#0F172A]">{isTimedOffers ? "View offers" : "View item"}</div>
-            {showWatchButton ? (
-              <button
-                type="button"
-                onClick={onToggleWatch}
-                disabled={saving}
-                aria-pressed={watched}
-                aria-label={(watched ? "Remove from watchlist: " : "Save to watchlist: ") + title}
-                className={
-                  watched
-                    ? "rounded-full border border-emerald-300 bg-emerald-50 px-2.5 py-1 font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:cursor-not-allowed disabled:border-neutral-300 disabled:bg-neutral-100 disabled:text-neutral-500"
-                    : "rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1 font-semibold text-[#0F172A] transition hover:bg-white disabled:cursor-not-allowed disabled:border-neutral-300 disabled:bg-neutral-100 disabled:text-neutral-500"
-                }
-              >
-                <span aria-live="polite">{saving ? "Saving..." : watched ? "Saved" : "Save"}</span>
-              </button>
-            ) : null}
+          <div
+            className="mt-1 truncate text-[10px] font-medium text-[#64748B] sm:text-[11px] mt-1"
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            } as CSSProperties}
+          >
+            {location || "Australia"}
           </div>
         </div>
       </div>
     </Link>
   );
 }
+
+
+
+
+

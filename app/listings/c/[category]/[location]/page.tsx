@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ListingCard from "@/components/listing-card";
@@ -51,7 +51,7 @@ export default async function CategoryLocationSeoPage({ params }: Props) {
         </section>
 
         <section className="mt-5">
-          <div className="browseList w-full grid grid-cols-2 gap-4 lg:grid-cols-3 2xl:grid-cols-4">
+          <div className="browseList w-full grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
             {listings.length === 0 ? (
               <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                 <div className="mx-auto max-w-2xl">
@@ -115,3 +115,4 @@ export default async function CategoryLocationSeoPage({ params }: Props) {
     </main>
   );
 }
+

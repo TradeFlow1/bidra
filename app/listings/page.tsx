@@ -281,7 +281,7 @@ export default async function ListingsPage({
         className="bd-input"
       />
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-1">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 xl:grid-cols-2">
         <select name="category" defaultValue={category} className="bd-input" aria-label="Filter by category">
           <option value="">All categories</option>
           {CATEGORY_GROUPS.map(function (g) {
@@ -355,14 +355,14 @@ export default async function ListingsPage({
 
   return (
     <main className="bg-[#F7F9FC]">
-      <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/" label="Back to home" /></div>
-      <div className="mx-auto w-full max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
-        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/" label="Back to home" /></div>
+      <div className="mx-auto w-full w-full max-w-7xl px-4 py-5 lg:px-3 sm:px-6 lg:py-6">
+        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-3 sm:p-6">
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse active marketplace listings</h1>
           <p className="mt-2 text-sm text-[#475569]">Search active Australian marketplace listings by keyword, category, suburb, city, postcode, sale type, condition, and trusted seller signals. Watch items, buy, offer, sell, and message safely.</p>
         </section>
 
-        <section className="mt-5 grid min-w-0 grid-cols-1 gap-4 xl:grid-cols-[18rem_minmax(0,1fr)]">
+        <section className="mt-5 grid min-w-0 grid-cols-2 gap-2 xl:grid-cols-[18rem_minmax(0,1fr)]">
           <aside className="min-w-0 xl:sticky xl:top-24 xl:self-start">
             <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
               <div className="p-4 sm:p-5">
@@ -441,10 +441,10 @@ export default async function ListingsPage({
               ) : null}
             </div>
 
-            <div className="browseList grid w-full min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+            <div className="browseList grid w-full min-w-0 grid-cols-2 gap-1.5 sm:gap-3 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
               {listings.length === 0 ? (
-                <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
-                  <div className="mx-auto max-w-2xl">
+                <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-3 sm:px-6 py-12 text-center shadow-sm">
+                  <div className="mx-auto w-full max-w-2xl">
                     <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches yet" : "Be one of the first sellers here"}</div>
                     <p className="mt-2 text-sm text-[#475569]">
                       {hasFilters ? "No active matches yet. Try broader keywords, clear filters, or list a matching item if you have one to sell." : "Bidra only shows real listings from sellers. List a genuine item with clear photos, price, condition, and pickup or postage notes."}
@@ -518,3 +518,5 @@ export default async function ListingsPage({
     </main>
   );
 }
+
+
