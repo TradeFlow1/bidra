@@ -45,7 +45,7 @@ export default function TermsPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Terms</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Terms of use</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                These Terms explain account rules, listings, offers, orders, messages, marketplace risk, and Bidra's platform-only role.
+                Rules for accounts, listings, offers, orders, messages, and Bidra's platform-only role.
               </p>
             </div>
 
@@ -60,7 +60,7 @@ export default function TermsPage() {
           </div>
         </section>
 
-        <section className="hidden gap-3 sm:grid sm:grid-cols-3">
+        <section className="hidden">
           <InfoCard
             label="Eligibility"
             title="18+ accounts only"
@@ -82,8 +82,8 @@ export default function TermsPage() {
           <ul className="list-disc space-y-2 pl-5">
             <li><strong>18+ accounts only.</strong> Under 18s may browse publicly but may not create accounts, list items, place offers, message, or transact.</li>
             <li>You must provide accurate account information and keep your location reasonably current.</li>
-            <li>You are responsible for your login details and activity on your account.</li>
-            <li>Bidra may restrict or suspend accounts to protect the marketplace, comply with law, or investigate abuse.</li>
+            <li>You are responsible for your account activity.</li>
+            <li>Bidra may restrict or suspend accounts to protect the marketplace.</li>
           </ul>
         </SectionCard>
 
@@ -92,7 +92,7 @@ export default function TermsPage() {
             Bidra is the platform only. Bidra is not the seller, auctioneer, escrow holder, payment provider, shipping provider, refund decision-maker, or pickup scheduler.
           </p>
           <p className="mt-3">
-            Users remain responsible for payment, pickup, postage, and handover decisions. Buyers and sellers should understand marketplace risk before trading.
+            Users remain responsible for payment, pickup, postage, and handover decisions.
           </p>
         </SectionCard>
 
@@ -143,17 +143,16 @@ export default function TermsPage() {
           </div>
 
           <p className="mt-3">
-            Bidra provides tools for listings, offers, orders, and Messages. Buyers and sellers are responsible for checking items, agreeing payment, coordinating pickup or postage, and managing handover risk.
+            Buyers and sellers are responsible for checking items, agreeing payment, coordinating pickup or postage, and managing handover risk.
           </p>
         </SectionCard>
 
         <SectionCard title="5) Orders and messages">
           <ul className="list-disc space-y-2 pl-5">
             <li>Orders are sold-item records only.</li>
-            <li>When an order exists, the item is sold and the order records the sale details.</li>
             <li>Bidra does not run in-app payment, escrow, refund handling, shipping labels, live postage rates, shipping insurance, carrier claims, pickup scheduling, or forced completion workflows.</li>
             <li>Buyers and sellers should use Messages to agree payment, pickup, postage, refunds, and handover details.</li>
-            <li>Keep refund, and handover details in Bidra Messages where possible.</li>
+            <li>Keep refund and handover details in Bidra Messages where possible.</li>
             <li>Disputes, refunds, item condition issues, and handover problems are usually resolved between buyer and seller.</li>
           </ul>
         </SectionCard>
@@ -164,7 +163,7 @@ export default function TermsPage() {
               Messages are provided to coordinate listings and orders. Do not harass, threaten, spam, send illegal content, or pressure another user to move to SMS, WhatsApp, or another app.
             </p>
             <p className="mt-3">
-              Off-platform payment, refunds, pickup, postage, or handover arrangements are user responsibility. Off-platform payment or refund arrangements are user responsibility.
+              Off-platform payment, refunds, pickup, postage, or handover arrangements are user responsibility.
             </p>
           </SectionCard>
 
