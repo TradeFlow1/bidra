@@ -5,6 +5,7 @@ import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
+import SafetyCallout from "../../../components/safety-callout";
 import { BackButton } from "@/components/ui/back-button";
 
 export const dynamic = "force-dynamic";
@@ -39,15 +40,72 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   if (!order) {
     return (
-    <main className="bd-container py-6 sm:py-10">
-      <div className="mx-auto mb-4 w-full max-w-4xl px-4">
-        <BackButton href="/orders" label="Back to orders" />
-      </div>
+      <main className="bd-container py-10">
+        <div className="mx-auto mb-4 w-full max-w-5xl"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-5xl space-y-5">
+          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Order</div>
+            <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
+          </div>
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="text-base font-semibold bd-ink">Order not found</div>
+            <p className="mt-2 text-sm bd-ink2">This order could not be found, may have moved, or may not be available to this account.</p>
+            <div className="mt-5">
+              <Link className="bd-btn bd-btn-secondary text-center" href="/orders">Back to Orders</Link>
+            </div>
+          </Card>
+        </div>
+      </main>
+    );
+  }
 
-      <div className="container max-w-4xl space-y-3 sm:space-y-4">
-        <section className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-            <div className="min-w-0 flex-1">
+  if (order.buyerId !== user.id && order.listing?.sellerId !== user.id) {
+    return (
+      <main className="bd-container py-10">
+        <div className="mx-auto mb-4 w-full max-w-5xl"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-5xl space-y-5">
+          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Order</div>
+            <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
+          </div>
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="text-base font-semibold bd-ink">Access restricted</div>
+            <p className="mt-2 text-sm bd-ink2">You do not have access to this order.</p>
+            <div className="mt-5">
+              <Link className="bd-btn bd-btn-secondary text-center" href="/orders">Back to Orders</Link>
+            </div>
+          </Card>
+        </div>
+      </main>
+    );
+  }
+
+  const listingHref = `/listings/${order.listingId}`;
+  const messageHref = `/orders/${order.id}/message`;
+  const feedbackHref = `/orders/${order.id}/feedback`;
+  const isBuyer = order.buyerId === user.id;
+  const isSeller = order.listing?.sellerId === user.id;
+  const roleLabel = isBuyer ? "Buyer" : "Seller";
+  const statusLabel = order.outcome === "COMPLETED" ? "COMPLETED" : "SOLD - HANDOVER PENDING";
+  const primaryNextAction = order.outcome === "COMPLETED"
+    ? "Leave feedback if you have not already, or keep the order record for reference."
+    : "Message the other person to confirm payment, pickup or postage, tracking, packaging, dispatch timing, and handover details.";
+  const primaryNextHref = order.outcome === "COMPLETED" ? feedbackHref : messageHref;
+  const primaryNextLabel = order.outcome === "COMPLETED" ? "Review feedback options" : (isBuyer ? "Message seller" : "Message buyer");
+  const canLeave =
+    order.outcome === "COMPLETED" &&
+    ((isBuyer && !order.buyerFeedbackAt) || (isSeller && !order.sellerFeedbackAt));
+  const alreadyLeft =
+    order.outcome === "COMPLETED" &&
+    ((isBuyer && !!order.buyerFeedbackAt) || (isSeller && !!order.sellerFeedbackAt));
+
+  return (
+    <main className="bd-container py-10">
+        <div className="mx-auto mb-4 w-full max-w-5xl"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-5xl space-y-5">
+        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-3xl">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-2.5 py-1 text-xs font-semibold text-neutral-800 shadow-sm">
                   {roleLabel}
@@ -56,110 +114,108 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   {statusLabel}
                 </span>
               </div>
-
-              <h1 className="mt-3 truncate text-2xl font-extrabold tracking-tight text-neutral-950 sm:text-3xl">
-                {order.listing?.title ?? "Order"}
-              </h1>
-
-              <p className="mt-1 text-sm text-neutral-600">
-                Order created <DateTimeText value={order.createdAt} />.
+              <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Sold item</h1>
+              <p className="mt-2 text-sm bd-ink2 sm:text-base">
+                This order confirms the listing has sold. Use Messages to agree payment, pickup or postage, tracking, packaging, dispatch timing, and handover details before completing the transaction.
               </p>
-
               <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
-                <div className="text-xs font-semibold uppercase tracking-wide text-blue-800">Next step</div>
-                <div className="mt-1 font-extrabold">{primaryNextAction}</div>
+                <div className="font-extrabold">Next action</div>
+                <div className="mt-1">{primaryNextAction}</div>
+              </div>
+              <div className="mt-3 text-sm bd-ink2">
+                Created <DateTimeText value={order.createdAt} />
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 lg:w-[270px]">
-              <Link href={primaryNextHref} className="rounded-2xl bg-[#061126] px-3 py-3 text-center text-xs font-extrabold text-white shadow-sm transition hover:opacity-90">
+            <div className="flex flex-wrap gap-2">
+              <Link href={primaryNextHref} className="bd-btn bd-btn-primary text-center">
                 {primaryNextLabel}
               </Link>
-              <Link href={listingHref} className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-3 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
-                Item
+              <Link href={messageHref} className="bd-btn bd-btn-secondary text-center">
+                {isBuyer ? "Message seller" : "Message buyer"}
               </Link>
-              <Link href="/disputes" className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-3 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
-                Help
-              </Link>
+              <Link href="/orders" className="bd-btn bd-btn-secondary text-center">Orders</Link>
+              <Link href={listingHref} className="bd-btn bd-btn-secondary text-center">View listing</Link>
+              <Link href="/disputes" className="bd-btn bd-btn-secondary text-center">Need help?</Link>
+              {canLeave ? (
+                <Link href={feedbackHref} className="bd-btn bd-btn-secondary text-center">
+                  Leave feedback
+                </Link>
+              ) : null}
+              {alreadyLeft ? (
+                <span className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm font-semibold bd-ink shadow-sm">
+                  Feedback submitted
+                </span>
+              ) : null}
             </div>
-          </div>
-
-          <div className="mt-4 grid grid-cols-3 gap-2 border-t border-[#D8E1F0] pt-4">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Amount</div>
-              <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{formatMoney(order.amount)}</div>
-            </div>
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Order ID</div>
-              <div className="mt-1 truncate text-sm font-extrabold text-neutral-950">{String(order.id).slice(-6)}</div>
-            </div>
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Status</div>
-              <div className="mt-1 text-sm font-extrabold text-neutral-950">{statusLabel}</div>
-            </div>
-          </div>
-
-          {canLeave ? (
-            <div className="mt-4 border-t border-[#D8E1F0] pt-4">
-              <Link href={feedbackHref} className="bd-btn bd-btn-secondary text-center">
-                Leave feedback
-              </Link>
-            </div>
-          ) : null}
-
-          {alreadyLeft ? (
-            <div className="mt-4 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-950">
-              Feedback submitted.
-            </div>
-          ) : null}
-        </section>
-
-        <details className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm text-neutral-700 shadow-sm">
-          <summary className="cursor-pointer select-none font-extrabold text-neutral-950">
-            Handover safety checkpoint
-          </summary>
-
-          <div className="mt-3 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-blue-950">
-            <div className="font-extrabold">Shipping label status</div>
-            <p className="mt-1">
-              Bidra does not currently create shipping labels, calculate live postage rates, insure parcels, or manage carrier claims.
+            <p className="text-sm bd-ink2">
+              Use the highlighted next action above to keep the transaction moving.
             </p>
           </div>
+        </div>
 
-          <ul className="mt-3 list-disc space-y-1.5 pl-5">
-            <li>Confirm the exact item, amount, payment expectation, pickup suburb or postage method, and timing before handover.</li>
-            <li>Use a public pickup location where practical and inspect the item before money changes hands.</li>
-            <li>For postage, agree carrier, tracking, packaging, dispatch timing, item photos before dispatch, and who carries delivery risk before sending.</li>
-            <li>If the other person changes terms suddenly or asks for unsafe payment methods, stop and contact Support.</li>
-          </ul>
-        </details>
-
-        <details className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm text-neutral-700 shadow-sm">
-          <summary className="cursor-pointer select-none font-extrabold text-neutral-950">
-            Need help with this order?
-          </summary>
-
-          <p className="mt-2">
-            Keep payment, pickup, postage method, carrier, tracking, packaging, dispatch, and important details in Messages.
-          </p>
-          <p className="mt-2">
-            No dead-end Pay now or completion step is required.
-          </p>
-
-          <div className="mt-3 flex flex-wrap gap-2">
-            <Link href="/disputes" className="bd-btn bd-btn-secondary text-center">
-              Resolution centre
-            </Link>
-            <Link href="/contact" className="bd-btn bd-btn-secondary text-center">
-              Contact support
-            </Link>
-            <Link href="/orders" className="bd-btn bd-btn-secondary text-center">
-              Orders
-            </Link>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Order ID</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{String(order.id).slice(-6)}</div>
+            <div className="mt-1 text-sm text-neutral-600 font-mono break-all">{order.id}</div>
           </div>
-        </details>
+
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Amount</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{formatMoney(order.amount)}</div>
+            <div className="mt-1 text-sm text-neutral-600">Final sold price.</div>
+          </div>
+
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listing</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950 truncate">{order.listing?.title ?? "Listing"}</div>
+            <div className="mt-1 text-sm text-neutral-600">Original listing.</div>
+          </div>
+        </div>
+        <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="text-sm font-extrabold bd-ink">Post-sale next steps</div>
+            <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
+              <li>Use Messages to confirm payment, pickup or postage, tracking, packaging, dispatch timing, and handover details before completing the transaction.</li>
+              <li>If the order is pending, confirm payment, pickup or postage, carrier, tracking expectations, and handover details in Messages.</li>
+              <li>If the order is completed, the next action is to leave feedback if it is available.</li>
+              <li>Keep important agreements and handover details in Bidra Messages.</li>
+              <li>Follow safety guidance before final handover or postage dispatch.</li>
+            </ul>
+            <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+              <div className="font-extrabold">Handover safety checkpoint</div>
+            <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
+              <div className="font-extrabold">Shipping label status</div>
+              <p className="mt-1">Bidra does not currently create shipping labels, calculate live postage rates, insure parcels, or manage Australia Post, Sendle, courier, or carrier claims. Agree postage details in Messages and keep tracking evidence.</p>
+            </div>
+              <ul className="mt-2 list-disc space-y-1.5 pl-5">
+                <li>Confirm the exact item, amount, payment expectation, pickup suburb or postage method, and timing before handover.</li>
+                <li>Use a public pickup location where practical and inspect the item before money changes hands.</li>
+                <li>For postage, agree carrier, tracking, packaging, dispatch timing, item photos before dispatch, and who carries delivery risk before sending.</li>
+                <li>If the other person changes terms suddenly or asks for unsafe payment methods, stop and contact Support.</li>
+              </ul>
+            </div>
+          </Card>
+            <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
+              <div className="font-extrabold">Need help with this order?</div>
+              <p className="mt-1">Use the Resolution Centre to collect the right order ID, listing link, Messages, screenshots, pickup notes, carrier name, tracking number, packaging photos, dispatch proof, and postage details before contacting support.</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Link href="/disputes" className="bd-btn bd-btn-secondary text-center">Open resolution centre</Link>
+                <Link href="/contact" className="bd-btn bd-btn-secondary text-center">Contact support</Link>
+              </div>
+            </div>
+
+          <SafetyCallout title="Safety guidance">
+            <ul className="list-disc pl-5 space-y-2">
+              <li>Keep payment, pickup, postage method, carrier, tracking, packaging, dispatch, and important details in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
+              <li>Meet in a safe public place for pickup where practical.</li>
+              <li>Use tracked delivery where appropriate, and save the tracking number and dispatch receipt.</li>
+              <li>If anything feels suspicious, stop and report it.</li>
+            </ul>
+          </SafetyCallout>
+        </div>
       </div>
     </main>
   );
-}
 }
