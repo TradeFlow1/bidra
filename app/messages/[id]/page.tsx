@@ -110,7 +110,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
     return (
       <main className="bd-container sm:py-10">
-        <div className="container max-w-5xl space-y-3 sm:space-y-4">
+        <div className="container max-w-4xl space-y-3 sm:space-y-4">
           <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div className="min-w-0 flex-1">
@@ -166,11 +166,12 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <ThreadLiveRefresh />
           <SafetyNote />
 
-          <div className="px-1 text-sm font-extrabold text-[var(--bidra-ink)]">
-            Messages
-          </div>
+          <div className="mx-auto w-full max-w-3xl">
+            <div className="px-1 text-sm font-extrabold text-[var(--bidra-ink)]">
+              Messages
+            </div>
 
-          <div className="rounded-[26px] border border-black/10 bg-white p-2 shadow-sm sm:p-3">
+            <div className="mt-2 rounded-[26px] border border-black/10 bg-white p-2 shadow-sm sm:p-3">
             {messages.length ? (
               <div className="flex flex-col gap-1.5">
                 {messages.map((m) => {
@@ -214,6 +215,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
             <div className="mt-1.5 border-t border-[#D8E1F0] pt-1.5">
               <SendBox threadId={thread.id} />
+            </div>
             </div>
           </div>
         </div>
