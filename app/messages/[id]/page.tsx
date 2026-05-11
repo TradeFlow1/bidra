@@ -20,14 +20,14 @@ function displayName(u: any) {
 
 function SafetyNote() {
   return (
-    <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-sm">
-      <div className="font-extrabold">Safety checkpoint in Messages</div>
-      <ul className="mt-2 list-disc space-y-1.5 pl-5">
-        <li>Keep pickup, postage, payment expectations, refunds, tracking, packaging, dispatch, and handover details in this thread.</li>
-        <li>Never share passwords, one-time codes, ID photos, gift cards, crypto transfers, or suspicious payment links.</li>
-        <li>Report the thread if someone pressures you to leave Bidra before the key terms are clear.</li>
+    <details className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm text-[var(--bidra-ink)] shadow-sm">
+      <summary className="cursor-pointer select-none font-extrabold">Safety tips</summary>
+      <ul className="mt-2 list-disc space-y-1 pl-5 text-[var(--bidra-ink-2)]">
+        <li>Confirm pickup, postage, payment, and handover details in this chat.</li>
+        <li>Do not share passwords, one-time codes, ID photos, gift cards, crypto transfers, or suspicious payment links.</li>
+        <li>Report the chat if something feels wrong.</li>
       </ul>
-    </div>
+    </details>
   );
 }
 
@@ -163,19 +163,8 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
             </div>
           </div>
 
-          <SafetyNote />
           <ThreadLiveRefresh />
-
-          <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink)] shadow-sm">
-            <div className="font-extrabold">Handover checklist</div>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-[var(--bidra-ink-2)]">
-              <li>Confirm pickup suburb and time, or confirm the exact postage method, carrier, tracking expectations, packaging, and dispatch timing.</li>
-              <li>Confirm item condition and what accessories are included.</li>
-              <li>Keep pickup, postage, payment expectations, tracking numbers, dispatch proof, and handover agreements in Bidra Messages.</li>
-              <li>Meet safely for pickup where practical, and use tracked postage where practical. Bidra does not currently sell labels, insure parcels, or manage carrier claims.</li>
-              <li>If anything seems suspicious, report the chat so Bidra can review the conversation history.</li>
-            </ul>
-          </div>
+          <SafetyNote />
 
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
             {messages.length ? (
@@ -223,7 +212,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
             <div className="text-sm font-semibold text-[var(--bidra-ink)]">Send a message</div>
             <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-              Keep messages focused on the item, pickup, postage, payment expectations, tracking, packaging, dispatch, and handover details.
+              Message the buyer or seller about this listing.
             </div>
             <div className="mt-4">
               <SendBox threadId={thread.id} />

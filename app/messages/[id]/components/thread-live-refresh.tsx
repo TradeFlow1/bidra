@@ -1,35 +1,28 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 const REFRESH_MS = 3500;
 
 export default function ThreadLiveRefresh() {
   const router = useRouter();
-  const [status, setStatus] = useState("Live updates on");
   const timerRef = useRef<number | null>(null);
 
   useEffect(() => {
     let stopped = false;
 
-    function refreshNow(reason: string) {
+    function refreshNow() {
       if (stopped) return;
       if (typeof document !== "undefined" && document.visibilityState !== "visible") return;
-
-      setStatus(reason);
       router.refresh();
-
-      window.setTimeout(function () {
-        if (!stopped) setStatus("Live updates on");
-      }, 900);
     }
 
     function start() {
       if (timerRef.current !== null) return;
 
       timerRef.current = window.setInterval(function () {
-        refreshNow("Checking for replies");
+        refreshNow();
       }, REFRESH_MS);
     }
 
@@ -41,7 +34,7 @@ export default function ThreadLiveRefresh() {
 
     function onVisibilityChange() {
       if (document.visibilityState === "visible") {
-        refreshNow("Back online");
+        refreshNow();
         start();
       } else {
         stop();
@@ -49,7 +42,7 @@ export default function ThreadLiveRefresh() {
     }
 
     function onSent() {
-      refreshNow("Message sent");
+      refreshNow();
     }
 
     if (typeof document !== "undefined" && document.visibilityState === "visible") {
@@ -67,9 +60,5 @@ export default function ThreadLiveRefresh() {
     };
   }, [router]);
 
-  return (
-    <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-950 shadow-sm">
-      {status}
-    </div>
-  );
+  return null;
 }

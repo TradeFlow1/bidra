@@ -15,7 +15,7 @@ export const fetchCache = "force-no-store";
 function SafetyNotice() {
   return (
     <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-950 shadow-sm">
-      Use Bidra Messages to confirm pickup, postage, payment expectations, and handover details. Keep agreements on-platform for both buyer and seller, and refresh the page if you are waiting for the newest reply.
+      Keep pickup, postage, payment, and handover details in Bidra Messages.
     </div>
   );
 }
@@ -101,12 +101,7 @@ export default async function MessagesInboxPage() {
           </div>
 
           <SafetyNotice />
-          <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950 shadow-sm">
-            <div className="font-extrabold">Message freshness</div>
-            <p className="mt-1">Bidra shows unread conversations and refreshes the inbox for new activity. It does not currently provide WebSocket live chat, typing indicators, push notifications, attachment uploads, or guaranteed delivery receipts.</p>
-          </div>
-
-          {unreadCount > 0 ? (
+{unreadCount > 0 ? (
             <div className="rounded-2xl border border-[var(--bidra-blue)]/20 bg-[var(--bidra-blue)]/10 px-4 py-2.5 text-sm text-[var(--bidra-ink)] shadow-sm">
               <span className="font-semibold">Unread messages:</span>{" "}
               You have <span className="font-extrabold">{unreadCount}</span> unread {unreadCount === 1 ? "conversation" : "conversations"}.
