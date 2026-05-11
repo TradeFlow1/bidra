@@ -109,7 +109,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
       !!(lastMyMessageAt && otherLastReadAt && new Date(otherLastReadAt).getTime() >= new Date(lastMyMessageAt).getTime());
 
     return (
-      <main className="bd-container py-5 sm:py-10">
+      <main className="bd-container sm:py-10">
         <div className="container max-w-5xl space-y-4 sm:space-y-5">
           <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -166,7 +166,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <ThreadLiveRefresh />
           <SafetyNote />
 
-          <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
+          <div className="rounded-3xl border border-black/10 bg-white p-3 shadow-sm">
             {messages.length ? (
               <div className="flex flex-col gap-3 max-h-[60vh] overflow-auto pr-1">
                 {messages.map((m) => {
@@ -200,7 +200,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                 })}
               </div>
             ) : (
-              <div className="rounded-2xl border border-dashed border-black/15 bg-neutral-50 px-6 py-10 text-center">
+              <div className="rounded-2xl border border-dashed border-black/15 bg-neutral-50 px-6 text-center">
                 <div className="text-base font-semibold text-neutral-900">No messages yet</div>
                 <div className="mt-1 text-sm text-neutral-600">
                   Start the conversation by asking about pickup, condition, or availability.
@@ -209,7 +209,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
             )}
           </div>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
+          <div className="rounded-3xl border border-black/10 bg-white p-3 shadow-sm">
             <div className="text-sm font-semibold text-[var(--bidra-ink)]">Send a message</div>
             <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
               Message the buyer or seller about this listing.
@@ -223,7 +223,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
     );
   } catch (_e) {
     return (
-      <main className="bd-container py-5 sm:py-10">
+      <main className="bd-container sm:py-10">
         <div className="container max-w-5xl space-y-4 sm:space-y-5">
           <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
