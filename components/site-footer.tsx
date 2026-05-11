@@ -58,7 +58,7 @@ export default function SiteFooter() {
         </div>
 
         <div className="mt-6 border-t border-[#D8E1F0] pt-4 text-xs leading-5 text-[#64748B]">
-          <div>Â© 2026 Bidra. All rights reserved.</div>
+          <div>&copy; 2026 Bidra. All rights reserved.</div>
           <div className="mt-1">Bidra is a marketplace platform. Buyers and sellers arrange payment, pickup, postage, and handover details.</div>
         </div>
       </div>
@@ -90,7 +90,7 @@ export default function SiteFooter() {
         </div>
 
         <div className="mt-10 flex flex-col gap-3 border-t border-[#D8E1F0] pt-5 text-xs text-[#64748B] md:flex-row md:items-center md:justify-between">
-          <div>Â© 2026 Bidra. All rights reserved.</div>
+          <div>&copy; 2026 Bidra. All rights reserved.</div>
           <div>Bidra is a marketplace platform. Buyers and sellers arrange payment, pickup, postage, and handover details.</div>
         </div>
       </div>
