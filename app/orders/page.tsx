@@ -45,31 +45,31 @@ export default async function OrdersPage() {
   const soldCount = orders.length;
   const feedbackDueCount = orders.filter((o: any) => String(o.outcome) === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))).length;
   return (
-    <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-      <div className="container max-w-6xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+    <main className="bd-container py-6 sm:py-10">
+      <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+      <div className="container max-w-5xl space-y-4">
+        <div className="rounded-[28px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Track your buys and sales. Open any order to message the other person and confirm payment, pickup, postage method, tracking, packaging, dispatch timing, and handover details.
+                Track purchases and sales, open order details, and message the other person.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+          <div className="rounded-[22px] border border-black/10 bg-white p-3 shadow-sm sm:p-4">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Orders</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{soldCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Active and completed buys or sales.</div>
+            <div className="mt-1 text-sm text-neutral-600">Buys and sales.</div>
           </div>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="rounded-[22px] border border-black/10 bg-white p-3 shadow-sm sm:p-4">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Feedback due</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{feedbackDueCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Trust follow-up available.</div>
+            <div className="mt-1 text-sm text-neutral-600">Awaiting review.</div>
           </div>
 
         </div>
@@ -96,16 +96,16 @@ export default async function OrdersPage() {
               const feedbackSubmitted = isCompleted && ((o.buyerId === user.id && !!o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !!o.sellerFeedbackAt));
               const roleLabel = o.buyerId === user.id ? "Buying" : "Selling";
               const nextActionCopy = isCompleted
-                ? (feedbackDue ? "Next action: leave feedback." : "Next action: no further action needed.")
-                : "Next action: confirm payment, pickup or postage, and handover in Messages.";
-              const statusLabel = isCompleted ? "FEEDBACK OPEN" : "SOLD";
+                ? (feedbackDue ? "Leave feedback." : "No action needed.")
+                : "Confirm in Messages.";
+              const statusLabel = isCompleted ? "Feedback open" : "Sold";
 
               return (
                 <Card
                   key={o.id}
-                  className={`overflow-hidden rounded-3xl border bg-white p-5 shadow-sm ${isPending ? "border-blue-300 border-l-8 ring-2 ring-blue-100" : "border-black/10"}`}
+                  className={`overflow-hidden rounded-[24px] border bg-white p-3 shadow-sm sm:p-5 ${isPending ? "border-blue-300 border-l-4 ring-2 ring-blue-100" : "border-black/10"}`}
                 >
-                  <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="inline-flex items-center rounded-full border border-black/10 bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-800">
@@ -118,14 +118,14 @@ export default async function OrdersPage() {
 
                       <div className="mt-3 min-w-0">
                         <Link
-                          className="block truncate text-xl font-extrabold text-neutral-950 hover:underline underline-offset-4"
+                          className="block truncate text-lg font-extrabold text-neutral-950 hover:underline underline-offset-4 sm:text-xl"
                           href={`/listings/${o.listingId}`}
                         >
                           {o?.listing?.title ?? "Listing"}
                         </Link>
                       </div>
 
-                      <div className="mt-2 flex flex-wrap gap-x-5 gap-y-2 text-sm text-neutral-600">
+                      <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-neutral-600 sm:text-sm">
                         <div>
                           Created <DateTimeText value={o.createdAt} />
                         </div>
@@ -134,7 +134,7 @@ export default async function OrdersPage() {
                         </div>
                       </div>
 
-                      <div className="mt-4 flex flex-wrap items-end gap-6">
+                      <div className="mt-3 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:items-end sm:gap-6">
                         <div>
                           <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Amount</div>
                           <div className="mt-1 text-lg font-extrabold text-neutral-950">{formatMoney(o.amount)}</div>
@@ -151,26 +151,15 @@ export default async function OrdersPage() {
                       </div>
                     </div>
 
-                    <div className="flex flex-col gap-2 lg:w-[260px]">
-                      {isPending ? (
-                        <Link
-                          href={`/orders/${o.id}`}
-                          className="bd-btn bd-btn-secondary text-center"
-                        >
-                          <span className="block">Order details</span>
-                          <span className="mt-1 block text-xs bd-ink2">Confirm payment, pickup or postage, and handover in Messages</span>
-                        </Link>
-                      ) : (
-                        <Link
-                          href={`/orders/${o.id}`}
-                          className="bd-btn bd-btn-secondary text-center"
-                        >
-                          <span className="block">Order details</span>
-                          <span className="mt-1 block text-xs bd-ink2">Order ID: {String(o.id).slice(-6)}</span>
-                        </Link>
-                      )}
+                    <div className="mt-1 flex flex-col gap-2 border-t border-[#D8E1F0] pt-3 lg:mt-0 lg:w-[220px] lg:border-t-0 lg:pt-0">
+                      <Link
+                        href={`/orders/${o.id}`}
+                        className="bd-btn bd-btn-secondary text-center"
+                      >
+                        Details
+                      </Link>
 
-                      <div className="grid grid-cols-2 gap-2 md:grid-cols-2 lg:grid-cols-2">
+                      <div className="grid grid-cols-2 gap-2">
                         <Link
                           href={`/listings/${o.listingId}`}
                           className="bd-btn bd-btn-secondary text-center"
