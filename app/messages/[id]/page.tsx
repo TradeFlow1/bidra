@@ -166,23 +166,27 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <ThreadLiveRefresh />
           <SafetyNote />
 
+          <div className="px-1 text-sm font-extrabold text-[var(--bidra-ink)]">
+            Send a message
+          </div>
+
           <div className="rounded-3xl border border-black/10 bg-white p-3 shadow-sm sm:p-4">
             {messages.length ? (
-              <div className="flex flex-col gap-2 overflow-auto pr-1">
+              <div className="flex max-h-[56vh] flex-col gap-3 overflow-auto pr-1">
                 {messages.map((m) => {
                   const mine = m.userId === me;
                   const body = m.body;
                   const isLastMine = mine && lastMyMessageId && m.id === lastMyMessageId;
 
                   return (
-                    <div key={m.id} className={"flex " + (mine ? "justify-end" : "justify-start")}>
-                      <div className="max-w-[88%] sm:max-w-[72%]">
+                    <div key={m.id} className={"flex w-full " + (mine ? "justify-end" : "justify-start")}>
+                      <div className="max-w-[86%] sm:max-w-[72%]">
                         <div
                           className={
-                            "rounded-3xl px-4 py-3 text-sm leading-relaxed shadow-sm border " +
+                            "border px-4 py-3 text-sm leading-relaxed shadow-sm " +
                             (mine
-                              ? "bg-[var(--bidra-ink)] text-white border-black/10"
-                              : "bg-neutral-50 text-[var(--bidra-ink)] border-black/10")
+                              ? "rounded-3xl rounded-br-md border-black/10 bg-[var(--bidra-ink)] text-white"
+                              : "rounded-3xl rounded-bl-md border-[#BFDBFE] bg-[#EFF6FF] text-[var(--bidra-ink)]")
                           }
                         >
                           {body}
@@ -209,13 +213,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
             )}
 
             <div className="mt-3 border-t border-[#D8E1F0] pt-3">
-              <div className="text-sm font-semibold text-[var(--bidra-ink)]">Send a message</div>
-              <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-                Message the buyer or seller about this listing.
-              </div>
-              <div className="mt-3">
-                <SendBox threadId={thread.id} />
-              </div>
+              <SendBox threadId={thread.id} />
             </div>
           </div>
         </div>
