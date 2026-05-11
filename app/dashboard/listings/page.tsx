@@ -190,9 +190,9 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                 return (
                   <Card
                     key={l.id}
-                    className="overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5"
+                    className="overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-5"
                   >
-                    <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <Badge>{listingTypeLabel}</Badge>
@@ -202,31 +202,31 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                         </div>
 
                         <Link
-                          className="mt-2 block max-w-full truncate text-lg font-extrabold text-neutral-950 hover:underline underline-offset-4 sm:text-xl"
+                          className="mt-2 block max-w-full truncate text-base font-extrabold text-neutral-950 hover:underline underline-offset-4 sm:text-xl"
                           href={"/listings/" + l.id}
                         >
                           {l.title}
                         </Link>
 
-                        <div className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm text-neutral-600">
+                        <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-neutral-600 sm:text-sm">
                           <div>{categoryLabel}</div>
                           <div>{locationLabel}</div>
                         </div>
 
-                        <div className="mt-3 grid grid-cols-[0.85fr_1.15fr] gap-3 sm:flex sm:flex-wrap sm:items-end sm:gap-6">
+                        <div className="mt-2 grid grid-cols-[0.75fr_1.25fr] gap-2 sm:flex sm:flex-wrap sm:items-end sm:gap-6">
                           <div>
                             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Price</div>
                             <div className="mt-1 text-lg font-extrabold text-neutral-950">{priceLabel}</div>
                           </div>
 
-                          <div>
-                            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listing ID</div>
-                            <div className="mt-1 max-w-full truncate text-xs font-semibold text-neutral-700 sm:text-sm">{l.id}</div>
+                          <div className="min-w-0">
+                            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">ID</div>
+                            <div className="mt-1 max-w-full truncate text-[11px] font-semibold text-neutral-700 sm:text-sm">{l.id}</div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="mt-3 flex flex-col gap-2 border-t border-[#D8E1F0] pt-3 lg:mt-0 lg:w-[260px] lg:border-t-0 lg:pt-0">
+                      <div className="mt-2 flex flex-col gap-2 border-t border-[#D8E1F0] pt-2 lg:mt-0 lg:w-[260px] lg:border-t-0 lg:pt-0">
                         <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 lg:grid-cols-2">
                           <Link href={"/listings/" + l.id} className="bd-btn bd-btn-secondary text-center">
                             View listing
@@ -236,26 +236,19 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                           </Link>
                         </div>
 
-                        {statusLabel === "SOLD" ? null : (
+                        {statusLabel === "SOLD" ? null : statusLabel === "ACTIVE" ? (
+                          <div className="grid grid-cols-2 gap-2">
+                            <DeleteListingButton listingId={String(l.id)} listingTitle={String(l.title || "this listing")} />
+                            <form action={endListing}>
+                              <input type="hidden" name="id" value={l.id} />
+                              <button type="submit" className="w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">
+                                End listing
+                              </button>
+                            </form>
+                          </div>
+                        ) : (
                           <DeleteListingButton listingId={String(l.id)} listingTitle={String(l.title || "this listing")} />
                         )}
-
-                        {statusLabel === "ACTIVE" ? (
-                          <form action={endListing}>
-                            <input type="hidden" name="id" value={l.id} />
-                            <button type="submit" className="w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">
-                              End listing
-                            </button>
-                          </form>
-                        ) : statusLabel === "DRAFT" ? (
-                          <div className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3 text-xs font-semibold text-[#64748B]">
-                            Draft. Edit to finish and publish.
-                          </div>
-                        ) : statusLabel === "ENDED" ? (
-                          <div className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3 text-xs font-semibold text-[#64748B]">
-                            Ended. Edit to review or relist.
-                          </div>
-                        ) : null}
                       </div>
                     </div>
                   </Card>
