@@ -155,20 +155,20 @@ export default async function OrdersPage() {
                       <div className="grid grid-cols-3 gap-2">
                         <Link
                           href={`/orders/${o.id}`}
-                          className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
+                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
                         >
                           Open
                         </Link>
                         <Link
                           href={`/listings/${o.listingId}`}
-                          className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
+                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
                         >
-                            Listing
-                          </Link>
+                          Item
+                        </Link>
 
                         <Link
                           href="/disputes"
-                          className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
+                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
                         >
                           Help
                         </Link>
@@ -176,7 +176,7 @@ export default async function OrdersPage() {
                         {feedbackDue ? (
                           <Link
                             href={`/orders/${o.id}/feedback`}
-                            className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
+                            className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
                           >
                             Leave feedback
                           </Link>
