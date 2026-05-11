@@ -636,7 +636,7 @@ export default async function ListingDetailPage({
             <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View all listings</Link>
           </div>
           {relatedListings.length ? (
-            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
               {relatedListings.map(function (related) {
                 const relatedIsTimedOffers = isTimedOffersType(related.type);
                 const relatedCurrentOffer = related.offers.length ? related.offers[0].amount : null;
