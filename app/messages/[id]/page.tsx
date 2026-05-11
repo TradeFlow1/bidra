@@ -44,7 +44,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
   if (!gate.ok && gate.reason === "UNDER_18") redirect("/account/restrictions");
   if (!gate.ok) redirect("/dashboard");
 
-  const me = session.user.id;
+  const me = String(session.user.id);
   if (!threadId) redirect("/messages");
 
   try {
@@ -65,23 +65,23 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
     if (!thread) redirect("/messages");
 
-    const isParticipant = thread.buyerId === me || thread.sellerId === me;
+    const isParticipant = String(thread.buyerId) === me || String(thread.sellerId) === me;
     if (!isParticipant) redirect("/messages");
 
     if (thread.lastMessageAt) {
-      const myLastRead = thread.buyerId === me ? thread.buyerLastReadAt : thread.sellerLastReadAt;
+      const myLastRead = String(thread.buyerId) === me ? thread.buyerLastReadAt : thread.sellerLastReadAt;
       const needsStamp =
         !myLastRead || new Date(myLastRead).getTime() < new Date(thread.lastMessageAt).getTime();
 
       if (needsStamp) {
         await prisma.messageThread.update({
           where: { id: thread.id },
-          data: thread.buyerId === me ? { buyerLastReadAt: new Date() } : { sellerLastReadAt: new Date() },
+          data: String(thread.buyerId) === me ? { buyerLastReadAt: new Date() } : { sellerLastReadAt: new Date() },
         });
       }
     }
 
-    const other = thread.buyerId === me ? thread.seller : thread.buyer;
+    const other = String(thread.buyerId) === me ? thread.seller : thread.buyer;
 
     const anyListing = thread.listing as unknown as { id?: string | null; title?: string | null; images?: unknown; photos?: unknown } | null;
     const imgs =
@@ -99,9 +99,9 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
       select: { id: true, body: true, createdAt: true, userId: true },
     });
 
-    const otherLastReadAt = (thread.buyerId === me ? thread.sellerLastReadAt : thread.buyerLastReadAt) || null;
+    const otherLastReadAt = (String(thread.buyerId) === me ? thread.sellerLastReadAt : thread.buyerLastReadAt) || null;
 
-    const myMessages = messages.filter((x) => x.userId === me);
+    const myMessages = messages.filter((x) => String(x.userId) === me);
     const lastMyMessageAt = myMessages.length ? myMessages[myMessages.length - 1].createdAt : null;
     const lastMyMessageId = myMessages.length ? myMessages[myMessages.length - 1].id : null;
 
@@ -174,7 +174,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
             {messages.length ? (
               <div className="flex max-h-[56vh] flex-col gap-3 overflow-auto pr-1">
                 {messages.map((m) => {
-                  const mine = m.userId === me;
+                  const mine = String(m.userId) === me;
                   const body = m.body;
                   const isLastMine = mine && lastMyMessageId && m.id === lastMyMessageId;
 
