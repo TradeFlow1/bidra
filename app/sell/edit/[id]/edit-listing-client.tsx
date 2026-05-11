@@ -265,59 +265,61 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
   }
 
   return (
-    <main className="bd-container py-10">
-      <div className="container max-w-2xl">
+    <main className="bd-container py-6 sm:py-10">
+      <div className="container max-w-4xl">
         <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-3">
-            <div>
-              <h1 className="text-3xl font-extrabold tracking-tight bd-ink">Edit listing</h1>
-              <div className="mt-1 flex flex-wrap items-center gap-2 text-xs bd-ink2">
-                <span>Listing status: <span className="font-extrabold bd-ink">{status}</span></span>
-                {status === "ACTIVE" ? <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-2 py-0.5 text-[11px] font-extrabold bd-ink">Live listing</span> : null}
+          <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller dashboard</div>
+                <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Edit listing</h1>
+                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs bd-ink2">
+                  <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 font-semibold">Status: <span className="font-extrabold bd-ink">{status}</span></span>
+                  {status === "ACTIVE" ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 font-extrabold text-emerald-900">Live listing</span> : null}
+                </div>
               </div>
-            </div>
 
-            <div className="flex flex-wrap gap-2">
+              <div className="grid gap-2 sm:flex sm:flex-wrap sm:justify-end">
+                <Link href={`/listings/${listing.id}`} className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
+                  View listing
+                </Link>
 
-              <Link href={`/listings/${listing.id}`} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
-                View listing
-              </Link>
+                <Link href="/dashboard/listings" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
+                  My listings
+                </Link>
 
-              {status === "ACTIVE" ? (
+                {status === "ACTIVE" ? (
+                  <button
+                    type="button"
+                    onClick={function () { setError(null); setEndOpen(true); }}
+                    disabled={isSaving}
+                    className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                  >
+                    End listing
+                  </button>
+                ) : null}
+
                 <button
                   type="button"
-                  onClick={function () { setError(null); setEndOpen(true); }}
+                  onClick={function () { setError(null); setDeleteOpen(true); }}
                   disabled={isSaving}
-                  className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
+                  className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-red-200 bg-white px-5 text-sm font-extrabold text-red-700 shadow-sm transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                 >
-                  End listing
+                  Delete
                 </button>
-              ) : null}
-
-              <button
-                type="button"
-                onClick={function () { setError(null); setDeleteOpen(true); }}
-                disabled={isSaving}
-                className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
-              >
-                Delete listing
-              </button>
-
-              <Link href="/dashboard/listings" className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
-                My listings
-              </Link>
+              </div>
             </div>
-          </div>
+          </section>
           {error ? (
-            <div className="bd-card p-4 border border-red-200 bg-red-50/50">
+            <div className="rounded-[24px] border border-red-200 bg-red-50 p-4 shadow-sm">
               <div className="text-sm font-extrabold bd-ink">Fix this first</div>
               <div className="mt-1 text-sm bd-ink2">{error}</div>
             </div>
           ) : null}
 
-          <div className="bd-card p-6">
+          <div className="rounded-[30px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-5">
             <form id="editListingForm"
-              className="grid gap-4"
+              className="grid gap-3 sm:gap-4"
               onSubmit={async (e) => {
                 e.preventDefault();
                 setError(null);
@@ -375,21 +377,19 @@ buyNowPrice:
               <div>
                 <label className="text-sm font-extrabold bd-ink">Title *</label>
                 <input className="bd-input mt-1 w-full" value={title} onChange={(e) => setTitle(e.target.value)} required />
-                <p className="mt-1 text-xs bd-ink2">Use a clear title with brand/model and key details buyers search for.</p>
               </div>
 
               <div>
                 <label className="text-sm font-extrabold bd-ink">Description</label>
                 <textarea
                   className="bd-input mt-1 w-full"
-                  rows={8}
+                  rows={5}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
-                <p className="mt-1 text-xs bd-ink2">Call out included accessories, known marks/faults, and pickup/postage details.</p>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                 <div>
                   <label className="text-sm font-extrabold bd-ink">Category</label>
                   <select
@@ -409,19 +409,16 @@ buyNowPrice:
                       </optgroup>
                     ))}
                   </select>
-                  <p className="mt-1 text-xs bd-ink2">Keep this as close as possible so your listing is easy to discover.</p>
                 </div>
 
                 <div>
                   <label className="text-sm font-extrabold bd-ink">Condition</label>
                   <input className="bd-input mt-1 w-full" value={condition} onChange={(e) => setCondition(e.target.value)} />
-                  <p className="mt-1 text-xs bd-ink2">Be accurate so buyer expectations match the item.</p>
                 </div>
 
                 <div>
                   <label className="text-sm font-extrabold bd-ink">Location</label>
                   <input className="bd-input mt-1 w-full" value={location} onChange={(e) => setLocation(e.target.value)} />
-                  <p className="mt-1 text-xs bd-ink2">Use suburb/postcode and state for a clear pickup baseline.</p>
                 </div>
 
                 <div>
@@ -453,11 +450,8 @@ buyNowPrice:
               </div>
 
               {isTimedOffers ? (
-                <div className="bd-card p-4">
+                <div className="rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-3">
                   <div className="text-sm font-extrabold bd-ink">Buy Now option</div>
-                  <div className="mt-1 text-xs bd-ink2">
-                    Add a Buy Now price near the end of a timed-offers listing. The price must be higher than the current highest offer.
-                  </div>
 
                   
   <div className="mt-3 flex items-center gap-2">
@@ -501,14 +495,12 @@ buyNowPrice:
               {/* Photos */}
               <div className="grid gap-2">
                 <div className="text-sm font-extrabold bd-ink">Photos</div>
-                <div className="text-xs bd-ink2">
-                  The first photo is your main image. Use clear photos of the item and avoid unrelated screenshots.
-                </div>
+                <div className="text-xs bd-ink2">First photo is the main image.</div>
 
                 {existingImages.length ? (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                     {existingImages.map((url, idx) => (
-                      <div key={url + idx} className="relative overflow-hidden rounded-xl border border-black/10 bg-white">
+                      <div key={url + idx} className="relative overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-white">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={url} alt="Listing photo" className="h-28 w-full object-cover" />
 
@@ -547,14 +539,14 @@ buyNowPrice:
                     ))}
                   </div>
                 ) : (
-                  <div className="rounded-xl border border-black/10 bg-white px-4 py-3 text-sm font-semibold bd-ink2">No photos yet.</div>
+                  <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold bd-ink2">No photos yet.</div>
                 )}
 
                 <div className="grid gap-2 pt-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <button
                       type="button"
-                      className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
+                      className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60"
                       onClick={() => cameraInputRef.current?.click()}
                       disabled={isSaving || (existingImages?.length || 0) >= 10}
                     >
@@ -563,7 +555,7 @@ buyNowPrice:
 
                     <button
                       type="button"
-                      className="rounded-xl border border-black/20 bg-white px-5 py-3 text-sm font-extrabold text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80"
+                      className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60"
                       onClick={() => galleryInputRef.current?.click()}
                       disabled={isSaving || (existingImages?.length || 0) >= 10}
                     >
@@ -611,9 +603,9 @@ buyNowPrice:
                   />
 
                   {previews.length ? (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                       {previews.map((p) => (
-                        <div key={p.url} className="overflow-hidden rounded-xl border border-black/10 bg-white">
+                        <div key={p.url} className="overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-white">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={p.url} alt={p.name} className="h-28 w-full object-cover" />
                         </div>
@@ -623,9 +615,8 @@ buyNowPrice:
                 </div>
               </div>
 
-              <div className="rounded-xl border border-black/10 bg-[var(--bidra-bg)] p-4">
+              <div className="rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-3">
                 <div className="text-sm font-extrabold bd-ink">Review</div>
-                <div className="mt-1 text-xs bd-ink2">Quick summary before saving changes.</div>
                 <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
                   <div><dt className="text-xs uppercase tracking-wide bd-ink2">Title</dt><dd className="font-medium bd-ink">{title.trim() || "Not set"}</dd></div>
                   <div><dt className="text-xs uppercase tracking-wide bd-ink2">Sale type</dt><dd className="font-medium bd-ink">{reviewSaleType}</dd></div>
@@ -637,11 +628,11 @@ buyNowPrice:
                 </dl>
               </div>
 
-              <div className="flex flex-wrap gap-2 pt-2">
-                <button type="submit" disabled={isSaving} className="rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+              <div className="grid gap-2 pt-2 sm:flex sm:flex-wrap">
+                <button type="submit" disabled={isSaving} className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">
                   {isSaving ? "Saving..." : "Save changes"}
                 </button>
-                <Link href={`/listings/${listing.id}`} className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold !text-black text-black shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:text-black disabled:opacity-80">
+                <Link href={`/listings/${listing.id}`} className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
                   Cancel
                 </Link>
               </div>
