@@ -151,7 +151,7 @@ export default function PlaceOfferClient({
           </div>
           <div className="mt-1 text-xs text-neutral-700">
             {lastResult.isTop ? (
-              <>You are currently the highest offer. Keep questions, pickup, postage, payment, and handover details in Messages.</>
+              <>You are currently the highest offer. If the seller accepts, Bidra creates an order for the next step.</>
             ) : (
               <>You have been out-offered. Increase your offer only if you are prepared to honour it.</>
             )}
@@ -161,7 +161,7 @@ export default function PlaceOfferClient({
 
       {viewerHasAnyOffer && offerState === "TOP" ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900">
-          You are the highest offer. Keep pickup, postage, payment, and handover details in Messages.
+          You are the highest offer. If the seller accepts, the order will appear in Orders.
         </div>
       ) : viewerHasAnyOffer && offerState === "OUTBID" ? (
         <div className="rounded-xl border border-black/10 bg-white px-3 py-2">

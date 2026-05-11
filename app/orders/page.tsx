@@ -53,7 +53,7 @@ export default async function OrdersPage() {
             <div className="max-w-3xl">
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Track purchases and sales, open order details, and message the other person.
+                Track purchases and sales. Open order details to see the next step.
               </p>
             </div>
           </div>
@@ -79,7 +79,7 @@ export default async function OrdersPage() {
             <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">No buys or sales yet</div>
               <p className="mt-2 text-sm text-neutral-600">
-                When you buy an item or a seller accepts an offer, it appears here so both sides can confirm next steps in Messages.
+                When you buy an item or a seller accepts an offer, it appears here with the next step.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
                 <Link href="/listings" className="w-full bd-btn bd-btn-secondary text-center sm:w-auto">Browse listings</Link>
@@ -97,7 +97,7 @@ export default async function OrdersPage() {
               const roleLabel = o.buyerId === user.id ? "Buying" : "Selling";
               const nextActionCopy = isCompleted
                 ? (feedbackDue ? "Leave feedback." : "No action needed.")
-                : "Confirm in Messages.";
+                : (roleLabel === "Selling" ? "Open details." : "Open details.");
               const statusLabel = isCompleted ? "Feedback open" : "Sold";
 
               return (
@@ -157,7 +157,7 @@ export default async function OrdersPage() {
                           href={`/orders/${o.id}`}
                           className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
                         >
-                          Details
+                          Continue
                         </Link>
                         <Link
                           href={`/listings/${o.listingId}`}

@@ -51,7 +51,7 @@ export default function AcceptHighestOfferButton(props: { listingId: string }) {
       </button>
 
       <div className="text-xs text-neutral-600">
-        This marks the listing as sold and opens order details. Keep payment, pickup, postage, and handover arrangements in Bidra Messages.
+        This marks the listing as sold and opens order details. Use the order page to continue the sale.
       </div>
 
       {err ? <div className="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-semibold text-red-700">{err}</div> : null}
