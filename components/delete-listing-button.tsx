@@ -51,8 +51,8 @@ export default function DeleteListingButton({ listingId, listingTitle }: Props) 
         onClick={function () { setOpen(true); }}
         className="w-full rounded-2xl border border-red-200 bg-white px-4 py-3 text-center text-sm font-extrabold text-red-700 shadow-sm transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        Delete listing
-      </button>
+      Delete
+    </button>
 
       {open ? (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/45 px-4" role="presentation">

@@ -242,7 +242,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                             <form action={endListing}>
                               <input type="hidden" name="id" value={l.id} />
                               <button type="submit" className="w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">
-                                End listing
+                                End
                               </button>
                             </form>
                           </div>
