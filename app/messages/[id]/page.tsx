@@ -166,11 +166,13 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <ThreadLiveRefresh />
           <SafetyNote />
 
-          <div className="px-1 text-sm font-extrabold text-[var(--bidra-ink)]">Chat</div>
+          <div className="px-1 text-sm font-extrabold text-[var(--bidra-ink)]">
+            Messages
+          </div>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-2.5 shadow-sm sm:p-3">
+          <div className="rounded-[26px] border border-black/10 bg-white p-2 shadow-sm sm:p-3">
             {messages.length ? (
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1.5">
                 {messages.map((m) => {
                   const mine = String(m.userId) === me;
                   const body = m.body;
@@ -210,7 +212,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               </div>
             )}
 
-            <div className="mt-2 border-t border-[#D8E1F0] pt-2">
+            <div className="mt-1.5 border-t border-[#D8E1F0] pt-1.5">
               <SendBox threadId={thread.id} />
             </div>
           </div>
