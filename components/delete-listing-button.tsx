@@ -49,7 +49,7 @@ export default function DeleteListingButton({ listingId, listingTitle }: Props) 
       <button
         type="button"
         onClick={function () { setOpen(true); }}
-        className="w-full rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm font-extrabold text-red-900 shadow-sm hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full rounded-2xl border border-red-200 bg-white px-4 py-3 text-center text-sm font-extrabold text-red-700 shadow-sm transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
       >
         Delete listing
       </button>

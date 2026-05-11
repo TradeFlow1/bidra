@@ -99,10 +99,10 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
   const draftCount = listings.filter((l: any) => String(l.status) === "DRAFT").length;
 
   return (
-    <main className="bd-container py-10">
+    <main className="bd-container py-6 sm:py-10">
       <div className="container max-w-6xl">
         <div className="flex flex-col gap-5">
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+          <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
             <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Seller dashboard</div>
@@ -112,7 +112,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-2">
+              <div className="grid gap-2 sm:flex sm:flex-wrap">
                 <Link href="/sell/new" className="bd-btn bd-btn-secondary text-center">
                   Create new listing
                 </Link>
@@ -123,23 +123,23 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            <div className="rounded-[22px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Active</div>
-              <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{activeCount}</div>
-              <div className="mt-1 text-sm text-neutral-600">Visible to buyers.</div>
+              <div className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-950 sm:text-3xl">{activeCount}</div>
+              <div className="mt-1 text-xs text-neutral-600 sm:text-sm">Visible to buyers.</div>
             </div>
 
-            <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="rounded-[22px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Ended</div>
-              <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{endedCount}</div>
-              <div className="mt-1 text-sm text-neutral-600">Review or relist.</div>
+              <div className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-950 sm:text-3xl">{endedCount}</div>
+              <div className="mt-1 text-xs text-neutral-600 sm:text-sm">Review or relist.</div>
             </div>
 
-            <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+            <div className="rounded-[22px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Drafts</div>
-              <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{draftCount}</div>
-              <div className="mt-1 text-sm text-neutral-600">Saved drafts.</div>
+              <div className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-950 sm:text-3xl">{draftCount}</div>
+              <div className="mt-1 text-xs text-neutral-600 sm:text-sm">Saved drafts.</div>
             </div>
           </div>
 
@@ -186,9 +186,9 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                 return (
                   <Card
                     key={l.id}
-                    className="overflow-hidden rounded-3xl border border-black/10 bg-white p-5 shadow-sm"
+                    className="overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5"
                   >
-                    <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <Badge>{listingTypeLabel}</Badge>
@@ -198,7 +198,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                         </div>
 
                         <Link
-                          className="mt-3 block max-w-full truncate text-xl font-extrabold text-neutral-950 hover:underline underline-offset-4"
+                          className="mt-2 block max-w-full truncate text-lg font-extrabold text-neutral-950 hover:underline underline-offset-4 sm:text-xl"
                           href={"/listings/" + l.id}
                         >
                           {l.title}
@@ -209,7 +209,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                           <div>{locationLabel}</div>
                         </div>
 
-                        <div className="mt-3 flex flex-wrap items-end gap-6">
+                        <div className="mt-3 grid grid-cols-[0.85fr_1.15fr] gap-3 sm:flex sm:flex-wrap sm:items-end sm:gap-6">
                           <div>
                             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Price</div>
                             <div className="mt-1 text-lg font-extrabold text-neutral-950">{priceLabel}</div>
@@ -217,12 +217,12 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
 
                           <div>
                             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listing ID</div>
-                            <div className="mt-1 text-sm font-medium text-neutral-700">{l.id}</div>
+                            <div className="mt-1 max-w-full truncate text-xs font-semibold text-neutral-700 sm:text-sm">{l.id}</div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex flex-col gap-3 lg:w-[260px]">
+                      <div className="mt-3 flex flex-col gap-2 border-t border-[#D8E1F0] pt-3 lg:mt-0 lg:w-[260px] lg:border-t-0 lg:pt-0">
                         <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 lg:grid-cols-2">
                           <Link href={"/listings/" + l.id} className="bd-btn bd-btn-secondary text-center">
                             View listing
@@ -234,20 +234,27 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
 
                         <DeleteListingButton listingId={String(l.id)} listingTitle={String(l.title || "this listing")} />
 
-                        <form action={updateStatus} className="rounded-2xl border border-black/10 bg-neutral-50 p-3">
-                          <input type="hidden" name="id" value={l.id} />
-                          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listing status</div>
-                          <div className="mt-2 flex gap-2">
-                            <select name="status" defaultValue={String(l.status)} className="bd-input flex-1">
-                              <option value="DRAFT">Draft</option>
-                              <option value="ACTIVE">Active</option>
-                              <option value="ENDED">Ended</option>
-                            </select>
-                            <button type="submit" className="bd-btn bd-btn-secondary text-center">
-                              Update
-                            </button>
-                          </div>
-                        </form>
+                        <details className="group rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3">
+                          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-extrabold text-[#0F172A]">
+                            <span>Manage status</span>
+                            <span className="rounded-full border border-[#D8E1F0] bg-white px-2.5 py-1 text-xs font-semibold text-[#64748B]">{statusLabel}</span>
+                          </summary>
+
+                          <form action={updateStatus} className="mt-3 border-t border-[#D8E1F0] pt-3">
+                            <input type="hidden" name="id" value={l.id} />
+                            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listing status</div>
+                            <div className="mt-2 grid grid-cols-[1fr_auto] gap-2">
+                              <select name="status" defaultValue={String(l.status)} className="bd-input min-w-0">
+                                <option value="DRAFT">Draft</option>
+                                <option value="ACTIVE">Active</option>
+                                <option value="ENDED">Ended</option>
+                              </select>
+                              <button type="submit" className="bd-btn bd-btn-secondary text-center">
+                                Update
+                              </button>
+                            </div>
+                          </form>
+                        </details>
                       </div>
                     </div>
                   </Card>
