@@ -166,13 +166,11 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <ThreadLiveRefresh />
           <SafetyNote />
 
-          <div className="px-1 text-sm font-extrabold text-[var(--bidra-ink)]">
-            Send a message
-          </div>
+          <div className="px-1 text-sm font-extrabold text-[var(--bidra-ink)]">Chat</div>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-3 shadow-sm sm:p-4">
+          <div className="rounded-3xl border border-black/10 bg-white p-2.5 shadow-sm sm:p-3">
             {messages.length ? (
-              <div className="flex max-h-[56vh] flex-col gap-3 overflow-auto pr-1">
+              <div className="flex flex-col gap-2">
                 {messages.map((m) => {
                   const mine = String(m.userId) === me;
                   const body = m.body;
@@ -183,7 +181,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                       <div className="max-w-[86%] sm:max-w-[72%]">
                         <div
                           className={
-                            "border px-4 py-3 text-sm leading-relaxed shadow-sm " +
+                            "border px-3.5 py-2.5 text-sm leading-relaxed shadow-sm " +
                             (mine
                               ? "rounded-3xl rounded-br-md border-black/10 bg-[var(--bidra-ink)] text-white"
                               : "rounded-3xl rounded-bl-md border-[#BFDBFE] bg-[#EFF6FF] text-[var(--bidra-ink)]")
@@ -212,7 +210,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               </div>
             )}
 
-            <div className="mt-3 border-t border-[#D8E1F0] pt-3">
+            <div className="mt-2 border-t border-[#D8E1F0] pt-2">
               <SendBox threadId={thread.id} />
             </div>
           </div>
