@@ -151,33 +151,32 @@ export default async function OrdersPage() {
                       </div>
                     </div>
 
-                    <div className="mt-1 flex flex-col gap-2 border-t border-[#D8E1F0] pt-3 lg:mt-0 lg:w-[220px] lg:border-t-0 lg:pt-0">
-                      <Link
-                        href={`/orders/${o.id}`}
-                        className="bd-btn bd-btn-secondary text-center"
-                      >
-                        Details
-                      </Link>
-
-                      <div className="grid grid-cols-2 gap-2">
+                    <div className="mt-1 border-t border-[#D8E1F0] pt-3 lg:mt-0 lg:w-[240px] lg:border-t-0 lg:pt-0">
+                      <div className="grid grid-cols-3 gap-2">
+                        <Link
+                          href={`/orders/${o.id}`}
+                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
+                        >
+                          Details
+                        </Link>
                         <Link
                           href={`/listings/${o.listingId}`}
-                          className="bd-btn bd-btn-secondary text-center"
+                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
                         >
-                          View listing
-                        </Link>
+                            Listing
+                          </Link>
 
                         <Link
                           href="/disputes"
-                          className="bd-btn bd-btn-secondary text-center"
+                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
                         >
-                          Need help?
+                          Help
                         </Link>
 
                         {feedbackDue ? (
                           <Link
                             href={`/orders/${o.id}/feedback`}
-                            className="bd-btn bd-btn-secondary text-center"
+                            className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
                           >
                             Leave feedback
                           </Link>
