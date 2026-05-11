@@ -8,6 +8,7 @@ import { formatAuDateTime } from "@/lib/date";
 import SendBox from "./components/send-box";
 import InboxBackButton from "./components/inbox-back-button";
 import ThreadActions from "./components/thread-actions";
+import ThreadLiveRefresh from "./components/thread-live-refresh";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -163,10 +164,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           </div>
 
           <SafetyNote />
-          <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950 shadow-sm">
-            <div className="font-extrabold">Chat freshness</div>
-            <p className="mt-1">This conversation uses stored Bidra messages with unread and sent/seen status based on thread activity. Bidra does not currently provide WebSocket live chat, typing indicators, mobile push notifications, attachment uploads, or guaranteed delivery receipts.</p>
-          </div>
+          <ThreadLiveRefresh />
 
           <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[var(--bidra-ink)] shadow-sm">
             <div className="font-extrabold">Handover checklist</div>
@@ -225,7 +223,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
           <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-5">
             <div className="text-sm font-semibold text-[var(--bidra-ink)]">Send a message</div>
             <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-              Keep messages focused on the item, pickup, postage, payment expectations, tracking, packaging, dispatch, and handover details. Refresh if you are waiting for the newest reply.
+              Keep messages focused on the item, pickup, postage, payment expectations, tracking, packaging, dispatch, and handover details.
             </div>
             <div className="mt-4">
               <SendBox threadId={thread.id} />

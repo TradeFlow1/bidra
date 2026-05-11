@@ -57,6 +57,7 @@ export default function SendBox({ threadId }: { threadId: string }) {
 
       setBody("")
       setSendState("sent")
+      window.dispatchEvent(new CustomEvent("bidra:message-sent"))
       router.refresh()
     } catch (e: unknown) {
       setErr(errorMessage(e))
