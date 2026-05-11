@@ -1,7 +1,6 @@
 import { labelCategory } from "@/lib/labels";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
-import type { ListingStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { Card, Badge } from "@/components/ui";
@@ -44,7 +43,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
     take: 100,
   });
 
-  async function updateStatus(formData: FormData) {
+  async function endListing(formData: FormData) {
     "use server";
     const { auth } = await import("@/lib/auth");
     const { prisma } = await import("@/lib/prisma");
@@ -55,42 +54,47 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
     if (!uid) redirect("/auth/login");
 
     const safe = (m: string) => encodeURIComponent(String(m || "").slice(0, 180));
-
     const id = String(formData.get("id") ?? "").trim();
-    const status = String(formData.get("status") ?? "").trim();
 
     if (!id) redirect("/dashboard/listings?err=" + safe("Missing listing id"));
-    if (!status) redirect("/dashboard/listings?err=" + safe("Missing status"));
-
-    const SELLER_ALLOWED = ["DRAFT", "ACTIVE", "ENDED"];
 
     try {
       const listing = await prisma.listing.findUnique({
         where: { id },
-        select: { id: true, sellerId: true },
+        select: { id: true, sellerId: true, status: true },
       });
 
-      if (!listing) { redirect("/dashboard/listings?err=" + safe("Listing not found")); return; }
-      if (listing.sellerId !== uid) { redirect("/dashboard/listings?err=" + safe("Not allowed")); return; }
-
-      if (!SELLER_ALLOWED.includes(status)) { redirect("/dashboard/listings?err=" + safe("Invalid status")); return; }
-
-      const statusUpper = String(status || "").toUpperCase();
-      const allowed: Record<string, boolean> = { DRAFT: true, ACTIVE: true, ENDED: true };
-      if (!allowed[statusUpper]) {
-        throw new Error("Invalid status");
+      if (!listing) {
+        redirect("/dashboard/listings?err=" + safe("Listing not found"));
+        return;
       }
-      const nextStatus: ListingStatus = statusUpper as ListingStatus;
+
+      if (listing.sellerId !== uid) {
+        redirect("/dashboard/listings?err=" + safe("Not allowed"));
+        return;
+      }
+
+      const currentStatus = String(listing.status || "").toUpperCase();
+
+      if (currentStatus === "SOLD") {
+        redirect("/dashboard/listings?err=" + safe("Sold listings cannot be changed"));
+        return;
+      }
+
+      if (currentStatus !== "ACTIVE") {
+        redirect("/dashboard/listings?err=" + safe("Only active listings can be ended from here"));
+        return;
+      }
 
       await prisma.listing.update({
         where: { id },
-        data: { status: nextStatus },
+        data: { status: "ENDED" },
       });
 
       redirect("/dashboard/listings?ok=1");
     } catch (e: any) {
-      console.error("dashboard/listings updateStatus failed:", e);
-      redirect("/dashboard/listings?err=" + safe("Couldn't update"));
+      console.error("dashboard/listings endListing failed:", e);
+      redirect("/dashboard/listings?err=" + safe("Could not end listing"));
     }
   }
 
@@ -232,29 +236,43 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                           </Link>
                         </div>
 
-                        <DeleteListingButton listingId={String(l.id)} listingTitle={String(l.title || "this listing")} />
+                        {statusLabel === "SOLD" ? null : (
+                          <DeleteListingButton listingId={String(l.id)} listingTitle={String(l.title || "this listing")} />
+                        )}
 
-                        <details className="group rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3">
-                          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-extrabold text-[#0F172A]">
-                            <span>Manage status</span>
-                            <span className="rounded-full border border-[#D8E1F0] bg-white px-2.5 py-1 text-xs font-semibold text-[#64748B]">{statusLabel}</span>
-                          </summary>
-
-                          <form action={updateStatus} className="mt-3 border-t border-[#D8E1F0] pt-3">
+                        {statusLabel === "ACTIVE" ? (
+                          <form action={endListing} className="rounded-2xl border border-amber-200 bg-amber-50 p-3">
                             <input type="hidden" name="id" value={l.id} />
-                            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listing status</div>
-                            <div className="mt-2 grid grid-cols-[1fr_auto] gap-2">
-                              <select name="status" defaultValue={String(l.status)} className="bd-input min-w-0">
-                                <option value="DRAFT">Draft</option>
-                                <option value="ACTIVE">Active</option>
-                                <option value="ENDED">Ended</option>
-                              </select>
-                              <button type="submit" className="bd-btn bd-btn-secondary text-center">
-                                Update
+                            <div className="flex items-center justify-between gap-3">
+                              <div>
+                                <div className="text-sm font-extrabold text-amber-950">Active listing</div>
+                                <div className="mt-1 text-xs font-medium text-amber-900">Visible to buyers.</div>
+                              </div>
+                              <button type="submit" className="rounded-xl border border-amber-300 bg-white px-4 py-2 text-sm font-extrabold text-amber-950 shadow-sm transition hover:bg-amber-100">
+                                End
                               </button>
                             </div>
                           </form>
-                        </details>
+                        ) : statusLabel === "DRAFT" ? (
+                          <div className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3">
+                            <div className="text-sm font-extrabold text-[#0F172A]">Draft listing</div>
+                            <div className="mt-1 text-xs font-medium text-[#64748B]">Use Edit listing to finish and publish.</div>
+                          </div>
+                        ) : statusLabel === "ENDED" ? (
+                          <div className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3">
+                            <div className="text-sm font-extrabold text-[#0F172A]">Ended listing</div>
+                            <div className="mt-1 text-xs font-medium text-[#64748B]">Review, edit, or relist from the listing editor.</div>
+                          </div>
+                        ) : statusLabel === "SOLD" ? (
+                          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-3">
+                            <div className="text-sm font-extrabold text-emerald-950">Sold listing</div>
+                            <div className="mt-1 text-xs font-medium text-emerald-900">Locked to prevent accidental reactivation.</div>
+                          </div>
+                        ) : (
+                          <div className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3">
+                            <div className="text-sm font-extrabold text-[#0F172A]">Status: {statusLabel}</div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </Card>
