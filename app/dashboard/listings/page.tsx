@@ -241,38 +241,21 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                         )}
 
                         {statusLabel === "ACTIVE" ? (
-                          <form action={endListing} className="rounded-2xl border border-amber-200 bg-amber-50 p-3">
+                          <form action={endListing}>
                             <input type="hidden" name="id" value={l.id} />
-                            <div className="flex items-center justify-between gap-3">
-                              <div>
-                                <div className="text-sm font-extrabold text-amber-950">Active listing</div>
-                                <div className="mt-1 text-xs font-medium text-amber-900">Visible to buyers.</div>
-                              </div>
-                              <button type="submit" className="rounded-xl border border-amber-300 bg-white px-4 py-2 text-sm font-extrabold text-amber-950 shadow-sm transition hover:bg-amber-100">
-                                End
-                              </button>
-                            </div>
+                            <button type="submit" className="w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">
+                              End listing
+                            </button>
                           </form>
                         ) : statusLabel === "DRAFT" ? (
-                          <div className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3">
-                            <div className="text-sm font-extrabold text-[#0F172A]">Draft listing</div>
-                            <div className="mt-1 text-xs font-medium text-[#64748B]">Use Edit listing to finish and publish.</div>
+                          <div className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3 text-xs font-semibold text-[#64748B]">
+                            Draft. Edit to finish and publish.
                           </div>
                         ) : statusLabel === "ENDED" ? (
-                          <div className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3">
-                            <div className="text-sm font-extrabold text-[#0F172A]">Ended listing</div>
-                            <div className="mt-1 text-xs font-medium text-[#64748B]">Review, edit, or relist from the listing editor.</div>
+                          <div className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3 text-xs font-semibold text-[#64748B]">
+                            Ended. Edit to review or relist.
                           </div>
-                        ) : statusLabel === "SOLD" ? (
-                          <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-3">
-                            <div className="text-sm font-extrabold text-emerald-950">Sold listing</div>
-                            <div className="mt-1 text-xs font-medium text-emerald-900">Locked to prevent accidental reactivation.</div>
-                          </div>
-                        ) : (
-                          <div className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] p-3">
-                            <div className="text-sm font-extrabold text-[#0F172A]">Status: {statusLabel}</div>
-                          </div>
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   </Card>
