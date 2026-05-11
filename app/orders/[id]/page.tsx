@@ -5,7 +5,6 @@ import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
-import SafetyCallout from "../../../components/safety-callout";
 import { BackButton } from "@/components/ui/back-button";
 
 export const dynamic = "force-dynamic";
@@ -40,10 +39,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   if (!order) {
     return (
-      <main className="bd-container py-10">
-        <div className="mx-auto mb-4 w-full max-w-5xl"><BackButton href="/orders" label="Back to orders" /></div>
-        <div className="container max-w-5xl space-y-5">
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+      <main className="bd-container py-6 sm:py-10">
+        <div className="mx-auto mb-4 w-full max-w-4xl"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-4xl space-y-3 sm:space-y-4">
+          <div className="rounded-[28px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
           </div>
@@ -61,10 +60,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   if (order.buyerId !== user.id && order.listing?.sellerId !== user.id) {
     return (
-      <main className="bd-container py-10">
-        <div className="mx-auto mb-4 w-full max-w-5xl"><BackButton href="/orders" label="Back to orders" /></div>
-        <div className="container max-w-5xl space-y-5">
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+      <main className="bd-container py-6 sm:py-10">
+        <div className="mx-auto mb-4 w-full max-w-4xl"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-4xl space-y-3 sm:space-y-4">
+          <div className="rounded-[28px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
           </div>
@@ -86,12 +85,12 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const isBuyer = order.buyerId === user.id;
   const isSeller = order.listing?.sellerId === user.id;
   const roleLabel = isBuyer ? "Buyer" : "Seller";
-  const statusLabel = order.outcome === "COMPLETED" ? "COMPLETED" : "SOLD - HANDOVER PENDING";
+  const statusLabel = order.outcome === "COMPLETED" ? "Completed" : "Sold";
   const primaryNextAction = order.outcome === "COMPLETED"
-    ? "Leave feedback if you have not already, or keep the order record for reference."
-    : "Message the other person to confirm payment, pickup or postage, tracking, packaging, dispatch timing, and handover details.";
+    ? "Feedback is available for this completed order."
+    : "Arrange payment, pickup or postage, and handover with the other person.";
   const primaryNextHref = order.outcome === "COMPLETED" ? feedbackHref : messageHref;
-  const primaryNextLabel = order.outcome === "COMPLETED" ? "Review feedback options" : (isBuyer ? "Message seller" : "Message buyer");
+  const primaryNextLabel = order.outcome === "COMPLETED" ? "Feedback" : (isBuyer ? "Message seller" : "Message buyer");
   const canLeave =
     order.outcome === "COMPLETED" &&
     ((isBuyer && !order.buyerFeedbackAt) || (isSeller && !order.sellerFeedbackAt));
@@ -100,10 +99,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     ((isBuyer && !!order.buyerFeedbackAt) || (isSeller && !!order.sellerFeedbackAt));
 
   return (
-    <main className="bd-container py-10">
-        <div className="mx-auto mb-4 w-full max-w-5xl"><BackButton href="/orders" label="Back to orders" /></div>
-        <div className="container max-w-5xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+    <main className="bd-container py-6 sm:py-10">
+        <div className="mx-auto mb-4 w-full max-w-4xl"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-4xl space-y-3 sm:space-y-4">
+        <div className="rounded-[28px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="flex flex-wrap items-center gap-2">
@@ -116,7 +115,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
               <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Sold item</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                This order confirms the listing has sold. Use Messages to agree payment, pickup or postage, tracking, packaging, dispatch timing, and handover details before completing the transaction.
+                Open the order, arrange the handover, and keep important details in Messages.
               </p>
               <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
                 <div className="font-extrabold">Next action</div>
@@ -127,16 +126,16 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              <Link href={primaryNextHref} className="bd-btn bd-btn-primary text-center">
+            <div className="grid grid-cols-3 gap-2 lg:w-[270px]">
+              <Link href={primaryNextHref} className="rounded-2xl bg-[#061126] px-3 py-3 text-center text-xs font-extrabold text-white shadow-sm transition hover:opacity-90">
                 {primaryNextLabel}
               </Link>
-              <Link href={messageHref} className="bd-btn bd-btn-secondary text-center">
-                {isBuyer ? "Message seller" : "Message buyer"}
+              <Link href={listingHref} className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-3 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
+                Item
               </Link>
-              <Link href="/orders" className="bd-btn bd-btn-secondary text-center">Orders</Link>
-              <Link href={listingHref} className="bd-btn bd-btn-secondary text-center">View listing</Link>
-              <Link href="/disputes" className="bd-btn bd-btn-secondary text-center">Need help?</Link>
+              <Link href="/disputes" className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-3 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
+                Help
+              </Link>
               {canLeave ? (
                 <Link href={feedbackHref} className="bd-btn bd-btn-secondary text-center">
                   Leave feedback
@@ -174,46 +173,32 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           </div>
         </div>
         <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="text-sm font-extrabold bd-ink">Post-sale next steps</div>
-            <ul className="mt-3 list-disc pl-5 text-sm bd-ink2 space-y-2">
-              <li>Use Messages to confirm payment, pickup or postage, tracking, packaging, dispatch timing, and handover details before completing the transaction.</li>
-              <li>If the order is pending, confirm payment, pickup or postage, carrier, tracking expectations, and handover details in Messages.</li>
-              <li>If the order is completed, the next action is to leave feedback if it is available.</li>
-              <li>Keep important agreements and handover details in Bidra Messages.</li>
-              <li>Follow safety guidance before final handover or postage dispatch.</li>
+          <Card className="rounded-[24px] border border-black/10 bg-white p-4 shadow-sm sm:p-5">
+            <div className="text-sm font-extrabold bd-ink">Order checklist</div>
+            <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm bd-ink2">
+              <li>Confirm payment, pickup or postage, and handover details before exchange.</li>
+              <li>Keep important agreements in Bidra Messages.</li>
+              <li>Leave feedback after the order is completed.</li>
             </ul>
-            <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-              <div className="font-extrabold">Handover safety checkpoint</div>
-            <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
-              <div className="font-extrabold">Shipping label status</div>
-              <p className="mt-1">Bidra does not currently create shipping labels, calculate live postage rates, insure parcels, or manage Australia Post, Sendle, courier, or carrier claims. Agree postage details in Messages and keep tracking evidence.</p>
-            </div>
+
+            <details className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+              <summary className="cursor-pointer select-none font-extrabold">Handover safety checkpoint</summary>
               <ul className="mt-2 list-disc space-y-1.5 pl-5">
-                <li>Confirm the exact item, amount, payment expectation, pickup suburb or postage method, and timing before handover.</li>
-                <li>Use a public pickup location where practical and inspect the item before money changes hands.</li>
-                <li>For postage, agree carrier, tracking, packaging, dispatch timing, item photos before dispatch, and who carries delivery risk before sending.</li>
-                <li>If the other person changes terms suddenly or asks for unsafe payment methods, stop and contact Support.</li>
+                <li>Confirm the item, amount, payment expectation, location or postage method, and timing.</li>
+                <li>Use a public pickup location where practical.</li>
+                <li>For postage, agree carrier, tracking, packaging, dispatch timing, and who carries delivery risk.</li>
+                <li>If terms suddenly change or payment feels unsafe, stop and contact Support.</li>
               </ul>
-            </div>
+            </details>
           </Card>
             <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
               <div className="font-extrabold">Need help with this order?</div>
-              <p className="mt-1">Use the Resolution Centre to collect the right order ID, listing link, Messages, screenshots, pickup notes, carrier name, tracking number, packaging photos, dispatch proof, and postage details before contacting support.</p>
+              <p className="mt-1">Use the Resolution Centre if pickup, postage, payment, or handover does not go as agreed.</p>
               <div className="mt-3 flex flex-wrap gap-2">
-                <Link href="/disputes" className="bd-btn bd-btn-secondary text-center">Open resolution centre</Link>
+                <Link href="/disputes" className="bd-btn bd-btn-secondary text-center">Resolution centre</Link>
                 <Link href="/contact" className="bd-btn bd-btn-secondary text-center">Contact support</Link>
               </div>
             </div>
-
-          <SafetyCallout title="Safety guidance">
-            <ul className="list-disc pl-5 space-y-2">
-              <li>Keep payment, pickup, postage method, carrier, tracking, packaging, dispatch, and important details in <Link className="bd-link font-semibold" href="/messages">Messages</Link>.</li>
-              <li>Meet in a safe public place for pickup where practical.</li>
-              <li>Use tracked delivery where appropriate, and save the tracking number and dispatch receipt.</li>
-              <li>If anything feels suspicious, stop and report it.</li>
-            </ul>
-          </SafetyCallout>
         </div>
       </div>
     </main>
