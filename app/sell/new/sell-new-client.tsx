@@ -472,7 +472,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   }
 
   return (
-    <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-2.5 shadow-sm sm:p-4">
+    <div className="rounded-[22px] border border-[#D8E1F0] bg-white p-2 shadow-sm sm:p-4">
       {err && (
         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div>
       )}
@@ -495,13 +495,19 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
       )}
 
       <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="grid gap-2.5 sm:gap-3">
-        <section className="bd-form-card">
-          <h2 className="text-base font-extrabold bd-ink">1) Photos</h2>
-          <p className="mt-1 text-xs bd-ink2">Add at least one clear photo of the actual item.</p>
+        <section className="bd-form-card p-3 sm:p-5">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <h2 className="text-base font-extrabold bd-ink">1) Photos</h2>
+              <p className="mt-1 text-xs bd-ink2">Add at least one clear photo.</p>
+            </div>
+            <span className={files.length > 0 ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
+              {files.length}/10
+            </span>
+          </div>
 
           <div className="mt-3">
-            <label className="bd-label" htmlFor="field-photos-camera">Photos</label>
-            <div className="mt-2 flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap">
               <button
                 type="button"
                 className="bd-btn bd-btn-secondary"
@@ -561,8 +567,13 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </section>
 
-        <section className="bd-form-card">
-          <h2 className="text-base font-extrabold bd-ink">2) Item details</h2>
+        <details className="bd-form-card p-3 sm:p-5" open={!(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim())}>
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-extrabold bd-ink [&::-webkit-details-marker]:hidden">
+            <span>2) Item details</span>
+            <span className={(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim()) ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
+              {(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim()) ? "Done" : "Open"}
+            </span>
+          </summary>
           <p className="mt-1 text-xs bd-ink2">Title, category, condition, description, and location.</p>
           <div className="mt-3 grid gap-2">
             <div>
@@ -678,9 +689,9 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               <input id="field-location" className="mt-1 bd-input" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="4000 Brisbane, QLD" />
             </div>
           </div>
-        </section>
+        </details>
 
-        <section className="bd-form-card">
+        <section className="bd-form-card p-3 sm:p-5">
           <h2 className="text-base font-extrabold bd-ink">3) Price</h2>
           <div className="mt-3 grid gap-2">
             <div>
@@ -758,23 +769,12 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             </div>
           </div>
 
-          {!publishReady ? (
-            <div className="mt-3 rounded-[20px] border border-amber-200 bg-amber-50 p-3">
-              <div className="text-sm font-extrabold text-amber-950">Finish these first</div>
-              <ul className="mt-2 flex flex-wrap gap-2 text-xs text-amber-950">
-                {missingRequirements.map((item) => (
-                  <li key={item} className="rounded-full border border-amber-200 bg-white/70 px-2.5 py-1 font-semibold">{item}</li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <div className="mt-3 rounded-[20px] border border-emerald-200 bg-emerald-50 p-3 text-sm font-extrabold text-emerald-950">
-              Ready to publish.
-            </div>
-          )}
+          <div className={publishReady ? "mt-3 rounded-[20px] border border-emerald-200 bg-emerald-50 p-3 text-sm font-extrabold text-emerald-950" : "mt-3 rounded-[20px] border border-amber-200 bg-amber-50 p-3 text-sm font-extrabold text-amber-950"}>
+            {publishReady ? "Ready to publish." : "Complete the required fields above to publish."}
+          </div>
         </details>
 
-        <button type="submit" disabled={busy || !publishReady} className="sticky bottom-3 z-20 inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033] disabled:cursor-not-allowed disabled:opacity-60">
+        <button type="submit" disabled={busy || !publishReady} className="sticky bottom-2 z-20 inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033] disabled:cursor-not-allowed disabled:opacity-60 sm:static">
           {busy ? "Saving..." : "Publish listing"}
         </button>
       </form>
