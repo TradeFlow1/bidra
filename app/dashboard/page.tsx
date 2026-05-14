@@ -197,12 +197,12 @@ export default async function DashboardPage({
   ];
 
   return (
-    <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-      <div className="container max-w-6xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+    <main className="bd-container py-4 sm:py-8">
+      <div className="mx-auto mb-3 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+      <div className="container max-w-5xl space-y-3 sm:space-y-4">
+        <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-5">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Current account role</div>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
+          <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">
             {roleSummary}
           </h1>
           <p className="mt-2 max-w-3xl text-sm bd-ink2 sm:text-base">
@@ -215,19 +215,32 @@ export default async function DashboardPage({
           </div>
         </div>
 
-        <section className="rounded-3xl border border-[#D8E1F0] bg-white p-5 shadow-sm">
+        <nav className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+          <Link href="/dashboard/listings" className="rounded-2xl border border-black/10 bg-white px-3 py-3 text-center text-sm font-extrabold text-[#0F172A] shadow-sm hover:bg-black/5">Selling</Link>
+          <Link href="/orders" className="rounded-2xl border border-black/10 bg-white px-3 py-3 text-center text-sm font-extrabold text-[#0F172A] shadow-sm hover:bg-black/5">Buying</Link>
+          <Link href="/messages" className="rounded-2xl border border-black/10 bg-white px-3 py-3 text-center text-sm font-extrabold text-[#0F172A] shadow-sm hover:bg-black/5">Messages</Link>
+          <Link href="/watchlist" className="rounded-2xl border border-black/10 bg-white px-3 py-3 text-center text-sm font-extrabold text-[#0F172A] shadow-sm hover:bg-black/5">Saved</Link>
+          <Link href="#account-status" className="rounded-2xl border border-black/10 bg-white px-3 py-3 text-center text-sm font-extrabold text-[#0F172A] shadow-sm hover:bg-black/5">Account</Link>
+        </nav>
+
+        <section id="account-status" className="scroll-mt-24 rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-sm font-extrabold bd-ink">Account trust signals</div>
+              <div className="text-sm font-extrabold bd-ink">Account status</div>
               <p className="mt-1 text-sm leading-6 bd-ink2">
-                These signals help buyers and sellers understand account context.
+                Your marketplace access, account signals, and policy standing in one place.
               </p>
             </div>
             <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] px-4 py-3 text-sm font-extrabold text-[#0F172A]">
               {accountSignalLabel}
             </div>
           </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <details className="mt-4 rounded-2xl border border-black/10 bg-[#F8FAFC] p-3">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-extrabold text-[#0F172A] [&::-webkit-details-marker]:hidden">
+              <span>Account signals</span>
+              <span className="rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-[#0F172A]">{accountSignalLabel}</span>
+            </summary>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-2xl border border-black/10 bg-[#F8FAFC] p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Email</div>
               <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{user.emailVerified ? "Confirmed" : "Not confirmed"}</div>
@@ -249,9 +262,10 @@ export default async function DashboardPage({
               <div className="mt-1 text-sm text-neutral-600">{trustSignalSummary}. Policy strikes: {user.policyStrikes ?? 0}.</div>
             </div>
           </div>
+          </details>
           <div className="mt-4 flex flex-wrap gap-2">
             <Link href="/auth/phone-verify" className="bd-btn bd-btn-secondary text-center">Confirm phone</Link>
-            <Link href="/account/restrictions" className="bd-btn bd-btn-secondary text-center">View account status</Link>
+            <Link href="#account-status" className="bd-btn bd-btn-secondary text-center">Account status</Link>
             <Link href="/support" className="bd-btn bd-btn-ghost text-center">What these signals mean</Link>
           </div>
         </section>
@@ -275,32 +289,28 @@ export default async function DashboardPage({
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Link href="/dashboard/listings" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Seller listings</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Selling</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{myListingsCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Manage your listings, drafts, and offers.</div>
+            <div className="mt-1 text-sm text-neutral-600">Listings, drafts, offers, and seller tools.</div>
           </Link>
 
           <Link href="/orders" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Buyer orders</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Buying</div>
             <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{ordersAsBuyerCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Review purchases and handover follow-ups.</div>
+            <div className="mt-1 text-sm text-neutral-600">Purchases, sales, handover, and feedback.</div>
           </Link>
 
-          <Link href="/orders" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Follow-ups</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{counts.actionOrders}</div>
-            <div className="mt-1 text-sm text-neutral-600">Messages, orders, and optional feedback.</div>
+          <Link href="/messages" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Messages</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{counts.unreadThreads}</div>
+            <div className="mt-1 text-sm text-neutral-600">Buyer and seller conversations.</div>
           </Link>
 
-          <Link href="/account/restrictions" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Account status</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">
-              {isBlocked || !adult.ok ? "Review" : "Clear"}
-            </div>
-            <div className="mt-1 text-sm text-neutral-600">Restrictions and account status.</div>
+          <Link href="/watchlist" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-black/5">
+            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Saved</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">Open</div>
+            <div className="mt-1 text-sm text-neutral-600">Watchlist and saved listings.</div>
           </Link>
-
-
         </div>
 
         {saved ? (
@@ -316,8 +326,8 @@ export default async function DashboardPage({
           </div>
         ) : null}
 
-        <div id="account-details" className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <div id="account-details" className="grid gap-3 lg:grid-cols-[0.95fr_1.05fr]">
+          <Card className="rounded-[24px] border border-black/10 bg-white p-4 shadow-sm sm:p-5">
             <div className="text-sm font-extrabold bd-ink">Account details</div>
             <div className="mt-1 text-sm bd-ink2">Role: {roleSummary}.</div>
             <div className="mt-4 space-y-4">
@@ -347,7 +357,7 @@ export default async function DashboardPage({
             </div>
           </Card>
 
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-[24px] border border-black/10 bg-white p-4 shadow-sm sm:p-5">
             <form action={updateProfile} className="flex flex-col gap-5">
               <div>
                 <div className="text-sm font-extrabold bd-ink">Edit account</div>

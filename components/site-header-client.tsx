@@ -91,13 +91,13 @@ export default function SiteHeaderClient({
         </div>
         <div className="p-2">
           {rawRole === "ADMIN" ? <Link href="/admin" className={menuLinkClass} onClick={closeMenu}>Admin workspace</Link> : null}
-          <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>Account dashboard</Link>
-          <Link href="/dashboard/listings" className={menuLinkClass} onClick={closeMenu}>Seller listings</Link>
-          <Link href="/orders" className={menuLinkClass} onClick={closeMenu}>Buyer orders</Link>
-          <Link href="/messages" className={menuLinkClass} onClick={closeMenu}>Buyer / seller messages</Link>
-          <Link href="/watchlist" className={menuLinkClass} onClick={closeMenu}>Watchlist</Link>
+          <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>Dashboard</Link>
+          <Link href="/dashboard/listings" className={menuLinkClass} onClick={closeMenu}>Listings</Link>
+          <Link href="/orders" className={menuLinkClass} onClick={closeMenu}>Orders</Link>
+          <Link href="/messages" className={menuLinkClass} onClick={closeMenu}>Messages</Link>
+          <Link href="/watchlist" className={menuLinkClass} onClick={closeMenu}>Saved</Link>
           <Link href="/notifications" className={menuLinkClass} onClick={closeMenu}>Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}</Link>
-          <Link href="/account/restrictions" className={menuLinkClass} onClick={closeMenu}>Account status</Link>
+          <Link href="/dashboard#account-status" className={menuLinkClass} onClick={closeMenu}>Account status</Link>
           <div className="mt-2 border-t border-black/10 pt-2">
             <Link href="/logout" className={menuLinkClass} onClick={closeMenu}>Sign out</Link>
           </div>
@@ -114,7 +114,7 @@ export default function SiteHeaderClient({
             <Link href="/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Browse</Link>
             <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buy now</Link>
             <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Make an offer</Link>
-            <Link href="/watchlist" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Watchlist</Link>
+            <Link href="/watchlist" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Saved</Link>
 </div>
 
           {isAuthed ? (
@@ -126,13 +126,13 @@ export default function SiteHeaderClient({
               </div>
               <div className="grid grid-cols-1 gap-2">
                 {rawRole === "ADMIN" ? <Link href="/admin" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Admin workspace</Link> : null}
-                <Link href="/dashboard" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Account dashboard</Link>
-                <Link href="/dashboard/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Seller listings</Link>
-                <Link href="/messages" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buyer / seller messages</Link>
-                <Link href="/orders" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buyer orders</Link>
-                <Link href="/watchlist" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Watchlist</Link>
+                <Link href="/dashboard" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Dashboard</Link>
+                <Link href="/dashboard/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Listings</Link>
+                <Link href="/messages" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Messages</Link>
+                <Link href="/orders" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Orders</Link>
+                <Link href="/watchlist" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Saved</Link>
                 <Link href="/notifications" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}</Link>
-                <Link href="/account/restrictions" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Account status</Link>
+                <Link href="/dashboard#account-status" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Account status</Link>
                 <div className="mt-2 border-t border-black/10 pt-2">
                   <Link href="/logout" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Sign out</Link>
                 </div>
