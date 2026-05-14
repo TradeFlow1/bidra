@@ -3,6 +3,7 @@ export const revalidate = 0;
 
 import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
+import { MarketplaceIcon } from "@/components/marketplace-visuals";
 
 const actionClass = "inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto";
 
@@ -39,55 +40,46 @@ function FaqItem(props: {
 
 export default function HelpPage() {
   return (
-    <main className="bd-container py-6 sm:py-10">
+    <main className="bg-white"><div className="bd-container py-6 sm:py-10">
       <div className="mx-auto mb-4 w-full max-w-6xl px-4">
         <BackButton href="/" label="Back to home" />
       </div>
 
       <div className="container max-w-6xl space-y-5">
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Help</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help</h1>
-              <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Find the right place for listings, offers, orders, accounts, reports, and support.
-              </p>
-            </div>
-
-            <div className="grid gap-2 sm:flex sm:flex-wrap">
-              <Link href="/support" className={actionClass}>
-                Support
-              </Link>
-              <Link href="/contact" className={actionClass}>
-                Contact support
-              </Link>
-            </div>
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-[#F3F7FF] p-5 shadow-[0_18px_55px_rgba(28,50,84,0.08)] sm:p-7">
+          <div className="max-w-3xl">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Support hub</div>
+            <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help Centre</h1>
+            <p className="mt-2 text-sm bd-ink2 sm:text-base">Find help for buying safely, selling on Bidra, account settings, offers, and handover.</p>
+          </div>
+          <div className="mt-5 flex min-h-12 items-center gap-3 rounded-2xl border border-[#D7E2F1] bg-white px-4 text-sm font-semibold text-[#607089] shadow-sm">
+            <MarketplaceIcon name="search" className="h-5 w-5 text-[#0B4DFF]" />
+            <span>Search help articles</span>
           </div>
         </section>
 
         <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           <HelpCard
-            title="How it works"
-            desc="Listings, offers, orders, messages, pickup, and postage."
+            title="Getting started"
+            desc="Learn how Bidra works."
             href="/how-it-works"
             cta="Open guide"
           />
           <HelpCard
-            title="Support"
-            desc="Reports, account issues, orders, and marketplace rules."
+            title="Buying safely"
+            desc="Tips for a safe experience."
             href="/support"
             cta="Open support"
           />
           <HelpCard
-            title="Contact support"
-            desc="Account, order, listing, or technical issues."
+            title="Selling on Bidra"
+            desc="How to list and sell."
             href="/contact"
             cta="Contact support"
           />
           <HelpCard
-            title="Prohibited items"
-            desc="Check what cannot be listed before selling."
+            title="Account & settings"
+            desc="Manage your account."
             href="/legal/prohibited-items"
             cta="View rules"
           />
@@ -133,6 +125,6 @@ export default function HelpPage() {
           </div>
         </section>
       </div>
-    </main>
+    </div></main>
   );
 }

@@ -8,6 +8,7 @@ import { getNotificationCounts } from "@/lib/notifications";
 import { Card, Button, Input } from "@/components/ui";
 import { BackButton } from "@/components/ui/back-button";
 import AccountNav from "@/components/account-nav";
+import { AvatarPlaceholder } from "@/components/marketplace-visuals";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -198,21 +199,28 @@ export default async function DashboardPage({
   ];
 
   return (
-    <main className="bd-container py-4 sm:py-8">
+    <main className="bg-white"><div className="bd-container py-4 sm:py-8">
       <div className="mx-auto mb-3 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
       <div className="container max-w-5xl space-y-3 sm:space-y-4">
-        <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Current account role</div>
-          <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">
-            {roleSummary}
-          </h1>
-          <p className="mt-2 max-w-3xl text-sm bd-ink2 sm:text-base">
-            Manage your buying, selling, messages, and account details.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {ordersAsBuyerCount > 0 ? <Pill tone="ok">{buyerModeSummary}</Pill> : <Pill>{buyerModeSummary}</Pill>}
-            {myListingsCount > 0 ? <Pill tone="ok">{sellerModeSummary}</Pill> : <Pill>{sellerModeSummary}</Pill>}
-            {isAdminAccount ? <Pill tone="ok">Admin workspace enabled</Pill> : null}
+        <div className="overflow-hidden rounded-[30px] border border-[#D7E2F1] bg-white shadow-[0_18px_55px_rgba(28,50,84,0.08)]">
+          <div className="h-28 bg-[linear-gradient(135deg,#DCEBFF,#F8FAFF)]" />
+          <div className="p-4 pt-0 sm:p-5 sm:pt-0">
+            <div className="-mt-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div className="flex items-end gap-4">
+                <AvatarPlaceholder label={displayName} size="h-20 w-20" />
+                <div>
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Marketplace profile</div>
+                  <h1 className="mt-1 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">{displayName}</h1>
+                  <p className="mt-1 text-sm bd-ink2">{locationSummary || roleSummary}</p>
+                </div>
+              </div>
+              <Link href="/dashboard/listings" className="bd-btn bd-btn-primary rounded-2xl">My listings</Link>
+            </div>
+            <div className="mt-5 grid gap-3 sm:grid-cols-4">
+              {[['Listings', myListingsCount], ['Buying', ordersAsBuyerCount], ['Unread', counts.unreadThreads], ['Actions', counts.actionOrders]].map((stat) => (
+                <div key={stat[0]} className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-3 text-center"><div className="text-2xl font-black text-[#06132B]">{stat[1]}</div><div className="mt-1 text-xs font-bold text-[#607089]">{stat[0]}</div></div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -417,7 +425,7 @@ export default async function DashboardPage({
           </Card>
         </div>
       </div>
-    </main>
+    </div></main>
   );
 }
 

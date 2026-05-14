@@ -354,23 +354,42 @@ export default async function ListingsPage({
   );
 
   return (
-    <main className="bg-[#F4F7FB]">
+    <main className="bg-white">
       <div className="bd-shell py-5 sm:py-7">
         <BackButton href="/" label="Back to home" />
         <section className="bd-page-hero mt-4 p-5 sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#607089]">Search / listings</div>
-              <h1 className="mt-2 text-3xl font-black tracking-tight text-[#07152E] sm:text-4xl">All listings</h1>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#526173]">Search local items, filter by category and location, then buy now or make an offer.</p>
+              <h1 className="mt-2 text-3xl font-black tracking-tight text-[#07152E] sm:text-4xl">Find local deals</h1>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#526173]">Search items, brands or keywords. Buy now, make an offer, and arrange handover locally.</p>
             </div>
             <Link href={buildHref({ q, category, location, condition, min, max, sort })} className="bd-btn bd-btn-secondary rounded-2xl">Save search</Link>
           </div>
         </section>
 
+        <form action="/listings" className="mt-4 grid gap-2 rounded-[24px] border border-[#D7E2F1] bg-white p-3 shadow-sm xl:hidden">
+          <label className="sr-only" htmlFor="mobile-listing-search">Search listings</label>
+          <div className="flex gap-2">
+            <input id="mobile-listing-search" name="q" defaultValue={q} placeholder="Search items, brands or keywords" className="min-w-0 flex-1 rounded-2xl border border-[#D8E1F0] bg-[#F8FAFF] px-4 text-sm font-semibold text-[#0F172A] outline-none focus:border-[#0B4DFF] focus:bg-white focus:ring-4 focus:ring-blue-100" />
+            <button type="submit" className="bd-btn bd-btn-primary rounded-2xl px-4">Search</button>
+          </div>
+          <input type="hidden" name="category" defaultValue={category} />
+          <input type="hidden" name="location" defaultValue={location} />
+          <input type="hidden" name="type" defaultValue={type} />
+          <input type="hidden" name="condition" defaultValue={condition} />
+          <input type="hidden" name="min" defaultValue={min} />
+          <input type="hidden" name="max" defaultValue={max} />
+          <input type="hidden" name="sort" defaultValue={sort} />
+          <div className="flex items-center justify-between gap-2 text-xs font-semibold text-[#607089]">
+            <span>{listings.length} active results</span>
+            <span>Use filters to refine nearby deals</span>
+          </div>
+        </form>
+
         <section className="mt-5 grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[16rem_minmax(0,1fr)]">
           <aside className="min-w-0 xl:sticky xl:top-24 xl:self-start">
-            <div className="overflow-hidden bd-card">
+            <div className="overflow-hidden rounded-[26px] border border-[#D7E2F1] bg-white shadow-[0_14px_45px_rgba(28,50,84,0.07)]">
               <div className="p-4 sm:p-5">
                 <MobileFiltersToggle>
                   <FiltersForm />
@@ -395,7 +414,7 @@ export default async function ListingsPage({
 
           <div className="space-y-3">
             <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4" role="status" aria-live="polite">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse by category</h2>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Sale type and categories</h2>
               <p className="mt-1 text-xs text-[#64748B]"></p>
               <div className="mt-3 flex flex-wrap gap-2">
                 <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#0F172A]">All active listings</Link>
@@ -502,6 +521,7 @@ export default async function ListingsPage({
                         endsAt: (listing as unknown as { endsAt?: string | Date | null }).endsAt ?? null,
                         offerCount: (listing as unknown as { _count?: { offers?: number } })._count?.offers ?? 0,
                         currentOffer,
+                        createdAt: listing.createdAt,
                         seller: {
                           name: listing.seller?.name || listing.seller?.username || null,
                           memberSince: listing.seller?.createdAt ?? null,

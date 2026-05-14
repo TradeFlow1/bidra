@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import SearchBar from "./search-bar";
+import BrandLogo from "./brand-logo";
 
 type SessionLike = {
   user?: {
@@ -121,11 +121,11 @@ export default function SiteHeaderClient({
 
   return (
     <header className="sticky top-0 z-[80] border-b border-[#DDE7F4] bg-white/95 text-[#0F172A] shadow-[0_10px_35px_rgba(30,49,78,0.08)] backdrop-blur-xl">
-      <div className="mx-auto hidden w-full max-w-7xl grid-cols-[auto_1fr_minmax(16rem,23rem)_auto] items-center gap-6 px-4 py-3 md:grid lg:px-6">
-        <Link href="/" className="relative h-9 w-28 shrink-0" aria-label="Bidra home">
-          <Image src="/brand/bidra-kangaroo-logo-tight.png" alt="Bidra" fill className="object-contain object-left" sizes="112px" priority />
+      <div className="mx-auto hidden w-full max-w-7xl grid-cols-[auto_auto_minmax(22rem,1fr)_auto] items-center gap-7 px-4 py-3 md:grid lg:px-6">
+        <Link href="/" className="flex h-10 w-32 shrink-0 items-center" aria-label="Bidra home">
+          <BrandLogo className="h-8 w-auto" priority />
         </Link>
-        <nav className="flex min-w-0 items-center gap-5" aria-label="Primary navigation">
+        <nav className="flex min-w-0 items-center gap-6" aria-label="Primary navigation">
           {DESKTOP_LINKS.map((link) => (
             <Link key={link.href} href={link.href} className="text-sm font-extrabold text-[#14213D] transition hover:text-[#0B4DFF]">
               {link.label}
@@ -151,8 +151,8 @@ export default function SiteHeaderClient({
       <div className="md:hidden">
         <div className="flex items-center gap-3 px-4 py-3">
           <button type="button" className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg font-extrabold shadow-sm" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}>☰</button>
-          <Link href="/" className="relative h-9 w-28" aria-label="Bidra home">
-            <Image src="/brand/bidra-kangaroo-logo-tight.png" alt="Bidra" fill className="object-contain object-left" sizes="112px" priority />
+          <Link href="/" className="flex h-10 w-32 items-center" aria-label="Bidra home">
+            <BrandLogo className="h-8 w-auto" priority />
           </Link>
           <div ref={mobileMenuRef} className="relative ml-auto">
             <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg shadow-sm" aria-label="Account and notifications">🔔</button>

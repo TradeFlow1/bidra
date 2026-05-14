@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
+import BrandLogo from "@/components/brand-logo";
 import { useEffect, useMemo, useState } from "react";
 import { checkPasswordPolicy, passwordGuidanceText } from "@/lib/password-policy";
 import LocationSuggest from "./location-suggest";
@@ -225,7 +226,7 @@ export default function RegisterPage() {
     window.location.href = "/auth/register/success";
   }
 
-  const shell = "bd-container py-5 sm:py-10";
+  const shell = "bg-[linear-gradient(180deg,#F8FAFF_0%,#FFFFFF_55%)] px-4 py-5 sm:py-10";
   const label = "text-sm font-medium";
   const helper = "mt-1 text-xs text-black/55";
   const input = "mt-1 w-full rounded-xl border border-[#D7E2F1] bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5";
@@ -234,14 +235,11 @@ export default function RegisterPage() {
     <main className={shell}>
       <div className="mx-auto w-full mb-4 w-full max-w-2xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
 <div className="mx-auto w-full max-w-lg space-y-4 sm:space-y-5">
-        <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
-          <div className="max-w-3xl">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Join Bidra</div>
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Create your account</h1>
-            <p className="mt-2 text-sm bd-ink2 sm:text-base">
-              Create an account to buy, sell, message, and manage listings.
-            </p>
-          </div>
+        <div className="rounded-[30px] border border-[#D7E2F1] bg-white p-5 text-center shadow-[0_18px_55px_rgba(28,50,84,0.08)] sm:p-6">
+          <div className="flex justify-center"><BrandLogo className="h-9 w-auto" priority /></div>
+          <div className="mt-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Join Bidra today</div>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Create your Bidra account</h1>
+          <p className="mt-2 text-sm bd-ink2 sm:text-base">Buy, sell, message, and manage listings in one trusted marketplace.</p>
         </div>
 
         <div className="grid gap-4">
@@ -305,7 +303,7 @@ export default function RegisterPage() {
             ) : (
               <>
                 <div>
-                  <div className="text-sm font-extrabold bd-ink">Account registration</div>
+                  <div className="text-sm font-extrabold bd-ink">Create account</div>
                   <div className="mt-1 text-sm bd-ink2">
                     Complete the details below to activate browsing, watchlist, buying, selling, and messaging.
                   </div>

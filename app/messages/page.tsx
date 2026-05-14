@@ -8,6 +8,7 @@ import { requireAdult } from "@/lib/require-adult";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { BackButton } from "@/components/ui/back-button";
+import { AvatarPlaceholder, EmptyIllustration, MarketplaceIcon } from "@/components/marketplace-visuals";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -73,7 +74,7 @@ export default async function MessagesInboxPage() {
     });
 
     return (
-      <main className="bd-container py-4 sm:py-8">
+      <main className="bg-white"><div className="bd-container py-4 sm:py-8">
         <div className="container max-w-5xl space-y-3 sm:space-y-4">
           <AccountNav active="messages" />
           <InboxAutoRefresh />
@@ -110,9 +111,10 @@ export default async function MessagesInboxPage() {
           ) : null}
 
           {items.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
+            <div className="rounded-[30px] border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
               <div className="mx-auto w-full max-w-xl">
-                <div className="text-xl font-extrabold text-[#0F172A]">No messages yet</div>
+                <EmptyIllustration icon="chat" />
+                <div className="mt-4 text-xl font-extrabold text-[#0F172A]">No messages yet</div>
                 <p className="mt-2 text-sm text-[#526173]">
                   Start the conversation by asking about pickup, condition, or availability. Messages from listings and orders will appear here.
                 </p>
@@ -152,7 +154,7 @@ export default async function MessagesInboxPage() {
                         : "border-[#D7E2F1] bg-white"
                     }`}
                   >
-                    <div className="flex items-start gap-2">
+                    <div className="flex items-start gap-3">
                       <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-[#D7E2F1] bg-black/[0.03]">
                         {thumb ? (
                           <Image
@@ -164,8 +166,8 @@ export default async function MessagesInboxPage() {
                             unoptimized
                           />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-[var(--bidra-ink-3)]">
-                            No photo
+                          <div className="flex h-full w-full items-center justify-center bg-[#F3F7FF] text-[#0B4DFF]">
+                            <MarketplaceIcon name="chat" className="h-7 w-7" />
                           </div>
                         )}
                       </div>
@@ -200,11 +202,11 @@ export default async function MessagesInboxPage() {
             </div>
           )}
         </div>
-      </main>
+      </div></main>
     );
   } catch (_e) {
     return (
-      <main className="bd-container py-4 sm:py-8">
+      <main className="bg-white"><div className="bd-container py-4 sm:py-8">
         <div className="container max-w-5xl space-y-4 sm:space-y-5">
           <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Inbox</div>
@@ -224,7 +226,7 @@ export default async function MessagesInboxPage() {
             </div>
           </div>
         </div>
-      </main>
+      </div></main>
     );
   }
 }

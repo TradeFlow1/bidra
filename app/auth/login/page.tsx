@@ -6,6 +6,7 @@ import { BackButton } from "@/components/ui/back-button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card, Button, Input } from "@/components/ui";
+import BrandLogo from "@/components/brand-logo";
 
 function friendlyAuthError(raw: string) {
   const s = String(raw || "");
@@ -53,17 +54,14 @@ export default function Login() {
   }, [sp]);
 
   return (
-    <main className="bg-[#F4F7FB] px-4 py-6 sm:py-12">
+    <main className="bg-[linear-gradient(180deg,#F8FAFF_0%,#FFFFFF_55%)] px-4 py-6 sm:py-12">
       <div className="mx-auto w-full mb-4 w-full max-w-none px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
 <div className="mx-auto w-full max-w-md space-y-4 sm:space-y-5">
-        <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
-          <div className="max-w-3xl">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Welcome back</div>
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Log in to Bidra</h1>
-            <p className="mt-2 text-sm bd-ink2 sm:text-base">
-              Access your listings, messages, orders, and account tools.
-            </p>
-          </div>
+        <div className="rounded-[30px] border border-[#D7E2F1] bg-white p-5 text-center shadow-[0_18px_55px_rgba(28,50,84,0.08)] sm:p-6">
+          <div className="flex justify-center"><BrandLogo className="h-9 w-auto" priority /></div>
+          <div className="mt-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Welcome back</div>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Sign in to Bidra</h1>
+          <p className="mt-2 text-sm bd-ink2 sm:text-base">Buy now. Make offers. Arrange handover.</p>
         </div>
 
         <div className="grid gap-4">
@@ -184,7 +182,7 @@ export default function Login() {
               </div>
 
               <Button type="submit" className="bd-btn bd-btn-primary w-full">
-                Log in
+                Sign in
               </Button>
 
               {notice ? (
