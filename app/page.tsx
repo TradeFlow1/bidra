@@ -4,6 +4,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
+import { CategoryTile, SectionHeader, TrustBadge } from "@/components/marketplace-ui";
 
 export const revalidate = 10;
 
@@ -44,7 +45,7 @@ export default async function HomePage() {
         "@id": `${siteUrl}/#organization`,
         name: "Bidra",
         url: siteUrl,
-        logo: `${siteUrl}/brand/bidra-kangaroo-icon.png`,
+        logo: `${siteUrl}/brand/bidra-symbol.svg`,
         areaServed: "AU",
       },
       {
@@ -92,6 +93,7 @@ export default async function HomePage() {
       status: true,
       price: true,
       buyNowPrice: true,
+      createdAt: true,
       images: true,
       offers: {
         orderBy: { amount: "desc" },
@@ -184,6 +186,7 @@ export default async function HomePage() {
           endsAt: (l as unknown as { endsAt?: string | Date | null }).endsAt ?? null,
           offerCount: l._count?.offers ?? 0,
           currentOffer: currentOffer,
+          createdAt: l.createdAt,
           seller: {
             name: l.seller?.name || l.seller?.username || null,
             memberSince: l.seller?.createdAt ?? null,
@@ -215,23 +218,16 @@ export default async function HomePage() {
                 Buy, sell and discover amazing local deals.
               </h1>
               <p className="mt-4 max-w-xl text-base font-medium leading-7 text-[#526173] sm:text-lg">
-                Browse fresh local finds, buy now, make offers, and arrange handover with sellers in Bidra Messages.
+                Buy now. Make offers. Arrange handover.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Link href="/listings" className="bd-primary-action">Browse listings</Link>
                 <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-secondary rounded-2xl px-5 py-3">Sell an item</Link>
               </div>
               <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                {[
-                  ["Safe and trusted", "Accounts and records help support confident buying."],
-                  ["Local and convenient", "Find pickup, postage, and handover options nearby."],
-                  ["Great deals", "Buy now or make offers that work for you."],
-                ].map((item) => (
-                  <div key={item[0]} className="rounded-[18px] border border-[#D7E2F1] bg-white/80 p-4 shadow-sm">
-                    <div className="text-sm font-extrabold text-[#0F172A]">{item[0]}</div>
-                    <p className="mt-1 text-xs leading-5 text-[#607089]">{item[1]}</p>
-                  </div>
-                ))}
+                <TrustBadge title="Safe and trusted" description="Accounts and records help support confident buying." icon="◇" />
+                <TrustBadge title="Local and convenient" description="Find pickup, postage, and handover options nearby." icon="⌖" />
+                <TrustBadge title="Great deals" description="Buy now or make offers that work for you." icon="$" />
               </div>
             </div>
 
@@ -263,32 +259,16 @@ export default async function HomePage() {
         </section>
 
         <section className="bd-card p-4 sm:p-5 lg:p-6">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#607089]">Browse categories</div>
-              <h2 className="mt-1 text-2xl font-black tracking-tight text-[#07152E]">Shop by category</h2>
-            </div>
-            <Link href="/listings" className="text-sm font-extrabold text-[#0B4DFF]">View all categories</Link>
-          </div>
+          <SectionHeader eyebrow="Browse categories" title="Shop by category" actionHref="/listings" actionLabel="View all" />
           <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             {(featuredCategories.length ? featuredCategories : [["Electronics", 0], ["Home & Living", 0], ["Vehicles", 0], ["Sports & Outdoors", 0], ["Fashion", 0], ["More", 0]] as Array<[string, number]>).map((entry) => (
-              <Link key={entry[0]} href={entry[0] === "More" ? "/listings" : "/listings?category=" + encodeURIComponent(entry[0])} className="rounded-[20px] border border-[#D7E2F1] bg-[#F8FAFF] p-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md">
-                <div className="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-white text-xl shadow-sm">▣</div>
-                <div className="mt-3 truncate text-sm font-extrabold text-[#0F172A]">{entry[0]}</div>
-                <div className="mt-1 text-xs font-semibold text-[#607089]">{entry[1] ? entry[1].toLocaleString() + " items" : "Explore"}</div>
-              </Link>
+              <CategoryTile key={entry[0]} href={entry[0] === "More" ? "/listings" : "/listings?category=" + encodeURIComponent(entry[0])} label={entry[0]} count={entry[1]} icon={entry[0] === "Electronics" ? "▯" : entry[0] === "Vehicles" ? "▱" : entry[0] === "Fashion" ? "◇" : "□"} />
             ))}
           </div>
         </section>
 
         <section className="bd-card p-4 sm:p-5 lg:p-6">
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <div>
-              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#607089]">Latest listings</div>
-              <h2 className="mt-1 text-2xl font-black tracking-tight text-[#07152E]">Fresh finds near you</h2>
-            </div>
-            <Link href="/listings" className="text-sm font-extrabold text-[#0B4DFF]">View all listings</Link>
-          </div>
+          <SectionHeader eyebrow="Latest listings" title="Fresh finds near you" actionHref="/listings" actionLabel="View all" />
           <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {latestListings.length ? latestListings.slice(0, 10).map(renderCard) : (
               <div className="col-span-full rounded-[24px] border border-dashed border-[#BFD0E6] bg-[#F8FAFF] px-5 py-10 text-center">
@@ -301,6 +281,52 @@ export default async function HomePage() {
               </div>
             )}
           </div>
+        </section>
+
+        <section className="overflow-hidden rounded-[28px] bg-[#07152E] p-5 text-white shadow-[0_20px_60px_rgba(7,21,46,0.18)] sm:p-7 lg:p-8">
+          <div className="grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:items-center">
+            <div>
+              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-blue-200">Bidra local marketplace</div>
+              <h2 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">The smarter way to buy and sell locally.</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-blue-100 sm:text-base">Search image-first listings, choose Buy now or make an offer, then arrange pickup, payment and handover directly with the other person.</p>
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                <Link href="/listings" className="bd-btn rounded-2xl border-white bg-white text-[#07152E] hover:bg-blue-50">Browse marketplace</Link>
+                <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn rounded-2xl border-white/25 bg-white/10 text-white hover:bg-white/15">Start selling</Link>
+              </div>
+            </div>
+            <div className="rounded-[26px] border border-white/10 bg-white/8 p-4">
+              <div className="rounded-[22px] bg-white p-4 text-[#07152E] shadow-2xl">
+                <div className="flex items-center justify-between border-b border-[#E6EDF7] pb-3 text-xs font-extrabold"><span>Today on Bidra</span><span className="text-[#0B4DFF]">Local deals</span></div>
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  <div className="rounded-2xl bg-[#EEF4FF] p-4"><div className="text-2xl font-black">Buy</div><p className="mt-1 text-xs text-[#526173]">Secure a listing at the listed price.</p></div>
+                  <div className="rounded-2xl bg-[#F8FAFF] p-4"><div className="text-2xl font-black">Offer</div><p className="mt-1 text-xs text-[#526173]">Negotiate with confidence.</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="bd-card p-4 sm:p-5 lg:p-6">
+          <SectionHeader eyebrow="How it works" title="Simple from discovery to handover" />
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {[
+              ["1", "Find what you love", "Browse local categories and image-first listings."],
+              ["2", "Buy now or make an offer", "Choose the path that fits the item and seller."],
+              ["3", "Arrange handover", "Keep details in messages and meet, post or hand over directly."],
+            ].map((step) => (
+              <div key={step[0]} className="rounded-[22px] border border-[#D7E2F1] bg-[#F8FAFF] p-5">
+                <div className="grid h-10 w-10 place-items-center rounded-2xl bg-[#0B4DFF] text-sm font-black text-white">{step[0]}</div>
+                <div className="mt-4 text-lg font-black text-[#07152E]">{step[1]}</div>
+                <p className="mt-2 text-sm leading-6 text-[#526173]">{step[2]}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid gap-3 sm:grid-cols-4">
+          {["100% Free", "Local", "Secure", "Trusted"].map((label) => (
+            <div key={label} className="rounded-[20px] border border-[#D7E2F1] bg-white px-5 py-4 text-center text-sm font-black text-[#07152E] shadow-sm">{label}</div>
+          ))}
         </section>
       </div>
     </main>

@@ -342,3 +342,73 @@ button[aria-busy='true'] {
 @media (max-width: 767px) {
   .bd-account-shell { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
 }
+
+/* Premium mobile-first public marketplace identity pass */
+:root {
+  --bidra-navy: #06132B;
+  --bidra-blue-action: #0B4DFF;
+  --bidra-soft-blue: #EEF4FF;
+  --bidra-canvas-premium: #F4F7FB;
+  --bidra-border-premium: #D7E2F1;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  background:
+    radial-gradient(900px 420px at 50% -160px, rgba(11, 77, 255, 0.10), transparent 70%),
+    var(--bidra-canvas-premium);
+}
+
+.bd-card,
+.bd-surface,
+.bd-marketplace-card,
+.bd-page-hero {
+  box-shadow: 0 14px 45px rgba(28, 50, 84, 0.07);
+}
+
+.bd-marketplace-card {
+  border-radius: 20px;
+}
+
+.bd-marketplace-card .relative {
+  background:
+    linear-gradient(135deg, rgba(238, 244, 255, 0.95), rgba(248, 250, 255, 0.95));
+}
+
+.bd-btn-primary,
+.bd-primary-action {
+  background: var(--bidra-blue-action) !important;
+  border-color: var(--bidra-blue-action) !important;
+  color: #fff !important;
+}
+
+.bd-btn-primary:hover,
+.bd-primary-action:hover {
+  background: #0842D6 !important;
+}
+
+@media (max-width: 430px) {
+  .bd-shell,
+  .bd-container,
+  .bd-page-shell,
+  .bd-account-shell {
+    padding-left: 0.875rem;
+    padding-right: 0.875rem;
+  }
+
+  .bd-page-hero,
+  .bd-card,
+  .bd-surface {
+    border-radius: 22px;
+  }
+
+  .browseList,
+  .bd-card-grid {
+    gap: 0.625rem;
+  }
+}

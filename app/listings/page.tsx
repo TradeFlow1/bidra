@@ -368,6 +368,25 @@ export default async function ListingsPage({
           </div>
         </section>
 
+        <form action="/listings" className="mt-4 grid gap-2 rounded-[24px] border border-[#D7E2F1] bg-white p-3 shadow-sm xl:hidden">
+          <label className="sr-only" htmlFor="mobile-listing-search">Search listings</label>
+          <div className="flex gap-2">
+            <input id="mobile-listing-search" name="q" defaultValue={q} placeholder="Search items, brands or keywords" className="min-w-0 flex-1 rounded-2xl border border-[#D8E1F0] bg-[#F8FAFF] px-4 text-sm font-semibold text-[#0F172A] outline-none focus:border-[#0B4DFF] focus:bg-white focus:ring-4 focus:ring-blue-100" />
+            <button type="submit" className="bd-btn bd-btn-primary rounded-2xl px-4">Search</button>
+          </div>
+          <input type="hidden" name="category" defaultValue={category} />
+          <input type="hidden" name="location" defaultValue={location} />
+          <input type="hidden" name="type" defaultValue={type} />
+          <input type="hidden" name="condition" defaultValue={condition} />
+          <input type="hidden" name="min" defaultValue={min} />
+          <input type="hidden" name="max" defaultValue={max} />
+          <input type="hidden" name="sort" defaultValue={sort} />
+          <div className="flex items-center justify-between gap-2 text-xs font-semibold text-[#607089]">
+            <span>{listings.length} active results</span>
+            <span>Use filters to refine nearby deals</span>
+          </div>
+        </form>
+
         <section className="mt-5 grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[16rem_minmax(0,1fr)]">
           <aside className="min-w-0 xl:sticky xl:top-24 xl:self-start">
             <div className="overflow-hidden bd-card">
@@ -502,6 +521,7 @@ export default async function ListingsPage({
                         endsAt: (listing as unknown as { endsAt?: string | Date | null }).endsAt ?? null,
                         offerCount: (listing as unknown as { _count?: { offers?: number } })._count?.offers ?? 0,
                         currentOffer,
+                        createdAt: listing.createdAt,
                         seller: {
                           name: listing.seller?.name || listing.seller?.username || null,
                           memberSince: listing.seller?.createdAt ?? null,

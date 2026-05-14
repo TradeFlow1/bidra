@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -133,7 +133,7 @@ function scrollTo(i: number) {
   return (
     <div className="flex h-full w-full items-center justify-center bg-neutral-100">
       <Image
-        src="/brand/bidra-kangaroo-icon.png"
+        src="/brand/bidra-symbol.svg"
         alt="No image"
         width={64}
         height={64}
