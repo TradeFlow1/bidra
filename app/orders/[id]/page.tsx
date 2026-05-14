@@ -86,24 +86,24 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const isSeller = order.listing?.sellerId === user.id;
   const roleLabel = isBuyer ? "Buyer" : "Seller";
   const statusLabel = order.outcome === "COMPLETED" ? "Completed" : "Sold";
-  const primaryNextAction = order.outcome === "COMPLETED"
-    ? "Feedback is available for this completed order."
-    : "Arrange payment, pickup or postage, and handover with the other person.";
-  const primaryNextHref = order.outcome === "COMPLETED" ? feedbackHref : messageHref;
-  const primaryNextLabel = order.outcome === "COMPLETED" ? "Feedback" : "Message";
   const canLeave =
     order.outcome === "COMPLETED" &&
     ((isBuyer && !order.buyerFeedbackAt) || (isSeller && !order.sellerFeedbackAt));
   const alreadyLeft =
     order.outcome === "COMPLETED" &&
     ((isBuyer && !!order.buyerFeedbackAt) || (isSeller && !!order.sellerFeedbackAt));
+  const primaryNextAction = order.outcome === "COMPLETED"
+    ? (canLeave ? "Share feedback for this completed order." : "Feedback has been submitted.")
+    : "Review the details below, then message if anything needs confirming.";
+  const primaryNextHref = order.outcome === "COMPLETED" ? feedbackHref : messageHref;
+  const primaryNextLabel = order.outcome === "COMPLETED" ? "Feedback" : "Message";
 
   return (
     <main className="bd-container py-6 sm:py-10">
-        <div className="mx-auto mb-4 w-full max-w-4xl"><BackButton href="/orders" label="Back to orders" /></div>
-        <div className="container max-w-4xl space-y-3 sm:space-y-4">
+        <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-5xl space-y-4">
         <div className="rounded-[28px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-2.5 py-1 text-xs font-semibold text-neutral-800 shadow-sm">
@@ -113,11 +113,11 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   {statusLabel}
                 </span>
               </div>
-              <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Sold item</h1>
+              <h1 className="mt-3 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Sold item</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Open the order, arrange the handover, and keep important details in Messages.
+                Order details are the source of truth. Use Messages for quick confirmations.
               </p>
-              <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
+              <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950 shadow-sm">
                 <div className="font-extrabold">Next action</div>
                 <div className="mt-1">{primaryNextAction}</div>
               </div>
@@ -126,7 +126,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 sm:min-w-[320px] lg:w-[320px]">
+            <div className="grid grid-cols-3 gap-2 sm:min-w-[360px] lg:w-[360px]">
               <Link href={primaryNextHref} className="whitespace-nowrap rounded-2xl bg-[#061126] px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:opacity-90">
                 {primaryNextLabel}
               </Link>
@@ -136,20 +136,12 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <Link href="/disputes" className="whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
                 Help
               </Link>
-              {canLeave ? (
-                <Link href={feedbackHref} className="bd-btn bd-btn-secondary text-center">
-                  Leave feedback
-                </Link>
-              ) : null}
               {alreadyLeft ? (
-                <span className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm font-semibold bd-ink shadow-sm">
-                  Feedback submitted
+                <span className="col-span-3 inline-flex items-center justify-center rounded-2xl border border-black/10 bg-white px-4 py-3 text-center text-sm font-semibold bd-ink shadow-sm">
+                  Feedback sent
                 </span>
               ) : null}
             </div>
-            <p className="text-sm bd-ink2">
-              Use the highlighted next action above to keep the transaction moving.
-            </p>
           </div>
         </div>
 
@@ -176,27 +168,25 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           <Card className="rounded-[24px] border border-black/10 bg-white p-4 shadow-sm sm:p-5">
             <div className="text-sm font-extrabold bd-ink">Order checklist</div>
             <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm bd-ink2">
-              <li>Confirm payment, pickup or postage, and handover details before exchange.</li>
-              <li>Keep important agreements in Bidra Messages.</li>
-              <li>Leave feedback after the order is completed.</li>
+              <li>Check the item, amount, status, and order ID.</li>
+              <li>Use Messages for any final confirmations.</li>
+              <li>Leave feedback when the order is completed.</li>
             </ul>
 
             <details className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-              <summary className="cursor-pointer select-none font-extrabold">Handover safety checkpoint</summary>
+              <summary className="cursor-pointer select-none font-extrabold">Safety checkpoint</summary>
               <ul className="mt-2 list-disc space-y-1.5 pl-5">
-                <li>Confirm the item, amount, payment expectation, location or postage method, and timing.</li>
-                <li>Use a public pickup location where practical.</li>
-                <li>For postage, agree carrier, tracking, packaging, dispatch timing, and who carries delivery risk.</li>
-                <li>If terms suddenly change or payment feels unsafe, stop and contact Support.</li>
+                <li>Use a public place where practical.</li>
+                <li>Pause and contact Support if terms suddenly change.</li>
               </ul>
             </details>
           </Card>
-            <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950">
+            <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm bd-ink2 shadow-sm">
               <div className="font-extrabold">Need help with this order?</div>
-              <p className="mt-1">Use the Resolution Centre if pickup, postage, payment, or handover does not go as agreed.</p>
+              <p className="mt-1">Use the Resolution Centre or contact Support if something does not look right.</p>
               <div className="mt-3 flex flex-wrap gap-2">
-                <Link href="/disputes" className="bd-btn bd-btn-secondary text-center">Resolution centre</Link>
-                <Link href="/contact" className="bd-btn bd-btn-secondary text-center">Contact support</Link>
+                <Link href="/disputes" className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">Help</Link>
+                <Link href="/contact" className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">Contact</Link>
               </div>
             </div>
         </div>
