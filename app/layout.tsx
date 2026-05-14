@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: "/brand/bidra-kangaroo-icon.png",
+    icon: "/favicon.svg",
   },
 };
 

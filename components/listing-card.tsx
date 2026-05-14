@@ -20,6 +20,7 @@ type ListingCardListing = {
   status?: string | null;
   offerCount?: number | null;
   currentOffer?: number | null;
+  createdAt?: string | Date | null;
   seller?: any;
 };
 
@@ -40,6 +41,20 @@ function money(cents: number | null | undefined) {
 
 function cleanText(value: string | null | undefined) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
+}
+
+function relativeTime(value: string | Date | null | undefined) {
+  if (!value) return "Listed recently";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Listed recently";
+  const diffMs = Date.now() - date.getTime();
+  const minutes = Math.max(1, Math.floor(diffMs / 60000));
+  if (minutes < 60) return minutes + "m ago";
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return hours + "h ago";
+  const days = Math.floor(hours / 24);
+  if (days < 14) return days + "d ago";
+  return date.toLocaleDateString("en-AU", { day: "numeric", month: "short" });
 }
 
 export default function ListingCard({
@@ -63,12 +78,14 @@ export default function ListingCard({
 
   const fallback =
     (imgs && imgs.length > 0 && (imgs[0]?.url || imgs[0]?.src || imgs[0])) ||
-    "/brand/bidra-kangaroo-icon.png";
+    "/brand/bidra-symbol.svg";
 
   const primaryCents = Number(listing.price);
 
   const title = cleanText(listing.title);
   const location = cleanText(listing.location);
+  const saleTypeLabel = listing.type === "OFFERABLE" ? "Make offer" : "Buy now";
+  const listedText = relativeTime(listing.createdAt);
 
   async function onToggleWatch(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -113,7 +130,7 @@ export default function ListingCard({
             alt={title}
             fill
             sizes="(max-width: 768px) 50vw, (max-width: 1400px) 25vw, 20vw"
-            className={isNoPhotos ? "object-cover p-0 opacity-100" : "object-cover transition duration-300 group-hover:scale-[1.02]"}
+            className={isNoPhotos ? "object-contain p-8 opacity-95 sm:p-10" : "object-cover transition duration-300 group-hover:scale-[1.02]"}
             draggable={false}
             onDragStart={function (e) {
               e.preventDefault();
@@ -127,6 +144,8 @@ export default function ListingCard({
               WebkitUserDrag: "none"
             } as CSSProperties}
           />
+
+          <span className="absolute left-2.5 top-2.5 z-10 rounded-full border border-white/80 bg-white/95 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-[#06132B] shadow-[0_8px_20px_rgba(28,50,84,0.14)]">{saleTypeLabel}</span>
 
           {showWatchButton ? (
             <button
@@ -157,16 +176,19 @@ export default function ListingCard({
             {title}
           </div>
 
-          <div
-            className="mt-1.5 truncate text-[11px] font-semibold text-[#607089]"
-            style={{
-              display: "-webkit-box",
-              WebkitLineClamp: 1,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-            } as CSSProperties}
-          >
-            {location || "Australia"}
+          <div className="mt-2 flex min-w-0 items-center justify-between gap-2 text-[11px] font-semibold text-[#607089]">
+            <span
+              className="min-w-0 truncate"
+              style={{
+                display: "-webkit-box",
+                WebkitLineClamp: 1,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              } as CSSProperties}
+            >
+              {location || "Australia"}
+            </span>
+            <span className="shrink-0 text-[#8190A7]">{listedText}</span>
           </div>
         </div>
       </div>

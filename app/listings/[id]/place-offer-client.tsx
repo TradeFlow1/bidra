@@ -170,9 +170,9 @@ export default function PlaceOfferClient({
         </div>
       ) : null}
 
-      <div className="text-xs text-[var(--bidra-muted)]">
+      <div className="text-xs font-semibold text-[#607089]">
         Minimum offer:{" "}
-        <span className="font-semibold text-[var(--bidra-fg)]">
+        <span className="font-extrabold text-[#06132B]">
           ${minDollars.toFixed(2)}
         </span>
       </div>
@@ -185,20 +185,20 @@ export default function PlaceOfferClient({
           inputMode="decimal"
           placeholder="Enter your offer amount, e.g. 25.50"
           disabled={hardDisabled || loading}
-          className="h-11 w-full rounded-xl border border-[var(--bidra-border)] bg-[var(--bidra-bg)] px-3 py-2 text-sm text-[var(--bidra-fg)] placeholder:text-[var(--bidra-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--bidra-link)] disabled:opacity-60"
+          className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2 text-sm font-semibold text-[#06132B] placeholder:text-[#94A3B8] outline-none focus:border-[#0B4DFF] focus:ring-4 focus:ring-blue-100 disabled:opacity-60"
         />
 
         <button
           type="button"
           onClick={submit}
           disabled={loading || hardDisabled}
-          className="bd-btn bd-btn-primary w-full"
+          className="bd-btn bd-btn-primary w-full rounded-2xl"
         >
-          {loading ? "Submitting offer..." : "Place offer"}
+          {loading ? "Sending offer..." : "Make an offer"}
         </button>
       </div>
 
-      {(hardDisabled && !msg) ? <div className="text-xs text-[var(--bidra-muted)]">{hardDisabledText}</div> : null}
+      {(hardDisabled && !msg) ? <div className="text-xs font-semibold text-[#607089]">{hardDisabledText}</div> : null}
       {msg ? <div className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#475569]">{msg}</div> : null}
     </div>
   );

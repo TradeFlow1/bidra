@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import BrandLogo from "./brand-logo";
 
 const footerGroups = [
   {
@@ -37,11 +37,11 @@ export default function SiteFooter() {
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-11">
         <div className="grid gap-8 lg:grid-cols-[1.25fr_2fr_1fr] lg:items-start">
           <div>
-            <Link href="/" className="relative block h-10 w-32" aria-label="Bidra home">
-              <Image src="/brand/bidra-kangaroo-logo-tight.png" alt="Bidra" fill className="object-contain object-left" sizes="128px" />
+            <Link href="/" className="flex h-10 w-36 items-center" aria-label="Bidra home">
+              <BrandLogo className="h-9 w-auto" />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-6 text-[#526173]">
-              Australia&apos;s local marketplace for buying, selling, making offers, and arranging handover with confidence.
+              Australia&apos;s local marketplace. Buy now. Make offers. Arrange handover.
             </p>
             <div className="mt-4 flex gap-2 text-xs font-extrabold text-[#607089]">
               <span className="bd-pill">Buy now</span>
@@ -77,7 +77,7 @@ export default function SiteFooter() {
 
         <div className="mt-8 flex flex-col gap-3 border-t border-[#E6EDF7] pt-5 text-xs text-[#607089] md:flex-row md:items-center md:justify-between">
           <div>&copy; 2026 Bidra. All rights reserved.</div>
-          <div>Bidra is a marketplace platform. Buyers and sellers arrange payment, pickup, postage, and handover details.</div>
+          <div>Bidra is a marketplace platform. Buyers and sellers arrange payment, pickup and handover directly.</div>
         </div>
       </div>
     </footer>
