@@ -265,14 +265,14 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
   }
 
   return (
-    <main className="bd-container py-6 sm:py-10">
-      <div className="container max-w-4xl">
-        <div className="flex flex-col gap-4">
-          <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <main className="bd-container py-4 sm:py-8">
+      <div className="container max-w-3xl">
+        <div className="flex flex-col gap-3">
+          <section className="rounded-[24px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-5">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller dashboard</div>
-                <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Edit listing</h1>
+                <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">Edit listing</h1>
                 <div className="mt-2 flex flex-wrap items-center gap-2 text-xs bd-ink2">
                   <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 font-semibold">Status: <span className="font-extrabold bd-ink">{status}</span></span>
                   {status === "ACTIVE" ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 font-extrabold text-emerald-900">Live listing</span> : null}
@@ -317,9 +317,9 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
             </div>
           ) : null}
 
-          <div className="rounded-[30px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-5">
+          <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-2.5 shadow-sm sm:p-4">
             <form id="editListingForm"
-              className="grid gap-3 sm:gap-4"
+              className="grid gap-2.5 sm:gap-3"
               onSubmit={async (e) => {
                 e.preventDefault();
                 setError(null);
@@ -383,13 +383,13 @@ buyNowPrice:
                 <label className="text-sm font-extrabold bd-ink">Description</label>
                 <textarea
                   className="bd-input mt-1 w-full"
-                  rows={5}
+                  rows={3}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2">
                 <div>
                   <label className="text-sm font-extrabold bd-ink">Category</label>
                   <select
@@ -450,7 +450,7 @@ buyNowPrice:
               </div>
 
               {isTimedOffers ? (
-                <div className="rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-3">
+                <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] p-3">
                   <div className="text-sm font-extrabold bd-ink">Buy Now option</div>
 
                   
@@ -498,11 +498,11 @@ buyNowPrice:
                 <div className="text-xs bd-ink2">First photo is the main image.</div>
 
                 {existingImages.length ? (
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  <div className="grid grid-cols-3 gap-2 sm:grid-cols-3">
                     {existingImages.map((url, idx) => (
                       <div key={url + idx} className="relative overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-white">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={url} alt="Listing photo" className="h-28 w-full object-cover" />
+                        <img src={url} alt="Listing photo" className="h-20 w-full object-cover sm:h-28" />
 
                         <div className="absolute left-2 top-2 flex gap-1">
                           <button
@@ -529,7 +529,7 @@ buyNowPrice:
 
                         <button
                           type="button"
-                          className="absolute right-2 top-2 rounded-full border border-black/20 bg-white px-3 py-1 text-xs font-extrabold text-black shadow-sm hover:bg-black/5"
+                          className="absolute right-1.5 top-1.5 rounded-full border border-black/20 bg-white px-2 py-1 text-[10px] font-extrabold text-black shadow-sm hover:bg-black/5"
                           onClick={() => setExistingImages((cur) => cur.filter((_, i) => i !== idx))}
                           aria-label="Remove photo"
                         >
@@ -603,11 +603,11 @@ buyNowPrice:
                   />
 
                   {previews.length ? (
-                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                    <div className="grid grid-cols-3 gap-2 sm:grid-cols-3">
                       {previews.map((p) => (
                         <div key={p.url} className="overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-white">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={p.url} alt={p.name} className="h-28 w-full object-cover" />
+                          <img src={p.url} alt={p.name} className="h-20 w-full object-cover sm:h-28" />
                         </div>
                       ))}
                     </div>
@@ -615,9 +615,12 @@ buyNowPrice:
                 </div>
               </div>
 
-              <div className="rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-3">
-                <div className="text-sm font-extrabold bd-ink">Review</div>
-                <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+              <details className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] p-3">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-extrabold bd-ink [&::-webkit-details-marker]:hidden">
+                  <span>Review</span>
+                  <span className="text-xs font-extrabold bd-ink2">Open</span>
+                </summary>
+                <dl className="mt-3 grid gap-2 border-t border-[#D8E1F0] pt-3 text-sm sm:grid-cols-2">
                   <div><dt className="text-xs uppercase tracking-wide bd-ink2">Title</dt><dd className="font-medium bd-ink">{title.trim() || "Not set"}</dd></div>
                   <div><dt className="text-xs uppercase tracking-wide bd-ink2">Sale type</dt><dd className="font-medium bd-ink">{reviewSaleType}</dd></div>
                   <div><dt className="text-xs uppercase tracking-wide bd-ink2">Price</dt><dd className="font-medium bd-ink">{reviewPrice}</dd></div>
@@ -626,9 +629,9 @@ buyNowPrice:
                   <div><dt className="text-xs uppercase tracking-wide bd-ink2">Location</dt><dd className="font-medium bd-ink">{location.trim() || "Not set"}</dd></div>
                   <div><dt className="text-xs uppercase tracking-wide bd-ink2">Photos</dt><dd className="font-medium bd-ink">{(existingImages?.length || 0) + (files?.length || 0)}</dd></div>
                 </dl>
-              </div>
+              </details>
 
-              <div className="grid gap-2 pt-2 sm:flex sm:flex-wrap">
+              <div className="grid gap-2 pt-1 sm:flex sm:flex-wrap">
                 <button type="submit" disabled={isSaving} className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">
                   {isSaving ? "Saving..." : "Save changes"}
                 </button>
