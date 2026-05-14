@@ -111,11 +111,11 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
     return (
       <main className="bd-container sm:py-10">
         <div className="container max-w-4xl space-y-3 sm:space-y-4">
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
+          <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div className="min-w-0 flex-1">
                 <div className="flex items-start gap-4">
-                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-black/10 bg-black/[0.03] shadow-sm">
+                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-[#D7E2F1] bg-black/[0.03] shadow-sm">
                     {thumb ? (
                       <Image
                         src={thumb}
@@ -155,7 +155,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                 <ThreadActions threadId={thread.id} />
                 <Link
                   href={`/listings/${thread.listing.id}`}
-                  className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto"
+                  className="w-full bd-btn bd-btn-secondary rounded-2xl sm:w-auto"
                 >
                   View listing
                 </Link>
@@ -171,7 +171,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               Messages
             </div>
 
-            <div className="mt-2 rounded-[26px] border border-black/10 bg-white p-2 shadow-sm sm:p-3">
+            <div className="mt-2 rounded-[26px] border border-[#D7E2F1] bg-white p-2 shadow-sm sm:p-3">
             {messages.length ? (
               <div className="flex flex-col gap-1.5">
                 {messages.map((m) => {
@@ -186,8 +186,8 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                           className={
                             "border px-3.5 py-2.5 text-sm leading-relaxed shadow-sm " +
                             (mine
-                              ? "rounded-3xl rounded-br-md border-black/10 bg-[var(--bidra-ink)] text-white"
-                              : "rounded-3xl rounded-bl-md border-[#BFDBFE] bg-[#EFF6FF] text-[var(--bidra-ink)]")
+                              ? "rounded-3xl rounded-br-md border-[#0B4DFF] bg-[#0B4DFF] text-white"
+                              : "rounded-3xl rounded-bl-md border-[#D7E2F1] bg-[#F8FAFF] text-[var(--bidra-ink)]")
                           }
                         >
                           {body}
@@ -205,9 +205,9 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                 })}
               </div>
             ) : (
-              <div className="rounded-2xl border border-dashed border-black/15 bg-neutral-50 px-6 py-6 text-center">
-                <div className="text-base font-semibold text-neutral-900">No messages yet</div>
-                <div className="mt-1 text-sm text-neutral-600">
+              <div className="rounded-2xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-6 text-center">
+                <div className="text-base font-semibold text-[#0F172A]">No messages yet</div>
+                <div className="mt-1 text-sm text-[#526173]">
                   Start the conversation by asking about pickup, condition, or availability.
                 </div>
               </div>
@@ -225,20 +225,20 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
     return (
       <main className="bd-container sm:py-10">
         <div className="container max-w-5xl space-y-3 sm:space-y-4">
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
+          <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
           </div>
 
           <SafetyNote />
 
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
             <div className="text-base font-semibold text-[var(--bidra-ink)]">This conversation is temporarily unavailable</div>
             <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
               Please try again shortly.
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
-              <Link className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto" href="/messages">Back to inbox</Link>
-              <Link className="w-full rounded-xl border border-black/20 bg-white px-5 py-3 text-center text-sm font-extrabold text-black shadow-sm hover:bg-black/5 sm:w-auto" href="/support">Support</Link>
+              <Link className="w-full bd-btn bd-btn-secondary rounded-2xl sm:w-auto" href="/messages">Back to inbox</Link>
+              <Link className="w-full bd-btn bd-btn-secondary rounded-2xl sm:w-auto" href="/support">Support</Link>
             </div>
           </div>
         </div>

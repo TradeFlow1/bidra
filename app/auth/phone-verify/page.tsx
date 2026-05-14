@@ -64,7 +64,7 @@ export default function PhoneVerifyPage() {
   }
 
   return (
-    <main className="bd-container py-6 pb-14">
+    <main className="bg-[#F4F7FB] px-4 py-8 pb-14 sm:py-12">
       <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/dashboard" label="Back to dashboard" /></div>
       <div className="bd-card p-6 sm:p-8 max-w-[560px] mx-auto w-full">
         <h1 className="text-2xl font-extrabold tracking-tight bd-ink">Verify your phone</h1>
@@ -79,7 +79,7 @@ export default function PhoneVerifyPage() {
         ) : null}
 
         {ok ? (
-          <div className="mt-5 rounded-2xl border border-black/10 bg-white p-5">
+          <div className="mt-5 rounded-2xl border border-[#D7E2F1] bg-white p-5">
             <div className="text-lg font-extrabold bd-ink">Phone verified âœ…</div>
             <p className="mt-1 text-sm bd-ink2">Redirecting you to your dashboardâ€¦</p>
           </div>
@@ -88,7 +88,7 @@ export default function PhoneVerifyPage() {
             <div>
               <label className="text-sm font-semibold bd-ink">Mobile number</label>
               <input
-                className="mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
+                className="mt-1 w-full rounded-xl border border-[#D7E2F1] bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="04xx xxx xxx or +61..."
@@ -113,7 +113,7 @@ export default function PhoneVerifyPage() {
                 <div>
                   <label className="text-sm font-semibold bd-ink">Code</label>
                   <input
-                    className="mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
+                    className="mt-1 w-full rounded-xl border border-[#D7E2F1] bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     placeholder="Enter the SMS code"

@@ -9,9 +9,9 @@ import { getNotificationCounts } from "@/lib/notifications";
 
 function CountPill({ label, value }: { label: string; value: number }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-1 text-xs shadow-sm">
-      <span className="text-neutral-500">{label}</span>
-      <span className="font-extrabold text-neutral-950">{value}</span>
+    <span className="inline-flex items-center gap-2 rounded-full border border-[#D7E2F1] bg-white px-3 py-1 text-xs shadow-sm">
+      <span className="text-[#607089]">{label}</span>
+      <span className="font-extrabold text-[#07152E]">{value}</span>
     </span>
   );
 }
@@ -29,7 +29,7 @@ function UpdateCard(props: {
 
   return (
     <Link href={props.href} className="block">
-      <div className={`h-full rounded-3xl border bg-white p-6 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md ${hasCount ? "border-blue-300 ring-2 ring-blue-100" : "border-black/10"}`}>
+      <div className={`h-full rounded-3xl border bg-white p-6 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md ${hasCount ? "border-blue-300 ring-2 ring-blue-100" : "border-[#D7E2F1]"}`}>
         <div className="flex items-start justify-between gap-2">
           <div>
             <div className="text-2xl font-extrabold tracking-tight bd-ink">{props.title}</div>
@@ -58,10 +58,10 @@ export default async function NotificationsPage() {
     <main className="bd-container py-4 sm:py-8">
       <div className="container max-w-5xl space-y-3 sm:space-y-4">
         <AccountNav active="updates" />
-        <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-5">
+        <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">My Bidra</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">My Bidra</div>
               <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">Updates</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Unread messages, order actions, and feedback reminders.
@@ -99,7 +99,7 @@ export default async function NotificationsPage() {
         </div>
 
         <Link href="/orders" className="block">
-          <div className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
+          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -119,10 +119,10 @@ export default async function NotificationsPage() {
         </Link>
 
         {counts.total === 0 ? (
-          <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
+          <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
             <div className="mx-auto w-full max-w-xl">
-              <div className="text-xl font-extrabold text-neutral-900">You are all caught up</div>
-              <div className="mt-2 text-sm text-neutral-600">
+              <div className="text-xl font-extrabold text-[#0F172A]">You are all caught up</div>
+              <div className="mt-2 text-sm text-[#526173]">
                 New messages, orders, and optional feedback will appear here.
               </div>
             </div>

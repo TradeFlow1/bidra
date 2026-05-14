@@ -78,10 +78,10 @@ export default async function MessagesInboxPage() {
           <AccountNav active="messages" />
           <InboxAutoRefresh />
 
-          <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-5">
+          <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div className="max-w-3xl">
-                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Inbox</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
                 <p className="mt-2 text-sm text-[var(--bidra-ink-2)] sm:text-base">
                   Use messages to arrange pickup or postage, agree on key details, and keep a clear record.
@@ -89,13 +89,13 @@ export default async function MessagesInboxPage() {
               </div>
 
               <div className="grid w-full gap-2 sm:grid-cols-2 md:w-auto md:min-w-[280px]">
-                <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
-                  <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Conversations</div>
-                  <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{items.length}</div>
+                <div className="rounded-2xl border border-[#D7E2F1] bg-white px-4 py-3 shadow-sm">
+                  <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Conversations</div>
+                  <div className="mt-1 text-3xl font-extrabold tracking-tight text-[#07152E]">{items.length}</div>
                 </div>
-                <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 shadow-sm">
-                  <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Unread</div>
-                  <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{unreadCount}</div>
+                <div className="rounded-2xl border border-[#D7E2F1] bg-white px-4 py-3 shadow-sm">
+                  <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Unread</div>
+                  <div className="mt-1 text-3xl font-extrabold tracking-tight text-[#07152E]">{unreadCount}</div>
                 </div>
               </div>
             </div>
@@ -110,10 +110,10 @@ export default async function MessagesInboxPage() {
           ) : null}
 
           {items.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
+            <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
               <div className="mx-auto w-full max-w-xl">
-                <div className="text-xl font-extrabold text-neutral-900">No messages yet</div>
-                <p className="mt-2 text-sm text-neutral-600">
+                <div className="text-xl font-extrabold text-[#0F172A]">No messages yet</div>
+                <p className="mt-2 text-sm text-[#526173]">
                   Start the conversation by asking about pickup, condition, or availability. Messages from listings and orders will appear here.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
@@ -149,11 +149,11 @@ export default async function MessagesInboxPage() {
                     className={`block rounded-3xl border p-4 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md sm:p-5 ${
                       it.unread
                         ? "border-blue-300 bg-blue-50 ring-2 ring-blue-200 border-l-8"
-                        : "border-black/10 bg-white"
+                        : "border-[#D7E2F1] bg-white"
                     }`}
                   >
                     <div className="flex items-start gap-2">
-                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-black/10 bg-black/[0.03]">
+                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-[#D7E2F1] bg-black/[0.03]">
                         {thumb ? (
                           <Image
                             src={thumb}
@@ -206,14 +206,14 @@ export default async function MessagesInboxPage() {
     return (
       <main className="bd-container py-4 sm:py-8">
         <div className="container max-w-5xl space-y-4 sm:space-y-5">
-          <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-5">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
+          <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Inbox</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
           </div>
 
           <SafetyNotice />
 
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
             <div className="text-base font-semibold text-[var(--bidra-ink)]">Messages are temporarily unavailable</div>
             <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
               Please try again shortly. If this keeps happening, use Support.

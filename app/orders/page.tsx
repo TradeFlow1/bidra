@@ -18,7 +18,7 @@ function formatMoney(cents: number | null | undefined) {
 function statusTone(status: string, outcome: string | null | undefined) {
   if (outcome === "COMPLETED") return "bg-emerald-50 border-emerald-200 text-emerald-900";
   if (status === "PENDING") return "bg-blue-50 border-blue-200 text-blue-900";
-  return "bg-neutral-100 border-black/10 text-neutral-800";
+  return "bg-neutral-100 border-[#D7E2F1] text-neutral-800";
 }
 
 export default async function OrdersPage() {
@@ -49,7 +49,7 @@ export default async function OrdersPage() {
     <main className="bd-container py-4 sm:py-8">
       <div className="container max-w-5xl space-y-3 sm:space-y-4">
         <AccountNav active="buying" />
-        <div className="rounded-[28px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
+        <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Orders</h1>
@@ -61,25 +61,25 @@ export default async function OrdersPage() {
         </div>
 
         <div className="grid grid-cols-2 gap-2 sm:gap-3">
-          <div className="rounded-[22px] border border-black/10 bg-white p-3 shadow-sm sm:p-4">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Orders</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{soldCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Buys and sales.</div>
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-3 shadow-sm sm:p-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Orders</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-[#07152E]">{soldCount}</div>
+            <div className="mt-1 text-sm text-[#526173]">Buys and sales.</div>
           </div>
 
-          <div className="rounded-[22px] border border-black/10 bg-white p-3 shadow-sm sm:p-4">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Feedback due</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{feedbackDueCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Awaiting review.</div>
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-3 shadow-sm sm:p-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Feedback due</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-[#07152E]">{feedbackDueCount}</div>
+            <div className="mt-1 text-sm text-[#526173]">Awaiting review.</div>
           </div>
 
         </div>
 
         {!orders.length ? (
-          <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
+          <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
             <div className="mx-auto w-full max-w-xl">
-              <div className="text-xl font-extrabold text-neutral-900">No buys or sales yet</div>
-              <p className="mt-2 text-sm text-neutral-600">
+              <div className="text-xl font-extrabold text-[#0F172A]">No buys or sales yet</div>
+              <p className="mt-2 text-sm text-[#526173]">
                 When you buy an item or a seller accepts an offer, it appears here with the next step.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">
@@ -104,12 +104,12 @@ export default async function OrdersPage() {
               return (
                 <Card
                   key={o.id}
-                  className={`overflow-hidden rounded-[24px] border bg-white p-3 shadow-sm sm:p-5 ${isPending ? "border-blue-300 border-l-4 ring-2 ring-blue-100" : "border-black/10"}`}
+                  className={`overflow-hidden rounded-[24px] border bg-white p-3 shadow-sm sm:p-5 ${isPending ? "border-blue-300 border-l-4 ring-2 ring-blue-100" : "border-[#D7E2F1]"}`}
                 >
                   <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="inline-flex items-center rounded-full border border-black/10 bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-800">
+                        <span className="inline-flex items-center rounded-full border border-[#D7E2F1] bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-800">
                           {roleLabel}
                         </span>
                         <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(String(o.status), o.outcome)}`}>
@@ -119,14 +119,14 @@ export default async function OrdersPage() {
 
                       <div className="mt-3 min-w-0">
                         <Link
-                          className="block truncate text-lg font-extrabold text-neutral-950 hover:underline underline-offset-4 sm:text-xl"
+                          className="block truncate text-lg font-extrabold text-[#07152E] hover:underline underline-offset-4 sm:text-xl"
                           href={`/listings/${o.listingId}`}
                         >
                           {o?.listing?.title ?? "Listing"}
                         </Link>
                       </div>
 
-                      <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-neutral-600 sm:text-sm">
+                      <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-[#526173] sm:text-sm">
                         <div>
                           Created <DateTimeText value={o.createdAt} />
                         </div>
@@ -137,17 +137,17 @@ export default async function OrdersPage() {
 
                       <div className="mt-3 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:items-end sm:gap-6">
                         <div>
-                          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Amount</div>
-                          <div className="mt-1 text-lg font-extrabold text-neutral-950">{formatMoney(o.amount)}</div>
+                          <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Amount</div>
+                          <div className="mt-1 text-lg font-extrabold text-[#07152E]">{formatMoney(o.amount)}</div>
                         </div>
 
                         <div>
-                          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Status</div>
-                          <div className="mt-1 text-sm font-medium text-neutral-700">{statusLabel}</div>
+                          <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Status</div>
+                          <div className="mt-1 text-sm font-medium text-[#334155]">{statusLabel}</div>
                         </div>
                         <div>
-                          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Next action</div>
-                          <div className="mt-1 text-sm font-medium text-neutral-700">{nextActionCopy}</div>
+                          <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Next action</div>
+                          <div className="mt-1 text-sm font-medium text-[#334155]">{nextActionCopy}</div>
                         </div>
                       </div>
                     </div>
@@ -184,7 +184,7 @@ export default async function OrdersPage() {
                         ) : null}
 
                         {feedbackSubmitted ? (
-                          <span className="inline-flex items-center justify-center rounded-xl border border-black/10 bg-white px-4 py-3 text-center text-sm font-semibold bd-ink shadow-sm">
+                          <span className="inline-flex items-center justify-center rounded-xl border border-[#D7E2F1] bg-white px-4 py-3 text-center text-sm font-semibold bd-ink shadow-sm">
                             Feedback submitted
                           </span>
                         ) : null}

@@ -25,8 +25,8 @@ function formatMoney(cents: number | null | undefined) {
 function statusTone(status: string) {
   if (status === "ACTIVE") return "bg-emerald-50 border-emerald-200 text-emerald-900";
   if (status === "ENDED") return "bg-amber-50 border-amber-200 text-amber-900";
-  if (status === "DRAFT") return "bg-neutral-100 border-black/10 text-neutral-800";
-  return "bg-neutral-100 border-black/10 text-neutral-800";
+  if (status === "DRAFT") return "bg-neutral-100 border-[#D7E2F1] text-neutral-800";
+  return "bg-neutral-100 border-[#D7E2F1] text-neutral-800";
 }
 
 export default async function MyListingsPage({ searchParams }: PageProps) {
@@ -108,10 +108,10 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
       <div className="container max-w-5xl">
         <div className="flex flex-col gap-3 sm:gap-4">
           <AccountNav active="selling" />
-          <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+          <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
             <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">My Bidra</div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">My Bidra</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">My listings</h1>
                 <p className="mt-2 max-w-2xl text-sm bd-ink2 sm:text-base">
                   Manage active listings, drafts, ended listings, and offer visibility in one place.
@@ -131,21 +131,21 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
 
           <div className="grid grid-cols-3 gap-2 sm:gap-3">
             <div className="rounded-[22px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-4">
-              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Active</div>
-              <div className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-950 sm:text-3xl">{activeCount}</div>
-              <div className="mt-1 text-xs text-neutral-600 sm:text-sm">Visible to buyers.</div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Active</div>
+              <div className="mt-1 text-2xl font-extrabold tracking-tight text-[#07152E] sm:text-3xl">{activeCount}</div>
+              <div className="mt-1 text-xs text-[#526173] sm:text-sm">Visible to buyers.</div>
             </div>
 
             <div className="rounded-[22px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-4">
-              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Ended</div>
-              <div className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-950 sm:text-3xl">{endedCount}</div>
-              <div className="mt-1 text-xs text-neutral-600 sm:text-sm">Review or relist.</div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Ended</div>
+              <div className="mt-1 text-2xl font-extrabold tracking-tight text-[#07152E] sm:text-3xl">{endedCount}</div>
+              <div className="mt-1 text-xs text-[#526173] sm:text-sm">Review or relist.</div>
             </div>
 
             <div className="rounded-[22px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-4">
-              <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Drafts</div>
-              <div className="mt-1 text-2xl font-extrabold tracking-tight text-neutral-950 sm:text-3xl">{draftCount}</div>
-              <div className="mt-1 text-xs text-neutral-600 sm:text-sm">Saved drafts.</div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Drafts</div>
+              <div className="mt-1 text-2xl font-extrabold tracking-tight text-[#07152E] sm:text-3xl">{draftCount}</div>
+              <div className="mt-1 text-xs text-[#526173] sm:text-sm">Saved drafts.</div>
             </div>
           </div>
 
@@ -164,10 +164,10 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
           ) : null}
 
           {!listings.length ? (
-            <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center">
+            <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center">
               <div className="mx-auto w-full max-w-xl">
-                <div className="text-xl font-extrabold text-neutral-900">List your first real item</div>
-                <p className="mt-2 text-sm text-neutral-600">
+                <div className="text-xl font-extrabold text-[#0F172A]">List your first real item</div>
+                <p className="mt-2 text-sm text-[#526173]">
                   Start with one genuine item. Add real photos, accurate condition, price, location, and pickup or postage notes so buyers can act with confidence.
                 </p>
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
@@ -204,26 +204,26 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
                         </div>
 
                         <Link
-                          className="mt-2 block max-w-full truncate text-base font-extrabold text-neutral-950 hover:underline underline-offset-4 sm:text-xl"
+                          className="mt-2 block max-w-full truncate text-base font-extrabold text-[#07152E] hover:underline underline-offset-4 sm:text-xl"
                           href={"/listings/" + l.id}
                         >
                           {l.title}
                         </Link>
 
-                        <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-neutral-600 sm:text-sm">
+                        <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-[#526173] sm:text-sm">
                           <div>{categoryLabel}</div>
                           <div>{locationLabel}</div>
                         </div>
 
                         <div className="mt-2 grid grid-cols-[0.75fr_1.25fr] gap-2 sm:flex sm:flex-wrap sm:items-end sm:gap-6">
                           <div>
-                            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Price</div>
-                            <div className="mt-1 text-lg font-extrabold text-neutral-950">{priceLabel}</div>
+                            <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Price</div>
+                            <div className="mt-1 text-lg font-extrabold text-[#07152E]">{priceLabel}</div>
                           </div>
 
                           <div className="min-w-0">
-                            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">ID</div>
-                            <div className="mt-1 max-w-full truncate text-[11px] font-semibold text-neutral-700 sm:text-sm">{l.id}</div>
+                            <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">ID</div>
+                            <div className="mt-1 max-w-full truncate text-[11px] font-semibold text-[#334155] sm:text-sm">{l.id}</div>
                           </div>
                         </div>
                       </div>

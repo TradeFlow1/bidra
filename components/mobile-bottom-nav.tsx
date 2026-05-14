@@ -36,7 +36,7 @@ export default function MobileBottomNav() {
   if (!isEnabled || isBlocked) return null;
 
   return (
-    <nav className="bd-bottom-nav md:hidden" aria-label="Primary mobile navigation">
+    <nav className="bd-mobile-bottom-nav md:hidden" aria-label="Primary mobile navigation">
       {items.map((item) => {
         const active = item.match(pathname);
         return (

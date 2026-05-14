@@ -268,7 +268,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
     <main className="bd-container py-4 sm:py-8">
       <div className="container max-w-3xl">
         <div className="flex flex-col gap-3">
-          <section className="rounded-[24px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-5">
+          <section className="rounded-[24px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller dashboard</div>
@@ -529,7 +529,7 @@ buyNowPrice:
 
                         <button
                           type="button"
-                          className="absolute right-1.5 top-1.5 rounded-full border border-black/20 bg-white px-2 py-1 text-[10px] font-extrabold text-black shadow-sm hover:bg-black/5"
+                          className="absolute right-1.5 top-1.5 rounded-full border border-black/20 bg-white px-2 py-1 text-[10px] font-extrabold text-black shadow-sm hover:bg-[#EEF4FF]"
                           onClick={() => setExistingImages((cur) => cur.filter((_, i) => i !== idx))}
                           aria-label="Remove photo"
                         >
@@ -632,7 +632,7 @@ buyNowPrice:
               </details>
 
               <div className="grid gap-2 pt-1 sm:flex sm:flex-wrap">
-                <button type="submit" disabled={isSaving} className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">
+                <button type="submit" disabled={isSaving} className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0B4DFF] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#0842D6] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">
                   {isSaving ? "Saving..." : "Save changes"}
                 </button>
                 <Link href={`/listings/${listing.id}`} className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">

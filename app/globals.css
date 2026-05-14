@@ -323,3 +323,22 @@ button[aria-busy='true'] {
   main { padding-bottom: calc(5.25rem + env(safe-area-inset-bottom)); }
   .bd-shell, .bd-container, .bd-page-shell { padding-left: 1rem; padding-right: 1rem; }
 }
+
+
+/* Full reference UI pass: customer/account surfaces */
+@layer utilities {
+  .bd-account-shell { @apply mx-auto w-full max-w-6xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8; }
+  .bd-mobile-bottom-nav { position: fixed; left: 0.75rem; right: 0.75rem; bottom: calc(0.75rem + env(safe-area-inset-bottom)); z-index: 90; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 0.25rem; border: 1px solid #D7E2F1; border-radius: 1.5rem; background: rgba(255,255,255,0.96); padding: 0.45rem; box-shadow: 0 20px 50px rgba(28,50,84,0.18); backdrop-filter: blur(18px); }
+  .bd-surface { @apply rounded-[24px] border border-[#D7E2F1] bg-white shadow-[0_14px_45px_rgba(28,50,84,0.08)]; }
+  .bd-muted-surface { @apply rounded-[22px] border border-[#E1EAF5] bg-[#F8FAFF]; }
+}
+
+@layer components {
+  .bd-container > .container, .bd-shell > .container { width: 100%; margin-left: auto; margin-right: auto; }
+  input:not([type='checkbox']):not([type='radio']), select, textarea { border-color: #D7E2F1; border-radius: 0.875rem; }
+  input:not([type='checkbox']):not([type='radio']):focus, select:focus, textarea:focus { outline: none; border-color: #0B4DFF; box-shadow: 0 0 0 4px rgba(11,77,255,0.10); }
+}
+
+@media (max-width: 767px) {
+  .bd-account-shell { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
+}

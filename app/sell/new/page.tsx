@@ -48,7 +48,7 @@ export default async function SellNewPage() {
             </p>
 
             <div className="mt-5 grid gap-2 sm:flex sm:flex-wrap">
-              <a href={gate.feedbackUrl || "/orders"} className="inline-flex h-11 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033] sm:w-auto">
+              <a href={gate.feedbackUrl || "/orders"} className="inline-flex h-11 w-full items-center justify-center rounded-2xl bg-[#0B4DFF] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#0842D6] sm:w-auto">
                 Complete feedback
               </a>
 
@@ -76,7 +76,7 @@ export default async function SellNewPage() {
       </div>
 
       <div className="container max-w-3xl space-y-3">
-        <section className="rounded-[24px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-5">
+        <section className="rounded-[24px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Sell on Bidra</div>
           <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">Create listing</h1>
           <p className="mt-2 text-sm bd-ink2 sm:text-base">
