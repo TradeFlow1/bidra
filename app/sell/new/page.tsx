@@ -34,8 +34,8 @@ export default async function SellNewPage() {
 
   if (gate.blocked) {
     return (
-      <main className="bd-container py-6 sm:py-10">
-        <div className="mx-auto mb-4 w-full max-w-4xl px-4">
+      <main className="bd-container py-4 sm:py-8">
+        <div className="mx-auto mb-3 w-full max-w-3xl px-4">
           <BackButton href="/dashboard" label="Back to dashboard" />
         </div>
 
@@ -70,17 +70,17 @@ export default async function SellNewPage() {
   const defaultLocation = userRow ? buildDefaultLocation(userRow) : "";
 
   return (
-    <main className="bd-container py-6 sm:py-10">
-      <div className="mx-auto mb-4 w-full max-w-4xl px-4">
+    <main className="bd-container py-4 sm:py-8">
+      <div className="mx-auto mb-3 w-full max-w-3xl px-4">
         <BackButton href="/dashboard" label="Back to dashboard" />
       </div>
 
-      <div className="container max-w-4xl space-y-4">
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+      <div className="container max-w-3xl space-y-3">
+        <section className="rounded-[24px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-5">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Sell on Bidra</div>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Create listing</h1>
+          <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">Create listing</h1>
           <p className="mt-2 text-sm bd-ink2 sm:text-base">
-            Add photos, condition, price, and pickup or postage details.
+            Add photos, details, price, and handover info.
           </p>
         </section>
 

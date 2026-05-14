@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -472,7 +472,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   }
 
   return (
-    <div className="rounded-[30px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-5">
+    <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-2.5 shadow-sm sm:p-4">
       {err && (
         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div>
       )}
@@ -494,7 +494,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         </div>
       )}
 
-      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="grid gap-3 sm:gap-4">
+      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="grid gap-2.5 sm:gap-3">
         <section className="bd-form-card">
           <h2 className="text-base font-extrabold bd-ink">1) Photos</h2>
           <p className="mt-1 text-xs bd-ink2">Add at least one clear photo of the actual item.</p>
@@ -544,7 +544,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             {previews.length > 0 && (
               <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {previews.map((p, idx) => (
-                  <div key={p.url} className="relative h-32 overflow-hidden rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] shadow-sm">
+                  <div key={p.url} className="relative h-24 overflow-hidden rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] shadow-sm sm:h-32">
                     <button
                       type="button"
                       aria-label="Remove photo"
@@ -570,7 +570,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               <input id="field-title" className="mt-1 bd-input" value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
 
-            <div className="rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-3">
+            <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] p-2.5 sm:p-3">
               <div className="text-sm font-semibold bd-ink">Category</div>
 
               {suggestedCategory && suggestedCategory.categoryLabel !== category ? (
@@ -590,7 +590,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                 </div>
               ) : null}
 
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
                 <div>
                   <label className="bd-label" htmlFor="field-category-top">Top category</label>
                   <select
@@ -650,7 +650,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
             <div>
               <label className="bd-label" htmlFor="field-description">Description</label>
-              <textarea id="field-description" className="mt-1 bd-input" rows={5} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
+              <textarea id="field-description" className="mt-1 bd-input" rows={3} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <button
                   type="button"
@@ -668,7 +668,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                     setDescription(draft);
                   }}
                 >
-                  Use description guide
+                  Description guide
                 </button>
               </div>
             </div>
@@ -729,47 +729,52 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </section>
 
-        <section className="bd-form-card">
-          <h2 className="text-base font-extrabold bd-ink">4) Publish</h2>
+        <details className="bd-form-card" open={!publishReady}>
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-extrabold bd-ink [&::-webkit-details-marker]:hidden">
+            <span>4) Publish</span>
+            <span className={publishReady ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
+              {publishReady ? "Ready" : `${missingRequirements.length} left`}
+            </span>
+          </summary>
 
-          <div className="mt-3 rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-3 text-sm">
-            <div className="grid gap-2 sm:grid-cols-2">
+          <div className="mt-3 rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] p-3 text-sm">
+            <div className="grid grid-cols-2 gap-2">
               <div>
-                <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Listing</div>
-                <div className="mt-1 font-extrabold bd-ink">{title.trim() || "Untitled listing"}</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Listing</div>
+                <div className="mt-1 line-clamp-1 font-extrabold bd-ink">{title.trim() || "Untitled listing"}</div>
               </div>
               <div>
-                <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Price</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Price</div>
                 <div className="mt-1 font-extrabold bd-ink">{reviewPrice}</div>
               </div>
               <div>
-                <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Category</div>
-                <div className="mt-1 font-extrabold bd-ink">{category || "Not set"}</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Category</div>
+                <div className="mt-1 line-clamp-1 font-extrabold bd-ink">{category || "Not set"}</div>
               </div>
               <div>
-                <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Photos</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Photos</div>
                 <div className="mt-1 font-extrabold bd-ink">{files.length}</div>
               </div>
             </div>
           </div>
 
           {!publishReady ? (
-            <div className="mt-3 rounded-[24px] border border-amber-200 bg-amber-50 p-3">
+            <div className="mt-3 rounded-[20px] border border-amber-200 bg-amber-50 p-3">
               <div className="text-sm font-extrabold text-amber-950">Finish these first</div>
-              <ul className="mt-2 grid gap-1.5 text-sm text-amber-950">
+              <ul className="mt-2 flex flex-wrap gap-2 text-xs text-amber-950">
                 {missingRequirements.map((item) => (
-                  <li key={item}>- {item}</li>
+                  <li key={item} className="rounded-full border border-amber-200 bg-white/70 px-2.5 py-1 font-semibold">{item}</li>
                 ))}
               </ul>
             </div>
           ) : (
-            <div className="mt-3 rounded-[24px] border border-emerald-200 bg-emerald-50 p-3 text-sm font-extrabold text-emerald-950">
+            <div className="mt-3 rounded-[20px] border border-emerald-200 bg-emerald-50 p-3 text-sm font-extrabold text-emerald-950">
               Ready to publish.
             </div>
           )}
-        </section>
+        </details>
 
-        <button type="submit" disabled={busy || !publishReady} className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033] disabled:cursor-not-allowed disabled:opacity-60">
+        <button type="submit" disabled={busy || !publishReady} className="sticky bottom-3 z-20 inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033] disabled:cursor-not-allowed disabled:opacity-60">
           {busy ? "Saving..." : "Publish listing"}
         </button>
       </form>
