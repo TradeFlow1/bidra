@@ -233,7 +233,7 @@ export default async function ListingDetailPage({
   });
 
   return (
-    <main className="bg-[#F7F9FC]">
+    <main className="bg-[#F4F7FB]">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 overflow-hidden px-4 py-4 sm:px-6 lg:overflow-visible lg:py-6">
         <BackButton href="/listings" label="Back to listings" />
 

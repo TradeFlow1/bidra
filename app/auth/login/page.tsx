@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -53,12 +53,12 @@ export default function Login() {
   }, [sp]);
 
   return (
-    <main className="bd-container py-5 sm:py-10">
+    <main className="bg-[#F4F7FB] px-4 py-6 sm:py-12">
       <div className="mx-auto w-full mb-4 w-full max-w-none px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-<div className="container max-w-5xl space-y-4 sm:space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
+<div className="mx-auto w-full max-w-md space-y-4 sm:space-y-5">
+        <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="max-w-3xl">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Welcome back</div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Welcome back</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Log in to Bidra</h1>
             <p className="mt-2 text-sm bd-ink2 sm:text-base">
               Access your listings, messages, orders, and account tools.
@@ -66,11 +66,11 @@ export default function Login() {
           </div>
         </div>
 
-        <div className="grid gap-2 sm:gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <Card className="order-2 rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6 lg:order-1">
+        <div className="grid gap-4">
+          <Card className="order-2 rounded-3xl border border-[#D7E2F1] bg-white p-4 shadow-sm sm:p-5">
             <div className="text-sm font-extrabold bd-ink">Before you log in</div>
             <div className="mt-4 space-y-4">
-              <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+              <div className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-4">
                 <div className="text-sm font-semibold bd-ink">New account?</div>
                 <div className="mt-1 text-sm bd-ink2">
                   You must <b>verify your email</b> before you can log in. Check your inbox for the verification link.
@@ -81,7 +81,7 @@ export default function Login() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-black/10 bg-white p-4">
+              <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4">
                 <div className="text-sm font-semibold bd-ink">Why this matters</div>
                 <ul className="mt-2 list-disc pl-5 text-sm bd-ink2 space-y-2">
                   <li>Email verification helps protect account access and trust.</li>
@@ -89,7 +89,7 @@ export default function Login() {
                   <li>Age verification continues separately after account access where required.</li>
                 </ul>
               </div>
-              <div className="rounded-2xl border border-black/10 bg-white p-4">
+              <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4">
                 <div className="text-sm font-semibold bd-ink">Login confidence checklist</div>
                 <ul className="mt-2 list-disc pl-5 text-sm bd-ink2 space-y-2">
                   <li>Use the same email address you verified during signup.</li>
@@ -99,7 +99,7 @@ export default function Login() {
               </div>
 
 
-              <div className="rounded-2xl border border-black/10 bg-white p-4">
+              <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4">
                 <div className="text-sm font-semibold bd-ink">Need help?</div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   <Link href="/forgot-password" className="bd-btn bd-btn-ghost">Reset password</Link>
@@ -109,7 +109,7 @@ export default function Login() {
             </div>
           </Card>
 
-          <Card className="order-1 rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6 lg:order-2">
+          <Card className="order-1 rounded-3xl border border-[#D7E2F1] bg-white p-4 shadow-[0_14px_45px_rgba(28,50,84,0.08)] sm:p-6">
             <form
               noValidate
               className="flex flex-col gap-2"
@@ -199,7 +199,7 @@ export default function Login() {
                 </div>
               ) : null}
 
-              <div className="text-sm text-neutral-700">
+              <div className="text-sm text-[#334155]">
                 Do not have an account?{" "}
                 <Link href="/auth/register" className="bd-link">
                   Create one

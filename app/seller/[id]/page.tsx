@@ -206,7 +206,7 @@ export default async function SellerPage({ params }: PageProps) {
       </div>
 
       <div className="container max-w-6xl space-y-5">
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
             <div className="min-w-0">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller profile</div>

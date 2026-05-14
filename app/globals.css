@@ -292,3 +292,53 @@ button[aria-busy='true'] {
 }
 
 /* BIDRA_LISTING_DETAIL_STRUCTURAL_FIX_END */
+
+
+/* Bidra marketplace visual redesign foundation */
+@layer base {
+  html { background: #F4F7FB; }
+  body { color: #0B1220; -webkit-font-smoothing: antialiased; }
+}
+
+@layer utilities {
+  .bd-shell { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .bd-section { @apply py-6 sm:py-8 lg:py-10; }
+  .bd-card { @apply rounded-[24px] border border-[#D7E2F1] bg-white shadow-[0_14px_45px_rgba(28,50,84,0.08)]; }
+  .bd-card-soft { @apply rounded-[24px] border border-[#E1EAF5] bg-[#F8FAFF] shadow-[0_10px_30px_rgba(28,50,84,0.05)]; }
+  .bd-page-hero { @apply overflow-hidden rounded-[28px] border border-[#D7E2F1] bg-[linear-gradient(135deg,#FFFFFF_0%,#F4F8FF_52%,#EAF2FF_100%)] shadow-[0_20px_60px_rgba(28,50,84,0.10)]; }
+  .bd-page-grid { @apply grid gap-4 sm:gap-5 lg:gap-6; }
+  .bd-marketplace-card { @apply overflow-hidden rounded-[18px] border border-[#D7E2F1] bg-white shadow-[0_12px_35px_rgba(28,50,84,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#B9CAE2] hover:shadow-[0_18px_45px_rgba(28,50,84,0.14)]; }
+  .bd-pill { @apply inline-flex min-h-8 items-center justify-center rounded-full border border-[#D7E2F1] bg-white px-3 text-xs font-extrabold text-[#526173]; }
+  .bd-primary-action { @apply inline-flex min-h-11 items-center justify-center rounded-2xl bg-[#0B4DFF] px-5 py-3 text-sm font-extrabold text-white shadow-[0_12px_28px_rgba(11,77,255,0.25)] transition hover:bg-[#0842D6] active:translate-y-px; }
+  .bd-btn-primary { @apply border-[#0B4DFF] bg-[#0B4DFF] text-white hover:bg-[#0842D6]; }
+  .bd-btn-secondary { @apply border-[#D7E2F1] bg-white text-[#10213F] hover:border-[#B9CAE2] hover:bg-[#F7FAFF]; }
+  .bd-bottom-nav { position: fixed; left: 0.75rem; right: 0.75rem; bottom: calc(0.75rem + env(safe-area-inset-bottom)); z-index: 90; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 0.25rem; border: 1px solid #D7E2F1; border-radius: 1.5rem; background: rgba(255,255,255,0.96); padding: 0.45rem; box-shadow: 0 20px 50px rgba(28,50,84,0.18); backdrop-filter: blur(18px); }
+  .bd-bottom-nav-item { display: inline-flex; min-height: 3.35rem; flex-direction: column; align-items: center; justify-content: center; gap: 0.15rem; border-radius: 1.05rem; color: #607089; font-size: 0.68rem; font-weight: 800; line-height: 1; }
+  .bd-bottom-nav-icon { font-size: 1rem; line-height: 1; }
+  .bd-bottom-nav-item-active { background: #EEF4FF; color: #0B4DFF; }
+  .browseList, .bd-card-grid { @apply grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5; }
+}
+
+@media (max-width: 767px) {
+  main { padding-bottom: calc(5.25rem + env(safe-area-inset-bottom)); }
+  .bd-shell, .bd-container, .bd-page-shell { padding-left: 1rem; padding-right: 1rem; }
+}
+
+
+/* Full reference UI pass: customer/account surfaces */
+@layer utilities {
+  .bd-account-shell { @apply mx-auto w-full max-w-6xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8; }
+  .bd-mobile-bottom-nav { position: fixed; left: 0.75rem; right: 0.75rem; bottom: calc(0.75rem + env(safe-area-inset-bottom)); z-index: 90; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 0.25rem; border: 1px solid #D7E2F1; border-radius: 1.5rem; background: rgba(255,255,255,0.96); padding: 0.45rem; box-shadow: 0 20px 50px rgba(28,50,84,0.18); backdrop-filter: blur(18px); }
+  .bd-surface { @apply rounded-[24px] border border-[#D7E2F1] bg-white shadow-[0_14px_45px_rgba(28,50,84,0.08)]; }
+  .bd-muted-surface { @apply rounded-[22px] border border-[#E1EAF5] bg-[#F8FAFF]; }
+}
+
+@layer components {
+  .bd-container > .container, .bd-shell > .container { width: 100%; margin-left: auto; margin-right: auto; }
+  input:not([type='checkbox']):not([type='radio']), select, textarea { border-color: #D7E2F1; border-radius: 0.875rem; }
+  input:not([type='checkbox']):not([type='radio']):focus, select:focus, textarea:focus { outline: none; border-color: #0B4DFF; box-shadow: 0 0 0 4px rgba(11,77,255,0.10); }
+}
+
+@media (max-width: 767px) {
+  .bd-account-shell { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
+}

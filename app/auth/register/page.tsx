@@ -228,15 +228,15 @@ export default function RegisterPage() {
   const shell = "bd-container py-5 sm:py-10";
   const label = "text-sm font-medium";
   const helper = "mt-1 text-xs text-black/55";
-  const input = "mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5";
+  const input = "mt-1 w-full rounded-xl border border-[#D7E2F1] bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5";
 
   return (
     <main className={shell}>
       <div className="mx-auto w-full mb-4 w-full max-w-2xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-<div className="container max-w-6xl space-y-4 sm:space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
+<div className="mx-auto w-full max-w-lg space-y-4 sm:space-y-5">
+        <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="max-w-3xl">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Join Bidra</div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Join Bidra</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Create your account</h1>
             <p className="mt-2 text-sm bd-ink2 sm:text-base">
               Create an account to buy, sell, message, and manage listings.
@@ -244,12 +244,12 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <div className="grid gap-2 sm:gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid gap-4">
           <div className="order-2 space-y-4 sm:space-y-5 lg:order-1">
-            <div className="rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6">
+            <div className="rounded-3xl border border-[#D7E2F1] bg-white p-4 shadow-sm sm:p-6">
               <div className="text-sm font-extrabold bd-ink">Account setup</div>
               <div className="mt-3 space-y-3 sm:mt-4 sm:space-y-4">
-                <div className="rounded-2xl border border-black/10 bg-neutral-50 p-3.5 sm:p-4">
+                <div className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-3.5 sm:p-4">
                   <div className="text-sm font-semibold bd-ink">Password confidence</div>
                   <ul className="mt-2 list-disc pl-5 text-sm bd-ink2 space-y-2">
                     <li>Use at least 8 characters.</li>
@@ -258,7 +258,7 @@ export default function RegisterPage() {
                   </ul>
                 </div>
 
-                <div className="rounded-2xl border border-black/10 bg-neutral-50 p-3.5 sm:p-4">
+                <div className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-3.5 sm:p-4">
                   <div className="text-sm font-semibold bd-ink">Email verification required</div>
                   <div className="mt-1 text-sm bd-ink2">
                     After you sign up, we will email you a verification link. <b>Verify your email before you can log in.</b>
@@ -269,14 +269,14 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-black/10 bg-white p-3.5 sm:p-4">
+                <div className="rounded-2xl border border-[#D7E2F1] bg-white p-3.5 sm:p-4">
                   <div className="text-sm font-semibold bd-ink">Age requirement</div>
                   <div className="mt-1 text-sm bd-ink2">
                     Accounts are <span className="font-semibold text-[#0b1220]">18+</span>.
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-black/10 bg-white p-3.5 sm:p-4">
+                <div className="rounded-2xl border border-[#D7E2F1] bg-white p-3.5 sm:p-4">
                   <div className="text-sm font-semibold bd-ink">Privacy-first location</div>
                   <div className="mt-1 text-sm bd-ink2">
                     We only ask for general area details like postcode, suburb, and state. No street address.
@@ -286,7 +286,7 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <div className="order-1 rounded-3xl border border-black/10 bg-white p-4 shadow-sm sm:p-6 lg:order-2">
+          <div className="order-1 rounded-3xl border border-[#D7E2F1] bg-white p-4 shadow-[0_14px_45px_rgba(28,50,84,0.08)] sm:p-6">
             {ok ? (
               <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
                 <p className="text-lg font-extrabold text-[#0b1220]">Account created</p>
@@ -414,7 +414,7 @@ export default function RegisterPage() {
                     <p className={helper}>Letters, numbers, underscore, dot.</p>
                   </div>
 
-                  <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4 sm:p-5">
+                  <div className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-4 sm:p-5">
                     <label className={label}>Date of birth</label>
                     <div className="mt-2 flex items-start justify-between gap-3">
                       <div className="text-sm">
@@ -428,7 +428,7 @@ export default function RegisterPage() {
                     <p className="mt-2 text-xs text-black/60">Format: <span className="font-semibold">DD/MM/YYYY</span></p>
                   </div>
 
-                  <div className="rounded-2xl border border-black/10 bg-white p-4 sm:p-5">
+                  <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4 sm:p-5">
                     <div className="flex items-center justify-between gap-2">
                       <p className="text-sm font-extrabold text-[#0b1220]">Location</p>
                       <p className="text-xs text-black/55">Country: AU</p>
@@ -488,7 +488,7 @@ export default function RegisterPage() {
                     />
                   </div>
 
-                  <label className="flex items-start gap-3 rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-[#0b1220]">
+                  <label className="flex items-start gap-3 rounded-xl border border-[#D7E2F1] bg-white px-4 py-3 text-sm text-[#0b1220]">
                     <input
                       type="checkbox"
                       name="agreeTerms"

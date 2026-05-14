@@ -85,10 +85,10 @@ export default async function WatchlistPage() {
     <main className="bd-container py-4 sm:py-8">
       <div className="container max-w-5xl space-y-3 sm:space-y-4">
         <AccountNav active="saved" />
-        <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-5">
+        <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Watchlist</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Watchlist</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Saved listings</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Save listings to track items you care about, keep an eye on offer movement, and spot ending windows before they close.
@@ -106,16 +106,16 @@ export default async function WatchlistPage() {
           </div>
         </div>
 
-        <div className="rounded-[22px] border border-black/10 bg-white px-4 py-3 text-sm text-neutral-700 shadow-sm">
-          <span className="font-extrabold text-neutral-950">{items.length}</span> saved listings.
-          <span className="ml-2 text-neutral-500">{activeCount} active, {endedCount} unavailable.</span>
+        <div className="rounded-[22px] border border-[#D7E2F1] bg-white px-4 py-3 text-sm text-[#334155] shadow-sm">
+          <span className="font-extrabold text-[#07152E]">{items.length}</span> saved listings.
+          <span className="ml-2 text-[#607089]">{activeCount} active, {endedCount} unavailable.</span>
         </div>
 
         {!items.length ? (
-          <div className="rounded-3xl border border-dashed border-black/15 bg-neutral-50 px-6 py-12 text-center shadow-sm">
+          <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
             <div className="mx-auto w-full max-w-xl">
-              <div className="text-xl font-extrabold text-neutral-900">Your watchlist is empty</div>
-              <p className="mt-2 text-sm text-neutral-600">
+              <div className="text-xl font-extrabold text-[#0F172A]">Your watchlist is empty</div>
+              <p className="mt-2 text-sm text-[#526173]">
                 Save listings as you browse to track prices, offers, and time windows without contacting the seller until you are ready.
               </p>
               <div className="mt-5 flex flex-wrap justify-center gap-2">

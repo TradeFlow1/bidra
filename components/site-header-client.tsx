@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import SearchBar from "./search-bar";
@@ -15,6 +16,7 @@ const DESKTOP_LINKS = [
   { href: "/", label: "Home" },
   { href: "/listings?type=BUY_NOW", label: "Buy now" },
   { href: "/listings?type=OFFERABLE", label: "Make an offer" },
+  { href: "/listings", label: "Categories" },
 ];
 
 export default function SiteHeaderClient({
@@ -31,74 +33,56 @@ export default function SiteHeaderClient({
 
   const isAuthed = !!session?.user?.id;
   const rawRole = String(session?.user?.role || "USER").toUpperCase();
-  const accountRoleLabel = rawRole === "ADMIN" ? "Admin account" : "Buyer / seller account";
+  const accountRoleLabel = rawRole === "ADMIN" ? "Admin account" : rawRole === "SELLER" ? "Seller account" : "My Bidra";
   const accountRoleDescription = rawRole === "ADMIN"
-    ? "Admin access visible - trust operations and marketplace account tools"
-    : "Buyer and seller tools visible - browse, buy, sell, orders, and messages";
+    ? "Admin access visible for marketplace operations."
+    : "Your buying, selling, orders, messages, and saved listings.";
 
   useEffect(function () {
     function onDocClick(e: MouseEvent) {
       const target = e.target as Node | null;
-
-      if (desktopAccountRef.current && target && !desktopAccountRef.current.contains(target)) {
-        setDesktopAcctOpen(false);
-      }
-
-      if (mobileMenuRef.current && target && !mobileMenuRef.current.contains(target)) {
-        setMobileMenuOpen(false);
-      }
+      if (desktopAccountRef.current && target && !desktopAccountRef.current.contains(target)) setDesktopAcctOpen(false);
+      if (mobileMenuRef.current && target && !mobileMenuRef.current.contains(target)) setMobileMenuOpen(false);
     }
-
     function onDocKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
         setDesktopAcctOpen(false);
         setMobileMenuOpen(false);
       }
     }
-
     document.addEventListener("click", onDocClick);
     document.addEventListener("keydown", onDocKeyDown);
-
     return function () {
       document.removeEventListener("click", onDocClick);
       document.removeEventListener("keydown", onDocKeyDown);
     };
   }, []);
 
-  function utilityButtonClass(active: boolean) {
-    return "inline-flex h-10 items-center justify-center rounded-full border px-4 text-[13px] font-semibold shadow-sm transition " +
-      (active
-        ? "border-white bg-white text-[#0F172A]"
-        : "border-white/16 bg-white text-[#0F172A] hover:bg-white/95");
-  }
-
-  const searchInputClass = "w-full rounded-full border border-[#CBD5E1] bg-white px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-neutral-500 shadow-sm focus:border-[#1D4ED8]";
-  const menuLinkClass = "block w-full rounded-xl px-3 py-2.5 text-left text-[13px] font-medium text-[#0F172A] transition hover:bg-black/5";
-
+  const menuLinkClass = "block w-full rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-[#0F172A] transition hover:bg-[#EEF4FF]";
+  const searchInputClass = "w-full rounded-full border border-[#D7E2F1] bg-[#F8FAFF] px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-[#7B8AA3] shadow-inner focus:border-[#0B4DFF] focus:bg-white focus:ring-4 focus:ring-blue-100";
   const badge = notificationCount > 0 ? (
-    <span className="ml-2 inline-flex min-w-[20px] items-center justify-center rounded-full bg-[#2563EB] px-1.5 py-0.5 text-[11px] font-bold text-white">
+    <span className="ml-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-[#0B4DFF] px-1.5 py-0.5 text-[11px] font-extrabold text-white">
       {notificationCount > 99 ? "99+" : notificationCount}
     </span>
   ) : null;
 
   function renderAccountMenu(closeMenu: () => void) {
     return (
-      <div className="absolute right-0 top-full z-[120] mt-3 w-64 overflow-hidden rounded-3xl border border-black/10 bg-white text-[#0F172A] shadow-[0_20px_50px_rgba(15,23,42,0.20)]" role="menu" onClick={function (e) { e.stopPropagation(); }}>
-        <div className="border-b border-black/10 px-4 py-3">
-          <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Current role</div>
-          <div className="mt-1 text-sm font-extrabold text-[#0F172A]">{accountRoleLabel}</div>
-          <div className="mt-1 text-xs leading-5 text-neutral-600">{accountRoleDescription}</div>
+      <div className="absolute right-0 top-full z-[120] mt-3 w-72 overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white text-[#0F172A] shadow-[0_24px_70px_rgba(28,50,84,0.18)]" role="menu" onClick={(e) => e.stopPropagation()}>
+        <div className="bg-[#F6F9FF] px-4 py-4">
+          <div className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#607089]">Current account</div>
+          <div className="mt-1 text-base font-extrabold text-[#0F172A]">{accountRoleLabel}</div>
+          <div className="mt-1 text-xs leading-5 text-[#607089]">{accountRoleDescription}</div>
         </div>
-        <div className="p-2">
+        <div className="grid gap-1 p-2">
           {rawRole === "ADMIN" ? <Link href="/admin" className={menuLinkClass} onClick={closeMenu}>Admin workspace</Link> : null}
-          <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>Dashboard</Link>
-          <Link href="/dashboard/listings" className={menuLinkClass} onClick={closeMenu}>Listings</Link>
+          <Link href="/dashboard" className={menuLinkClass} onClick={closeMenu}>My Bidra dashboard</Link>
+          <Link href="/dashboard/listings" className={menuLinkClass} onClick={closeMenu}>My listings</Link>
           <Link href="/orders" className={menuLinkClass} onClick={closeMenu}>Orders</Link>
           <Link href="/messages" className={menuLinkClass} onClick={closeMenu}>Messages</Link>
-          <Link href="/watchlist" className={menuLinkClass} onClick={closeMenu}>Saved</Link>
+          <Link href="/watchlist" className={menuLinkClass} onClick={closeMenu}>Saved listings</Link>
           <Link href="/notifications" className={menuLinkClass} onClick={closeMenu}>Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}</Link>
-          <Link href="/dashboard#account-status" className={menuLinkClass} onClick={closeMenu}>Account status</Link>
-          <div className="mt-2 border-t border-black/10 pt-2">
+          <div className="mt-1 border-t border-[#E6EDF7] pt-1">
             <Link href="/logout" className={menuLinkClass} onClick={closeMenu}>Sign out</Link>
           </div>
         </div>
@@ -108,42 +92,26 @@ export default function SiteHeaderClient({
 
   function renderMobileMenu() {
     return (
-      <div className="absolute right-0 top-full z-[120] mt-2.5 w-[min(88vw,20rem)] overflow-hidden rounded-2xl border border-black/10 bg-white text-[#0F172A] shadow-[0_16px_36px_rgba(15,23,42,0.20)]" role="menu" onClick={function (e) { e.stopPropagation(); }}>
-        <div className="p-2.5">
-          <div className="grid grid-cols-1 gap-2">
-            <Link href="/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Browse</Link>
-            <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Buy now</Link>
-            <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Make an offer</Link>
-            <Link href="/watchlist" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Saved</Link>
-</div>
-
+      <div className="absolute right-0 top-full z-[120] mt-3 w-[min(90vw,22rem)] overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white text-[#0F172A] shadow-[0_24px_70px_rgba(28,50,84,0.22)]" role="menu" onClick={(e) => e.stopPropagation()}>
+        <div className="grid gap-1 p-2">
+          <Link href="/" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Home</Link>
+          <Link href="/listings" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Browse categories</Link>
+          <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Buy now</Link>
+          <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Make an offer</Link>
+          <Link href="/sell/new" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Sell an item</Link>
           {isAuthed ? (
-            <div className="mt-2.5 border-t border-black/10 pt-2.5">
-              <div className="mb-2 rounded-2xl border border-black/10 bg-neutral-50 px-3 py-2">
-                <div className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">Current role</div>
-                <div className="mt-1 text-sm font-extrabold text-[#0F172A]">{accountRoleLabel}</div>
-                <div className="mt-1 text-xs leading-5 text-neutral-600">{accountRoleDescription}</div>
-              </div>
-              <div className="grid grid-cols-1 gap-2">
-                {rawRole === "ADMIN" ? <Link href="/admin" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Admin workspace</Link> : null}
-                <Link href="/dashboard" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Dashboard</Link>
-                <Link href="/dashboard/listings" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Listings</Link>
-                <Link href="/messages" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Messages</Link>
-                <Link href="/orders" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Orders</Link>
-                <Link href="/watchlist" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Saved</Link>
-                <Link href="/notifications" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}</Link>
-                <Link href="/dashboard#account-status" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Account status</Link>
-                <div className="mt-2 border-t border-black/10 pt-2">
-                  <Link href="/logout" className={menuLinkClass} onClick={function () { setMobileMenuOpen(false); }}>Sign out</Link>
-                </div>
-              </div>
-            </div>
+            <>
+              <div className="my-1 border-t border-[#E6EDF7]" />
+              {rawRole === "ADMIN" ? <Link href="/admin" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Admin workspace</Link> : null}
+              <Link href="/dashboard" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>{accountRoleLabel}</Link>
+              <Link href="/messages" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Messages</Link>
+              <Link href="/notifications" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Notifications{badge}</Link>
+              <Link href="/logout" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Sign out</Link>
+            </>
           ) : (
-            <div className="mt-2.5 border-t border-black/10 pt-2.5">
-              <div className="grid grid-cols-1 gap-2">
-                <Link href="/auth/login" className="bd-btn bd-btn-ghost text-center" onClick={function () { setMobileMenuOpen(false); }}>Sign in</Link>
-                <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center" onClick={function () { setMobileMenuOpen(false); }}>Create account</Link>
-              </div>
+            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-[#E6EDF7] pt-3">
+              <Link href="/auth/login" className="bd-btn bd-btn-secondary" onClick={() => setMobileMenuOpen(false)}>Sign in</Link>
+              <Link href="/auth/register" className="bd-btn bd-btn-primary" onClick={() => setMobileMenuOpen(false)}>Join</Link>
             </div>
           )}
         </div>
@@ -152,79 +120,47 @@ export default function SiteHeaderClient({
   }
 
   return (
-    <header className="relative z-[80] border-b border-[#172554] bg-[linear-gradient(180deg,#17337A_0%,#152C6A_58%,#10214F_100%)] text-white shadow-[0_16px_40px_rgba(15,23,42,0.28)]">
-      <div className="hidden md:block">
-        <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_15rem_auto] items-center gap-4 px-4 py-2 lg:px-6">
-          <div className="flex min-w-0 items-center gap-2 overflow-x-auto">
-            {DESKTOP_LINKS.map(function (link) {
-              return (
-                <Link key={link.href} href={link.href} className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
-                  {link.label}
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="min-w-0">
-            <SearchBar inputClassName={searchInputClass} />
-          </div>
-
-          <div className="flex shrink-0 items-center gap-3 justify-self-end">
-{isAuthed ? (
-              <div ref={desktopAccountRef} className="relative">
-                <button
-                  type="button"
-                  onClick={function (e) {
-                    e.stopPropagation();
-                    setDesktopAcctOpen(!desktopAcctOpen);
-                  }}
-                  className={utilityButtonClass(desktopAcctOpen)}
-                  aria-haspopup="menu"
-                  aria-expanded={desktopAcctOpen ? "true" : "false"}
-                >
-                  {rawRole === "ADMIN" ? "Admin" : "Account"}
-                  {badge}
-                </button>
-                {desktopAcctOpen ? renderAccountMenu(function () { setDesktopAcctOpen(false); }) : null}
-              </div>
-            ) : (
-              <>
-                <Link href="/auth/login" className={utilityButtonClass(false)}>Sign in</Link>
-                <Link href="/auth/register" className="inline-flex h-10 items-center justify-center rounded-full border border-white/16 bg-white px-4 text-[13px] font-semibold text-[#0F172A] shadow-sm transition hover:bg-white/95">
-                  Create account
-                </Link>
-              </>
-            )}
-          </div>
+    <header className="sticky top-0 z-[80] border-b border-[#DDE7F4] bg-white/95 text-[#0F172A] shadow-[0_10px_35px_rgba(30,49,78,0.08)] backdrop-blur-xl">
+      <div className="mx-auto hidden w-full max-w-7xl grid-cols-[auto_1fr_minmax(16rem,23rem)_auto] items-center gap-6 px-4 py-3 md:grid lg:px-6">
+        <Link href="/" className="relative h-9 w-28 shrink-0" aria-label="Bidra home">
+          <Image src="/brand/bidra-kangaroo-logo-tight.png" alt="Bidra" fill className="object-contain object-left" sizes="112px" priority />
+        </Link>
+        <nav className="flex min-w-0 items-center gap-5" aria-label="Primary navigation">
+          {DESKTOP_LINKS.map((link) => (
+            <Link key={link.href} href={link.href} className="text-sm font-extrabold text-[#14213D] transition hover:text-[#0B4DFF]">
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <SearchBar inputClassName={searchInputClass} />
+        <div className="flex items-center gap-3 justify-self-end">
+          <Link href="/sell/new" className="text-sm font-extrabold text-[#14213D] transition hover:text-[#0B4DFF]">Sell</Link>
+          {isAuthed ? (
+            <div ref={desktopAccountRef} className="relative">
+              <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="bd-btn bd-btn-primary rounded-full px-5" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
+                {rawRole === "ADMIN" ? "Admin" : "Account"}{badge}
+              </button>
+              {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
+            </div>
+          ) : (
+            <Link href="/auth/login" className="bd-btn bd-btn-primary rounded-full px-5">Sign in</Link>
+          )}
         </div>
       </div>
 
       <div className="md:hidden">
-        <div className="px-3 py-2.5">
-          <div className="flex items-center gap-2">
-            <Link href="/" className="rounded-full px-2 py-1 text-sm font-extrabold tracking-tight text-white">
-              Bidra
-            </Link>
-
-            <div className="ml-auto flex items-center gap-2">
-<div ref={mobileMenuRef} className="relative">
-                <button
-                  type="button"
-                  onClick={function (e) {
-                    e.stopPropagation();
-                    setMobileMenuOpen(!mobileMenuOpen);
-                  }}
-                  className={utilityButtonClass(mobileMenuOpen)}
-                  aria-haspopup="menu"
-                  aria-expanded={mobileMenuOpen ? "true" : "false"}
-                >
-                  Menu
-                  {badge}
-                </button>
-                {mobileMenuOpen ? renderMobileMenu() : null}
-              </div>
-            </div>
+        <div className="flex items-center gap-3 px-4 py-3">
+          <button type="button" className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg font-extrabold shadow-sm" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}>☰</button>
+          <Link href="/" className="relative h-9 w-28" aria-label="Bidra home">
+            <Image src="/brand/bidra-kangaroo-logo-tight.png" alt="Bidra" fill className="object-contain object-left" sizes="112px" priority />
+          </Link>
+          <div ref={mobileMenuRef} className="relative ml-auto">
+            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg shadow-sm" aria-label="Account and notifications">🔔</button>
+            {mobileMenuOpen ? renderMobileMenu() : null}
           </div>
+        </div>
+        <div className="px-4 pb-3">
+          <SearchBar inputClassName={searchInputClass} />
         </div>
       </div>
     </header>

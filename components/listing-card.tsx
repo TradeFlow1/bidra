@@ -103,11 +103,11 @@ export default function ListingCard({
   return (
     <Link
       href={"/listings/" + listing.id}
-      className="group block rounded-xl border border-[#D8E1F0] bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-[#AFC3DD] hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+      className="bd-marketplace-card group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
       aria-label={"View listing " + title}
     >
-      <div className="overflow-hidden rounded-xl bg-white">
-        <div className="relative aspect-[1/0.9] overflow-hidden rounded-t-2xl border-b border-[#E5E7EB] bg-[#F1F5F9]">
+      <div className="overflow-hidden bg-white">
+        <div className="relative aspect-[1/0.86] overflow-hidden bg-[#EEF3FA]">
           <Image
             src={fallback}
             alt={title}
@@ -132,7 +132,7 @@ export default function ListingCard({
             <button
               type="button"
               onClick={onToggleWatch}
-              className="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-[#E5E7EB] bg-white text-[18px] shadow-sm transition hover:scale-105"
+              className="absolute right-2.5 top-2.5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-white/95 text-[18px] text-[#0B4DFF] shadow-[0_8px_20px_rgba(28,50,84,0.16)] transition hover:scale-105"
               aria-label="Save listing"
             >
               {watched ? "♥" : "♡"}
@@ -140,13 +140,13 @@ export default function ListingCard({
           ) : null}
         </div>
 
-        <div className="px-2 pb-2 pt-1.5 sm:px-3 sm:pb-3 sm:pt-2">
-          <div className="text-[15px] font-extrabold tracking-tight text-[#0F172A] sm:text-[17px]">
+        <div className="px-3 pb-3 pt-2.5 sm:px-3.5 sm:pb-3.5">
+          <div className="text-[15px] font-extrabold tracking-tight text-[#06132B] sm:text-[16px]">
             {money(primaryCents)}
           </div>
 
           <div
-            className="mt-1 line-clamp-2 text-[12px] font-semibold leading-[15px] text-[#111827] sm:text-[13px] sm:leading-4"
+            className="mt-1 line-clamp-2 min-h-[2rem] text-[12px] font-bold leading-4 text-[#14213D] sm:text-[13px]"
             style={{
               display: "-webkit-box",
               WebkitLineClamp: 2,
@@ -158,7 +158,7 @@ export default function ListingCard({
           </div>
 
           <div
-            className="mt-1 truncate text-[10px] font-medium text-[#64748B] sm:text-[11px] mt-1"
+            className="mt-1.5 truncate text-[11px] font-semibold text-[#607089]"
             style={{
               display: "-webkit-box",
               WebkitLineClamp: 1,

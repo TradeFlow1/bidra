@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { checkPasswordPolicy, passwordGuidanceText } from "@/lib/password-policy";
@@ -93,12 +93,12 @@ export default function ResetPasswordPage({
   }
 
   return (
-    <main className="bd-container py-10">
+    <main className="bg-[#F4F7FB] px-4 py-8 sm:py-12">
       <div className="mx-auto w-full mb-4 w-full max-w-5xl"><BackButton href="/auth/login" label="Back to login" /></div>
-      <div className="container max-w-5xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+      <div className="mx-auto w-full max-w-md space-y-5">
+        <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-6 shadow-sm">
           <div className="max-w-3xl">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Account recovery</div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Account recovery</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Reset password</h1>
             <p className="mt-2 text-sm bd-ink2 sm:text-base">
               Choose a new password for your account and continue back into Bidra securely.
@@ -108,24 +108,24 @@ export default function ResetPasswordPage({
 
         <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-5">
-            <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
               <div className="text-sm font-extrabold bd-ink">Before you continue</div>
               <div className="mt-4 space-y-4">
-                <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+                <div className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-4">
                   <div className="text-sm font-semibold bd-ink">Use the email link</div>
                   <div className="mt-1 text-sm bd-ink2">
                     Password resets must be completed from the secure link sent to your email address.
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-black/10 bg-white p-4">
+                <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4">
                   <div className="text-sm font-semibold bd-ink">Choose a strong password</div>
                   <div className="mt-1 text-sm bd-ink2">
                     Use at least 8 characters, avoid passwords reused from another site, and use Show password to check typing before saving.
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-black/10 bg-white p-4">
+                <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4">
                   <div className="text-sm font-semibold bd-ink">Need another route?</div>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <Link href="/forgot-password" className="bd-btn bd-btn-ghost">Request new link</Link>
@@ -136,7 +136,7 @@ export default function ResetPasswordPage({
             </div>
           </div>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
             {!token ? (
               <div className="space-y-4">
                 <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
@@ -180,7 +180,7 @@ export default function ResetPasswordPage({
                         required
                         minLength={8}
                         autoComplete="new-password"
-                        className="w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
+                        className="w-full rounded-xl border border-[#D7E2F1] bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
                       />
                       <button
                         type="button"
@@ -216,7 +216,7 @@ export default function ResetPasswordPage({
                         required
                         minLength={8}
                         autoComplete="new-password"
-                        className="w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
+                        className="w-full rounded-xl border border-[#D7E2F1] bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
                       />
                       <button
                         type="button"

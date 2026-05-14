@@ -19,7 +19,7 @@ function statusTone(status: string, outcome: string | null | undefined) {
   if (outcome === "COMPLETED") return "bg-emerald-50 border-emerald-200 text-emerald-900";
   if (status === "PENDING") return "bg-blue-50 border-blue-200 text-blue-900";
   if (status === "ACCEPTED") return "bg-amber-50 border-amber-200 text-amber-900";
-  return "bg-neutral-100 border-black/10 text-neutral-800";
+  return "bg-neutral-100 border-[#D7E2F1] text-neutral-800";
 }
 
 export default async function OrderDetailPage({ params }: { params: { id: string } }) {
@@ -42,11 +42,11 @@ export default async function OrderDetailPage({ params }: { params: { id: string
       <main className="bd-container py-6 sm:py-10">
         <div className="mx-auto mb-4 w-full max-w-4xl"><BackButton href="/orders" label="Back to orders" /></div>
         <div className="container max-w-4xl space-y-3 sm:space-y-4">
-          <div className="rounded-[28px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Order</div>
+          <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
           </div>
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
             <div className="text-base font-semibold bd-ink">Order not found</div>
             <p className="mt-2 text-sm bd-ink2">This order could not be found, may have moved, or may not be available to this account.</p>
             <div className="mt-5">
@@ -63,11 +63,11 @@ export default async function OrderDetailPage({ params }: { params: { id: string
       <main className="bd-container py-6 sm:py-10">
         <div className="mx-auto mb-4 w-full max-w-4xl"><BackButton href="/orders" label="Back to orders" /></div>
         <div className="container max-w-4xl space-y-3 sm:space-y-4">
-          <div className="rounded-[28px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Order</div>
+          <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
           </div>
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
             <div className="text-base font-semibold bd-ink">Access restricted</div>
             <p className="mt-2 text-sm bd-ink2">You do not have access to this order.</p>
             <div className="mt-5">
@@ -102,11 +102,11 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     <main className="bd-container py-6 sm:py-10">
         <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/orders" label="Back to orders" /></div>
         <div className="container max-w-5xl space-y-4">
-        <div className="rounded-[28px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
+        <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-2.5 py-1 text-xs font-semibold text-neutral-800 shadow-sm">
+                <span className="inline-flex items-center rounded-full border border-[#D7E2F1] bg-white px-2.5 py-1 text-xs font-semibold text-neutral-800 shadow-sm">
                   {roleLabel}
                 </span>
                 <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(String(order.status), order.outcome)}`}>
@@ -137,7 +137,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                 Help
               </Link>
               {alreadyLeft ? (
-                <span className="col-span-3 inline-flex items-center justify-center rounded-2xl border border-black/10 bg-white px-4 py-3 text-center text-sm font-semibold bd-ink shadow-sm">
+                <span className="col-span-3 inline-flex items-center justify-center rounded-2xl border border-[#D7E2F1] bg-white px-4 py-3 text-center text-sm font-semibold bd-ink shadow-sm">
                   Feedback sent
                 </span>
               ) : null}
@@ -146,26 +146,26 @@ export default async function OrderDetailPage({ params }: { params: { id: string
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Order ID</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{String(order.id).slice(-6)}</div>
-            <div className="mt-1 text-sm text-neutral-600 font-mono break-all">{order.id}</div>
+          <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Order ID</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#07152E]">{String(order.id).slice(-6)}</div>
+            <div className="mt-1 text-sm text-[#526173] font-mono break-all">{order.id}</div>
           </div>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Amount</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{formatMoney(order.amount)}</div>
-            <div className="mt-1 text-sm text-neutral-600">Final sold price.</div>
+          <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Amount</div>
+            <div className="mt-1 text-3xl font-extrabold tracking-tight text-[#07152E]">{formatMoney(order.amount)}</div>
+            <div className="mt-1 text-sm text-[#526173]">Final sold price.</div>
           </div>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Listing</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950 truncate">{order.listing?.title ?? "Listing"}</div>
-            <div className="mt-1 text-sm text-neutral-600">Original listing.</div>
+          <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Listing</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#07152E] truncate">{order.listing?.title ?? "Listing"}</div>
+            <div className="mt-1 text-sm text-[#526173]">Original listing.</div>
           </div>
         </div>
         <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-          <Card className="rounded-[24px] border border-black/10 bg-white p-4 shadow-sm sm:p-5">
+          <Card className="rounded-[24px] border border-[#D7E2F1] bg-white p-4 shadow-sm sm:p-5">
             <div className="text-sm font-extrabold bd-ink">Order checklist</div>
             <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm bd-ink2">
               <li>Check the item, amount, status, and order ID.</li>
@@ -181,7 +181,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </ul>
             </details>
           </Card>
-            <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm bd-ink2 shadow-sm">
+            <div className="rounded-2xl border border-[#D7E2F1] bg-white px-4 py-3 text-sm bd-ink2 shadow-sm">
               <div className="font-extrabold">Need help with this order?</div>
               <p className="mt-1">Use the Resolution Centre or contact Support if something does not look right.</p>
               <div className="mt-3 flex flex-wrap gap-2">

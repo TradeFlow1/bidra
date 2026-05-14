@@ -349,22 +349,28 @@ export default async function ListingsPage({
         </div>
       ) : null}
 
-      <button type="submit" className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033]">Apply filters</button>
+      <button type="submit" className="bd-btn bd-btn-primary w-full rounded-2xl">Apply filters</button>
     </form>
   );
 
   return (
-    <main className="bg-[#F7F9FC]">
-      <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/" label="Back to home" /></div>
-      <div className="mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 lg:px-3 lg:py-6">
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
-          <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">Browse active marketplace listings</h1>
-          <p className="mt-2 text-sm text-[#475569]"></p>
+    <main className="bg-[#F4F7FB]">
+      <div className="bd-shell py-5 sm:py-7">
+        <BackButton href="/" label="Back to home" />
+        <section className="bd-page-hero mt-4 p-5 sm:p-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#607089]">Search / listings</div>
+              <h1 className="mt-2 text-3xl font-black tracking-tight text-[#07152E] sm:text-4xl">All listings</h1>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#526173]">Search local items, filter by category and location, then buy now or make an offer.</p>
+            </div>
+            <Link href={buildHref({ q, category, location, condition, min, max, sort })} className="bd-btn bd-btn-secondary rounded-2xl">Save search</Link>
+          </div>
         </section>
 
-        <section className="mt-5 grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[18rem_minmax(0,1fr)]">
+        <section className="mt-5 grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[16rem_minmax(0,1fr)]">
           <aside className="min-w-0 xl:sticky xl:top-24 xl:self-start">
-            <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
+            <div className="overflow-hidden bd-card">
               <div className="p-4 sm:p-5">
                 <MobileFiltersToggle>
                   <FiltersForm />
@@ -441,9 +447,9 @@ export default async function ListingsPage({
               ) : null}
             </div>
 
-            <div className="browseList grid w-full min-w-0 grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 2xl:grid-cols-5">
+            <div className="browseList grid w-full min-w-0 grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
               {listings.length === 0 ? (
-                <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-3 sm:px-6 py-12 text-center shadow-sm">
+                <div className="col-span-full bd-empty-state px-3 py-12 sm:px-6">
                   <div className="mx-auto w-full max-w-2xl">
                     <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches yet" : "No listings here yet"}</div>
                     <p className="mt-2 text-sm text-[#475569]">

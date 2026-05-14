@@ -3,6 +3,7 @@ import "./globals.css";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import Providers from "@/components/providers";
+import MobileBottomNav from "@/components/mobile-bottom-nav";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://bidra.com.au"),
@@ -43,11 +44,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col bg-[#F4F7FB] text-[#0B1220]">
         <Providers>
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />
+          <MobileBottomNav />
         </Providers>
       </body>
     </html>

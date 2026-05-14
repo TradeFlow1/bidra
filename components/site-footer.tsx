@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const footerGroups = [
@@ -5,25 +6,25 @@ const footerGroups = [
     title: "Marketplace",
     links: [
       { href: "/", label: "Home" },
-      { href: "/listings", label: "Browse listings" },
-      { href: "/auth/register", label: "Create account" },
-      { href: "/sell", label: "Sell" },
+      { href: "/listings", label: "Buy now" },
+      { href: "/listings?type=OFFERABLE", label: "Make an offer" },
+      { href: "/sell/new", label: "Sell an item" },
     ],
   },
   {
     title: "Support",
     links: [
-      { href: "/support", label: "Support" },
-      { href: "/contact", label: "Contact" },
+      { href: "/support", label: "Help centre" },
+      { href: "/contact", label: "Contact us" },
       { href: "/feedback", label: "Feedback" },
+      { href: "/legal/prohibited-items", label: "Community guidelines" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { href: "/legal", label: "Legal hub" },
-      { href: "/legal/privacy", label: "Privacy" },
-      { href: "/legal/terms", label: "Terms" },
+      { href: "/legal/terms", label: "Terms of use" },
+      { href: "/legal/privacy", label: "Privacy policy" },
       { href: "/legal/fees", label: "Fees" },
       { href: "/legal/prohibited-items", label: "Prohibited items" },
     ],
@@ -32,64 +33,49 @@ const footerGroups = [
 
 export default function SiteFooter() {
   return (
-    <footer className="mt-8 border-t border-[#D8E1F0] bg-white">
-      <div className="mx-auto w-full max-w-6xl px-4 py-7 md:hidden">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Bidra Marketplace</div>
-        <div className="mt-2 text-2xl font-extrabold leading-tight tracking-tight text-[#0F172A]">
-          Buy now. Make offers.
-        </div>
-        <p className="mt-2 text-sm leading-6 text-[#475569]">
-          Browse listings, buy now, and arrange handover directly with buyers or sellers.
-        </p>
-
-        <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-5">
-          {footerGroups.map((group) => (
-            <div key={group.title}>
-              <div className="text-sm font-extrabold text-[#0F172A]">{group.title}</div>
-              <div className="mt-2 grid gap-2">
-                {group.links.map((link) => (
-                  <Link key={link.href} href={link.href} className="text-sm font-semibold text-[#2563EB] hover:underline">
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6 border-t border-[#D8E1F0] pt-4 text-xs leading-5 text-[#64748B]">
-          <div>&copy; 2026 Bidra. All rights reserved.</div>
-          <div className="mt-1">Bidra is a marketplace platform. Buyers and sellers arrange payment, pickup, postage, and handover details.</div>
-        </div>
-      </div>
-
-      <div className="mx-auto hidden w-full max-w-6xl px-4 py-10 md:block">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <footer className="mt-10 border-t border-[#DDE7F4] bg-white pb-[calc(5.25rem+env(safe-area-inset-bottom))] md:pb-0">
+      <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-11">
+        <div className="grid gap-8 lg:grid-cols-[1.25fr_2fr_1fr] lg:items-start">
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Bidra Marketplace</div>
-            <div className="mt-3 text-3xl font-extrabold leading-tight tracking-tight text-[#0F172A]">
-              Buy now. Make offers. Arrange handover.
-            </div>
-            <p className="mt-3 max-w-sm text-sm leading-6 text-[#475569]">
-              Browse listings, Buy Now, and make offers. No buyer or standard listing fees.
+            <Link href="/" className="relative block h-10 w-32" aria-label="Bidra home">
+              <Image src="/brand/bidra-kangaroo-logo-tight.png" alt="Bidra" fill className="object-contain object-left" sizes="128px" />
+            </Link>
+            <p className="mt-4 max-w-sm text-sm leading-6 text-[#526173]">
+              Australia&apos;s local marketplace for buying, selling, making offers, and arranging handover with confidence.
             </p>
+            <div className="mt-4 flex gap-2 text-xs font-extrabold text-[#607089]">
+              <span className="bd-pill">Buy now</span>
+              <span className="bd-pill">Offers</span>
+              <span className="bd-pill">Local</span>
+            </div>
           </div>
 
-          {footerGroups.map((group) => (
-            <div key={group.title}>
-              <div className="text-sm font-extrabold text-[#0F172A]">{group.title}</div>
-              <div className="mt-3 grid gap-2">
-                {group.links.map((link) => (
-                  <Link key={link.href} href={link.href} className="text-sm font-semibold text-[#2563EB] hover:underline">
-                    {link.label}
-                  </Link>
-                ))}
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
+            {footerGroups.map((group) => (
+              <div key={group.title}>
+                <div className="text-sm font-extrabold text-[#0F172A]">{group.title}</div>
+                <div className="mt-3 grid gap-2.5">
+                  {group.links.map((link) => (
+                    <Link key={link.href} href={link.href} className="text-sm font-semibold text-[#526173] transition hover:text-[#0B4DFF]">
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
               </div>
+            ))}
+          </div>
+
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-[#F7FAFF] p-4">
+            <div className="text-sm font-extrabold text-[#0F172A]">Stay in the loop</div>
+            <p className="mt-2 text-sm leading-6 text-[#526173]">Get tips to list better and discover local deals.</p>
+            <div className="mt-3 flex gap-2">
+              <input aria-label="Email address" placeholder="Enter your email" className="bd-input min-w-0 flex-1 rounded-full bg-white text-sm" />
+              <button type="button" className="bd-btn bd-btn-primary rounded-full px-4">Subscribe</button>
             </div>
-          ))}
+          </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-3 border-t border-[#D8E1F0] pt-5 text-xs text-[#64748B] md:flex-row md:items-center md:justify-between">
+        <div className="mt-8 flex flex-col gap-3 border-t border-[#E6EDF7] pt-5 text-xs text-[#607089] md:flex-row md:items-center md:justify-between">
           <div>&copy; 2026 Bidra. All rights reserved.</div>
           <div>Bidra is a marketplace platform. Buyers and sellers arrange payment, pickup, postage, and handover details.</div>
         </div>

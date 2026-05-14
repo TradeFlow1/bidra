@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ListingCard from "@/components/listing-card";
@@ -41,17 +41,17 @@ export default async function CategoryLocationSeoPage({ params }: Props) {
   const listings = await getSeoListings(category.label, location.label);
 
   return (
-    <main className="bg-[#F7F9FC]">
-      <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/listings" label="Back to listings" /></div>
-      <div className="mx-auto w-full max-w-7xl px-4 py-6 lg:px-6">
-        <section className="rounded-[32px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6">
+    <main className="bg-[#F4F7FB]">
+      <div className="bd-shell py-6">
+        <BackButton href="/listings" label="Back to listings" />
+        <section className="bd-page-hero mt-4 p-5 sm:p-6">
           <h1 className="text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl">{category.label} listings in {location.label}</h1>
           <p className="mt-2 text-sm text-[#475569]">Active {category.label} listings near {location.label}, with Buy Now and offer options, seller trust signals, and pickup, postage, or handover details kept in Messages.</p>
           <div className="mt-4 flex flex-wrap gap-2"><Link href={`/listings/c/${category.slug}`} className="bd-btn bd-btn-secondary text-center">View all {category.label}</Link><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Back to all listings</Link><Link href="/sell/new" className="bd-btn bd-btn-primary text-center">List in {location.label}</Link></div>
         </section>
 
         <section className="mt-5">
-          <div className="browseList w-full grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
+          <div className="browseList w-full grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5">
             {listings.length === 0 ? (
               <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
                 <div className="mx-auto max-w-2xl">

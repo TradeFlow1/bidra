@@ -25,10 +25,10 @@ export default async function ContactPage() {
     <main className="bd-container py-6 sm:py-10">
       <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
       <div className="container max-w-5xl space-y-5">
-        <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
+        <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Contact</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Contact</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Contact support</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Send listing, order, message, account, or technical issues to support.

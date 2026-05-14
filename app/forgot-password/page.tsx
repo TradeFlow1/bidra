@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -51,12 +51,12 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <main className="bd-container py-10">
+    <main className="bg-[#F4F7FB] px-4 py-8 sm:py-12">
       <div className="mx-auto w-full mb-4 w-full max-w-5xl"><BackButton href="/auth/login" label="Back to login" /></div>
-      <div className="container max-w-5xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+      <div className="mx-auto w-full max-w-md space-y-5">
+        <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-6 shadow-sm">
           <div className="max-w-3xl">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Account recovery</div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Account recovery</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Forgot password</h1>
             <p className="mt-2 text-sm bd-ink2 sm:text-base">
               Enter your email address and we will send a password reset link if an account exists for it.
@@ -66,24 +66,24 @@ export default function ForgotPasswordPage() {
 
         <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-5">
-            <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
               <div className="text-sm font-extrabold bd-ink">How recovery works</div>
               <div className="mt-4 space-y-4">
-                <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+                <div className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-4">
                   <div className="text-sm font-semibold bd-ink">Privacy-first</div>
                   <div className="mt-1 text-sm bd-ink2">
                     Bidra does not reveal whether a specific email address has an account during password recovery.
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-black/10 bg-white p-4">
+                <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4">
                   <div className="text-sm font-semibold bd-ink">Use the same email</div>
                   <div className="mt-1 text-sm bd-ink2">
                     Enter the email address you used when creating your Bidra account.
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-black/10 bg-white p-4">
+                <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4">
                   <div className="text-sm font-semibold bd-ink">Need another route?</div>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <Link href="/auth/login" className="bd-btn bd-btn-ghost">Back to login</Link>
@@ -94,7 +94,7 @@ export default function ForgotPasswordPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
             {!done ? (
               <>
                 <div>
@@ -113,7 +113,7 @@ export default function ForgotPasswordPage() {
                       onChange={(e) => setEmail(e.target.value)}
                       required
                       placeholder="you@example.com"
-                      className="mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
+                      className="mt-1 w-full rounded-xl border border-[#D7E2F1] bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
                     />
                   </div>
 
@@ -139,7 +139,7 @@ export default function ForgotPasswordPage() {
                 </div>
 
                 {resetUrl ? (
-                  <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4 text-sm">
+                  <div className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-4 text-sm">
                     <div className="font-extrabold bd-ink">Dev link</div>
                     <a className="bd-link break-all" href={resetUrl}>
                       {resetUrl}
