@@ -309,53 +309,66 @@ export default async function ListingDetailPage({
             <p className="mt-3 whitespace-pre-wrap text-base leading-7 text-[#1E293B]">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided. Message the seller before buying or making an offer."}</p>
           </section>
 
-          <section className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
-            <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
-            <div className="mt-1 text-xl font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
-
-            <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-              <div className="rounded-2xl bg-[#F8FAFC] p-3">
-                <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Location</div>
-                <div className="mt-1 font-bold text-[#0F172A]">{sellerLocation}</div>
+          <section className="rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
+                <div className="mt-1 truncate text-lg font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
+                <div className="mt-1 text-sm font-semibold text-[#64748B]">{sellerLocation} - {sellerActiveListings} active</div>
               </div>
-              <div className="rounded-2xl bg-[#F8FAFC] p-3">
-                <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Listings</div>
-                <div className="mt-1 font-bold text-[#0F172A]">{sellerActiveListings} active</div>
-              </div>
+              <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target shrink-0 rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-extrabold text-[#0F172A] shadow-sm transition hover:bg-white">Profile</Link>
             </div>
 
             {sellerTrustSignals.length > 0 ? (
-              <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
+              <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 text-[11px] font-semibold">
                 {sellerTrustSignals.map((signal) => (
-                  <span key={signal} className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1 text-[#334155]">{signal}</span>
+                  <span key={signal} className="shrink-0 rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2 py-1 text-[#334155]">{signal}</span>
                 ))}
               </div>
             ) : null}
-
-            <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target mt-3 inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">View seller profile</Link>
           </section>
 
-          <section className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 text-sm text-[#475569] shadow-sm">
-            <div className="text-base font-extrabold text-[#0F172A]">Before you act</div>
-            <ul className="mt-2 list-disc space-y-1.5 pl-5 leading-6">
-              <li>Check the photos, description, condition, location, and seller profile.</li>
-              <li>Keep payment, pickup, postage, and handover details in Messages.</li>
-              <li>Report anything suspicious before committing.</li>
-            </ul>
-          </section>
+          <details className="group rounded-[24px] border border-[#D8E1F0] bg-white p-3 text-sm text-[#475569] shadow-sm">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-extrabold text-[#0F172A] [&::-webkit-details-marker]:hidden">
+              <span>Details and safety</span>
+              <span className="text-xs font-bold text-[#64748B] group-open:hidden">Open</span>
+              <span className="hidden text-xs font-bold text-[#64748B] group-open:inline">Close</span>
+            </summary>
 
-          <section className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
-            <ShareActions
-              url={listingUrl}
-              title={cleanText(listing.title)}
-              text={`Take a look at this listing on Bidra: ${cleanText(listing.title)}`}
-              label="Share listing"
-            />
-            <div className="mt-3 border-t border-[#E2E8F0] pt-3">
-              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#64748B]">Report listing</div>
-              <ReportListingButton listingId={listing.id} />
+            <div className="mt-3 space-y-3 border-t border-[#E2E8F0] pt-3">
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="rounded-xl bg-[#F8FAFC] p-2">
+                  <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Sale type</div>
+                  <div className="mt-1 font-bold text-[#0F172A]">{isTimedOffers ? "Offers" : "Buy now"}</div>
+                </div>
+                <div className="rounded-xl bg-[#F8FAFC] p-2">
+                  <div className="font-bold uppercase tracking-[0.12em] text-[#64748B]">Condition</div>
+                  <div className="mt-1 font-bold text-[#0F172A]">{cleanText(listing.condition)}</div>
+                </div>
+              </div>
+
+              <div>
+                <div className="font-extrabold text-[#0F172A]">Before you act</div>
+                <ul className="mt-2 list-disc space-y-1 pl-5 leading-6">
+                  <li>Check photos, description, condition, location, and seller profile.</li>
+                  <li>Keep pickup, postage, payment, and handover details in Messages.</li>
+                  <li>Report anything suspicious before committing.</li>
+                </ul>
+              </div>
+
+              <ShareActions
+                url={listingUrl}
+                title={cleanText(listing.title)}
+                text={`Take a look at this listing on Bidra: ${cleanText(listing.title)}`}
+                label="Share listing"
+              />
+
+              <div className="border-t border-[#E2E8F0] pt-3">
+                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#64748B]">Report listing</div>
+                <ReportListingButton listingId={listing.id} />
+              </div>
             </div>
-          </section>
+          </details>
         </section>
 
         <section className="hidden min-w-0 overflow-hidden rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6 lg:block">
