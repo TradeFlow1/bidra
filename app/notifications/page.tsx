@@ -1,10 +1,11 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import Link from "next/link";
+import AccountNav from "@/components/account-nav";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { getNotificationChannelSummary, getNotificationCounts } from "@/lib/notifications";
+import { getNotificationCounts } from "@/lib/notifications";
 
 function CountPill({ label, value }: { label: string; value: number }) {
   return (
@@ -52,18 +53,18 @@ export default async function NotificationsPage() {
   if (!user?.id) redirect("/auth/login?next=/notifications");
 
   const counts = await getNotificationCounts(user.id);
-  const channels = getNotificationChannelSummary();
 
   return (
-    <main className="bd-container py-10">
-      <div className="container max-w-5xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+    <main className="bd-container py-4 sm:py-8">
+      <div className="container max-w-5xl space-y-3 sm:space-y-4">
+        <AccountNav active="updates" />
+        <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Updates</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Messages and orders</h1>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">My Bidra</div>
+              <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">Updates</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Keep up with unread messages, orders, and follow-up. Bidra currently uses in-app counts and email where available; browser push, native mobile push, and background delivery are not active yet. Bidra currently uses in-app counts and email where available; browser push, native mobile push, and background delivery are not active yet.
+                Unread messages, order actions, and feedback reminders.
               </p>
             </div>
 
@@ -75,33 +76,7 @@ export default async function NotificationsPage() {
           </div>
         </div>
 
-                <div className="rounded-3xl border border-blue-200 bg-blue-50 p-5 text-sm leading-7 text-blue-950 shadow-sm">
-          <div className="font-extrabold">Notification channels</div>
-          <p className="mt-1">{channels.summary}</p>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-2xl border border-blue-200 bg-white/70 p-4">
-              <div className="text-xs font-semibold uppercase tracking-wide text-blue-700">In-app</div>
-              <div className="mt-1 font-extrabold">Active</div>
-              <p className="mt-1 text-xs leading-5">Unread messages, orders, and feedback counts appear here and on dashboard surfaces.</p>
-            </div>
-            <div className="rounded-2xl border border-blue-200 bg-white/70 p-4">
-              <div className="text-xs font-semibold uppercase tracking-wide text-blue-700">Email</div>
-              <div className="mt-1 font-extrabold">Where configured</div>
-              <p className="mt-1 text-xs leading-5">Bidra can send supported message, order, and offer emails when the email channel is configured.</p>
-            </div>
-            <div className="rounded-2xl border border-blue-200 bg-white/70 p-4">
-              <div className="text-xs font-semibold uppercase tracking-wide text-blue-700">Browser push</div>
-              <div className="mt-1 font-extrabold">{channels.webPush ? "Active" : "Not active"}</div>
-              <p className="mt-1 text-xs leading-5">No Web Push subscription, service worker push handler, or background browser delivery is active yet.</p>
-            </div>
-            <div className="rounded-2xl border border-blue-200 bg-white/70 p-4">
-              <div className="text-xs font-semibold uppercase tracking-wide text-blue-700">Mobile push</div>
-              <div className="mt-1 font-extrabold">{channels.nativeMobilePush ? "Active" : "Not active"}</div>
-              <p className="mt-1 text-xs leading-5">No Firebase Cloud Messaging, APNs, or native mobile app push channel is active yet.</p>
-            </div>
-          </div>
-        </div>
-<div className="grid gap-5 lg:grid-cols-2">
+                <div className="grid gap-3 lg:grid-cols-2">
           <UpdateCard
             title="Messages"
             countLabel="Unread"
@@ -109,7 +84,7 @@ export default async function NotificationsPage() {
             href="/messages"
             action="Open inbox"
           >
-            Reply to buyers and sellers, ask questions, and keep pickup or postage details on Bidra. New message emails may be sent where email is configured. New message emails may be sent where email is configured.
+            Reply to buyers and sellers, ask questions, and keep pickup or postage details in Bidra Messages.
           </UpdateCard>
 
           <UpdateCard
@@ -119,7 +94,7 @@ export default async function NotificationsPage() {
             href="/orders"
             action="Open orders"
           >
-            Review orders, message the other person, and handle pickup, postage, or follow-up. Order emails may be sent for supported events. Order emails may be sent for supported events.
+            Review orders, message the other person, and handle pickup, postage, or follow-up.
           </UpdateCard>
         </div>
 
@@ -148,7 +123,7 @@ export default async function NotificationsPage() {
             <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-neutral-900">You are all caught up</div>
               <div className="mt-2 text-sm text-neutral-600">
-                New messages, orders, and optional feedback will appear here. Keep checking this page and your email; Bidra does not currently send browser push or native mobile push notifications. Keep checking this page and your email; Bidra does not currently send browser push or native mobile push notifications.
+                New messages, orders, and optional feedback will appear here.
               </div>
             </div>
           </div>

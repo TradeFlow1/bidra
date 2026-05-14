@@ -1,5 +1,6 @@
 import { labelCategory } from "@/lib/labels";
 import Link from "next/link";
+import AccountNav from "@/components/account-nav";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -103,13 +104,14 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
   const draftCount = listings.filter((l: any) => String(l.status) === "DRAFT").length;
 
   return (
-    <main className="bd-container py-6 sm:py-10">
-      <div className="container max-w-6xl">
-        <div className="flex flex-col gap-5">
+    <main className="bd-container py-4 sm:py-8">
+      <div className="container max-w-5xl">
+        <div className="flex flex-col gap-3 sm:gap-4">
+          <AccountNav active="selling" />
           <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
             <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
               <div>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Seller dashboard</div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">My Bidra</div>
                 <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">My listings</h1>
                 <p className="mt-2 max-w-2xl text-sm bd-ink2 sm:text-base">
                   Manage active listings, drafts, ended listings, and offer visibility in one place.

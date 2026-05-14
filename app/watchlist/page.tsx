@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+import Link from "next/link";
+import AccountNav from "@/components/account-nav";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -81,10 +82,10 @@ export default async function WatchlistPage() {
   }).length;
 
   return (
-    <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-      <div className="container max-w-6xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+    <main className="bd-container py-4 sm:py-8">
+      <div className="container max-w-5xl space-y-3 sm:space-y-4">
+        <AccountNav active="saved" />
+        <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Watchlist</div>
@@ -105,34 +106,9 @@ export default async function WatchlistPage() {
           </div>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Saved</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{items.length}</div>
-            <div className="mt-1 text-sm text-neutral-600">Listings in your watchlist.</div>
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Offer listings</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{savedOfferListings}</div>
-            <div className="mt-1 text-sm text-neutral-600">Saved listings where you can place offers.</div>
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Buy now listings</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{savedBuyNowListings}</div>
-            <div className="mt-1 text-sm text-neutral-600">Saved listings ready for direct purchase.</div>
-          </div>
-
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Ending soon</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-neutral-950">{endingSoonCount}</div>
-            <div className="mt-1 text-sm text-neutral-600">Active saved listings with a known end time in the next 24 hours.</div>
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-xs text-neutral-600 shadow-sm">
-          <span className="font-semibold text-neutral-800">Status snapshot:</span> {activeCount} active and {endedCount} ended or unavailable saved listings.
+        <div className="rounded-[22px] border border-black/10 bg-white px-4 py-3 text-sm text-neutral-700 shadow-sm">
+          <span className="font-extrabold text-neutral-950">{items.length}</span> saved listings.
+          <span className="ml-2 text-neutral-500">{activeCount} active, {endedCount} unavailable.</span>
         </div>
 
         {!items.length ? (

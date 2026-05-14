@@ -1,4 +1,5 @@
-﻿import Link from "next/link";
+import Link from "next/link";
+import AccountNav from "@/components/account-nav";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
@@ -45,9 +46,9 @@ export default async function OrdersPage() {
   const soldCount = orders.length;
   const feedbackDueCount = orders.filter((o: any) => String(o.outcome) === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))).length;
   return (
-    <main className="bd-container py-6 sm:py-10">
-      <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-      <div className="container max-w-5xl space-y-4">
+    <main className="bd-container py-4 sm:py-8">
+      <div className="container max-w-5xl space-y-3 sm:space-y-4">
+        <AccountNav active="buying" />
         <div className="rounded-[28px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">

@@ -1,5 +1,6 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
+import AccountNav from "@/components/account-nav";
 import InboxAutoRefresh from "./components/inbox-auto-refresh";
 import DateTimeText from "@/components/date-time-text";
 import { auth } from "@/lib/auth";
@@ -72,12 +73,12 @@ export default async function MessagesInboxPage() {
     });
 
     return (
-      <main className="bd-container py-5 sm:py-10">
-        <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-        <div className="container max-w-5xl space-y-4 sm:space-y-5">
+      <main className="bd-container py-4 sm:py-8">
+        <div className="container max-w-5xl space-y-3 sm:space-y-4">
+          <AccountNav active="messages" />
           <InboxAutoRefresh />
 
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
+          <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-5">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div className="max-w-3xl">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
@@ -203,9 +204,9 @@ export default async function MessagesInboxPage() {
     );
   } catch (_e) {
     return (
-      <main className="bd-container py-5 sm:py-10">
+      <main className="bd-container py-4 sm:py-8">
         <div className="container max-w-5xl space-y-4 sm:space-y-5">
-          <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-6">
+          <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-4 shadow-sm sm:p-5">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Inbox</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
           </div>
