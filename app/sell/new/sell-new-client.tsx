@@ -774,7 +774,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </details>
 
-        <button type="submit" disabled={busy || !publishReady} className="sticky bottom-2 z-20 inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033] disabled:cursor-not-allowed disabled:opacity-60 sm:static">
+        <button type="submit" disabled={busy || !publishReady} className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0F172A] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172033] disabled:cursor-not-allowed disabled:opacity-60">
           {busy ? "Saving..." : "Publish listing"}
         </button>
       </form>
