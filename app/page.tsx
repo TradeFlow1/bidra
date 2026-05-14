@@ -4,7 +4,6 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
-import HomeCategorySelect from "@/components/home-category-select";
 
 export const revalidate = 10;
 
@@ -201,176 +200,109 @@ export default async function HomePage() {
   }
 
   return (
-    <main className="bg-[#F7F9FC]">
+    <main className="bg-[#F4F7FB]">
       <script
         type="application/ld+json"
         suppressHydrationWarning={true}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(marketplaceJsonLd) }}
       />
-      <div className="mx-auto w-full flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:gap-2 sm:py-4 lg:px-3 sm:px-6 lg:py-4">
-        <section className="overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[linear-gradient(135deg,#FFFFFF_0%,#F5F8FF_52%,#EEF4FF_100%)] shadow-sm">
-          <div className="grid gap-3 p-3 sm:gap-2 sm:p-5 lg:grid-cols-[minmax(0,1.55fr)_18rem] lg:items-center lg:p-5">
-            <div className="relative flex min-h-[6.5rem] items-center overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-[#EFF4FB] px-4 py-3 sm:min-h-[10rem] sm:px-3 sm:px-6 lg:min-h-[11rem] lg:px-7">
-              <Image
-                src="/brand/hero-clouds.png"
-                alt=""
-                fill
-                priority
-                className="object-cover opacity-80"
-                sizes="(max-width: 1024px) 100vw, 60vw"
-              />
-              <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,249,252,0.78)_0%,rgba(247,249,252,0.55)_42%,rgba(247,249,252,0.28)_100%)]" />
-              <div className="relative z-10 h-[5.25rem] w-[18rem] sm:h-[8rem] sm:w-[28rem] lg:h-[9rem] lg:w-[32rem] xl:h-[9.75rem] xl:w-[35rem]">
-                <Image
-                  src="/brand/bidra-kangaroo-logo-tight.png"
-                  alt="Bidra"
-                  fill
-                  priority
-                  className="object-contain object-left drop-shadow-[0_8px_24px_rgba(15,23,42,0.16)]"
-                  sizes="(max-width: 640px) 18rem, (max-width: 1024px) 28rem, (max-width: 1280px) 32rem, 35rem"
-                />
+      <div className="bd-shell flex flex-col gap-6 py-5 sm:py-7 lg:py-8">
+        <section className="bd-page-hero">
+          <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1.05fr)_minmax(25rem,0.95fr)] lg:items-center lg:p-8">
+            <div>
+              <div className="bd-pill w-fit border-blue-100 bg-[#EEF4FF] text-[#0B4DFF]">Australia&apos;s local marketplace</div>
+              <h1 className="mt-5 max-w-2xl text-4xl font-black tracking-[-0.045em] text-[#07152E] sm:text-5xl lg:text-6xl">
+                Buy, sell and discover amazing local deals.
+              </h1>
+              <p className="mt-4 max-w-xl text-base font-medium leading-7 text-[#526173] sm:text-lg">
+                Browse fresh local finds, buy now, make offers, and arrange handover with sellers in Bidra Messages.
+              </p>
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                <Link href="/listings" className="bd-primary-action">Browse listings</Link>
+                <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-secondary rounded-2xl px-5 py-3">Sell an item</Link>
+              </div>
+              <div className="mt-7 grid gap-3 sm:grid-cols-3">
+                {[
+                  ["Safe and trusted", "Accounts and records help support confident buying."],
+                  ["Local and convenient", "Find pickup, postage, and handover options nearby."],
+                  ["Great deals", "Buy now or make offers that work for you."],
+                ].map((item) => (
+                  <div key={item[0]} className="rounded-[18px] border border-[#D7E2F1] bg-white/80 p-4 shadow-sm">
+                    <div className="text-sm font-extrabold text-[#0F172A]">{item[0]}</div>
+                    <p className="mt-1 text-xs leading-5 text-[#607089]">{item[1]}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="grid gap-2 rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
-              <div>
-                <div className="text-sm font-extrabold text-[#0F172A]">Buy and sell locally in Australia</div>
-                <p className="mt-1 text-xs text-[#64748B]">Browse listings or create your own.</p>
-              </div>
-              <HomeCategorySelect />
-              <div className="grid gap-2">
-                <Link href="/listings" className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] shadow-sm bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Browse listings</Link>
-                <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] shadow-sm bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white">Sell</Link>
-              </div>
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+              {(latestListings.length ? latestListings.slice(0, 4) : listings.slice(0, 4)).map((listing, index) => {
+                const imgs = Array.isArray(listing.images) ? listing.images : [];
+                const src = (imgs[0] as any)?.url || (imgs[0] as any)?.src || imgs[0] || "/brand/hero-clouds.png";
+                const price = listing.type === "OFFERABLE" ? (listing.offers?.[0]?.amount ?? listing.price) : (listing.buyNowPrice ?? listing.price);
+                return (
+                  <Link key={listing.id} href={"/listings/" + listing.id} className={(index === 0 ? "mt-8 " : index === 3 ? "-mt-8 " : "") + "group overflow-hidden rounded-[22px] border border-white bg-white p-2 shadow-[0_20px_55px_rgba(28,50,84,0.16)] transition hover:-translate-y-1"}>
+                    <div className="relative aspect-[1.25/1] overflow-hidden rounded-[18px] bg-[#EEF3FA]">
+                      <Image src={src} alt={listing.title} fill className="object-cover transition group-hover:scale-[1.03]" sizes="(max-width: 1024px) 45vw, 22vw" />
+                    </div>
+                    <div className="p-2">
+                      <div className="text-xs font-black text-[#07152E]">{(Number(price || 0) / 100).toLocaleString("en-AU", { style: "currency", currency: "AUD" })}</div>
+                      <div className="mt-1 truncate text-xs font-bold text-[#526173]">{listing.title}</div>
+                    </div>
+                  </Link>
+                );
+              })}
+              {latestListings.length === 0 ? (
+                <div className="col-span-2 rounded-[24px] border border-dashed border-[#BFD0E6] bg-white/80 p-8 text-center">
+                  <div className="text-lg font-extrabold text-[#0F172A]">Local finds will appear here</div>
+                  <p className="mt-2 text-sm text-[#607089]">Be one of the first sellers to list on Bidra.</p>
+                </div>
+              ) : null}
             </div>
           </div>
         </section>
 
-        {/* Mobile collapsed Explore */}
-        <details className="sm:hidden rounded-[26px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
-          <summary className="bd-mobile-tap-target flex cursor-pointer list-none items-center justify-between gap-3">
+        <section className="bd-card p-4 sm:p-5 lg:p-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Explore</div>
-              <h2 className="mt-1 text-[1.25rem] font-extrabold tracking-tight text-[#0F172A]">Browse categories</h2>
+              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#607089]">Browse categories</div>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-[#07152E]">Shop by category</h2>
             </div>
-            <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm">
-              Show
-            </span>
-          </summary>
-
-          {featuredCategories.length ? (
-            <div className="mt-4 grid gap-2">
-              {featuredCategories.map(function (entry) {
-                return (
-                  <Link
-                    key={entry[0]}
-                    href={"/listings?category=" + encodeURIComponent(entry[0])}
-                    className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white"
-                  >
-                    <span>{entry[0]}</span>
-                    <span className="ml-2 text-xs font-medium text-[#64748B]">({entry[1]})</span>
-                  </Link>
-                );
-              })}
-              <Link
-                href="/listings"
-                className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm"
-              >
-                View all categories
+            <Link href="/listings" className="text-sm font-extrabold text-[#0B4DFF]">View all categories</Link>
+          </div>
+          <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {(featuredCategories.length ? featuredCategories : [["Electronics", 0], ["Home & Living", 0], ["Vehicles", 0], ["Sports & Outdoors", 0], ["Fashion", 0], ["More", 0]] as Array<[string, number]>).map((entry) => (
+              <Link key={entry[0]} href={entry[0] === "More" ? "/listings" : "/listings?category=" + encodeURIComponent(entry[0])} className="rounded-[20px] border border-[#D7E2F1] bg-[#F8FAFF] p-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md">
+                <div className="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-white text-xl shadow-sm">▣</div>
+                <div className="mt-3 truncate text-sm font-extrabold text-[#0F172A]">{entry[0]}</div>
+                <div className="mt-1 text-xs font-semibold text-[#607089]">{entry[1] ? entry[1].toLocaleString() + " items" : "Explore"}</div>
               </Link>
-            </div>
-          ) : (
-            <div className="mt-4 rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] p-4 text-sm font-semibold text-[#0F172A]">
-              No categories yet
-            </div>
-          )}
-        </details>
-
-        <section className="hidden rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:block sm:p-5 lg:p-3 sm:p-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
-            <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Explore</div>
-              <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Browse categories</h2>
-            </div>
-            <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
-              View all
-            </Link>
+            ))}
           </div>
-          {featuredCategories.length ? (
-            <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {featuredCategories.map(function (entry) {
-                return (
-                  <Link
-                    key={entry[0]}
-                    href={"/listings?category=" + encodeURIComponent(entry[0])}
-                    className="bd-mobile-tap-target rounded-2xl border border-[#D8E1F0] shadow-sm bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] transition hover:bg-white"
-                  >
-                    <span>{entry[0]}</span>
-                    <span className="ml-2 text-xs font-medium text-[#64748B]">({entry[1]})</span>
-                  </Link>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="mt-4 rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] p-5 text-center"><div className="text-base font-extrabold text-[#0F172A]">No listings here yet</div><p className="mx-auto w-full mt-2 max-w-2xl text-sm text-[#64748B]">Listings will appear here when sellers add items in this category. Create a listing with clear photos, condition, price, and pickup or postage details.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">List an item</Link><Link href="/how-it-works" className="bd-btn bd-btn-secondary text-center">How it works</Link></div></div>
-          )}
         </section>
 
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-3 sm:p-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
+        <section className="bd-card p-4 sm:p-5 lg:p-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Listings</div>
-              <h2 className="mt-1 text-[1.9rem] font-extrabold tracking-tight text-[#0F172A]">Latest listings</h2>
+              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#607089]">Latest listings</div>
+              <h2 className="mt-1 text-2xl font-black tracking-tight text-[#07152E]">Fresh finds near you</h2>
             </div>
-
-            <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
-              View all
-            </Link>
+            <Link href="/listings" className="text-sm font-extrabold text-[#0B4DFF]">View all listings</Link>
           </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {latestListings.length ? latestListings.map(renderCard) : (
-              <div className="col-span-full rounded-2xl border border-dashed border-[#CBD5E1] bg-[#F8FAFC] px-5 py-8 text-center"><div className="text-base font-extrabold text-[#0F172A]">No listings yet</div><p className="mx-auto w-full mt-2 max-w-2xl text-sm text-[#64748B]">Create a listing with clear photos, condition, price, and location details.</p><div className="mt-4 flex flex-wrap justify-center gap-2"><Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary text-center">Create a listing</Link><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Browse listings</Link></div></div>
+          <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            {latestListings.length ? latestListings.slice(0, 10).map(renderCard) : (
+              <div className="col-span-full rounded-[24px] border border-dashed border-[#BFD0E6] bg-[#F8FAFF] px-5 py-10 text-center">
+                <div className="text-lg font-extrabold text-[#0F172A]">No listings yet</div>
+                <p className="mt-2 text-sm text-[#607089]">Create a listing with clear photos, condition, price, and location details.</p>
+                <div className="mt-4 flex justify-center gap-2">
+                  <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary">Create a listing</Link>
+                  <Link href="/listings" className="bd-btn bd-btn-secondary">Browse listings</Link>
+                </div>
+              </div>
             )}
           </div>
         </section>
-
-        {offerableListings.length ? (
-          <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-3 sm:p-6">
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
-              <div>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Offer listings</div>
-                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Make an offer</h2>
-              </div>
-              <Link href="/listings?type=OFFERABLE" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
-                View all
-              </Link>
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {offerableListings.map(renderCard)}
-            </div>
-          </section>
-        ) : null}
-
-        {buyNowListings.length ? (
-          <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 lg:p-3 sm:p-6">
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E6EDF7] pb-3">
-              <div>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Buy now listings</div>
-                <h2 className="mt-1 text-[1.5rem] font-extrabold tracking-tight text-[#0F172A]">Buy Now listings</h2>
-              </div>
-              <Link href="/listings?type=BUY_NOW" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">
-                View all
-              </Link>
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              {buyNowListings.map(renderCard)}
-            </div>
-          </section>
-        ) : null}
       </div>
     </main>
   );
 }
-
-
