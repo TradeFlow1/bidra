@@ -4,6 +4,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
+import { CATEGORY_GROUPS } from "@/lib/categories";
 
 export const revalidate = 10;
 
@@ -228,15 +229,17 @@ export default async function HomePage() {
     { key: "camera", label: "Camera", fallbackTitle: "Canon EOS Camera", fallbackPrice: "$450", listing: findVisualListing(["electronics"], ["camera", "canon", "nikon", "lens"]) },
   ];
 
-  const fixedCategories = [
-    { label: "Electronics", icon: "phone", count: topLevelCategoryCounts.get("Electronics") || 1240 },
-    { label: "Home & Living", icon: "home", count: topLevelCategoryCounts.get("Home & Living") || 896 },
-    { label: "Vehicles", icon: "car", count: topLevelCategoryCounts.get("Vehicles") || 542 },
-    { label: "Sports & Outdoors", icon: "ball", count: topLevelCategoryCounts.get("Sports & Outdoors") || 764 },
-    { label: "Fashion", icon: "shirt", count: topLevelCategoryCounts.get("Fashion") || 1032 },
-    { label: "Kids & Baby", icon: "baby", count: topLevelCategoryCounts.get("Kids & Baby") || 428 },
-    { label: "More", icon: "grid", count: 0 },
-  ];
+  const preferredCategoryLabels = ["Electronics", "Home & Furniture", "Vehicles", "Sports & Outdoors", "Fashion", "Baby & Kids"];
+  const validCategoryParents = new Set(CATEGORY_GROUPS.map((group) => group.parent));
+  const fixedCategories = preferredCategoryLabels
+    .filter((label) => validCategoryParents.has(label))
+    .map((label) => ({
+      label,
+      icon: label === "Electronics" ? "phone" : label === "Home & Furniture" ? "home" : label === "Vehicles" ? "car" : label === "Sports & Outdoors" ? "ball" : label === "Fashion" ? "shirt" : "baby",
+      href: "/listings?category=" + encodeURIComponent(label),
+      count: topLevelCategoryCounts.get(label) || 0,
+    }))
+    .concat([{ label: "More", icon: "grid", href: "/listings", count: 0 }]);
 
   function LineIcon({ name }: { name: string }) {
     const cls = "h-6 w-6";
@@ -341,12 +344,12 @@ export default async function HomePage() {
             {fixedCategories.map((cat) => (
               <Link
                 key={cat.label}
-                href={cat.label === "More" ? "/listings" : "/listings?category=" + encodeURIComponent(cat.label)}
+                href={cat.href}
                 className="min-w-[8.5rem] rounded-[20px] border border-[#D7E2F1] bg-white p-4 text-center shadow-[0_12px_35px_rgba(28,50,84,0.06)] transition hover:-translate-y-0.5 hover:border-[#B9CAE2] hover:shadow-[0_18px_45px_rgba(28,50,84,0.10)]"
               >
                 <div className="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-[#F3F7FF] text-[#06132B]"><LineIcon name={cat.icon} /></div>
                 <div className="mt-3 truncate text-sm font-black text-[#06132B]">{cat.label}</div>
-                <div className="mt-1 text-xs font-semibold text-[#607089]">{cat.count ? cat.count.toLocaleString() + " items" : "View all"}</div>
+                <div className="mt-1 text-xs font-semibold text-[#607089]">{cat.count > 0 ? cat.count.toLocaleString() + " items" : (cat.label === "More" ? "View listings" : "Explore")}</div>
               </Link>
             ))}
           </div>
