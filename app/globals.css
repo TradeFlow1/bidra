@@ -412,3 +412,93 @@ body {
     gap: 0.625rem;
   }
 }
+
+/* Bidra full-site trust-first marketplace redesign pass */
+:root {
+  --bd-blue: #0B4DFF;
+  --bd-navy: #07152E;
+  --bd-panel: #F8FAFF;
+  --bd-line: #D7E2F1;
+  --bd-shadow: 0 14px 45px rgba(28, 50, 84, 0.08);
+  --bd-radius: 24px;
+}
+
+::selection {
+  background: rgba(11, 77, 255, 0.16);
+  color: var(--bd-navy);
+}
+
+.bd-marketplace-card,
+.bd-surface,
+.bd-card,
+.bd-form-card,
+.bd-empty-state,
+.bd-marketplace-section {
+  border-color: var(--bd-line) !important;
+}
+
+.bd-marketplace-card {
+  height: 100%;
+  box-shadow: var(--bd-shadow);
+}
+
+.bd-marketplace-card:active {
+  transform: translateY(1px);
+}
+
+.bd-btn,
+.bd-primary-action,
+a.bd-btn,
+button.bd-btn {
+  min-height: 44px;
+  border-radius: 16px;
+  font-weight: 900;
+}
+
+.bd-input,
+input:not([type='checkbox']):not([type='radio']),
+select,
+textarea {
+  min-height: 44px;
+  background-color: #fff;
+}
+
+.bd-readable-prose {
+  color: #334155;
+  line-height: 1.8;
+}
+
+.bd-readable-prose h1,
+.bd-readable-prose h2,
+.bd-readable-prose h3 {
+  color: var(--bd-navy);
+  letter-spacing: -0.02em;
+}
+
+.bd-mobile-bottom-nav {
+  padding-bottom: calc(0.45rem + env(safe-area-inset-bottom) * 0.15);
+}
+
+@media (max-width: 390px) {
+  .browseList,
+  .bd-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bd-marketplace-card {
+    border-radius: 16px;
+  }
+
+  .bd-bottom-nav-item,
+  .bd-mobile-bottom-nav .bd-bottom-nav-item {
+    min-height: 3.15rem;
+    font-size: 0.64rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .browseList,
+  .bd-card-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
