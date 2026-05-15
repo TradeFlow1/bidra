@@ -34,7 +34,7 @@ const footerGroups = [
 export default function SiteFooter() {
   return (
     <footer className="mt-10 border-t border-[#DDE7F4] bg-white pb-[calc(5.25rem+env(safe-area-inset-bottom))] md:pb-0">
-      <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-11">
+      <div className="mx-auto w-full max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8 lg:py-11">
         <div className="grid gap-8 lg:grid-cols-[1.25fr_2fr_1fr] lg:items-start">
           <div>
             <Link href="/" className="flex h-10 w-36 items-center" aria-label="Bidra home">

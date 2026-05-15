@@ -56,7 +56,7 @@ export default async function NotificationsPage() {
 
   return (
     <main className="bd-container py-4 sm:py-8">
-      <div className="container max-w-5xl space-y-3 sm:space-y-4">
+      <div className="container max-w-7xl space-y-3 sm:space-y-4">
         <AccountNav active="updates" />
         <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">

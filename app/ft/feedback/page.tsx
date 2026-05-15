@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import StatusMessage from "@/components/status-message";
@@ -44,7 +44,7 @@ export default function FtFeedbackPage() {
   if (!FT_ENABLED) {
     return (
       <main className="mx-auto w-full max-w-xl p-6">
-      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/feedback" label="Back to feedback" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/feedback" label="Back to feedback" /></div>
         <h1 className="text-xl font-bold">Feedback (Friend Test only)</h1>
         <p className="mt-2 text-sm text-gray-600">
           This page is only available during the private Friend Test.
@@ -56,7 +56,7 @@ export default function FtFeedbackPage() {
   if (sent) {
     return (
       <main className="mx-auto w-full max-w-xl p-6">
-      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/feedback" label="Back to feedback" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/feedback" label="Back to feedback" /></div>
         <h1 className="text-xl font-bold">Thanks ðŸ™</h1>
         <p className="mt-2 text-sm">Your feedback helps us improve Bidra.</p>
       </main>
@@ -65,7 +65,7 @@ export default function FtFeedbackPage() {
 
   return (
     <main className="mx-auto w-full max-w-xl p-6">
-      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/feedback" label="Back to feedback" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/feedback" label="Back to feedback" /></div>
       <h1 className="text-xl font-bold">Help us improve Bidra</h1>
       <p className="mt-2 text-sm text-gray-600">
         Found something confusing or broken? Tell us here.

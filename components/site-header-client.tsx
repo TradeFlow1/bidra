@@ -121,7 +121,7 @@ export default function SiteHeaderClient({
 
   return (
     <header className="sticky top-0 z-[80] border-b border-[#DDE7F4] bg-white/95 text-[#0F172A] shadow-[0_10px_35px_rgba(30,49,78,0.08)] backdrop-blur-xl">
-      <div className="mx-auto hidden w-full max-w-7xl grid-cols-[auto_1fr_minmax(16rem,23rem)_auto] items-center gap-6 px-4 py-3 md:grid lg:px-6">
+      <div className="mx-auto hidden w-full max-w-[1440px] grid-cols-[auto_1fr_minmax(16rem,23rem)_auto] items-center gap-6 px-4 py-3 md:grid lg:px-6">
         <Link href="/" className="flex h-10 w-32 shrink-0 items-center" aria-label="Bidra home">
           <BrandLogo className="h-8 w-auto" priority />
         </Link>

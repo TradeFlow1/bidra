@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
@@ -9,7 +9,7 @@ export default function RegisterSuccessPage() {
 
   return (
     <main className={shell}>
-      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/auth/login" label="Back to login" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/auth/login" label="Back to login" /></div>
       <div className={card}>
         <h1 className="text-2xl font-extrabold tracking-tight text-[#0b1220]">Account created</h1>
         <p className="mt-2 text-sm text-black/60">

@@ -52,7 +52,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <main className="bg-[#F4F7FB] px-4 py-8 sm:py-12">
-      <div className="mx-auto w-full mb-4 w-full max-w-5xl"><BackButton href="/auth/login" label="Back to login" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl"><BackButton href="/auth/login" label="Back to login" /></div>
       <div className="mx-auto w-full max-w-md space-y-5">
         <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-6 shadow-sm">
           <div className="max-w-3xl">

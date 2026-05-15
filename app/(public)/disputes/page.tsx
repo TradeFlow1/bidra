@@ -22,8 +22,8 @@ function StepCard(props: { title: string; body: string; items?: string[] }) {
 export default function Page() {
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-6xl px-4"><BackButton href="/support" label="Back to support" /></div>
-      <div className="container max-w-6xl space-y-5">
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/support" label="Back to support" /></div>
+      <div className="container max-w-7xl space-y-5">
         <section className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">

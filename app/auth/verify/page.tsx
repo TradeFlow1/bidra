@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { BackButton } from "@/components/ui/back-button";
 
@@ -14,8 +14,8 @@ function Shell(props: {
 }) {
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/auth/login" label="Back to login" /></div>
-      <div className="container max-w-5xl space-y-5">
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/auth/login" label="Back to login" /></div>
+      <div className="container max-w-7xl space-y-5">
         <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
           <div className="max-w-3xl">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">{props.eyebrow}</div>

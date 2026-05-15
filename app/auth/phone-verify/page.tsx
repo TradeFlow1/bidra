@@ -65,7 +65,7 @@ export default function PhoneVerifyPage() {
 
   return (
     <main className="bg-[#F4F7FB] px-4 py-8 pb-14 sm:py-12">
-      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/dashboard" label="Back to dashboard" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/dashboard" label="Back to dashboard" /></div>
       <div className="bd-card p-6 sm:p-8 max-w-[560px] mx-auto w-full">
         <h1 className="text-2xl font-extrabold tracking-tight bd-ink">Verify your phone</h1>
         <p className="mt-2 text-sm bd-ink2">

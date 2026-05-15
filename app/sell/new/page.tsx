@@ -39,7 +39,7 @@ export default async function SellNewPage() {
           <BackButton href="/dashboard" label="Back to dashboard" />
         </div>
 
-        <div className="container max-w-4xl">
+        <div className="container max-w-7xl">
           <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Before selling</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink">Finish feedback</h1>
@@ -75,7 +75,7 @@ export default async function SellNewPage() {
         <BackButton href="/dashboard" label="Back to dashboard" />
       </div>
 
-      <div className="container max-w-3xl space-y-3">
+      <div className="container max-w-4xl space-y-3">
         <section className="rounded-[24px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Sell on Bidra</div>
           <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">Create listing</h1>
