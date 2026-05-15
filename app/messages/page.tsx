@@ -74,7 +74,7 @@ export default async function MessagesInboxPage() {
 
     return (
       <main className="bd-container py-4 sm:py-8">
-        <div className="container max-w-5xl space-y-3 sm:space-y-4">
+        <div className="container max-w-7xl space-y-3 sm:space-y-4">
           <AccountNav active="messages" />
           <InboxAutoRefresh />
 
@@ -205,7 +205,7 @@ export default async function MessagesInboxPage() {
   } catch (_e) {
     return (
       <main className="bd-container py-4 sm:py-8">
-        <div className="container max-w-5xl space-y-4 sm:space-y-5">
+        <div className="container max-w-7xl space-y-4 sm:space-y-5">
           <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Inbox</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>

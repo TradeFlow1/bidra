@@ -23,8 +23,8 @@ export default async function ContactPage() {
 
   return (
     <main className="bd-container py-6 sm:py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-      <div className="container max-w-5xl space-y-5">
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
+      <div className="container max-w-7xl space-y-5">
         <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">

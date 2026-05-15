@@ -4,7 +4,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
-import { CategoryTile, ProductPlaceholder, SectionHeader, TrustBadge } from "@/components/marketplace-ui";
+import { CategoryTile, ListingGrid, ProductPlaceholder, SectionHeader, TrustBadge } from "@/components/marketplace-ui";
 
 export const revalidate = 10;
 
@@ -270,7 +270,7 @@ export default async function HomePage() {
 
         <section className="bd-card p-4 sm:p-5 lg:p-6">
           <SectionHeader eyebrow="Latest listings" title="Fresh finds near you" actionHref="/listings" actionLabel="View all" />
-          <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <ListingGrid className="mt-5">
             {latestListings.length ? latestListings.slice(0, 10).map(renderCard) : (
               <div className="col-span-full rounded-[24px] border border-dashed border-[#BFD0E6] bg-[#F8FAFF] px-5 py-10 text-center">
                 <div className="mx-auto mb-4 h-28 max-w-44 overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white shadow-sm"><ProductPlaceholder kind="empty" title="No listings" /></div>
@@ -282,7 +282,7 @@ export default async function HomePage() {
                 </div>
               </div>
             )}
-          </div>
+          </ListingGrid>
         </section>
 
         <section className="overflow-hidden rounded-[28px] bg-[#07152E] p-5 text-white shadow-[0_20px_60px_rgba(7,21,46,0.18)] sm:p-7 lg:p-8">

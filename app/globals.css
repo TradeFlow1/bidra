@@ -32,8 +32,8 @@ button.bd-btn {
 }
 /* Launch readiness design system utilities */
 @layer utilities {
-  .bd-container { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
-  .bd-page-shell { @apply mx-auto w-full max-w-7xl px-4 py-5 sm:px-6 sm:py-7 lg:px-8; }
+  .bd-container { @apply mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8; }
+  .bd-page-shell { @apply mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6 sm:py-7 lg:px-8; }
   .bd-page-header { @apply mb-5; }
   .bd-back-link { @apply inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#D8E1F0] bg-white px-3.5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:-translate-y-px hover:border-[#B6C6DC] hover:bg-[#F8FAFC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300; }
   .bd-eyebrow { @apply text-xs font-extrabold uppercase tracking-[0.16em] text-[#64748B]; }
@@ -301,7 +301,7 @@ button[aria-busy='true'] {
 }
 
 @layer utilities {
-  .bd-shell { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .bd-shell { @apply mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8; }
   .bd-section { @apply py-6 sm:py-8 lg:py-10; }
   .bd-card { @apply rounded-[24px] border border-[#D7E2F1] bg-white shadow-[0_14px_45px_rgba(28,50,84,0.08)]; }
   .bd-card-soft { @apply rounded-[24px] border border-[#E1EAF5] bg-[#F8FAFF] shadow-[0_10px_30px_rgba(28,50,84,0.05)]; }
@@ -327,7 +327,7 @@ button[aria-busy='true'] {
 
 /* Full reference UI pass: customer/account surfaces */
 @layer utilities {
-  .bd-account-shell { @apply mx-auto w-full max-w-6xl px-4 py-5 sm:px-6 sm:py-8 lg:px-8; }
+  .bd-account-shell { @apply mx-auto w-full max-w-[1320px] px-4 py-5 sm:px-6 sm:py-8 lg:px-8; }
   .bd-mobile-bottom-nav { position: fixed; left: 0.75rem; right: 0.75rem; bottom: calc(0.75rem + env(safe-area-inset-bottom)); z-index: 90; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 0.25rem; border: 1px solid #D7E2F1; border-radius: 1.5rem; background: rgba(255,255,255,0.96); padding: 0.45rem; box-shadow: 0 20px 50px rgba(28,50,84,0.18); backdrop-filter: blur(18px); }
   .bd-surface { @apply rounded-[24px] border border-[#D7E2F1] bg-white shadow-[0_14px_45px_rgba(28,50,84,0.08)]; }
   .bd-muted-surface { @apply rounded-[22px] border border-[#E1EAF5] bg-[#F8FAFF]; }

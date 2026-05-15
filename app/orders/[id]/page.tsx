@@ -40,8 +40,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   if (!order) {
     return (
       <main className="bd-container py-6 sm:py-10">
-        <div className="mx-auto mb-4 w-full max-w-4xl"><BackButton href="/orders" label="Back to orders" /></div>
-        <div className="container max-w-4xl space-y-3 sm:space-y-4">
+        <div className="mx-auto mb-4 w-full max-w-7xl"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-7xl space-y-3 sm:space-y-4">
           <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
@@ -61,8 +61,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   if (order.buyerId !== user.id && order.listing?.sellerId !== user.id) {
     return (
       <main className="bd-container py-6 sm:py-10">
-        <div className="mx-auto mb-4 w-full max-w-4xl"><BackButton href="/orders" label="Back to orders" /></div>
-        <div className="container max-w-4xl space-y-3 sm:space-y-4">
+        <div className="mx-auto mb-4 w-full max-w-7xl"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-7xl space-y-3 sm:space-y-4">
           <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
@@ -100,8 +100,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   return (
     <main className="bd-container py-6 sm:py-10">
-        <div className="mx-auto mb-4 w-full max-w-5xl px-4"><BackButton href="/orders" label="Back to orders" /></div>
-        <div className="container max-w-5xl space-y-4">
+        <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-7xl space-y-4">
         <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">

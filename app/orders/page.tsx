@@ -47,7 +47,7 @@ export default async function OrdersPage() {
   const feedbackDueCount = orders.filter((o: any) => String(o.outcome) === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))).length;
   return (
     <main className="bd-container py-4 sm:py-8">
-      <div className="container max-w-5xl space-y-3 sm:space-y-4">
+      <div className="container max-w-7xl space-y-3 sm:space-y-4">
         <AccountNav active="buying" />
         <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">

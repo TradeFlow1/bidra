@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import StatusMessage from "@/components/status-message";
@@ -47,7 +47,7 @@ export default function FtReportPage() {
   if (!FT_ENABLED) {
     return (
       <main className="mx-auto w-full max-w-xl p-6">
-      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/support" label="Back to support" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/support" label="Back to support" /></div>
         <h1 className="text-xl font-bold">Friend Test report</h1>
         <p className="mt-2 text-sm text-gray-600">
           This page is only available during the private Friend Test.
@@ -59,7 +59,7 @@ export default function FtReportPage() {
   if (sent) {
     return (
       <main className="mx-auto w-full max-w-xl p-6">
-      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/support" label="Back to support" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/support" label="Back to support" /></div>
         <h1 className="text-xl font-bold">Report received âœ…</h1>
         <p className="mt-2 text-sm">Thanks â€” weâ€™ll review it and fix what we can.</p>
       </main>
@@ -68,7 +68,7 @@ export default function FtReportPage() {
 
   return (
     <main className="mx-auto w-full max-w-xl p-6">
-      <div className="mx-auto w-full mb-4 w-full max-w-5xl px-4"><BackButton href="/support" label="Back to support" /></div>
+      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/support" label="Back to support" /></div>
       <h1 className="text-xl font-bold">Report a bug (Friend Test)</h1>
       <p className="mt-2 text-sm text-gray-600">
         Use this for broken behaviour during testing. For listing, user, scam, prohibited-item, or message safety reports, use the in-product Report flow so moderation evidence is preserved.

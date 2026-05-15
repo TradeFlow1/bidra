@@ -105,7 +105,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
 
   return (
     <main className="bd-container py-4 sm:py-8">
-      <div className="container max-w-5xl">
+      <div className="container max-w-7xl">
         <div className="flex flex-col gap-3 sm:gap-4">
           <AccountNav active="selling" />
           <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
