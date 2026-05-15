@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 type BrandLogoProps = {
@@ -7,29 +6,21 @@ type BrandLogoProps = {
   priority?: boolean;
 };
 
-const logoSrc = {
-  full: "/brand/bidra-logo.svg",
-  symbol: "/brand/bidra-symbol.svg",
-  mono: "/brand/bidra-logo-mono.svg",
-};
+export default function BrandLogo({ variant = "full", className }: BrandLogoProps) {
+  const symbol = (
+    <span className="grid h-10 w-10 place-items-center rounded-2xl bg-[#0B4DFF] text-lg font-black tracking-[-0.04em] text-white shadow-[0_12px_28px_rgba(11,77,255,0.24)]" aria-hidden="true">
+      B
+    </span>
+  );
 
-const dimensions = {
-  full: { width: 520, height: 148 },
-  symbol: { width: 148, height: 148 },
-  mono: { width: 520, height: 148 },
-};
+  if (variant === "symbol") {
+    return <span className={cn("inline-flex items-center", className)}>{symbol}<span className="sr-only">Bidra</span></span>;
+  }
 
-export default function BrandLogo({ variant = "full", className, priority = false }: BrandLogoProps) {
-  const size = dimensions[variant];
   return (
-    <Image
-      src={logoSrc[variant]}
-      alt="Bidra"
-      width={size.width}
-      height={size.height}
-      priority={priority}
-      className={cn("h-auto w-auto object-contain", className)}
-      sizes={variant === "symbol" ? "44px" : "160px"}
-    />
+    <span className={cn("inline-flex items-center gap-2.5", className)} aria-label="Bidra">
+      {symbol}
+      <span className={cn("text-2xl font-black tracking-[-0.06em]", variant === "mono" ? "text-white" : "text-[#07152E]")}>Bidra</span>
+    </span>
   );
 }

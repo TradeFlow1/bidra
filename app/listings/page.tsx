@@ -10,6 +10,7 @@ import { authOptions } from "@/lib/auth";
 import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
 import { prisma } from "@/lib/prisma";
 import { BackButton } from "@/components/ui/back-button";
+import { EmptyMarketplaceState, ReferencePage, appShell } from "@/components/marketplace-redesign";
 
 export const metadata: Metadata = {
   title: "Browse active listings",
@@ -354,14 +355,14 @@ export default async function ListingsPage({
   );
 
   return (
-    <main className="bg-[#F4F7FB]">
-      <div className="bd-shell py-5 sm:py-7">
+    <ReferencePage>
+      <div className={appShell + " py-5 sm:py-7"}>
         <BackButton href="/" label="Back to home" />
-        <section className="bd-page-hero mt-4 p-5 sm:p-6">
+        <section className="mt-4 overflow-hidden rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#607089]">Search / listings</div>
-              <h1 className="mt-2 text-3xl font-black tracking-tight text-[#07152E] sm:text-4xl">All listings</h1>
+              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Find your next local deal.</h1>
               <p className="mt-2 max-w-2xl text-sm leading-6 text-[#526173]">Search local items, filter by category and location, then buy now or make an offer.</p>
             </div>
             <Link href={buildHref({ q, category, location, condition, min, max, sort })} className="bd-btn bd-btn-secondary rounded-2xl">Save search</Link>
@@ -387,7 +388,7 @@ export default async function ListingsPage({
           </div>
         </form>
 
-        <section className="mt-5 grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[16rem_minmax(0,1fr)]">
+        <section className="mt-5 grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[19rem_minmax(0,1fr)]">
           <aside className="min-w-0 xl:sticky xl:top-24 xl:self-start">
             <div className="overflow-hidden bd-card">
               <div className="p-4 sm:p-5">
@@ -466,36 +467,9 @@ export default async function ListingsPage({
               ) : null}
             </div>
 
-            <div className="browseList grid w-full min-w-0 grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
+            <div className="browseList grid w-full min-w-0 grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4">
               {listings.length === 0 ? (
-                <div className="col-span-full bd-empty-state px-3 py-12 sm:px-6">
-                  <div className="mx-auto w-full max-w-2xl">
-                    <div className="text-lg font-bold text-[#0F172A]">{hasFilters ? "No active matches yet" : "No listings here yet"}</div>
-                    <p className="mt-2 text-sm text-[#475569]">
-                      {hasFilters ? "No listings match your filters. Clear filters or adjust your search." : "Create a listing with clear photos, price, condition, and pickup or postage details."}
-                    </p>
-                    <div className="mt-5 grid gap-3 rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-4 text-left sm:grid-cols-3">
-                      <div>
-                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Broaden</div>
-                        <p className="mt-1 text-xs text-[#475569]">Clear filters and try again.</p>
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Compare</div>
-                        <p className="mt-1 text-xs text-[#475569]">Use Buy Now to buy now, or Offers to make an offer.</p>
-                      </div>
-                      <div>
-                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#64748B]">Sell</div>
-                        <p className="mt-1 text-xs text-[#475569]">Create a listing with clear photos and pickup or postage details.</p>
-                      </div>
-                    </div>
-                    <div className="mt-4 flex flex-wrap justify-center gap-2">
-                      <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-primary">Create a listing</Link>
-                      <Link href="/listings" className="bd-btn bd-btn-secondary">Browse all listings</Link>
-                      <Link href={buildHref({ type: "BUY_NOW" })} className="bd-btn bd-btn-secondary">Browse Buy Now</Link>
-                      <Link href={buildHref({ type: "OFFERABLE" })} className="bd-btn bd-btn-secondary">Browse offers</Link>
-                    </div>
-                  </div>
-                </div>
+                <EmptyMarketplaceState title={hasFilters ? "No active matches yet" : "No listings here yet"} body={hasFilters ? "No listings match your filters. Clear filters or adjust your search." : "Create a listing with clear photos, price, condition, and pickup or postage details."} href={userId ? "/sell/new" : "/auth/register"} cta="Create a listing" />
               ) : (
                 listings.map((listing) => {
                   const currentOffer = listing.offers && listing.offers.length ? listing.offers[0].amount : null;
@@ -541,7 +515,7 @@ export default async function ListingsPage({
           </div>
         </section>
       </div>
-    </main>
+    </ReferencePage>
   );
 }
 

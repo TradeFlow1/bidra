@@ -47,7 +47,7 @@ export default function MobileBottomNav() {
   if (!isEnabled || isBlocked) return null;
 
   return (
-    <nav className="bd-mobile-bottom-nav md:hidden" aria-label="Primary mobile navigation">
+    <nav className="bd-mobile-bottom-nav fixed inset-x-0 bottom-0 z-[110] grid grid-cols-5 px-2 pb-[env(safe-area-inset-bottom)] pt-2 md:hidden" aria-label="Primary mobile navigation">
       {items.map((item) => {
         const active = item.match(pathname);
         return (

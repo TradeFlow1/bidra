@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
 
 const topics = [
   { title: "Getting started", desc: "Learn how Bidra works", href: "/how-it-works" },
@@ -18,8 +19,8 @@ const articles = [
 
 export default function SupportPage() {
   return (
-    <main className="bg-[#F4F7FB]">
-      <div className="bd-shell py-6 sm:py-10">
+    <ReferencePage>
+      <div className={appNarrowShell + " py-5 sm:py-8"}>
         <section className="bd-page-hero p-5 sm:p-7">
           <div className="max-w-3xl">
             <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#607089]">Help Centre</div>
@@ -75,6 +76,6 @@ export default function SupportPage() {
           </aside>
         </section>
       </div>
-    </main>
+    </ReferencePage>
   );
 }

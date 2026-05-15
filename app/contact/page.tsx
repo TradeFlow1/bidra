@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import ContactForm from "./contact-form";
 import { BackButton } from "@/components/ui/back-button";
+import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -22,14 +23,14 @@ export default async function ContactPage() {
   const defaultEmail = String((user as any)?.email || "").trim();
 
   return (
-    <main className="bd-container py-6 sm:py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-      <div className="container max-w-7xl space-y-5">
-        <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+    <ReferencePage>
+      <div className={appNarrowShell + " space-y-5 py-5 sm:py-8"}>
+        <BackButton href="/listings" label="Back to marketplace" />
+        <div className="rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Contact</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Contact support</h1>
+              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Contact support</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Send listing, order, message, account, or technical issues to support.
               </p>
@@ -105,7 +106,7 @@ export default async function ContactPage() {
           </div>
         </div>
       </div>
-    </main>
+    </ReferencePage>
   );
 }
 

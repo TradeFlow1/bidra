@@ -8,6 +8,7 @@ import { authOptions } from "@/lib/auth";
 import { getBaseUrl } from "@/lib/base-url";
 import { prisma } from "@/lib/prisma";
 import { BackButton } from "@/components/ui/back-button";
+import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
 
 interface PageProps {
   params: { id: string };
@@ -200,13 +201,10 @@ export default async function SellerPage({ params }: PageProps) {
   const sellerUrl = getBaseUrl().replace(/\/+$/, "") + "/seller/" + seller.id;
 
   return (
-    <main className="bd-container py-6 sm:py-10">
-      <div className="mx-auto mb-4 w-full max-w-7xl px-4">
+    <ReferencePage>
+      <div className={appNarrowShell + " space-y-5 py-5 sm:py-8"}>
         <BackButton href="/listings" label="Back to listings" />
-      </div>
-
-      <div className="container max-w-7xl space-y-5">
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+        <section className="rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
             <div className="min-w-0">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller profile</div>
@@ -339,6 +337,6 @@ export default async function SellerPage({ params }: PageProps) {
           </section>
         ) : null}
       </div>
-    </main>
+    </ReferencePage>
   );
 }

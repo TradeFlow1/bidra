@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { Card, Badge } from "@/components/ui";
 import DateTimeText from "@/components/date-time-text";
 import { BackButton } from "@/components/ui/back-button";
+import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
 
 export const dynamic = "force-dynamic";
 
@@ -46,13 +47,13 @@ export default async function OrdersPage() {
   const soldCount = orders.length;
   const feedbackDueCount = orders.filter((o: any) => String(o.outcome) === "COMPLETED" && ((o.buyerId === user.id && !o.buyerFeedbackAt) || (o.listing?.sellerId === user.id && !o.sellerFeedbackAt))).length;
   return (
-    <main className="bd-container py-4 sm:py-8">
-      <div className="container max-w-7xl space-y-3 sm:space-y-4">
+    <ReferencePage>
+      <div className={appNarrowShell + " space-y-4 py-5 sm:py-7"}>
         <AccountNav active="buying" />
         <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
-              <h1 className="text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Orders</h1>
+              <h1 className="text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Orders</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Track purchases and sales. Open order details to see the next step.
               </p>
@@ -197,7 +198,7 @@ export default async function OrdersPage() {
           </div>
         )}
       </div>
-    </main>
+    </ReferencePage>
   );
 }
 

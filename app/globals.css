@@ -412,3 +412,37 @@ body {
     gap: 0.625rem;
   }
 }
+
+/* Reference-clone marketplace redesign pass */
+.bd-shell,
+.bd-container > .container,
+.container.max-w-7xl {
+  max-width: 1440px;
+}
+
+.bd-btn {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 900;
+}
+
+.bd-marketplace-card {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bd-mobile-bottom-nav {
+  border-top: 1px solid #d8e6f8;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 -16px 45px rgba(32, 75, 140, 0.12);
+}
+
+@media (max-width: 767px) {
+  body { padding-bottom: calc(4.75rem + env(safe-area-inset-bottom)); }
+  .bd-marketplace-card { border-radius: 20px; }
+  .bd-marketplace-card .bd-btn { min-height: 44px; }
+  input, select, textarea, button, a { scroll-margin-top: 88px; }
+}

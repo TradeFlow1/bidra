@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
+import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
 
 const actionClass = "inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto";
 
@@ -33,17 +34,14 @@ function InfoCard(props: {
 
 export default function HowItWorksPage() {
   return (
-    <main className="bd-container py-6 sm:py-10">
-      <div className="mx-auto mb-4 w-full max-w-7xl px-4">
+    <ReferencePage>
+      <div className={appNarrowShell + " space-y-5 py-5 sm:py-8"}>
         <BackButton href="/" label="Back to home" />
-      </div>
-
-      <div className="container max-w-7xl space-y-5">
         <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">How it works</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">How Bidra works</h1>
+              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">How Bidra works</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 List items, use Buy Now or make offers, and arrange pickup or postage in messages.
               </p>
@@ -117,6 +115,6 @@ export default function HowItWorksPage() {
           </div>
         </section>
       </div>
-    </main>
+    </ReferencePage>
   );
 }
