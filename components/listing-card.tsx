@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, type CSSProperties, type MouseEvent } from "react";
 import { useRouter } from "next/navigation";
+import { ProductPlaceholder } from "@/components/marketplace-ui";
 
 type ListingCardListing = {
   id: string;
@@ -125,25 +126,29 @@ export default function ListingCard({
     >
       <div className="overflow-hidden bg-white">
         <div className="relative aspect-[1/0.86] overflow-hidden bg-[#EEF3FA]">
-          <Image
-            src={fallback}
-            alt={title}
-            fill
-            sizes="(max-width: 768px) 50vw, (max-width: 1400px) 25vw, 20vw"
-            className={isNoPhotos ? "object-contain p-8 opacity-95 sm:p-10" : "object-cover transition duration-300 group-hover:scale-[1.02]"}
-            draggable={false}
-            onDragStart={function (e) {
-              e.preventDefault();
-            }}
-            onContextMenu={function (e) {
-              e.preventDefault();
-            }}
-            style={{
-              userSelect: "none",
-              WebkitUserSelect: "none",
-              WebkitUserDrag: "none"
-            } as CSSProperties}
-          />
+          {isNoPhotos ? (
+            <ProductPlaceholder kind={cleanText(listing.category).toLowerCase().includes("bike") ? "bicycle" : cleanText(listing.category).toLowerCase().includes("electronics") ? "laptop" : "generic"} title={title || "Bidra listing"} />
+          ) : (
+            <Image
+              src={fallback}
+              alt={title}
+              fill
+              sizes="(max-width: 768px) 50vw, (max-width: 1400px) 25vw, 20vw"
+              className="object-cover transition duration-300 group-hover:scale-[1.02]"
+              draggable={false}
+              onDragStart={function (e) {
+                e.preventDefault();
+              }}
+              onContextMenu={function (e) {
+                e.preventDefault();
+              }}
+              style={{
+                userSelect: "none",
+                WebkitUserSelect: "none",
+                WebkitUserDrag: "none"
+              } as CSSProperties}
+            />
+          )}
 
           <span className="absolute left-2.5 top-2.5 z-10 rounded-full border border-white/80 bg-white/95 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-[#06132B] shadow-[0_8px_20px_rgba(28,50,84,0.14)]">{saleTypeLabel}</span>
 
