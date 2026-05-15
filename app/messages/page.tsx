@@ -7,7 +7,7 @@ import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { BackButton } from "@/components/ui/back-button";
+import { EmptyMarketplaceState, ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -73,16 +73,16 @@ export default async function MessagesInboxPage() {
     });
 
     return (
-      <main className="bd-container py-4 sm:py-8">
-        <div className="container max-w-7xl space-y-3 sm:space-y-4">
+      <ReferencePage>
+        <div className={appNarrowShell + " space-y-4 py-5 sm:py-7"}>
           <AccountNav active="messages" />
           <InboxAutoRefresh />
 
-          <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
+          <div className="rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
             <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
               <div className="max-w-3xl">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Inbox</div>
-                <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
+                <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Messages</h1>
                 <p className="mt-2 text-sm text-[var(--bidra-ink-2)] sm:text-base">
                   Use messages to arrange pickup or postage, agree on key details, and keep a clear record.
                 </p>
@@ -110,24 +110,9 @@ export default async function MessagesInboxPage() {
           ) : null}
 
           {items.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
-              <div className="mx-auto w-full max-w-xl">
-                <div className="text-xl font-extrabold text-[#0F172A]">No messages yet</div>
-                <p className="mt-2 text-sm text-[#526173]">
-                  Start the conversation by asking about pickup, condition, or availability. Messages from listings and orders will appear here.
-                </p>
-                <div className="mt-5 flex flex-wrap justify-center gap-2">
-                  <Link href="/listings" className="w-full bd-btn bd-btn-secondary text-center sm:w-auto">
-                    Browse listings
-                  </Link>
-                  <Link href="/dashboard" className="w-full bd-btn bd-btn-secondary text-center sm:w-auto">
-                    Back to dashboard
-                  </Link>
-                </div>
-              </div>
-            </div>
+            <EmptyMarketplaceState title="No messages yet" body="Start the conversation by asking about pickup, condition, availability or postage. Messages from listings and orders will appear here." href="/listings" cta="Browse listings" />
           ) : (
-            <div className="space-y-2.5 sm:space-y-3">
+            <div className="grid gap-4 lg:grid-cols-[420px_minmax(0,1fr)]"><div className="space-y-2.5 sm:space-y-3">
               {items.map((it) => {
                 const other = me === it.buyerId ? it.seller : it.buyer;
                 const otherLabel = other.username || other.name || other.email || "User";
@@ -197,15 +182,15 @@ export default async function MessagesInboxPage() {
                   </Link>
                 );
               })}
-            </div>
+            </div><aside className="hidden rounded-[30px] border border-[#D8E6F8] bg-white p-6 shadow-sm lg:block"><div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#0B4DFF]">Conversation</div><h2 className="mt-2 text-2xl font-black tracking-tight text-[#07152E]">Select a message</h2><p className="mt-2 text-sm font-semibold leading-6 text-[#526173]">Open a thread to confirm price, pickup, postage, payment and handover details in one place.</p><div className="mt-6 rounded-[24px] bg-[#EEF6FF] p-5 text-sm font-bold text-[#36506F]">Bidra does not provide escrow or wallet payments. Buyers and sellers arrange payment directly.</div></aside></div>
           )}
         </div>
-      </main>
+      </ReferencePage>
     );
   } catch (_e) {
     return (
-      <main className="bd-container py-4 sm:py-8">
-        <div className="container max-w-7xl space-y-4 sm:space-y-5">
+      <ReferencePage>
+        <div className={appNarrowShell + " space-y-4 py-5 sm:py-7"}>
           <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Inbox</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
@@ -224,7 +209,7 @@ export default async function MessagesInboxPage() {
             </div>
           </div>
         </div>
-      </main>
+      </ReferencePage>
     );
   }
 }

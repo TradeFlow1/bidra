@@ -33,7 +33,7 @@ const footerGroups = [
 
 export default function SiteFooter() {
   return (
-    <footer className="mt-10 border-t border-[#DDE7F4] bg-white pb-[calc(5.25rem+env(safe-area-inset-bottom))] md:pb-0">
+    <footer className="mt-10 border-t border-[#D8E6F8] bg-[#F7FAFF] pb-[calc(5.25rem+env(safe-area-inset-bottom))] md:pb-0">
       <div className="mx-auto w-full max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8 lg:py-11">
         <div className="grid gap-8 lg:grid-cols-[1.25fr_2fr_1fr] lg:items-start">
           <div>
@@ -65,7 +65,7 @@ export default function SiteFooter() {
             ))}
           </div>
 
-          <div className="rounded-[22px] border border-[#D7E2F1] bg-[#F7FAFF] p-4">
+          <div className="rounded-[26px] border border-[#D8E6F8] bg-white p-4 shadow-sm">
             <div className="text-sm font-extrabold text-[#0F172A]">Stay in the loop</div>
             <p className="mt-2 text-sm leading-6 text-[#526173]">Get tips to list better and discover local deals.</p>
             <div className="mt-3 flex gap-2">

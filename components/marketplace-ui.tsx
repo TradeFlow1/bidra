@@ -4,7 +4,7 @@ import BrandLogo from "@/components/brand-logo";
 import { cn } from "@/lib/utils";
 
 export function PageShell({ className, children }: { className?: string; children: React.ReactNode }) {
-  return <div className={cn("bd-shell py-5 sm:py-7 lg:py-8", className)}>{children}</div>;
+  return <div className={cn("mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8", className)}>{children}</div>;
 }
 
 export function BrandSymbol({ className }: { className?: string }) {

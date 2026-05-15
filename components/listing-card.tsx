@@ -121,11 +121,11 @@ export default function ListingCard({
   return (
     <Link
       href={"/listings/" + listing.id}
-      className="bd-marketplace-card group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+      className="bd-marketplace-card group block overflow-hidden rounded-[24px] border border-[#D8E6F8] bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-[#AFC8F8] hover:shadow-[0_18px_50px_rgba(32,75,140,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
       aria-label={"View listing " + title}
     >
       <div className="overflow-hidden bg-white">
-        <div className="relative aspect-[1/0.86] overflow-hidden bg-[#EEF3FA]">
+        <div className="relative aspect-[1/0.92] overflow-hidden bg-[#EEF3FA]">
           {isNoPhotos ? (
             <ProductPlaceholder kind={cleanText(listing.category).toLowerCase().includes("bike") ? "bicycle" : cleanText(listing.category).toLowerCase().includes("electronics") ? "laptop" : "generic"} title={title || "Bidra listing"} />
           ) : (
@@ -150,7 +150,7 @@ export default function ListingCard({
             />
           )}
 
-          <span className="absolute left-2.5 top-2.5 z-10 rounded-full border border-white/80 bg-white/95 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-[#06132B] shadow-[0_8px_20px_rgba(28,50,84,0.14)]">{saleTypeLabel}</span>
+          <span className="absolute left-2.5 top-2.5 z-10 rounded-full border border-white/80 bg-[#0B4DFF] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-white shadow-[0_8px_20px_rgba(28,50,84,0.14)]">{saleTypeLabel}</span>
 
           {showWatchButton ? (
             <button

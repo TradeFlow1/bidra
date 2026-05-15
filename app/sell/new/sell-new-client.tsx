@@ -472,7 +472,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   }
 
   return (
-    <div className="rounded-[22px] border border-[#D8E1F0] bg-white p-2 shadow-sm sm:p-4">
+    <div className="rounded-[28px] border border-[#D8E6F8] bg-white p-3 shadow-[0_18px_50px_rgba(32,75,140,0.10)] sm:p-5">
       {err && (
         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div>
       )}
@@ -494,8 +494,8 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         </div>
       )}
 
-      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="grid gap-2.5 sm:gap-3">
-        <section className="bd-form-card p-3 sm:p-5">
+      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="grid gap-4">
+        <section className="bd-form-card rounded-[26px] p-4 sm:p-6">
           <div className="flex items-center justify-between gap-3">
             <div>
               <h2 className="text-base font-extrabold bd-ink">1) Photos</h2>
@@ -567,7 +567,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </section>
 
-        <details className="bd-form-card p-3 sm:p-5" open={!(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim())}>
+        <details className="bd-form-card rounded-[26px] p-4 sm:p-6" open={!(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim())}>
           <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-extrabold bd-ink [&::-webkit-details-marker]:hidden">
             <span>2) Item details</span>
             <span className={(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim()) ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
@@ -691,7 +691,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </details>
 
-        <section className="bd-form-card p-3 sm:p-5">
+        <section className="bd-form-card rounded-[26px] p-4 sm:p-6">
           <h2 className="text-base font-extrabold bd-ink">3) Price</h2>
           <div className="mt-3 grid gap-2">
             <div>
@@ -740,7 +740,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </section>
 
-        <details className="bd-form-card" open={!publishReady}>
+        <details className="bd-form-card rounded-[26px] p-4 sm:p-6" open={!publishReady}>
           <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-extrabold bd-ink [&::-webkit-details-marker]:hidden">
             <span>4) Publish</span>
             <span className={publishReady ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>

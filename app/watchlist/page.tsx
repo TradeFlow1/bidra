@@ -6,6 +6,7 @@ import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
 import { BackButton } from "@/components/ui/back-button";
+import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -82,14 +83,14 @@ export default async function WatchlistPage() {
   }).length;
 
   return (
-    <main className="bd-container py-4 sm:py-8">
-      <div className="container max-w-7xl space-y-3 sm:space-y-4">
+    <ReferencePage>
+      <div className={appNarrowShell + " space-y-4 py-5 sm:py-7"}>
         <AccountNav active="saved" />
-        <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
+        <div className="rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Watchlist</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Saved listings</h1>
+              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Saved listings</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Save listings to track items you care about, keep an eye on offer movement, and spot ending windows before they close.
               </p>
@@ -151,7 +152,7 @@ export default async function WatchlistPage() {
           </div>
         )}
       </div>
-    </main>
+    </ReferencePage>
   );
 }
 

@@ -6,6 +6,7 @@ import AccountNav from "@/components/account-nav";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getNotificationCounts } from "@/lib/notifications";
+import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
 
 function CountPill({ label, value }: { label: string; value: number }) {
   return (
@@ -55,10 +56,10 @@ export default async function NotificationsPage() {
   const counts = await getNotificationCounts(user.id);
 
   return (
-    <main className="bd-container py-4 sm:py-8">
-      <div className="container max-w-7xl space-y-3 sm:space-y-4">
+    <ReferencePage>
+      <div className={appNarrowShell + " space-y-4 py-5 sm:py-7"}>
         <AccountNav active="updates" />
-        <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
+        <div className="rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">My Bidra</div>
@@ -129,7 +130,7 @@ export default async function NotificationsPage() {
           </div>
         ) : null}
       </div>
-    </main>
+    </ReferencePage>
   );
 }
 

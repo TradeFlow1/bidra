@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
+import { ReferencePage } from "@/components/marketplace-redesign";
 import { useEffect, useMemo, useState } from "react";
 import { checkPasswordPolicy, passwordGuidanceText } from "@/lib/password-policy";
 import LocationSuggest from "./location-suggest";
@@ -225,19 +226,19 @@ export default function RegisterPage() {
     window.location.href = "/auth/register/success";
   }
 
-  const shell = "bd-container py-5 sm:py-10";
+  const shell = "min-h-screen bg-[#F7FAFF] px-4 py-6 sm:py-12";
   const label = "text-sm font-medium";
   const helper = "mt-1 text-xs text-black/55";
   const input = "mt-1 w-full rounded-xl border border-[#D7E2F1] bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5";
 
   return (
-    <main className={shell}>
-      <div className="mx-auto w-full mb-4 w-full max-w-2xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-<div className="mx-auto w-full max-w-lg space-y-4 sm:space-y-5">
-        <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+    <ReferencePage className={shell}>
+      <div className="mx-auto mb-4 w-full max-w-[1120px]"><BackButton href="/listings" label="Back to marketplace" /></div>
+<div className="mx-auto grid w-full max-w-[1120px] gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <div className="rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
           <div className="max-w-3xl">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Join Bidra</div>
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Create your account</h1>
+            <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-5xl">Create your account</h1>
             <p className="mt-2 text-sm bd-ink2 sm:text-base">
               Create an account to buy, sell, message, and manage listings.
             </p>
@@ -536,7 +537,7 @@ export default function RegisterPage() {
           </div>
         </div>
       </div>
-    </main>
+    </ReferencePage>
   );
 }
 

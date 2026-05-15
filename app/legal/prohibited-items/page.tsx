@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BackButton } from "@/components/ui/back-button";
+import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
 
 export const metadata = { title: "Prohibited items - Bidra" };
 
@@ -31,19 +32,28 @@ function SectionCard(props: {
   );
 }
 
+function LegalSidebar() {
+  const links = [
+    ["/legal", "Overview"],
+    ["/legal/terms", "Terms"],
+    ["/legal/privacy", "Privacy"],
+    ["/legal/fees", "Fees"],
+    ["/legal/prohibited-items", "Prohibited items"],
+  ];
+  return <aside className="rounded-[28px] border border-[#D8E6F8] bg-white p-3 shadow-sm lg:sticky lg:top-24"><div className="px-2 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-[#0B4DFF]">Legal</div><div className="grid gap-1">{links.map(([href,label]) => <Link key={href} href={href} className="rounded-2xl px-3 py-2.5 text-sm font-black text-[#07152E] transition hover:bg-[#EEF6FF]">{label}</Link>)}</div></aside>;
+}
+
 export default function ProhibitedItemsPage() {
   return (
-    <main className="bd-container py-6 sm:py-10">
-      <div className="mx-auto mb-4 w-full max-w-7xl px-4">
+    <ReferencePage>
+      <div className={appNarrowShell + " py-5 sm:py-8"}>
         <BackButton href="/listings" label="Back to marketplace" />
-      </div>
-
-      <div className="container max-w-7xl space-y-5">
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+        <div className="mt-4 grid gap-5 lg:grid-cols-[280px_minmax(0,1fr)]"><LegalSidebar /><div className="space-y-5">
+        <section className="rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Prohibited items</div>
-              <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Items that cannot be listed</h1>
+              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Items that cannot be listed</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Some goods, animals, services, and listing types are not allowed on Bidra.
               </p>
@@ -134,6 +144,7 @@ export default function ProhibitedItemsPage() {
           </div>
         </section>
       </div>
-    </main>
+        </div></div>
+    </ReferencePage>
   );
 }

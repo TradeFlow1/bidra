@@ -8,6 +8,7 @@ import { getNotificationCounts } from "@/lib/notifications";
 import { Card, Button, Input } from "@/components/ui";
 import { BackButton } from "@/components/ui/back-button";
 import AccountNav from "@/components/account-nav";
+import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -198,16 +199,16 @@ export default async function DashboardPage({
   ];
 
   return (
-    <main className="bd-container py-4 sm:py-8">
-      <div className="mx-auto mb-3 w-full max-w-7xl px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-      <div className="container max-w-7xl space-y-3 sm:space-y-4">
-        <div className="rounded-[24px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-5">
+    <ReferencePage>
+      <div className={appNarrowShell + " space-y-4 py-5 sm:py-7"}>
+        <BackButton href="/listings" label="Back to marketplace" />
+        <div className="rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
           <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Current account role</div>
-          <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">
+          <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">
             {roleSummary}
           </h1>
           <p className="mt-2 max-w-3xl text-sm bd-ink2 sm:text-base">
-            Manage your buying, selling, messages, and account details.
+            Your app-like marketplace hub for buying, selling, messages, saved listings and account trust signals.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             {ordersAsBuyerCount > 0 ? <Pill tone="ok">{buyerModeSummary}</Pill> : <Pill>{buyerModeSummary}</Pill>}
@@ -417,7 +418,7 @@ export default async function DashboardPage({
           </Card>
         </div>
       </div>
-    </main>
+    </ReferencePage>
   );
 }
 

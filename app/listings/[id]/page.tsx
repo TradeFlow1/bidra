@@ -19,6 +19,7 @@ import ReportListingButton from "./report-listing-button";
 import DeleteListingButton from "./delete-listing-button";
 import RelistButton from "./relist-button";
 import { BackButton } from "@/components/ui/back-button";
+import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
 
 export const revalidate = 10;
 
@@ -233,13 +234,13 @@ export default async function ListingDetailPage({
   });
 
   return (
-    <main className="bg-[#F4F7FB]">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 overflow-hidden px-4 py-4 sm:px-6 lg:overflow-visible lg:py-6">
+    <ReferencePage>
+      <div className={appNarrowShell + " flex flex-col gap-4 overflow-hidden py-4 lg:overflow-visible lg:py-6"}>
         <BackButton href="/listings" label="Back to listings" />
 
         {/* BIDRA_MOBILE_LISTING_DETAIL_FINAL */}
         <section className="min-w-0 space-y-3 lg:hidden">
-          <div className="overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white shadow-sm">
+          <div className="overflow-hidden rounded-[30px] border border-[#D8E6F8] bg-white shadow-[0_18px_50px_rgba(32,75,140,0.10)]">
             <div className="p-2.5">
               <ListingImageGallery images={images} title={cleanText(listing.title)} />
             </div>
@@ -372,7 +373,7 @@ export default async function ListingDetailPage({
           </details>
         </section>
 
-        <section className="hidden min-w-0 overflow-hidden rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6 lg:block">
+        <section className="hidden min-w-0 overflow-hidden rounded-[34px] border border-[#D8E6F8] bg-white p-4 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-5 xl:p-6 lg:block">
           <div className="grid min-w-0 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] xl:grid-cols-[minmax(0,1fr)_22rem]">
             <div className="space-y-3">
               <div>
@@ -699,7 +700,7 @@ export default async function ListingDetailPage({
         </section>
 
       </div>
-    </main>
+    </ReferencePage>
 
   );
 }

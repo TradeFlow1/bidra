@@ -6,6 +6,7 @@ import { BackButton } from "@/components/ui/back-button";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Card, Button, Input } from "@/components/ui";
+import { ReferencePage } from "@/components/marketplace-redesign";
 
 function friendlyAuthError(raw: string) {
   const s = String(raw || "");
@@ -53,15 +54,15 @@ export default function Login() {
   }, [sp]);
 
   return (
-    <main className="bg-[#F4F7FB] px-4 py-6 sm:py-12">
-      <div className="mx-auto w-full mb-4 w-full max-w-none px-4"><BackButton href="/listings" label="Back to marketplace" /></div>
-<div className="mx-auto w-full max-w-md space-y-4 sm:space-y-5">
-        <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+    <ReferencePage className="min-h-screen bg-[#F7FAFF] px-4 py-6 sm:py-12">
+      <div className="mx-auto mb-4 w-full max-w-[1100px]"><BackButton href="/listings" label="Back to marketplace" /></div>
+<div className="mx-auto grid w-full max-w-[1100px] gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+        <div className="rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
           <div className="max-w-3xl">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Welcome back</div>
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Log in to Bidra</h1>
+            <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-5xl">Log in to Bidra</h1>
             <p className="mt-2 text-sm bd-ink2 sm:text-base">
-              Access your listings, messages, orders, and account tools.
+              Sign in to save listings, buy now, make offers, message sellers and manage your marketplace account.
             </p>
           </div>
         </div>
@@ -222,7 +223,7 @@ export default function Login() {
           </Card>
         </div>
       </div>
-    </main>
+    </ReferencePage>
   );
 }
 
