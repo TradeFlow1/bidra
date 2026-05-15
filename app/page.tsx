@@ -4,7 +4,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
-import { CategoryTile, SectionHeader, TrustBadge } from "@/components/marketplace-ui";
+import { CategoryTile, ProductPlaceholder, SectionHeader, TrustBadge } from "@/components/marketplace-ui";
 
 export const revalidate = 10;
 
@@ -213,33 +213,34 @@ export default async function HomePage() {
         <section className="bd-page-hero">
           <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[minmax(0,1.05fr)_minmax(25rem,0.95fr)] lg:items-center lg:p-8">
             <div>
-              <div className="bd-pill w-fit border-blue-100 bg-[#EEF4FF] text-[#0B4DFF]">Australia&apos;s local marketplace</div>
+              <div className="bd-pill w-fit border-blue-100 bg-[#EEF4FF] text-[#0B4DFF]">Australia&apos;s trust-first local marketplace</div>
               <h1 className="mt-5 max-w-2xl text-4xl font-black tracking-[-0.045em] text-[#07152E] sm:text-5xl lg:text-6xl">
-                Buy, sell and discover amazing local deals.
+                Buy, sell and discover trusted local deals.
               </h1>
               <p className="mt-4 max-w-xl text-base font-medium leading-7 text-[#526173] sm:text-lg">
-                Buy now. Make offers. Arrange handover.
+                Buy now. Make offers. Arrange handover with confidence.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Link href="/listings" className="bd-primary-action">Browse listings</Link>
                 <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-secondary rounded-2xl px-5 py-3">Sell an item</Link>
               </div>
-              <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                <TrustBadge title="Safe and trusted" description="Accounts and records help support confident buying." icon="◇" />
-                <TrustBadge title="Local and convenient" description="Find pickup, postage, and handover options nearby." icon="⌖" />
-                <TrustBadge title="Great deals" description="Buy now or make offers that work for you." icon="$" />
+              <div className="mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                <TrustBadge title="Safer local deals" description="Clear listings, account signals, and in-product message history." icon="safe" />
+                <TrustBadge title="Structured offers" description="Buy now or make offers with clearer next steps." icon="offer" />
+                <TrustBadge title="Local handover" description="Arrange pickup, postage, and handover directly." icon="handover" />
+                <TrustBadge title="Account signals" description="Profile and verification context helps set expectations." icon="account" />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3 sm:gap-4">
               {(latestListings.length ? latestListings.slice(0, 4) : listings.slice(0, 4)).map((listing, index) => {
                 const imgs = Array.isArray(listing.images) ? listing.images : [];
-                const src = (imgs[0] as any)?.url || (imgs[0] as any)?.src || imgs[0] || "/brand/hero-clouds.png";
+                const src = (imgs[0] as any)?.url || (imgs[0] as any)?.src || imgs[0] || "";
                 const price = listing.type === "OFFERABLE" ? (listing.offers?.[0]?.amount ?? listing.price) : (listing.buyNowPrice ?? listing.price);
                 return (
                   <Link key={listing.id} href={"/listings/" + listing.id} className={(index === 0 ? "mt-8 " : index === 3 ? "-mt-8 " : "") + "group overflow-hidden rounded-[22px] border border-white bg-white p-2 shadow-[0_20px_55px_rgba(28,50,84,0.16)] transition hover:-translate-y-1"}>
                     <div className="relative aspect-[1.25/1] overflow-hidden rounded-[18px] bg-[#EEF3FA]">
-                      <Image src={src} alt={listing.title} fill className="object-cover transition group-hover:scale-[1.03]" sizes="(max-width: 1024px) 45vw, 22vw" />
+                      {src ? <Image src={src} alt={listing.title} fill className="object-cover transition group-hover:scale-[1.03]" sizes="(max-width: 1024px) 45vw, 22vw" /> : <ProductPlaceholder title={listing.title} /> }
                     </div>
                     <div className="p-2">
                       <div className="text-xs font-black text-[#07152E]">{(Number(price || 0) / 100).toLocaleString("en-AU", { style: "currency", currency: "AUD" })}</div>
@@ -272,6 +273,7 @@ export default async function HomePage() {
           <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {latestListings.length ? latestListings.slice(0, 10).map(renderCard) : (
               <div className="col-span-full rounded-[24px] border border-dashed border-[#BFD0E6] bg-[#F8FAFF] px-5 py-10 text-center">
+                <div className="mx-auto mb-4 h-28 max-w-44 overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white shadow-sm"><ProductPlaceholder kind="empty" title="No listings" /></div>
                 <div className="text-lg font-extrabold text-[#0F172A]">No listings yet</div>
                 <p className="mt-2 text-sm text-[#607089]">Create a listing with clear photos, condition, price, and location details.</p>
                 <div className="mt-4 flex justify-center gap-2">
