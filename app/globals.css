@@ -1111,21 +1111,3 @@ header [class*="border-blue"],
   }
 }
 
-
-
-
-/* bidra-mobile-home-final-listing-limit */
-@media (max-width: 767px) {
-  body:has(.bidra-homepage) .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"]:nth-of-type(n+3) {
-    display: none !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section:has(a[href^="/listings/"]) {
-    padding-bottom: 118px !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section:has(a[href^="/listings/"]) .grid {
-    gap: 10px !important;
-  }
-}
-
