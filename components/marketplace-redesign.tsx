@@ -23,16 +23,17 @@ type FeaturedHeroListing = {
 
 export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string; featuredListings?: FeaturedHeroListing[] }) {
   return (
-    <section className="relative overflow-hidden rounded-[24px] border border-[#D8E1EA] bg-[linear-gradient(135deg,#F6F8FB_0%,#EAF6F8_100%)] p-4 shadow-[0_22px_70px_rgba(32,75,140,0.11)] sm:rounded-[28px] sm:p-8 lg:p-10">
-      <div className="pointer-events-none absolute -right-20 -top-24 h-80 w-80 rounded-full bg-white/60 blur-2xl" />
-      <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(520px,0.95fr)] lg:items-center">
+    <section className="relative overflow-hidden rounded-[26px] border border-[#D8E1EA] bg-[linear-gradient(135deg,#F8FBFC_0%,#EAF6F8_100%)] p-5 shadow-[0_22px_70px_rgba(32,75,140,0.10)] sm:p-8 lg:p-10">
+      <div className="pointer-events-none absolute -right-24 -bottom-24 hidden h-80 w-80 rounded-full bg-[#CFEFF3]/70 blur-2xl lg:block" />
+
+      <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(440px,0.9fr)] lg:items-center">
         <div className="min-w-0">
-          <div className="inline-flex max-w-full rounded-full border border-[#C8DAE3] bg-white px-4 py-2 text-[11px] font-black text-[#0E7490] shadow-sm">
-            Australia's local marketplace
+          <div className="inline-flex max-w-full rounded-full border border-[#C8DAE3] bg-white px-3 py-2 text-[11px] font-black leading-none text-[#0E7490] shadow-sm">
+            Local marketplace
           </div>
 
-          <h1 className="mt-5 max-w-[720px] text-[30px] font-black leading-[0.96] tracking-[-0.055em] text-[#0F172A] sm:text-5xl lg:text-7xl">
-            Buy, sell and discover amazing local deals.
+          <h1 className="mt-5 max-w-[680px] text-[34px] font-black leading-[0.95] tracking-[-0.055em] text-[#0F172A] sm:text-5xl lg:text-7xl">
+            Buy, sell and discover local deals.
           </h1>
 
           <p className="mt-4 max-w-xl text-sm font-semibold leading-6 text-[#334155] sm:text-base">
@@ -48,18 +49,18 @@ export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string
             </Link>
           </div>
 
-          <div className="mt-5 grid gap-2 sm:mt-6 sm:grid-cols-3 sm:gap-3">
-            <div className="flex items-center gap-3 rounded-2xl bg-white/75 px-3 py-3 text-left shadow-sm ring-1 ring-[#D8E5EA] sm:gap-3 sm:bg-transparent sm:p-0 sm:shadow-none sm:ring-0">
-              <div className="shrink-0"><BlueIcon name="safe" /></div>
-              <div className="text-sm font-black leading-none text-[#0F172A] sm:text-sm sm:leading-normal">Safe</div>
+          <div className="mt-5 grid grid-cols-3 gap-2 sm:mt-6 sm:gap-3">
+            <div className="rounded-2xl bg-white/80 px-2 py-3 text-center shadow-sm ring-1 ring-[#D8E5EA] sm:flex sm:items-center sm:gap-3 sm:bg-transparent sm:p-0 sm:text-left sm:shadow-none sm:ring-0">
+              <div className="flex justify-center sm:block"><BlueIcon name="safe" /></div>
+              <div className="mt-1 text-[11px] font-black leading-none text-[#0F172A] sm:mt-0 sm:text-sm sm:leading-normal">Safe</div>
             </div>
-            <div className="flex items-center gap-3 rounded-2xl bg-white/75 px-3 py-3 text-left shadow-sm ring-1 ring-[#D8E5EA] sm:gap-3 sm:bg-transparent sm:p-0 sm:shadow-none sm:ring-0">
-              <div className="shrink-0"><BlueIcon name="location" /></div>
-              <div className="text-sm font-black leading-none text-[#0F172A] sm:text-sm sm:leading-normal">Local</div>
+            <div className="rounded-2xl bg-white/80 px-2 py-3 text-center shadow-sm ring-1 ring-[#D8E5EA] sm:flex sm:items-center sm:gap-3 sm:bg-transparent sm:p-0 sm:text-left sm:shadow-none sm:ring-0">
+              <div className="flex justify-center sm:block"><BlueIcon name="location" /></div>
+              <div className="mt-1 text-[11px] font-black leading-none text-[#0F172A] sm:mt-0 sm:text-sm sm:leading-normal">Local</div>
             </div>
-            <div className="flex items-center gap-3 rounded-2xl bg-white/75 px-3 py-3 text-left shadow-sm ring-1 ring-[#D8E5EA] sm:gap-3 sm:bg-transparent sm:p-0 sm:shadow-none sm:ring-0">
-              <div className="shrink-0"><BlueIcon name="offer" /></div>
-              <div className="text-sm font-black leading-none text-[#0F172A] sm:text-sm sm:leading-normal">Deals</div>
+            <div className="rounded-2xl bg-white/80 px-2 py-3 text-center shadow-sm ring-1 ring-[#D8E5EA] sm:flex sm:items-center sm:gap-3 sm:bg-transparent sm:p-0 sm:text-left sm:shadow-none sm:ring-0">
+              <div className="flex justify-center sm:block"><BlueIcon name="offer" /></div>
+              <div className="mt-1 text-[11px] font-black leading-none text-[#0F172A] sm:mt-0 sm:text-sm sm:leading-normal">Deals</div>
             </div>
           </div>
         </div>
