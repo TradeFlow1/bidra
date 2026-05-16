@@ -119,7 +119,48 @@ export default async function HomePage() {
     const currentOffer = listing.offers?.[0]?.amount ?? null;
     const displayPrice = listing.type === "OFFERABLE" ? ((currentOffer ?? listing.price) as number) : ((listing.buyNowPrice ?? listing.price) as number);
 
+    function renderMobileCompactCard(listing: (typeof listings)[number]) {
+    const currentOffer = listing.offers?.[0]?.amount ?? null;
+    const displayPrice = listing.type === "OFFERABLE" ? ((currentOffer ?? listing.price) as number) : ((listing.buyNowPrice ?? listing.price) as number);
+    const saleTypeLabel = listing.type === "OFFERABLE" ? "Make offer" : "Buy now";
+    const title = String(listing.title || "Bidra listing").replace(/\s+/g, " ").trim();
+    const category = String(listing.category || "Listing").split(" > ")[0];
+    const location = String(listing.location || "Australia").replace(/\s+/g, " ").trim();
+
     return (
+      <Link
+        key={"mobile-" + listing.id}
+        href={"/listings/" + listing.id}
+        className="flex min-h-[118px] overflow-hidden rounded-[20px] border border-[#D8E1EA] bg-white shadow-sm md:hidden"
+      >
+        <div className="relative w-[108px] shrink-0 bg-[#F1F8FA]">
+          <div className="absolute left-2 top-2 z-10 rounded-full bg-[#0E7490] px-2 py-1 text-[9px] font-black uppercase tracking-[0.08em] text-white">
+            {saleTypeLabel}
+          </div>
+          <div className="flex h-full items-center justify-center px-3 pt-6 text-[#0E7490]">
+            <span className="text-[10px] font-black uppercase tracking-[0.12em] text-[#94A3B8]">{category.slice(0, 10)}</span>
+          </div>
+        </div>
+
+        <div className="flex min-w-0 flex-1 flex-col justify-between p-3">
+          <div>
+            <div className="text-[15px] font-black tracking-tight text-[#06132B]">
+              {(Number(displayPrice) / 100).toLocaleString("en-AU", { style: "currency", currency: "AUD" })}
+            </div>
+            <div className="mt-1 line-clamp-2 text-[13px] font-black leading-4 text-[#14213D]">
+              {title}
+            </div>
+          </div>
+
+          <div className="flex min-w-0 items-center justify-between gap-2 text-[11px] font-semibold text-[#607089]">
+            <span className="min-w-0 truncate">{location}</span>
+            <span className="shrink-0 text-[#8190A7]">New</span>
+          </div>
+        </div>
+      </Link>
+    );
+  }
+  return (
       <ListingCard
         key={listing.id}
         listing={{
@@ -175,6 +216,7 @@ export default async function HomePage() {
     </ReferencePage>
   );
 }
+
 
 
 
