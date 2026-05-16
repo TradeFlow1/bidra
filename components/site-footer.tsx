@@ -56,7 +56,7 @@ export default function SiteFooter() {
                 <div className="text-sm font-extrabold text-[#0F172A]">{group.title}</div>
                 <div className="mt-3 grid gap-2.5">
                   {group.links.map((link) => (
-                    <Link key={link.href} href={link.href} className="text-sm font-semibold text-[#526173] transition hover:text-[#0E7490]">
+                    <Link key={link.href} href={link.href} className="text-sm font-semibold text-[#526173] transition hover:text-[#4F46E5]">
                       {link.label}
                     </Link>
                   ))}
@@ -74,10 +74,4 @@ export default function SiteFooter() {
     </footer>
   );
 }
-
-
-
-
-
-
 
