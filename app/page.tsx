@@ -77,33 +77,44 @@ export default async function HomePage() {
     watchRows.forEach((row) => watchedSet.add(String(row.listingId)));
   }
 
-  const categories = categoryRows.slice(0, 6).map((row) => {
-    const raw = String(row.category || "Marketplace").split(" > ")[0];
-    return {
-      label: raw,
-      href: `/listings?category=${encodeURIComponent(raw)}`,
-      icon: categoryIcons[raw] || "grid",
-      meta: `${row._count.category} ${row._count.category === 1 ? "item" : "items"}`,
-    };
+  const normaliseCategory = (value: string) => {
+    const raw = String(value || "Marketplace").split(" > ")[0].trim();
+
+    if (/sport|outdoor/i.test(raw)) return "Sports & Outdoors";
+    if (/furniture|home|living/i.test(raw)) return "Home & Living";
+    if (/vehicle|car|bike|motor/i.test(raw)) return "Vehicles";
+    if (/fashion|clothing|shoe|watch/i.test(raw)) return "Fashion";
+    if (/appliance|kitchen/i.test(raw)) return "Appliances";
+    if (/electronic|phone|laptop|computer|headphone|camera/i.test(raw)) return "Electronics";
+
+    return raw || "Marketplace";
+  };
+
+  const categoryMap = new Map<string, number>();
+  categoryRows.forEach((row) => {
+    const label = normaliseCategory(String(row.category || "Marketplace"));
+    categoryMap.set(label, (categoryMap.get(label) || 0) + row._count.category);
   });
 
-  for (const fallback of fallbackCategories) {
-    if (categories.length >= 6) {
-      break;
-    }
+  const preferredCategoryOrder = [
+    "Electronics",
+    "Home & Living",
+    "Vehicles",
+    "Sports & Outdoors",
+    "Fashion",
+    "Appliances",
+  ];
 
-    if (categories.some((category) => category.label === fallback)) {
-      continue;
-    }
+  const categories = preferredCategoryOrder.map((label) => {
+    const count = categoryMap.get(label) || 0;
 
-    categories.push({
-      label: fallback,
-      href: `/listings?category=${encodeURIComponent(fallback)}`,
-      icon: categoryIcons[fallback] || "grid",
-      meta: "Explore",
-    });
-  }
-
+    return {
+      label,
+      href: `/listings?category=${encodeURIComponent(label)}`,
+      icon: categoryIcons[label] || "grid",
+      meta: count > 0 ? `${count} ${count === 1 ? "item" : "items"}` : "Explore",
+    };
+  });
   function renderCard(listing: (typeof listings)[number]) {
     const currentOffer = listing.offers?.[0]?.amount ?? null;
     const displayPrice = listing.type === "OFFERABLE" ? ((currentOffer ?? listing.price) as number) : ((listing.buyNowPrice ?? listing.price) as number);
@@ -164,6 +175,7 @@ export default async function HomePage() {
     </ReferencePage>
   );
 }
+
 
 
 
