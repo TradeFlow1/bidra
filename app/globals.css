@@ -1164,37 +1164,37 @@ header [class*="border-blue"],
 }
 
 
-/* bidra-mobile-hero-benefit-row */
+
+
+/* bidra-mobile-hero-benefit-row-safe */
 @media (max-width: 767px) {
-  body:has(.bidra-homepage) .bidra-homepage section:first-of-type div:has(> svg) {
-    display: grid !important;
+  body:has(.bidra-homepage) .bidra-homepage section:first-of-type {
+    overflow: hidden !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage section:first-of-type [class*="grid"]:has(svg) {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     gap: 8px !important;
-    align-items: stretch !important;
   }
 
-  body:has(.bidra-homepage) .bidra-homepage section:first-of-type div:has(> svg) > div {
+  body:has(.bidra-homepage) .bidra-homepage section:first-of-type [class*="grid"]:has(svg) > div {
     min-width: 0 !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
   }
 
-  body:has(.bidra-homepage) .bidra-homepage section:first-of-type div:has(> svg) h3,
-  body:has(.bidra-homepage) .bidra-homepage section:first-of-type div:has(> svg) p {
-    overflow-wrap: anywhere !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section:first-of-type div:has(> svg) h3 {
-    font-size: 11px !important;
+  body:has(.bidra-homepage) .bidra-homepage section:first-of-type [class*="grid"]:has(svg) h3 {
+    font-size: 10px !important;
     line-height: 1.05 !important;
   }
 
-  body:has(.bidra-homepage) .bidra-homepage section:first-of-type div:has(> svg) p {
-    font-size: 10px !important;
-    line-height: 1.2 !important;
+  body:has(.bidra-homepage) .bidra-homepage section:first-of-type [class*="grid"]:has(svg) p {
+    display: none !important;
   }
 
-  body:has(.bidra-homepage) .bidra-homepage section:first-of-type div:has(> svg) svg {
-    width: 16px !important;
-    height: 16px !important;
+  body:has(.bidra-homepage) .bidra-homepage section:first-of-type [class*="grid"]:has(svg) svg {
+    width: 15px !important;
+    height: 15px !important;
   }
 }
 
