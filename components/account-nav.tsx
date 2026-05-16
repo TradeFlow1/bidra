@@ -27,7 +27,7 @@ export default function AccountNav({ active }: AccountNavProps) {
                 "rounded-2xl px-3 py-3 text-center text-xs font-extrabold transition sm:text-sm " +
                 (selected
                   ? "bg-[#0B4DFF] text-white shadow-[0_10px_24px_rgba(11,77,255,0.24)]"
-                  : "bg-[#F8FAFF] text-[#14213D] hover:bg-[#EEF4FF] hover:text-[#0B4DFF]")
+                  : "bg-[#F8FAFF] text-[#14213D] hover:bg-[#EEF4FF] hover:text-[#0E7490]")
               }
             >
               {item.label}

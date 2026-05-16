@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useRouter } from "next/navigation"
 
@@ -12,7 +12,7 @@ export default function InboxBackButton() {
         router.push("/messages")
         router.refresh()
       }}
-      className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-neutral-50"
+      className="rounded-md border px-4 py-2 text-sm font-medium hover:bg-[#F8FAFC]"
     >
       Inbox
     </button>

@@ -21,10 +21,10 @@ function ModerationForm(props: {
       : "bd-btn bd-btn-ghost";
 
   return (
-    <form action={props.action} method="post" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+    <form action={props.action} method="post" className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
       <input type="hidden" name="listingId" value={props.listingId} />
       <input type="hidden" name="backTo" value={props.backTo} />
-      <label className="text-xs font-extrabold uppercase tracking-wide text-neutral-500" htmlFor={props.action.replace(/\W/g, "-") + "-reason"}>
+      <label className="text-xs font-extrabold uppercase tracking-wide text-[#64748B]" htmlFor={props.action.replace(/\W/g, "-") + "-reason"}>
         Moderation reason
       </label>
       <textarea
@@ -64,7 +64,7 @@ export default async function AdminListingDetail({ params }: { params: { id: str
     return (
       <main className="bd-container py-10">
         <div className="container max-w-5xl">
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
             <h1 className="text-2xl font-extrabold tracking-tight bd-ink">Listing not found</h1>
             <p className="mt-2 text-sm bd-ink2">This listing could not be found or may no longer be available.</p>
             <div className="mt-5">
@@ -87,10 +87,10 @@ export default async function AdminListingDetail({ params }: { params: { id: str
   return (
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
-        <section className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-gradient-to-br from-white to-[#EAF6F8] p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin listing detail</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Admin listing detail</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">{listing.title}</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Moderate this listing directly from admin without falling back to the public listing page. Every action requires a reason and creates an audit log.
@@ -104,26 +104,26 @@ export default async function AdminListingDetail({ params }: { params: { id: str
         </section>
 
         <div className="grid gap-3 sm:grid-cols-4">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Status</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{listing.status}</div>
+          <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">Status</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{listing.status}</div>
           </div>
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Price</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{formatAud(listing.price)}</div>
+          <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">Price</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{formatAud(listing.price)}</div>
           </div>
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Reports</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{listing.reports.length}</div>
+          <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">Reports</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{listing.reports.length}</div>
           </div>
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Created</div>
-            <div className="mt-1 text-sm font-semibold tracking-tight text-neutral-950"><DateTimeText value={listing.createdAt} /></div>
+          <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">Created</div>
+            <div className="mt-1 text-sm font-semibold tracking-tight text-[#0F172A]"><DateTimeText value={listing.createdAt} /></div>
           </div>
         </div>
 
         <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
             <h2 className="text-sm font-extrabold bd-ink">Moderation controls</h2>
             <p className="mt-2 text-sm bd-ink2">Suspend, delete, or restore the listing with a reason. The action is recorded in the admin audit log.</p>
             <div className="mt-4 grid gap-3">
@@ -154,24 +154,24 @@ export default async function AdminListingDetail({ params }: { params: { id: str
             </div>
           </Card>
 
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
             <h2 className="text-sm font-extrabold bd-ink">Listing context</h2>
             <div className="mt-4 space-y-3 text-sm bd-ink2">
               <div><span className="font-semibold bd-ink">Seller:</span> {listing.seller?.email || listing.seller?.username || listing.sellerId}</div>
               <div><span className="font-semibold bd-ink">Category:</span> {listing.category}</div>
               <div><span className="font-semibold bd-ink">Location:</span> {listing.location}</div>
               <div><span className="font-semibold bd-ink">Description:</span></div>
-              <div className="whitespace-pre-wrap rounded-2xl border border-black/10 bg-neutral-50 p-3">{listing.description || "(no description)"}</div>
+              <div className="whitespace-pre-wrap rounded-2xl border border-[#D8E1EA] bg-[#F8FAFC] p-3">{listing.description || "(no description)"}</div>
             </div>
           </Card>
         </div>
 
         <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
             <h2 className="text-sm font-extrabold bd-ink">Recent reports</h2>
             <div className="mt-4 space-y-3">
               {listing.reports.length ? listing.reports.map((report) => (
-                <div key={report.id} className="rounded-2xl border border-black/10 bg-neutral-50 p-3 text-sm">
+                <div key={report.id} className="rounded-2xl border border-[#D8E1EA] bg-[#F8FAFC] p-3 text-sm">
                   <div className="flex flex-wrap items-center gap-2">
                     <Badge>{report.resolved ? "Resolved" : "Open"}</Badge>
                     <Badge>{String(report.reason)}</Badge>
@@ -183,14 +183,14 @@ export default async function AdminListingDetail({ params }: { params: { id: str
             </div>
           </Card>
 
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
             <h2 className="text-sm font-extrabold bd-ink">Audit log</h2>
             <div className="mt-4 space-y-3">
               {auditLogs.length ? auditLogs.map((log) => (
-                <div key={log.id} className="rounded-2xl border border-black/10 bg-neutral-50 p-3 text-sm">
+                <div key={log.id} className="rounded-2xl border border-[#D8E1EA] bg-[#F8FAFC] p-3 text-sm">
                   <div className="font-semibold bd-ink">{log.action}</div>
                   <div className="mt-1 text-xs bd-ink2">Admin {log.adminId} • <DateTimeText value={log.createdAt} /></div>
-                  <pre className="mt-2 overflow-auto rounded-xl bg-white p-2 text-xs text-neutral-700">{JSON.stringify(log.meta, null, 2)}</pre>
+                  <pre className="mt-2 overflow-auto rounded-xl bg-white p-2 text-xs text-[#334155]">{JSON.stringify(log.meta, null, 2)}</pre>
                 </div>
               )) : <div className="text-sm bd-ink2">No listing audit events yet.</div>}
             </div>

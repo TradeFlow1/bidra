@@ -131,7 +131,7 @@ function scrollTo(i: number) {
 
   if (!imgs.length) {
   return (
-    <div className="flex h-full w-full items-center justify-center bg-neutral-100">
+    <div className="flex h-full w-full items-center justify-center bg-[#F1F8FA]">
       <Image
         src="/brand/bidra-symbol.svg"
         alt="No image"

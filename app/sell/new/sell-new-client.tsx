@@ -643,7 +643,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
               {category ? (
                 <div className="mt-3 rounded-[18px] border border-[#D8E1F0] bg-white px-3 py-2 text-sm">
-                  <span className="text-xs uppercase tracking-wide text-black/50">Selected</span>
+                  <span className="text-xs uppercase tracking-wide text-[#64748B]">Selected</span>
                   <div className="mt-1 font-medium bd-ink">{category}</div>
                 </div>
               ) : null}

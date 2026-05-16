@@ -1,75 +1,86 @@
-﻿import Link from "next/link"
-import { auth } from "@/lib/auth"
-import { requireAdult } from "@/lib/require-adult"
-import { redirect } from "next/navigation"
+import Link from "next/link";
+import { auth } from "@/lib/auth";
+import { requireAdult } from "@/lib/require-adult";
+import { redirect } from "next/navigation";
+import { PageHero, SectionCard } from "@/components/marketplace-redesign";
 
-export const dynamic = "force-dynamic"
+export const dynamic = "force-dynamic";
+
+const workspaces = [
+  {
+    title: "Reports",
+    copy: "Triage open reports, review evidence, and record the decision.",
+    primaryHref: "/admin/reports",
+    primaryLabel: "Open reports",
+    secondaryHref: "/admin/reports?status=RESOLVED",
+    secondaryLabel: "Resolved",
+  },
+  {
+    title: "Users",
+    copy: "Review account status, strikes, blocks, and verification signals.",
+    primaryHref: "/admin/users",
+    primaryLabel: "Manage users",
+  },
+  {
+    title: "Listings",
+    copy: "Inspect listing state and report context before moderation action.",
+    primaryHref: "/admin/listings",
+    primaryLabel: "Manage listings",
+  },
+  {
+    title: "Audit log",
+    copy: "Trace moderator actions, IDs, and captured metadata.",
+    primaryHref: "/admin/audit",
+    primaryLabel: "View audit",
+    secondaryHref: "/admin/events",
+    secondaryLabel: "Events",
+  },
+  {
+    title: "Operator diagnostics",
+    copy: "Check deployment metadata, environment status, and database connectivity.",
+    primaryHref: "/admin/ops",
+    primaryLabel: "Open diagnostics",
+  },
+];
 
 export default async function AdminHome() {
-  const session = await auth()
-  if (!session?.user?.id) redirect("/auth/login?next=/admin")
+  const session = await auth();
+  if (!session?.user?.id) redirect("/auth/login?next=/admin");
 
-  const adult = await requireAdult(session)
-  if (!adult.ok) redirect("/account/restrictions")
+  const adult = await requireAdult(session);
+  if (!adult.ok) redirect("/account/restrictions");
 
-  const role = session.user.role
-  if (role !== "ADMIN") redirect("/")
-
-  const card = "rounded-xl border border-black/10 bg-white p-4 shadow-sm"
-  const title = "text-sm font-semibold"
-  const sub = "mt-1 text-sm text-black/60"
+  const role = session.user.role;
+  if (role !== "ADMIN") redirect("/");
 
   return (
-    <main>
-      <div className="text-xs font-semibold uppercase tracking-wide text-black/50">Current role: Admin account</div>
-      <h1 className="mt-2 text-3xl font-semibold">Admin workspace</h1>
-      <p className="mt-2 text-sm text-black/60">
-        Use Admin as a trust operations workspace: review evidence, choose proportional actions, and keep every moderation decision auditable. Buyer and seller account tools remain available from the account dashboard.
-      </p>
+    <div className="space-y-5">
+      <PageHero
+        eyebrow="Current role: Admin account"
+        title="Admin workspace"
+        description="Trust operations tools for reports, users, listings, audit logs, and diagnostics."
+      />
 
-      <div className="mt-6 grid gap-2 md:grid-cols-2">
-        <div className={card}>
-          <div className={title}>Reports</div>
-          <div className={sub}>Triage open reports, inspect evidence, and close the loop with an auditable decision.</div>
-          <div className="mt-3 flex gap-2">
-            <Link href="/admin/reports" className="bd-btn bd-btn-primary">Open reports</Link>
-            <Link href="/admin/reports?status=RESOLVED" className="bd-btn bd-btn-ghost">Resolved</Link>
-          </div>
-        </div>
-
-        <div className={card}>
-          <div className={title}>Users</div>
-          <div className={sub}>Review account status, strikes, and blocks before applying user restrictions.</div>
-          <div className="mt-3">
-            <Link href="/admin/users" className="bd-btn bd-btn-primary">Manage users</Link>
-          </div>
-        </div>
-
-        <div className={card}>
-          <div className={title}>Listings</div>
-          <div className={sub}>Inspect listing state and report context before suspending, restoring, or removing content.</div>
-          <div className="mt-3">
-            <Link href="/admin/listings" className="bd-btn bd-btn-primary">Manage listings</Link>
-          </div>
-        </div>
-
-        <div className={card}>
-          <div className={title}>Audit log</div>
-          <div className={sub}>Trace moderator actions, related reports, listing IDs, user IDs, and captured metadata.</div>
-          <div className="mt-3">
-            <Link href="/admin/audit" className="bd-btn bd-btn-primary">View audit</Link>
-            <Link href="/admin/events" className="bd-btn bd-btn-ghost">Events</Link>
-          </div>
-        </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        {workspaces.map((item) => (
+          <SectionCard key={item.title} className="flex flex-col justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-black tracking-tight text-[#0F172A]">{item.title}</h2>
+              <p className="mt-2 text-sm leading-6 text-[#475569]">{item.copy}</p>
+            </div>
+            <div className="bd-action-row">
+              <Link href={item.primaryHref} className="bd-btn bd-btn-primary">
+                {item.primaryLabel}
+              </Link>
+              {item.secondaryHref ? (
+                <Link href={item.secondaryHref} className="bd-btn bd-btn-secondary">
+                  {item.secondaryLabel}
+                </Link>
+              ) : null}
+            </div>
+          </SectionCard>
+        ))}
       </div>
-        <div className={card}>
-          <div className={title}>Operator diagnostics</div>
-          <div className={sub}>Check production readiness, required environment variables, deployment metadata, and database connectivity.</div>
-          <div className="mt-3">
-            <Link href="/admin/ops" className="bd-btn bd-btn-primary">Open diagnostics</Link>
-          </div>
-        </div>
-    </main>
-  )
+    </div>
+  );
 }
-

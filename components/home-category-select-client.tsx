@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRouter } from "next/navigation";
 import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
@@ -8,12 +8,12 @@ export default function HomeCategorySelectClient() {
 
   return (
     <div className="rounded-2xl border bg-white p-4 shadow-sm">
-      <label className="block text-xs font-medium text-slate-600">
+      <label className="block text-xs font-medium text-[#475569]">
         Choose a category
       </label>
 
       <select
-        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm outline-none focus:border-slate-400"
+        className="mt-2 w-full rounded-xl border border-[#D8E1EA] bg-white px-3 py-3 text-sm outline-none focus:border-[#6BAFB8]"
         defaultValue=""
         onChange={(e) => {
           const v = e.target.value;

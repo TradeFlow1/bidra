@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -102,7 +102,7 @@ export default function LocationSuggest(props: {
                 type="button"
                 className={cx(
                   "w-full rounded-xl border bd-bd px-3 py-2 text-left text-sm",
-                  "hover:bg-black/5"
+                  "hover:bg-[#F8FAFC]"
                 )}
                 onClick={() => props.onPick({ suburb, postcode, state: st })}
               >

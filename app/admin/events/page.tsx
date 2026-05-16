@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@prisma/client";
 import { auth } from "@/lib/auth";
@@ -18,8 +18,8 @@ function FilterChip(props: {
     <Link
       href={props.href}
       className={props.active
-        ? "inline-flex items-center rounded-full border border-black/10 bg-neutral-950 px-3 py-2 text-xs font-extrabold text-white"
-        : "inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-2 text-xs font-semibold text-neutral-700"}
+        ? "inline-flex items-center rounded-full border border-[#D8E1EA] bg-[#0F172A] px-3 py-2 text-xs font-extrabold text-white"
+        : "inline-flex items-center rounded-full border border-[#D8E1EA] bg-white px-3 py-2 text-xs font-semibold text-[#334155]"}
     >
       {props.label}
     </Link>
@@ -45,17 +45,17 @@ function InfoCard(props: {
   note: string;
 }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-      <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{props.title}</div>
-      <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{props.value}</div>
-      <div className="mt-1 text-sm text-neutral-600">{props.note}</div>
+    <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+      <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">{props.title}</div>
+      <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{props.value}</div>
+      <div className="mt-1 text-sm text-[#475569]">{props.note}</div>
     </div>
   );
 }
 
 function MetaPill(props: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900">
+    <span className="inline-flex items-center rounded-full border border-[#D8E1EA] bg-white px-3 py-1 text-xs font-extrabold text-[#0F172A]">
       {props.children}
     </span>
   );
@@ -67,8 +67,8 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
     return (
       <main className="bd-container py-10">
         <div className="container max-w-4xl space-y-5">
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin events</div>
+          <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Admin events</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink">Access restricted</h1>
             <p className="mt-2 text-sm bd-ink2 leading-7">Not allowed: {gate.reason}</p>
           </section>
@@ -84,8 +84,8 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
     return (
       <main className="bd-container py-10">
         <div className="container max-w-4xl space-y-5">
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin events</div>
+          <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Admin events</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink">Not authorised</h1>
             <p className="mt-2 text-sm bd-ink2 leading-7">You do not have access to this admin surface.</p>
           </section>
@@ -123,10 +123,10 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
   return (
     <main className="bd-container py-10">
       <div className="container max-w-7xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+        <div className="rounded-[28px] border border-[#D8E1EA] bg-gradient-to-br from-white to-[#EAF6F8] p-6 shadow-sm">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin events</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Admin events</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Internal event stream</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Review internal audit, marketplace, notification, risk-signal, and operational analytics events. These rows support human review and platform operations; they are not external analytics tracking, attribution data, or automated fraud decisions.
@@ -162,7 +162,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
           />
         </div>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm space-y-4">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm space-y-4">
           <div>
             <div className="text-sm font-extrabold bd-ink">Event filters</div>
             <div className="mt-1 text-sm bd-ink2">Choose a type shortcut or apply a text filter. This is an internal event stream, not GA4, Meta Pixel, PostHog, Segment, or Mixpanel.</div>
@@ -185,7 +185,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
               name="q"
               defaultValue={q}
               placeholder='Filter (e.g. "ORDER_", userId, orderId)'
-              className="min-w-[280px] rounded-xl border border-black/10 bg-white px-3 py-2 text-sm"
+              className="min-w-[280px] rounded-xl border border-[#D8E1EA] bg-white px-3 py-2 text-sm"
             />
             <button type="submit" className="bd-btn bd-btn-ghost text-center">
               Filter
@@ -198,8 +198,8 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
           </form>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white shadow-sm overflow-hidden">
-          <div className="border-b border-black/10 px-6 py-4">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-white shadow-sm overflow-hidden">
+          <div className="border-b border-[#D8E1EA] px-6 py-4">
             <div className="text-sm font-extrabold bd-ink">Event table</div>
             <div className="mt-1 text-sm bd-ink2">
               Summary fields are shown beside raw payload data for faster inspection. Treat these as operational review records, not complete attribution or revenue analytics.
@@ -211,7 +211,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm align-top">
-                <thead className="border-b border-black/10 bg-white/70">
+                <thead className="border-b border-[#D8E1EA] bg-white/70">
                   <tr className="text-left">
                     <th className="px-4 py-3 text-xs font-extrabold bd-ink">Time</th>
                     <th className="px-4 py-3 text-xs font-extrabold bd-ink">Type</th>
@@ -242,7 +242,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
                     const isNoShowReviewed = r.type === "ORDER_NO_SHOW_REPORT_REVIEWED";
 
                     return (
-                      <tr key={r.id} className="hover:bg-neutral-50 align-top">
+                      <tr key={r.id} className="hover:bg-[#F8FAFC] align-top">
                         <td className="px-4 py-4 text-xs bd-ink2 whitespace-nowrap"><DateTimeText value={r.createdAt} /></td>
                         <td className="px-4 py-4">
                           <MetaPill>{r.type}</MetaPill>
@@ -270,7 +270,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
                           </div>
                         </td>
                         <td className="px-4 py-4 text-xs bd-ink2">
-                          <pre className="m-0 whitespace-pre-wrap rounded-2xl border border-black/10 bg-neutral-50 p-3 text-[11px] leading-5">{r.data ? JSON.stringify(r.data, null, 2) : "-"}</pre>
+                          <pre className="m-0 whitespace-pre-wrap rounded-2xl border border-[#D8E1EA] bg-[#F8FAFC] p-3 text-[11px] leading-5">{r.data ? JSON.stringify(r.data, null, 2) : "-"}</pre>
                         </td>
                       </tr>
                     );

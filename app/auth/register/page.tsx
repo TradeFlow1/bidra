@@ -247,7 +247,7 @@ export default function RegisterPage() {
 
         <div className="grid gap-4">
           <div className="order-2 space-y-4 sm:space-y-5 lg:order-1">
-            <div className="rounded-3xl border border-[#D7E2F1] bg-white p-4 shadow-sm sm:p-6">
+            <div className="rounded-[28px] border border-[#D7E2F1] bg-white p-4 shadow-sm sm:p-6">
               <div className="text-sm font-extrabold bd-ink">Account setup</div>
               <div className="mt-3 space-y-3 sm:mt-4 sm:space-y-4">
                 <div className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-3.5 sm:p-4">
@@ -287,11 +287,11 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <div className="order-1 rounded-3xl border border-[#D7E2F1] bg-white p-4 shadow-[0_14px_45px_rgba(28,50,84,0.08)] sm:p-6">
+          <div className="order-1 rounded-[28px] border border-[#D7E2F1] bg-white p-4 shadow-[0_14px_45px_rgba(28,50,84,0.08)] sm:p-6">
             {ok ? (
               <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
                 <p className="text-lg font-extrabold text-[#0b1220]">Account created</p>
-                <p className="mt-1 text-sm text-black/60">
+                <p className="mt-1 text-sm text-[#475569]">
                   Your account was created. Check your email and verify your account before logging in.
                 </p>
                 <div className="mt-4 flex flex-col gap-3 sm:flex-row">
@@ -420,13 +420,13 @@ export default function RegisterPage() {
                     <div className="mt-2 flex items-start justify-between gap-3">
                       <div className="text-sm">
                         <div className="font-semibold text-[#0b1220]">18+ only</div>
-                        <div className="text-black/60">Under 18s may browse, but cannot create an account.</div>
+                        <div className="text-[#475569]">Under 18s may browse, but cannot create an account.</div>
                       </div>
-                      <div className="text-xs text-black/60">Used only to enforce 18+.</div>
+                      <div className="text-xs text-[#475569]">Used only to enforce 18+.</div>
                     </div>
 
                     <DobSelect value={form.dob} onChange={(v) => setField("dob", v)} />
-                    <p className="mt-2 text-xs text-black/60">Format: <span className="font-semibold">DD/MM/YYYY</span></p>
+                    <p className="mt-2 text-xs text-[#475569]">Format: <span className="font-semibold">DD/MM/YYYY</span></p>
                   </div>
 
                   <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4 sm:p-5">
@@ -434,7 +434,7 @@ export default function RegisterPage() {
                       <p className="text-sm font-extrabold text-[#0b1220]">Location</p>
                       <p className="text-xs text-black/55">Country: AU</p>
                     </div>
-                    <p className="mt-1 text-sm text-black/60">Enter <span className="font-semibold">postcode</span>, <span className="font-semibold">suburb</span>, and <span className="font-semibold">state</span>. No street address.</p>
+                    <p className="mt-1 text-sm text-[#475569]">Enter <span className="font-semibold">postcode</span>, <span className="font-semibold">suburb</span>, and <span className="font-semibold">state</span>. No street address.</p>
 
                     <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
                       <div className="sm:col-span-1">
@@ -525,7 +525,7 @@ export default function RegisterPage() {
                     {loading ? "Creating..." : "Create free account"}
                   </button>
 
-                  <div className="text-sm text-black/60">
+                  <div className="text-sm text-[#475569]">
                     Already have an account?{" "}
                     <Link href="/auth/login" className="bd-link font-semibold">
                       Log in

@@ -46,7 +46,7 @@ export default function MobileFiltersToggle({ children }: MobileFiltersTogglePro
           <button
             type="button"
             aria-label="Close filters"
-            className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm"
+            className="absolute inset-0 bg-[#0F172A]/45 backdrop-blur-sm"
             onClick={function () { setOpen(false); }}
           />
 

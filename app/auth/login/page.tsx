@@ -68,7 +68,7 @@ export default function Login() {
         </div>
 
         <div className="grid gap-4">
-          <Card className="order-2 rounded-3xl border border-[#D7E2F1] bg-white p-4 shadow-sm sm:p-5">
+          <Card className="order-2 rounded-[28px] border border-[#D7E2F1] bg-white p-4 shadow-sm sm:p-5">
             <div className="text-sm font-extrabold bd-ink">Before you log in</div>
             <div className="mt-4 space-y-4">
               <div className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-4">
@@ -110,7 +110,7 @@ export default function Login() {
             </div>
           </Card>
 
-          <Card className="order-1 rounded-3xl border border-[#D7E2F1] bg-white p-4 shadow-[0_14px_45px_rgba(28,50,84,0.08)] sm:p-6">
+          <Card className="order-1 rounded-[28px] border border-[#D7E2F1] bg-white p-4 shadow-[0_14px_45px_rgba(28,50,84,0.08)] sm:p-6">
             <form
               noValidate
               className="flex flex-col gap-2"
@@ -208,7 +208,7 @@ export default function Login() {
                 .
               </div>
 
-              <div className="pt-2 text-xs text-black/60">
+              <div className="pt-2 text-xs text-[#475569]">
                 By continuing, you agree to our{" "}
                 <Link href="/legal/terms" className="bd-link">
                   Terms

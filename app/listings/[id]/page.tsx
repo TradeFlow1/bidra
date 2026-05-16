@@ -258,7 +258,7 @@ export default async function ListingDetailPage({
                 {isTimedOffers ? "Offers" : "Buy now"}
               </span>
               {isSold ? (
-                <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-700">Sold</span>
+                <span className="rounded-full border border-[#D8E1EA] bg-slate-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-700">Sold</span>
               ) : null}
             </div>
 
@@ -277,7 +277,7 @@ export default async function ListingDetailPage({
                 </div>
               ) : null}
 
-              <div className="mt-4 rounded-2xl border border-blue-100 bg-[#EEF4FF] px-3 py-2 text-xs font-bold leading-5 text-[#0B3BB8]">{isTimedOffers ? "Make an offer and the seller can respond before handover is arranged." : "Buy now for the listed price, then confirm handover details with the seller."}</div>
+              <div className="mt-4 rounded-2xl border border-[#CFE3E8] bg-[#EEF4FF] px-3 py-2 text-xs font-bold leading-5 text-[#0E7490]">{isTimedOffers ? "Make an offer and the seller can respond before handover is arranged." : "Buy now for the listed price, then confirm handover details with the seller."}</div>
 
               <div className="mt-4 space-y-3">
                 {isSold ? (
@@ -393,7 +393,7 @@ export default async function ListingDetailPage({
                   ) : null}
                   <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{cleanText(listing.location) || "Location on request"}</span>
                   {isSold ? (
-                    <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-700">Sold</span>
+                    <span className="rounded-full border border-[#D8E1EA] bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-700">Sold</span>
                   ) : null}
                 </div>
 

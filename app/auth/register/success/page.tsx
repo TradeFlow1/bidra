@@ -12,11 +12,11 @@ export default function RegisterSuccessPage() {
       <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/auth/login" label="Back to login" /></div>
       <div className={card}>
         <h1 className="text-2xl font-extrabold tracking-tight text-[#0b1220]">Account created</h1>
-        <p className="mt-2 text-sm text-black/60">
+        <p className="mt-2 text-sm text-[#475569]">
           Next: verify your email, then choose your first path. Buyers can browse, watch items, make offers, and keep handover details in Messages. Sellers can create a buyer-ready listing with clear photos, location, price, and safe handover notes.
         </p>
 
-        <div className="mt-5 rounded-2xl border border-black/10 bg-neutral-50 p-4">
+        <div className="mt-5 rounded-2xl border border-[#D8E1EA] bg-[#F8FAFC] p-4">
           <div className="text-sm font-extrabold text-[#0b1220]">First-run checklist</div>
           <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm text-black/65">
             <li>Verify your email so account actions stay protected.</li>

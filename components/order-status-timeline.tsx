@@ -23,9 +23,9 @@ export default function OrderStatusTimeline({ status }: { status: string }) {
         const done = index <= active;
         return (
           <div key={step.key} className="flex items-center gap-2">
-            <div className={done ? "h-2.5 w-2.5 rounded-full bg-black" : "h-2.5 w-2.5 rounded-full bg-neutral-300"} />
-            <span className={done ? "font-medium text-black" : "text-neutral-500"}>{step.label}</span>
-            {index < STEPS.length - 1 ? <div className="h-px w-6 bg-neutral-300" /> : null}
+            <div className={done ? "h-2.5 w-2.5 rounded-full bg-black" : "h-2.5 w-2.5 rounded-full bg-[#CBD5E1]"} />
+            <span className={done ? "font-medium text-black" : "text-[#64748B]"}>{step.label}</span>
+            {index < STEPS.length - 1 ? <div className="h-px w-6 bg-[#CBD5E1]" /> : null}
           </div>
         );
       })}

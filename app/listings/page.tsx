@@ -279,11 +279,11 @@ export default async function ListingsPage({
         aria-label="Search listings by title, category, suburb, or postcode"
         defaultValue={q}
         placeholder="Search title, category, suburb, or postcode"
-        className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100"
+        className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-[#D8E1EA]"
       />
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
-        <select name="category" defaultValue={category} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100" aria-label="Filter by category">
+        <select name="category" defaultValue={category} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-[#D8E1EA]" aria-label="Filter by category">
           <option value="">All categories</option>
           {CATEGORY_GROUPS.map(function (g) {
             return (
@@ -301,15 +301,15 @@ export default async function ListingsPage({
           })}
         </select>
 
-        <input name="location" defaultValue={location} placeholder="Suburb, city, state, or postcode" className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100" aria-label="Filter by location" />
+        <input name="location" defaultValue={location} placeholder="Suburb, city, state, or postcode" className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-[#D8E1EA]" aria-label="Filter by location" />
 
-        <select name="type" defaultValue={type} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100" aria-label="Filter by sale type">
+        <select name="type" defaultValue={type} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-[#D8E1EA]" aria-label="Filter by sale type">
           <option value="">Sale type: All</option>
           <option value="BUY_NOW">Sale type: Buy Now</option>
           <option value="OFFERABLE">Sale type: Offers</option>
         </select>
 
-        <select name="condition" defaultValue={condition} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100" aria-label="Filter by condition">
+        <select name="condition" defaultValue={condition} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-[#D8E1EA]" aria-label="Filter by condition">
           <option value="">Any condition</option>
           <option value="NEW">New</option>
           <option value="USED_LIKE_NEW">Used - Like New</option>
@@ -322,7 +322,7 @@ export default async function ListingsPage({
             name="min"
             defaultValue={min}
             placeholder="Min price"
-            className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100"
+            className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-[#D8E1EA]"
             inputMode="decimal"
             aria-label="Minimum price"
           />
@@ -330,13 +330,13 @@ export default async function ListingsPage({
             name="max"
             defaultValue={max}
             placeholder="Max price"
-            className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100"
+            className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-[#D8E1EA]"
             inputMode="decimal"
             aria-label="Maximum price"
           />
         </div>
 
-        <select name="sort" defaultValue={sort} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100" aria-label="Sort listings">
+        <select name="sort" defaultValue={sort} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-[#D8E1EA]" aria-label="Sort listings">
           <option value="">Sort: Newest</option>
           <option value="price_asc">Sort: Price low to high</option>
           <option value="price_desc">Sort: Price high to low</option>
@@ -372,7 +372,7 @@ export default async function ListingsPage({
         <form action="/listings" className="mt-4 grid gap-2 rounded-[24px] border border-[#D7E2F1] bg-white p-3 shadow-sm xl:hidden">
           <label className="sr-only" htmlFor="mobile-listing-search">Search listings</label>
           <div className="flex gap-2">
-            <input id="mobile-listing-search" name="q" defaultValue={q} placeholder="Search items, brands or keywords" className="min-w-0 flex-1 rounded-2xl border border-[#D8E1F0] bg-[#F8FAFF] px-4 text-sm font-semibold text-[#0F172A] outline-none focus:border-[#0B4DFF] focus:bg-white focus:ring-4 focus:ring-blue-100" />
+            <input id="mobile-listing-search" name="q" defaultValue={q} placeholder="Search items, brands or keywords" className="min-w-0 flex-1 rounded-2xl border border-[#D8E1F0] bg-[#F8FAFF] px-4 text-sm font-semibold text-[#0F172A] outline-none focus:border-[#0B4DFF] focus:bg-white focus:ring-4 focus:ring-[#D8E1EA]" />
             <button type="submit" className="bd-btn bd-btn-primary rounded-2xl px-4">Search</button>
           </div>
           <input type="hidden" name="category" defaultValue={category} />

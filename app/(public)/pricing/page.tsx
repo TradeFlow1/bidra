@@ -7,7 +7,7 @@ function PricingCard(props: {
   children?: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+    <div className="rounded-[24px] border border-[#D8E1EA] bg-white p-5 shadow-sm">
       <div className="text-sm font-extrabold bd-ink">{props.title}</div>
       <div className="mt-2 text-sm bd-ink2 leading-7">{props.desc}</div>
       {props.children ? <div className="mt-3">{props.children}</div> : null}
@@ -18,12 +18,12 @@ function PricingCard(props: {
 export default function PricingPage() {
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/" label="Back to home" /></div>
-      <div className="container max-w-7xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+      <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/" label="Back to home" /></div>
+      <div className="mx-auto max-w-7xl space-y-5">
+        <div className="rounded-[28px] border border-[#D8E1EA] bg-[linear-gradient(135deg,#F8FBFC_0%,#EAF6F8_100%)] p-6 shadow-sm">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Pricing</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#0E7490]">Pricing</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Simple, visible pricing</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Bidra keeps pricing straightforward. Fees may change over time, but any applicable costs are shown in-product before you commit. Orders record sale details, and buyers and sellers arrange handover directly.
@@ -42,22 +42,22 @@ export default function PricingPage() {
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Source of truth</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">In-app pricing</div>
-            <div className="mt-1 text-sm text-neutral-600">The price or fee shown in Bidra at the moment you act is the source of truth.</div>
+          <div className="rounded-[24px] border border-[#D8E1EA] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#0E7490]">Source of truth</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">In-app pricing</div>
+            <div className="mt-1 text-sm text-[#475569]">The price or fee shown in Bidra at the moment you act is the source of truth.</div>
           </div>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Simplicity</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Clear fees</div>
-            <div className="mt-1 text-sm text-neutral-600">Fees are shown before you confirm a paid action.</div>
+          <div className="rounded-[24px] border border-[#D8E1EA] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#0E7490]">Simplicity</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">Clear fees</div>
+            <div className="mt-1 text-sm text-[#475569]">Fees are shown before you confirm a paid action.</div>
           </div>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Current model</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Local marketplace flow</div>
-            <div className="mt-1 text-sm text-neutral-600">Bidra supports listings, offers, orders, and local pickup coordination inside the product.</div>
+          <div className="rounded-[24px] border border-[#D8E1EA] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#0E7490]">Current model</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">Local marketplace flow</div>
+            <div className="mt-1 text-sm text-[#475569]">Bidra supports listings, offers, orders, and local pickup coordination inside the product.</div>
           </div>
         </div>
 
@@ -82,7 +82,7 @@ export default function PricingPage() {
           />
         </div>
 
-        <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <div className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
           <h2 className="text-xl font-extrabold tracking-tight bd-ink">How fees work</h2>
           <div className="mt-3 space-y-3 text-sm bd-ink2 leading-7">
             <p>

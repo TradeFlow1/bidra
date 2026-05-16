@@ -17,9 +17,9 @@ function formatMoney(cents: number | null | undefined) {
 
 function statusTone(status: string, outcome: string | null | undefined) {
   if (outcome === "COMPLETED") return "bg-emerald-50 border-emerald-200 text-emerald-900";
-  if (status === "PENDING") return "bg-blue-50 border-blue-200 text-blue-900";
+  if (status === "PENDING") return "bg-[#EAF6F8] border-[#CFE3E8] text-[#0F172A]";
   if (status === "ACCEPTED") return "bg-amber-50 border-amber-200 text-amber-900";
-  return "bg-neutral-100 border-[#D7E2F1] text-neutral-800";
+  return "bg-[#F1F8FA] border-[#D7E2F1] text-[#334155]";
 }
 
 export default async function OrderDetailPage({ params }: { params: { id: string } }) {
@@ -46,7 +46,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
           </div>
-          <Card className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
+          <Card className="rounded-[28px] border border-[#D7E2F1] bg-white p-6 shadow-sm">
             <div className="text-base font-semibold bd-ink">Order not found</div>
             <p className="mt-2 text-sm bd-ink2">This order could not be found, may have moved, or may not be available to this account.</p>
             <div className="mt-5">
@@ -67,7 +67,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Sold item</h1>
           </div>
-          <Card className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
+          <Card className="rounded-[28px] border border-[#D7E2F1] bg-white p-6 shadow-sm">
             <div className="text-base font-semibold bd-ink">Access restricted</div>
             <p className="mt-2 text-sm bd-ink2">You do not have access to this order.</p>
             <div className="mt-5">
@@ -106,7 +106,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center rounded-full border border-[#D7E2F1] bg-white px-2.5 py-1 text-xs font-semibold text-neutral-800 shadow-sm">
+                <span className="inline-flex items-center rounded-full border border-[#D7E2F1] bg-white px-2.5 py-1 text-xs font-semibold text-[#334155] shadow-sm">
                   {roleLabel}
                 </span>
                 <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(String(order.status), order.outcome)}`}>
@@ -117,7 +117,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Order details are the source of truth. Use Messages for quick confirmations.
               </p>
-              <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950 shadow-sm">
+              <div className="mt-4 rounded-2xl border border-[#CFE3E8] bg-[#EAF6F8] px-4 py-3 text-sm text-[#0F172A] shadow-sm">
                 <div className="font-extrabold">Next action</div>
                 <div className="mt-1">{primaryNextAction}</div>
               </div>
@@ -130,10 +130,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <Link href={primaryNextHref} className="whitespace-nowrap rounded-2xl bg-[#061126] px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:opacity-90">
                 {primaryNextLabel}
               </Link>
-              <Link href={listingHref} className="whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
+              <Link href={listingHref} className="whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0E7490] shadow-sm transition hover:bg-[#F8FAFC]">
                 Item
               </Link>
-              <Link href="/disputes" className="whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
+              <Link href="/disputes" className="whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0E7490] shadow-sm transition hover:bg-[#F8FAFC]">
                 Help
               </Link>
               {alreadyLeft ? (
@@ -185,8 +185,8 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               <div className="font-extrabold">Need help with this order?</div>
               <p className="mt-1">Use the Resolution Centre or contact Support if something does not look right.</p>
               <div className="mt-3 flex flex-wrap gap-2">
-                <Link href="/disputes" className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">Help</Link>
-                <Link href="/contact" className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">Contact</Link>
+                <Link href="/disputes" className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-sm font-extrabold text-[#0E7490] shadow-sm transition hover:bg-[#F8FAFC]">Help</Link>
+                <Link href="/contact" className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-sm font-extrabold text-[#0E7490] shadow-sm transition hover:bg-[#F8FAFC]">Contact</Link>
               </div>
             </div>
         </div>

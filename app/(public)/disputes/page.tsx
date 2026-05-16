@@ -5,7 +5,7 @@ export const metadata = { title: "Bidra | Resolution Centre" };
 
 function StepCard(props: { title: string; body: string; items?: string[] }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-5 shadow-sm">
+    <div className="rounded-[24px] border border-[#D8E1EA] bg-white p-5 shadow-sm">
       <div className="text-sm font-extrabold bd-ink">{props.title}</div>
       <p className="mt-2 text-sm leading-7 bd-ink2">{props.body}</p>
       {props.items && props.items.length ? (
@@ -22,12 +22,12 @@ function StepCard(props: { title: string; body: string; items?: string[] }) {
 export default function Page() {
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/support" label="Back to support" /></div>
-      <div className="container max-w-7xl space-y-5">
-        <section className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+      <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/support" label="Back to support" /></div>
+      <div className="mx-auto max-w-7xl space-y-5">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-[linear-gradient(135deg,#F8FBFC_0%,#EAF6F8_100%)] p-6 shadow-sm">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Resolution centre</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#0E7490]">Resolution centre</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Help with order, listing, and message issues</h1>
               <p className="mt-2 text-sm leading-7 bd-ink2 sm:text-base">
                 Get help with listings, messages, orders, pickup, or postage issues.
@@ -58,28 +58,28 @@ export default function Page() {
           />
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
           <h2 className="text-xl font-extrabold tracking-tight bd-ink">What Bidra can review</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
-            <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+            <div className="rounded-[24px] border border-[#D8E1EA] bg-[#F8FAFC] p-4">
               <div className="text-sm font-extrabold bd-ink">Platform safety issues</div>
               <p className="mt-2 text-sm leading-7 bd-ink2">Report scams, abuse, unsafe behaviour, prohibited items, or misleading listings.</p>
             </div>
-            <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+            <div className="rounded-[24px] border border-[#D8E1EA] bg-[#F8FAFC] p-4">
               <div className="text-sm font-extrabold bd-ink">Order support issues</div>
               <p className="mt-2 text-sm leading-7 bd-ink2">Include order IDs, listing links, messages, photos, tracking, and screenshots.</p>
             </div>
           </div>
         </section>
 
-        <section className="rounded-3xl border border-amber-200 bg-amber-50 p-6 shadow-sm">
+        <section className="rounded-[28px] border border-amber-200 bg-amber-50 p-6 shadow-sm">
           <h2 className="text-xl font-extrabold tracking-tight text-amber-950">Important limits</h2>
           <p className="mt-3 text-sm leading-7 text-amber-950">
             Bidra can review platform evidence and take account or listing action. We do not process payments, hold escrow, decide refunds, or manage shipping.
           </p>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
           <h2 className="text-xl font-extrabold tracking-tight bd-ink">Evidence checklist</h2>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 bd-ink2">
             <li>Order ID or listing link.</li>

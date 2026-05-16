@@ -131,9 +131,9 @@ export default async function MessagesInboxPage() {
                   <Link
                     key={it.id}
                     href={`/messages/${it.id}`}
-                    className={`block rounded-3xl border p-4 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md sm:p-5 ${
+                    className={`block rounded-[28px] border p-4 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md sm:p-5 ${
                       it.unread
-                        ? "border-blue-300 bg-blue-50 ring-2 ring-blue-200 border-l-8"
+                        ? "border-[#0E7490] bg-[#EAF6F8] ring-2 ring-[#CFE3E8] border-l-8"
                         : "border-[#D7E2F1] bg-white"
                     }`}
                   >
@@ -166,7 +166,7 @@ export default async function MessagesInboxPage() {
 
                           <div className="shrink-0 flex items-center gap-2">
                             {it.unread ? (
-                              <span className="inline-flex items-center rounded-full border border-blue-300 bg-blue-600 px-2.5 py-1 text-[10px] font-extrabold text-white">
+                              <span className="inline-flex items-center rounded-full border border-[#0E7490] bg-[#0E7490] px-2.5 py-1 text-[10px] font-extrabold text-white">
                                 Unread
                               </span>
                             ) : null}
@@ -182,7 +182,7 @@ export default async function MessagesInboxPage() {
                   </Link>
                 );
               })}
-            </div><aside className="hidden rounded-[30px] border border-[#D8E6F8] bg-white p-6 shadow-sm lg:block"><div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#0B4DFF]">Conversation</div><h2 className="mt-2 text-2xl font-black tracking-tight text-[#07152E]">Select a message</h2><p className="mt-2 text-sm font-semibold leading-6 text-[#526173]">Open a thread to confirm price, pickup, postage, payment and handover details in one place.</p><div className="mt-6 rounded-[24px] bg-[#EEF6FF] p-5 text-sm font-bold text-[#36506F]">Bidra does not provide escrow or wallet payments. Buyers and sellers arrange payment directly.</div></aside></div>
+            </div><aside className="hidden rounded-[30px] border border-[#D8E6F8] bg-white p-6 shadow-sm lg:block"><div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#0E7490]">Conversation</div><h2 className="mt-2 text-2xl font-black tracking-tight text-[#07152E]">Select a message</h2><p className="mt-2 text-sm font-semibold leading-6 text-[#526173]">Open a thread to confirm price, pickup, postage, payment and handover details in one place.</p><div className="mt-6 rounded-[24px] bg-[#EEF6FF] p-5 text-sm font-bold text-[#36506F]">Bidra does not provide escrow or wallet payments. Buyers and sellers arrange payment directly.</div></aside></div>
           )}
         </div>
       </ReferencePage>
@@ -198,7 +198,7 @@ export default async function MessagesInboxPage() {
 
           <SafetyNotice />
 
-          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
+          <div className="rounded-[28px] border border-[#D7E2F1] bg-white p-6 shadow-sm">
             <div className="text-base font-semibold text-[var(--bidra-ink)]">Messages are temporarily unavailable</div>
             <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
               Please try again shortly. If this keeps happening, use Support.

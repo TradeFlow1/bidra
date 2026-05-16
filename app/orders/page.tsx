@@ -18,8 +18,8 @@ function formatMoney(cents: number | null | undefined) {
 
 function statusTone(status: string, outcome: string | null | undefined) {
   if (outcome === "COMPLETED") return "bg-emerald-50 border-emerald-200 text-emerald-900";
-  if (status === "PENDING") return "bg-blue-50 border-blue-200 text-blue-900";
-  return "bg-neutral-100 border-[#D7E2F1] text-neutral-800";
+  if (status === "PENDING") return "bg-[#EAF6F8] border-[#CFE3E8] text-[#0F172A]";
+  return "bg-[#F1F8FA] border-[#D7E2F1] text-[#334155]";
 }
 
 export default async function OrdersPage() {
@@ -77,7 +77,7 @@ export default async function OrdersPage() {
         </div>
 
         {!orders.length ? (
-          <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
+          <div className="rounded-[28px] border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
             <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-[#0F172A]">No buys or sales yet</div>
               <p className="mt-2 text-sm text-[#526173]">
@@ -105,12 +105,12 @@ export default async function OrdersPage() {
               return (
                 <Card
                   key={o.id}
-                  className={`overflow-hidden rounded-[24px] border bg-white p-3 shadow-sm sm:p-5 ${isPending ? "border-blue-300 border-l-4 ring-2 ring-blue-100" : "border-[#D7E2F1]"}`}
+                  className={`overflow-hidden rounded-[24px] border bg-white p-3 shadow-sm sm:p-5 ${isPending ? "border-[#0E7490] border-l-4 ring-2 ring-[#D8E1EA]" : "border-[#D7E2F1]"}`}
                 >
                   <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="inline-flex items-center rounded-full border border-[#D7E2F1] bg-neutral-100 px-2.5 py-1 text-xs font-semibold text-neutral-800">
+                        <span className="inline-flex items-center rounded-full border border-[#D7E2F1] bg-[#F1F8FA] px-2.5 py-1 text-xs font-semibold text-[#334155]">
                           {roleLabel}
                         </span>
                         <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(String(o.status), o.outcome)}`}>
@@ -132,7 +132,7 @@ export default async function OrdersPage() {
                           Created <DateTimeText value={o.createdAt} />
                         </div>
                         <div>
-                          Order ID <span className="font-mono font-semibold text-neutral-800">{String(o.id).slice(-6)}</span>
+                          Order ID <span className="font-mono font-semibold text-[#334155]">{String(o.id).slice(-6)}</span>
                         </div>
                       </div>
 
@@ -157,20 +157,20 @@ export default async function OrdersPage() {
                       <div className="grid grid-cols-3 gap-2">
                         <Link
                           href={`/orders/${o.id}`}
-                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
+                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0E7490] shadow-sm transition hover:bg-[#F8FAFC]"
                         >
                           Open
                         </Link>
                         <Link
                           href={`/listings/${o.listingId}`}
-                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
+                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0E7490] shadow-sm transition hover:bg-[#F8FAFC]"
                         >
                           Item
                         </Link>
 
                         <Link
                           href="/disputes"
-                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
+                          className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0E7490] shadow-sm transition hover:bg-[#F8FAFC]"
                         >
                           Help
                         </Link>
@@ -178,7 +178,7 @@ export default async function OrdersPage() {
                         {feedbackDue ? (
                           <Link
                             href={`/orders/${o.id}/feedback`}
-                            className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]"
+                            className="rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2.5 text-center text-xs font-extrabold text-[#0E7490] shadow-sm transition hover:bg-[#F8FAFC]"
                           >
                             Leave feedback
                           </Link>

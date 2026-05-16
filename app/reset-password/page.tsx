@@ -96,7 +96,7 @@ export default function ResetPasswordPage({
     <main className="bg-[#F4F7FB] px-4 py-8 sm:py-12">
       <div className="mx-auto w-full mb-4 w-full max-w-7xl"><BackButton href="/auth/login" label="Back to login" /></div>
       <div className="mx-auto w-full max-w-md space-y-5">
-        <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-6 shadow-sm">
+        <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-6 shadow-sm">
           <div className="max-w-3xl">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Account recovery</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Reset password</h1>
@@ -108,7 +108,7 @@ export default function ResetPasswordPage({
 
         <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-5">
-            <div className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
+            <div className="rounded-[28px] border border-[#D7E2F1] bg-white p-6 shadow-sm">
               <div className="text-sm font-extrabold bd-ink">Before you continue</div>
               <div className="mt-4 space-y-4">
                 <div className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-4">
@@ -136,7 +136,7 @@ export default function ResetPasswordPage({
             </div>
           </div>
 
-          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
+          <div className="rounded-[28px] border border-[#D7E2F1] bg-white p-6 shadow-sm">
             {!token ? (
               <div className="space-y-4">
                 <div className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">

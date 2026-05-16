@@ -25,9 +25,9 @@ type AdminUserDetail = {
 
 function Field(props: { label: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-      <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{props.label}</div>
-      <div className="mt-1 text-sm font-semibold text-neutral-950">{props.children}</div>
+    <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+      <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">{props.label}</div>
+      <div className="mt-1 text-sm font-semibold text-[#0F172A]">{props.children}</div>
     </div>
   );
 }
@@ -106,10 +106,10 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
   const riskLevel = highestRiskLevel(riskSignals);return (
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
-        <section className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-gradient-to-br from-white to-[#EAF6F8] p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin user detail</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Admin user detail</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">{target.username || target.email}</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">Review account state, contact confirmation signals, policy strikes, block status, risk signals, and moderation actions before applying a proportional restriction.</p>
             </div>
@@ -127,7 +127,7 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
           <Field label="Policy strikes"><Badge>Strikes {target.policyStrikes}</Badge></Field>
           <Field label="Blocked">{isBlocked ? <Badge>Blocked until <DateTimeText value={target.policyBlockedUntil as Date} /></Badge> : <Badge>Not blocked</Badge>}</Field>
         </section>
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Verification signals</div>
           <p className="mt-2 text-sm leading-7 bd-ink2">
             These are account contact and eligibility signals available to Bidra today. They are not provider-backed government ID, biometric, liveness, escrow, payment, or shipping verification.
@@ -139,7 +139,7 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
             <Field label="Phone on file">{target.phone ? <Badge>Present</Badge> : <Badge>Missing</Badge>}</Field>
           </div>
         </section>
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <div className="text-sm font-extrabold bd-ink">Risk signal review</div>
@@ -149,17 +149,17 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
           </div>
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {riskSignals.map((signal) => (
-              <div key={signal.label} className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
-                <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{riskLevelLabel(signal.level)}</div>
+              <div key={signal.label} className="rounded-2xl border border-[#D8E1EA] bg-[#F8FAFC] p-4">
+                <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">{riskLevelLabel(signal.level)}</div>
                 <div className="mt-1 text-sm font-extrabold bd-ink">{signal.label}</div>
                 <p className="mt-1 text-sm leading-6 bd-ink2">{signal.reason}</p>
               </div>
             ))}
           </div>
-          <div className="mt-4 text-xs leading-6 text-neutral-600">Report context: {reportCount} total report(s), {unresolvedReportCount} open report(s).</div>
+          <div className="mt-4 text-xs leading-6 text-[#475569]">Report context: {reportCount} total report(s), {unresolvedReportCount} open report(s).</div>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Moderation checklist</div>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-sm bd-ink2 leading-7">
             <li>Open related report and audit evidence before applying a strike, block, unblock, or reset action.</li>

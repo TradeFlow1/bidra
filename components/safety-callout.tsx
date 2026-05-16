@@ -1,4 +1,4 @@
-﻿type Props = {
+type Props = {
   title?: string;
   children?: React.ReactNode;
   className?: string;
@@ -10,7 +10,7 @@ export default function SafetyCallout({
   className = "",
 }: Props) {
   return (
-    <div className={`rounded-2xl border border-black/10 bg-white p-4 ${className}`.trim()}>
+    <div className={`rounded-2xl border border-[#D8E1EA] bg-white p-4 ${className}`.trim()}>
       <div className="text-sm font-extrabold bd-ink">{title}</div>
       <div className="mt-2 text-sm bd-ink2 space-y-2">
         {children ? (
