@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -58,10 +58,10 @@ export default function SiteHeaderClient({
     };
   }, []);
 
-  const menuLinkClass = "block w-full rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-[#0F172A] transition hover:bg-[#EEF4FF]";
-  const searchInputClass = "w-full rounded-full border border-[#D7E2F1] bg-[#F8FAFF] px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-[#7B8AA3] shadow-inner focus:border-[#0B4DFF] focus:bg-white focus:ring-4 focus:ring-blue-100";
+  const menuLinkClass = "block w-full rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-[#0F172A] transition hover:bg-[#EAF6F8]";
+  const searchInputClass = "w-full rounded-full border border-[#D7E2F1] bg-[#F8FAFF] px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-[#7B8AA3] shadow-inner focus:border-[#0E7490] focus:bg-white focus:ring-4 focus:ring-blue-100";
   const badge = notificationCount > 0 ? (
-    <span className="ml-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-[#0B4DFF] px-1.5 py-0.5 text-[11px] font-extrabold text-white">
+    <span className="ml-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-[#0E7490] px-1.5 py-0.5 text-[11px] font-extrabold text-white">
       {notificationCount > 99 ? "99+" : notificationCount}
     </span>
   ) : null;
@@ -120,21 +120,21 @@ export default function SiteHeaderClient({
   }
 
   return (
-    <header className="sticky top-0 z-[100] border-b border-[#D8E6F8] bg-white/95 text-[#0F172A] shadow-[0_12px_40px_rgba(32,75,140,0.08)] backdrop-blur-xl">
+    <header className="sticky top-0 z-[100] border-b border-[#D8E1EA] bg-white/95 text-[#0F172A] shadow-[0_12px_40px_rgba(32,75,140,0.08)] backdrop-blur-xl">
       <div className="mx-auto hidden w-full max-w-[1440px] grid-cols-[auto_1fr_minmax(18rem,28rem)_auto] items-center gap-7 px-4 py-4 md:grid lg:px-6">
         <Link href="/" className="flex h-10 w-32 shrink-0 items-center" aria-label="Bidra home">
           <BrandLogo className="h-8 w-auto" priority />
         </Link>
         <nav className="flex min-w-0 items-center gap-5" aria-label="Primary navigation">
           {DESKTOP_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="text-sm font-extrabold text-[#14213D] transition hover:text-[#0B4DFF]">
+            <Link key={link.href} href={link.href} className="text-sm font-extrabold text-[#14213D] transition hover:text-[#0E7490]">
               {link.label}
             </Link>
           ))}
         </nav>
         <SearchBar inputClassName={searchInputClass} />
         <div className="flex items-center gap-3 justify-self-end">
-          <Link href="/sell/new" className="text-sm font-extrabold text-[#14213D] transition hover:text-[#0B4DFF]">Sell</Link>
+          
           {isAuthed ? (
             <div ref={desktopAccountRef} className="relative">
               <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="bd-btn bd-btn-primary rounded-full px-5" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
@@ -150,12 +150,12 @@ export default function SiteHeaderClient({
 
       <div className="md:hidden">
         <div className="flex items-center gap-3 px-4 py-3">
-          <button type="button" className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg font-extrabold shadow-sm" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}>☰</button>
+          <button type="button" className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg font-extrabold shadow-sm" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><span aria-hidden="true">☰</span></button>
           <Link href="/" className="flex h-10 w-32 items-center" aria-label="Bidra home">
             <BrandLogo className="h-8 w-auto" priority />
           </Link>
           <div ref={mobileMenuRef} className="relative ml-auto">
-            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg shadow-sm" aria-label="Account and notifications">🔔</button>
+            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg shadow-sm" aria-label="Account and notifications"><span aria-hidden="true">!</span></button>
             {mobileMenuOpen ? renderMobileMenu() : null}
           </div>
         </div>
@@ -166,3 +166,6 @@ export default function SiteHeaderClient({
     </header>
   );
 }
+
+
+
