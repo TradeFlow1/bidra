@@ -652,3 +652,83 @@ header [class*="border-[#0E7490]"] {
 .bidra-homepage .stroke-blue-700 {
   stroke: #0E7490 !important;
 }
+
+/* bidra-final-teal-overrides */
+:root {
+  --bidra-action: #0E7490;
+  --bidra-action-hover: #155E75;
+  --bidra-ink: #0F172A;
+  --bidra-border: #D8E1EA;
+  --bidra-soft: #EAF6F8;
+}
+
+.bidra-homepage .bd-listing-card [class*="BUY"],
+.bidra-homepage .bd-listing-card [class*="buy"],
+.bidra-homepage [class*="rounded-full"][class*="uppercase"],
+.bidra-homepage [class*="shadow"][class*="uppercase"] {
+  background-color: var(--bidra-action) !important;
+  border-color: var(--bidra-action) !important;
+  color: #FFFFFF !important;
+}
+
+.bidra-homepage button,
+.bidra-homepage a,
+header a,
+[data-site-footer] a {
+  color: var(--bidra-action);
+}
+
+.bidra-homepage button:hover,
+.bidra-homepage a:hover,
+header a:hover,
+[data-site-footer] a:hover {
+  color: var(--bidra-action-hover);
+}
+
+.bidra-homepage svg {
+  color: var(--bidra-action) !important;
+}
+
+.bidra-homepage [class*="text-[#2563EB]"],
+.bidra-homepage [class*="text-blue"],
+.bidra-homepage [class*="stroke-blue"],
+.bidra-homepage [class*="fill-blue"],
+header [class*="text-blue"],
+[data-site-footer] [class*="text-blue"] {
+  color: var(--bidra-action) !important;
+  stroke: var(--bidra-action) !important;
+  fill: var(--bidra-action) !important;
+}
+
+.bidra-homepage [class*="bg-blue"],
+.bidra-homepage [class*="bg-[#2563EB]"],
+.bidra-homepage [class*="bg-[#0B4DFF]"],
+.bidra-homepage [class*="bg-[#0057FF]"] {
+  background-color: var(--bidra-action) !important;
+}
+
+.bidra-homepage [class*="border-blue"],
+.bidra-homepage [class*="border-[#2563EB]"],
+.bidra-homepage [class*="border-[#0B4DFF]"],
+.bidra-homepage [class*="border-[#0057FF]"] {
+  border-color: var(--bidra-action) !important;
+}
+
+@media (min-width: 1024px) {
+  body:has(.bidra-homepage) .bidra-homepage {
+    min-height: auto !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage article {
+    min-height: 300px !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage article [class*="min-h-[170px]"],
+  body:has(.bidra-homepage) .bidra-homepage article [class*="min-h-[190px]"] {
+    min-height: 260px !important;
+  }
+
+  body:has(.bidra-homepage) [data-site-footer] {
+    margin-top: 36px !important;
+  }
+}
