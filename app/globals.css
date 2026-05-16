@@ -976,3 +976,64 @@ header [class*="border-blue"],
     margin-top: 24px !important;
   }
 }
+
+/* bidra-desktop-zoom-resilience */
+@media (min-width: 1024px) {
+  body:has(.bidra-homepage) main.bidra-homepage {
+    padding-top: clamp(18px, 2.2vh, 32px) !important;
+    padding-bottom: 0 !important;
+    min-height: auto !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage > div,
+  body:has(.bidra-homepage) [data-site-footer] > div {
+    width: min(1180px, calc(100vw - clamp(48px, 12vw, 220px))) !important;
+    max-width: 1180px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage section {
+    margin-top: clamp(20px, 2.8vh, 34px) !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage h1 {
+    font-size: clamp(44px, 4.2vw, 70px) !important;
+    line-height: 0.98 !important;
+    letter-spacing: -0.052em !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage h2 {
+    font-size: clamp(24px, 1.8vw, 32px) !important;
+    line-height: 1.05 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage article {
+    min-height: clamp(260px, 24vh, 340px) !important;
+  }
+
+  body:has(.bidra-homepage) [data-site-footer],
+  body:has(.bidra-homepage) footer {
+    margin-top: clamp(28px, 4vh, 56px) !important;
+    padding-top: clamp(24px, 3vh, 36px) !important;
+    padding-bottom: 22px !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  body:has(.bidra-homepage) .bidra-homepage > div,
+  body:has(.bidra-homepage) [data-site-footer] > div {
+    width: min(1240px, calc(100vw - clamp(72px, 16vw, 300px))) !important;
+    max-width: 1240px !important;
+  }
+}
+
+@media (min-width: 1800px) {
+  body:has(.bidra-homepage) .bidra-homepage > div,
+  body:has(.bidra-homepage) [data-site-footer] > div {
+    width: min(1320px, 68vw) !important;
+    max-width: 1320px !important;
+  }
+}
