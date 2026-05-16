@@ -38,7 +38,7 @@ export default function SiteFooter() {
         <div className="grid gap-8 lg:grid-cols-[1.25fr_2fr_1fr] lg:items-start">
           <div>
             <Link href="/" className="flex h-10 w-36 items-center" aria-label="Bidra home">
-              <BrandLogo className="relative block h-16 w-[330px] overflow-hidden" />
+              <BrandLogo className="relative block h-[82px] w-[410px] overflow-visible" />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-6 text-[#526173]">
               Australia&apos;s local marketplace. Buy now. Make offers. Arrange handover.

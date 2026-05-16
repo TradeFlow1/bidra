@@ -10,7 +10,7 @@ export default function BrandLogo({ className, priority = false, variant = "full
   if (variant === "symbol") {
     return (
       <Image
-        src="/bidra-favicon.png"
+        src="/bidra-favicon.png?v=4"
         alt="Bidra"
         width={96}
         height={96}
@@ -21,12 +21,12 @@ export default function BrandLogo({ className, priority = false, variant = "full
   }
 
   return (
-    <span className={className || "relative block h-12 w-[300px] overflow-hidden"}>
+    <span className={className || "relative block h-[78px] w-[390px] overflow-visible"}>
       <Image
-        src="/bidra-logo.png"
+        src="/bidra-logo.png?v=4"
         alt="Bidra"
         fill
-        sizes="300px"
+        sizes="390px"
         priority={priority}
         className="object-contain object-left"
       />

@@ -124,7 +124,7 @@ export default function SiteHeaderClient({
     <header className="sticky top-0 z-[100] border-b border-[#C7D2FE] bg-white/95 text-[#0F172A] shadow-[0_12px_40px_rgba(32,75,140,0.08)] backdrop-blur-xl">
       <div className="mx-auto hidden w-full max-w-[1440px] grid-cols-[auto_1fr_minmax(18rem,28rem)_auto] items-center gap-7 px-4 py-4 md:grid lg:px-6">
         <Link href="/" className="flex h-10 w-32 shrink-0 items-center" aria-label="Bidra home">
-          <BrandLogo className="relative block h-12 w-[300px] overflow-hidden" priority />
+          <BrandLogo priority className="relative block h-[78px] w-[390px] overflow-visible" />
         </Link>
         <nav className="flex min-w-0 items-center gap-5" aria-label="Primary navigation">
           {DESKTOP_LINKS.map((link) => (
@@ -153,7 +153,7 @@ export default function SiteHeaderClient({
         <div className="flex items-center gap-3 px-4 py-3">
           <button type="button" className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg font-extrabold shadow-sm" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><span aria-hidden="true">☰</span></button>
           <Link href="/" className="flex h-10 w-32 items-center" aria-label="Bidra home">
-            <BrandLogo className="relative block h-12 w-[300px] overflow-hidden" priority />
+            <BrandLogo priority className="relative block h-[78px] w-[390px] overflow-visible" />
           </Link>
           <div ref={mobileMenuRef} className="relative ml-auto">
             <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg shadow-sm" aria-label="Account and notifications"><span aria-hidden="true">!</span></button>
