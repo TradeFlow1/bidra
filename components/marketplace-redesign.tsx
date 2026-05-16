@@ -48,18 +48,18 @@ export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string
             </Link>
           </div>
 
-          <div className="mt-5 grid grid-cols-3 gap-2 sm:mt-6 sm:gap-3">
-            <div className="rounded-2xl bg-white/75 px-2 py-3 text-center shadow-sm ring-1 ring-[#D8E5EA] sm:flex sm:gap-3 sm:bg-transparent sm:p-0 sm:text-left sm:shadow-none sm:ring-0">
-              <div className="flex justify-center sm:block"><BlueIcon name="safe" /></div>
-              <div className="mt-1 text-[11px] font-black leading-none text-[#0F172A] sm:mt-0 sm:text-sm sm:leading-normal">Safe</div>
+          <div className="mt-5 grid gap-2 sm:mt-6 sm:grid-cols-3 sm:gap-3">
+            <div className="flex items-center gap-3 rounded-2xl bg-white/75 px-3 py-3 text-left shadow-sm ring-1 ring-[#D8E5EA] sm:gap-3 sm:bg-transparent sm:p-0 sm:shadow-none sm:ring-0">
+              <div className="shrink-0"><BlueIcon name="safe" /></div>
+              <div className="text-sm font-black leading-none text-[#0F172A] sm:text-sm sm:leading-normal">Safe</div>
             </div>
-            <div className="rounded-2xl bg-white/75 px-2 py-3 text-center shadow-sm ring-1 ring-[#D8E5EA] sm:flex sm:gap-3 sm:bg-transparent sm:p-0 sm:text-left sm:shadow-none sm:ring-0">
-              <div className="flex justify-center sm:block"><BlueIcon name="location" /></div>
-              <div className="mt-1 text-[11px] font-black leading-none text-[#0F172A] sm:mt-0 sm:text-sm sm:leading-normal">Local</div>
+            <div className="flex items-center gap-3 rounded-2xl bg-white/75 px-3 py-3 text-left shadow-sm ring-1 ring-[#D8E5EA] sm:gap-3 sm:bg-transparent sm:p-0 sm:shadow-none sm:ring-0">
+              <div className="shrink-0"><BlueIcon name="location" /></div>
+              <div className="text-sm font-black leading-none text-[#0F172A] sm:text-sm sm:leading-normal">Local</div>
             </div>
-            <div className="rounded-2xl bg-white/75 px-2 py-3 text-center shadow-sm ring-1 ring-[#D8E5EA] sm:flex sm:gap-3 sm:bg-transparent sm:p-0 sm:text-left sm:shadow-none sm:ring-0">
-              <div className="flex justify-center sm:block"><BlueIcon name="offer" /></div>
-              <div className="mt-1 text-[11px] font-black leading-none text-[#0F172A] sm:mt-0 sm:text-sm sm:leading-normal">Deals</div>
+            <div className="flex items-center gap-3 rounded-2xl bg-white/75 px-3 py-3 text-left shadow-sm ring-1 ring-[#D8E5EA] sm:gap-3 sm:bg-transparent sm:p-0 sm:shadow-none sm:ring-0">
+              <div className="shrink-0"><BlueIcon name="offer" /></div>
+              <div className="text-sm font-black leading-none text-[#0F172A] sm:text-sm sm:leading-normal">Deals</div>
             </div>
           </div>
         </div>
