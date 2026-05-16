@@ -910,3 +910,32 @@ header [class*="border-blue"],
     padding-bottom: 96px !important;
   }
 }
+
+/* bidra-footer-band-cleanup */
+@media (min-width: 1024px) {
+  body:has(.bidra-homepage) {
+    background: #FFFFFF !important;
+  }
+
+  body:has(.bidra-homepage) main.bidra-homepage {
+    background: #FFFFFF !important;
+  }
+
+  body:has(.bidra-homepage) [data-site-footer] {
+    background: #FFFFFF !important;
+    border-top: 1px solid #D8E1EA !important;
+    margin-top: 28px !important;
+    padding-top: 28px !important;
+    padding-bottom: 20px !important;
+  }
+
+  body:has(.bidra-homepage) [data-site-footer]::before,
+  body:has(.bidra-homepage) [data-site-footer]::after {
+    display: none !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage + [data-site-footer],
+  body:has(.bidra-homepage) footer {
+    background-color: #FFFFFF !important;
+  }
+}
