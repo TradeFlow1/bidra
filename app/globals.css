@@ -1038,3 +1038,15 @@ header [class*="border-blue"],
   }
 }
 
+
+/* bidra-mobile-home-limit-listings */
+@media (max-width: 767px) {
+  body:has(.bidra-homepage) .bidra-homepage section:has(article) article:nth-of-type(n+3) {
+    display: none !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage section:has(article) {
+    padding-bottom: 96px !important;
+  }
+}
+
