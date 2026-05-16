@@ -1079,3 +1079,47 @@ header [class*="border-blue"],
   }
 }
 
+
+/* bidra-mobile-category-tighten */
+@media (max-width: 767px) {
+  body:has(.bidra-homepage) .bidra-homepage section:has(a[href*="/listings?category="]) {
+    margin-top: 22px !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] {
+    min-height: 82px !important;
+    padding: 12px 10px !important;
+    border-radius: 17px !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] > div:first-child {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    margin-bottom: 6px !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] h3,
+  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] [class*="font-black"] {
+    font-size: 12px !important;
+    line-height: 1.1 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] p,
+  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] [class*="text-sm"],
+  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] [class*="text-xs"] {
+    font-size: 11px !important;
+    line-height: 1.1 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage section:has(a[href*="/listings?category="]) .grid {
+    gap: 9px !important;
+  }
+}
+
