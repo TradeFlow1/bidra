@@ -1163,23 +1163,3 @@ header [class*="border-blue"],
   }
 }
 
-
-
-
-
-
-
-
-/* bidra-mobile-hero-reset */
-@media (max-width: 767px) {
-  body:has(.bidra-homepage) .bidra-homepage section:first-of-type {
-    display: block !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section:first-of-type > div {
-    display: block !important;
-    width: auto !important;
-    max-width: none !important;
-  }
-}
-
