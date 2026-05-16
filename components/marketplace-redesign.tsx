@@ -39,7 +39,7 @@ export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string
           </p>
 
           <div className="mt-5 grid gap-3">
-            <Link href="/listings" className="flex h-12 items-center justify-center rounded-2xl bg-[#0E7490] px-5 text-sm font-black text-white shadow-[0_12px_24px_rgba(14,116,144,0.22)]">
+            <Link href="/listings" className="flex h-12 items-center justify-center rounded-2xl bg-[#0F6674] px-5 text-sm font-black text-white shadow-[0_12px_24px_rgba(15,102,116,0.20)]">
               Browse listings
             </Link>
             <Link href={sellHref} className="flex h-12 items-center justify-center rounded-2xl border border-[#D8E1EA] bg-white px-5 text-sm font-black text-[#0F172A] shadow-sm">
@@ -78,7 +78,7 @@ export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string
               Buy now. Make offers. Arrange handover.
             </p>
             <div className="mt-5 flex gap-3">
-              <Link href="/listings" className="inline-flex h-12 items-center justify-center rounded-2xl bg-[#0E7490] px-6 text-sm font-black text-white shadow-[0_12px_24px_rgba(14,116,144,0.22)]">
+              <Link href="/listings" className="inline-flex h-12 items-center justify-center rounded-2xl bg-[#0F6674] px-6 text-sm font-black text-white shadow-[0_12px_24px_rgba(15,102,116,0.20)]">
                 Browse listings
               </Link>
               <Link href={sellHref} className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#D8E1EA] bg-white px-6 text-sm font-black text-[#0F172A] shadow-sm">
