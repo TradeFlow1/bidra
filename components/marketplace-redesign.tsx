@@ -89,7 +89,7 @@ export function ProductCollage({ listings = [] }: { listings?: FeaturedHeroListi
   ];
 
   return (
-    <div className="relative hidden grid-cols-2 gap-4 sm:grid lg:grid lg:min-h-[430px]">
+    <div className="relative hidden grid-cols-2 gap-4 lg:grid lg:min-h-[430px]">
       <div className="pointer-events-none absolute -bottom-20 -right-10 h-72 w-72 rounded-full bg-[#D7EEF2] opacity-70" />
       {heroListings.map((item, index) => (
         <Link
