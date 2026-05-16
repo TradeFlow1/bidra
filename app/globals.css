@@ -1111,3 +1111,44 @@ header [class*="border-blue"],
   }
 }
 
+
+/* bidra-mobile-home-card-compact */
+@media (max-width: 767px) {
+  body:has(.bidra-homepage) .bidra-homepage section:has(a[href^="/listings/"]) {
+    padding-bottom: 24px !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage section:has(a[href^="/listings/"]) .grid {
+    gap: 10px !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] {
+    min-height: 0 !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] img,
+  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] picture,
+  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="aspect"],
+  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="h-44"],
+  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="h-48"],
+  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="h-56"] {
+    max-height: 120px !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="p-4"] {
+    padding: 10px !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="text-xl"] {
+    font-size: 16px !important;
+    line-height: 1.15 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="text-sm"] {
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+  }
+}
+
