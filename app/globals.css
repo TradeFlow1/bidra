@@ -732,3 +732,97 @@ header [class*="text-blue"],
     margin-top: 36px !important;
   }
 }
+
+/* bidra-homepage-deadspace-and-blue-fix */
+:root {
+  --bidra-ink: #0F172A;
+  --bidra-muted: #475569;
+  --bidra-action: #0E7490;
+  --bidra-action-hover: #155E75;
+  --bidra-soft: #EAF6F8;
+  --bidra-border: #D8E1EA;
+}
+
+/* Kill remaining bright blue visual noise on homepage/header/footer */
+header a,
+header button,
+header svg,
+.bidra-homepage a,
+.bidra-homepage button,
+.bidra-homepage svg,
+[data-site-footer] a,
+[data-site-footer] button,
+[data-site-footer] svg {
+  color: var(--bidra-action) !important;
+}
+
+header a:hover,
+header button:hover,
+.bidra-homepage a:hover,
+.bidra-homepage button:hover,
+[data-site-footer] a:hover,
+[data-site-footer] button:hover {
+  color: var(--bidra-action-hover) !important;
+}
+
+header [class*="bg-[#0E7490]"],
+header [class*="bg-blue"],
+.bidra-homepage [class*="bg-[#0E7490]"],
+.bidra-homepage [class*="bg-blue"],
+[data-site-footer] [class*="bg-[#0E7490]"],
+[data-site-footer] [class*="bg-blue"] {
+  background-color: var(--bidra-action) !important;
+}
+
+header [class*="border-[#0E7490]"],
+header [class*="border-blue"],
+.bidra-homepage [class*="border-[#0E7490]"],
+.bidra-homepage [class*="border-blue"],
+[data-site-footer] [class*="border-[#0E7490]"],
+[data-site-footer] [class*="border-blue"] {
+  border-color: var(--bidra-action) !important;
+}
+
+/* Desktop layout: remove the giant dead area before the footer */
+@media (min-width: 1024px) {
+  body:has(.bidra-homepage) main.bidra-homepage {
+    min-height: 0 !important;
+    padding-top: 24px !important;
+    padding-bottom: 0 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage > div {
+    padding-bottom: 0 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage section {
+    margin-bottom: 0 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage section:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage article {
+    min-height: 260px !important;
+  }
+
+  body:has(.bidra-homepage) [data-site-footer] {
+    margin-top: 32px !important;
+    padding-top: 32px !important;
+    padding-bottom: 22px !important;
+  }
+
+  body:has(.bidra-homepage) [data-site-footer] > div {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+/* Keep mobile breathing room for bottom nav */
+@media (max-width: 1023px) {
+  body:has(.bidra-homepage) main.bidra-homepage {
+    padding-bottom: 96px !important;
+  }
+}
