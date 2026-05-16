@@ -33,21 +33,21 @@ export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string
           <div className="mt-5 flex flex-col gap-2.5 sm:flex-row">
             <Link href="/listings" className="bd-btn bd-btn-primary rounded-2xl px-7 py-3">Browse listings</Link>
             <Link href={sellHref} className="bd-btn bd-btn-secondary rounded-2xl px-7 py-3">Sell an item</Link>
-          </div>          <div className="mt-6 grid grid-cols-3 gap-2">
-            <div className="rounded-2xl bg-white/75 px-2 py-3 text-center shadow-sm ring-1 ring-[#D8E5EA]">
-              <div className="flex justify-center"><BlueIcon name="safe" /></div>
-              <div className="mt-1 text-[11px] font-black leading-none text-[#0F172A]">Safe</div>
+          </div>
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            <div className="flex gap-3">
+              <BlueIcon name="safe" />
+              <div><div className="text-sm font-black text-[#0F172A]">Safe and trusted</div><p className="mt-1 text-xs font-semibold leading-5 text-[#64748B]">A secure community built on trust.</p></div>
             </div>
-            <div className="rounded-2xl bg-white/75 px-2 py-3 text-center shadow-sm ring-1 ring-[#D8E5EA]">
-              <div className="flex justify-center"><BlueIcon name="location" /></div>
-              <div className="mt-1 text-[11px] font-black leading-none text-[#0F172A]">Local</div>
+            <div className="flex gap-3">
+              <BlueIcon name="location" />
+              <div><div className="text-sm font-black text-[#0F172A]">Local and convenient</div><p className="mt-1 text-xs font-semibold leading-5 text-[#64748B]">Buy and sell with people in your area.</p></div>
             </div>
-            <div className="rounded-2xl bg-white/75 px-2 py-3 text-center shadow-sm ring-1 ring-[#D8E5EA]">
-              <div className="flex justify-center"><BlueIcon name="offer" /></div>
-              <div className="mt-1 text-[11px] font-black leading-none text-[#0F172A]">Deals</div>
+            <div className="flex gap-3">
+              <BlueIcon name="offer" />
+              <div><div className="text-sm font-black text-[#0F172A]">Great deals</div><p className="mt-1 text-xs font-semibold leading-5 text-[#64748B]">Find value or make offers that work for you.</p></div>
             </div>
           </div>
-        </div>
         </div>
         <ProductCollage listings={featuredListings} />
       </div>
@@ -89,7 +89,7 @@ export function ProductCollage({ listings = [] }: { listings?: FeaturedHeroListi
   ];
 
   return (
-    <div className="relative hidden grid-cols-2 gap-4 lg:grid lg:min-h-[430px]">
+    <div className="relative hidden grid-cols-2 gap-4 sm:grid lg:grid lg:min-h-[430px]">
       <div className="pointer-events-none absolute -bottom-20 -right-10 h-72 w-72 rounded-full bg-[#D7EEF2] opacity-70" />
       {heroListings.map((item, index) => (
         <Link
@@ -220,4 +220,14 @@ export function EmptyMarketplaceState({ title, body, href, cta }: { title: strin
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
 
