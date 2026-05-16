@@ -1183,3 +1183,64 @@ header [class*="border-blue"],
   }
 }
 
+
+/* bidra-mobile-home-compact-cards-3up */
+@media (max-width: 767px) {
+  .bidra-homepage section:has(a[href^="/listings/"]) .grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] {
+    min-width: 0 !important;
+    border-radius: 16px !important;
+  }
+
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] img,
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] picture,
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="aspect"],
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="h-44"],
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="h-48"],
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="h-56"] {
+    max-height: 92px !important;
+  }
+
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="p-4"] {
+    padding: 8px !important;
+  }
+
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="text-xl"] {
+    font-size: 14px !important;
+    line-height: 1.1 !important;
+  }
+
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="text-sm"] {
+    font-size: 10px !important;
+    line-height: 1.1 !important;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 767px) {
+  .bidra-homepage section:has(a[href^="/listings/"]) .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] img,
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] picture,
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="aspect"],
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="h-44"],
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="h-48"],
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="h-56"] {
+    max-height: 78px !important;
+  }
+
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="text-xl"] {
+    font-size: 12px !important;
+  }
+
+  .bidra-homepage section:has(a[href^="/listings/"]) a[href^="/listings/"] [class*="text-sm"] {
+    font-size: 9px !important;
+  }
+}
+
