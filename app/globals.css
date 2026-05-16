@@ -1,4 +1,4 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "../styles/bidra-theme.css";
 
 /* PERF-02 mobile premium tap targets */
@@ -309,13 +309,13 @@ button[aria-busy='true'] {
   .bd-page-grid { @apply grid gap-4 sm:gap-5 lg:gap-6; }
   .bd-marketplace-card { @apply overflow-hidden rounded-[18px] border border-[#D7E2F1] bg-white shadow-[0_12px_35px_rgba(28,50,84,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#B9CAE2] hover:shadow-[0_18px_45px_rgba(28,50,84,0.14)]; }
   .bd-pill { @apply inline-flex min-h-8 items-center justify-center rounded-full border border-[#D7E2F1] bg-white px-3 text-xs font-extrabold text-[#526173]; }
-  .bd-primary-action { @apply inline-flex min-h-11 items-center justify-center rounded-2xl bg-[#0B4DFF] px-5 py-3 text-sm font-extrabold text-white shadow-[0_12px_28px_rgba(11,77,255,0.25)] transition hover:bg-[#0842D6] active:translate-y-px; }
-  .bd-btn-primary { @apply border-[#0B4DFF] bg-[#0B4DFF] text-white hover:bg-[#0842D6]; }
-  .bd-btn-secondary { @apply border-[#D7E2F1] bg-white text-[#10213F] hover:border-[#B9CAE2] hover:bg-[#F7FAFF]; }
+  .bd-primary-action { @apply inline-flex min-h-11 items-center justify-center rounded-2xl bg-[#0E7490] px-5 py-3 text-sm font-extrabold text-white shadow-[0_12px_28px_rgba(11,77,255,0.25)] transition hover:bg-[#0842D6] active:translate-y-px; }
+  .bd-btn-primary { @apply border-[#0E7490] bg-[#0E7490] text-white hover:bg-[#0842D6]; }
+  .bd-btn-secondary { @apply border-[#D7E2F1] bg-white text-[#10213F] hover:border-[#B9CAE2] hover:bg-[#F6F8FB]; }
   .bd-bottom-nav { position: fixed; left: 0.75rem; right: 0.75rem; bottom: calc(0.75rem + env(safe-area-inset-bottom)); z-index: 90; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 0.25rem; border: 1px solid #D7E2F1; border-radius: 1.5rem; background: rgba(255,255,255,0.96); padding: 0.45rem; box-shadow: 0 20px 50px rgba(28,50,84,0.18); backdrop-filter: blur(18px); }
   .bd-bottom-nav-item { display: inline-flex; min-height: 3.35rem; flex-direction: column; align-items: center; justify-content: center; gap: 0.15rem; border-radius: 1.05rem; color: #607089; font-size: 0.68rem; font-weight: 800; line-height: 1; }
   .bd-bottom-nav-icon { font-size: 1rem; line-height: 1; }
-  .bd-bottom-nav-item-active { background: #EEF4FF; color: #0B4DFF; }
+  .bd-bottom-nav-item-active { background: #EAF6F8; color: #0E7490; }
   .browseList, .bd-card-grid { @apply grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5; }
 }
 
@@ -336,7 +336,7 @@ button[aria-busy='true'] {
 @layer components {
   .bd-container > .container, .bd-shell > .container { width: 100%; margin-left: auto; margin-right: auto; }
   input:not([type='checkbox']):not([type='radio']), select, textarea { border-color: #D7E2F1; border-radius: 0.875rem; }
-  input:not([type='checkbox']):not([type='radio']):focus, select:focus, textarea:focus { outline: none; border-color: #0B4DFF; box-shadow: 0 0 0 4px rgba(11,77,255,0.10); }
+  input:not([type='checkbox']):not([type='radio']):focus, select:focus, textarea:focus { outline: none; border-color: #0E7490; box-shadow: 0 0 0 4px rgba(11,77,255,0.10); }
 }
 
 @media (max-width: 767px) {
@@ -346,8 +346,8 @@ button[aria-busy='true'] {
 /* Premium mobile-first public marketplace identity pass */
 :root {
   --bidra-navy: #06132B;
-  --bidra-blue-action: #0B4DFF;
-  --bidra-soft-blue: #EEF4FF;
+  --bidra-blue-action: #0E7490;
+  --bidra-soft-blue: #EAF6F8;
   --bidra-canvas-premium: #F4F7FB;
   --bidra-border-premium: #D7E2F1;
 }
@@ -445,4 +445,95 @@ body {
   .bd-marketplace-card { border-radius: 20px; }
   .bd-marketplace-card .bd-btn { min-height: 44px; }
   input, select, textarea, button, a { scroll-margin-top: 88px; }
+}
+
+@media (max-width: 767px) {
+  body:has(.bidra-homepage) [data-site-footer] {
+    display: none !important;
+  }
+
+  body:has(.bidra-homepage) main {
+    padding-bottom: 96px;
+  }
+}
+
+
+
+/* bidra-homepage-mobile-header-cleanup */
+@media (max-width: 767px) {
+  body:has(.bidra-homepage) header,
+  body:has(.bidra-homepage) [data-site-header],
+  body:has(.bidra-homepage) form[role="search"] {
+    display: none !important;
+  }
+
+  body:has(.bidra-homepage) main.bidra-homepage {
+    padding-top: 12px !important;
+  }
+}
+/* bidra-slate-teal-theme */
+.bidra-homepage .bd-btn-primary {
+  background: #0E7490 !important;
+  border-color: #0E7490 !important;
+  color: #FFFFFF !important;
+}
+
+.bidra-homepage .bd-btn-primary:hover {
+  background: #155E75 !important;
+  border-color: #155E75 !important;
+}
+
+.bidra-homepage .bd-btn-secondary {
+  background: #FFFFFF !important;
+  border-color: #D8E1EA !important;
+  color: #0F172A !important;
+}
+
+.bidra-homepage a {
+  text-decoration: none;
+}
+
+.bidra-homepage ::selection {
+  background: #C8A45D;
+  color: #0F172A;
+}
+
+/* bidra-mobile-bottom-nav-click-fix */
+@media (max-width: 1023px) {
+  [data-mobile-bottom-nav] {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    pointer-events: auto !important;
+  }
+
+  [data-mobile-bottom-nav] a {
+    pointer-events: auto !important;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .bd-mobile-bottom-nav {
+    background: rgba(255, 255, 255, 0.96);
+    border-top: 1px solid #D8E1EA;
+    box-shadow: 0 -16px 40px rgba(15, 23, 42, 0.08);
+  }
+
+  .bd-bottom-nav-item {
+    color: #475569;
+  }
+
+  .bd-bottom-nav-item-active {
+    background: #EAF6F8;
+    color: #0E7490;
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-mobile-bottom-nav] {
+    display: none !important;
+  }
+
+  body {
+    padding-bottom: 0 !important;
+  }
 }

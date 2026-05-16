@@ -1,9 +1,16 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
-import { CategoryPillGrid, EmptyMarketplaceState, MarketplaceSection, ProductCollage, ReferenceHero, ReferencePage, TrustStrip, appShell } from "@/components/marketplace-redesign";
+import {
+  CategoryPillGrid,
+  EmptyMarketplaceState,
+  HomeHero,
+  MarketplaceSection,
+  ReferencePage,
+  appShell,
+} from "@/components/marketplace-redesign";
 
 export const revalidate = 10;
 
@@ -14,13 +21,17 @@ export const metadata: Metadata = {
 };
 
 const categoryIcons: Record<string, string> = {
-  Electronics: "⌁",
-  Furniture: "▱",
-  Fashion: "◌",
-  Vehicles: "◇",
-  Home: "⌂",
-  Sports: "○",
+  Electronics: "phone",
+  Furniture: "home",
+  Fashion: "shirt",
+  Vehicles: "car",
+  Home: "home",
+  Sports: "ball",
+  Appliances: "grid",
+  "Sports & Outdoors": "ball",
 };
+
+const fallbackCategories = ["Electronics", "Furniture", "Vehicles", "Sports", "Fashion", "Appliances"];
 
 export default async function HomePage() {
   const session = await auth();
@@ -59,22 +70,44 @@ export default async function HomePage() {
 
   const watchedSet = new Set<string>();
   if (userId && listings.length) {
-    const watchRows = await prisma.watchlist.findMany({ where: { userId, listingId: { in: listings.map((l) => String(l.id)) } }, select: { listingId: true } });
+    const watchRows = await prisma.watchlist.findMany({
+      where: { userId, listingId: { in: listings.map((listing) => String(listing.id)) } },
+      select: { listingId: true },
+    });
     watchRows.forEach((row) => watchedSet.add(String(row.listingId)));
   }
 
   const categories = categoryRows.slice(0, 6).map((row) => {
     const raw = String(row.category || "Marketplace").split(" > ")[0];
-    return { label: raw, href: `/listings?category=${encodeURIComponent(raw)}`, icon: categoryIcons[raw] || "□", meta: "Explore" };
+    return {
+      label: raw,
+      href: `/listings?category=${encodeURIComponent(raw)}`,
+      icon: categoryIcons[raw] || "grid",
+      meta: `${row._count.category} ${row._count.category === 1 ? "item" : "items"}`,
+    };
   });
-  while (categories.length < 6) {
-    const fallback = ["Electronics", "Furniture", "Fashion", "Vehicles", "Home", "Sports"][categories.length];
-    categories.push({ label: fallback, href: `/listings?category=${encodeURIComponent(fallback)}`, icon: categoryIcons[fallback] || "□", meta: "Explore" });
+
+  for (const fallback of fallbackCategories) {
+    if (categories.length >= 6) {
+      break;
+    }
+
+    if (categories.some((category) => category.label === fallback)) {
+      continue;
+    }
+
+    categories.push({
+      label: fallback,
+      href: `/listings?category=${encodeURIComponent(fallback)}`,
+      icon: categoryIcons[fallback] || "grid",
+      meta: "Explore",
+    });
   }
 
   function renderCard(listing: (typeof listings)[number]) {
     const currentOffer = listing.offers?.[0]?.amount ?? null;
     const displayPrice = listing.type === "OFFERABLE" ? ((currentOffer ?? listing.price) as number) : ((listing.buyNowPrice ?? listing.price) as number);
+
     return (
       <ListingCard
         key={listing.id}
@@ -111,45 +144,31 @@ export default async function HomePage() {
   return (
     <ReferencePage>
       <div className={appShell + " pt-4 sm:pt-6"}>
-        <ReferenceHero
-          eyebrow="Australia's local marketplace"
-          title={<>Buy, sell and discover amazing local deals.</>}
-          description="Buy now. Make offers. Arrange handover with the other person directly in Bidra Messages."
-          actions={
-            <>
-              <Link href="/listings" className="bd-btn bd-btn-primary rounded-2xl px-6">Browse listings</Link>
-              <Link href={userId ? "/sell/new" : "/auth/register"} className="bd-btn bd-btn-secondary rounded-2xl px-6">Sell an item</Link>
-            </>
-          }
-        >
-          <ProductCollage />
-        </ReferenceHero>
+        <HomeHero sellHref={userId ? "/sell/new" : "/auth/register"} featuredListings={listings.slice(0, 4).map((listing) => ({
+          id: listing.id,
+          title: listing.title,
+          category: String(listing.category || "Listing").split(" > ")[0],
+          price: Number(listing.type === "OFFERABLE" ? (listing.offers?.[0]?.amount ?? listing.price) : (listing.buyNowPrice ?? listing.price)),
+        }))} />
 
-        <div className="mt-5"><TrustStrip /></div>
-
-        <MarketplaceSection eyebrow="Browse" title="Popular categories" action={<Link href="/listings" className="text-sm font-black text-[#0B4DFF]">View all listings</Link>}>
+        <MarketplaceSection title="Browse categories" action={<Link href="/listings" className="text-sm font-black text-[#0B4DFF]">View all categories</Link>}>
           <CategoryPillGrid categories={categories} />
         </MarketplaceSection>
 
-        <MarketplaceSection eyebrow="Fresh finds" title="Latest listings" action={<Link href="/listings?sort=newest" className="bd-btn bd-btn-secondary rounded-2xl">Browse all</Link>}>
+        <MarketplaceSection title="Latest listings" className="pb-24 md:pb-8" action={<Link href="/listings?sort=newest" className="text-sm font-black text-[#0B4DFF]">View all listings</Link>}>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {listings.length ? listings.slice(0, 5).map(renderCard) : <EmptyMarketplaceState title="No listings yet" body="Be the first to list a buyer-ready item with clear photos, price and handover details." href={userId ? "/sell/new" : "/auth/register"} cta="Create a listing" />}
           </div>
         </MarketplaceSection>
-
-        <section className="my-8 overflow-hidden rounded-[32px] bg-[#07152E] p-6 text-white shadow-[0_24px_80px_rgba(7,21,46,0.22)] sm:p-8 lg:p-10">
-          <div className="grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:items-center">
-            <div>
-              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#8DB7FF]">Marketplace without escrow</div>
-              <h2 className="mt-3 text-3xl font-black tracking-[-0.04em] sm:text-4xl">Keep the sale simple and transparent.</h2>
-              <p className="mt-3 max-w-3xl text-sm font-semibold leading-6 text-[#C9D8EF]">Bidra helps people discover items, make offers, buy now and message. Buyers and sellers arrange payment, pickup, postage and handover directly.</p>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-              {["Message before handover", "Agree payment directly", "Keep details in one thread"].map((item) => <div key={item} className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-black">{item}</div>)}
-            </div>
-          </div>
-        </section>
-      </div>
+</div>
     </ReferencePage>
   );
 }
+
+
+
+
+
+
+
+
