@@ -1164,18 +1164,22 @@ header [class*="border-blue"],
 }
 
 
+
+
 /* bidra-hero-primary-button-fix */
 .bd-hero-primary-button,
 .bd-hero-primary-button:visited,
 .bd-hero-primary-button:hover,
 .bd-hero-primary-button:focus {
-  color: #FFFFFF !important;
+  color: #0F6674 !important;
+  background: #FFFFFF !important;
+  border-color: #0F6674 !important;
   opacity: 1 !important;
   text-decoration: none !important;
 }
 
 .bd-hero-primary-button * {
-  color: #FFFFFF !important;
+  color: #0F6674 !important;
   opacity: 1 !important;
 }
 
