@@ -23,7 +23,7 @@ type FeaturedHeroListing = {
 
 export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string; featuredListings?: FeaturedHeroListing[] }) {
   return (
-    <section className="relative overflow-hidden rounded-[28px] border border-[#D8E1EA] bg-[linear-gradient(135deg,#F6F8FB_0%,#EAF6F8_100%)] p-4 shadow-[0_22px_70px_rgba(32,75,140,0.11)] sm:p-8 lg:p-10">
+    <section className="relative overflow-hidden rounded-[24px] border border-[#D8E1EA] bg-[linear-gradient(135deg,#F6F8FB_0%,#EAF6F8_100%)] p-4 shadow-[0_22px_70px_rgba(32,75,140,0.11)] sm:rounded-[28px] sm:p-8 lg:p-10">
       <div className="pointer-events-none absolute -right-20 -top-24 h-80 w-80 rounded-full bg-white/60 blur-2xl" />
       <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(520px,0.95fr)] lg:items-center">
         <div className="min-w-0">
@@ -31,7 +31,7 @@ export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string
             Australia's local marketplace
           </div>
 
-          <h1 className="mt-5 max-w-[720px] text-[32px] font-black leading-[0.95] tracking-[-0.055em] text-[#0F172A] sm:text-5xl lg:text-7xl">
+          <h1 className="mt-5 max-w-[720px] text-[30px] font-black leading-[0.96] tracking-[-0.055em] text-[#0F172A] sm:text-5xl lg:text-7xl">
             Buy, sell and discover amazing local deals.
           </h1>
 
@@ -40,10 +40,10 @@ export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string
           </p>
 
           <div className="mt-5 grid gap-3 sm:flex">
-            <Link href="/listings" className="inline-flex h-12 items-center justify-center rounded-2xl bg-[#0E7490] px-6 text-sm font-black text-white shadow-[0_12px_24px_rgba(14,116,144,0.22)]">
+            <Link href="/listings" className="flex h-12 w-full items-center justify-center rounded-2xl bg-[#0E7490] px-6 text-sm font-black text-white shadow-[0_12px_24px_rgba(14,116,144,0.22)] sm:w-auto">
               Browse listings
             </Link>
-            <Link href={sellHref} className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#D8E1EA] bg-white px-6 text-sm font-black text-[#0F172A] shadow-sm">
+            <Link href={sellHref} className="flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1EA] bg-white px-6 text-sm font-black text-[#0F172A] shadow-sm sm:w-auto">
               Sell an item
             </Link>
           </div>
