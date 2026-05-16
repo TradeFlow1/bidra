@@ -939,3 +939,40 @@ header [class*="border-blue"],
     background-color: #FFFFFF !important;
   }
 }
+
+/* bidra-homepage-gap-final-fix */
+@media (min-width: 1024px) {
+  body:has(.bidra-homepage) main,
+  body:has(.bidra-homepage) main.bidra-homepage,
+  body:has(.bidra-homepage) .bidra-homepage,
+  body:has(.bidra-homepage) .bidra-homepage > div {
+    min-height: 0 !important;
+    height: auto !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage {
+    display: block !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage section {
+    min-height: 0 !important;
+    height: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage section:last-of-type {
+    margin-bottom: 0 !important;
+  }
+
+  body:has(.bidra-homepage) .bidra-homepage article {
+    min-height: 250px !important;
+  }
+
+  body:has(.bidra-homepage) [data-site-footer],
+  body:has(.bidra-homepage) footer {
+    margin-top: 24px !important;
+  }
+}
