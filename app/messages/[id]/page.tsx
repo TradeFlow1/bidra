@@ -111,7 +111,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
     return (
       <main className="bd-container sm:py-10">
         <div className="container max-w-7xl space-y-3 sm:space-y-4">
-          <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+          <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div className="min-w-0 flex-1">
                 <div className="flex items-start gap-4">
@@ -186,8 +186,8 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                           className={
                             "border px-3.5 py-2.5 text-sm leading-relaxed shadow-sm " +
                             (mine
-                              ? "rounded-3xl rounded-br-md border-[#0B4DFF] bg-[#0B4DFF] text-white"
-                              : "rounded-3xl rounded-bl-md border-[#D7E2F1] bg-[#F8FAFF] text-[var(--bidra-ink)]")
+                              ? "rounded-[28px] rounded-br-md border-[#0B4DFF] bg-[#0B4DFF] text-white"
+                              : "rounded-[28px] rounded-bl-md border-[#D7E2F1] bg-[#F8FAFF] text-[var(--bidra-ink)]")
                           }
                         >
                           {body}
@@ -225,13 +225,13 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
     return (
       <main className="bd-container sm:py-10">
         <div className="container max-w-7xl space-y-3 sm:space-y-4">
-          <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+          <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
           </div>
 
           <SafetyNote />
 
-          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
+          <div className="rounded-[28px] border border-[#D7E2F1] bg-white p-6 shadow-sm">
             <div className="text-base font-semibold text-[var(--bidra-ink)]">This conversation is temporarily unavailable</div>
             <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
               Please try again shortly.

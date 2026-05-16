@@ -103,14 +103,14 @@ export default function ListingImageGallery(props: { images: any; title?: string
   if (!imgs.length) {
     return (
       <div className="w-full">
-        <div className="overflow-hidden rounded-[28px] border border-black/10 bg-gradient-to-br from-neutral-50 to-neutral-100 shadow-sm">
+        <div className="overflow-hidden rounded-[28px] border border-[#D8E1EA] bg-gradient-to-br from-[#F8FAFC] to-[#EAF6F8] shadow-sm">
           <div className="flex h-[260px] items-center justify-center px-6 text-center md:h-[420px]">
             <div className="max-w-sm">
-              <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-sm font-semibold text-neutral-800 shadow-sm">
+              <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-[#D8E1EA] bg-white text-sm font-semibold text-[#334155] shadow-sm">
                 Photo
               </div>
-              <div className="text-lg font-semibold text-neutral-900">No gallery photos yet</div>
-              <div className="mt-1 text-sm text-neutral-600">
+              <div className="text-lg font-semibold text-[#0F172A]">No gallery photos yet</div>
+              <div className="mt-1 text-sm text-[#475569]">
                 This seller has not added gallery images yet. Review the description and message the seller if you need more detail.
               </div>
             </div>
@@ -122,14 +122,14 @@ export default function ListingImageGallery(props: { images: any; title?: string
 
   return (
     <div className="w-full">
-      <div className="relative overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-sm">
+      <div className="relative overflow-hidden rounded-[28px] border border-[#D8E1EA] bg-white shadow-sm">
         <div
           ref={scroller}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
           onMouseUp={endDrag}
           onMouseLeave={endDrag}
-          className="flex w-full overflow-x-auto scroll-smooth snap-x snap-mandatory select-none bg-neutral-100"
+          className="flex w-full overflow-x-auto scroll-smooth snap-x snap-mandatory select-none bg-[#F1F8FA]"
           style={{
             scrollbarWidth: "none",
             userSelect: "none",
@@ -157,7 +157,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/45 to-transparent" />
 
                 <div className="pointer-events-none absolute left-3 top-3 flex items-center gap-2 sm:left-4 sm:top-4">
-                  <span className="rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-neutral-900 shadow-sm ring-1 ring-black/5">
+                  <span className="rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#0F172A] shadow-sm ring-1 ring-black/5">
                     Gallery
                   </span>
                   {isMulti ? (

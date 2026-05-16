@@ -113,7 +113,7 @@ export default async function WatchlistPage() {
         </div>
 
         {!items.length ? (
-          <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
+          <div className="rounded-[28px] border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
             <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-[#0F172A]">Your watchlist is empty</div>
               <p className="mt-2 text-sm text-[#526173]">

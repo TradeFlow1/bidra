@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -19,7 +19,7 @@ function envPresent(name: string) {
 
 function StatusPill(props: { status: "ok" | "degraded" }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900">
+    <span className="inline-flex items-center rounded-full border border-[#D8E1EA] bg-white px-3 py-1 text-xs font-extrabold text-[#0F172A]">
       {props.status === "ok" ? "OK" : "Needs attention"}
     </span>
   );
@@ -27,8 +27,8 @@ function StatusPill(props: { status: "ok" | "degraded" }) {
 
 function InfoCard(props: { title: string; value: React.ReactNode; note: string }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-      <div className="text-xs font-extrabold uppercase tracking-[0.16em] text-neutral-500">{props.title}</div>
+    <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+      <div className="text-xs font-extrabold uppercase tracking-[0.16em] text-[#64748B]">{props.title}</div>
       <div className="mt-2 text-2xl font-extrabold bd-ink">{props.value}</div>
       <div className="mt-1 text-sm bd-ink2">{props.note}</div>
     </div>
@@ -81,10 +81,10 @@ export default async function AdminOpsPage() {
   return (
     <main className="bd-container py-10">
       <div className="container max-w-7xl space-y-5">
-        <section className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-gradient-to-br from-white to-[#EAF6F8] p-6 shadow-sm">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Operator diagnostics</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Operator diagnostics</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Production readiness</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Check core runtime, database, deployment, and environment readiness without exposing secret values.
@@ -103,21 +103,21 @@ export default async function AdminOpsPage() {
           <InfoCard title="Environment" value={process.env.VERCEL_ENV || process.env.NODE_ENV || "unknown"} note="Runtime deployment environment." />
           <InfoCard title="Analytics mode" value="Internal" note="AdminEvent, ActivitySession, and aggregate counts only." />
         </section>
-        <section className="rounded-3xl border border-blue-200 bg-blue-50 p-5 text-sm leading-7 text-blue-950 shadow-sm">
+        <section className="rounded-[28px] border border-[#CFE3E8] bg-[#EAF6F8] p-5 text-sm leading-7 text-[#0F172A] shadow-sm">
           <div className="font-extrabold">Analytics foundation</div>
           <p className="mt-1">Bidra currently uses internal operational records such as AdminEvent rows, ActivitySession rows, listing counts, order counts, offer counts, and message activity. External analytics providers such as GA4, Meta Pixel, PostHog, Segment, Mixpanel, and event warehouses are not active yet.</p>
         </section>
-        <section className="rounded-3xl border border-blue-200 bg-blue-50 p-5 text-sm leading-7 text-blue-950 shadow-sm">
+        <section className="rounded-[28px] border border-[#CFE3E8] bg-[#EAF6F8] p-5 text-sm leading-7 text-[#0F172A] shadow-sm">
           <div className="font-extrabold">Recommendation foundation</div>
           <p className="mt-1">Bidra discovery currently uses simple rules from active listing category, location, seller, recency, and explicit filters. It does not use AI personalisation, machine-learning ranking, vector search, embeddings, behavioural profiling, or paid placement ranking.</p>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Readiness checks</div>
           <div className="mt-4 overflow-x-auto">
             <table className="min-w-full text-left">
               <thead>
-                <tr className="border-b border-black/10">
+                <tr className="border-b border-[#D8E1EA]">
                   <th className="px-4 py-3 text-xs font-extrabold bd-ink">Check</th>
                   <th className="px-4 py-3 text-xs font-extrabold bd-ink">Status</th>
                   <th className="px-4 py-3 text-xs font-extrabold bd-ink">Detail</th>
@@ -136,7 +136,7 @@ export default async function AdminOpsPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <div className="text-sm font-extrabold bd-ink">Payment readiness</div>
@@ -154,11 +154,11 @@ export default async function AdminOpsPage() {
         </section>
 
         <section className="grid gap-2 lg:grid-cols-2">
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">Required environment variables</div>
             <div className="mt-4 grid gap-2">
               {requiredEnv.map((name) => (
-                <div key={name} className="flex items-center justify-between rounded-2xl border border-black/10 px-4 py-3 text-sm">
+                <div key={name} className="flex items-center justify-between rounded-2xl border border-[#D8E1EA] px-4 py-3 text-sm">
                   <span className="font-mono bd-ink">{name}</span>
                   <StatusPill status={envPresent(name) ? "ok" : "degraded"} />
                 </div>
@@ -166,11 +166,11 @@ export default async function AdminOpsPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">Optional integration variables</div>
             <div className="mt-4 grid gap-2">
               {optionalEnv.map((name) => (
-                <div key={name} className="flex items-center justify-between rounded-2xl border border-black/10 px-4 py-3 text-sm">
+                <div key={name} className="flex items-center justify-between rounded-2xl border border-[#D8E1EA] px-4 py-3 text-sm">
                   <span className="font-mono bd-ink">{name}</span>
                   <StatusPill status={envPresent(name) ? "ok" : "degraded"} />
                 </div>

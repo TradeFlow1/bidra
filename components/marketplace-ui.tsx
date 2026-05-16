@@ -49,7 +49,7 @@ export function ProductPlaceholder({ kind = "generic", title, className }: { kin
   const item = placeholderCopy[kind] || placeholderCopy.generic;
   return (
     <div className={cn("flex h-full min-h-[9rem] w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_30%_20%,#FFFFFF_0,#FFFFFF_18%,#EAF3FF_52%,#DDEBFF_100%)]", className)}>
-      <div className="flex flex-col items-center gap-2 text-[#0B4DFF]">
+      <div className="flex flex-col items-center gap-2 text-[#0E7490]">
         <svg className="h-14 w-14 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{item.path}</svg>
         <span className="max-w-[11rem] truncate rounded-full border border-white/80 bg-white/75 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#36506F] shadow-sm">{title || item.title}</span>
       </div>
@@ -59,7 +59,7 @@ export function ProductPlaceholder({ kind = "generic", title, className }: { kin
 
 export function AvatarPlaceholder({ name, className }: { name?: string | null; className?: string }) {
   const initials = String(name || "Bidra user").trim().split(/\s+/).slice(0, 2).map((p) => p[0]?.toUpperCase()).join("") || "B";
-  return <div className={cn("grid h-12 w-12 place-items-center rounded-full border border-[#CFE0F4] bg-[#EEF4FF] text-sm font-black text-[#0B4DFF] shadow-sm", className)}>{initials}</div>;
+  return <div className={cn("grid h-12 w-12 place-items-center rounded-full border border-[#CFE0F4] bg-[#EEF4FF] text-sm font-black text-[#0E7490] shadow-sm", className)}>{initials}</div>;
 }
 
 export function EmptyState({ icon = "empty", title, description, actionHref, actionLabel }: { icon?: string; title: string; description: string; actionHref?: string; actionLabel?: string }) {
@@ -74,7 +74,7 @@ export function EmptyState({ icon = "empty", title, description, actionHref, act
 }
 
 export function PageHero({ badge, title, description, children }: { badge?: string; title: string; description?: string; children?: React.ReactNode }) {
-  return <section className="bd-page-hero p-5 sm:p-7"><div className="bd-pill w-fit border-blue-100 bg-[#EEF4FF] text-[#0B4DFF]">{badge || "Australia’s trust-first local marketplace"}</div><h1 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.04em] text-[#07152E] sm:text-5xl">{title}</h1>{description ? <p className="mt-3 max-w-2xl text-base font-medium leading-7 text-[#526173]">{description}</p> : null}{children}</section>;
+  return <section className="bd-page-hero p-5 sm:p-7"><div className="bd-pill w-fit border-[#CFE3E8] bg-[#EEF4FF] text-[#0E7490]">{badge || "Australia’s trust-first local marketplace"}</div><h1 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.04em] text-[#07152E] sm:text-5xl">{title}</h1>{description ? <p className="mt-3 max-w-2xl text-base font-medium leading-7 text-[#526173]">{description}</p> : null}{children}</section>;
 }
 
 export function SectionHeader({ eyebrow, title, description, actionHref, actionLabel }: { eyebrow?: string; title: string; description?: string; actionHref?: string; actionLabel?: string }) {
@@ -83,12 +83,12 @@ export function SectionHeader({ eyebrow, title, description, actionHref, actionL
 
 export function TrustBadge({ title, description, icon = "safe" }: { title: string; description?: string; icon?: MarketplaceIconName | string }) {
   const valid = ["home", "browse", "sell", "messages", "account", "search", "heart", "safe", "handover", "offer", "listing", "filter", "help", "legal", "orders"].includes(icon);
-  return <div className="flex gap-3 rounded-[18px] border border-[#D7E2F1] bg-white/85 p-4 shadow-sm"><div className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-[#EEF4FF] text-sm font-black text-[#0B4DFF]">{valid ? <MarketplaceIcon name={icon as MarketplaceIconName} /> : icon}</div><div><div className="text-sm font-extrabold text-[#0F172A]">{title}</div>{description ? <p className="mt-1 text-xs leading-5 text-[#607089]">{description}</p> : null}</div></div>;
+  return <div className="flex gap-3 rounded-[18px] border border-[#D7E2F1] bg-white/85 p-4 shadow-sm"><div className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-[#EEF4FF] text-sm font-black text-[#0E7490]">{valid ? <MarketplaceIcon name={icon as MarketplaceIconName} /> : icon}</div><div><div className="text-sm font-extrabold text-[#0F172A]">{title}</div>{description ? <p className="mt-1 text-xs leading-5 text-[#607089]">{description}</p> : null}</div></div>;
 }
 
 export function CategoryTile({ href, label, count, icon = "listing" }: { href: string; label: string; count?: number; icon?: MarketplaceIconName | string }) {
   const valid = ["home", "browse", "sell", "messages", "account", "search", "heart", "safe", "handover", "offer", "listing", "filter", "help", "legal", "orders"].includes(icon);
-  return <Link href={href} className="rounded-[20px] border border-[#D7E2F1] bg-[#F8FAFF] p-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md"><div className="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-white text-[#0B4DFF] shadow-sm" aria-hidden="true">{valid ? <MarketplaceIcon name={icon as MarketplaceIconName} /> : icon}</div><div className="mt-3 truncate text-sm font-extrabold text-[#0F172A]">{label}</div><div className="mt-1 text-xs font-semibold text-[#607089]">{count ? count.toLocaleString() + " items" : "Explore"}</div></Link>;
+  return <Link href={href} className="rounded-[20px] border border-[#D7E2F1] bg-[#F8FAFF] p-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md"><div className="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-white text-[#0E7490] shadow-sm" aria-hidden="true">{valid ? <MarketplaceIcon name={icon as MarketplaceIconName} /> : icon}</div><div className="mt-3 truncate text-sm font-extrabold text-[#0F172A]">{label}</div><div className="mt-1 text-xs font-semibold text-[#607089]">{count ? count.toLocaleString() + " items" : "Explore"}</div></Link>;
 }
 
 export function SellerCard({ name, location, memberSince, activeListings, children }: { name?: string | null; location?: string | null; memberSince?: string | null; activeListings?: number | null; children?: React.ReactNode }) {
@@ -104,7 +104,7 @@ export function ActionPanel({ title, description, children }: { title: string; d
 }
 
 export function HelpArticleCard({ href, title, description, icon = "?" }: { href: string; title: string; description: string; icon?: string }) {
-  return <Link href={href} className="flex items-start gap-3 rounded-[20px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9CAE2]"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#EEF4FF] text-[#0B4DFF]">{icon}</span><span><span className="block text-sm font-extrabold text-[#0F172A]">{title}</span><span className="mt-1 block text-xs leading-5 text-[#607089]">{description}</span></span></Link>;
+  return <Link href={href} className="flex items-start gap-3 rounded-[20px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9CAE2]"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#EEF4FF] text-[#0E7490]">{icon}</span><span><span className="block text-sm font-extrabold text-[#0F172A]">{title}</span><span className="mt-1 block text-xs leading-5 text-[#607089]">{description}</span></span></Link>;
 }
 
 
@@ -120,5 +120,5 @@ export function LegalLayout({ title, description, children }: { title: string; d
   const links = [
     ["/legal", "Overview"], ["/legal/terms", "Terms"], ["/legal/privacy", "Privacy"], ["/legal/fees", "Fees"], ["/legal/prohibited-items", "Prohibited items"],
   ];
-  return <div className="grid gap-5 lg:grid-cols-[260px_minmax(0,1fr)]"><aside className="rounded-[24px] border border-[#D7E2F1] bg-white p-3 shadow-sm lg:sticky lg:top-24 lg:self-start"><div className="px-2 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#607089]">Bidra policies</div><div className="mt-1 flex gap-2 overflow-x-auto lg:grid lg:overflow-visible">{links.map(([href, label]) => <Link key={href} href={href} className="whitespace-nowrap rounded-2xl px-3 py-2 text-sm font-extrabold text-[#36506F] hover:bg-[#EEF4FF] hover:text-[#0B4DFF]">{label}</Link>)}</div></aside><article className="rounded-[28px] border border-[#D7E2F1] bg-white p-5 shadow-sm sm:p-7"><div className="bd-pill w-fit border-blue-100 bg-[#EEF4FF] text-[#0B4DFF]">Australia’s trust-first local marketplace</div><h1 className="mt-4 text-3xl font-black tracking-tight text-[#07152E] sm:text-4xl">{title}</h1><p className="mt-2 max-w-3xl text-sm leading-6 text-[#526173] sm:text-base">{description}</p><div className="mt-6 bd-readable-prose">{children}</div></article></div>;
+  return <div className="grid gap-5 lg:grid-cols-[260px_minmax(0,1fr)]"><aside className="rounded-[24px] border border-[#D7E2F1] bg-white p-3 shadow-sm lg:sticky lg:top-24 lg:self-start"><div className="px-2 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#607089]">Bidra policies</div><div className="mt-1 flex gap-2 overflow-x-auto lg:grid lg:overflow-visible">{links.map(([href, label]) => <Link key={href} href={href} className="whitespace-nowrap rounded-2xl px-3 py-2 text-sm font-extrabold text-[#36506F] hover:bg-[#EEF4FF] hover:text-[#0E7490]">{label}</Link>)}</div></aside><article className="rounded-[28px] border border-[#D7E2F1] bg-white p-5 shadow-sm sm:p-7"><div className="bd-pill w-fit border-[#CFE3E8] bg-[#EEF4FF] text-[#0E7490]">Australia’s trust-first local marketplace</div><h1 className="mt-4 text-3xl font-black tracking-tight text-[#07152E] sm:text-4xl">{title}</h1><p className="mt-2 max-w-3xl text-sm leading-6 text-[#526173] sm:text-base">{description}</p><div className="mt-6 bd-readable-prose">{children}</div></article></div>;
 }

@@ -28,12 +28,12 @@ function PrincipleCard(props: {
 export default function AboutPage() {
   return (
     <main className="bd-container py-10">
-      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/" label="Back to home" /></div>
-      <div className="container max-w-7xl space-y-5">
+      <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/" label="Back to home" /></div>
+      <div className="mx-auto max-w-7xl space-y-5">
         <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFC] p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">About Bidra</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#0E7490]">About Bidra</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">
                 About Bidra
               </h1>
@@ -43,10 +43,10 @@ export default function AboutPage() {
             </div>
 
             <div className="grid gap-2 sm:flex sm:flex-wrap">
-              <Link href="/listings" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
+              <Link href="/listings" className="inline-flex h-11 w-full items-center justify-center rounded-[24px] border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
                 Browse listings
               </Link>
-              <Link href="/how-it-works" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
+              <Link href="/how-it-works" className="inline-flex h-11 w-full items-center justify-center rounded-[24px] border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
                 How it works
               </Link>
             </div>
@@ -55,21 +55,21 @@ export default function AboutPage() {
 
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Marketplace model</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Local and direct</div>
-            <div className="mt-1 text-sm text-neutral-600">People list items and connect directly for local handover.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#0E7490]">Marketplace model</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">Local and direct</div>
+            <div className="mt-1 text-sm text-[#475569]">People list items and connect directly for local handover.</div>
           </div>
 
           <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Trust</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Clearer trade flow</div>
-            <div className="mt-1 text-sm text-neutral-600">Profiles, orders, messages, and support are connected.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#0E7490]">Trust</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">Clearer trade flow</div>
+            <div className="mt-1 text-sm text-[#475569]">Profiles, orders, messages, and support are connected.</div>
           </div>
 
           <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Safety</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">Marketplace rules</div>
-            <div className="mt-1 text-sm text-neutral-600">Reporting, restrictions, and platform rules help reduce risky behaviour.</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#0E7490]">Safety</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">Marketplace rules</div>
+            <div className="mt-1 text-sm text-[#475569]">Reporting, restrictions, and platform rules help reduce risky behaviour.</div>
           </div>
         </div>
 
@@ -111,16 +111,16 @@ export default function AboutPage() {
 
         <SectionCard title="Useful links">
           <div className="grid gap-2 sm:flex sm:flex-wrap">
-            <Link href="/how-it-works" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
+            <Link href="/how-it-works" className="inline-flex h-11 w-full items-center justify-center rounded-[24px] border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
               How it works
             </Link>
-            <Link href="/support" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
+            <Link href="/support" className="inline-flex h-11 w-full items-center justify-center rounded-[24px] border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
               Support
             </Link>
-            <Link href="/legal" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
+            <Link href="/legal" className="inline-flex h-11 w-full items-center justify-center rounded-[24px] border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
               Legal hub
             </Link>
-            <Link href="/legal/prohibited-items" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
+            <Link href="/legal/prohibited-items" className="inline-flex h-11 w-full items-center justify-center rounded-[24px] border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
               Prohibited items
             </Link>
           </div>

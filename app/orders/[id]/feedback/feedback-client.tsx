@@ -216,7 +216,7 @@ export default function FeedbackClient({
             </button>
 
             {!canSubmit ? (
-              <div className="text-sm text-neutral-600" aria-live="polite">
+              <div className="text-sm text-[#475569]" aria-live="polite">
                 {orderOutcome === "COMPLETED"
                   ? "Feedback submitted already for this order."
                   : "Only completed orders can be rated."}

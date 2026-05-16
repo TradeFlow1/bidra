@@ -136,7 +136,7 @@ export default function PhoneVerifyPage() {
               </>
             )}
 
-            <div className="pt-2 text-xs text-black/60">
+            <div className="pt-2 text-xs text-[#475569]">
               Need help? <Link href="/support" className="bd-link">Contact support</Link>.
             </div>
           </div>

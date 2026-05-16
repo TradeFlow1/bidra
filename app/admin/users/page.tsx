@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -77,13 +77,13 @@ export default async function AdminUsers() {
     <div className="flex flex-col gap-3">
       <div>
         <h1 className="text-2xl font-bold">Users</h1>
-        <p className="mt-2 text-sm text-neutral-600">Review account status, contact confirmation signals, policy strikes, block state, report history, account age, and related evidence before taking user moderation action. Risk labels are review aids, not automated fraud decisions.</p>
+        <p className="mt-2 text-sm text-[#475569]">Review account status, contact confirmation signals, policy strikes, block state, report history, account age, and related evidence before taking user moderation action. Risk labels are review aids, not automated fraud decisions.</p>
       </div>
 
       <div className="grid gap-3">
         {usersWithRisk.length === 0 ? (
           <Card>
-            <div className="p-4 text-sm text-neutral-600">No users need trust-operations review right now.</div>
+            <div className="p-4 text-sm text-[#475569]">No users need trust-operations review right now.</div>
           </Card>
         ) : null}
 
@@ -108,7 +108,7 @@ export default async function AdminUsers() {
                     {u.username}
                   </Link>
                 </div>
-                <div className="text-sm text-neutral-600">{u.email}</div>
+                <div className="text-sm text-[#475569]">{u.email}</div>
 
                 <div className="mt-2 flex gap-2 flex-wrap">
                   <Badge>{u.role}</Badge>
@@ -124,7 +124,7 @@ export default async function AdminUsers() {
                   ) : null}
                 </div>
 
-                <div className="mt-2 text-xs text-neutral-600">
+                <div className="mt-2 text-xs text-[#475569]">
                   Created <DateTimeText value={u.createdAt} />
                 </div>
               </div>

@@ -30,7 +30,7 @@ function UpdateCard(props: {
 
   return (
     <Link href={props.href} className="block">
-      <div className={`h-full rounded-3xl border bg-white p-6 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md ${hasCount ? "border-blue-300 ring-2 ring-blue-100" : "border-[#D7E2F1]"}`}>
+      <div className={`h-full rounded-[28px] border bg-white p-6 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md ${hasCount ? "border-[#0E7490] ring-2 ring-[#D8E1EA]" : "border-[#D7E2F1]"}`}>
         <div className="flex items-start justify-between gap-2">
           <div>
             <div className="text-2xl font-extrabold tracking-tight bd-ink">{props.title}</div>
@@ -100,7 +100,7 @@ export default async function NotificationsPage() {
         </div>
 
         <Link href="/orders" className="block">
-          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
+          <div className="rounded-[28px] border border-[#D7E2F1] bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -120,7 +120,7 @@ export default async function NotificationsPage() {
         </Link>
 
         {counts.total === 0 ? (
-          <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
+          <div className="rounded-[28px] border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
             <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-[#0F172A]">You are all caught up</div>
               <div className="mt-2 text-sm text-[#526173]">

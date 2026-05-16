@@ -24,7 +24,7 @@ export default function HelpPage() {
         <BackButton href="/" label="Back to home" />
         <section className="mt-4 rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="text-[11px] font-black uppercase tracking-[0.22em] text-[#0B4DFF]">Help Centre</div>
+            <div className="text-[11px] font-black uppercase tracking-[0.22em] text-[#0E7490]">Help Centre</div>
             <h1 className="mt-3 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">How can we help?</h1>
             <p className="mt-3 text-sm font-semibold leading-6 text-[#36506F] sm:text-base">Search common questions about buying, selling, offers, messages, account access and marketplace rules.</p>
             <form action="/help" className="mx-auto mt-6 flex max-w-2xl gap-2 rounded-full border border-[#CFE0F4] bg-white p-2 shadow-sm">
@@ -35,7 +35,7 @@ export default function HelpPage() {
         </section>
 
         <section className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-          {topics.map((topic) => <Link key={topic.title} href={topic.href} className="rounded-[26px] border border-[#D8E6F8] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#AFC8F8]"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#EEF6FF] text-[#0B4DFF]"><MarketplaceIcon name={topic.icon} /></span><span className="mt-4 block text-lg font-black text-[#07152E]">{topic.title}</span><span className="mt-1 block text-sm font-semibold leading-6 text-[#526173]">{topic.desc}</span></Link>)}
+          {topics.map((topic) => <Link key={topic.title} href={topic.href} className="rounded-[26px] border border-[#D8E6F8] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-[#AFC8F8]"><span className="grid h-12 w-12 place-items-center rounded-2xl bg-[#EEF6FF] text-[#0E7490]"><MarketplaceIcon name={topic.icon} /></span><span className="mt-4 block text-lg font-black text-[#07152E]">{topic.title}</span><span className="mt-1 block text-sm font-semibold leading-6 text-[#526173]">{topic.desc}</span></Link>)}
         </section>
 
         <section className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">

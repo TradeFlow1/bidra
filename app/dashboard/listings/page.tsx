@@ -25,8 +25,8 @@ function formatMoney(cents: number | null | undefined) {
 function statusTone(status: string) {
   if (status === "ACTIVE") return "bg-emerald-50 border-emerald-200 text-emerald-900";
   if (status === "ENDED") return "bg-amber-50 border-amber-200 text-amber-900";
-  if (status === "DRAFT") return "bg-neutral-100 border-[#D7E2F1] text-neutral-800";
-  return "bg-neutral-100 border-[#D7E2F1] text-neutral-800";
+  if (status === "DRAFT") return "bg-[#F1F8FA] border-[#D7E2F1] text-[#334155]";
+  return "bg-[#F1F8FA] border-[#D7E2F1] text-[#334155]";
 }
 
 export default async function MyListingsPage({ searchParams }: PageProps) {
@@ -164,7 +164,7 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
           ) : null}
 
           {!listings.length ? (
-            <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center">
+            <div className="rounded-[28px] border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center">
               <div className="mx-auto w-full max-w-xl">
                 <div className="text-xl font-extrabold text-[#0F172A]">List your first real item</div>
                 <p className="mt-2 text-sm text-[#526173]">

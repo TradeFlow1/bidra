@@ -14,7 +14,7 @@ function SectionCard(props: {
   actions?: React.ReactNode;
 }) {
   return (
-    <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+    <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="text-sm font-extrabold bd-ink">{props.title}</div>
         {props.actions ? <div className="flex flex-wrap gap-2">{props.actions}</div> : null}
@@ -26,7 +26,7 @@ function SectionCard(props: {
 
 function MetaPill(props: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900">
+    <span className="inline-flex items-center rounded-full border border-[#D8E1EA] bg-white px-3 py-1 text-xs font-extrabold text-[#0F172A]">
       {props.children}
     </span>
   );
@@ -57,7 +57,7 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
     return (
       <main className="bd-container py-10">
         <div className="container max-w-5xl space-y-5">
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
             <h1 className="text-2xl font-extrabold tracking-tight bd-ink">Report not found</h1>
             <div className="mt-4">
               <Link href="/admin/reports" className="bd-btn bd-btn-ghost text-center">
@@ -117,10 +117,10 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
   return (
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+        <div className="rounded-[28px] border border-[#D8E1EA] bg-gradient-to-br from-white to-[#EAF6F8] p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin report detail</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Admin report detail</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Moderation report</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Review report context, evidence quality, AI analysis, listing state, reporter details, and enforcement actions before making an auditable trust decision.
@@ -136,25 +136,25 @@ export default async function AdminReportDetail({ params }: { params: { id: stri
         </div>
 
         <div className="grid gap-3 sm:grid-cols-4">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">State</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{isResolved ? "Resolved" : "Open"}</div>
-            <div className="mt-1 text-sm text-neutral-600">Current moderation state: open reports need triage; resolved reports have a recorded admin decision.</div>
+          <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">State</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{isResolved ? "Resolved" : "Open"}</div>
+            <div className="mt-1 text-sm text-[#475569]">Current moderation state: open reports need triage; resolved reports have a recorded admin decision.</div>
           </div>
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Risk</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{ai.riskLevel}</div>
-            <div className="mt-1 text-sm text-neutral-600">Deterministic AI assessment for triage support only; admins make the final moderation decision.</div>
+          <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">Risk</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{ai.riskLevel}</div>
+            <div className="mt-1 text-sm text-[#475569]">Deterministic AI assessment for triage support only; admins make the final moderation decision.</div>
           </div>
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Recommendation</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{ai.recommendation}</div>
-            <div className="mt-1 text-sm text-neutral-600">Suggested next step.</div>
+          <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">Recommendation</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{ai.recommendation}</div>
+            <div className="mt-1 text-sm text-[#475569]">Suggested next step.</div>
           </div>
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Created</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950"><DateTimeText value={report.createdAt} /></div>
-            <div className="mt-1 text-sm text-neutral-600">Original report timestamp for audit and response-time review.</div>
+          <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+            <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">Created</div>
+            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]"><DateTimeText value={report.createdAt} /></div>
+            <div className="mt-1 text-sm text-[#475569]">Original report timestamp for audit and response-time review.</div>
           </div>
         </div>
 

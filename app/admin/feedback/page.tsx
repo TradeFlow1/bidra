@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
@@ -10,17 +10,17 @@ function InfoCard(props: {
   note: string;
 }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
-      <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{props.title}</div>
-      <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{props.value}</div>
-      <div className="mt-1 text-sm text-neutral-600">{props.note}</div>
+    <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4 shadow-sm">
+      <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">{props.title}</div>
+      <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{props.value}</div>
+      <div className="mt-1 text-sm text-[#475569]">{props.note}</div>
     </div>
   );
 }
 
 function MetaPill(props: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900">
+    <span className="inline-flex items-center rounded-full border border-[#D8E1EA] bg-white px-3 py-1 text-xs font-extrabold text-[#0F172A]">
       {props.children}
     </span>
   );
@@ -34,8 +34,8 @@ export default async function AdminFeedbackPage() {
     return (
       <main className="bd-container py-10">
         <div className="container max-w-4xl space-y-5">
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin</div>
+          <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Admin</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink">Access denied</h1>
             <p className="mt-2 text-sm bd-ink2 leading-7">
               You do not have access to this admin surface.
@@ -63,10 +63,10 @@ export default async function AdminFeedbackPage() {
   return (
     <main className="bd-container py-10">
       <div className="container max-w-6xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+        <div className="rounded-[28px] border border-[#D8E1EA] bg-gradient-to-br from-white to-[#EAF6F8] p-6 shadow-sm">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin feedback</div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Admin feedback</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Feedback submissions</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Review site and Friend Test feedback submissions by type, user, category, date, and message before deciding whether follow-up is needed.
@@ -99,8 +99,8 @@ export default async function AdminFeedbackPage() {
           />
         </div>
 
-        <section className="rounded-3xl border border-black/10 bg-white shadow-sm overflow-hidden">
-          <div className="border-b border-black/10 px-6 py-4">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-white shadow-sm overflow-hidden">
+          <div className="border-b border-[#D8E1EA] px-6 py-4">
             <div className="text-sm font-extrabold bd-ink">Latest feedback</div>
             <div className="mt-1 text-sm bd-ink2">
               Site and Friend Test feedback submissions, newest first.
@@ -122,7 +122,7 @@ export default async function AdminFeedbackPage() {
                   <article key={e.id} className="px-6 py-5">
                     <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
                       <div className="min-w-0 flex-1">
-                        <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                        <div className="text-xs font-semibold uppercase tracking-wide text-[#64748B]">
                           {new Date(e.createdAt).toLocaleString()}
                         </div>
 
@@ -158,7 +158,7 @@ export default async function AdminFeedbackPage() {
           )}
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Admin note</div>
           <div className="mt-2 text-sm bd-ink2 leading-7">
             Scan feedback for repeated themes, product issues, and moderation concerns before deciding whether follow-up is needed. Keep Friend Test feedback enabled only during private testing.

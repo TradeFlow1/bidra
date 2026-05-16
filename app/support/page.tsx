@@ -58,7 +58,7 @@ export default function SupportPage() {
             <h2 className="text-xl font-black tracking-tight text-[#07152E]">Browse all articles</h2>
             <div className="mt-4 divide-y divide-[#E6EDF7]">
               {articles.map((article) => (
-                <Link key={article.title} href={article.href} className="flex items-center justify-between gap-3 py-3 text-sm font-extrabold text-[#0B4DFF]">
+                <Link key={article.title} href={article.href} className="flex items-center justify-between gap-3 py-3 text-sm font-extrabold text-[#0E7490]">
                   <span>{article.title}</span>
                   <span aria-hidden="true">›</span>
                 </Link>

@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import type React from "react";
 import { ProductPlaceholder, MarketplaceIcon } from "@/components/marketplace-ui";
 import { cn } from "@/lib/utils";
@@ -257,3 +257,36 @@ export function EmptyMarketplaceState({ title, body, href, cta }: { title: strin
   );
 }
 
+export function PageHero({ eyebrow, title, description, actions, className }: { eyebrow?: string; title: string; description?: React.ReactNode; actions?: React.ReactNode; className?: string }) {
+  return (
+    <section className={cn("overflow-hidden rounded-[28px] border border-[#D8E1EA] bg-[linear-gradient(135deg,#F8FBFC_0%,#EAF6F8_100%)] p-5 shadow-[0_18px_50px_rgba(32,75,140,0.08)] sm:p-6 lg:p-8", className)}>
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="max-w-3xl">
+          {eyebrow ? <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#0E7490]">{eyebrow}</p> : null}
+          <h1 className="mt-2 text-3xl font-black tracking-[-0.04em] text-[#0F172A] sm:text-4xl">{title}</h1>
+          {description ? <div className="mt-2 text-sm font-semibold leading-6 text-[#475569] sm:text-base">{description}</div> : null}
+        </div>
+        {actions ? <div className="grid gap-2 sm:flex sm:flex-wrap lg:justify-end">{actions}</div> : null}
+      </div>
+    </section>
+  );
+}
+
+export function MetricCard({ label, value, description, className }: { label: string; value: React.ReactNode; description?: React.ReactNode; className?: string }) {
+  return (
+    <div className={cn("rounded-[24px] border border-[#D8E1EA] bg-white p-4 shadow-sm", className)}>
+      <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#0E7490]">{label}</div>
+      <div className="mt-1 text-lg font-black tracking-tight text-[#0F172A]">{value}</div>
+      {description ? <div className="mt-1 text-sm leading-6 text-[#64748B]">{description}</div> : null}
+    </div>
+  );
+}
+
+export function SectionCard({ title, children, className }: { title?: string; children: React.ReactNode; className?: string }) {
+  return (
+    <section className={cn("rounded-[28px] border border-[#D8E1EA] bg-white p-4 shadow-sm sm:p-6", className)}>
+      {title ? <h2 className="text-xl font-black tracking-tight text-[#0F172A]">{title}</h2> : null}
+      {title ? <div className="mt-4">{children}</div> : children}
+    </section>
+  );
+}

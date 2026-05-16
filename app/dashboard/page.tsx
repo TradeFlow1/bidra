@@ -39,8 +39,8 @@ function SurfaceCard(props: {
   const tone = props.tone ?? "default";
   const shell =
     tone === "attention"
-      ? "rounded-3xl border border-amber-200 bg-amber-50/70 p-5 shadow-sm"
-      : "rounded-3xl border border-[#D7E2F1] bg-white p-5 shadow-sm";
+      ? "rounded-[28px] border border-amber-200 bg-amber-50/70 p-5 shadow-sm"
+      : "rounded-[28px] border border-[#D7E2F1] bg-white p-5 shadow-sm";
 
   return (
     <div className={shell}>
@@ -266,7 +266,7 @@ export default async function DashboardPage({
           </div>
         </section>
         {showFirstRunSetup ? (
-          <section className="rounded-3xl border border-[#D8E1F0] bg-white p-5 shadow-sm">
+          <section className="rounded-[28px] border border-[#D8E1F0] bg-white p-5 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">First-run setup</div>
             <p className="mt-1 text-sm bd-ink2">
               Start with buying, selling, or account setup.
@@ -276,7 +276,7 @@ export default async function DashboardPage({
                 <Link key={step.title} href={step.href} className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-4 shadow-sm hover:bg-[#EEF4FF]">
                   <div className="text-sm font-extrabold text-[#07152E]">{step.title}</div>
                   <div className="mt-1 text-sm text-[#526173]">{step.body}</div>
-                  <div className="mt-3 text-sm font-extrabold text-[#0B4DFF]">{step.cta}</div>
+                  <div className="mt-3 text-sm font-extrabold text-[#0E7490]">{step.cta}</div>
                 </Link>
               ))}
             </div>

@@ -16,9 +16,9 @@ function Shell(props: {
     <main className="bd-container py-10">
       <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/auth/login" label="Back to login" /></div>
       <div className="container max-w-7xl space-y-5">
-        <div className="rounded-3xl border border-black/10 bg-gradient-to-br from-white to-neutral-50 p-6 shadow-sm">
+        <div className="rounded-[28px] border border-[#D8E1EA] bg-gradient-to-br from-white to-[#EAF6F8] p-6 shadow-sm">
           <div className="max-w-3xl">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">{props.eyebrow}</div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">{props.eyebrow}</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">{props.title}</h1>
             <p className="mt-2 text-sm bd-ink2 sm:text-base">{props.subtitle}</p>
           </div>
@@ -26,24 +26,24 @@ function Shell(props: {
 
         <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-5">
-            <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+            <div className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
               <div className="text-sm font-extrabold bd-ink">Why verification matters</div>
               <div className="mt-4 space-y-4">
-                <div className="rounded-2xl border border-black/10 bg-neutral-50 p-4">
+                <div className="rounded-2xl border border-[#D8E1EA] bg-[#F8FAFC] p-4">
                   <div className="text-sm font-semibold bd-ink">Protects account access</div>
                   <div className="mt-1 text-sm bd-ink2">
                     Verifying your email helps confirm account ownership and keeps login and recovery steps secure.
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-black/10 bg-white p-4">
+                <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4">
                   <div className="text-sm font-semibold bd-ink">Needed before login</div>
                   <div className="mt-1 text-sm bd-ink2">
                     New Bidra accounts must verify email before they can log in and continue with buying or selling.
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-black/10 bg-white p-4">
+                <div className="rounded-2xl border border-[#D8E1EA] bg-white p-4">
                   <div className="text-sm font-semibold bd-ink">Need another route?</div>
                   <div className="mt-2 flex flex-wrap gap-2">
                     <Link href="/auth/login" className="bd-btn bd-btn-ghost">Log in</Link>
@@ -54,7 +54,7 @@ function Shell(props: {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <div className="rounded-[28px] border border-[#D8E1EA] bg-white p-6 shadow-sm">
             {props.children}
           </div>
         </div>

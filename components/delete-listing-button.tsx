@@ -60,10 +60,10 @@ export default function DeleteListingButton({ listingId, listingTitle }: Props) 
             role="dialog"
             aria-modal="true"
             aria-labelledby="delete-listing-title"
-            className="w-full max-w-md rounded-3xl border border-black/10 bg-white p-6 text-left shadow-[0_24px_80px_rgba(15,23,42,0.35)]"
+            className="w-full max-w-md rounded-[28px] border border-[#D8E1EA] bg-white p-6 text-left shadow-[0_24px_80px_rgba(15,23,42,0.35)]"
           >
-            <h2 id="delete-listing-title" className="text-2xl font-extrabold tracking-tight text-neutral-950">Delete this listing?</h2>
-            <p className="mt-3 text-sm leading-6 text-neutral-700">
+            <h2 id="delete-listing-title" className="text-2xl font-extrabold tracking-tight text-[#0F172A]">Delete this listing?</h2>
+            <p className="mt-3 text-sm leading-6 text-[#334155]">
               This removes <strong>{listingTitle}</strong> from your seller listings.
             </p>
 
@@ -74,7 +74,7 @@ export default function DeleteListingButton({ listingId, listingTitle }: Props) 
                 type="button"
                 onClick={function () { if (!pending) setOpen(false); }}
                 disabled={pending}
-                className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-neutral-950 shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0F172A] shadow-sm hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 Keep listing
               </button>

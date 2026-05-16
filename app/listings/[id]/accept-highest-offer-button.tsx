@@ -50,7 +50,7 @@ export default function AcceptHighestOfferButton(props: { listingId: string }) {
         {loading ? "Creating sold item..." : "Accept highest offer"}
       </button>
 
-      <div className="text-xs text-neutral-600">
+      <div className="text-xs text-[#475569]">
         This marks the listing as sold and opens order details. Use the order page to continue the sale.
       </div>
 

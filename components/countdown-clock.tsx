@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useEffect, useMemo, useState } from "react"
 
@@ -53,7 +53,7 @@ export default function CountdownClock({
     <span
       className={
         className ||
-        `inline-flex items-center rounded-full border border-black/10 px-3 py-1 text-xs font-semibold ${
+        `inline-flex items-center rounded-full border border-[#D8E1EA] px-3 py-1 text-xs font-semibold ${
           isEnded ? "bg-black/[0.03] text-[var(--bidra-ink-2)]" : "bg-black/[0.03] text-[var(--bidra-ink)]"
         }`
       }

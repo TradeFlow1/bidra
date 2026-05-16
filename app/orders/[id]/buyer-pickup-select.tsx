@@ -71,8 +71,8 @@ export default function BuyerPickupSelect({ orderId, options }: { orderId: strin
               className={
                 "rounded-2xl border p-4 text-left transition " +
                 (isSelected
-                  ? "border-blue-500 bg-blue-50 text-blue-950"
-                  : "border-black/10 bg-white/5 bd-ink hover:border-black/20")
+                  ? "border-[#0E7490] bg-[#EAF6F8] text-[#0F172A]"
+                  : "border-[#D8E1EA] bg-white/5 bd-ink hover:border-black/20")
               }
               onClick={function () {
                 setSelected(option.value);
@@ -89,7 +89,7 @@ export default function BuyerPickupSelect({ orderId, options }: { orderId: strin
                 <div
                   className={
                     "mt-1 inline-flex h-5 w-5 items-center justify-center rounded-full border text-xs font-bold " +
-                    (isSelected ? "border-blue-600 bg-blue-600 text-white" : "border-black/20 text-transparent")
+                    (isSelected ? "border-[#0E7490] bg-[#0E7490] text-white" : "border-black/20 text-transparent")
                   }
                 >
                   ✓
@@ -100,7 +100,7 @@ export default function BuyerPickupSelect({ orderId, options }: { orderId: strin
         })}
       </div>
 
-      <div className="rounded-2xl border border-black/10 bg-white/5 px-4 py-3 text-sm bd-ink2">
+      <div className="rounded-2xl border border-[#D8E1EA] bg-white/5 px-4 py-3 text-sm bd-ink2">
         Select one pickup time to confirm the updated schedule.
       </div>
 
