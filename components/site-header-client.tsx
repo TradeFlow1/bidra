@@ -59,7 +59,7 @@ export default function SiteHeaderClient({
   }, []);
 
   const menuLinkClass = "block w-full rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-[#0F172A] transition hover:bg-[#EAF6F8]";
-  const searchInputClass = "w-full rounded-full border border-[#D7E2F1] bg-[#F8FAFF] px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-[#7B8AA3] shadow-inner focus:border-[#0E7490] focus:bg-white focus:ring-4 focus:ring-blue-100";
+  const searchInputClass = "w-full rounded-full border border-[#D7E2F1] bg-[#F8FAFF] px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-[#7B8AA3] shadow-inner focus:border-[#0E7490] focus:bg-white focus:ring-4 focus:ring-[#D8E1EA]";
   const badge = notificationCount > 0 ? (
     <span className="ml-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-[#0E7490] px-1.5 py-0.5 text-[11px] font-extrabold text-white">
       {notificationCount > 99 ? "99+" : notificationCount}
@@ -166,6 +166,7 @@ export default function SiteHeaderClient({
     </header>
   );
 }
+
 
 
 

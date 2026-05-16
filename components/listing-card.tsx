@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -150,16 +150,16 @@ export default function ListingCard({
             />
           )}
 
-          <span className="absolute left-2.5 top-2.5 z-10 rounded-full border border-white/80 bg-[#0B4DFF] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-white shadow-[0_8px_20px_rgba(28,50,84,0.14)]">{saleTypeLabel}</span>
+          <span className="absolute left-2.5 top-2.5 z-10 rounded-full border border-white/80 bg-[#0E7490] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-white shadow-[0_8px_20px_rgba(28,50,84,0.14)]">{saleTypeLabel}</span>
 
           {showWatchButton ? (
             <button
               type="button"
               onClick={onToggleWatch}
-              className="absolute right-2.5 top-2.5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-white/95 text-[18px] text-[#0B4DFF] shadow-[0_8px_20px_rgba(28,50,84,0.16)] transition hover:scale-105"
+              className="absolute right-2.5 top-2.5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-white/95 text-[18px] text-[#0E7490] shadow-[0_8px_20px_rgba(28,50,84,0.16)] transition hover:scale-105"
               aria-label="Save listing"
             >
-              {watched ? "♥" : "♡"}
+              {watched ? "â™¥" : "â™¡"}
             </button>
           ) : null}
         </div>
@@ -200,6 +200,7 @@ export default function ListingCard({
     </Link>
   );
 }
+
 
 
 

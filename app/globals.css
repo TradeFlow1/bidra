@@ -49,7 +49,7 @@ button.bd-btn {
   .bd-badge-success { @apply border-emerald-200 bg-emerald-50 text-emerald-800; }
   .bd-badge-warning { @apply border-amber-200 bg-[#FFFBEB] text-amber-800; }
   .bd-badge-danger { @apply border-rose-200 bg-rose-50 text-rose-800; }
-  .bd-badge-info { @apply border-blue-200 bg-blue-50 text-[#0F172A]; }
+  .bd-badge-info { @apply border-[#CFE3E8] bg-[#F1F8FA] text-[#0F172A]; }
   .bd-form-card { @apply rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6; }
 }
 
@@ -61,7 +61,7 @@ button.bd-btn {
   .bd-btn-ghost { @apply border border-transparent bg-transparent text-[#0F172A] hover:bg-[#EEF2F7] active:translate-y-px; }
   .bd-btn-destructive { @apply border border-rose-600 bg-rose-600 text-white shadow-sm hover:bg-rose-700 active:translate-y-px; }
   .bd-btn-link { @apply min-h-11 rounded-lg px-1 text-[#0E7490] underline underline-offset-4 hover:text-[#0E7490]; }
-  .bd-input { @apply min-h-11 w-full rounded-xl border border-[#CBD5E1] bg-white px-3.5 py-2.5 text-[15px] text-[#0F172A] shadow-sm outline-none transition placeholder:text-[#94A3B8] focus:border-[#60A5FA] focus:ring-4 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-[#F8FAFC] disabled:text-[#64748B]; }
+  .bd-input { @apply min-h-11 w-full rounded-xl border border-[#CBD5E1] bg-white px-3.5 py-2.5 text-[15px] text-[#0F172A] shadow-sm outline-none transition placeholder:text-[#94A3B8] focus:border-[#6BAFB8] focus:ring-4 focus:ring-[#D8E1EA] disabled:cursor-not-allowed disabled:bg-[#F8FAFC] disabled:text-[#64748B]; }
   .bd-label { @apply text-sm font-extrabold text-[#0F172A]; }
   .bd-help { @apply mt-1.5 text-xs leading-5 text-[#64748B]; }
 }
@@ -87,7 +87,7 @@ button.bd-btn {
   .bd-action-row > .bd-btn, .bd-action-row > a.bd-btn, .bd-action-row > button.bd-btn { @apply w-full sm:w-auto; }
   .bd-trust-panel { @apply rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950; }
   .bd-warning-panel { @apply rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950; }
-  .bd-info-panel { @apply rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-950; }
+  .bd-info-panel { @apply rounded-2xl border border-[#CFE3E8] bg-[#F1F8FA] px-4 py-3 text-sm leading-6 text-blue-950; }
   .bd-danger-panel { @apply rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-950; }
   .bd-card-grid { @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4; }
   .bd-readable-prose { @apply text-sm leading-7 text-[#334155] sm:text-base; }
@@ -603,4 +603,50 @@ header .border-\[\#0E7490\],
   [data-site-footer] {
     display: none !important;
   }
+}
+
+
+/* bidra-remove-final-blue */
+.bidra-homepage svg,
+.bidra-homepage [class*="text-[#0E7490]"] svg,
+.bd-mobile-bottom-nav svg,
+header svg,
+[data-site-footer] svg {
+  color: #0E7490 !important;
+  stroke: currentColor;
+}
+
+.bidra-homepage .bd-bottom-nav-item-active,
+.bd-mobile-bottom-nav .bd-bottom-nav-item-active {
+  background: #EAF6F8 !important;
+  color: #0E7490 !important;
+}
+
+.bidra-homepage [class*="bg-[#0E7490]"],
+header [class*="bg-[#0E7490]"],
+.bd-mobile-bottom-nav [class*="bg-[#0E7490]"] {
+  background-color: #0E7490 !important;
+}
+
+.bidra-homepage [class*="text-[#0E7490]"],
+header [class*="text-[#0E7490]"],
+[data-site-footer] [class*="text-[#0E7490]"] {
+  color: #0E7490 !important;
+}
+
+.bidra-homepage [class*="border-[#0E7490]"],
+header [class*="border-[#0E7490]"] {
+  border-color: #0E7490 !important;
+}
+
+.bidra-homepage .fill-blue-500,
+.bidra-homepage .fill-blue-600,
+.bidra-homepage .fill-blue-700 {
+  fill: #0E7490 !important;
+}
+
+.bidra-homepage .stroke-blue-500,
+.bidra-homepage .stroke-blue-600,
+.bidra-homepage .stroke-blue-700 {
+  stroke: #0E7490 !important;
 }
