@@ -159,7 +159,7 @@ export default function ListingCard({
               className="absolute right-2.5 top-2.5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-white/95 text-[18px] text-[#0E7490] shadow-[0_8px_20px_rgba(28,50,84,0.16)] transition hover:scale-105"
               aria-label="Save listing"
             >
-              {watched ? "â™¥" : "â™¡"}
+              {watched ? "♥" : "♡"}
             </button>
           ) : null}
         </div>
@@ -200,6 +200,7 @@ export default function ListingCard({
     </Link>
   );
 }
+
 
 
 
