@@ -168,11 +168,12 @@ export default async function HomePage() {
 
         <MarketplaceSection title="Latest listings" className="pb-24 md:pb-8" action={<Link href="/listings?sort=newest" className="text-sm font-black text-[#0E7490]">View all listings</Link>}>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {listings.length ? listings.slice(0, 5).map(renderCard) : <EmptyMarketplaceState title="No listings yet" body="Be the first to list a buyer-ready item with clear photos, price and handover details." href={userId ? "/sell/new" : "/auth/register"} cta="Create a listing" />}
+            {listings.length ? listings.slice(0, 4).map(renderCard) : <EmptyMarketplaceState title="No listings yet" body="Be the first to list a buyer-ready item with clear photos, price and handover details." href={userId ? "/sell/new" : "/auth/register"} cta="Create a listing" />}
           </div>
         </MarketplaceSection>
 </div>
     </ReferencePage>
   );
 }
+
 
