@@ -1050,3 +1050,32 @@ header [class*="border-blue"],
   }
 }
 
+
+/* bidra-mobile-nav-dock-bottom */
+@media (max-width: 1023px) {
+  .bd-mobile-bottom-nav {
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 6px 8px max(6px, env(safe-area-inset-bottom)) 8px !important;
+    border-radius: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+    box-shadow: 0 -10px 26px rgba(15, 23, 42, 0.08) !important;
+  }
+
+  .bd-mobile-bottom-nav::before,
+  .bd-mobile-bottom-nav::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  .bd-bottom-nav-item {
+    border-radius: 14px !important;
+  }
+}
+
