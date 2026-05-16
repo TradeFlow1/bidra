@@ -72,7 +72,7 @@ export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string
   );
 }
 
-function ProductCollage({ listings = [] }: { listings?: FeaturedHeroListing[] }) {
+export function ProductCollage({ listings = [] }: { listings?: FeaturedHeroListing[] }) {
   const fallbackProducts: FeaturedHeroListing[] = [
     { id: "fallback-sofa", title: "Fresh local sofa", category: "Home", price: 250 },
     { id: "fallback-bike", title: "Popular road bike", category: "Sports", price: 120 },
