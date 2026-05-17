@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import BrandLogo from "@/components/brand-logo";
 import { cn } from "@/lib/utils";
@@ -33,7 +33,7 @@ export function MobileMarketplacePage({
     <>
       <main className="min-h-screen bg-white text-[#0F172A] md:hidden">
         <div className="mx-auto min-h-screen w-full max-w-[430px] bg-white shadow-[0_24px_80px_rgba(15,23,42,0.10)]">
-          <header className="sticky top-0 z-30 border-b border-[#E2E8F0] bg-white/95 backdrop-blur">
+          <header className="relative z-30 border-b border-[#E2E8F0] bg-white/95 backdrop-blur">
             <div className="flex h-16 items-center justify-between px-4">
               <div className="flex min-w-0 items-center gap-3">
                 {backHref ? (
@@ -69,7 +69,7 @@ export function MobileMarketplacePage({
           <div className={cn("px-4 pb-24 pt-4", className)}>{children}</div>
           <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto grid h-16 max-w-[430px] grid-cols-5 border-t border-[#E2E8F0] bg-white/95 px-2 text-[11px] font-bold text-[#475569] backdrop-blur">
             <MobileNavItem href="/" label="Home" icon="⌂" />
-            <MobileNavItem href="/browse" label="Buy now" icon="▣" />
+            <MobileNavItem href="/listings" label="Buy now" icon="▣" />
             <MobileNavItem href="/sell" label="Sell" icon="⊕" />
             <MobileNavItem href="/messages" label="Chats" icon="○" />
             <MobileNavItem href="/account" label="Profile" icon="♙" />
