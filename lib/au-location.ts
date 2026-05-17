@@ -8,8 +8,14 @@
 
 const locations: AuLocation[] = [
   { suburb: "Brisbane City", state: "QLD", postcode: "4000", latitude: -27.4705, longitude: 153.0260 },
+  { suburb: "Redbank Plains", state: "QLD", postcode: "4301", latitude: -27.6464, longitude: 152.8597 },
+  { suburb: "Springfield", state: "QLD", postcode: "4300", latitude: -27.6530, longitude: 152.9170 },
+  { suburb: "Springfield Lakes", state: "QLD", postcode: "4300", latitude: -27.6670, longitude: 152.9230 },
+  { suburb: "Goodna", state: "QLD", postcode: "4300", latitude: -27.6108, longitude: 152.8986 },
+  { suburb: "Ipswich", state: "QLD", postcode: "4305", latitude: -27.6167, longitude: 152.7667 },
   { suburb: "Fortitude Valley", state: "QLD", postcode: "4006", latitude: -27.4571, longitude: 153.0340 },
   { suburb: "West End", state: "QLD", postcode: "4101", latitude: -27.4803, longitude: 153.0120 },
+  { suburb: "Woolloongabba", state: "QLD", postcode: "4102", latitude: -27.4880, longitude: 153.0360 },
   { suburb: "Sunnybank Hills", state: "QLD", postcode: "4109", latitude: -27.6100, longitude: 153.0540 },
   { suburb: "Indooroopilly", state: "QLD", postcode: "4068", latitude: -27.4990, longitude: 152.9730 },
   { suburb: "Gold Coast", state: "QLD", postcode: "4217", latitude: -28.0167, longitude: 153.4000 },
@@ -33,11 +39,28 @@ export function findAuLocation(input?: string | null, state?: string | null) {
 
   if (!raw && !selectedState) return null;
 
-  return locations.find((location) => {
-    const haystack = normalise(`${location.postcode} ${location.suburb} ${location.state}`);
+  const exact = locations.find((location) => {
     const stateMatches = selectedState ? location.state === selectedState : true;
-    const inputMatches = raw ? haystack.includes(raw) || raw.includes(normalise(location.suburb)) || raw.includes(location.postcode) : true;
-    return stateMatches && inputMatches;
+    if (!stateMatches) return false;
+
+    const suburb = normalise(location.suburb);
+    const postcode = normalise(location.postcode);
+    const postcodeSuburb = normalise(`${location.postcode} ${location.suburb}`);
+    const suburbPostcode = normalise(`${location.suburb} ${location.postcode}`);
+
+    return raw === postcode || raw === suburb || raw === postcodeSuburb || raw === suburbPostcode;
+  });
+
+  if (exact) return exact;
+
+  return locations.find((location) => {
+    const stateMatches = selectedState ? location.state === selectedState : true;
+    if (!stateMatches) return false;
+
+    const haystack = normalise(`${location.postcode} ${location.suburb} ${location.state}`);
+    return raw
+      ? haystack.includes(raw) || raw.includes(normalise(location.suburb)) || raw.includes(location.postcode)
+      : true;
   }) || null;
 }
 
@@ -45,11 +68,14 @@ export function parseListingLocation(locationText?: string | null) {
   const text = locationText || "";
   const postcode = text.match(/\b\d{4}\b/)?.[0] || "";
   const state = text.match(/\b(QLD|NSW|VIC|SA|WA|TAS|ACT|NT)\b/i)?.[1]?.toUpperCase() || "";
-  const withoutPostcode = text.replace(/\b\d{4}\b/g, "").replace(/\b(QLD|NSW|VIC|SA|WA|TAS|ACT|NT)\b/gi, "").replace(/,/g, " ").replace(/\s+/g, " ").trim();
-  const lookup = findAuLocation(postcode || withoutPostcode, state);
+  const withoutPostcode = text
+    .replace(/\b\d{4}\b/g, "")
+    .replace(/\b(QLD|NSW|VIC|SA|WA|TAS|ACT|NT)\b/gi, "")
+    .replace(/,/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
-  if (lookup) return lookup;
-  return null;
+  return findAuLocation(postcode || withoutPostcode, state);
 }
 
 export function distanceKm(a: { latitude: number; longitude: number }, b: { latitude: number; longitude: number }) {
@@ -68,3 +94,4 @@ export function distanceKm(a: { latitude: number; longitude: number }, b: { lati
 export function allAuLocations() {
   return locations;
 }
+

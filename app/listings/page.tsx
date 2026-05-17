@@ -80,14 +80,30 @@ function categoryHref(category: string) {
 }
 
 export default async function ListingsPage({ searchParams = {} }: ListingsPageProps) {
+  const session = await getServerSession(authOptions);
+  const profile = session?.user?.id
+    ? await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { location: true, state: true, suburb: true, postcode: true },
+      })
+    : null;
+
+  const profileLocationParts = [profile?.postcode, profile?.suburb].filter(Boolean);
+  const profileLocation = profileLocationParts.length ? profileLocationParts.join(" ") : (profile?.location || "");
+  const profileState = profile?.state || "";
+
   const selectedCategory = normalizeCategory(searchParams.category);
   const minPrice = parseDollars(searchParams.min);
   const maxPrice = parseDollars(searchParams.max);
   const selectedCondition = searchParams.condition || "";
   const selectedSort = searchParams.sort || "newest";
-  const selectedLocation = searchParams.location || "";
-  const selectedState = searchParams.state || "";
-  const selectedRadius = searchParams.radius || "25";
+  const selectedLocation = searchParams.location || profileLocation || "";
+  const selectedState = searchParams.state || profileState || "";
+  const selectedRadius = (searchParams.radius || "25").replace(/[^0-9.]/g, "");
+  const selectedRadiusKm = Number(selectedRadius);
+  const searchLocation = findAuLocation(selectedLocation, selectedState);
+  const radiusIsActive = Number.isFinite(selectedRadiusKm) && selectedRadiusKm > 0;
+  const canApplyRadius = radiusIsActive && Boolean(searchLocation);
 
   const where: any = {
     status: "ACTIVE",
@@ -119,8 +135,17 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
     };
   }
 
-  if (selectedLocation.trim()) {
-    where.location = { contains: selectedLocation.trim(), mode: "insensitive" };
+  if (!canApplyRadius && (selectedLocation.trim() || selectedState.trim())) {
+    where.AND.push({
+      OR: [
+        selectedLocation.trim()
+          ? { location: { contains: selectedLocation.trim(), mode: "insensitive" } }
+          : {},
+        selectedState.trim()
+          ? { location: { contains: selectedState.trim(), mode: "insensitive" } }
+          : {},
+      ],
+    });
   }
 
   if (selectedCondition) {
@@ -137,7 +162,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
     prisma.listing.findMany({
       where,
       orderBy,
-      take: pageSize + 1,
+      take: canApplyRadius ? 500 : pageSize + 1,
       select: {
         id: true,
         title: true,
@@ -150,12 +175,26 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
         createdAt: true,
       },
     }),
-    prisma.listing.count({ where }),
+    canApplyRadius ? Promise.resolve(0) : prisma.listing.count({ where }),
   ]);
 
-  const visibleListings = listings.slice(0, pageSize);
-  const displayCount = visibleListings.length;
-  const showPagination = listingCount > pageSize;
+  const radiusFilteredListings = canApplyRadius
+    ? listings.filter((listing) => {
+        const listingGeo = parseListingLocation(listing.location);
+        if (!listingGeo) return false;
+
+        const straightLineKm = distanceKm(searchLocation!, listingGeo);
+        const safeRadiusKm = Math.max(0, selectedRadiusKm - 5);
+
+        return straightLineKm <= safeRadiusKm;
+      })
+    : radiusIsActive
+      ? []
+      : listings;
+
+  const visibleListings = radiusFilteredListings.slice(0, pageSize);
+  const displayCount = radiusFilteredListings.length;
+  const showPagination = canApplyRadius ? displayCount > pageSize : listingCount > pageSize;
 
   return (
     <>
@@ -268,6 +307,13 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
               <div>
                 <h2 className="text-4xl font-black tracking-tight">All listings</h2>
                 <p className="mt-2 text-base font-semibold text-[#64748B]">{displayCount} results</p>
+                {radiusIsActive ? (
+                  <p className="mt-1 text-sm font-semibold text-[#4F46E5]">
+                    {canApplyRadius
+                      ? `Showing listings within ${selectedRadiusKm} km of ${searchLocation?.suburb}, ${searchLocation?.state}`
+                      : "Add a suburb/postcode in your profile or enter one here to use distance filtering."}
+                  </p>
+                ) : null}
 
 
               </div>

@@ -34,3 +34,4 @@ export default function DistanceSlider({ defaultValue }: DistanceSliderProps) {
     </div>
   );
 }
+
