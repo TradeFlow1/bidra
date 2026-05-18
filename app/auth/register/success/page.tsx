@@ -1,45 +1,16 @@
-"use client";
-
 import Link from "next/link";
-import { BackButton } from "@/components/ui/back-button";
+import { PublicContentPage } from "@/components/public-info-page";
 
 export default function RegisterSuccessPage() {
-  const shell = "bd-container py-6 pb-14";
-  const card = "bd-card p-6 sm:p-8 max-w-[680px] mx-auto w-full";
-
   return (
-    <main className={shell}>
-      <div className="mx-auto w-full mb-4 w-full max-w-7xl px-4"><BackButton href="/auth/login" label="Back to login" /></div>
-      <div className={card}>
-        <h1 className="text-2xl font-extrabold tracking-tight text-[#0b1220]">Account created</h1>
-        <p className="mt-2 text-sm text-black/60">
-          Next: verify your email, then choose your first path. Buyers can browse, watch items, make offers, and keep handover details in Messages. Sellers can create a buyer-ready listing with clear photos, location, price, and safe handover notes.
-        </p>
-
-        <div className="mt-5 rounded-2xl border border-black/10 bg-neutral-50 p-4">
-          <div className="text-sm font-extrabold text-[#0b1220]">First-run checklist</div>
-          <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm text-black/65">
-            <li>Verify your email so account actions stay protected.</li>
-            <li>Add your general location in Dashboard so buyers and sellers have useful pickup context.</li>
-            <li>Use Messages to keep pickup, postage, payment expectations, and handover details on Bidra.</li>
-          </ol>
+    <PublicContentPage title="Check your email" subtitle="Your Bidra account is almost ready.">
+      <section className="max-w-2xl rounded-[24px] border border-[#E2E8F0] bg-white p-8 shadow-sm">
+        <p className="text-base font-semibold leading-7 text-[#475569]">We sent a verification link to your email. Open it to activate your account, then sign in.</p>
+        <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+          <Link href="/auth/login" className="inline-flex h-12 items-center justify-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black !text-white hover:bg-[#4338CA]">Sign in</Link>
+          <Link href="/help" className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-6 text-sm font-black text-[#4F46E5] hover:bg-[#F5F3FF]">Get help</Link>
         </div>
-
-        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          <Link href="/listings" className="bd-btn w-full text-center">
-            Browse listings
-          </Link>
-
-          <Link href="/sell/new" className="bd-btn bd-btn-primary w-full text-center">
-            Create listing
-          </Link>
-
-          <Link href="/dashboard" className="bd-btn w-full text-center">
-            Complete setup
-          </Link>
-        </div>
-      </div>
-    </main>
+      </section>
+    </PublicContentPage>
   );
 }
-

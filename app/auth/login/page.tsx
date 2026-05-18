@@ -1,229 +1,50 @@
 "use client";
 
-import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { BackButton } from "@/components/ui/back-button";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Card, Button, Input } from "@/components/ui";
-import { ReferencePage } from "@/components/marketplace-redesign";
+import { useState } from "react";
+import { PublicContentPage } from "@/components/public-info-page";
 
-function friendlyAuthError(raw: string) {
-  const s = String(raw || "");
-  if (s === "EMAIL_NOT_VERIFIED") return "Please verify your email before logging in. Use the resend link above if you cannot find it.";
-  if (s === "ACCOUNT_RESTRICTED") return "This account is restricted. Visit account restrictions or contact support if you think this is wrong.";
-  if (s === "ACCOUNT_DISABLED") return "This account is disabled. Contact support before trying again.";
-  if (s === "CredentialsSignin") return "Incorrect email or password. Check your email, password, and whether your account email has been verified.";
-  if (s.toLowerCase().includes("credentials")) return "Incorrect email or password.";
-  if (s.toLowerCase().includes("signin")) return "Incorrect email or password.";
-  if (s.startsWith("AUTH_RATE_LIMITED")) return "Too many login attempts. Please wait before trying again or reset your password.";
-  return "Could not log you in. Please check your details and try again.";
-}
-
-export default function Login() {
-  const router = useRouter();
-  const sp = useSearchParams();
-  const [error, setError] = useState<string | null>(null);
-  const [notice, setNotice] = useState<string | null>(null);
+export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
-  useEffect(() => {
-    const err = (sp?.get("error") || "").toString().trim();
-    const verify = (sp?.get("verify") || "").toString().trim();
-    const resend = (sp?.get("resend") || "").toString().trim();
-
-    setError(null);
-    setNotice(null);
-
-    if (verify) {
-      if (verify === "ok") setNotice("Email verified. You can log in now.");
-      else if (verify === "missing") setError("Verification link is missing or invalid.");
-      else if (verify === "expired") setError("That verification link has expired. Please request a new one.");
-      else setError("Verification failed. Please try again.");
-      return;
-    }
-
-    if (resend) {
-      setNotice("Verification email resent. Please check your inbox.");
-      return;
-    }
-
-    if (err) {
-      setError(friendlyAuthError(err));
-    }
-  }, [sp]);
-
   return (
-    <ReferencePage className="min-h-screen bg-[#F7FAFF] px-4 py-6 sm:py-12">
-      <div className="mx-auto mb-4 w-full max-w-[1100px]"><BackButton href="/listings" label="Back to marketplace" /></div>
-<div className="mx-auto grid w-full max-w-[1100px] gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-        <div className="rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
-          <div className="max-w-3xl">
-            <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Welcome back</div>
-            <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-5xl">Log in to Bidra</h1>
-            <p className="mt-2 text-sm bd-ink2 sm:text-base">
-              Sign in to save listings, buy now, make offers, message sellers and manage your marketplace account.
-            </p>
-          </div>
-        </div>
-
-        <div className="grid gap-4">
-          <Card className="order-2 rounded-3xl border border-[#D7E2F1] bg-white p-4 shadow-sm sm:p-5">
-            <div className="text-sm font-extrabold bd-ink">Before you log in</div>
-            <div className="mt-4 space-y-4">
-              <div className="rounded-2xl border border-[#D7E2F1] bg-[#F8FAFF] p-4">
-                <div className="text-sm font-semibold bd-ink">New account?</div>
-                <div className="mt-1 text-sm bd-ink2">
-                  You must <b>verify your email</b> before you can log in. Check your inbox for the verification link.
-                </div>
-                <div className="mt-2 text-xs bd-ink2">
-                  Did not get it?{" "}
-                  <Link className="bd-link font-semibold" href="/auth/verify">Resend verification email</Link>.
-                </div>
+    <PublicContentPage title="Sign in" subtitle="Access your Bidra account.">
+      <div className="grid max-w-5xl gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <section className="rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm sm:p-8">
+          <form action="/api/auth/signin" method="post" className="space-y-5">
+            <label className="block">
+              <span className="text-sm font-black text-[#0F172A]">Email</span>
+              <input name="email" type="email" className="mt-2 h-12 w-full rounded-2xl border border-[#CBD5E1] px-4 text-sm font-semibold" placeholder="you@example.com" />
+            </label>
+            <label className="block">
+              <span className="text-sm font-black text-[#0F172A]">Password</span>
+              <div className="mt-2 flex h-12 rounded-2xl border border-[#CBD5E1] bg-white">
+                <input name="password" type={showPassword ? "text" : "password"} className="min-w-0 flex-1 rounded-2xl px-4 text-sm font-semibold outline-none" placeholder="Password" />
+                <button type="button" onClick={() => setShowPassword((value) => !value)} className="px-4 text-sm font-black text-[#4F46E5]">
+                  {showPassword ? "Hide" : "Show"}
+                </button>
               </div>
+            </label>
+            <button type="submit" className="h-12 w-full rounded-2xl bg-[#4F46E5] text-sm font-black text-white hover:bg-[#4338CA]">Sign in</button>
+          </form>
+          <p className="mt-5 text-center text-sm font-semibold text-[#64748B]">
+            New to Bidra? <Link href="/auth/register" className="font-black text-[#4F46E5]">Create an account</Link>
+          </p>
+        </section>
 
-              <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4">
-                <div className="text-sm font-semibold bd-ink">Why this matters</div>
-                <ul className="mt-2 list-disc pl-5 text-sm bd-ink2 space-y-2">
-                  <li>Email verification helps protect account access and trust.</li>
-                  <li>Bidra keeps core buying and selling activity inside your account.</li>
-                  <li>Age verification continues separately after account access where required.</li>
-                </ul>
-              </div>
-              <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4">
-                <div className="text-sm font-semibold bd-ink">Login confidence checklist</div>
-                <ul className="mt-2 list-disc pl-5 text-sm bd-ink2 space-y-2">
-                  <li>Use the same email address you verified during signup.</li>
-                  <li>Passwords are case-sensitive; use Show password if you need to check typing.</li>
-                  <li>If you are locked out, wait before trying again or reset your password.</li>
-                </ul>
-              </div>
-
-
-              <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4">
-                <div className="text-sm font-semibold bd-ink">Need help?</div>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  <Link href="/forgot-password" className="bd-btn bd-btn-ghost">Reset password</Link>
-                  <Link href="/support" className="bd-btn bd-btn-ghost">Support</Link>
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="order-1 rounded-3xl border border-[#D7E2F1] bg-white p-4 shadow-[0_14px_45px_rgba(28,50,84,0.08)] sm:p-6">
-            <form
-              noValidate
-              className="flex flex-col gap-2"
-              onSubmit={async (e) => {
-                e.preventDefault();
-                setError(null);
-                setNotice(null);
-
-                const fd = new FormData(e.currentTarget);
-                const email = String(fd.get("email") ?? "");
-                const password = String(fd.get("password") ?? "");
-
-                const res = await signIn("credentials", {
-                  email,
-                  password,
-                  redirect: false,
-                });
-
-                if (!res) {
-                  setError("Could not reach the sign-in service. Please try again.");
-                  return;
-                }
-
-                if (res.error) {
-                  setError(friendlyAuthError(res.error));
-                  return;
-                }
-
-                const next = sp?.get("next");
-                router.push(next && next.startsWith("/") ? next : "/");
-                router.refresh();
-              }}
-            >
-              <div>
-                <div className="text-sm font-extrabold bd-ink">Account login</div>
-                <div className="mt-1 text-sm bd-ink2">
-                  Use your email and password to continue.
-                </div>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium">Email</label>
-                <Input name="email" type="email" required placeholder="you@example.com" />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium">Password</label>
-                <div className="mt-1 flex gap-2">
-                  <Input
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    required
-                    placeholder="Enter your password"
-                    className="flex-1"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="bd-btn bd-btn-ghost whitespace-nowrap"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                    aria-pressed={showPassword ? "true" : "false"}
-                  >
-                    {showPassword ? "Hide" : "Show"}
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between gap-3">
-                <Link href="/forgot-password" className="bd-link text-sm">
-                  Forgot password?
-                </Link>
-              </div>
-
-              <Button type="submit" className="bd-btn bd-btn-primary w-full">
-                Log in
-              </Button>
-
-              {notice ? (
-                <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 break-words">
-                  {notice}
-                </div>
-              ) : null}
-
-              {error ? (
-                <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900 break-words">
-                  {error}
-                </div>
-              ) : null}
-
-              <div className="text-sm text-[#334155]">
-                Do not have an account?{" "}
-                <Link href="/auth/register" className="bd-link">
-                  Create one
-                </Link>
-                .
-              </div>
-
-              <div className="pt-2 text-xs text-black/60">
-                By continuing, you agree to our{" "}
-                <Link href="/legal/terms" className="bd-link">
-                  Terms
-                </Link>{" "}
-                and{" "}
-                <Link href="/legal/privacy" className="bd-link">
-                  Privacy Policy
-                </Link>
-                .
-              </div>
-            </form>
-          </Card>
-        </div>
+        <aside className="space-y-4">
+          <Link href="/auth/register" className="block rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#EEF2FF] text-xl font-black text-[#4F46E5]">＋</div>
+            <h2 className="text-lg font-black text-[#0F172A]">Create an account</h2>
+            <p className="mt-2 text-sm font-semibold leading-6 text-[#64748B]">Join Bidra to buy, sell and message local users.</p>
+          </Link>
+          <Link href="/forgot-password" className="block rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#EEF2FF] text-xl font-black text-[#4F46E5]">?</div>
+            <h2 className="text-lg font-black text-[#0F172A]">Forgot password</h2>
+            <p className="mt-2 text-sm font-semibold leading-6 text-[#64748B]">Reset your password and get back into your account.</p>
+          </Link>
+        </aside>
       </div>
-    </ReferencePage>
+    </PublicContentPage>
   );
 }
-
