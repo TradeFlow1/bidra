@@ -1,219 +1,33 @@
-import Link from "next/link";
-import { BackButton } from "@/components/ui/back-button";
-import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
-
-export const metadata = { title: "Terms - Bidra" };
-
-const actionClass = "inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto";
-
-function InfoCard(props: {
-  label: string;
-  title: string;
-  desc: string;
-}) {
-  return (
-    <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
-      <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">{props.label}</div>
-      <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{props.title}</div>
-      <div className="mt-1 text-sm text-[#475569]">{props.desc}</div>
-    </div>
-  );
-}
-
-function SectionCard(props: {
-  title: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
-      <h2 className="text-xl font-extrabold tracking-tight bd-ink">{props.title}</h2>
-      <div className="mt-3 text-sm bd-ink2 leading-7">{props.children}</div>
-    </section>
-  );
-}
-
-function LegalSidebar() {
-  const links = [
-    ["/legal", "Overview"],
-    ["/legal/terms", "Terms"],
-    ["/legal/privacy", "Privacy"],
-    ["/legal/fees", "Fees"],
-    ["/legal/prohibited-items", "Prohibited items"],
-  ];
-  return <aside className="rounded-[28px] border border-[#D8E6F8] bg-white p-3 shadow-sm lg:sticky lg:top-24"><div className="px-2 py-2 text-[11px] font-black uppercase tracking-[0.2em] text-[#0B4DFF]">Legal</div><div className="grid gap-1">{links.map(([href,label]) => <Link key={href} href={href} className="rounded-2xl px-3 py-2.5 text-sm font-black text-[#07152E] transition hover:bg-[#EEF6FF]">{label}</Link>)}</div></aside>;
-}
+import { LegalContentPage, LegalSection } from "@/components/public-info-page";
 
 export default function TermsPage() {
   return (
-    <ReferencePage>
-      <div className={appNarrowShell + " py-5 sm:py-8"}>
-        <BackButton href="/listings" label="Back to marketplace" />
-        <div className="mt-4 grid gap-5 lg:grid-cols-[280px_minmax(0,1fr)]"><LegalSidebar /><div className="space-y-5">
-        <section className="rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Terms</div>
-              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Terms of use</h1>
-              <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Rules for accounts, listings, offers, orders, messages, and Bidra's platform-only role.
-              </p>
-            </div>
+    <>
+      <LegalContentPage title="Terms of Use" active="terms">
+        <LegalSection title="1. Introduction">
+          <p>Welcome to Bidra. By using our marketplace platform, you agree to these Terms of Use.</p>
+        </LegalSection>
 
-            <div className="grid gap-2 sm:flex sm:flex-wrap">
-              <Link href="/legal" className={actionClass}>
-                Legal hub
-              </Link>
-              <Link href="/support" className={actionClass}>
-                Support
-              </Link>
-            </div>
-          </div>
-        </section>
+        <LegalSection title="2. Using Bidra">
+          <p>You agree to use Bidra only for lawful purposes and in a way that does not infringe the rights of others or restrict their use of the service.</p>
+        </LegalSection>
 
-        <section className="hidden">
-          <InfoCard
-            label="Eligibility"
-            title="18+ accounts only"
-            desc="Under 18s may browse publicly but cannot create accounts or transact."
-          />
-          <InfoCard
-            label="Marketplace role"
-            title="Platform only"
-            desc="Users remain responsible for payments, pickup, postage, handover, refunds, and trading decisions."
-          />
-          <InfoCard
-            label="Orders"
-            title="Sold-item records"
-            desc="Orders record the sale only. Bidra does not hold funds."
-          />
-        </section>
+        <LegalSection title="3. Buying and selling">
+          <p>Transactions on Bidra are between independent users. Bidra helps users connect, but buyers and sellers arrange payment, pickup and handover directly.</p>
+        </LegalSection>
 
-        <SectionCard title="1) Eligibility and accounts">
-          <ul className="list-disc space-y-2 pl-5">
-            <li><strong>18+ accounts only.</strong> Under 18s may browse publicly but may not create accounts, list items, place offers, message, or transact.</li>
-            <li>You must provide accurate account information and keep your location reasonably current.</li>
-            <li>You are responsible for your account activity.</li>
-            <li>Bidra may restrict or suspend accounts to protect the marketplace.</li>
-          </ul>
-        </SectionCard>
+        <LegalSection title="4. Fees">
+          <p>Bidra is free to use. We may introduce optional paid services in the future.</p>
+        </LegalSection>
 
-        <SectionCard title="2) Marketplace role">
-          <p>
-            Bidra is the platform only. Bidra is not the seller, auctioneer, escrow holder, payment provider, shipping provider, refund decision-maker, or pickup scheduler.
-          </p>
-          <p className="mt-3">
-            Users remain responsible for payment, pickup, postage, and handover decisions.
-          </p>
-        </SectionCard>
+        <LegalSection title="5. Limitation of liability">
+          <p>Bidra&apos;s liability is limited to the extent allowed by law. We are not responsible for indirect, consequential or incidental losses arising from use of the platform.</p>
+        </LegalSection>
 
-        <div className="hidden" aria-hidden="true" data-policy-check="legal-consistency">
-          <ul className="list-disc space-y-2 pl-5">
-            <li>These Terms explain what risks remain with buyers and sellers.</li>
-            <li>users remain responsible for payment, pickup, postage, and handover decisions.</li>
-            <li>These Terms cover platform-only role, data handling, marketplace risk, and user responsibilities.</li>
-            <li>These Terms also cover platform-only role, user responsibility, marketplace risk.</li>
-            <li>Buyers and sellers should understand marketplace risk before trading.</li>
-            <li>Bidra may keep moderation actions, report activity, and security events.</li>
-            <li>Messages and order records may preserve transaction context.</li>
-            <li>off-platform payment, refunds, pickup, postage, or handover arrangements remain user responsibility.</li>
-            <li>off-platform payment or refund arrangements are user responsibility.</li>
-            <li>Bidra does not hold pooled customer funds or act as escrow.</li>
-            <li>reports may be investigated.</li>
-            <li>Users remain responsible for payment, pickup, postage, refunds, and handover decisions.</li>
-            <li>Keep refund, and handover details in Bidra Messages where possible.</li>
-          </ul>
-        </div>
-
-        <SectionCard title="3) Listings and content">
-          <ul className="list-disc space-y-2 pl-5">
-            <li>Listings must be accurate, lawful, and not misleading.</li>
-            <li>You must have the right to sell the item.</li>
-            <li><strong>Prohibited items are not allowed.</strong> See <Link className="bd-link font-semibold" href="/legal/prohibited-items">Prohibited items</Link>.</li>
-            <li>Bidra may remove listings, restrict accounts, investigate reports, preserve audit records, or take other platform action.</li>
-          </ul>
-        </SectionCard>
-
-        <SectionCard title="4) Sale formats">
-          <div className="grid gap-3 md:grid-cols-2">
-            <div className="rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] p-4">
-              <h3 className="text-base font-extrabold bd-ink">Buy Now</h3>
-              <ul className="mt-2 list-disc space-y-1.5 pl-5">
-                <li>When a seller enables Buy Now, they pre-authorise an immediate sale at the displayed price.</li>
-                <li>When a buyer clicks Buy Now, the item is sold.</li>
-                <li>Buyers and sellers then use Messages to agree payment, pickup, postage, refund, and handover details.</li>
-              </ul>
-            </div>
-
-            <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4">
-              <h3 className="text-base font-extrabold bd-ink">Offers</h3>
-              <ul className="mt-2 list-disc space-y-1.5 pl-5">
-                <li>Offers are expressions of interest during the listing period.</li>
-                <li>There is no automatic winner and no automatic sale.</li>
-                <li>A sale only forms if the seller accepts an offer.</li>
-              </ul>
-            </div>
-          </div>
-
-          <p className="mt-3">
-            Buyers and sellers are responsible for checking items, agreeing payment, coordinating pickup or postage, and managing handover risk.
-          </p>
-        </SectionCard>
-
-        <SectionCard title="5) Orders and messages">
-          <ul className="list-disc space-y-2 pl-5">
-            <li>Orders are sold-item records only.</li>
-            <li>Bidra does not run in-app payment, escrow, refund handling, shipping labels, live postage rates, shipping insurance, carrier claims, pickup scheduling, or forced completion workflows.</li>
-            <li>Buyers and sellers should use Messages to agree payment, pickup, postage, refunds, and handover details.</li>
-            <li>Keep refund and handover details in Bidra Messages where possible.</li>
-            <li>Disputes, refunds, item condition issues, and handover problems are usually resolved between buyer and seller.</li>
-          </ul>
-        </SectionCard>
-
-        <div className="grid gap-5 lg:grid-cols-2">
-          <SectionCard title="6) Messaging">
-            <p>
-              Messages are provided to coordinate listings and orders. Do not harass, threaten, spam, send illegal content, or pressure another user to move to SMS, WhatsApp, or another app.
-            </p>
-            <p className="mt-3">
-              Off-platform payment, refunds, pickup, postage, or handover arrangements are user responsibility.
-            </p>
-          </SectionCard>
-
-          <SectionCard title="7) Reporting and enforcement">
-            <ul className="list-disc space-y-2 pl-5">
-              <li>Use Report on listings and message threads to flag rule-breaking behaviour or content.</li>
-              <li>Reports may be investigated.</li>
-              <li>Bidra may investigate reports, preserve audit records, remove content, suspend listings, or restrict accounts.</li>
-              <li>Bidra may act on unsafe handover patterns, fraud, abuse, or compliance risk.</li>
-            </ul>
-          </SectionCard>
-        </div>
-
-        <div className="grid gap-5 lg:grid-cols-2">
-          <SectionCard title="8) Liability and service availability">
-            <p>
-              Bidra is provided "as is" to the extent permitted by law. We aim to keep the service reliable, but outages and errors can occur. Nothing in these Terms limits rights you may have under Australian Consumer Law where applicable.
-            </p>
-          </SectionCard>
-
-          <SectionCard title="9) Changes to these Terms">
-            <p>
-              We may update these Terms from time to time. If changes are material, we will take reasonable steps to notify users. Users should preserve relevant records for orders, reports, and support issues.
-            </p>
-          </SectionCard>
-        </div>
-
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6">
-          <h2 className="text-xl font-extrabold tracking-tight bd-ink">Related pages</h2>
-          <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap">
-            <Link className={actionClass} href="/legal/privacy">Privacy</Link>
-            <Link className={actionClass} href="/legal/fees">Fees</Link>
-            <Link className={actionClass} href="/support">Support</Link>
-            <Link className={actionClass} href="/how-it-works">How it works</Link>
-          </div>
-        </section>
-      </div>
-        </div></div>
-    </ReferencePage>
+        <LegalSection title="6. Changes to terms">
+          <p>We may update these terms from time to time. We&apos;ll post updates and the effective date so changes are clear to users.</p>
+        </LegalSection>
+      </LegalContentPage>
+    </>
   );
 }
