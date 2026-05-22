@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { BidraButton } from "@/components/bidra/ui/BidraButton";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
@@ -150,7 +151,7 @@ export default async function AccountPage() {
         <section id="listings" className="mt-10">
           <div className="mb-6 flex items-center justify-between gap-4">
             <h2 className="text-2xl font-black tracking-tight">Your listings</h2>
-            <Link href="/sell/new" className="inline-flex h-11 items-center justify-center rounded-2xl bg-[#4F46E5] px-5 text-sm font-black !text-white">Sell an item</Link>
+            <BidraButton href="/sell/new">Sell an item</BidraButton>
           </div>
 
           {listings.length ? (

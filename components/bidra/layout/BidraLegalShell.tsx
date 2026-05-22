@@ -1,0 +1,1 @@
+export { BidraPublicShell as BidraLegalShell } from "./BidraPublicShell";

@@ -1,0 +1,1 @@
+export { default as BidraProductCard } from "@/components/listing-card";
