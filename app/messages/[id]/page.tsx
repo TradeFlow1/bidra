@@ -1,34 +1,34 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
-import { formatAuDateTime } from "@/lib/date";
 import SendBox from "./components/send-box";
-import InboxBackButton from "./components/inbox-back-button";
-import ThreadActions from "./components/thread-actions";
 import ThreadLiveRefresh from "./components/thread-live-refresh";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
-function displayName(u: any) {
-  return u?.username || u?.name || u?.email || "User";
+function displayName(user: { username?: string | null; name?: string | null; email?: string | null } | null) {
+  return user?.username || user?.name || user?.email || "User";
 }
 
-function SafetyNote() {
-  return (
-    <details className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm text-[var(--bidra-ink)] shadow-sm">
-      <summary className="cursor-pointer select-none font-extrabold">Safety tips</summary>
-      <ul className="mt-2 list-disc space-y-1 pl-5 text-[var(--bidra-ink-2)]">
-        <li>Confirm pickup, postage, payment, and handover details in this chat.</li>
-        <li>Do not share passwords, one-time codes, ID photos, gift cards, crypto transfers, or suspicious payment links.</li>
-        <li>Report the chat if something feels wrong.</li>
-      </ul>
-    </details>
-  );
+function initials(name: string) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("") || "U";
+}
+
+function imageFromListing(listing: { images: unknown; photos: unknown } | null) {
+  const images = Array.isArray(listing?.images) ? listing?.images : [];
+  const photos = Array.isArray(listing?.photos) ? listing?.photos : [];
+  const first = images.length ? images[0] : photos.length ? photos[0] : "";
+  return first ? String(first) : "";
 }
 
 export default async function MessagesThreadPage({ params }: { params: { id: string } }) {
@@ -42,207 +42,135 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
   const gate = await requireAdult(session);
   if (!gate.ok && gate.reason === "UNDER_18") redirect("/account/restrictions");
-  if (!gate.ok) redirect("/dashboard");
+  if (!gate.ok) redirect("/account");
 
   const me = String(session.user.id);
   if (!threadId) redirect("/messages");
 
-  try {
-    const thread = await prisma.messageThread.findUnique({
-      where: { id: threadId },
-      select: {
-        id: true,
-        buyerId: true,
-        sellerId: true,
-        lastMessageAt: true,
-        buyerLastReadAt: true,
-        sellerLastReadAt: true,
-        listing: { select: { id: true, title: true, images: true, photos: true } },
-        buyer: { select: { id: true, username: true, name: true, email: true } },
-        seller: { select: { id: true, username: true, name: true, email: true } },
-      },
-    });
+  const thread = await prisma.messageThread.findUnique({
+    where: { id: threadId },
+    select: {
+      id: true,
+      buyerId: true,
+      sellerId: true,
+      lastMessageAt: true,
+      buyerLastReadAt: true,
+      sellerLastReadAt: true,
+      listing: { select: { id: true, title: true, images: true, photos: true } },
+      buyer: { select: { id: true, username: true, name: true, email: true } },
+      seller: { select: { id: true, username: true, name: true, email: true } },
+    },
+  });
 
-    if (!thread) redirect("/messages");
+  if (!thread) redirect("/messages");
 
-    const isParticipant = String(thread.buyerId) === me || String(thread.sellerId) === me;
-    if (!isParticipant) redirect("/messages");
+  const isParticipant = String(thread.buyerId) === me || String(thread.sellerId) === me;
+  if (!isParticipant) redirect("/messages");
 
-    if (thread.lastMessageAt) {
-      const myLastRead = String(thread.buyerId) === me ? thread.buyerLastReadAt : thread.sellerLastReadAt;
-      const needsStamp =
-        !myLastRead || new Date(myLastRead).getTime() < new Date(thread.lastMessageAt).getTime();
-
-      if (needsStamp) {
-        await prisma.messageThread.update({
-          where: { id: thread.id },
-          data: String(thread.buyerId) === me ? { buyerLastReadAt: new Date() } : { sellerLastReadAt: new Date() },
-        });
-      }
+  if (thread.lastMessageAt) {
+    const myLastRead = String(thread.buyerId) === me ? thread.buyerLastReadAt : thread.sellerLastReadAt;
+    const needsStamp = !myLastRead || new Date(myLastRead).getTime() < new Date(thread.lastMessageAt).getTime();
+    if (needsStamp) {
+      await prisma.messageThread.update({
+        where: { id: thread.id },
+        data: String(thread.buyerId) === me ? { buyerLastReadAt: new Date() } : { sellerLastReadAt: new Date() },
+      });
     }
+  }
 
-    const other = String(thread.buyerId) === me ? thread.seller : thread.buyer;
+  const other = String(thread.buyerId) === me ? thread.seller : thread.buyer;
+  const otherLabel = displayName(other);
+  const thumb = imageFromListing(thread.listing);
 
-    const anyListing = thread.listing as unknown as { id?: string | null; title?: string | null; images?: unknown; photos?: unknown } | null;
-    const imgs =
-      (anyListing && Array.isArray(anyListing.images) && anyListing.images.length)
-        ? anyListing.images
-        : (anyListing && Array.isArray(anyListing.photos) && anyListing.photos.length)
-          ? anyListing.photos
-          : [];
-    const thumb = imgs && imgs.length ? String(imgs[0]) : "";
+  const messages = await prisma.message.findMany({
+    where: { threadId: thread.id },
+    orderBy: { createdAt: "asc" },
+    take: 200,
+    select: { id: true, body: true, createdAt: true, userId: true },
+  });
 
-    const messages = await prisma.message.findMany({
-      where: { threadId: thread.id },
-      orderBy: { createdAt: "asc" },
-      take: 200,
-      select: { id: true, body: true, createdAt: true, userId: true },
-    });
+  const otherLastReadAt = (String(thread.buyerId) === me ? thread.sellerLastReadAt : thread.buyerLastReadAt) || null;
+  const myMessages = messages.filter((message) => String(message.userId) === me);
+  const lastMyMessageAt = myMessages.length ? myMessages[myMessages.length - 1].createdAt : null;
+  const lastMyMessageId = myMessages.length ? myMessages[myMessages.length - 1].id : null;
+  const seenLastMyMessage = Boolean(lastMyMessageAt && otherLastReadAt && new Date(otherLastReadAt).getTime() >= new Date(lastMyMessageAt).getTime());
 
-    const otherLastReadAt = (String(thread.buyerId) === me ? thread.sellerLastReadAt : thread.buyerLastReadAt) || null;
+  return (
+    <>
+      <ThreadLiveRefresh />
+      <main className="mx-auto w-full max-w-[1280px] px-5 py-10 text-[#07152E] sm:px-8 lg:px-10">
+        <h1 className="text-4xl font-black tracking-tight sm:text-5xl">Messages</h1>
 
-    const myMessages = messages.filter((x) => String(x.userId) === me);
-    const lastMyMessageAt = myMessages.length ? myMessages[myMessages.length - 1].createdAt : null;
-    const lastMyMessageId = myMessages.length ? myMessages[myMessages.length - 1].id : null;
-
-    const seenLastMyMessage =
-      !!(lastMyMessageAt && otherLastReadAt && new Date(otherLastReadAt).getTime() >= new Date(lastMyMessageAt).getTime());
-
-    return (
-      <main className="bd-container sm:py-10">
-        <div className="container max-w-7xl space-y-3 sm:space-y-4">
-          <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div className="min-w-0 flex-1">
-                <div className="flex items-start gap-4">
-                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl border border-[#D7E2F1] bg-black/[0.03] shadow-sm">
-                    {thumb ? (
-                      <Image
-                        src={thumb}
-                        alt="Listing photo"
-                        width={64}
-                        height={64}
-                        className="h-full w-full object-cover"
-                        unoptimized
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-[10px] font-semibold text-[var(--bidra-ink-3)]">
-                        No photo
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
-                    <div className="mt-2 text-sm text-[var(--bidra-ink-2)]">
-                      Conversation with <span className="font-semibold text-[var(--bidra-ink)]">{displayName(other)}</span>
-                    </div>
-                    <div className="mt-2 text-sm text-[var(--bidra-ink-2)]">
-                      Listing:{" "}
-                      <Link
-                        className="font-semibold text-[var(--bidra-ink)] hover:underline underline-offset-4"
-                        href={`/listings/${thread.listing.id}`}
-                      >
-                        {thread.listing.title}
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+        <div className="mt-8 grid gap-6 lg:grid-cols-[420px_minmax(0,1fr)]">
+          <aside className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm">
+            <Link href="/messages" className="block border-b border-[#E2E8F0] p-5 text-sm font-black text-[#4F46E5]">Back to messages</Link>
+            <div className="flex gap-4 bg-[#F8FAFC] p-6">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-lg font-black text-[#4F46E5]">
+                {thumb ? <Image src={thumb} alt="" width={64} height={64} className="h-full w-full object-cover" unoptimized /> : initials(otherLabel)}
               </div>
-
-              <div className="flex flex-wrap gap-2">
-                <InboxBackButton />
-                <ThreadActions threadId={thread.id} />
-                <Link
-                  href={`/listings/${thread.listing.id}`}
-                  className="w-full bd-btn bd-btn-secondary rounded-2xl sm:w-auto"
-                >
-                  View listing
-                </Link>
+              <div className="min-w-0">
+                <h2 className="truncate text-xl font-black">{otherLabel}</h2>
+                <p className="mt-1 text-sm font-semibold text-[#64748B]">{thread.listing?.title || "Listing"}</p>
+                {thread.listing?.id ? <Link href={`/listings/${thread.listing.id}`} className="mt-4 inline-flex text-sm font-black text-[#4F46E5]">View listing</Link> : null}
               </div>
             </div>
-          </div>
+            <div className="p-5 text-sm font-semibold leading-6 text-[#64748B]">Keep pickup, payment and handover details in Bidra messages.</div>
+          </aside>
 
-          <ThreadLiveRefresh />
-          <SafetyNote />
-
-          <div className="mx-auto w-full max-w-3xl">
-            <div className="px-1 text-sm font-extrabold text-[var(--bidra-ink)]">
-              Messages
-            </div>
-
-            <div className="mt-2 rounded-[26px] border border-[#D7E2F1] bg-white p-2 shadow-sm sm:p-3">
-            {messages.length ? (
-              <div className="flex flex-col gap-1.5">
-                {messages.map((m) => {
-                  const mine = String(m.userId) === me;
-                  const body = m.body;
-                  const isLastMine = mine && lastMyMessageId && m.id === lastMyMessageId;
-
-                  return (
-                    <div key={m.id} className={"flex w-full " + (mine ? "justify-end" : "justify-start")}>
-                      <div className="max-w-[86%] sm:max-w-[72%]">
-                        <div
-                          className={
-                            "border px-3.5 py-2.5 text-sm leading-relaxed shadow-sm " +
-                            (mine
-                              ? "rounded-3xl rounded-br-md border-[#0B4DFF] bg-[#0B4DFF] text-white"
-                              : "rounded-3xl rounded-bl-md border-[#D7E2F1] bg-[#F8FAFF] text-[var(--bidra-ink)]")
-                          }
-                        >
-                          {body}
-                        </div>
-
-                        <div className={"mt-1 flex items-center gap-2 text-[11px] " + (mine ? "justify-end" : "justify-start")}>
-                          <span className="text-[var(--bidra-ink-2)]">{formatAuDateTime(m.createdAt)}</span>
-                          {isLastMine ? (
-                            <span className="text-[var(--bidra-ink-2)]">{seenLastMyMessage ? "Seen" : "Sent"}</span>
-                          ) : null}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="rounded-2xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-6 text-center">
-                <div className="text-base font-semibold text-[#0F172A]">No messages yet</div>
-                <div className="mt-1 text-sm text-[#526173]">
-                  Start the conversation by asking about pickup, condition, or availability.
+          <section className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm">
+            <div className="flex items-center justify-between border-b border-[#E2E8F0] p-6">
+              <div className="flex min-w-0 items-center gap-4">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-lg font-black text-[#4F46E5]">
+                  {thumb ? <Image src={thumb} alt="" width={64} height={64} className="h-full w-full object-cover" unoptimized /> : initials(otherLabel)}
+                </div>
+                <div className="min-w-0">
+                  <h2 className="truncate text-xl font-black">{otherLabel}</h2>
+                  <p className="mt-1 truncate text-sm font-semibold text-[#64748B]">Member conversation</p>
                 </div>
               </div>
-            )}
+              {thread.listing?.id ? <Link href={`/listings/${thread.listing.id}`} className="rounded-2xl border border-[#C7D2FE] px-5 py-3 text-sm font-black text-[#4F46E5]">View listing</Link> : null}
+            </div>
 
-            <div className="mt-1.5 border-t border-[#D8E1F0] pt-1.5">
+            <div className="space-y-5 px-6 py-7">
+              <div className="flex items-center gap-5 text-sm font-black text-[#64748B]">
+                <div className="h-px flex-1 bg-[#E2E8F0]" />
+                <span>Today</span>
+                <div className="h-px flex-1 bg-[#E2E8F0]" />
+              </div>
+
+              {messages.map((message) => {
+                const mine = String(message.userId) === me;
+                const seen = mine && message.id === lastMyMessageId && seenLastMyMessage;
+
+                return (
+                  <div key={message.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
+                    <div className={`max-w-[78%] ${mine ? "text-right" : "text-left"}`}>
+                      <div className={`rounded-2xl px-5 py-4 text-base font-semibold leading-6 ${mine ? "bg-[#EDEBFF] text-[#07152E]" : "bg-[#F1F5F9] text-[#07152E]"}`}>
+                        {message.body}
+                      </div>
+                      <div className="mt-2 text-sm font-semibold text-[#64748B]">
+                        {message.createdAt.toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit" })}{seen ? " - seen" : ""}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {messages.length === 0 ? (
+                <div className="rounded-[24px] bg-[#F8FAFC] p-8 text-center">
+                  <h3 className="text-2xl font-black">No messages yet</h3>
+                  <p className="mt-3 text-base font-semibold text-[#64748B]">Start the conversation below.</p>
+                </div>
+              ) : null}
+            </div>
+
+            <div className="border-t border-[#E2E8F0] p-5">
               <SendBox threadId={thread.id} />
             </div>
-            </div>
-          </div>
+          </section>
         </div>
       </main>
-    );
-  } catch (_e) {
-    return (
-      <main className="bd-container sm:py-10">
-        <div className="container max-w-7xl space-y-3 sm:space-y-4">
-          <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-[var(--bidra-ink)] sm:text-4xl">Messages</h1>
-          </div>
-
-          <SafetyNote />
-
-          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-6 shadow-sm">
-            <div className="text-base font-semibold text-[var(--bidra-ink)]">This conversation is temporarily unavailable</div>
-            <div className="mt-1 text-sm text-[var(--bidra-ink-2)]">
-              Please try again shortly.
-            </div>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <Link className="w-full bd-btn bd-btn-secondary rounded-2xl sm:w-auto" href="/messages">Back to inbox</Link>
-              <Link className="w-full bd-btn bd-btn-secondary rounded-2xl sm:w-auto" href="/support">Support</Link>
-            </div>
-          </div>
-        </div>
-      </main>
-    );
-  }
+    </>
+  );
 }
+
