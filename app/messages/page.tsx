@@ -76,6 +76,10 @@ export default async function MessagesInboxPage() {
       <ReferencePage>
         <div className={appNarrowShell + " space-y-4 py-5 sm:py-7"}>
           <AccountNav active="messages" />
+          <div className="grid gap-2 sm:grid-cols-2">
+            <div className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 sm:hidden"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Mobile inbox</div><div className="mt-1 text-xs font-semibold text-[#526173]">Reply quickly and keep handover details in-chat.</div></div>
+            <div className="hidden sm:block rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Desktop inbox workspace</div><div className="mt-1 text-xs font-semibold text-[#526173]">Scan multiple threads and jump into details quickly.</div></div>
+          </div>
           <InboxAutoRefresh />
 
           <div className="rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">

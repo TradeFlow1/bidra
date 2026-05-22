@@ -204,7 +204,9 @@ export default async function SellerPage({ params }: PageProps) {
     <ReferencePage>
       <div className={appNarrowShell + " space-y-5 py-5 sm:py-8"}>
         <BackButton href="/listings" label="Back to listings" />
-        <section className="rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
+        <section className="rounded-[22px] border border-[#D8E1F0] bg-white p-3 sm:hidden"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Mobile seller profile</div><div className="mt-1 text-sm font-semibold text-[#526173]">Quick stats, active listings, and trust signals.</div></section>
+
+        <section className="hidden sm:block rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
           <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
             <div className="min-w-0">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller profile</div>

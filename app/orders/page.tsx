@@ -50,6 +50,10 @@ export default async function OrdersPage() {
     <ReferencePage>
       <div className={appNarrowShell + " space-y-4 py-5 sm:py-7"}>
         <AccountNav active="buying" />
+        <div className="grid gap-2 sm:grid-cols-2">
+          <div className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 sm:hidden"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Mobile orders</div><div className="mt-1 text-xs font-semibold text-[#526173]">Open each order for next steps and messaging.</div></div>
+          <div className="hidden sm:block rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Desktop orders board</div><div className="mt-1 text-xs font-semibold text-[#526173]">Track buying and selling activity in one grid.</div></div>
+        </div>
         <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">

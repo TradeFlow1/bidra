@@ -155,6 +155,9 @@ export default async function HomePage() {
   return (
     <ReferencePage>
       <div className={appShell + " pt-4 sm:pt-6"}>
+        <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-3 sm:hidden"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Mobile marketplace</div><div className="mt-1 text-sm font-semibold text-[#475569]">Tap cards for details, offers, or Buy Now.</div></div>
+        <div className="hidden sm:block rounded-[24px] border border-[#D8E1F0] bg-white p-4"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Desktop marketplace</div><div className="mt-1 text-sm font-semibold text-[#475569]">Compare listings side-by-side and open listing detail in one click.</div></div>
+
         <HomeHero sellHref={userId ? "/sell/new" : "/auth/register"} featuredListings={listings.slice(0, 4).map((listing) => ({
           id: listing.id,
           title: listing.title,

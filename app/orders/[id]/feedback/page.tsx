@@ -49,6 +49,10 @@ export default async function FeedbackPage({
       <main className="bd-container">
         <div className="container">
           <section className="py-10">
+          <div className="mb-3 grid gap-2 sm:grid-cols-2">
+            <div className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 sm:hidden"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Mobile feedback</div></div>
+            <div className="hidden sm:block rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Desktop feedback workspace</div></div>
+          </div>
             <div className="bd-card">
               <h1 className="text-2xl font-extrabold tracking-tight">Leave feedback</h1>
               <p className="mt-2 text-black/70">This order could not be found, so feedback is not available from this page.</p>

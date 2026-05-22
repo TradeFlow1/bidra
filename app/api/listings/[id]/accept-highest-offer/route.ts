@@ -71,24 +71,6 @@ export async function POST(
         throw new Error("LISTING_NOT_ACTIVE");
       }
 
-      await tx.offerDecision.upsert({
-        where: { listingId_offerId: { listingId: listingId, offerId: offer.id } },
-        create: {
-          listingId: listingId,
-          offerId: offer.id,
-          amount: offer.amount,
-          sellerId: String(me.id),
-          buyerId: offer.buyerId,
-          decision: "ACCEPTED",
-        },
-        update: {
-          amount: offer.amount,
-          sellerId: String(me.id),
-          buyerId: offer.buyerId,
-          decision: "ACCEPTED",
-        },
-      });
-
       const order = await tx.order.create({
         data: {
           listingId: listingId,
@@ -98,6 +80,26 @@ export async function POST(
           outcome: "PENDING",
         },
         select: { id: true },
+      });
+
+      await tx.offerDecision.upsert({
+        where: { listingId_offerId: { listingId: listingId, offerId: offer.id } },
+        create: {
+          listingId: listingId,
+          offerId: offer.id,
+          amount: offer.amount,
+          sellerId: String(me.id),
+          buyerId: offer.buyerId,
+          decision: "ACCEPTED",
+          orderId: order.id,
+        },
+        update: {
+          amount: offer.amount,
+          sellerId: String(me.id),
+          buyerId: offer.buyerId,
+          decision: "ACCEPTED",
+          orderId: order.id,
+        },
       });
 
       return { ok: true, orderId: order.id, reusedExistingOrder: false };

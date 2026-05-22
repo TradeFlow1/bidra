@@ -107,6 +107,8 @@ export default async function MyListingsPage({ searchParams }: PageProps) {
     <main className="bd-container py-4 sm:py-8">
       <div className="container max-w-7xl">
         <div className="flex flex-col gap-3 sm:gap-4">
+          <div className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 sm:hidden"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Mobile seller console</div><div className="mt-1 text-xs font-semibold text-[#526173]">Edit, end, and clean up listings quickly.</div></div>
+          <div className="hidden sm:block rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Desktop seller console</div><div className="mt-1 text-xs font-semibold text-[#526173]">Review listing status, pricing and actions side-by-side.</div></div>
           <AccountNav active="selling" />
           <div className="rounded-[30px] border border-[#D8E1F0] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
             <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">

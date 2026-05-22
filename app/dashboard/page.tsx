@@ -219,6 +219,11 @@ export default async function DashboardPage({
 
         <AccountNav active="account" />
 
+        <div className="grid gap-2 sm:grid-cols-2">
+          <div className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 sm:hidden"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Mobile account hub</div><div className="mt-1 text-xs font-semibold text-[#526173]">Quick actions for orders, messages, and listings.</div></div>
+          <div className="hidden sm:block rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Desktop account workspace</div><div className="mt-1 text-xs font-semibold text-[#526173]">Manage trust signals, inventory, and transaction follow-ups.</div></div>
+        </div>
+
         <section id="account-status" className="scroll-mt-24 rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
             <div className="max-w-3xl">

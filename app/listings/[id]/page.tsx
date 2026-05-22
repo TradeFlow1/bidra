@@ -13,6 +13,7 @@ import ShareActions from "@/components/share-actions";
 import BuyNowButton from "./buy-now-button";
 import PlaceOfferClient from "./place-offer-client";
 import AcceptHighestOfferButton from "./accept-highest-offer-button";
+import DeclineHighestOfferButton from "./decline-highest-offer-button";
 import WatchlistButton from "./watchlist-button";
 import MessageSellerButton from "./message-seller-button";
 import ReportListingButton from "./report-listing-button";
@@ -620,8 +621,9 @@ export default async function ListingDetailPage({
               {isOwner && isTimedOffers && !isSold && topOffer ? (
                 <div className="mt-3 rounded-2xl border border-[#FDE68A] bg-[#FFFBEB] p-3.5">
                   <div className="mt-1 text-sm font-semibold text-[#92400E]">Accepting the highest offer creates a pending order record, marks the listing as sold, and opens order details for next steps.</div>
-                  <div className="mt-2">
+                  <div className="mt-2 space-y-2">
                     <AcceptHighestOfferButton listingId={listing.id} />
+                    <DeclineHighestOfferButton listingId={listing.id} />
                   </div>
                 </div>
               ) : null}
