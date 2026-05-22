@@ -46,7 +46,9 @@ export default async function CategoryLocationSeoPage({ params }: Props) {
       <div className={appShell + " py-5 sm:py-7"}>
         <BackButton href="/listings" label="Back to listings" />
         <section className="mt-4 rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
-          <h1 className="text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">{category.label} listings in {location.label}</h1>
+          <div className="sm:hidden text-[11px] font-black uppercase tracking-[0.2em] text-[#0B4DFF]">Mobile marketplace view</div>
+          <div className="hidden sm:block text-[11px] font-black uppercase tracking-[0.2em] text-[#0B4DFF]">Desktop marketplace view</div>
+          <h1 className="mt-1 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">{category.label} listings in {location.label}</h1>
           <p className="mt-2 text-sm text-[#475569]">Active {category.label} listings near {location.label}, with Buy Now and offer options, seller trust signals, and pickup, postage, or handover details kept in Messages.</p>
           <div className="mt-4 flex flex-wrap gap-2"><Link href={`/listings/c/${category.slug}`} className="bd-btn bd-btn-secondary text-center">View all {category.label}</Link><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Back to all listings</Link><Link href="/sell/new" className="bd-btn bd-btn-primary text-center">List in {location.label}</Link></div>
         </section>

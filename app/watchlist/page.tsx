@@ -86,6 +86,10 @@ export default async function WatchlistPage() {
     <ReferencePage>
       <div className={appNarrowShell + " space-y-4 py-5 sm:py-7"}>
         <AccountNav active="saved" />
+        <div className="grid gap-2 sm:grid-cols-2">
+          <div className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 sm:hidden"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Mobile watchlist</div><div className="mt-1 text-xs font-semibold text-[#526173]">Track saved items and open details fast.</div></div>
+          <div className="hidden sm:block rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Desktop watchlist</div><div className="mt-1 text-xs font-semibold text-[#526173]">Compare multiple listings before messaging or buying.</div></div>
+        </div>
         <div className="rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">

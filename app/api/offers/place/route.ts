@@ -153,12 +153,12 @@ export async function POST(req: Request) {
       }
     } catch (_emailErr) {}
 
-    return NextResponse.json({
-      ok: true,
-      status: "PLACED",
-      offerId: offer.id,
-      currentOfferCents: offer.amount,
-    });
+      return NextResponse.json({
+        ok: true,
+        status: "TOP",
+        offerId: offer.id,
+        currentOfferCents: offer.amount,
+      });
   } catch (e) {
     console.error("offers/place failed", e);
     return NextResponse.json({ ok: false, error: "We could not place your offer. Please try again." }, { status: 500 });

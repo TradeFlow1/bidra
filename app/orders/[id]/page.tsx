@@ -102,6 +102,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     <main className="bd-container py-6 sm:py-10">
         <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/orders" label="Back to orders" /></div>
         <div className="container max-w-7xl space-y-4">
+        <div className="grid gap-2 sm:grid-cols-2">
+          <div className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 sm:hidden"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Mobile order detail</div></div>
+          <div className="hidden sm:block rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Desktop order detail</div></div>
+        </div>
         <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">

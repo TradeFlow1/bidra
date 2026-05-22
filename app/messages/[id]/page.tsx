@@ -111,6 +111,10 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
     return (
       <main className="bd-container sm:py-10">
         <div className="container max-w-7xl space-y-3 sm:space-y-4">
+          <div className="grid gap-2 sm:grid-cols-2">
+            <div className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 sm:hidden"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Mobile thread</div></div>
+            <div className="hidden sm:block rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3"><div className="text-xs font-black uppercase tracking-[0.18em] text-[#0B4DFF]">Desktop thread view</div></div>
+          </div>
           <div className="rounded-3xl border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
               <div className="min-w-0 flex-1">
