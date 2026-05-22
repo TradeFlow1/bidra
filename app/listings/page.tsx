@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import DistanceSlider from "@/components/distance-slider";
@@ -136,16 +136,19 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
   }
 
   if (!canApplyRadius && (selectedLocation.trim() || selectedState.trim())) {
-    where.AND.push({
-      OR: [
-        selectedLocation.trim()
-          ? { location: { contains: selectedLocation.trim(), mode: "insensitive" } }
-          : {},
-        selectedState.trim()
-          ? { location: { contains: selectedState.trim(), mode: "insensitive" } }
-          : {},
-      ],
-    });
+    const fallbackLocationPredicates: Array<{ location: { contains: string; mode: "insensitive" } }> = [];
+
+    if (selectedLocation.trim()) {
+      fallbackLocationPredicates.push({ location: { contains: selectedLocation.trim(), mode: "insensitive" } });
+    }
+
+    if (selectedState.trim()) {
+      fallbackLocationPredicates.push({ location: { contains: selectedState.trim(), mode: "insensitive" } });
+    }
+
+    if (fallbackLocationPredicates.length) {
+      where.AND.push({ OR: fallbackLocationPredicates });
+    }
   }
 
   if (selectedCondition) {

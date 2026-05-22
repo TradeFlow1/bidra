@@ -1,7 +1,14 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { PublicContentPage } from "@/components/public-info-page";
 
-export default function VerifyPage() {
+export default function VerifyPage({ searchParams }: { searchParams?: { token?: string } }) {
+  const token = typeof searchParams?.token === "string" ? searchParams.token.trim() : "";
+
+  if (token) {
+    redirect("/api/auth/verify?token=" + encodeURIComponent(token));
+  }
+
   return (
     <PublicContentPage title="Verify your account" subtitle="Confirm your email to finish setting up Bidra.">
       <section className="max-w-2xl rounded-[24px] border border-[#E2E8F0] bg-white p-8 shadow-sm">

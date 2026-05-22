@@ -98,7 +98,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
         ) : (
           <div className="mt-8 grid gap-6 lg:grid-cols-[420px_minmax(0,1fr)]">
             <aside className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm">
-              {items.slice(0, 8).map((thread) => (
+              {items.map((thread) => (
                 <Link key={thread.id} href={`/messages?thread=${thread.id}`} className={`flex gap-4 border-b border-[#E2E8F0] p-6 last:border-b-0 hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F5F3FF]" : ""}`}>
                   <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-lg font-black text-[#4F46E5]">
                     {thread.thumb ? <Image src={thread.thumb} alt="" width={64} height={64} className="h-full w-full object-cover" unoptimized /> : initials(thread.otherLabel)}
@@ -115,7 +115,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
                 </Link>
               ))}
 
-              <div className="p-5">
+              <div className="hidden p-5">
                 <Link href="/messages" className="flex h-12 items-center justify-center rounded-2xl border border-[#C7D2FE] text-sm font-black text-[#4F46E5]">View all messages</Link>
               </div>
             </aside>
