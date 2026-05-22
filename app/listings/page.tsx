@@ -1,522 +1,394 @@
-export const revalidate = 10;
-
-import type { Metadata } from "next";
-import Link from "next/link";
+import Image from "next/image";
 import { getServerSession } from "next-auth";
-import { Prisma, ListingType } from "@prisma/client";
-import ListingCard from "@/components/listing-card";
-import MobileFiltersToggle from "@/components/mobile-filters-toggle";
+import Link from "next/link";
+import DistanceSlider from "@/components/distance-slider";
 import { authOptions } from "@/lib/auth";
-import { CATEGORY_GROUPS, joinCategory } from "@/lib/categories";
 import { prisma } from "@/lib/prisma";
-import { BackButton } from "@/components/ui/back-button";
-import { EmptyMarketplaceState, ReferencePage, appShell } from "@/components/marketplace-redesign";
+import { distanceKm, findAuLocation, parseListingLocation } from "@/lib/au-location";
 
-export const metadata: Metadata = {
-  title: "Browse active listings",
-  description: "Search active Bidra marketplace listings by keyword, category, suburb, city, postcode, sale type, and condition. Compare Buy Now and offer listings with seller trust signals.",
-  alternates: {
-    canonical: "/listings",
-  },
-  openGraph: {
-    title: "Browse active listings | Bidra",
-    description: "Find active Australian marketplace listings by category and location, with Buy Now, offers, and trusted seller filters.",
-    url: "/listings",
-    type: "website",
-  },
-  twitter: {
-    card: "summary",
-    title: "Browse active listings | Bidra",
-    description: "Search active Bidra marketplace listings by category, location, sale type, and condition.",
-  },
+const pageSize = 50;
+const maxPriceCents = 100000000;
+
+const categories = [
+  "All categories",
+  "Electronics",
+  "Home & Living",
+  "Vehicles",
+  "Sports & Outdoors",
+  "Fashion",
+  "Kids & Baby",
+  "Business & Industrial",
+  "Books & Media",
+  "Other",
+];
+
+type ListingsPageProps = {
+  searchParams?: {
+    category?: string;
+    min?: string;
+    max?: string;
+    location?: string;
+    state?: string;
+    radius?: string;
+    condition?: string;
+    sort?: string;
+  };
 };
 
-type ListingsSearchParams = {
-  q?: string;
-  category?: string;
-  location?: string;
-  type?: string;
-  condition?: string;
-  min?: string;
-  max?: string;
-  sort?: string;
-};
-
-function parseMoneyToCents(input: string | null | undefined) {
-  const s = (input ?? "").trim();
-  if (!s) return null;
-  const n = Number(s);
-  if (!Number.isFinite(n) || n < 0) return NaN;
-  return Math.round(n * 100);
+function slugify(value: string) {
+  return value.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
-function cleanStr(v: string | null | undefined) {
-  const s = (v ?? "").trim();
-  return s.length ? s : "";
+function normalizeCategory(value?: string) {
+  if (!value) return "All categories";
+  const found = categories.find((category) => slugify(category) === value || category === value);
+  return found || "All categories";
 }
 
-function normalizeCategoryValue(value: string) {
-  if (!value) return value;
-  if (value.indexOf(" > ") >= 0) return value;
-  if (value.indexOf("mojibake") >= 0) return value.split(" ")[0] || value;
-  return value;
+function parseDollars(value?: string) {
+  if (!value) return undefined;
+  const parsed = Number(value.replace(/[^0-9.]/g, ""));
+  if (!Number.isFinite(parsed) || parsed < 0) return undefined;
+  return Math.round(parsed * 100);
 }
 
-function buildHref(params: { q?: string; category?: string; location?: string; type?: string; condition?: string; min?: string; max?: string; sort?: string }) {
-  const sp = new URLSearchParams();
-  if (params.q) sp.set("q", params.q);
-  if (params.category) sp.set("category", params.category);
-  if (params.location) sp.set("location", params.location);
-  if (params.type) sp.set("type", params.type);
-  if (params.condition) sp.set("condition", params.condition);
-  if (params.min) sp.set("min", params.min);
-  if (params.max) sp.set("max", params.max);
-  if (params.sort) sp.set("sort", params.sort);
-  const qs = sp.toString();
-  return qs ? `/listings?${qs}` : "/listings";
+function formatPrice(cents: number | null | undefined) {
+  const value = typeof cents === "number" ? cents : 0;
+  return "$" + (value / 100).toLocaleString("en-AU", { maximumFractionDigits: 0 });
 }
 
-function sortLabel(sort: string) {
-  if (sort === "price_asc") return "Price low to high";
-  if (sort === "price_desc") return "Price high to low";
-  if (sort === "activity") return "Most activity";
-  return "Newest";
+function formatAge(date: Date) {
+  const diff = Date.now() - date.getTime();
+  const minute = 60 * 1000;
+  const hour = 60 * minute;
+  const day = 24 * hour;
+
+  if (diff < hour) return Math.max(1, Math.floor(diff / minute)) + "m ago";
+  if (diff < day) return Math.floor(diff / hour) + "h ago";
+  return Math.floor(diff / day) + "d ago";
 }
 
-function conditionLabel(value: string) {
-  if (value === "NEW") return "New";
-  if (value === "USED_LIKE_NEW") return "Used - Like New";
-  if (value === "USED_GOOD") return "Used - Good";
-  if (value === "USED_FAIR") return "Used - Fair";
-  return value;
+function getListingImage(images: string[] | null | undefined, photos: string[] | null | undefined) {
+  const all = [...(images || []), ...(photos || [])];
+  const first = all.find((item) => typeof item === "string" && item.trim().length > 0);
+  return first || null;
 }
 
-export default async function ListingsPage({
-  searchParams,
-}: {
-  searchParams?: ListingsSearchParams;
-}) {
-  const q = cleanStr(searchParams?.q).replace(/\s+/g, " ");
-  const category = normalizeCategoryValue(cleanStr(searchParams?.category));
-  const location = cleanStr(searchParams?.location);
-  const type = cleanStr(searchParams?.type);
-  const condition = cleanStr(searchParams?.condition);
-  const min = cleanStr(searchParams?.min);
-  const max = cleanStr(searchParams?.max);
-  const sort = cleanStr(searchParams?.sort);
+function categoryHref(category: string) {
+  if (category === "All categories") return "/listings";
+  return "/listings?category=" + slugify(category);
+}
 
-  const minCents = parseMoneyToCents(min);
-  const maxCents = parseMoneyToCents(max);
-  const moneyErr = Number.isNaN(Number(minCents)) || Number.isNaN(Number(maxCents));
-
-  const hasFilters = !!q || !!category || !!location || !!type || !!condition || !!min || !!max || !!sort;
-
-  const and: Prisma.ListingWhereInput[] = [
-    {
-      NOT: [
-        { title: { equals: "test", mode: "insensitive" } },
-        { title: { startsWith: "test", mode: "insensitive" } },
-        { title: { contains: "dfgh", mode: "insensitive" } },
-        { title: { contains: "asdf", mode: "insensitive" } },
-        { title: { contains: "qwer", mode: "insensitive" } },
-        { title: { contains: "no photos", mode: "insensitive" } },
-        { title: { contains: "no photo", mode: "insensitive" } },
-      ],
-    },
-    { status: "ACTIVE" },
-    { orders: { none: {} } },
-  ];
-
-  if (q) {
-    and.push({
-      OR: [
-        { title: { contains: q, mode: "insensitive" } },
-        { description: { contains: q, mode: "insensitive" } },
-        { category: { contains: q, mode: "insensitive" } },
-        { location: { contains: q, mode: "insensitive" } },
-      ],
-    });
-  }
-
-  if (category) {
-    const isParent = CATEGORY_GROUPS.some(function (g) { return g.parent === category; });
-    if (isParent) {
-      and.push({
-        OR: [
-          { category: category },
-          { category: { startsWith: category + " > " } },
-        ],
-      });
-    } else {
-      const childValue = category.indexOf(" > ") >= 0 ? String(category.split(" > ").pop() || "") : category;
-      and.push({
-        OR: [
-          { category: category },
-          { category: childValue },
-        ],
-      });
-    }
-  }
-
-  if (location) {
-    and.push({ location: { contains: location, mode: "insensitive" } });
-  }
-
-  if (type === "BUY_NOW" || type === "OFFERABLE") {
-    and.push({ type: type as ListingType });
-  }
-
-  if (condition) {
-    and.push({ condition });
-  }
-
-  if (!moneyErr) {
-    if (typeof minCents === "number") and.push({ price: { gte: minCents } });
-    if (typeof maxCents === "number") and.push({ price: { lte: maxCents } });
-  }
-
-  const orderBy: Prisma.ListingOrderByWithRelationInput[] =
-    sort === "price_asc"
-      ? [{ price: "asc" }, { createdAt: "desc" }, { id: "desc" }]
-      : sort === "price_desc"
-      ? [{ price: "desc" }, { createdAt: "desc" }, { id: "desc" }]
-      : sort === "activity"
-      ? [{ offers: { _count: "desc" } }, { createdAt: "desc" }, { id: "desc" }]
-      : [{ createdAt: "desc" }, { id: "desc" }];
-
-  const listings = await prisma.listing.findMany({
-    where: { AND: and },
-    orderBy,
-    take: 50,
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      category: true,
-      location: true,
-      type: true,
-      condition: true,
-      status: true,
-      price: true,
-      buyNowPrice: true,
-      createdAt: true,
-      images: true,
-      offers: {
-        orderBy: { amount: "desc" },
-        take: 1,
-        select: { amount: true },
-      },
-      seller: {
-        select: {
-          username: true,
-          name: true,
-          createdAt: true,
-          location: true,
-          emailVerified: true,
-          phone: true,
-        },
-      },
-      _count: {
-        select: { offers: true },
-      },
-    },
-  });
-
+export default async function ListingsPage({ searchParams = {} }: ListingsPageProps) {
   const session = await getServerSession(authOptions);
-  const userId = session?.user?.id ?? null;
+  const profile = session?.user?.id
+    ? await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: { location: true, state: true, suburb: true, postcode: true },
+      })
+    : null;
 
-  const watchedSet = new Set<string>();
-  if (userId && listings.length) {
-    const watchRows = await prisma.watchlist.findMany({
-      where: {
-        userId,
-        listingId: { in: listings.map((listing) => { return String(listing.id); }) },
-      },
-      select: { listingId: true },
-    });
-    for (let i = 0; i < watchRows.length; i += 1) {
-      watchedSet.add(String(watchRows[i].listingId));
+  const profileLocationParts = [profile?.postcode, profile?.suburb].filter(Boolean);
+  const profileLocation = profileLocationParts.length ? profileLocationParts.join(" ") : (profile?.location || "");
+  const profileState = profile?.state || "";
+
+  const selectedCategory = normalizeCategory(searchParams.category);
+  const minPrice = parseDollars(searchParams.min);
+  const maxPrice = parseDollars(searchParams.max);
+  const selectedCondition = searchParams.condition || "";
+  const selectedSort = searchParams.sort || "newest";
+  const selectedLocation = searchParams.location || profileLocation || "";
+  const selectedState = searchParams.state || profileState || "";
+  const selectedRadius = (searchParams.radius || "25").replace(/[^0-9.]/g, "");
+  const selectedRadiusKm = Number(selectedRadius);
+  const searchLocation = findAuLocation(selectedLocation, selectedState);
+  const radiusIsActive = Number.isFinite(selectedRadiusKm) && selectedRadiusKm > 0;
+  const canApplyRadius = radiusIsActive && Boolean(searchLocation);
+
+  const where: any = {
+    status: "ACTIVE",
+    orders: { none: {} },
+    price: { lte: maxPriceCents },
+    AND: [
+      { OR: [{ buyNowPrice: null }, { buyNowPrice: { lte: maxPriceCents } }] },
+      { OR: [{ images: { isEmpty: false } }, { photos: { isEmpty: false } }] },
+    ],
+    NOT: [
+      { title: { equals: "test", mode: "insensitive" } },
+      { title: { startsWith: "test", mode: "insensitive" } },
+      { title: { contains: "dfgh", mode: "insensitive" } },
+      { title: { contains: "asdf", mode: "insensitive" } },
+      { title: { contains: "qwer", mode: "insensitive" } },
+      { title: { contains: "no photos", mode: "insensitive" } },
+      { title: { contains: "no photo", mode: "insensitive" } },
+    ],
+  };
+
+  if (selectedCategory !== "All categories") {
+    where.category = { equals: selectedCategory, mode: "insensitive" };
+  }
+
+  if (typeof minPrice === "number" || typeof maxPrice === "number") {
+    where.price = {
+      gte: typeof minPrice === "number" ? minPrice : undefined,
+      lte: typeof maxPrice === "number" ? maxPrice : maxPriceCents,
+    };
+  }
+
+  if (!canApplyRadius && (selectedLocation.trim() || selectedState.trim())) {
+    const fallbackLocationPredicates: Array<{ location: { contains: string; mode: "insensitive" } }> = [];
+
+    if (selectedLocation.trim()) {
+      fallbackLocationPredicates.push({ location: { contains: selectedLocation.trim(), mode: "insensitive" } });
+    }
+
+    if (selectedState.trim()) {
+      fallbackLocationPredicates.push({ location: { contains: selectedState.trim(), mode: "insensitive" } });
+    }
+
+    if (fallbackLocationPredicates.length) {
+      where.AND.push({ OR: fallbackLocationPredicates });
     }
   }
 
-  const activeFilters: Array<{ label: string; href: string }> = [];
-  if (q) activeFilters.push({ label: `Keyword: ${q}`, href: buildHref({ category, location, type, condition, min, max, sort }) });
-  if (category) activeFilters.push({ label: `Category: ${category}`, href: buildHref({ q, location, type, condition, min, max, sort }) });
-  if (location) activeFilters.push({ label: `Location: ${location}`, href: buildHref({ q, category, type, condition, min, max, sort }) });
-  if (type) {
-    activeFilters.push({
-      label: type === "BUY_NOW" ? "Sale type: Buy Now" : "Sale type: Offers",
-      href: buildHref({ q, category, location, condition, min, max, sort }),
-    });
+  if (selectedCondition) {
+    where.condition = { equals: selectedCondition, mode: "insensitive" };
   }
-  if (condition) activeFilters.push({ label: `Condition: ${conditionLabel(condition)}`, href: buildHref({ q, category, location, type, min, max, sort }) });
-  if (min) activeFilters.push({ label: `Min: $${min}`, href: buildHref({ q, category, location, type, condition, max, sort }) });
-  if (max) activeFilters.push({ label: `Max: $${max}`, href: buildHref({ q, category, location, type, condition, min, sort }) });
-  if (sort) activeFilters.push({ label: `Sort: ${sortLabel(sort)}`, href: buildHref({ q, category, location, type, condition, min, max }) });
 
-  const filterSummary = [
-    q ? `keyword ${q}` : "",
-    category ? `category ${category}` : "",
-    location ? `location ${location}` : "",
-    type === "BUY_NOW" ? "Buy Now" : type === "OFFERABLE" ? "Offers" : "",
-    condition ? `condition ${conditionLabel(condition)}` : "",
-    min ? `min $${min}` : "",
-    max ? `max $${max}` : "",
-    sort ? `sorted by ${sortLabel(sort)}` : "",
-  ].filter(Boolean).join(" | ");
+  const orderBy = selectedSort === "price-low"
+    ? { price: "asc" as const }
+    : selectedSort === "price-high"
+      ? { price: "desc" as const }
+      : { createdAt: "desc" as const };
 
-  const categoryShortcuts = CATEGORY_GROUPS.slice(0, 6).map(function (group) {
-    return group.parent;
-  });
+  const [listings, listingCount] = await Promise.all([
+    prisma.listing.findMany({
+      where,
+      orderBy,
+      take: canApplyRadius ? 500 : pageSize + 1,
+      select: {
+        id: true,
+        title: true,
+        location: true,
+        images: true,
+        photos: true,
+        price: true,
+        buyNowPrice: true,
+        category: true,
+        createdAt: true,
+      },
+    }),
+    canApplyRadius ? Promise.resolve(0) : prisma.listing.count({ where }),
+  ]);
 
-  const FiltersForm = () => (
-    <form action="/listings" method="get" className="space-y-4">
-      <input
-        name="q"
-        type="search"
-        enterKeyHint="search"
-        autoComplete="off"
-        aria-label="Search listings by title, category, suburb, or postcode"
-        defaultValue={q}
-        placeholder="Search title, category, suburb, or postcode"
-        className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100"
-      />
+  const radiusFilteredListings = canApplyRadius
+    ? listings.filter((listing) => {
+        const listingGeo = parseListingLocation(listing.location);
+        if (!listingGeo) return false;
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
-        <select name="category" defaultValue={category} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100" aria-label="Filter by category">
-          <option value="">All categories</option>
-          {CATEGORY_GROUPS.map(function (g) {
-            return (
-              <optgroup key={g.parent} label={g.parent}>
-                <option value={g.parent}>{g.parent}</option>
-                {g.children.map(function (c) {
-                  return (
-                    <option key={g.parent + ":" + c} value={joinCategory(g.parent, c)}>
-                      {c}
-                    </option>
-                  );
-                })}
-              </optgroup>
-            );
-          })}
-        </select>
+        const straightLineKm = distanceKm(searchLocation!, listingGeo);
+        const safeRadiusKm = Math.max(0, selectedRadiusKm - 5);
 
-        <input name="location" defaultValue={location} placeholder="Suburb, city, state, or postcode" className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100" aria-label="Filter by location" />
+        return straightLineKm <= safeRadiusKm;
+      })
+    : radiusIsActive
+      ? []
+      : listings;
 
-        <select name="type" defaultValue={type} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100" aria-label="Filter by sale type">
-          <option value="">Sale type: All</option>
-          <option value="BUY_NOW">Sale type: Buy Now</option>
-          <option value="OFFERABLE">Sale type: Offers</option>
-        </select>
-
-        <select name="condition" defaultValue={condition} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100" aria-label="Filter by condition">
-          <option value="">Any condition</option>
-          <option value="NEW">New</option>
-          <option value="USED_LIKE_NEW">Used - Like New</option>
-          <option value="USED_GOOD">Used - Good</option>
-          <option value="USED_FAIR">Used - Fair</option>
-        </select>
-
-        <div className="grid grid-cols-2 gap-3">
-          <input
-            name="min"
-            defaultValue={min}
-            placeholder="Min price"
-            className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100"
-            inputMode="decimal"
-            aria-label="Minimum price"
-          />
-          <input
-            name="max"
-            defaultValue={max}
-            placeholder="Max price"
-            className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100"
-            inputMode="decimal"
-            aria-label="Maximum price"
-          />
-        </div>
-
-        <select name="sort" defaultValue={sort} className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-4 pr-10 text-sm font-semibold text-[#0F172A] shadow-sm outline-none transition focus:border-[#93C5FD] focus:ring-4 focus:ring-blue-100" aria-label="Sort listings">
-          <option value="">Sort: Newest</option>
-          <option value="price_asc">Sort: Price low to high</option>
-          <option value="price_desc">Sort: Price high to low</option>
-          <option value="activity">Sort: Most activity</option>
-        </select>
-      </div>
-
-      {moneyErr ? (
-        <div role="alert" className="rounded-2xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">
-          Use whole numbers for price filters, for example 50 or 250.
-        </div>
-      ) : null}
-
-      <button type="submit" className="bd-btn bd-btn-primary w-full rounded-2xl">Apply filters</button>
-    </form>
-  );
+  const visibleListings = radiusFilteredListings.slice(0, pageSize);
+  const displayCount = radiusFilteredListings.length;
+  const showPagination = canApplyRadius ? displayCount > pageSize : listingCount > pageSize;
 
   return (
-    <ReferencePage>
-      <div className={appShell + " py-5 sm:py-7"}>
-        <BackButton href="/" label="Back to home" />
-        <section className="mt-4 overflow-hidden rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#607089]">Search / listings</div>
-              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Find your next local deal.</h1>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#526173]">Search local items, filter by category and location, then buy now or make an offer.</p>
-            </div>
-            <Link href={buildHref({ q, category, location, condition, min, max, sort })} className="bd-btn bd-btn-secondary rounded-2xl">Save search</Link>
-          </div>
-        </section>
+    <>
+      <main className="hidden bg-white text-[#0F172A] md:block">
+        <div className="mx-auto grid w-full max-w-[1440px] grid-cols-[300px_minmax(0,1fr)] border-x border-[#E2E8F0]">
+          <aside className="border-r border-[#E2E8F0] px-10 py-12">
+            <h1 className="text-2xl font-black tracking-tight">Categories</h1>
+            <nav className="mt-6 space-y-2">
+              {categories.map((category) => {
+                const active = category === selectedCategory;
+                return (
+                  <Link
+                    key={category}
+                    href={categoryHref(category)}
+                    className={
+                      active
+                        ? "block rounded-xl bg-[#EEF2FF] px-4 py-3 text-base font-black text-[#4F46E5]"
+                        : "block rounded-xl px-4 py-3 text-base font-semibold text-[#475569] hover:bg-[#F5F3FF] hover:text-[#4F46E5]"
+                    }
+                  >
+                    {category}
+                  </Link>
+                );
+              })}
+            </nav>
 
-        <form action="/listings" className="mt-4 grid gap-2 rounded-[24px] border border-[#D7E2F1] bg-white p-3 shadow-sm xl:hidden">
-          <label className="sr-only" htmlFor="mobile-listing-search">Search listings</label>
-          <div className="flex gap-2">
-            <input id="mobile-listing-search" name="q" defaultValue={q} placeholder="Search items, brands or keywords" className="min-w-0 flex-1 rounded-2xl border border-[#D8E1F0] bg-[#F8FAFF] px-4 text-sm font-semibold text-[#0F172A] outline-none focus:border-[#0B4DFF] focus:bg-white focus:ring-4 focus:ring-blue-100" />
-            <button type="submit" className="bd-btn bd-btn-primary rounded-2xl px-4">Search</button>
-          </div>
-          <input type="hidden" name="category" defaultValue={category} />
-          <input type="hidden" name="location" defaultValue={location} />
-          <input type="hidden" name="type" defaultValue={type} />
-          <input type="hidden" name="condition" defaultValue={condition} />
-          <input type="hidden" name="min" defaultValue={min} />
-          <input type="hidden" name="max" defaultValue={max} />
-          <input type="hidden" name="sort" defaultValue={sort} />
-          <div className="flex items-center justify-between gap-2 text-xs font-semibold text-[#607089]">
-            <span>{listings.length} active results</span>
-            <span>Use filters to refine nearby deals</span>
-          </div>
-        </form>
-
-        <section className="mt-5 grid min-w-0 grid-cols-1 gap-3 xl:grid-cols-[19rem_minmax(0,1fr)]">
-          <aside className="min-w-0 xl:sticky xl:top-24 xl:self-start">
-            <div className="overflow-hidden bd-card">
-              <div className="p-4 sm:p-5">
-                <MobileFiltersToggle>
-                  <FiltersForm />
-                </MobileFiltersToggle>
-                <div className="hidden xl:block">
-                  <div className="mb-4 border-b border-[#E2E8F0] pb-4">
-                    <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Search and filter</div>
-                    <div className="mt-2 text-sm text-[#475569]">Search by keyword, category, location, sale type, condition, and sort.</div>
+            <form action="/listings" className="mt-12 border-t border-[#E2E8F0] pt-8">
+              <input type="hidden" name="category" value={selectedCategory === "All categories" ? "" : slugify(selectedCategory)} />
+              <h2 className="text-2xl font-black tracking-tight">Filters</h2>
+              <div className="mt-6 space-y-6">
+                <div>
+                  <div className="mb-3 text-sm font-black">Price</div>
+                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+                    <input name="min" defaultValue={searchParams.min || ""} className="h-12 min-w-0 rounded-xl border border-[#E2E8F0] px-4 text-sm font-semibold" placeholder="Min $" inputMode="numeric" />
+                    <span className="text-[#94A3B8]">-</span>
+                    <input name="max" defaultValue={searchParams.max || ""} className="h-12 min-w-0 rounded-xl border border-[#E2E8F0] px-4 text-sm font-semibold" placeholder="Max $" inputMode="numeric" />
                   </div>
-                  <FiltersForm />
+                  <button type="submit" className="mt-3 h-11 w-full rounded-xl bg-[#EEF2FF] text-sm font-black text-[#4F46E5] hover:bg-[#E0E7FF]">Apply</button>
                 </div>
-              </div>
-              {hasFilters ? (
-                <div className="border-t border-[#E2E8F0] px-5 py-4">
-                  <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center text-sm font-semibold text-[#1D4ED8] underline underline-offset-2">
+
+                <div>
+                  <span className="text-sm font-black">Location</span>
+                  <div className="mt-3 space-y-3">
+                    <select
+                      name="state"
+                      defaultValue={selectedState}
+                      className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569]"
+                    >
+                      <option value="">All Australia</option>
+                      <option value="QLD">Queensland</option>
+                      <option value="NSW">New South Wales</option>
+                      <option value="VIC">Victoria</option>
+                      <option value="SA">South Australia</option>
+                      <option value="WA">Western Australia</option>
+                      <option value="TAS">Tasmania</option>
+                      <option value="ACT">ACT</option>
+                      <option value="NT">Northern Territory</option>
+                    </select>
+
+                    <input
+                      name="location"
+                      defaultValue={selectedLocation}
+                      className="h-12 w-full rounded-xl border border-[#E2E8F0] px-4 text-sm font-semibold"
+                      placeholder="Suburb or postcode"
+                      autoComplete="postal-code"
+                    />
+
+                    <DistanceSlider defaultValue={selectedRadius} />
+                  </div>
+                </div>
+
+                <label className="block">
+                  <span className="text-sm font-black">Condition</span>
+                  <select name="condition" defaultValue={selectedCondition} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569]">
+                    <option value="">Any condition</option>
+                    <option value="NEW">New</option>
+                    <option value="LIKE_NEW">Like new</option>
+                    <option value="GOOD">Good</option>
+                    <option value="FAIR">Fair</option>
+                    <option value="USED">Used</option>
+                  </select>
+                </label>
+
+                <label className="block">
+                  <span className="text-sm font-black">Sort by</span>
+                  <select name="sort" defaultValue={selectedSort} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569]">
+                    <option value="newest">Newest first</option>
+                    <option value="price-low">Price low to high</option>
+                    <option value="price-high">Price high to low</option>
+                  </select>
+                </label>
+
+                                <div className="space-y-3 border-t border-[#E2E8F0] pt-5">
+                  <button
+                    type="submit"
+                    className="h-12 w-full rounded-2xl bg-[#4F46E5] text-sm font-black text-white shadow-[0_12px_26px_rgba(79,70,229,0.18)] hover:bg-[#4338CA]"
+                  >
+                    Apply filters
+                  </button>
+                  <Link href="/listings" className="block text-center text-sm font-black text-[#4F46E5] hover:text-[#4338CA]">
                     Clear filters
                   </Link>
                 </div>
-              ) : null}
-            </div>
+              </div>
+            </form>
           </aside>
 
-          <div className="space-y-3">
-            <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4" role="status" aria-live="polite">
-              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Browse by category</h2>
-              <p className="mt-1 text-xs text-[#64748B]"></p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#0F172A]">All active listings</Link>
-                <Link href={buildHref({ q, category, location, condition, min, max, sort, type: "BUY_NOW" })} className="bd-mobile-tap-target inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-800">Buy Now deals</Link>
-                <Link href={buildHref({ q, category, location, condition, min, max, sort, type: "OFFERABLE" })} className="bd-mobile-tap-target inline-flex items-center rounded-full border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-800">Offer listings</Link>
-                {categoryShortcuts.map(function (label) {
+          <section className="px-10 py-12">
+            <div className="mb-7 flex items-start justify-between gap-6">
+              <div>
+                <h2 className="text-4xl font-black tracking-tight">All listings</h2>
+                <p className="mt-2 text-base font-semibold text-[#64748B]">{displayCount} results</p>
+                {radiusIsActive ? (
+                  <p className="mt-1 text-sm font-semibold text-[#4F46E5]">
+                    {canApplyRadius
+                      ? `Showing listings within ${selectedRadiusKm} km of ${searchLocation?.suburb}, ${searchLocation?.state}`
+                      : "Add a suburb/postcode in your profile or enter one here to use distance filtering."}
+                  </p>
+                ) : null}
+
+
+              </div>
+              <button className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-5 text-sm font-black text-[#4F46E5] shadow-sm hover:bg-[#F5F3FF]">
+                Save search
+              </button>
+            </div>
+
+            {visibleListings.length ? (
+              <div className="grid gap-7 sm:grid-cols-2 xl:grid-cols-4">
+                {visibleListings.map((listing) => {
+                  const image = getListingImage(listing.images, listing.photos);
+                  const price = listing.buyNowPrice ?? listing.price;
+
                   return (
                     <Link
-                      key={label}
-                      href={buildHref({ q, location, type, condition, min, max, sort, category: label })}
-                      className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#0F172A]"
+                      key={listing.id}
+                      href={"/listings/" + listing.id}
+                      className="group overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(79,70,229,0.14)]"
                     >
-                      {label}
+                      <div className="relative aspect-[4/3] overflow-hidden bg-[#F8FAFC]">
+                        {image ? (
+                          <Image
+                            src={image}
+                            alt={listing.title}
+                            fill
+                            sizes="(min-width: 1280px) 220px, (min-width: 768px) 33vw, 100vw"
+                            className="object-cover transition duration-300 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-5xl text-[#4F46E5]">▯</div>
+                        )}
+                        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#4F46E5] shadow-sm">♡</span>
+                      </div>
+                      <div className="p-4">
+                        <h3 className="line-clamp-2 text-base font-black">{listing.title}</h3>
+                        <p className="mt-3 text-lg font-black">{formatPrice(price)}</p>
+                        <div className="mt-5 flex items-center justify-between gap-3 text-xs font-semibold text-[#64748B]">
+                          <span className="truncate">{listing.location}</span>
+                          <span>{formatAge(listing.createdAt)}</span>
+                        </div>
+                      </div>
                     </Link>
                   );
                 })}
               </div>
-            </div>
-
-            <div className="rounded-[28px] border border-[#D8E1F0] bg-white px-4 py-3 shadow-sm sm:px-5 sm:py-4" role="status" aria-live="polite">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[#64748B]">Results</div>
-                  <div className="mt-1 text-sm font-semibold text-[#0F172A]">{listings.length} results</div>
-                  {hasFilters ? <p className="mt-1 text-xs text-[#64748B]">{filterSummary}</p> : null}
-                </div>
-                {hasFilters ? (
-                  <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center text-xs font-semibold text-[#1D4ED8] underline underline-offset-2">
-                    Clear filters
-                  </Link>
-                ) : null}
+            ) : (
+              <div className="rounded-3xl border border-dashed border-[#C7D2FE] bg-[#F8FAFC] px-8 py-14 text-center">
+                <h3 className="text-xl font-black text-[#0F172A]">No active listings found</h3>
+                <p className="mt-2 text-sm font-semibold text-[#64748B]">Clear filters or create a real listing.</p>
+                <Link href="/sell/new" className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black text-white">
+                  Sell an item
+                </Link>
               </div>
+            )}
 
-              {activeFilters.length > 0 ? (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {activeFilters.map(function (item) {
-                    return (
-                      <Link
-                        key={item.label + ":" + item.href}
-                        href={item.href}
-                        className="bd-mobile-tap-target inline-flex items-center rounded-full border border-[#D8E1F0] bg-white px-3 py-2 text-xs font-medium text-[#334155] shadow-sm"
-                      >
-                        <span>{item.label}</span>
-                        <span className="ml-2 text-[#94A3B8]" aria-hidden="true">x</span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              ) : null}
-            </div>
+            {showPagination ? (
+              <div className="mt-12 text-center text-sm font-semibold text-[#64748B]">
+                More than {pageSize} listings found. Page controls can be enabled when we add server-side page query support.
+              </div>
+            ) : null}
+          </section>
+        </div>
+      </main>
 
-            <div className="browseList grid w-full min-w-0 grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4">
-              {listings.length === 0 ? (
-                <EmptyMarketplaceState title={hasFilters ? "No active matches yet" : "No listings here yet"} body={hasFilters ? "No listings match your filters. Clear filters or adjust your search." : "Create a listing with clear photos, price, condition, and pickup or postage details."} href={userId ? "/sell/new" : "/auth/register"} cta="Create a listing" />
-              ) : (
-                listings.map((listing) => {
-                  const currentOffer = listing.offers && listing.offers.length ? listing.offers[0].amount : null;
-                  const displayPrice = listing.type === "OFFERABLE"
-                    ? ((currentOffer ?? listing.price) as number)
-                    : ((listing.buyNowPrice ?? listing.price) as number);
-
-                  return (
-                    <ListingCard
-                      key={listing.id}
-                      listing={{
-                        id: listing.id,
-                        title: listing.title,
-                        description: listing.description,
-                        price: displayPrice,
-                        buyNowPrice: listing.buyNowPrice,
-                        type: listing.type,
-                        category: listing.category,
-                        condition: listing.condition,
-                        location: listing.location,
-                        images: (listing as unknown as { images?: unknown[] | null }).images ?? null,
-                        status: (listing as unknown as { status?: string | null }).status ?? "ACTIVE",
-                        endsAt: (listing as unknown as { endsAt?: string | Date | null }).endsAt ?? null,
-                        offerCount: (listing as unknown as { _count?: { offers?: number } })._count?.offers ?? 0,
-                        currentOffer,
-                        createdAt: listing.createdAt,
-                        seller: {
-                          name: listing.seller?.name || listing.seller?.username || null,
-                          memberSince: listing.seller?.createdAt ?? null,
-                          location: listing.seller?.location ?? null,
-                          emailVerified: listing.seller?.emailVerified ?? false,
-                          phone: listing.seller?.phone ?? null,
-                        },
-                      }}
-                      initiallyWatched={watchedSet.has(listing.id)}
-                      viewerAuthed={!!userId}
-                      showWatchButton={true}
-                    />
-                  );
-                })
-              )}
-            </div>
-          </div>
-        </section>
-      </div>
-    </ReferencePage>
+      <main className="min-h-screen bg-white text-[#0F172A] md:hidden">
+        <div className="px-4 py-6">
+          <h1 className="text-2xl font-black">Categories</h1>
+          <p className="mt-2 text-sm font-semibold text-[#64748B]">Mobile layout paused while desktop is fixed.</p>
+        </div>
+      </main>
+    </>
   );
 }
-
 

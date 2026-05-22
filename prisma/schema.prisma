@@ -87,6 +87,11 @@ model Listing {
   buyNowPrice     Int?
   images          String[]
   location        String
+  locationState   String?
+  locationSuburb  String?
+  locationPostcode String?
+  latitude        Float?
+  longitude       Float?
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   sellerId        String

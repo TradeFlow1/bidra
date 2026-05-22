@@ -34,7 +34,22 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   const order = await prisma.order.findUnique({
     where: { id: orderId },
-    include: { listing: true }
+    include: {
+      listing: {
+        select: {
+          id: true,
+          title: true,
+          price: true,
+          buyNowPrice: true,
+          location: true,
+          sellerId: true,
+          images: true,
+          photos: true,
+          status: true,
+          createdAt: true,
+        },
+      },
+    }
   });
 
   if (!order) {

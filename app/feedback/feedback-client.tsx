@@ -1,6 +1,7 @@
 "use client";
 
 import StatusMessage from "@/components/status-message";
+import { BidraButton } from "@/components/bidra/ui/BidraButton";
 import { useEffect, useMemo, useState } from "react";
 
 type SessionUser = { id?: string; role?: string } | null;
@@ -75,7 +76,7 @@ export default function FeedbackClient() {
       setMessage("");
       setEmail("");
       setStatusTone("success");
-      setStatus("Thanks — we received your feedback.");
+      setStatus("Thanks â€” we received your feedback.");
     } catch {
       setStatusTone("error");
       setStatus("We could not send your feedback. Please try again shortly.");
@@ -147,9 +148,9 @@ export default function FeedbackClient() {
             </div>
 
             <div className="grid gap-2 sm:flex sm:flex-wrap">
-              <button type="button" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto" onClick={submit}>
+              <BidraButton type="button" variant="secondary" fullWidth className="sm:w-auto" onClick={submit}>
                 Send feedback
-              </button>
+              </BidraButton>
             </div>
 
             {status ? <StatusMessage tone={statusTone}>{status}</StatusMessage> : null}

@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import BrandLogo from "./brand-logo";
 
 const footerGroups = [
@@ -38,7 +38,7 @@ export default function SiteFooter() {
         <div className="grid gap-8 lg:grid-cols-[1.25fr_2fr_1fr] lg:items-start">
           <div>
             <Link href="/" className="flex h-10 w-36 items-center" aria-label="Bidra home">
-              <BrandLogo className="h-9 w-auto" />
+              <BrandLogo className="h-full w-auto max-w-full" />
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-6 text-[#526173]">
               Australia&apos;s local marketplace. Buy now. Make offers. Arrange handover.
@@ -56,7 +56,7 @@ export default function SiteFooter() {
                 <div className="text-sm font-extrabold text-[#0F172A]">{group.title}</div>
                 <div className="mt-3 grid gap-2.5">
                   {group.links.map((link) => (
-                    <Link key={link.href} href={link.href} className="text-sm font-semibold text-[#526173] transition hover:text-[#0E7490]">
+                    <Link key={link.href} href={link.href} className="text-sm font-semibold text-[#526173] transition hover:text-[#4F46E5]">
                       {link.label}
                     </Link>
                   ))}
@@ -74,10 +74,4 @@ export default function SiteFooter() {
     </footer>
   );
 }
-
-
-
-
-
-
 

@@ -119,3 +119,4 @@ tools/v2-scan-contradictions-report.txt
 tools/_patch-archive/
 tools/*.log
 tools/*scan*.txt
+public/uploads/
