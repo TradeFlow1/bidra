@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -125,7 +125,7 @@ export default function ListingCard({
       aria-label={"View listing " + title}
     >
       <div className="overflow-hidden bg-white">
-        <div className="relative aspect-[1/0.92] overflow-hidden bg-[#EEF3FA]">
+        <div className="relative aspect-[1/0.92] overflow-hidden bg-[#EEF3FA]" style={{ position: "relative", aspectRatio: "1 / 0.92", width: "100%", maxWidth: "100%", overflow: "hidden", background: "#EEF3FA" }}>
           {isNoPhotos ? (
             <ProductPlaceholder kind={cleanText(listing.category).toLowerCase().includes("bike") ? "bicycle" : cleanText(listing.category).toLowerCase().includes("electronics") ? "laptop" : "generic"} title={title || "Bidra listing"} />
           ) : (

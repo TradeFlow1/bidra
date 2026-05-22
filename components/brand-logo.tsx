@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 
 type BrandLogoProps = {
   className?: string;
@@ -21,12 +21,12 @@ export default function BrandLogo({ className, priority = false, variant = "full
   }
 
   return (
-    <span className={className || "relative block h-[78px] w-[390px] overflow-visible"}>
+    <span className={className || "relative block h-10 w-36 overflow-hidden"} style={{ position: "relative", display: "block", height: "40px", width: "144px", overflow: "hidden" }}>
       <Image
         src="/bidra-logo.png?v=4"
         alt="Bidra"
         fill
-        sizes="390px"
+        sizes="144px"
         priority={priority}
         className="object-contain object-left"
       />
