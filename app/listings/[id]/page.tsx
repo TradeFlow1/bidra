@@ -89,6 +89,8 @@ export default async function ListingDetailPage({
           username: true,
           location: true,
           createdAt: true,
+          emailVerified: true,
+          phoneVerified: true,
         },
       },
     },
@@ -103,6 +105,13 @@ export default async function ListingDetailPage({
   const category = cleanText(listing.category) || "Listing";
   const sellerName = cleanText(listing.seller?.name || listing.seller?.username) || "Bidra seller";
   const sellerLocation = cleanText(listing.seller?.location) || "Australia";
+  const sellerJoined = listing.seller?.createdAt instanceof Date
+    ? listing.seller.createdAt.toLocaleDateString("en-AU", { month: "short", year: "numeric" })
+    : "Recently";
+  const sellerBadges = [
+    listing.seller?.emailVerified ? "Email verified" : "",
+    listing.seller?.phoneVerified ? "Phone verified" : "",
+  ].filter(Boolean);
   const displayPrice = typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price;
   const isSold = listing.status !== "ACTIVE";
   const images = safeListingImages(listing.images);
@@ -153,6 +162,14 @@ export default async function ListingDetailPage({
                 <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
                 <div className="mt-2 text-xl font-black">{sellerName}</div>
                 <div className="mt-1 text-sm font-semibold text-[#64748B]">{sellerLocation}</div>
+                <div className="mt-3 rounded-2xl border border-[#E2E8F0] bg-white px-4 py-3 text-sm font-bold text-[#334155]">Member since {sellerJoined}</div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {sellerBadges.length ? sellerBadges.map((badge) => (
+                    <span key={badge} className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800">{badge}</span>
+                  )) : (
+                    <span className="rounded-full border border-[#E2E8F0] bg-white px-3 py-1 text-xs font-extrabold text-[#64748B]">Verification pending</span>
+                  )}
+                </div>
                 <Link href={"/seller/" + listing.sellerId} className="mt-4 inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">View seller profile</Link>
               </div>
 
