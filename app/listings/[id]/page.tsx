@@ -177,7 +177,6 @@ export default async function ListingDetailPage({
       },
       offers: {
         orderBy: { amount: "desc" },
-        include: { buyer: true },
       },
     },
   });
