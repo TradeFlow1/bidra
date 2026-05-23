@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import MessageSellerButton from "./message-seller-button";
 import WatchlistButton from "./watchlist-button";
 
 function cleanText(value: unknown) {
@@ -200,7 +201,7 @@ export default async function ListingDetailPage({
 
               <div className="mt-4 grid gap-3">
                 <Link href={"/auth/login?next=/listings/" + listing.id} className="inline-flex w-full items-center justify-center rounded-2xl bg-[#4F46E5] px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-[#4338CA]">Sign in to continue</Link>
-                <Link href={"/auth/login?next=/listings/" + listing.id} className="inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">Sign in to message seller</Link>
+                <MessageSellerButton listingId={listing.id} />
                 <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} />
               </div>
               <div className="mt-4 rounded-2xl border border-[#E2E8F0] bg-white px-4 py-3 text-xs font-bold leading-5 text-[#64748B]">
