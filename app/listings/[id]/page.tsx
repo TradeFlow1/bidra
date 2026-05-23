@@ -98,6 +98,25 @@ export default async function ListingDetailPage({
 
   if (!listing) notFound();
 
+  const relatedListings = await prisma.listing.findMany({
+    where: {
+      id: { not: listing.id },
+      status: "ACTIVE",
+      category: listing.category || undefined,
+    },
+    select: {
+      id: true,
+      title: true,
+      price: true,
+      buyNowPrice: true,
+      location: true,
+      condition: true,
+      images: true,
+    },
+    orderBy: { createdAt: "desc" },
+    take: 3,
+  });
+
   const title = cleanText(listing.title) || "Bidra listing";
   const description = cleanDescription(listing.description) || "No description provided. Message the seller before buying or making an offer.";
   const location = cleanText(listing.location) || "Location on request";
@@ -201,6 +220,40 @@ export default async function ListingDetailPage({
             <div className="mt-2 text-lg font-black">{cleanText(listing.status)}</div>
           </div>
         </section>
+
+        {relatedListings.length ? (
+          <section className="mt-5 rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">More like this</div>
+                <h2 className="mt-1 text-2xl font-black">Related listings</h2>
+              </div>
+              <Link href="/listings" className="text-sm font-extrabold text-[#4F46E5] underline underline-offset-4">Browse all</Link>
+            </div>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {relatedListings.map((item) => {
+                const itemTitle = cleanText(item.title) || "Bidra listing";
+                const itemImages = safeListingImages(item.images);
+                const itemPrice = typeof item.buyNowPrice === "number" ? item.buyNowPrice : item.price;
+                return (
+                  <Link key={item.id} href={"/listings/" + item.id} className="overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] shadow-sm hover:bg-white">
+                    {itemImages[0] ? (
+                      <img src={itemImages[0]} alt={itemTitle} className="h-36 w-full object-cover" loading="lazy" />
+                    ) : (
+                      <div className="flex h-36 items-center justify-center bg-[#EEF4FF] px-4 text-center text-xs font-bold text-[#64748B]">No image</div>
+                    )}
+                    <div className="p-4">
+                      <div className="line-clamp-2 text-sm font-black text-[#0F172A]">{itemTitle}</div>
+                      <div className="mt-2 text-lg font-black text-[#4F46E5]">{money(itemPrice)}</div>
+                      <div className="mt-1 text-xs font-bold text-[#64748B]">{cleanText(item.location) || "Australia"}</div>
+                      <div className="mt-2 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#64748B]">{cleanText(item.condition) || "Condition not specified"}</div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        ) : null}
       </div>
     </main>
   );
