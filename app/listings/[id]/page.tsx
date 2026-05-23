@@ -277,7 +277,7 @@ export default async function ListingDetailPage({
         <section className="min-w-0 space-y-3 lg:hidden">
           <div className="overflow-hidden rounded-[30px] border border-[#D8E6F8] bg-white shadow-[0_18px_50px_rgba(32,75,140,0.10)] hover:bg-[#F5F3FF]">
             <div className="p-2.5">
-              <ListingImageGallery images={images} title={cleanText(listing.title)} />
+              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-10 text-center text-sm text-slate-600">Image gallery temporarily unavailable</div>
             </div>
           </div>
           <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
@@ -481,7 +481,7 @@ export default async function ListingDetailPage({
 
               <div className="min-w-0 overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
                 <div className="p-2.5 sm:p-3">
-                  <ListingImageGallery images={images} title={cleanText(listing.title)} />
+                  <div className="rounded-3xl border border-slate-200 bg-slate-50 p-10 text-center text-sm text-slate-600">Image gallery temporarily unavailable</div>
                 </div>
               </div>
 
