@@ -152,7 +152,7 @@ export default async function ListingDetailPage({
                 <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Price</div>
                 <div className="mt-2 text-5xl font-black tracking-tight">{money(displayPrice)}</div>
                 <div className="mt-4 rounded-2xl border border-blue-100 bg-[#EEF4FF] px-4 py-3 text-sm font-bold leading-6 text-[#0B3BB8]">
-                  Sign in to contact the seller, save this listing, or continue with the purchase flow.
+                  Sign in to buy now, make an offer, save this listing, or message the seller.
                 </div>
               </div>
             </div>
@@ -174,8 +174,12 @@ export default async function ListingDetailPage({
               </div>
 
               <div className="mt-4 grid gap-3">
-                <Link href="/auth/login" className="inline-flex w-full items-center justify-center rounded-2xl bg-[#4F46E5] px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-[#4338CA]">Sign in to continue</Link>
-                <Link href="/auth/login" className="inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">Sign in to message seller</Link>
+                <Link href={"/auth/login?next=/listings/" + listing.id} className="inline-flex w-full items-center justify-center rounded-2xl bg-[#4F46E5] px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-[#4338CA]">Sign in to continue</Link>
+                <Link href={"/auth/login?next=/listings/" + listing.id} className="inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">Sign in to message seller</Link>
+                <Link href={"/auth/login?next=/listings/" + listing.id} className="inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">Sign in to save listing</Link>
+              </div>
+              <div className="mt-4 rounded-2xl border border-[#E2E8F0] bg-white px-4 py-3 text-xs font-bold leading-5 text-[#64748B]">
+                Buyers can sign in to save this item, contact the seller, buy now, or make an offer where available.
               </div>
             </aside>
           </div>
