@@ -247,7 +247,9 @@ export default async function ListingDetailPage({
             </div>
 
             <div className="mt-6 flex flex-wrap items-center gap-4">
-              <ReportListingButton listingId={listing.id} />
+              <div className="inline-flex rounded-full border border-[#080D32] bg-white px-4 py-2 text-sm font-extrabold text-[#080D32] shadow-sm hover:bg-[#F8FAFC]">
+                <ReportListingButton listingId={listing.id} />
+              </div>
             </div>
           </aside>
         </section>
