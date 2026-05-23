@@ -99,7 +99,7 @@ export default async function AccountPage() {
   const avatarInitials = initials(user.name, user.email);
 
   return (
-    <main className="bg-white text-[#07152E]">
+    <main className="bg-white text-[#07152E] hover:bg-[#F5F3FF]">
       <div className="mx-auto w-full max-w-[1320px] px-8 py-10">
         <nav className="mb-8 flex items-center gap-3 text-sm font-semibold text-[#64748B]">
           <Link href="/" className="text-[#4F46E5]">Home</Link>
@@ -107,7 +107,7 @@ export default async function AccountPage() {
           <span>Account</span>
         </nav>
 
-        <section className="overflow-hidden rounded-[28px] border border-[#D7E2F1] bg-white shadow-sm">
+        <section className="overflow-hidden rounded-[28px] border border-[#D7E2F1] bg-white shadow-sm hover:bg-[#F5F3FF]">
           <div className="h-64 bg-[linear-gradient(135deg,#DBEAFE_0%,#EEF2FF_45%,#F8FAFC_100%)] sm:h-72">
             <div className="h-full w-full bg-[radial-gradient(circle_at_25%_20%,rgba(79,70,229,0.22),transparent_28%),radial-gradient(circle_at_80%_40%,rgba(14,165,233,0.16),transparent_30%)]" />
           </div>
@@ -161,7 +161,7 @@ export default async function AccountPage() {
                 const price = listing.buyNowPrice ?? listing.price;
 
                 return (
-                  <Link key={listing.id} href={`/listings/${listing.id}`} className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm hover:border-[#C7D2FE]">
+                  <Link key={listing.id} href={`/listings/${listing.id}`} className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm hover:border-[#C7D2FE] hover:bg-[#F5F3FF]">
                     <div className="relative aspect-square bg-[#F1F5F9]">
                       {image ? <Image src={image} alt="" fill className="object-cover" /> : null}
                     </div>
@@ -190,7 +190,7 @@ export default async function AccountPage() {
 
         <section id="activity" className="mt-14">
           <h2 className="text-2xl font-black tracking-tight">Recent activity</h2>
-          <div className="mt-5 divide-y divide-[#E2E8F0] overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm">
+          <div className="mt-5 divide-y divide-[#E2E8F0] overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
             {activeOrders.length ? activeOrders.map((order) => (
               <Link key={order.id} href={`/orders/${order.id}`} className="flex items-center justify-between gap-4 p-5 hover:bg-[#F5F3FF]">
                 <div>
@@ -205,7 +205,7 @@ export default async function AccountPage() {
           </div>
         </section>
 
-        <section id="edit-account" className="mt-14 rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm">
+        <section id="edit-account" className="mt-14 rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-2xl font-black tracking-tight">Manage account</h2>
@@ -247,7 +247,7 @@ export default async function AccountPage() {
 
                 <label className="block">
                   <span className="text-sm font-black">State</span>
-                  <select name="state" defaultValue={user.state || ""} className="mt-2 h-12 w-full rounded-2xl border border-[#CBD5E1] bg-white px-4 text-sm font-semibold">
+                  <select name="state" defaultValue={user.state || ""} className="mt-2 h-12 w-full rounded-2xl border border-[#CBD5E1] bg-white px-4 text-sm font-semibold hover:bg-[#F5F3FF]">
                     <option value="">Select</option>
                     <option value="QLD">QLD</option>
                     <option value="NSW">NSW</option>
@@ -261,13 +261,13 @@ export default async function AccountPage() {
                 </label>
               </div>
 
-              <button type="submit" className="h-12 rounded-2xl bg-[#4F46E5] px-6 text-sm font-black !text-white hover:bg-[#4338CA]">
+              <button type="submit" className="h-12 rounded-2xl bg-[#4F46E5] px-6 text-sm font-black !text-white hover:bg-[#4338CA] disabled:!text-white">
                 Save account details
               </button>
             </form>
           </div>
         </section>
-        <section id="restrictions" className="mt-14 rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm">
+        <section id="restrictions" className="mt-14 rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
           <h2 className="text-2xl font-black tracking-tight">Account status</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <StatusPill label="Email" value={user.emailVerified ? "Verified" : "Needs verification"} good={Boolean(user.emailVerified)} />
@@ -285,7 +285,7 @@ export default async function AccountPage() {
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 text-center shadow-sm">
+    <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 text-center shadow-sm hover:bg-[#F5F3FF]">
       <div className="text-4xl font-black">{value}</div>
       <div className="mt-1 text-sm font-semibold text-[#64748B]">{label}</div>
     </div>

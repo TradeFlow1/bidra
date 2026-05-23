@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
@@ -102,7 +102,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
         <h1 className="text-4xl font-black tracking-tight sm:text-5xl">Messages</h1>
 
         <div className="mt-8 grid gap-6 lg:grid-cols-[420px_minmax(0,1fr)]">
-          <aside className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm">
+          <aside className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
             <Link href="/messages" className="block border-b border-[#E2E8F0] p-5 text-sm font-black text-[#4F46E5]">Back to messages</Link>
             <div className="flex gap-4 bg-[#F8FAFC] p-6">
               <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-lg font-black text-[#4F46E5]">
@@ -117,7 +117,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
             <div className="p-5 text-sm font-semibold leading-6 text-[#64748B]">Keep pickup, payment and handover details in Bidra messages.</div>
           </aside>
 
-          <section className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm">
+          <section className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
             <div className="flex items-center justify-between border-b border-[#E2E8F0] p-6">
               <div className="flex min-w-0 items-center gap-4">
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-lg font-black text-[#4F46E5]">

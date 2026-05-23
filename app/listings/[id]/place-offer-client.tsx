@@ -113,7 +113,7 @@ export default function PlaceOfferClient({
   if (needAuth) {
     return (
       <div className="space-y-3">
-        <div className="rounded-xl border border-black/10 bg-white p-4">
+        <div className="rounded-xl border border-black/10 bg-white p-4 hover:bg-[#F5F3FF]">
           <div className="text-sm font-extrabold text-neutral-900">Sign in to make an offer</div>
           <div className="mt-1 text-xs text-neutral-700">
             Sign in so your offer can be linked to your account and kept with the listing conversation.
@@ -133,7 +133,7 @@ export default function PlaceOfferClient({
   return (
     <div className="space-y-3">
       {lastResult ? (
-        <div className="rounded-xl border border-black/10 bg-white px-3 py-2">
+        <div className="rounded-xl border border-black/10 bg-white px-3 py-2 hover:bg-[#F5F3FF]">
           <div className="text-sm font-extrabold text-neutral-900">Offer submitted</div>
           <div className="mt-0.5 text-xs text-neutral-700">
             Max offer:{" "}
@@ -160,11 +160,11 @@ export default function PlaceOfferClient({
       ) : null}
 
       {viewerHasAnyOffer && offerState === "TOP" ? (
-        <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900">
+        <div className="rounded-xl border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-neutral-900 hover:bg-[#F5F3FF]">
           You are the highest offer. If the seller accepts, the order will appear in Orders.
         </div>
       ) : viewerHasAnyOffer && offerState === "OUTBID" ? (
-        <div className="rounded-xl border border-black/10 bg-white px-3 py-2">
+        <div className="rounded-xl border border-black/10 bg-white px-3 py-2 hover:bg-[#F5F3FF]">
           <div className="text-sm font-extrabold text-neutral-900">You have been out-offered.</div>
           <div className="mt-0.5 text-xs text-neutral-700">Increase your offer only if you are prepared to honour it.</div>
         </div>
@@ -185,7 +185,7 @@ export default function PlaceOfferClient({
           inputMode="decimal"
           placeholder="Enter your offer amount, e.g. 25.50"
           disabled={hardDisabled || loading}
-          className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2 text-sm font-semibold text-[#06132B] placeholder:text-[#94A3B8] outline-none focus:border-[#0B4DFF] focus:ring-4 focus:ring-blue-100 disabled:opacity-60"
+          className="h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-3 py-2 text-sm font-semibold text-[#06132B] placeholder:text-[#94A3B8] outline-none focus:border-[#0B4DFF] focus:ring-4 focus:ring-blue-100 disabled:opacity-60 hover:bg-[#F5F3FF]"
         />
 
         <button

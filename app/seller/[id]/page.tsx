@@ -213,9 +213,9 @@ export default async function SellerPage({ params }: PageProps) {
 
               <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
                 {profileSignals.length > 0 ? profileSignals.map((signal) => (
-                  <span key={signal} className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#334155]">{signal}</span>
+                  <span key={signal} className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#4F46E5] hover:bg-[#F5F3FF]">{signal}</span>
                 )) : (
-                  <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#334155]">Profile details limited</span>
+                  <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-[#4F46E5] hover:bg-[#F5F3FF]">Profile details limited</span>
                 )}
 
                 {ratingSignal ? (
@@ -240,11 +240,11 @@ export default async function SellerPage({ params }: PageProps) {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+              <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Active listings</div>
                 <div className="mt-1 text-4xl font-extrabold tracking-tight text-[#0F172A]">{activeListings.length}</div>
               </div>
-              <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+              <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
                 <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#64748B]">Sales</div>
                 <div className="mt-1 text-4xl font-extrabold tracking-tight text-[#0F172A]">{completedSales}</div>
               </div>
@@ -252,7 +252,7 @@ export default async function SellerPage({ params }: PageProps) {
           </div>
         </section>
 
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 hover:bg-[#F5F3FF]">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="text-xl font-extrabold tracking-tight text-[#0F172A]">Active listings</div>
@@ -318,7 +318,7 @@ export default async function SellerPage({ params }: PageProps) {
         </section>
 
         {visibleRecentFeedback.length > 0 ? (
-          <section id="seller-feedback" className="scroll-mt-24 rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
+          <section id="seller-feedback" className="scroll-mt-24 rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 hover:bg-[#F5F3FF]">
             <div className="text-xl font-extrabold tracking-tight text-[#0F172A]">Seller feedback</div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-3">

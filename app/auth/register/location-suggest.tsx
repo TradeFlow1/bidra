@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
@@ -80,7 +80,7 @@ export default function LocationSuggest(props: {
   if (!canQuery) return null;
 
   return (
-    <div className="mt-2 rounded-2xl border bd-bd bg-white p-3">
+    <div className="mt-2 rounded-2xl border bd-bd bg-white p-3 hover:bg-[#F5F3FF]">
       <div className="flex items-center justify-between gap-2">
         <div className="text-xs font-semibold bd-ink">Suggestions</div>
         {loading ? <div className="text-xs bd-ink2">Searching…</div> : null}

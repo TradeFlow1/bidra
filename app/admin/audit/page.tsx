@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -52,7 +52,7 @@ function InfoCard(props: {
   note: string;
 }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
       <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{props.title}</div>
       <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{props.value}</div>
       <div className="mt-1 text-sm text-neutral-600">{props.note}</div>
@@ -62,7 +62,7 @@ function InfoCard(props: {
 
 function MetaPill(props: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900">
+    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900 hover:bg-[#F5F3FF]">
       {props.children}
     </span>
   );
@@ -160,7 +160,7 @@ export default async function AdminAuditPage({
           />
         </div>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm space-y-4">
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm space-y-4 hover:bg-[#F5F3FF]">
           <div>
             <div className="text-sm font-extrabold bd-ink">Filters</div>
             <div className="mt-1 text-sm bd-ink2">Filter by entity type or search across actions, report IDs, listing IDs, user IDs, and admin IDs.</div>
@@ -179,7 +179,7 @@ export default async function AdminAuditPage({
               name="q"
               defaultValue={q}
               placeholder="Search action / IDs (reportId, listingId, userId, entityId)"
-              className="min-w-[320px] rounded-xl border border-black/10 bg-white px-3 py-2 text-sm"
+              className="min-w-[320px] rounded-xl border border-black/10 bg-white px-3 py-2 text-sm hover:bg-[#F5F3FF]"
             />
             <button type="submit" className="bd-btn bd-btn-ghost text-center">
               Search
@@ -187,7 +187,7 @@ export default async function AdminAuditPage({
           </form>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white shadow-sm overflow-hidden">
+        <section className="rounded-3xl border border-black/10 bg-white shadow-sm overflow-hidden hover:bg-[#F5F3FF]">
           <div className="border-b border-black/10 px-6 py-4">
             <div className="text-sm font-extrabold bd-ink">Audit table</div>
             <div className="mt-1 text-sm bd-ink2">
@@ -200,7 +200,7 @@ export default async function AdminAuditPage({
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="border-b border-black/10 bg-white/70">
+                <thead className="border-b border-black/10 bg-white/70 hover:bg-[#F5F3FF]">
                   <tr className="text-left">
                     <th className="px-4 py-3 text-xs font-extrabold bd-ink">When</th>
                     <th className="px-4 py-3 text-xs font-extrabold bd-ink">Action</th>

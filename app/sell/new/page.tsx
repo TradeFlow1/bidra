@@ -50,7 +50,7 @@ export default async function SellNewPage() {
               <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#0B4DFF]">Sell on Bidra</div>
               <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-5xl">Sell your item</h1>
               <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-[#36506F] sm:text-base">Add photos, details, price and location. Buyers and sellers arrange payment, pickup, postage and handover directly.</p>
-              <div className="mt-5 grid grid-cols-3 gap-2 text-center text-xs font-black text-[#0B4DFF]"><span className="rounded-full bg-white px-3 py-2">Details</span><span className="rounded-full bg-white px-3 py-2">Photos</span><span className="rounded-full bg-white px-3 py-2">Review</span></div>
+              <div className="mt-5 grid grid-cols-3 gap-2 text-center text-xs font-black text-[#0B4DFF]"><span className="rounded-full bg-white px-3 py-2 hover:bg-[#F5F3FF]">Details</span><span className="rounded-full bg-white px-3 py-2 hover:bg-[#F5F3FF]">Photos</span><span className="rounded-full bg-white px-3 py-2 hover:bg-[#F5F3FF]">Review</span></div>
             </div>
             <div className="mt-4"><SellNewClient defaultLocation={defaultLocation} /></div>
           </div>

@@ -54,7 +54,7 @@ export default function NoShowReport({ orderId }: { orderId: string }) {
       >
         {loading ? "Submitting..." : "Report no-show"}
       </button>
-      {error ? <div className="mt-2 rounded-xl border border-red-300 bg-white p-3 text-sm text-red-800">{error}</div> : null}
+      {error ? <div className="mt-2 rounded-xl border border-red-300 bg-white p-3 text-sm text-red-800 hover:bg-[#F5F3FF]">{error}</div> : null}
       {ok ? <div className="mt-2 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-900">{ok}</div> : null}
     </div>
   );

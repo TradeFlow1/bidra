@@ -10,7 +10,7 @@ import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign
 
 function CountPill({ label, value }: { label: string; value: number }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-[#D7E2F1] bg-white px-3 py-1 text-xs shadow-sm">
+    <span className="inline-flex items-center gap-2 rounded-full border border-[#D7E2F1] bg-white px-3 py-1 text-xs shadow-sm hover:bg-[#F5F3FF]">
       <span className="text-[#607089]">{label}</span>
       <span className="font-extrabold text-[#07152E]">{value}</span>
     </span>
@@ -100,7 +100,7 @@ export default async function NotificationsPage() {
         </div>
 
         <Link href="/orders" className="block">
-          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md">
+          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-5 shadow-sm transition hover:-translate-y-[1px] hover:shadow-md hover:bg-[#F5F3FF]">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="flex flex-wrap items-center gap-2">

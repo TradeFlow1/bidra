@@ -230,7 +230,7 @@ function scrollTo(i: number) {
           <button
             type="button"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); moved.current = true; scrollTo(idx - 1); }}
-            className="absolute left-2 top-1/2 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/15 z-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" style={{ backgroundColor: "#ffffff", opacity: 0.95 }}
+            className="absolute left-2 top-1/2 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/15 z-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity hover:bg-[#F5F3FF]" style={{ backgroundColor: "#ffffff", opacity: 0.95 }}
             aria-label="Prev photo"
           >
             <span className="text-[20px] leading-none">‹</span>
@@ -238,7 +238,7 @@ function scrollTo(i: number) {
           <button
             type="button"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); moved.current = true; scrollTo(idx + 1); }}
-            className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/15 z-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
+            className="absolute right-2 top-1/2 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/15 z-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity hover:bg-[#F5F3FF]"
             style={{ backgroundColor: "#ffffff", opacity: 0.95 }}
             aria-label="Next photo"
           >

@@ -21,7 +21,7 @@ function ModerationForm(props: {
       : "bd-btn bd-btn-ghost";
 
   return (
-    <form action={props.action} method="post" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+    <form action={props.action} method="post" className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
       <input type="hidden" name="listingId" value={props.listingId} />
       <input type="hidden" name="backTo" value={props.backTo} />
       <label className="text-xs font-extrabold uppercase tracking-wide text-neutral-500" htmlFor={props.action.replace(/\W/g, "-") + "-reason"}>
@@ -64,7 +64,7 @@ export default async function AdminListingDetail({ params }: { params: { id: str
     return (
       <main className="bd-container py-10">
         <div className="container max-w-5xl">
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
             <h1 className="text-2xl font-extrabold tracking-tight bd-ink">Listing not found</h1>
             <p className="mt-2 text-sm bd-ink2">This listing could not be found or may no longer be available.</p>
             <div className="mt-5">
@@ -104,26 +104,26 @@ export default async function AdminListingDetail({ params }: { params: { id: str
         </section>
 
         <div className="grid gap-3 sm:grid-cols-4">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Status</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{listing.status}</div>
           </div>
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Price</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{formatAud(listing.price)}</div>
           </div>
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Reports</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{listing.reports.length}</div>
           </div>
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Created</div>
             <div className="mt-1 text-sm font-semibold tracking-tight text-neutral-950"><DateTimeText value={listing.createdAt} /></div>
           </div>
         </div>
 
         <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
             <h2 className="text-sm font-extrabold bd-ink">Moderation controls</h2>
             <p className="mt-2 text-sm bd-ink2">Suspend, delete, or restore the listing with a reason. The action is recorded in the admin audit log.</p>
             <div className="mt-4 grid gap-3">
@@ -154,7 +154,7 @@ export default async function AdminListingDetail({ params }: { params: { id: str
             </div>
           </Card>
 
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
             <h2 className="text-sm font-extrabold bd-ink">Listing context</h2>
             <div className="mt-4 space-y-3 text-sm bd-ink2">
               <div><span className="font-semibold bd-ink">Seller:</span> {listing.seller?.email || listing.seller?.username || listing.sellerId}</div>
@@ -167,7 +167,7 @@ export default async function AdminListingDetail({ params }: { params: { id: str
         </div>
 
         <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
             <h2 className="text-sm font-extrabold bd-ink">Recent reports</h2>
             <div className="mt-4 space-y-3">
               {listing.reports.length ? listing.reports.map((report) => (
@@ -183,14 +183,14 @@ export default async function AdminListingDetail({ params }: { params: { id: str
             </div>
           </Card>
 
-          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+          <Card className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
             <h2 className="text-sm font-extrabold bd-ink">Audit log</h2>
             <div className="mt-4 space-y-3">
               {auditLogs.length ? auditLogs.map((log) => (
                 <div key={log.id} className="rounded-2xl border border-black/10 bg-neutral-50 p-3 text-sm">
                   <div className="font-semibold bd-ink">{log.action}</div>
                   <div className="mt-1 text-xs bd-ink2">Admin {log.adminId} • <DateTimeText value={log.createdAt} /></div>
-                  <pre className="mt-2 overflow-auto rounded-xl bg-white p-2 text-xs text-neutral-700">{JSON.stringify(log.meta, null, 2)}</pre>
+                  <pre className="mt-2 overflow-auto rounded-xl bg-white p-2 text-xs text-neutral-700 hover:bg-[#F5F3FF]">{JSON.stringify(log.meta, null, 2)}</pre>
                 </div>
               )) : <div className="text-sm bd-ink2">No listing audit events yet.</div>}
             </div>

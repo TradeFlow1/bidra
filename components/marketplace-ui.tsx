@@ -51,7 +51,7 @@ export function ProductPlaceholder({ kind = "generic", title, className }: { kin
     <div className={cn("flex h-full min-h-[9rem] w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_30%_20%,#FFFFFF_0,#FFFFFF_18%,#EAF3FF_52%,#DDEBFF_100%)]", className)}>
       <div className="flex flex-col items-center gap-2 text-[#0B4DFF]">
         <svg className="h-14 w-14 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{item.path}</svg>
-        <span className="max-w-[11rem] truncate rounded-full border border-white/80 bg-white/75 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#36506F] shadow-sm">{title || item.title}</span>
+        <span className="max-w-[11rem] truncate rounded-full border border-white/80 bg-white/75 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#36506F] shadow-sm hover:bg-[#F5F3FF]">{title || item.title}</span>
       </div>
     </div>
   );
@@ -65,7 +65,7 @@ export function AvatarPlaceholder({ name, className }: { name?: string | null; c
 export function EmptyState({ icon = "empty", title, description, actionHref, actionLabel }: { icon?: string; title: string; description: string; actionHref?: string; actionLabel?: string }) {
   return (
     <div className="rounded-[28px] border border-dashed border-[#BFD1EA] bg-[#F8FAFF] p-8 text-center shadow-sm">
-      <div className="mx-auto h-28 max-w-44 overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white shadow-sm"><ProductPlaceholder kind={icon} title={title} /></div>
+      <div className="mx-auto h-28 max-w-44 overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white shadow-sm hover:bg-[#F5F3FF]"><ProductPlaceholder kind={icon} title={title} /></div>
       <h2 className="mt-5 text-2xl font-black tracking-tight text-[#07152E]">{title}</h2>
       <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#526173]">{description}</p>
       {actionHref && actionLabel ? <Link href={actionHref} className="bd-primary-action mt-5 inline-flex">{actionLabel}</Link> : null}
@@ -83,16 +83,16 @@ export function SectionHeader({ eyebrow, title, description, actionHref, actionL
 
 export function TrustBadge({ title, description, icon = "safe" }: { title: string; description?: string; icon?: MarketplaceIconName | string }) {
   const valid = ["home", "browse", "sell", "messages", "account", "search", "heart", "safe", "handover", "offer", "listing", "filter", "help", "legal", "orders"].includes(icon);
-  return <div className="flex gap-3 rounded-[18px] border border-[#D7E2F1] bg-white/85 p-4 shadow-sm"><div className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-[#EEF4FF] text-sm font-black text-[#0B4DFF]">{valid ? <MarketplaceIcon name={icon as MarketplaceIconName} /> : icon}</div><div><div className="text-sm font-extrabold text-[#0F172A]">{title}</div>{description ? <p className="mt-1 text-xs leading-5 text-[#607089]">{description}</p> : null}</div></div>;
+  return <div className="flex gap-3 rounded-[18px] border border-[#D7E2F1] bg-white/85 p-4 shadow-sm hover:bg-[#F5F3FF]"><div className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-[#EEF4FF] text-sm font-black text-[#0B4DFF]">{valid ? <MarketplaceIcon name={icon as MarketplaceIconName} /> : icon}</div><div><div className="text-sm font-extrabold text-[#0F172A]">{title}</div>{description ? <p className="mt-1 text-xs leading-5 text-[#607089]">{description}</p> : null}</div></div>;
 }
 
 export function CategoryTile({ href, label, count, icon = "listing" }: { href: string; label: string; count?: number; icon?: MarketplaceIconName | string }) {
   const valid = ["home", "browse", "sell", "messages", "account", "search", "heart", "safe", "handover", "offer", "listing", "filter", "help", "legal", "orders"].includes(icon);
-  return <Link href={href} className="rounded-[20px] border border-[#D7E2F1] bg-[#F8FAFF] p-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md"><div className="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-white text-[#0B4DFF] shadow-sm" aria-hidden="true">{valid ? <MarketplaceIcon name={icon as MarketplaceIconName} /> : icon}</div><div className="mt-3 truncate text-sm font-extrabold text-[#0F172A]">{label}</div><div className="mt-1 text-xs font-semibold text-[#607089]">{count ? count.toLocaleString() + " items" : "Explore"}</div></Link>;
+  return <Link href={href} className="rounded-[20px] border border-[#D7E2F1] bg-[#F8FAFF] p-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md hover:bg-[#F5F3FF]"><div className="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-white text-[#0B4DFF] shadow-sm hover:bg-[#F5F3FF]" aria-hidden="true">{valid ? <MarketplaceIcon name={icon as MarketplaceIconName} /> : icon}</div><div className="mt-3 truncate text-sm font-extrabold text-[#0F172A]">{label}</div><div className="mt-1 text-xs font-semibold text-[#607089]">{count ? count.toLocaleString() + " items" : "Explore"}</div></Link>;
 }
 
 export function SellerCard({ name, location, memberSince, activeListings, children }: { name?: string | null; location?: string | null; memberSince?: string | null; activeListings?: number | null; children?: React.ReactNode }) {
-  return <aside className="rounded-[24px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="flex items-center gap-3"><AvatarPlaceholder name={name} /><div><div className="font-black text-[#07152E]">{name || "Bidra seller"}</div><div className="text-xs font-semibold text-[#607089]">{location || "Australia"}{memberSince ? ` • Member since ${memberSince}` : ""}</div></div></div><div className="mt-4 grid grid-cols-2 gap-2 text-xs font-bold text-[#36506F]"><span className="rounded-2xl bg-[#F8FAFF] px-3 py-2">Verified signals</span><span className="rounded-2xl bg-[#F8FAFF] px-3 py-2">{typeof activeListings === "number" ? `${activeListings} active` : "Active seller"}</span></div>{children ? <div className="mt-4">{children}</div> : null}</aside>;
+  return <aside className="rounded-[24px] border border-[#D7E2F1] bg-white p-4 shadow-sm hover:bg-[#F5F3FF]"><div className="flex items-center gap-3"><AvatarPlaceholder name={name} /><div><div className="font-black text-[#07152E]">{name || "Bidra seller"}</div><div className="text-xs font-semibold text-[#607089]">{location || "Australia"}{memberSince ? ` • Member since ${memberSince}` : ""}</div></div></div><div className="mt-4 grid grid-cols-2 gap-2 text-xs font-bold text-[#36506F]"><span className="rounded-2xl bg-[#F8FAFF] px-3 py-2">Verified signals</span><span className="rounded-2xl bg-[#F8FAFF] px-3 py-2">{typeof activeListings === "number" ? `${activeListings} active` : "Active seller"}</span></div>{children ? <div className="mt-4">{children}</div> : null}</aside>;
 }
 
 export function SafetyPanel() {
@@ -100,11 +100,11 @@ export function SafetyPanel() {
 }
 
 export function ActionPanel({ title, description, children }: { title: string; description?: string; children: React.ReactNode }) {
-  return <section className="rounded-[28px] border border-[#CFE0F4] bg-white p-4 shadow-[0_20px_50px_rgba(15,40,80,0.08)]"><h2 className="text-xl font-black tracking-tight text-[#07152E]">{title}</h2>{description ? <p className="mt-2 text-sm leading-6 text-[#526173]">{description}</p> : null}<div className="mt-4 grid gap-3">{children}</div></section>;
+  return <section className="rounded-[28px] border border-[#CFE0F4] bg-white p-4 shadow-[0_20px_50px_rgba(15,40,80,0.08)] hover:bg-[#F5F3FF]"><h2 className="text-xl font-black tracking-tight text-[#07152E]">{title}</h2>{description ? <p className="mt-2 text-sm leading-6 text-[#526173]">{description}</p> : null}<div className="mt-4 grid gap-3">{children}</div></section>;
 }
 
 export function HelpArticleCard({ href, title, description, icon = "?" }: { href: string; title: string; description: string; icon?: string }) {
-  return <Link href={href} className="flex items-start gap-3 rounded-[20px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9CAE2]"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#EEF4FF] text-[#0B4DFF]">{icon}</span><span><span className="block text-sm font-extrabold text-[#0F172A]">{title}</span><span className="mt-1 block text-xs leading-5 text-[#607089]">{description}</span></span></Link>;
+  return <Link href={href} className="flex items-start gap-3 rounded-[20px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9CAE2] hover:bg-[#F5F3FF]"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#EEF4FF] text-[#0B4DFF]">{icon}</span><span><span className="block text-sm font-extrabold text-[#0F172A]">{title}</span><span className="mt-1 block text-xs leading-5 text-[#607089]">{description}</span></span></Link>;
 }
 
 
@@ -113,12 +113,12 @@ export function ListingGrid({ children, className }: { children: React.ReactNode
 }
 
 export function DashboardStatCard({ label, value, helper }: { label: string; value: React.ReactNode; helper?: string }) {
-  return <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#607089]">{label}</div><div className="mt-2 text-3xl font-black tracking-tight text-[#07152E]">{value}</div>{helper ? <div className="mt-1 text-xs font-semibold text-[#607089]">{helper}</div> : null}</div>;
+  return <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm hover:bg-[#F5F3FF]"><div className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#607089]">{label}</div><div className="mt-2 text-3xl font-black tracking-tight text-[#07152E]">{value}</div>{helper ? <div className="mt-1 text-xs font-semibold text-[#607089]">{helper}</div> : null}</div>;
 }
 
 export function LegalLayout({ title, description, children }: { title: string; description: string; children: React.ReactNode }) {
   const links = [
     ["/legal", "Overview"], ["/legal/terms", "Terms"], ["/legal/privacy", "Privacy"], ["/legal/fees", "Fees"], ["/legal/prohibited-items", "Prohibited items"],
   ];
-  return <div className="grid gap-5 lg:grid-cols-[260px_minmax(0,1fr)]"><aside className="rounded-[24px] border border-[#D7E2F1] bg-white p-3 shadow-sm lg:sticky lg:top-24 lg:self-start"><div className="px-2 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#607089]">Bidra policies</div><div className="mt-1 flex gap-2 overflow-x-auto lg:grid lg:overflow-visible">{links.map(([href, label]) => <Link key={href} href={href} className="whitespace-nowrap rounded-2xl px-3 py-2 text-sm font-extrabold text-[#36506F] hover:bg-[#EEF4FF] hover:text-[#0B4DFF]">{label}</Link>)}</div></aside><article className="rounded-[28px] border border-[#D7E2F1] bg-white p-5 shadow-sm sm:p-7"><div className="bd-pill w-fit border-blue-100 bg-[#EEF4FF] text-[#0B4DFF]">Australia’s trust-first local marketplace</div><h1 className="mt-4 text-3xl font-black tracking-tight text-[#07152E] sm:text-4xl">{title}</h1><p className="mt-2 max-w-3xl text-sm leading-6 text-[#526173] sm:text-base">{description}</p><div className="mt-6 bd-readable-prose">{children}</div></article></div>;
+  return <div className="grid gap-5 lg:grid-cols-[260px_minmax(0,1fr)]"><aside className="rounded-[24px] border border-[#D7E2F1] bg-white p-3 shadow-sm lg:sticky lg:top-24 lg:self-start hover:bg-[#F5F3FF]"><div className="px-2 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#607089]">Bidra policies</div><div className="mt-1 flex gap-2 overflow-x-auto lg:grid lg:overflow-visible">{links.map(([href, label]) => <Link key={href} href={href} className="whitespace-nowrap rounded-2xl px-3 py-2 text-sm font-extrabold text-[#36506F] hover:bg-[#EEF4FF] hover:text-[#0B4DFF]">{label}</Link>)}</div></aside><article className="rounded-[28px] border border-[#D7E2F1] bg-white p-5 shadow-sm sm:p-7 hover:bg-[#F5F3FF]"><div className="bd-pill w-fit border-blue-100 bg-[#EEF4FF] text-[#0B4DFF]">Australia’s trust-first local marketplace</div><h1 className="mt-4 text-3xl font-black tracking-tight text-[#07152E] sm:text-4xl">{title}</h1><p className="mt-2 max-w-3xl text-sm leading-6 text-[#526173] sm:text-base">{description}</p><div className="mt-6 bd-readable-prose">{children}</div></article></div>;
 }

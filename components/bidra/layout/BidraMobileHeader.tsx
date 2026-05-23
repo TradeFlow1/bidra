@@ -2,10 +2,10 @@ import Link from "next/link";
 
 export function BidraMobileHeader() {
   return (
-    <header className="sticky top-0 z-[100] border-b border-[#E2E8F0] bg-white/95 px-4 py-3 backdrop-blur md:hidden">
+    <header className="sticky top-0 z-[100] border-b border-[#E2E8F0] bg-white/95 px-4 py-3 backdrop-blur md:hidden hover:bg-[#F5F3FF]">
       <div className="flex items-center justify-between gap-3">
         <Link href="/" className="text-lg font-black tracking-tight text-[#0F172A]">Bidra</Link>
-        <Link href="/sell/new" className="rounded-full bg-gradient-to-r from-[#2563EB] to-[#7C3AED] px-4 py-2 text-xs font-black text-white shadow-sm">Sell</Link>
+        <Link href="/sell/new" className="rounded-full bg-[#4F46E5] px-4 py-2 text-xs font-black text-white shadow-sm !text-white disabled:!text-white">Sell</Link>
       </div>
     </header>
   );

@@ -274,17 +274,17 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                 <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#64748B]">Seller dashboard</div>
                 <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">Edit listing</h1>
                 <div className="mt-2 flex flex-wrap items-center gap-2 text-xs bd-ink2">
-                  <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 font-semibold">Status: <span className="font-extrabold bd-ink">{status}</span></span>
+                  <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 font-semibold hover:bg-[#F5F3FF]">Status: <span className="font-extrabold bd-ink">{status}</span></span>
                   {status === "ACTIVE" ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 font-extrabold text-emerald-900">Live listing</span> : null}
                 </div>
               </div>
 
               <div className="grid gap-2 sm:flex sm:flex-wrap sm:justify-end">
-                <Link href={`/listings/${listing.id}`} className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
+                <Link href={`/listings/${listing.id}`} className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto hover:bg-[#F5F3FF]">
                   View listing
                 </Link>
 
-                <Link href="/dashboard/listings" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
+                <Link href="/dashboard/listings" className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto hover:bg-[#F5F3FF]">
                   My listings
                 </Link>
 
@@ -293,7 +293,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                     type="button"
                     onClick={function () { setError(null); setEndOpen(true); }}
                     disabled={isSaving}
-                    className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                    className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto hover:bg-[#F5F3FF]"
                   >
                     End listing
                   </button>
@@ -303,7 +303,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                   type="button"
                   onClick={function () { setError(null); setDeleteOpen(true); }}
                   disabled={isSaving}
-                  className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-red-200 bg-white px-5 text-sm font-extrabold text-red-700 shadow-sm transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                  className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-red-200 bg-white px-5 text-sm font-extrabold text-red-700 shadow-sm transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto hover:bg-[#F5F3FF]"
                 >
                   Delete
                 </button>
@@ -317,7 +317,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
             </div>
           ) : null}
 
-          <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-2.5 shadow-sm sm:p-4">
+          <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-2.5 shadow-sm sm:p-4 hover:bg-[#F5F3FF]">
             <form id="editListingForm"
               className="grid gap-2.5 sm:gap-3"
               onSubmit={async (e) => {
@@ -500,14 +500,14 @@ buyNowPrice:
                 {existingImages.length ? (
                   <div className="grid grid-cols-3 gap-2 sm:grid-cols-3">
                     {existingImages.map((url, idx) => (
-                      <div key={url + idx} className="relative overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-white">
+                      <div key={url + idx} className="relative overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-white hover:bg-[#F5F3FF]">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={url} alt="Listing photo" className="h-20 w-full object-cover sm:h-28" />
 
                         <div className="absolute left-2 top-2 flex gap-1">
                           <button
                             type="button"
-                            className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40"
+                            className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40 hover:bg-[#F5F3FF]"
                             onClick={() => moveImage(idx, idx - 1)}
                             disabled={idx === 0}
                             aria-label="Move photo left"
@@ -517,7 +517,7 @@ buyNowPrice:
                           </button>
                           <button
                             type="button"
-                            className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40"
+                            className="!h-7 !w-7 !p-0 !rounded-full !bg-white !opacity-100 !text-black font-extrabold border border-black/20 shadow-sm grid place-items-center leading-none disabled:opacity-40 hover:bg-[#F5F3FF]"
                             onClick={() => moveImage(idx, idx + 1)}
                             disabled={idx === existingImages.length - 1}
                             aria-label="Move photo right"
@@ -529,7 +529,7 @@ buyNowPrice:
 
                         <button
                           type="button"
-                          className="absolute right-1.5 top-1.5 rounded-full border border-black/20 bg-white px-2 py-1 text-[10px] font-extrabold text-black shadow-sm hover:bg-[#EEF4FF]"
+                          className="absolute right-1.5 top-1.5 rounded-full border border-black/20 bg-white px-2 py-1 text-[10px] font-extrabold text-black shadow-sm hover:bg-[#EEF4FF] hover:bg-[#F5F3FF]"
                           onClick={() => setExistingImages((cur) => cur.filter((_, i) => i !== idx))}
                           aria-label="Remove photo"
                         >
@@ -546,7 +546,7 @@ buyNowPrice:
                   <div className="flex items-center gap-2 flex-wrap">
                     <button
                       type="button"
-                      className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60"
+                      className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60 hover:bg-[#F5F3FF]"
                       onClick={() => cameraInputRef.current?.click()}
                       disabled={isSaving || (existingImages?.length || 0) >= 10}
                     >
@@ -555,7 +555,7 @@ buyNowPrice:
 
                     <button
                       type="button"
-                      className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60"
+                      className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60 hover:bg-[#F5F3FF]"
                       onClick={() => galleryInputRef.current?.click()}
                       disabled={isSaving || (existingImages?.length || 0) >= 10}
                     >
@@ -605,7 +605,7 @@ buyNowPrice:
                   {previews.length ? (
                     <div className="grid grid-cols-3 gap-2 sm:grid-cols-3">
                       {previews.map((p) => (
-                        <div key={p.url} className="overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-white">
+                        <div key={p.url} className="overflow-hidden rounded-[20px] border border-[#D8E1F0] bg-white hover:bg-[#F5F3FF]">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={p.url} alt={p.name} className="h-20 w-full object-cover sm:h-28" />
                         </div>
@@ -635,7 +635,7 @@ buyNowPrice:
                 <button type="submit" disabled={isSaving} className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0B4DFF] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#0842D6] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">
                   {isSaving ? "Saving..." : "Save changes"}
                 </button>
-                <Link href={`/listings/${listing.id}`} className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
+                <Link href={`/listings/${listing.id}`} className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto hover:bg-[#F5F3FF]">
                   Cancel
                 </Link>
               </div>

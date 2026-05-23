@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import StatusMessage from "@/components/status-message";
@@ -11,7 +11,7 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
 
   return (
     <form
-      className="rounded-2xl border bd-bd bg-white p-5 space-y-3"
+      className="rounded-2xl border bd-bd bg-white p-5 space-y-3 hover:bg-[#F5F3FF]"
       onSubmit={async (e) => {
         e.preventDefault();
         setNote("");
@@ -61,7 +61,7 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
           type="email"
           defaultValue={defaultEmail || ""}
           required
-          className="mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
+          className="mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5 hover:bg-[#F5F3FF]"
           placeholder="name@email.com"
           autoComplete="email"
         />
@@ -73,7 +73,7 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
           name="message"
           required
           rows={6}
-          className="mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5"
+          className="mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5 hover:bg-[#F5F3FF]"
           placeholder="Tell us what happened and include any links (listing / order / thread). Never share passwords or verification codes."
         />
       </div>

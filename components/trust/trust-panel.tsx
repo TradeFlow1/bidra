@@ -1,4 +1,4 @@
-﻿import ReputationBadges from "@/components/reputation-badges";
+import ReputationBadges from "@/components/reputation-badges";
 
 type Props = {
   username?: string | null;
@@ -30,7 +30,7 @@ export default function TrustPanel({
   const badgeConsistentSeller = soldCount >= 3;
 
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <div className="text-base font-extrabold tracking-tight text-neutral-900">Trusted seller signals</div>

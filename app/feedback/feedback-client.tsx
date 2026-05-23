@@ -94,7 +94,7 @@ export default function FeedbackClient() {
         </div>
       </div>
 
-      <div className="mt-5 rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
+      <div className="mt-5 rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 hover:bg-[#F5F3FF]">
         <div className="text-sm font-extrabold bd-ink">Send feedback</div>
 
         {loading ? (

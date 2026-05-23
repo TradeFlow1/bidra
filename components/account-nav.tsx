@@ -15,7 +15,7 @@ const items = [
 
 export default function AccountNav({ active }: AccountNavProps) {
   return (
-    <nav className="rounded-[24px] border border-[#D7E2F1] bg-white p-2 shadow-[0_14px_45px_rgba(28,50,84,0.08)]" aria-label="My Bidra navigation">
+    <nav className="rounded-[24px] border border-[#D7E2F1] bg-white p-2 shadow-[0_14px_45px_rgba(28,50,84,0.08)] hover:bg-[#F5F3FF]" aria-label="My Bidra navigation">
       <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
         {items.map((item) => {
           const selected = active === item.key;

@@ -201,7 +201,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
   return (
     <>
-      <main className="hidden bg-white text-[#0F172A] md:block">
+      <main className="hidden bg-white text-[#4F46E5] md:block hover:bg-[#F5F3FF]">
         <div className="mx-auto grid w-full max-w-[1440px] grid-cols-[300px_minmax(0,1fr)] border-x border-[#E2E8F0]">
           <aside className="border-r border-[#E2E8F0] px-10 py-12">
             <h1 className="text-2xl font-black tracking-tight">Categories</h1>
@@ -244,7 +244,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                     <select
                       name="state"
                       defaultValue={selectedState}
-                      className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569]"
+                      className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569] hover:bg-[#F5F3FF]"
                     >
                       <option value="">All Australia</option>
                       <option value="QLD">Queensland</option>
@@ -271,7 +271,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
                 <label className="block">
                   <span className="text-sm font-black">Condition</span>
-                  <select name="condition" defaultValue={selectedCondition} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569]">
+                  <select name="condition" defaultValue={selectedCondition} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569] hover:bg-[#F5F3FF]">
                     <option value="">Any condition</option>
                     <option value="NEW">New</option>
                     <option value="LIKE_NEW">Like new</option>
@@ -283,7 +283,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
                 <label className="block">
                   <span className="text-sm font-black">Sort by</span>
-                  <select name="sort" defaultValue={selectedSort} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569]">
+                  <select name="sort" defaultValue={selectedSort} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569] hover:bg-[#F5F3FF]">
                     <option value="newest">Newest first</option>
                     <option value="price-low">Price low to high</option>
                     <option value="price-high">Price high to low</option>
@@ -293,7 +293,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                                 <div className="space-y-3 border-t border-[#E2E8F0] pt-5">
                   <button
                     type="submit"
-                    className="h-12 w-full rounded-2xl bg-[#4F46E5] text-sm font-black text-white shadow-[0_12px_26px_rgba(79,70,229,0.18)] hover:bg-[#4338CA]"
+                    className="h-12 w-full rounded-2xl bg-[#4F46E5] text-sm font-black text-white shadow-[0_12px_26px_rgba(79,70,229,0.18)] hover:bg-[#4338CA] !text-white disabled:!text-white"
                   >
                     Apply filters
                   </button>
@@ -335,7 +335,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                     <Link
                       key={listing.id}
                       href={"/listings/" + listing.id}
-                      className="group overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(79,70,229,0.14)]"
+                      className="group overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(79,70,229,0.14)] hover:bg-[#F5F3FF]"
                     >
                       <div className="relative aspect-[4/3] overflow-hidden bg-[#F8FAFC]">
                         {image ? (
@@ -349,7 +349,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-5xl text-[#4F46E5]">▯</div>
                         )}
-                        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#4F46E5] shadow-sm">♡</span>
+                        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#4F46E5] shadow-sm hover:bg-[#F5F3FF]">♡</span>
                       </div>
                       <div className="p-4">
                         <h3 className="line-clamp-2 text-base font-black">{listing.title}</h3>
@@ -367,7 +367,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
               <div className="rounded-3xl border border-dashed border-[#C7D2FE] bg-[#F8FAFC] px-8 py-14 text-center">
                 <h3 className="text-xl font-black text-[#0F172A]">No active listings found</h3>
                 <p className="mt-2 text-sm font-semibold text-[#64748B]">Clear filters or create a real listing.</p>
-                <Link href="/sell/new" className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black text-white">
+                <Link href="/sell/new" className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black text-white !text-white disabled:!text-white">
                   Sell an item
                 </Link>
               </div>
@@ -382,7 +382,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
         </div>
       </main>
 
-      <main className="min-h-screen bg-white text-[#0F172A] md:hidden">
+      <main className="min-h-screen bg-white text-[#4F46E5] md:hidden hover:bg-[#F5F3FF]">
         <div className="px-4 py-6">
           <h1 className="text-2xl font-black">Categories</h1>
           <p className="mt-2 text-sm font-semibold text-[#64748B]">Mobile layout paused while desktop is fixed.</p>

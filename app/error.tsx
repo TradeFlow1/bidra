@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect } from "react";
 import Link from "next/link";
@@ -30,7 +30,7 @@ export default function GlobalError({
             >
               Try again
             </button>
-            <Link href="/" className="rounded-xl border bg-white px-4 py-2">
+            <Link href="/" className="rounded-xl border bg-white px-4 py-2 hover:bg-[#F5F3FF]">
               Go home
             </Link>
           </div>

@@ -54,7 +54,7 @@ export default function LoginPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <section className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm sm:p-8">
+        <section className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm sm:p-8 hover:bg-[#F5F3FF]">
           <form onSubmit={onSubmit} className="space-y-5">
             <label className="block">
               <span className="text-sm font-black text-[#0F172A]">Email</span>
@@ -70,7 +70,7 @@ export default function LoginPage() {
 
             <label className="block">
               <span className="text-sm font-black text-[#0F172A]">Password</span>
-              <span className="mt-2 flex h-12 overflow-hidden rounded-2xl border border-[#CBD5E1] bg-white transition focus-within:border-[#4F46E5] focus-within:ring-4 focus-within:ring-[#C7D2FE]">
+              <span className="mt-2 flex h-12 overflow-hidden rounded-2xl border border-[#CBD5E1] bg-white transition focus-within:border-[#4F46E5] focus-within:ring-4 focus-within:ring-[#C7D2FE] hover:bg-[#F5F3FF]">
                 <input
                   name="password"
                   type={showPassword ? "text" : "password"}
@@ -98,7 +98,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="h-12 w-full rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#7C3AED] text-sm font-black text-white shadow-sm transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
+              className="h-12 w-full rounded-2xl bg-[#4F46E5] text-sm font-black text-white shadow-sm transition hover:bg-[#4338CA] disabled:cursor-not-allowed disabled:opacity-60 !text-white disabled:!text-white"
             >
               {loading ? "Signing in..." : "Sign in"}
             </button>
@@ -111,13 +111,13 @@ export default function LoginPage() {
         </section>
 
         <aside className="grid gap-4">
-          <Link href="/auth/register" className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm hover:bg-[#F8FAFC]">
+          <Link href="/auth/register" className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm hover:bg-[#F8FAFC] hover:bg-[#F5F3FF]">
             <div className="grid h-10 w-10 place-items-center rounded-2xl bg-[#EEF2FF] text-xl font-black text-[#4F46E5]">+</div>
             <h2 className="mt-5 text-lg font-black text-[#0F172A]">Create an account</h2>
             <p className="mt-2 text-sm font-semibold leading-6 text-[#64748B]">Join Bidra to buy, sell and message local users.</p>
           </Link>
 
-          <Link href="/forgot-password" className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm hover:bg-[#F8FAFC]">
+          <Link href="/forgot-password" className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm hover:bg-[#F8FAFC] hover:bg-[#F5F3FF]">
             <div className="grid h-10 w-10 place-items-center rounded-2xl bg-[#EEF2FF] text-xl font-black text-[#4F46E5]">?</div>
             <h2 className="mt-5 text-lg font-black text-[#0F172A]">Forgot password</h2>
             <p className="mt-2 text-sm font-semibold leading-6 text-[#64748B]">Reset your password and get back into your account.</p>

@@ -90,14 +90,14 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
         <h1 className="text-4xl font-black tracking-tight sm:text-5xl">Messages</h1>
 
         {items.length === 0 ? (
-          <div className="mt-8 rounded-[28px] border border-[#E2E8F0] bg-white p-10 text-center shadow-sm">
+          <div className="mt-8 rounded-[28px] border border-[#E2E8F0] bg-white p-10 text-center shadow-sm hover:bg-[#F5F3FF]">
             <h2 className="text-2xl font-black">No messages yet</h2>
             <p className="mt-3 text-base font-semibold text-[#64748B]">Messages from listings and orders will appear here.</p>
-            <Link href="/listings" className="mt-6 inline-flex h-12 items-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black text-white">Browse listings</Link>
+            <Link href="/listings" className="mt-6 inline-flex h-12 items-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black text-white !text-white disabled:!text-white">Browse listings</Link>
           </div>
         ) : (
           <div className="mt-8 grid gap-6 lg:grid-cols-[420px_minmax(0,1fr)]">
-            <aside className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm">
+            <aside className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
               {items.map((thread) => (
                 <Link key={thread.id} href={`/messages?thread=${thread.id}`} className={`flex gap-4 border-b border-[#E2E8F0] p-6 last:border-b-0 hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F5F3FF]" : ""}`}>
                   <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-lg font-black text-[#4F46E5]">
@@ -111,7 +111,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
                     <p className="mt-1 truncate text-sm font-semibold text-[#475569]">{thread.listing?.title || "Listing"}</p>
                     <p className="mt-1 truncate text-base text-[#475569]">{thread.last}</p>
                   </div>
-                  {thread.unread ? <span className="mt-8 h-3 w-3 shrink-0 rounded-full bg-[#4F46E5]" /> : null}
+                  {thread.unread ? <span className="mt-8 h-3 w-3 shrink-0 rounded-full bg-[#4F46E5] !text-white disabled:!text-white" /> : null}
                 </Link>
               ))}
 
@@ -120,7 +120,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
               </div>
             </aside>
 
-            <section className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm">
+            <section className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
               <div className="flex items-center justify-between border-b border-[#E2E8F0] p-6">
                 <div className="flex min-w-0 items-center gap-4">
                   <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-lg font-black text-[#4F46E5]">

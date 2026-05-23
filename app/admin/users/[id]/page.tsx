@@ -25,7 +25,7 @@ type AdminUserDetail = {
 
 function Field(props: { label: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
       <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{props.label}</div>
       <div className="mt-1 text-sm font-semibold text-neutral-950">{props.children}</div>
     </div>
@@ -127,7 +127,7 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
           <Field label="Policy strikes"><Badge>Strikes {target.policyStrikes}</Badge></Field>
           <Field label="Blocked">{isBlocked ? <Badge>Blocked until <DateTimeText value={target.policyBlockedUntil as Date} /></Badge> : <Badge>Not blocked</Badge>}</Field>
         </section>
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
           <div className="text-sm font-extrabold bd-ink">Verification signals</div>
           <p className="mt-2 text-sm leading-7 bd-ink2">
             These are account contact and eligibility signals available to Bidra today. They are not provider-backed government ID, biometric, liveness, escrow, payment, or shipping verification.
@@ -139,7 +139,7 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
             <Field label="Phone on file">{target.phone ? <Badge>Present</Badge> : <Badge>Missing</Badge>}</Field>
           </div>
         </section>
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <div className="text-sm font-extrabold bd-ink">Risk signal review</div>
@@ -159,7 +159,7 @@ export default async function AdminUserDetailPage({ params }: { params: { id: st
           <div className="mt-4 text-xs leading-6 text-neutral-600">Report context: {reportCount} total report(s), {unresolvedReportCount} open report(s).</div>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
           <div className="text-sm font-extrabold bd-ink">Moderation checklist</div>
           <ul className="mt-3 list-disc space-y-2 pl-5 text-sm bd-ink2 leading-7">
             <li>Open related report and audit evidence before applying a strike, block, unblock, or reset action.</li>

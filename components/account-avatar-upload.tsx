@@ -97,12 +97,12 @@ export default function AccountAvatarUpload({ avatarUrl, fallback }: AccountAvat
           <input ref={inputRef} name="avatar" type="file" accept="image/*" className="mt-2 block w-full text-sm font-semibold text-[#475569] file:mr-3 file:rounded-xl file:border-0 file:bg-[#EEF2FF] file:px-4 file:py-2 file:text-sm file:font-black file:text-[#4F46E5]" />
         </label>
 
-        <button type="submit" disabled={isWorking} className="h-11 w-full rounded-2xl bg-[#4F46E5] px-5 text-sm font-black !text-white hover:bg-[#4338CA] disabled:cursor-not-allowed disabled:opacity-60">
+        <button type="submit" disabled={isWorking} className="h-11 w-full rounded-2xl bg-[#4F46E5] px-5 text-sm font-black !text-white hover:bg-[#4338CA] disabled:cursor-not-allowed disabled:opacity-60 disabled:!text-white">
           {isWorking ? "Working..." : "Upload picture"}
         </button>
 
         {avatarUrl ? (
-          <button type="button" disabled={isWorking} onClick={deleteAvatar} className="h-11 w-full rounded-2xl border border-[#CBD5E1] bg-white px-5 text-sm font-black text-[#4F46E5] hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60">
+          <button type="button" disabled={isWorking} onClick={deleteAvatar} className="h-11 w-full rounded-2xl border border-[#CBD5E1] bg-white px-5 text-sm font-black text-[#4F46E5] hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60 hover:bg-[#F5F3FF]">
             Delete picture
           </button>
         ) : null}

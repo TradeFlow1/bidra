@@ -75,7 +75,7 @@ export default async function CategorySeoPage({ params }: Props) {
         <section className="mt-5">
           <div className="browseList w-full grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
             {listings.length === 0 ? (
-              <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm">
+              <div className="col-span-full rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-6 py-12 text-center shadow-sm hover:bg-[#F5F3FF]">
                 <div className="text-lg font-bold text-[#0F172A]">No active {category.label} listings right now</div>
                 <p className="mt-2 text-sm text-[#475569]">No real seller has published an active {category.label} listing yet. Browse all listings or create a buyer-ready listing in this category if you have an item to sell.</p><div className="mt-5 flex flex-wrap justify-center gap-2"><Link href="/sell/new" className="bd-btn bd-btn-primary text-center">Create a {category.label} listing</Link><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Browse all listings</Link></div>
               </div>

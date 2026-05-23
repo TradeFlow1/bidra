@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import BrandLogo from "@/components/brand-logo";
 import { cn } from "@/lib/utils";
@@ -34,7 +34,7 @@ const legalLinks = [
 
 export function PublicContentPage({ title, subtitle, children, className }: PublicContentPageProps) {
   return (
-    <main className="bg-white text-[#0F172A]">
+    <main className="bg-white text-[#4F46E5] hover:bg-[#F5F3FF]">
       <div className={cn("mx-auto w-full max-w-6xl px-6 py-12 lg:px-8 lg:py-16", className)}>
         <header className="max-w-4xl">
           <h1 className="text-4xl font-black tracking-tight text-[#0F172A] sm:text-5xl">{title}</h1>
@@ -48,7 +48,7 @@ export function PublicContentPage({ title, subtitle, children, className }: Publ
 
 export function LegalContentPage({ title, updated = "Last updated: 1 May 2025", active, children }: LegalContentPageProps) {
   return (
-    <main className="bg-white text-[#0F172A]">
+    <main className="bg-white text-[#4F46E5] hover:bg-[#F5F3FF]">
       <div className="mx-auto grid w-full max-w-6xl gap-10 px-6 py-10 lg:grid-cols-[250px_minmax(0,1fr)] lg:px-8 lg:py-14">
         <aside className="border-[#E2E8F0] lg:border-r lg:pr-8">
           <h1 className="text-2xl font-black tracking-tight">Legal</h1>
@@ -85,7 +85,7 @@ export function TopicGrid({ items }: { items: InfoCardProps[] }) {
     <div className="grid gap-6 md:grid-cols-2">
       {items.map((item) => {
         const content = (
-          <div className="flex items-center gap-6 rounded-[18px] border border-[#E2E8F0] bg-white p-6 shadow-sm transition hover:border-[#C7D2FE] hover:bg-[#FBFAFF]">
+          <div className="flex items-center gap-6 rounded-[18px] border border-[#E2E8F0] bg-white p-6 shadow-sm transition hover:border-[#C7D2FE] hover:bg-[#FBFAFF] hover:bg-[#F5F3FF]">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#EEF2FF] text-2xl text-[#4F46E5]">
               {item.icon || "□"}
             </div>
@@ -105,7 +105,7 @@ export function TopicGrid({ items }: { items: InfoCardProps[] }) {
 
 export function ArticleList({ items }: { items: { href: string; title: string }[] }) {
   return (
-    <div className="divide-y divide-[#E2E8F0] overflow-hidden rounded-[18px] border border-[#E2E8F0] bg-white shadow-sm">
+    <div className="divide-y divide-[#E2E8F0] overflow-hidden rounded-[18px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
       {items.map((item) => (
         <Link key={item.href + item.title} href={item.href} className="flex items-center gap-5 px-5 py-5 text-base font-semibold text-[#4F46E5] hover:bg-[#F5F3FF]">
           <span className="text-xl">▤</span>
@@ -119,7 +119,7 @@ export function ArticleList({ items }: { items: { href: string; title: string }[
 
 export function SearchBox({ placeholder = "Search..." }: { placeholder?: string }) {
   return (
-    <div className="flex h-16 max-w-4xl items-center gap-4 rounded-2xl border border-[#CBD5E1] bg-white px-6 text-lg font-semibold text-[#64748B] shadow-sm">
+    <div className="flex h-16 max-w-4xl items-center gap-4 rounded-2xl border border-[#CBD5E1] bg-white px-6 text-lg font-semibold text-[#64748B] shadow-sm hover:bg-[#F5F3FF]">
       <span className="text-2xl">⌕</span>
       <span>{placeholder}</span>
     </div>
@@ -137,7 +137,7 @@ export function LegalSection({ title, children }: { title: string; children: Rea
 
 export function PublicFooter() {
   return (
-    <footer className="border-t border-[#E2E8F0] bg-white">
+    <footer className="border-t border-[#E2E8F0] bg-white hover:bg-[#F5F3FF]">
       <div className="mx-auto w-full max-w-6xl px-6 py-10 lg:px-8">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
           <div>
@@ -154,7 +154,7 @@ export function PublicFooter() {
             <h3 className="text-sm font-black text-[#0F172A]">Stay in the loop</h3>
             <p className="mt-4 text-sm font-semibold leading-6 text-[#475569]">Get tips, new features and updates.</p>
             <input className="mt-5 h-12 w-full rounded-2xl border border-[#CBD5E1] px-4 text-sm font-semibold" placeholder="Enter your email" />
-            <button className="mt-3 h-12 w-full rounded-2xl bg-[#4F46E5] text-sm font-black text-white">Subscribe</button>
+            <button className="mt-3 h-12 w-full rounded-2xl bg-[#4F46E5] text-sm font-black text-white !text-white disabled:!text-white">Subscribe</button>
           </div>
         </div>
         <div className="mt-10 flex flex-col gap-3 border-t border-[#E2E8F0] pt-6 text-xs font-semibold text-[#64748B] sm:flex-row sm:items-center sm:justify-between">

@@ -472,7 +472,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   }
 
   return (
-    <div className="rounded-[28px] border border-[#D8E6F8] bg-white p-3 shadow-[0_18px_50px_rgba(32,75,140,0.10)] sm:p-5">
+    <div className="rounded-[28px] border border-[#D8E6F8] bg-white p-3 shadow-[0_18px_50px_rgba(32,75,140,0.10)] sm:p-5 hover:bg-[#F5F3FF]">
       {err && (
         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div>
       )}
@@ -554,7 +554,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                     <button
                       type="button"
                       aria-label="Remove photo"
-                      className="absolute right-2 top-2 z-10 inline-flex min-h-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white/95 px-3 text-xs font-extrabold text-[#0F172A] shadow-sm hover:bg-[#F8FAFC]"
+                      className="absolute right-2 top-2 z-10 inline-flex min-h-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white/95 px-3 text-xs font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC] hover:bg-[#F5F3FF]"
                       onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
                     >
                       Remove
@@ -642,7 +642,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               </div>
 
               {category ? (
-                <div className="mt-3 rounded-[18px] border border-[#D8E1F0] bg-white px-3 py-2 text-sm">
+                <div className="mt-3 rounded-[18px] border border-[#D8E1F0] bg-white px-3 py-2 text-sm hover:bg-[#F5F3FF]">
                   <span className="text-xs uppercase tracking-wide text-black/50">Selected</span>
                   <div className="mt-1 font-medium bd-ink">{category}</div>
                 </div>

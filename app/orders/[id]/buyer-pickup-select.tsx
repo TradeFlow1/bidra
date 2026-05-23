@@ -100,7 +100,7 @@ export default function BuyerPickupSelect({ orderId, options }: { orderId: strin
         })}
       </div>
 
-      <div className="rounded-2xl border border-black/10 bg-white/5 px-4 py-3 text-sm bd-ink2">
+      <div className="rounded-2xl border border-black/10 bg-white/5 px-4 py-3 text-sm bd-ink2 hover:bg-[#F5F3FF]">
         Select one pickup time to confirm the updated schedule.
       </div>
 

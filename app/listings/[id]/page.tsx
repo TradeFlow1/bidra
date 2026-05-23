@@ -240,12 +240,12 @@ export default async function ListingDetailPage({
 
         {/* BIDRA_MOBILE_LISTING_DETAIL_FINAL */}
         <section className="min-w-0 space-y-3 lg:hidden">
-          <div className="overflow-hidden rounded-[30px] border border-[#D8E6F8] bg-white shadow-[0_18px_50px_rgba(32,75,140,0.10)]">
+          <div className="overflow-hidden rounded-[30px] border border-[#D8E6F8] bg-white shadow-[0_18px_50px_rgba(32,75,140,0.10)] hover:bg-[#F5F3FF]">
             <div className="p-2.5">
               <ListingImageGallery images={images} title={cleanText(listing.title)} />
             </div>
           </div>
-          <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+          <div className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#475569]">{cleanText(listing.category) || "Listing"}</span>
               <span
@@ -270,7 +270,7 @@ export default async function ListingDetailPage({
               <div className="mt-1 text-4xl font-extrabold tracking-tight text-[#0F172A]">{money(displayPrice)}</div>
 
               {isTimedOffers ? (
-                <div className="mt-3 rounded-2xl border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#475569]">
+                <div className="mt-3 rounded-2xl border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#475569] hover:bg-[#F5F3FF]">
                   <div>{currentOffer !== null ? "Current highest offer: " + money(currentOffer) : "No offers yet."}</div>
                   <div>{offerCount} {offerCount === 1 ? "offer" : "offers"}</div>
                   <div>{offerWindowText}</div>
@@ -305,20 +305,20 @@ export default async function ListingDetailPage({
             </div>
           </div>
 
-          <section className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+          <section className="rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
             <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Description</div>
             <h2 className="mt-1 text-xl font-extrabold tracking-tight text-[#0F172A]">About this item</h2>
             <p className="mt-3 whitespace-pre-wrap text-base leading-7 text-[#1E293B]">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided. Message the seller before buying or making an offer."}</p>
           </section>
 
-          <section className="rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm">
+          <section className="rounded-[24px] border border-[#D8E1F0] bg-white p-3 shadow-sm hover:bg-[#F5F3FF]">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
                 <div className="mt-1 truncate text-lg font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
                 <div className="mt-1 text-sm font-semibold text-[#64748B]">{sellerLocation} - {sellerActiveListings} active</div>
               </div>
-              <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target shrink-0 rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-extrabold text-[#0F172A] shadow-sm transition hover:bg-white">Profile</Link>
+              <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target shrink-0 rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-white hover:bg-[#F5F3FF]">Profile</Link>
             </div>
 
             {sellerTrustSignals.length > 0 ? (
@@ -330,7 +330,7 @@ export default async function ListingDetailPage({
             ) : null}
           </section>
 
-          <details className="group rounded-[24px] border border-[#D8E1F0] bg-white p-3 text-sm text-[#475569] shadow-sm">
+          <details className="group rounded-[24px] border border-[#D8E1F0] bg-white p-3 text-sm text-[#475569] shadow-sm hover:bg-[#F5F3FF]">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-extrabold text-[#0F172A] [&::-webkit-details-marker]:hidden">
               <span>Details and safety</span>
               <span className="text-xs font-bold text-[#64748B] group-open:hidden">Open</span>
@@ -373,7 +373,7 @@ export default async function ListingDetailPage({
           </details>
         </section>
 
-        <section className="hidden min-w-0 overflow-hidden rounded-[34px] border border-[#D8E6F8] bg-white p-4 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-5 xl:p-6 lg:block">
+        <section className="hidden min-w-0 overflow-hidden rounded-[34px] border border-[#D8E6F8] bg-white p-4 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-5 xl:p-6 lg:block hover:bg-[#F5F3FF]">
           <div className="grid min-w-0 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_20rem] xl:grid-cols-[minmax(0,1fr)_22rem]">
             <div className="space-y-3">
               <div>
@@ -389,9 +389,9 @@ export default async function ListingDetailPage({
                     {isTimedOffers ? "Offers" : "Buy now"}
                   </span>
                   {listing.condition ? (
-                    <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{cleanText(listing.condition)}</span>
+                    <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569] hover:bg-[#F5F3FF]">{cleanText(listing.condition)}</span>
                   ) : null}
-                  <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569]">{cleanText(listing.location) || "Location on request"}</span>
+                  <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#475569] hover:bg-[#F5F3FF]">{cleanText(listing.location) || "Location on request"}</span>
                   {isSold ? (
                     <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-700">Sold</span>
                   ) : null}
@@ -410,7 +410,7 @@ export default async function ListingDetailPage({
                 <div className="mt-1 text-4xl font-extrabold tracking-tight text-[#0F172A]">{money(displayPrice)}</div>
 
                 {isTimedOffers ? (
-                  <div className="mt-3 rounded-2xl border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#475569]">
+                  <div className="mt-3 rounded-2xl border border-[#E2E8F0] bg-white px-3 py-2 text-sm text-[#475569] hover:bg-[#F5F3FF]">
                     <div>{currentOffer !== null ? "Current highest offer: " + money(currentOffer) : "No offers yet."}</div>
                     <div>{offerCount} {offerCount === 1 ? "offer" : "offers"}</div>
                     <div>{offerWindowText}</div>
@@ -444,7 +444,7 @@ export default async function ListingDetailPage({
               {/* BIDRA_MOBILE_ACTION_END */}
 
 
-              <div className="min-w-0 overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white shadow-sm">
+              <div className="min-w-0 overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
                 <div className="p-2.5 sm:p-3">
                   <ListingImageGallery images={images} title={cleanText(listing.title)} />
                 </div>
@@ -452,12 +452,12 @@ export default async function ListingDetailPage({
 
               {/* BIDRA_MOBILE_INFO_START */}
               <div className="space-y-3 lg:hidden">
-                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm">
+                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm hover:bg-[#F5F3FF]">
                   <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Description</div>
                   <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-[#1E293B]">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided. Message the seller before buying or making an offer."}</p>
                 </div>
 
-                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm">
+                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm hover:bg-[#F5F3FF]">
                   <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
                   <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
 
@@ -472,10 +472,10 @@ export default async function ListingDetailPage({
                     </div>
                   </div>
 
-                  <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target mt-3 inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">View seller profile</Link>
+                  <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target mt-3 inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] hover:bg-[#F5F3FF]">View seller profile</Link>
                 </div>
 
-                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 text-sm text-[#475569] shadow-sm">
+                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 text-sm text-[#475569] shadow-sm hover:bg-[#F5F3FF]">
                   <div className="font-extrabold text-[#0F172A]">Before you act</div>
                   <ul className="mt-2 list-disc space-y-1.5 pl-5 leading-6">
                     <li>Check the photos, description, condition, location, and seller profile.</li>
@@ -489,7 +489,7 @@ export default async function ListingDetailPage({
 
               {/* BIDRA_MOVED_ITEM_DETAILS_START */}
               <div className="hidden space-y-3 lg:block">
-            <section className="overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white shadow-sm" aria-labelledby="listing-description-heading">
+            <section className="overflow-hidden rounded-[26px] border border-[#D8E1F0] bg-white shadow-sm hover:bg-[#F5F3FF]" aria-labelledby="listing-description-heading">
               <div className="border-b border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 sm:px-5">
                 <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Item description</div>
                 <h2 id="listing-description-heading" className="mt-1 text-xl font-extrabold tracking-tight text-[#0F172A] sm:text-2xl">About this item</h2>
@@ -497,7 +497,7 @@ export default async function ListingDetailPage({
               </div>
 
               <div className="p-4 sm:p-5">
-                <div className="rounded-[24px] bg-white p-0">
+                <div className="rounded-[24px] bg-white p-0 hover:bg-[#F5F3FF]">
                   <p className="whitespace-pre-wrap text-base leading-7 text-[#1E293B] sm:text-[17px] sm:leading-8">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided. Message the seller before buying or making an offer."}</p>
                 </div>
 
@@ -533,7 +533,7 @@ export default async function ListingDetailPage({
               <div className="mt-1 text-4xl font-extrabold tracking-tight text-[#0F172A]">{money(displayPrice)}</div>
 
               {isTimedOffers ? (
-                <div className="mt-2 rounded-2xl border border-[#E2E8F0] bg-white/80 px-3 py-2 text-sm text-[#475569]">
+                <div className="mt-2 rounded-2xl border border-[#E2E8F0] bg-white/80 px-3 py-2 text-sm text-[#475569] hover:bg-[#F5F3FF]">
                   <div>{currentOffer !== null ? "Current highest offer: " + money(currentOffer) : "No offers yet."}</div>
                   <div>{offerCount} {offerCount === 1 ? "offer" : "offers"}</div>
                   <div>{offerWindowText}</div>
@@ -570,12 +570,12 @@ export default async function ListingDetailPage({
                   </div>
                 )}
 
-                                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm lg:hidden">
+                                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm lg:hidden hover:bg-[#F5F3FF]">
                   <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Description</div>
                   <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-[#1E293B]">{listing.description?.replace(/Selling:\s*/gi, "").replace(/Condition:\s*/gi, "").replace(/Details:\s*/gi, "").trim() || "No description provided. Message the seller before buying or making an offer."}</p>
                 </div>
 
-                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm">
+                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 shadow-sm hover:bg-[#F5F3FF]">
                   <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
                   <div className="mt-1 text-lg font-extrabold tracking-tight text-[#0F172A]">{sellerName}</div>
 
@@ -598,7 +598,7 @@ export default async function ListingDetailPage({
                     </div>
                   ) : null}
 
-                  <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target mt-3 inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:bg-[#F8FAFC]">View seller profile</Link>
+                  <Link href={"/seller/" + listing.sellerId} className="bd-mobile-tap-target mt-3 inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] hover:bg-[#F5F3FF]">View seller profile</Link>
                 </div>
 
                 <ShareActions
@@ -607,7 +607,7 @@ export default async function ListingDetailPage({
                   text={`Take a look at this listing on Bidra: ${cleanText(listing.title)}`}
                   label="Share listing"
                 />
-                                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 text-sm text-[#475569] shadow-sm">
+                                <div className="rounded-2xl border border-[#D8E1F0] bg-white px-3.5 py-3 text-sm text-[#475569] shadow-sm hover:bg-[#F5F3FF]">
                   <div className="font-extrabold text-[#0F172A]">Before you act</div>
                   <ul className="mt-2 list-disc space-y-1.5 pl-5 leading-6">
                     <li>Check the photos, description, condition, location, and seller profile.</li>
@@ -641,14 +641,14 @@ export default async function ListingDetailPage({
           </div>
         </section>
 
-        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6">
+        <section className="rounded-[30px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 xl:p-6 hover:bg-[#F5F3FF]">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">More listings</div>
               <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-[#0F172A]">Similar listings</h2>
               <p className="mt-1 max-w-3xl text-sm leading-6 text-[#475569]">{recommendationSummary.summary}</p>
             </div>
-            <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#0F172A] shadow-sm transition hover:bg-white">View all listings</Link>
+            <Link href="/listings" className="bd-mobile-tap-target inline-flex items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold text-[#4F46E5] shadow-sm transition hover:bg-white hover:bg-[#F5F3FF]">View all listings</Link>
           </div>
           {relatedListings.length ? (
             <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
