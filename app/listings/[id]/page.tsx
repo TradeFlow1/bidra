@@ -57,6 +57,40 @@ function getDescriptionExcerpt(value: string | null | undefined) {
   return cleaned.length > 180 ? cleaned.slice(0, 177).trimEnd() + "..." : cleaned;
 }
 
+function normalizeListingImages(images: unknown, photos?: unknown) {
+  const values: string[] = [];
+  for (const source of [images, photos]) {
+    if (Array.isArray(source)) {
+      for (const item of source) {
+        if (typeof item === "string" && item.trim()) values.push(item.trim());
+        if (item && typeof item === "object" && "url" in item) {
+          const url = String((item as { url?: unknown }).url ?? "").trim();
+          if (url) values.push(url);
+        }
+      }
+    }
+    if (typeof source === "string" && source.trim()) {
+      try {
+        const parsed = JSON.parse(source);
+        if (Array.isArray(parsed)) {
+          for (const item of parsed) {
+            if (typeof item === "string" && item.trim()) values.push(item.trim());
+            if (item && typeof item === "object" && "url" in item) {
+              const url = String((item as { url?: unknown }).url ?? "").trim();
+              if (url) values.push(url);
+            }
+          }
+        } else {
+          values.push(source.trim());
+        }
+      } catch {
+        values.push(source.trim());
+      }
+    }
+  }
+  return Array.from(new Set(values));
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -83,7 +117,8 @@ export async function generateMetadata({
 
   const baseUrl = getBaseUrl();
   const url = `${baseUrl}/listings/${listing.id}`;
-  const firstImage = Array.isArray(listing.images) ? cleanText(String(listing.images[0] || "")) : "";
+  const metadataImages = normalizeListingImages(listing.images);
+  const firstImage = cleanText(metadataImages[0] || "");
   const absoluteImage = firstImage
     ? (firstImage.startsWith("http://") || firstImage.startsWith("https://")
         ? firstImage
@@ -187,7 +222,7 @@ export default async function ListingDetailPage({
   const listedDate = listing.createdAt
     ? new Date(listing.createdAt).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })
     : "";
-  const images = (listing as any).images || [];
+  const images = normalizeListingImages((listing as any).images);
   const baseUrl = getBaseUrl();
   const listingUrl = `${baseUrl}/listings/${listing.id}`;
 
