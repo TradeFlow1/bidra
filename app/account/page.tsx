@@ -99,15 +99,15 @@ export default async function AccountPage() {
   const avatarInitials = initials(user.name, user.email);
 
   return (
-    <main className="bg-white text-[#07152E] hover:bg-[#F5F3FF]">
-      <div className="mx-auto w-full max-w-[1320px] px-8 py-10">
+    <main className="bd-logged-in-page text-[#0F172A]">
+      <div className="mx-auto w-full max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <nav className="mb-8 flex items-center gap-3 text-sm font-semibold text-[#64748B]">
           <Link href="/" className="text-[#4F46E5]">Home</Link>
           <span>/</span>
           <span>Account</span>
         </nav>
 
-        <section className="overflow-hidden rounded-[28px] border border-[#D7E2F1] bg-white shadow-sm hover:bg-[#F5F3FF]">
+        <section className="overflow-hidden rounded-[28px] border border-[#D7E2F1] bg-white shadow-sm">
           <div className="h-64 bg-[linear-gradient(135deg,#DBEAFE_0%,#EEF2FF_45%,#F8FAFC_100%)] sm:h-72">
             <div className="h-full w-full bg-[radial-gradient(circle_at_25%_20%,rgba(79,70,229,0.22),transparent_28%),radial-gradient(circle_at_80%_40%,rgba(14,165,233,0.16),transparent_30%)]" />
           </div>
@@ -125,12 +125,12 @@ export default async function AccountPage() {
                 </div>
               </div>
 
-              <Link href={`/seller/${user.id}`} className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-6 text-sm font-black text-[#4F46E5] hover:bg-[#F5F3FF]">
+              <Link href={`/seller/${user.id}`} className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-6 text-sm font-black text-[#4F46E5] hover:bg-[#EEF2FF]">
                 View public profile
               </Link>
             </div>
 
-            <div className="mx-auto mt-10 grid max-w-3xl gap-6 sm:grid-cols-4">
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <StatCard label="Listings" value={listingCount} />
               <StatCard label="Sold" value={soldCount} />
               <StatCard label="Bought" value={boughtCount} />
@@ -161,7 +161,7 @@ export default async function AccountPage() {
                 const price = listing.buyNowPrice ?? listing.price;
 
                 return (
-                  <Link key={listing.id} href={`/listings/${listing.id}`} className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm hover:border-[#C7D2FE] hover:bg-[#F5F3FF]">
+                  <Link key={listing.id} href={`/listings/${listing.id}`} className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm hover:border-[#C7D2FE] hover:bg-[#EEF2FF]">
                     <div className="relative aspect-square bg-[#F1F5F9]">
                       {image ? <Image src={image} alt="" fill className="object-cover" /> : null}
                     </div>
@@ -190,9 +190,9 @@ export default async function AccountPage() {
 
         <section id="activity" className="mt-14">
           <h2 className="text-2xl font-black tracking-tight">Recent activity</h2>
-          <div className="mt-5 divide-y divide-[#E2E8F0] overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
+          <div className="mt-5 divide-y divide-[#E2E8F0] overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm">
             {activeOrders.length ? activeOrders.map((order) => (
-              <Link key={order.id} href={`/orders/${order.id}`} className="flex items-center justify-between gap-4 p-5 hover:bg-[#F5F3FF]">
+              <Link key={order.id} href={`/orders/${order.id}`} className="flex items-center justify-between gap-4 p-5 hover:bg-[#EEF2FF]">
                 <div>
                   <div className="font-black">{order.listing.title}</div>
                   <div className="mt-1 text-sm font-semibold text-[#64748B]">Order status: {order.status}</div>
@@ -205,7 +205,7 @@ export default async function AccountPage() {
           </div>
         </section>
 
-        <section id="edit-account" className="mt-14 rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
+        <section id="edit-account" className="mt-14 rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:bg-[#EEF2FF]">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-2xl font-black tracking-tight">Manage account</h2>
@@ -247,7 +247,7 @@ export default async function AccountPage() {
 
                 <label className="block">
                   <span className="text-sm font-black">State</span>
-                  <select name="state" defaultValue={user.state || ""} className="mt-2 h-12 w-full rounded-2xl border border-[#CBD5E1] bg-white px-4 text-sm font-semibold hover:bg-[#F5F3FF]">
+                  <select name="state" defaultValue={user.state || ""} className="mt-2 h-12 w-full rounded-2xl border border-[#CBD5E1] bg-white px-4 text-sm font-semibold hover:bg-[#EEF2FF]">
                     <option value="">Select</option>
                     <option value="QLD">QLD</option>
                     <option value="NSW">NSW</option>
@@ -267,7 +267,7 @@ export default async function AccountPage() {
             </form>
           </div>
         </section>
-        <section id="restrictions" className="mt-14 rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
+        <section id="restrictions" className="mt-14 rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:bg-[#EEF2FF]">
           <h2 className="text-2xl font-black tracking-tight">Account status</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <StatusPill label="Email" value={user.emailVerified ? "Verified" : "Needs verification"} good={Boolean(user.emailVerified)} />
@@ -285,7 +285,7 @@ export default async function AccountPage() {
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 text-center shadow-sm hover:bg-[#F5F3FF]">
+    <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 text-center shadow-sm hover:bg-[#EEF2FF]">
       <div className="text-4xl font-black">{value}</div>
       <div className="mt-1 text-sm font-semibold text-[#64748B]">{label}</div>
     </div>
@@ -294,7 +294,7 @@ function StatCard({ label, value }: { label: string; value: number }) {
 
 function InfoCard({ title, body, href, label }: { title: string; body: string; href: string; label: string }) {
   return (
-    <Link href={href} className="rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:border-[#C7D2FE] hover:bg-[#F5F3FF]">
+    <Link href={href} className="rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:border-[#C7D2FE] hover:bg-[#EEF2FF]">
       <h3 className="text-lg font-black">{title}</h3>
       <p className="mt-2 min-h-12 text-sm font-semibold leading-6 text-[#64748B]">{body}</p>
       <div className="mt-4 text-sm font-black text-[#4F46E5]">{label}</div>

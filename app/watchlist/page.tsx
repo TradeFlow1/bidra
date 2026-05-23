@@ -6,7 +6,7 @@ import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
 import { BackButton } from "@/components/ui/back-button";
-import { ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
+import { ReferencePage, appShell } from "@/components/marketplace-redesign";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -84,9 +84,9 @@ export default async function WatchlistPage() {
 
   return (
     <ReferencePage>
-      <div className={appNarrowShell + " space-y-4 py-5 sm:py-7"}>
+      <div className={appShell + " space-y-5 py-6 sm:py-8"}>
         <AccountNav active="saved" />
-        <div className="rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
+        <section className="bd-logged-in-hero">
           <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Saved</div>
@@ -105,9 +105,9 @@ export default async function WatchlistPage() {
               </Link>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className="rounded-[22px] border border-[#D7E2F1] bg-white px-4 py-3 text-sm text-[#4F46E5] shadow-sm hover:bg-[#F5F3FF]">
+        <div className="rounded-[22px] border border-[#D7E2F1] bg-white px-4 py-3 text-sm text-[#475569] shadow-sm">
           <span className="font-extrabold text-[#07152E]">{items.length}</span> saved listings.
           <span className="ml-2 text-[#607089]">{activeCount} active, {endedCount} unavailable.</span>
         </div>

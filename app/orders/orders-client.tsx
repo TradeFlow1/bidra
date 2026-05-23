@@ -7,6 +7,7 @@ import { BidraButton } from "@/components/bidra/ui/BidraButton";
 import { BidraCard } from "@/components/bidra/ui/BidraCard";
 import { BidraEmptyState } from "@/components/bidra/ui/BidraEmptyState";
 import { BidraPageHeader } from "@/components/bidra/ui/BidraPageHeader";
+import AccountNav from "@/components/account-nav";
 
 type JsonObject = Record<string, unknown>;
 
@@ -151,6 +152,7 @@ export function OrdersClient() {
   return (
     <BidraAccountShell>
       <div className="grid gap-5">
+        <AccountNav active="buying" />
         <BidraPageHeader
           eyebrow="Orders"
           title="Your orders"

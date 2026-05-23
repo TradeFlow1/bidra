@@ -6,6 +6,7 @@ import { requireAdult } from "@/lib/require-adult";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import SendBox from "./[id]/components/send-box";
+import AccountNav from "@/components/account-nav";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -86,8 +87,15 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
 
   return (
     <>
-      <main className="mx-auto w-full max-w-[1280px] px-5 py-10 text-[#07152E] sm:px-8 lg:px-10">
-        <h1 className="text-4xl font-black tracking-tight sm:text-5xl">Messages</h1>
+      <main className="bd-logged-in-page mx-auto w-full max-w-[1440px] px-4 py-6 text-[#0F172A] sm:px-6 sm:py-8 lg:px-8">
+        <AccountNav active="messages" />
+        <section className="bd-logged-in-hero mt-5">
+          <div>
+            <div className="bd-logged-in-eyebrow">Messages</div>
+            <h1 className="bd-logged-in-title">Messages</h1>
+            <p className="bd-logged-in-copy">Keep buyer and seller conversations in one place.</p>
+          </div>
+        </section>
 
         {items.length === 0 ? (
           <div className="mt-8 rounded-[28px] border border-[#E2E8F0] bg-white p-10 text-center shadow-sm hover:bg-[#F5F3FF]">
@@ -96,7 +104,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
             <Link href="/listings" className="mt-6 inline-flex h-12 items-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black text-white !text-white disabled:!text-white">Browse listings</Link>
           </div>
         ) : (
-          <div className="mt-8 grid gap-6 lg:grid-cols-[420px_minmax(0,1fr)]">
+          <div className="mt-6 grid gap-6 lg:grid-cols-[420px_minmax(0,1fr)]">
             <aside className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
               {items.map((thread) => (
                 <Link key={thread.id} href={`/messages?thread=${thread.id}`} className={`flex gap-4 border-b border-[#E2E8F0] p-6 last:border-b-0 hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F5F3FF]" : ""}`}>
@@ -136,7 +144,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
 
               {selected ? (
                 <>
-                  <div className="min-h-[420px] space-y-5 px-6 py-7">
+                  <div className="min-h-[500px] space-y-5 px-6 py-7">
                     <div className="flex items-center gap-5 text-sm font-black text-[#64748B]">
                       <div className="h-px flex-1 bg-[#E2E8F0]" />
                       <span>Today</span>
