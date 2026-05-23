@@ -44,6 +44,16 @@ function cleanText(value: string | null | undefined) {
   return String(value ?? "").replace(/\s+/g, " ").trim();
 }
 
+function stableListedDate(value: string | Date | null | undefined) {
+  if (!value) return "Listed recently";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "Listed recently";
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const month = months[date.getUTCMonth()] || "Jan";
+  return "Listed " + day + " " + month;
+}
+
 function relativeTime(value: string | Date | null | undefined) {
   if (!value) return "Listed recently";
   const date = new Date(value);
@@ -55,7 +65,7 @@ function relativeTime(value: string | Date | null | undefined) {
   if (hours < 24) return hours + "h ago";
   const days = Math.floor(hours / 24);
   if (days < 14) return days + "d ago";
-  return date.toLocaleDateString("en-AU", { day: "numeric", month: "short" });
+  return stableListedDate(value);
 }
 
 export default function ListingCard({
@@ -86,7 +96,13 @@ export default function ListingCard({
   const title = cleanText(listing.title);
   const location = cleanText(listing.location);
   const saleTypeLabel = listing.type === "OFFERABLE" ? "Make offer" : "Buy now";
-  const listedText = relativeTime(listing.createdAt);
+  const [listedText, setListedText] = useState(function () {
+    return stableListedDate(listing.createdAt);
+  });
+
+  useEffect(() => {
+    setListedText(relativeTime(listing.createdAt));
+  }, [listing.createdAt]);
 
   async function onToggleWatch(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
