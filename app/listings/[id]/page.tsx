@@ -221,16 +221,8 @@ export default async function ListingDetailPage({
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {canBuyNow ? (
-                <BuyNowButton listingId={listing.id} />
-              ) : (
-                <div className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-5 text-sm font-extrabold text-[#667399]">Buy now unavailable</div>
-              )}
-              {canOffer ? (
-                <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} />
-              ) : (
-                <div className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-5 text-sm font-extrabold text-[#667399]">Offers unavailable</div>
-              )}
+              {canBuyNow ? <BuyNowButton listingId={listing.id} /> : null}
+              {canOffer ? <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} /> : null}
             </div>
 
             <div className="mt-4 grid gap-3">
