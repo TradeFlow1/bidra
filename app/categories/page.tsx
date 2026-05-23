@@ -1,13 +1,13 @@
 import Link from "next/link";
 
 const categories = [
-  { title: "Electronics", href: "/listings/c/electronics", description: "Phones, laptops, consoles, cameras and tech." },
-  { title: "Home & Garden", href: "/listings/c/home-garden", description: "Furniture, appliances, tools and household items." },
-  { title: "Vehicles", href: "/listings/c/vehicles", description: "Cars, bikes, parts and accessories." },
-  { title: "Fashion", href: "/listings/c/fashion", description: "Clothing, shoes, bags and accessories." },
-  { title: "Sport & Outdoors", href: "/listings/c/sport-outdoors", description: "Fitness, camping, bikes and outdoor gear." },
-  { title: "Collectables", href: "/listings/c/collectables", description: "Rare finds, hobbies, games and memorabilia." },
-  { title: "Baby & Kids", href: "/listings/c/baby-kids", description: "Prams, toys, clothes and family essentials." },
+  { title: "Electronics", href: "/listings?category=Electronics", description: "Phones, laptops, consoles, cameras and tech." },
+  { title: "Home & Living", href: "/listings?category=Home%20%26%20Living", description: "Furniture, appliances, tools and household items." },
+  { title: "Vehicles", href: "/listings?category=Vehicles", description: "Cars, bikes, parts and accessories." },
+  { title: "Sports & Outdoors", href: "/listings?category=Sports%20%26%20Outdoors", description: "Fitness, camping, bikes and outdoor gear." },
+  { title: "Fashion", href: "/listings?category=Fashion", description: "Clothing, shoes, bags and accessories." },
+  { title: "Appliances", href: "/listings?category=Appliances", description: "Kitchen, laundry and household appliances." },
+  { title: "Books & Media", href: "/listings?category=Books%20%26%20Media", description: "Books, games, films, music and collectibles." },
   { title: "All listings", href: "/listings", description: "Browse every active Bidra listing." },
 ];
 

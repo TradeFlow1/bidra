@@ -1877,9 +1877,7 @@ main:has(.bd-account-nav) {
   line-height: 1.65;
 }
 
-main:has(.bd-account-nav) .rounded-\\[32px\\],
-main:has(.bd-account-nav) .rounded-\\[30px\\],
-main:has(.bd-account-nav) .rounded-\\[28px\\] {
+main:has(.bd-account-nav) [class*="rounded-"] {
   box-shadow: 0 18px 55px rgba(15, 23, 42, 0.06);
 }
 
