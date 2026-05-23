@@ -1220,3 +1220,128 @@ a[aria-label="Bidra home"] img {
   object-fit: contain;
 }
 /* BIDRA_PRODUCTION_IMAGE_BOUNDS_HOTFIX_END */
+
+/* BIDRA_BUTTON_CONTRAST_HOTFIX_START */
+:root {
+  --brand: #4F46E5;
+  --brand-hover: #4338CA;
+  --brand-accent: #6366F1;
+  --brand-soft: #EEF2FF;
+  --brand-soft-2: #F5F3FF;
+  --brand-border: #C7D2FE;
+  --text-main: #0F172A;
+  --text-muted: #475569;
+  --surface: #FFFFFF;
+}
+
+/* Force readable text on all solid Bidra primary buttons. */
+button[class*="bg-[#4F46E5]"],
+button[class*="bg-[#4338CA]"],
+button[class*="bg-[#2563EB]"],
+button[class*="to-[#7C3AED]"],
+a[class*="bg-[#4F46E5]"],
+a[class*="bg-[#4338CA]"],
+a[class*="bg-[#2563EB]"],
+a[class*="to-[#7C3AED]"],
+.bd-primary-button {
+  color: #FFFFFF !important;
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+
+button[class*="bg-[#4F46E5]"] *,
+button[class*="bg-[#4338CA]"] *,
+button[class*="bg-[#2563EB]"] *,
+button[class*="to-[#7C3AED]"] *,
+a[class*="bg-[#4F46E5]"] *,
+a[class*="bg-[#4338CA]"] *,
+a[class*="bg-[#2563EB]"] *,
+a[class*="to-[#7C3AED]"] *,
+.bd-primary-button * {
+  color: #FFFFFF !important;
+}
+
+button[class*="bg-[#4F46E5]"]:hover,
+button[class*="bg-[#4338CA]"]:hover,
+a[class*="bg-[#4F46E5]"]:hover,
+a[class*="bg-[#4338CA]"]:hover,
+.bd-primary-button:hover {
+  background-color: var(--brand-hover);
+  border-color: var(--brand-hover);
+}
+
+button:disabled,
+button[disabled],
+a[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+button:disabled[class*="bg-[#4F46E5]"],
+button:disabled[class*="bg-[#4338CA]"],
+button:disabled[class*="bg-[#2563EB]"],
+button:disabled[class*="to-[#7C3AED]"],
+button[disabled][class*="bg-[#4F46E5]"],
+button[disabled][class*="bg-[#4338CA]"],
+button[disabled][class*="bg-[#2563EB]"],
+button[disabled][class*="to-[#7C3AED]"] {
+  color: #FFFFFF !important;
+}
+
+/* Secondary buttons must stay white with brand text. */
+button[class*="bg-white"],
+a[class*="bg-white"] {
+  color: var(--brand) !important;
+}
+
+button[class*="bg-white"]:hover,
+a[class*="bg-white"]:hover {
+  background-color: var(--brand-soft-2) !important;
+}
+
+/* Inputs and cards use the same border/tone everywhere. */
+input,
+select,
+textarea {
+  color: var(--text-main);
+  border-color: #CBD5E1;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #94A3B8;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--brand) !important;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12) !important;
+  outline: none;
+}
+
+/* Header account/admin buttons should always read correctly. */
+header a[href*="/account"],
+header a[href*="/admin"],
+header button[class*="Account"],
+header button[class*="Admin"] {
+  color: #FFFFFF !important;
+}
+
+/* Fix blank active pill on dashboard/watchlist tabs. */
+a[aria-current="page"],
+.bd-dashboard-tab-active {
+  color: #FFFFFF !important;
+  background-color: var(--brand) !important;
+}
+
+/* Make links readable but not button-blue inside solid buttons. */
+a:not([class*="bg-[#4F46E5]"]):not([class*="bg-[#4338CA]"]):not([class*="bg-[#2563EB]"]):not([class*="to-[#7C3AED]"]) {
+  color: var(--brand);
+}
+
+a:not([class*="bg-[#4F46E5]"]):not([class*="bg-[#4338CA]"]):not([class*="bg-[#2563EB]"]):not([class*="to-[#7C3AED]"]):hover {
+  color: var(--brand-hover);
+}
+
+/* BIDRA_BUTTON_CONTRAST_HOTFIX_END */
