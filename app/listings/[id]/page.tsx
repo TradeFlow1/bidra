@@ -267,9 +267,9 @@ export default async function ListingDetailPage({
                     <Link href="/listings" className="bd-mobile-tap-target mt-2 inline-flex items-center text-sm font-semibold text-[#0F172A] underline underline-offset-2">Browse listings</Link>
                   </div>
                 ) : isTimedOffers ? (
-                  <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
+                  <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl bg-[#4F46E5] px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-[#4338CA]">Sign in to make an offer</Link>
                 ) : (
-                  <BuyNowButton listingId={listing.id} />
+                  <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl bg-[#4F46E5] px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-[#4338CA]">Sign in to buy now</Link>
                 )}
 
                 {isOwner ? (
@@ -278,8 +278,8 @@ export default async function ListingDetailPage({
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 gap-2.5">
-                    <WatchlistButton listingId={listing.id} authed={!!userId} loginHref="/auth/login" />
-                    <MessageSellerButton listingId={listing.id} />
+                    <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">Sign in to save</Link>
+                    <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">Sign in to message seller</Link>
                   </div>
                 )}
               </div>
@@ -405,9 +405,9 @@ export default async function ListingDetailPage({
                       <Link href="/listings" className="bd-mobile-tap-target mt-2 inline-flex items-center text-sm font-semibold text-[#0F172A] underline underline-offset-2">Browse listings</Link>
                     </div>
                   ) : isTimedOffers ? (
-                    <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
+                    <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl bg-[#4F46E5] px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-[#4338CA]">Sign in to make an offer</Link>
                   ) : (
-                    <BuyNowButton listingId={listing.id} />
+                    <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl bg-[#4F46E5] px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-[#4338CA]">Sign in to buy now</Link>
                   )}
 
                   {isOwner ? (
@@ -416,8 +416,8 @@ export default async function ListingDetailPage({
                     </div>
                   ) : (
                     <div className="grid grid-cols-1 gap-2.5">
-                      <WatchlistButton listingId={listing.id} authed={!!userId} loginHref="/auth/login" />
-                      <MessageSellerButton listingId={listing.id} />
+                      <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">Sign in to save</Link>
+                      <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">Sign in to message seller</Link>
                     </div>
                   )}
                 </div>
@@ -531,12 +531,12 @@ export default async function ListingDetailPage({
                 ) : isTimedOffers ? (
                   <div className="space-y-2">
                     
-                    <PlaceOfferClient listingId={listing.id} minOfferCents={currentOffer ?? listing.price} />
+                    <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl bg-[#4F46E5] px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-[#4338CA]">Sign in to make an offer</Link>
                   </div>
                 ) : (
                   <div className="space-y-2">
                     
-                    <BuyNowButton listingId={listing.id} />
+                    <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl bg-[#4F46E5] px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-[#4338CA]">Sign in to buy now</Link>
                   </div>
                 )}
 
@@ -546,8 +546,8 @@ export default async function ListingDetailPage({
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-                    <WatchlistButton listingId={listing.id} authed={!!userId} loginHref="/auth/login" />
-                    <MessageSellerButton listingId={listing.id} />
+                    <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">Sign in to save</Link>
+                    <Link href="/auth/login" className="bd-mobile-tap-target inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">Sign in to message seller</Link>
                   </div>
                 )}
 
@@ -602,7 +602,7 @@ export default async function ListingDetailPage({
                 <div className="mt-3 rounded-2xl border border-[#FDE68A] bg-[#FFFBEB] p-3.5">
                   <div className="mt-1 text-sm font-semibold text-[#92400E]">Accepting the highest offer creates a pending order record, marks the listing as sold, and opens order details for next steps.</div>
                   <div className="mt-2">
-                    <AcceptHighestOfferButton listingId={listing.id} />
+                    <div className="rounded-2xl border border-[#FDE68A] bg-[#FFFBEB] px-4 py-3 text-sm font-semibold text-[#92400E]">Offer acceptance is temporarily unavailable.</div>
                   </div>
                 </div>
               ) : null}
