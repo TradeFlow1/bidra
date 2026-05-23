@@ -1,16 +1,29 @@
 import Link from "next/link";
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import ListingCard from "@/components/listing-card";
 import { getSeoCategoryBySlug, getSeoCategoryLocationLinks, getSeoListings, getSiteUrl } from "@/lib/listing-seo";
 import { BackButton } from "@/components/ui/back-button";
 import { EmptyMarketplaceState, ReferencePage, appShell } from "@/components/marketplace-redesign";
 
+const legacyCategoryRedirects: Record<string, string> = {
+  "home-garden": "/listings?category=Home%20%26%20Living",
+  "home-and-garden": "/listings?category=Home%20%26%20Living",
+  "home-living": "/listings?category=Home%20%26%20Living",
+  "sport-outdoors": "/listings?category=Sports%20%26%20Outdoors",
+  "sports-outdoors": "/listings?category=Sports%20%26%20Outdoors",
+  "baby-kids": "/listings?category=Kids%20%26%20Baby",
+  "kids-baby": "/listings?category=Kids%20%26%20Baby",
+  "collectables": "/listings?category=Books%20%26%20Media",
+  "collectibles": "/listings?category=Books%20%26%20Media",
+  "appliances": "/listings?category=Other",
+};
 type Props = {
   params: { category: string };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  if (legacyCategoryRedirects[params.category]) return {};
   const category = getSeoCategoryBySlug(params.category);
   if (!category) return {};
 
@@ -33,6 +46,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CategorySeoPage({ params }: Props) {
+  const legacyRedirect = legacyCategoryRedirects[params.category];
+  if (legacyRedirect) redirect(legacyRedirect);
+
   const category = getSeoCategoryBySlug(params.category);
   if (!category) notFound();
 

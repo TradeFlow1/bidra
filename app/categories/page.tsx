@@ -6,8 +6,10 @@ const categories = [
   { title: "Vehicles", href: "/listings?category=Vehicles", description: "Cars, bikes, parts and accessories." },
   { title: "Sports & Outdoors", href: "/listings?category=Sports%20%26%20Outdoors", description: "Fitness, camping, bikes and outdoor gear." },
   { title: "Fashion", href: "/listings?category=Fashion", description: "Clothing, shoes, bags and accessories." },
-  { title: "Appliances", href: "/listings?category=Appliances", description: "Kitchen, laundry and household appliances." },
+  { title: "Kids & Baby", href: "/listings?category=Kids%20%26%20Baby", description: "Prams, toys, clothes and family essentials." },
+  { title: "Business & Industrial", href: "/listings?category=Business%20%26%20Industrial", description: "Tools, equipment, supplies and work gear." },
   { title: "Books & Media", href: "/listings?category=Books%20%26%20Media", description: "Books, games, films, music and collectibles." },
+  { title: "Other", href: "/listings?category=Other", description: "Everything else from local sellers." },
   { title: "All listings", href: "/listings", description: "Browse every active Bidra listing." },
 ];
 
@@ -24,7 +26,7 @@ export default function CategoriesPage() {
         </div>
       </section>
 
-      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {categories.map((category) => (
           <Link key={category.href} href={category.href} className="rounded-[24px] border border-[#D8E1F0] bg-white p-6 shadow-sm transition hover:-translate-y-[2px] hover:border-[#C7D2FE] hover:bg-[#F5F3FF]">
             <h2 className="text-xl font-black text-[#0F172A]">{category.title}</h2>
