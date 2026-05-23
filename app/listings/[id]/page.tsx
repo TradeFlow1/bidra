@@ -220,7 +220,7 @@ export default async function ListingDetailPage({
               <span>{cleanText(listing.status)}</span>
             </div>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className={canBuyNow && canOffer ? "mt-8 grid gap-4 sm:grid-cols-2" : "mt-8 grid gap-4"}>
               {canBuyNow ? <BuyNowButton listingId={listing.id} /> : null}
               {canOffer ? <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} /> : null}
             </div>
