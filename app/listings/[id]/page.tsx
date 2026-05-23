@@ -57,7 +57,7 @@ function safeListingImages(value: unknown) {
     }
   }
 
-  return Array.from(new Set(images)).slice(0, 6);
+  return Array.from(new Set(images)).slice(0, 8);
 }
 
 export async function generateMetadata() {
@@ -122,7 +122,7 @@ export default async function ListingDetailPage({
       images: true,
     },
     orderBy: { createdAt: "desc" },
-    take: 3,
+    take: 5,
   });
 
   const title = cleanText(listing.title) || "Bidra listing";
@@ -130,6 +130,7 @@ export default async function ListingDetailPage({
   const location = cleanText(listing.location) || "Location on request";
   const condition = cleanText(listing.condition) || "Condition not specified";
   const category = cleanText(listing.category) || "Listing";
+  const listingType = cleanText(listing.type) || "Buy now";
   const sellerName = cleanText(listing.seller?.name || listing.seller?.username) || "Bidra seller";
   const sellerLocation = cleanText(listing.seller?.location) || "Australia";
   const sellerJoined = listing.seller?.createdAt instanceof Date
@@ -145,119 +146,129 @@ export default async function ListingDetailPage({
   const primaryImage = images[0] || "";
 
   return (
-    <main className="min-h-screen bg-[#F8FAFC] px-4 py-8 text-[#0F172A] sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl">
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-          <Link href="/listings" className="text-sm font-bold text-[#4F46E5] underline underline-offset-4">Back to listings</Link>
-          <Link href="/auth/login" className="rounded-2xl bg-[#4F46E5] px-4 py-2 text-sm font-extrabold text-white shadow-sm hover:bg-[#4338CA]">Sign in</Link>
-        </div>
+    <main className="min-h-screen bg-white px-4 py-8 text-[#080D32] sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <nav className="mb-8 flex flex-wrap items-center gap-3 text-sm font-bold text-[#4B5B8F]">
+          <Link href="/" className="text-[#352CFF] hover:underline">Home</Link>
+          <span className="text-[#A8B1CC]">›</span>
+          <Link href="/listings" className="text-[#352CFF] hover:underline">Listings</Link>
+          <span className="text-[#A8B1CC]">›</span>
+          <span>{category}</span>
+        </nav>
 
-        <section className="overflow-hidden rounded-[32px] border border-[#D8E1F0] bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
-          <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
-            <div className="border-b border-[#E2E8F0] bg-[#EEF4FF] p-8 lg:border-b-0 lg:border-r">
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full border border-[#D8E1F0] bg-white px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#475569]">{category}</span>
-                <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.16em] text-emerald-800">{cleanText(listing.type) || "Buy now"}</span>
-                {isSold ? <span className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.16em] text-slate-700">Sold</span> : null}
-              </div>
+        <section className="grid gap-10 lg:grid-cols-[1.28fr_0.92fr] lg:items-start">
+          <div>
+            <div className="overflow-hidden rounded-2xl border border-[#E1E7F5] bg-[#F6F8FC] shadow-sm">
+              {primaryImage ? (
+                <div className="relative h-[320px] w-full sm:h-[420px] lg:h-[470px]">
+                  <Image src={primaryImage} alt={title} fill sizes="(min-width: 1024px) 56vw, 100vw" className="object-cover" priority />
+                </div>
+              ) : (
+                <div className="flex h-[320px] items-center justify-center px-6 text-center text-sm font-bold text-[#667399] sm:h-[420px] lg:h-[470px]">No listing image available</div>
+              )}
+            </div>
 
-              <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight sm:text-5xl">{title}</h1>
-              <div className="mt-3 text-base font-bold text-[#475569]">{location}</div>
+            <div className="mt-4 flex flex-wrap justify-center gap-4">
+              {(images.length ? images : [""]).slice(0, 8).map((image, index) => (
+                <div key={image || String(index)} className="flex h-8 w-8 items-center justify-center rounded-xl border border-[#DFE6F6] bg-white shadow-sm">
+                  {image ? <span className="h-3 w-3 rounded border-2 border-[#352CFF]" /> : <span className="h-3 w-3 rounded border-2 border-[#A8B1CC]" />}
+                </div>
+              ))}
+            </div>
 
-              <div className="mt-6 overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white">
-                {primaryImage ? (
-                  <div className="relative h-72 w-full"><Image src={primaryImage} alt={title} fill sizes="(min-width: 1024px) 58vw, 100vw" className="object-cover" priority /></div>
-                ) : (
-                  <div className="flex h-72 items-center justify-center bg-[#F8FAFC] px-6 text-center text-sm font-bold text-[#64748B]">No listing image available</div>
-                )}
-                {images.length > 1 ? (
-                  <div className="border-t border-[#E2E8F0] px-4 py-3 text-xs font-bold text-[#64748B]">{images.length} photos available</div>
-                ) : null}
-              </div>
-
-              <div className="mt-8 rounded-[28px] border border-[#D8E1F0] bg-white p-6">
-                <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Price</div>
-                <div className="mt-2 text-5xl font-black tracking-tight">{money(displayPrice)}</div>
-                <div className="mt-4 rounded-2xl border border-blue-100 bg-[#EEF4FF] px-4 py-3 text-sm font-bold leading-6 text-[#0B3BB8]">
-                  Sign in to buy now, make an offer, save this listing, or message the seller.
+            <div className="mt-8 rounded-2xl border border-[#DFE6F6] bg-white p-5 shadow-sm">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div className="text-xl font-black">{sellerName}</div>
+                  <div className="mt-1 text-sm font-semibold text-[#667399]">{sellerLocation}</div>
+                  <div className="mt-1 text-sm font-semibold text-[#667399]">Member since {sellerJoined}</div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {sellerBadges.length ? sellerBadges.map((badge) => (
+                      <span key={badge} className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800">{badge}</span>
+                    )) : (
+                      <span className="rounded-full border border-[#DFE6F6] bg-white px-3 py-1 text-xs font-extrabold text-[#667399]">Verification pending</span>
+                    )}
+                  </div>
+                </div>
+                <div className="grid gap-3 sm:w-[320px] sm:grid-cols-2">
+                  <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center justify-center rounded-xl border border-[#352CFF] px-5 py-3 text-sm font-extrabold text-[#352CFF] hover:bg-[#F5F3FF]">View profile</Link>
+                  <MessageSellerButton listingId={listing.id} />
                 </div>
               </div>
             </div>
-
-            <aside className="p-6 sm:p-8">
-              <div className="rounded-[28px] border border-[#D8E1F0] bg-[#F8FAFC] p-5">
-                <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Seller</div>
-                <div className="mt-2 text-xl font-black">{sellerName}</div>
-                <div className="mt-1 text-sm font-semibold text-[#64748B]">{sellerLocation}</div>
-                <div className="mt-3 rounded-2xl border border-[#E2E8F0] bg-white px-4 py-3 text-sm font-bold text-[#334155]">Member since {sellerJoined}</div>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {sellerBadges.length ? sellerBadges.map((badge) => (
-                    <span key={badge} className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800">{badge}</span>
-                  )) : (
-                    <span className="rounded-full border border-[#E2E8F0] bg-white px-3 py-1 text-xs font-extrabold text-[#64748B]">Verification pending</span>
-                  )}
-                </div>
-                <Link href={"/seller/" + listing.sellerId} className="mt-4 inline-flex w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-sm font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]">View seller profile</Link>
-              </div>
-
-              <div className="mt-4 grid gap-3">
-                <Link href={"/auth/login?next=/listings/" + listing.id} className="inline-flex w-full items-center justify-center rounded-2xl bg-[#4F46E5] px-4 py-3 text-sm font-extrabold text-white shadow-sm hover:bg-[#4338CA]">Sign in to continue</Link>
-                <MessageSellerButton listingId={listing.id} />
-                <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} />
-              </div>
-              <div className="mt-4">
-                <ReportListingButton listingId={listing.id} />
-              </div>
-              <div className="mt-4 rounded-2xl border border-[#E2E8F0] bg-white px-4 py-3 text-xs font-bold leading-5 text-[#64748B]">
-                Buyers can sign in to save this item, contact the seller, buy now, or make an offer where available.
-              </div>
-            </aside>
           </div>
-        </section>
 
-        <section className="mt-5 rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm">
-          <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Description</div>
-          <h2 className="mt-1 text-2xl font-black">About this item</h2>
-          <p className="mt-4 whitespace-pre-wrap text-base leading-8 text-[#1E293B]">{description}</p>
-        </section>
+          <aside className="lg:pt-1">
+            <div className="flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#667399]">
+              <span>{category}</span>
+              <span>•</span>
+              <span>{listingType}</span>
+              {isSold ? <><span>•</span><span>Sold</span></> : null}
+            </div>
 
-        <section className="mt-5 grid gap-3 sm:grid-cols-2">
-          <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-5 shadow-sm">
-            <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Condition</div>
-            <div className="mt-2 text-lg font-black">{condition}</div>
-          </div>
-          <div className="rounded-[24px] border border-[#D8E1F0] bg-white p-5 shadow-sm">
-            <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Status</div>
-            <div className="mt-2 text-lg font-black">{cleanText(listing.status)}</div>
-          </div>
+            <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight text-[#080D32] sm:text-5xl">{title}</h1>
+            <div className="mt-4 text-4xl font-black tracking-tight">{money(displayPrice)}</div>
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-base font-bold text-[#667399]">
+              <span>{location}</span>
+              <span>•</span>
+              <span>{cleanText(listing.status)}</span>
+            </div>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <Link href={"/auth/login?next=/listings/" + listing.id} className="inline-flex h-14 items-center justify-center rounded-xl bg-[#352CFF] px-6 text-base font-extrabold text-white shadow-sm hover:bg-[#2B23D9]">Buy now</Link>
+              <Link href={"/auth/login?next=/listings/" + listing.id} className="inline-flex h-14 items-center justify-center rounded-xl border border-[#352CFF] bg-white px-6 text-base font-extrabold text-[#352CFF] shadow-sm hover:bg-[#F5F3FF]">Make an offer</Link>
+            </div>
+
+            <div className="mt-4 grid gap-3">
+              <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} />
+            </div>
+
+            <div className="mt-8 border-y border-[#DFE6F6] py-6">
+              <dl className="grid grid-cols-[130px_1fr] gap-x-6 gap-y-4 text-sm">
+                <dt className="font-bold text-[#667399]">Condition</dt>
+                <dd className="font-extrabold text-[#080D32]">{condition}</dd>
+                <dt className="font-bold text-[#667399]">Category</dt>
+                <dd className="font-extrabold text-[#080D32]">{category}</dd>
+                <dt className="font-bold text-[#667399]">Listing type</dt>
+                <dd className="font-extrabold text-[#080D32]">{listingType}</dd>
+                <dt className="font-bold text-[#667399]">Status</dt>
+                <dd className="font-extrabold text-[#080D32]">{cleanText(listing.status)}</dd>
+              </dl>
+            </div>
+
+            <div className="mt-6">
+              <p className="whitespace-pre-wrap text-base leading-8 text-[#26345F]">{description}</p>
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <ReportListingButton listingId={listing.id} />
+            </div>
+          </aside>
         </section>
 
         {relatedListings.length ? (
-          <section className="mt-5 rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm">
-            <div className="flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">More like this</div>
-                <h2 className="mt-1 text-2xl font-black">Related listings</h2>
-              </div>
-              <Link href="/listings" className="text-sm font-extrabold text-[#4F46E5] underline underline-offset-4">Browse all</Link>
+          <section className="mt-12">
+            <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+              <h2 className="text-3xl font-black tracking-tight">You may also like</h2>
+              <Link href="/listings" className="text-sm font-extrabold text-[#352CFF] hover:underline">Browse all</Link>
             </div>
-            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
               {relatedListings.map((item) => {
                 const itemTitle = cleanText(item.title) || "Bidra listing";
                 const itemImages = safeListingImages(item.images);
                 const itemPrice = typeof item.buyNowPrice === "number" ? item.buyNowPrice : item.price;
                 return (
-                  <Link key={item.id} href={"/listings/" + item.id} className="overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] shadow-sm hover:bg-white">
+                  <Link key={item.id} href={"/listings/" + item.id} className="group overflow-hidden rounded-2xl border border-[#DFE6F6] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
                     {itemImages[0] ? (
-                      <div className="relative h-36 w-full"><Image src={itemImages[0]} alt={itemTitle} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover" /></div>
+                      <div className="relative h-44 w-full bg-[#F6F8FC]">
+                        <Image src={itemImages[0]} alt={itemTitle} fill sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
+                      </div>
                     ) : (
-                      <div className="flex h-36 items-center justify-center bg-[#EEF4FF] px-4 text-center text-xs font-bold text-[#64748B]">No image</div>
+                      <div className="flex h-44 items-center justify-center bg-[#F6F8FC] px-4 text-center text-xs font-bold text-[#667399]">No image</div>
                     )}
                     <div className="p-4">
-                      <div className="line-clamp-2 text-sm font-black text-[#0F172A]">{itemTitle}</div>
-                      <div className="mt-2 text-lg font-black text-[#4F46E5]">{money(itemPrice)}</div>
-                      <div className="mt-1 text-xs font-bold text-[#64748B]">{cleanText(item.location) || "Australia"}</div>
-                      <div className="mt-2 text-[11px] font-extrabold uppercase tracking-[0.14em] text-[#64748B]">{cleanText(item.condition) || "Condition not specified"}</div>
+                      <div className="line-clamp-2 text-sm font-black text-[#080D32]">{itemTitle}</div>
+                      <div className="mt-2 text-base font-black text-[#080D32]">{money(itemPrice)}</div>
                     </div>
                   </Link>
                 );
