@@ -277,7 +277,7 @@ export default async function ListingDetailPage({
         </section>
 
         {relatedListings.length ? (
-          <section className="mt-12">
+          <section className="mt-12 max-w-[880px]">
             <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
               <h2 className="text-3xl font-black tracking-tight">You may also like</h2>
               <Link href="/listings" className="text-sm font-extrabold text-[#352CFF] hover:underline">Browse all</Link>
