@@ -107,7 +107,9 @@ export async function POST(req: Request) {
           },
         });
       } catch (_riskAuditErr) {}
-    }return NextResponse.json({ ok: true, report });
+    }
+
+    return NextResponse.json({ ok: true, report });
   } catch (e: any) {
     console.error("Report create error:", e);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
