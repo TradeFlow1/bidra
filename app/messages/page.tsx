@@ -98,13 +98,13 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
         </section>
 
         {items.length === 0 ? (
-          <div className="mt-8 rounded-[28px] border border-[#E2E8F0] bg-white p-10 text-center shadow-sm hover:bg-[#F5F3FF]">
+          <div className="mt-8 rounded-[30px] border border-[#E2E8F0] bg-white p-10 text-center shadow-sm hover:bg-[#F5F3FF]">
             <h2 className="text-2xl font-black">No messages yet</h2>
             <p className="mt-3 text-base font-semibold text-[#64748B]">Messages from listings and orders will appear here.</p>
             <Link href="/listings" className="mt-6 inline-flex h-12 items-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black text-white !text-white disabled:!text-white">Browse listings</Link>
           </div>
         ) : (
-          <div className="mt-6 grid gap-6 lg:grid-cols-[420px_minmax(0,1fr)]">
+          <div className="mt-6 grid gap-6 lg:grid-cols-[430px_minmax(0,1fr)]">
             <aside className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
               {items.map((thread) => (
                 <Link key={thread.id} href={`/messages?thread=${thread.id}`} className={`flex gap-4 border-b border-[#E2E8F0] p-6 last:border-b-0 hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F5F3FF]" : ""}`}>

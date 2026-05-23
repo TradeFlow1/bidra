@@ -151,7 +151,7 @@ export function OrdersClient() {
 
   return (
     <BidraAccountShell>
-      <div className="grid gap-5">
+      <div className="grid gap-6">
         <AccountNav active="buying" />
         <BidraPageHeader
           eyebrow="Orders"
@@ -160,14 +160,14 @@ export function OrdersClient() {
           actions={<BidraButton href="/listings" variant="secondary">Browse listings</BidraButton>}
         />
 
-        <BidraCard className="p-4 text-sm font-semibold text-[#475569] sm:p-5">
+        <BidraCard className="p-5 text-base font-bold text-[#475569] sm:p-6">
           {summary}
         </BidraCard>
 
         {error ? (
           <BidraCard className="border-amber-200 bg-amber-50 p-5">
-            <h2 className="text-lg font-black text-amber-950">Orders are temporarily unavailable</h2>
-            <p className="mt-2 text-sm font-semibold leading-6 text-amber-900">{error}</p>
+            <h2 className="text-xl font-black text-amber-950">Orders are temporarily unavailable</h2>
+            <p className="mt-2 text-sm font-bold leading-6 text-amber-900">{error}</p>
             <div className="mt-4">
               <BidraButton href="/account" variant="secondary">Back to account</BidraButton>
             </div>
@@ -177,7 +177,7 @@ export function OrdersClient() {
         {loading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[0, 1, 2].map((item) => (
-              <BidraCard key={item} className="p-5">
+              <BidraCard key={item} className="p-6">
                 <div className="h-4 w-24 rounded-full bg-[#E2E8F0]" />
                 <div className="mt-5 h-6 w-3/4 rounded-full bg-[#E2E8F0]" />
                 <div className="mt-3 h-4 w-1/2 rounded-full bg-[#E2E8F0]" />
@@ -187,17 +187,17 @@ export function OrdersClient() {
         ) : orders.length > 0 ? (
           <div className="grid gap-4">
             {orders.map((order) => (
-              <BidraCard key={order.id} className="p-5">
+              <BidraCard key={order.id} className="p-6">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="text-lg font-black text-[#0F172A]">{order.title}</h2>
+                      <h2 className="text-xl font-black text-[#0F172A]">{order.title}</h2>
                       <BidraBadge tone="info">{order.status}</BidraBadge>
                     </div>
-                    <p className="mt-2 text-sm font-semibold text-[#64748B]">{order.createdLabel}</p>
+                    <p className="mt-2 text-sm font-bold text-[#64748B]">{order.createdLabel}</p>
                   </div>
                   <div className="flex flex-col gap-2 sm:items-end">
-                    <p className="text-lg font-black text-[#0F172A]">{order.amountLabel}</p>
+                    <p className="text-xl font-black text-[#0F172A]">{order.amountLabel}</p>
                     <BidraButton href={"/orders/" + encodeURIComponent(order.id)} variant="secondary" size="sm">View order</BidraButton>
                   </div>
                 </div>

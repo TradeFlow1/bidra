@@ -1799,3 +1799,103 @@ button[class*="bg-white"] {
   }
 }
 /* BIDRA_MARKETPLACE_QA_FIX_END */
+
+/* BIDRA_MILLION_DOLLAR_LOGGED_IN_START */
+.bd-account-shell,
+main:has(.bd-account-nav) {
+  min-height: calc(100vh - 96px);
+}
+
+.bd-account-nav {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.5rem;
+  width: 100%;
+  max-width: none;
+  border: 1px solid #C7D2FE;
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 0.45rem;
+  box-shadow: 0 18px 50px rgba(79, 70, 229, 0.10);
+}
+
+.bd-account-nav-link {
+  display: inline-flex;
+  min-height: 3.15rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1.1rem;
+  color: #4F46E5;
+  font-size: 0.9rem;
+  font-weight: 950;
+  text-decoration: none;
+}
+
+.bd-account-nav-link:hover {
+  background: #EEF2FF;
+  color: #4338CA;
+}
+
+.bd-account-nav-link-active,
+.bd-account-nav-link[aria-current="page"] {
+  background: #4F46E5 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 12px 26px rgba(79, 70, 229, 0.28);
+}
+
+.bd-account-hero {
+  border: 1px solid #C7D2FE;
+  border-radius: 2rem;
+  background: linear-gradient(135deg, #FFFFFF 0%, #EEF2FF 55%, #F5F3FF 100%);
+  padding: 2rem;
+  box-shadow: 0 24px 70px rgba(79, 70, 229, 0.10);
+}
+
+.bd-account-eyebrow {
+  color: #475569;
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.bd-account-title {
+  margin-top: 0.5rem;
+  color: #0F172A;
+  font-size: clamp(2.5rem, 4vw, 4.5rem);
+  font-weight: 950;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+}
+
+.bd-account-copy {
+  margin-top: 0.75rem;
+  max-width: 52rem;
+  color: #475569;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.65;
+}
+
+main:has(.bd-account-nav) .rounded-\\[32px\\],
+main:has(.bd-account-nav) .rounded-\\[30px\\],
+main:has(.bd-account-nav) .rounded-\\[28px\\] {
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.06);
+}
+
+@media (max-width: 760px) {
+  .bd-account-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .bd-account-nav-link {
+    min-height: 2.75rem;
+    font-size: 0.8rem;
+  }
+
+  .bd-account-hero {
+    border-radius: 1.5rem;
+    padding: 1.25rem;
+  }
+}
+/* BIDRA_MILLION_DOLLAR_LOGGED_IN_END */
