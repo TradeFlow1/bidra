@@ -111,7 +111,6 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
     price: { lte: maxPriceCents },
     AND: [
       { OR: [{ buyNowPrice: null }, { buyNowPrice: { lte: maxPriceCents } }] },
-      { OR: [{ images: { isEmpty: false } }, { photos: { isEmpty: false } }] },
     ],
     NOT: [
       { title: { equals: "test", mode: "insensitive" } },
