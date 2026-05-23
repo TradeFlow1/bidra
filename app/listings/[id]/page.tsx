@@ -91,66 +91,12 @@ function normalizeListingImages(images: unknown, photos?: unknown) {
   return Array.from(new Set(values));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
-  const listing = await prisma.listing.findUnique({
-    where: { id: params.id },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      price: true,
-      location: true,
-      images: true,
-    },
-  });
-
-  if (!listing) {
-    return {
-      title: "Listing not found | Bidra",
-      description: "This listing is no longer available.",
-    };
-  }
-
-  const baseUrl = getBaseUrl();
-  const url = `${baseUrl}/listings/${listing.id}`;
-  const metadataImages = normalizeListingImages(listing.images);
-  const firstImage = cleanText(metadataImages[0] || "");
-  const absoluteImage = firstImage
-    ? (firstImage.startsWith("http://") || firstImage.startsWith("https://")
-        ? firstImage
-        : `${baseUrl}${firstImage.startsWith("/") ? "" : "/"}${firstImage}`)
-    : "";
-  const priceText = money(listing.price);
-  const locationText = cleanText(listing.location) || "Location on request";
-  const excerpt = getDescriptionExcerpt(listing.description);
-  const listingTitle = cleanText(listing.title) || "Bidra listing";
-  const metaDescription = excerpt || `${priceText} • ${locationText}`;
-  const title = `${listingTitle} | ${priceText} • ${locationText} | Bidra`;
-
+export async function generateMetadata() {
   return {
-    title,
-    description: metaDescription,
-    alternates: { canonical: `/listings/${listing.id}` },
-    openGraph: {
-      type: "website",
-      url,
-      title: `${listingTitle} • ${priceText}`,
-      description: `${locationText}${excerpt ? ` • ${excerpt}` : ""}`,
-      images: absoluteImage ? [{ url: absoluteImage }] : undefined,
-    },
-    twitter: {
-      card: absoluteImage ? "summary_large_image" : "summary",
-      title: `${listingTitle} • ${priceText}`,
-      description: `${locationText}${excerpt ? ` • ${excerpt}` : ""}`,
-      images: absoluteImage ? [absoluteImage] : undefined,
-    },
+    title: "Listing | Bidra",
+    description: "View this listing on Bidra.",
   };
 }
-
 export default async function ListingDetailPage({
   params,
 }: {
