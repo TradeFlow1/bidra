@@ -16,7 +16,6 @@ export default function AccountNav({ active }: { active?: AccountNavKey }) {
     <nav className="bd-account-nav" aria-label="Account navigation">
       {accountNavItems.map((item) => {
         const isActive = item.key === active;
-
         return (
           <Link
             key={item.key}

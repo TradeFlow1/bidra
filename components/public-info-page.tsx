@@ -35,8 +35,8 @@ const legalLinks = [
 export function PublicContentPage({ title, subtitle, children, className }: PublicContentPageProps) {
   return (
     <main className="bg-white text-[#4F46E5] hover:bg-[#F5F3FF]">
-      <div className={cn("mx-auto w-full max-w-6xl px-6 py-12 lg:px-8 lg:py-16", className)}>
-        <header className="max-w-4xl">
+      <div className={cn("mx-auto w-full max-w-[1320px] px-8 py-12 lg:py-16", className)}>
+        <header className="max-w-5xl">
           <h1 className="text-4xl font-black tracking-tight text-[#0F172A] sm:text-5xl">{title}</h1>
           {subtitle ? <p className="mt-3 text-xl font-black text-[#0F172A]">{subtitle}</p> : null}
         </header>
@@ -68,7 +68,7 @@ export function LegalContentPage({ title, updated = "Last updated: 1 May 2025", 
           </nav>
         </aside>
 
-        <article className="max-w-4xl">
+        <article className="max-w-5xl">
           <h2 className="text-4xl font-black tracking-tight text-[#0F172A] sm:text-5xl">{title}</h2>
           <p className="mt-5 text-xl font-semibold text-[#64748B]">{updated}</p>
           <div className="mt-12 space-y-11 text-lg font-semibold leading-8 text-[#475569]">
@@ -119,7 +119,7 @@ export function ArticleList({ items }: { items: { href: string; title: string }[
 
 export function SearchBox({ placeholder = "Search..." }: { placeholder?: string }) {
   return (
-    <div className="flex h-16 max-w-4xl items-center gap-4 rounded-2xl border border-[#CBD5E1] bg-white px-6 text-lg font-semibold text-[#64748B] shadow-sm hover:bg-[#F5F3FF]">
+    <div className="flex h-16 max-w-5xl items-center gap-4 rounded-2xl border border-[#CBD5E1] bg-white px-6 text-lg font-semibold text-[#64748B] shadow-sm hover:bg-[#F5F3FF]">
       <span className="text-2xl">⌕</span>
       <span>{placeholder}</span>
     </div>

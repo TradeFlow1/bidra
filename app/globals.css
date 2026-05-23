@@ -1715,3 +1715,87 @@ button[class*="bg-white"] {
   }
 }
 /* BIDRA_REFERENCE_QUALITY_SYSTEM_END */
+
+/* BIDRA_MARKETPLACE_QA_FIX_START */
+:root {
+  --brand: #4F46E5;
+  --brand-hover: #4338CA;
+  --brand-accent: #6366F1;
+  --brand-soft: #EEF2FF;
+  --brand-soft-2: #F5F3FF;
+  --brand-border: #C7D2FE;
+  --text-main: #0F172A;
+  --text-muted: #475569;
+  --surface: #FFFFFF;
+}
+
+.bd-account-nav {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.5rem;
+  width: 100%;
+  border: 1px solid var(--brand-border);
+  border-radius: 1.5rem;
+  background: rgba(255,255,255,0.96);
+  padding: 0.45rem;
+  box-shadow: 0 16px 45px rgba(79,70,229,0.08);
+}
+
+.bd-account-nav-link {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1.1rem;
+  color: var(--brand);
+  font-size: 0.875rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.bd-account-nav-link:hover {
+  background: var(--brand-soft);
+  color: var(--brand-hover);
+}
+
+.bd-account-nav-link-active,
+.bd-account-nav-link[aria-current="page"] {
+  background: var(--brand) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 12px 24px rgba(79,70,229,0.24);
+}
+
+.bd-btn-primary,
+.bd-primary-action,
+button[class*="bg-[#4F46E5]"],
+a[class*="bg-[#4F46E5]"] {
+  background: var(--brand) !important;
+  border-color: var(--brand) !important;
+  color: #FFFFFF !important;
+}
+
+.bd-btn-primary:hover,
+.bd-primary-action:hover,
+button[class*="bg-[#4F46E5]"]:hover,
+a[class*="bg-[#4F46E5]"]:hover {
+  background: var(--brand-hover) !important;
+  border-color: var(--brand-hover) !important;
+}
+
+.bd-btn-secondary,
+a[class*="bg-white"],
+button[class*="bg-white"] {
+  color: var(--brand);
+}
+
+@media (max-width: 760px) {
+  .bd-account-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .bd-account-nav-link {
+    min-height: 2.75rem;
+    font-size: 0.8rem;
+  }
+}
+/* BIDRA_MARKETPLACE_QA_FIX_END */

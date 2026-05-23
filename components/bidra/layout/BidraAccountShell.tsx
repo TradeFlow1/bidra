@@ -7,7 +7,7 @@ type BidraAccountShellProps = {
 
 export function BidraAccountShell({ children, className = "" }: BidraAccountShellProps) {
   return (
-    <main className={"bd-reference-page bd-logged-in-page mx-auto w-full max-w-[1320px] px-8 py-8 " + className}>
+    <main className={"mx-auto w-full max-w-[1320px] px-8 py-8 text-[#0F172A] " + className}>
       {children}
     </main>
   );

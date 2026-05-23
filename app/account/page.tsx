@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import AccountAvatarUpload from "@/components/account-avatar-upload";
+import AccountNav from "@/components/account-nav";
 
 function formatPrice(cents: number | null | undefined) {
   const value = typeof cents === "number" ? cents : 0;
@@ -101,7 +102,9 @@ export default async function AccountPage() {
   return (
     <main className="bd-logged-in-page text-[#0F172A]">
       <div className="mx-auto w-full max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-        <nav className="mb-8 flex items-center gap-3 text-sm font-semibold text-[#64748B]">
+        <AccountNav active="account" />
+
+        <nav className="mb-8 mt-6 flex items-center gap-3 text-sm font-semibold text-[#64748B]">
           <Link href="/" className="text-[#4F46E5]">Home</Link>
           <span>/</span>
           <span>Account</span>
