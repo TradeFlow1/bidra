@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
@@ -163,7 +164,7 @@ export default async function ListingDetailPage({
 
               <div className="mt-6 overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white">
                 {primaryImage ? (
-                  <img src={primaryImage} alt={title} className="h-72 w-full object-cover" loading="eager" />
+                  <div className="relative h-72 w-full"><Image src={primaryImage} alt={title} fill sizes="(min-width: 1024px) 58vw, 100vw" className="object-cover" priority /></div>
                 ) : (
                   <div className="flex h-72 items-center justify-center bg-[#F8FAFC] px-6 text-center text-sm font-bold text-[#64748B]">No listing image available</div>
                 )}
@@ -243,7 +244,7 @@ export default async function ListingDetailPage({
                 return (
                   <Link key={item.id} href={"/listings/" + item.id} className="overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC] shadow-sm hover:bg-white">
                     {itemImages[0] ? (
-                      <img src={itemImages[0]} alt={itemTitle} className="h-36 w-full object-cover" loading="lazy" />
+                      <div className="relative h-36 w-full"><Image src={itemImages[0]} alt={itemTitle} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover" /></div>
                     ) : (
                       <div className="flex h-36 items-center justify-center bg-[#EEF4FF] px-4 text-center text-xs font-bold text-[#64748B]">No image</div>
                     )}
