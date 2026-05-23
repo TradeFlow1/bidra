@@ -60,7 +60,7 @@ export default function SiteHeaderClient({
   }, []);
 
   const menuLinkClass = "block w-full rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-[#0F172A] transition hover:bg-[#EEF2FF]";
-  const searchInputClass = "w-full rounded-full border border-[#D7E2F1] bg-[#F8FAFF] px-4 py-2.5 text-sm text-[#0F172A] outline-none placeholder:text-[#7B8AA3] shadow-inner focus:border-[#4F46E5] focus:bg-white focus:ring-4 focus:ring-[#C7D2FE]";
+  const searchInputClass = "h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-5 text-[15px] font-semibold text-[#0F172A] outline-none placeholder:text-[#64748B] shadow-sm focus:border-[#4F46E5] focus:ring-4 focus:ring-[#C7D2FE]";
   const badge = notificationCount > 0 ? (
     <span className="ml-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-[#4F46E5] px-1.5 py-0.5 text-[11px] font-extrabold text-white !text-white disabled:!text-white">
       {notificationCount > 99 ? "99+" : notificationCount}
@@ -121,14 +121,14 @@ export default function SiteHeaderClient({
   }
 
   return (
-    <header className="sticky top-0 z-[100] border-b border-[#C7D2FE] bg-white/95 text-[#4F46E5] shadow-[0_12px_40px_rgba(32,75,140,0.08)] backdrop-blur-xl hover:bg-[#F5F3FF]">
-      <div className="mx-auto hidden w-full max-w-[1440px] grid-cols-[auto_1fr_minmax(18rem,28rem)_auto] items-center gap-7 px-4 py-4 md:grid lg:px-6">
-        <Link href="/" className="flex h-10 w-32 shrink-0 items-center" aria-label="Bidra home">
+    <header className="sticky top-0 z-[100] border-b border-[#E2E8F0] bg-white/96 text-[#0F172A] backdrop-blur-xl">
+      <div className="mx-auto hidden h-24 w-full max-w-[1320px] grid-cols-[180px_1fr_minmax(22rem,26rem)_auto] items-center gap-8 px-8 md:grid">
+        <Link href="/" className="flex h-14 w-44 shrink-0 items-center" aria-label="Bidra home">
           <BrandLogo priority className="h-full w-auto max-w-full" />
         </Link>
-        <nav className="flex min-w-0 items-center gap-5" aria-label="Primary navigation">
+        <nav className="flex min-w-0 items-center gap-8" aria-label="Primary navigation">
           {DESKTOP_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="text-sm font-extrabold text-[#14213D] transition hover:text-[#4F46E5]">
+            <Link key={link.href} href={link.href} className="text-[15px] font-black text-[#0F172A] transition hover:text-[#4F46E5]">
               {link.label}
             </Link>
           ))}
@@ -138,18 +138,18 @@ export default function SiteHeaderClient({
           
           {isAuthed ? (
             <div ref={desktopAccountRef} className="relative">
-              <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="bd-btn bd-btn-primary rounded-full px-5" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
+              <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="bd-btn bd-btn-primary h-12 rounded-2xl px-6" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
                 {rawRole === "ADMIN" ? "Admin" : "Account"}{badge}
               </button>
               {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
             </div>
           ) : (
-            <Link href="/auth/login" className="bd-btn bd-btn-primary rounded-full px-5">Sign in</Link>
+            <Link href="/auth/login" className="bd-btn bd-btn-primary h-12 rounded-2xl px-6">Sign in</Link>
           )}
         </div>
       </div>
 
-      <div className="md:hidden">
+      <div className="md:hidden bg-white">
         <div className="flex items-center gap-3 px-4 py-3">
           <button type="button" className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg font-extrabold shadow-sm hover:bg-[#F5F3FF]" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><span aria-hidden="true">☰</span></button>
           <Link href="/" className="flex h-10 w-32 items-center" aria-label="Bidra home">
