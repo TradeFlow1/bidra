@@ -22,6 +22,39 @@ function cleanDescription(value: unknown) {
     .trim();
 }
 
+function safeListingImages(value: unknown) {
+  const images: string[] = [];
+
+  function addImage(item: unknown) {
+    if (typeof item === "string") {
+      const trimmed = item.trim();
+      if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("/")) {
+        images.push(trimmed);
+      }
+    }
+    if (item && typeof item === "object" && "url" in item) {
+      addImage((item as { url?: unknown }).url);
+    }
+  }
+
+  if (Array.isArray(value)) {
+    for (const item of value) addImage(item);
+  } else if (typeof value === "string" && value.trim()) {
+    try {
+      const parsed = JSON.parse(value);
+      if (Array.isArray(parsed)) {
+        for (const item of parsed) addImage(item);
+      } else {
+        addImage(value);
+      }
+    } catch {
+      addImage(value);
+    }
+  }
+
+  return Array.from(new Set(images)).slice(0, 6);
+}
+
 export async function generateMetadata() {
   return {
     title: "Listing | Bidra",
@@ -47,6 +80,7 @@ export default async function ListingDetailPage({
       condition: true,
       location: true,
       status: true,
+      images: true,
       sellerId: true,
       seller: {
         select: {
@@ -71,6 +105,8 @@ export default async function ListingDetailPage({
   const sellerLocation = cleanText(listing.seller?.location) || "Australia";
   const displayPrice = typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price;
   const isSold = listing.status !== "ACTIVE";
+  const images = safeListingImages(listing.images);
+  const primaryImage = images[0] || "";
 
   return (
     <main className="min-h-screen bg-[#F8FAFC] px-4 py-8 text-[#0F172A] sm:px-6 lg:px-8">
@@ -91,6 +127,17 @@ export default async function ListingDetailPage({
 
               <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight sm:text-5xl">{title}</h1>
               <div className="mt-3 text-base font-bold text-[#475569]">{location}</div>
+
+              <div className="mt-6 overflow-hidden rounded-[28px] border border-[#D8E1F0] bg-white">
+                {primaryImage ? (
+                  <img src={primaryImage} alt={title} className="h-72 w-full object-cover" loading="eager" />
+                ) : (
+                  <div className="flex h-72 items-center justify-center bg-[#F8FAFC] px-6 text-center text-sm font-bold text-[#64748B]">No listing image available</div>
+                )}
+                {images.length > 1 ? (
+                  <div className="border-t border-[#E2E8F0] px-4 py-3 text-xs font-bold text-[#64748B]">{images.length} photos available</div>
+                ) : null}
+              </div>
 
               <div className="mt-8 rounded-[28px] border border-[#D8E1F0] bg-white p-6">
                 <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]">Price</div>
