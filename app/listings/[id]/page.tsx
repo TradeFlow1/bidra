@@ -146,8 +146,8 @@ export default async function ListingDetailPage({
   const primaryImage = images[0] || "";
 
   return (
-    <main className="min-h-screen bg-white px-4 py-8 text-[#080D32] sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <main className="min-h-screen bg-white px-4 py-8 text-[#080D32] sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-[1440px]">
         <nav className="mb-8 flex flex-wrap items-center gap-3 text-sm font-bold text-[#4B5B8F]">
           <Link href="/" className="text-[#352CFF] hover:underline">Home</Link>
           <span className="text-[#A8B1CC]">›</span>
@@ -156,15 +156,15 @@ export default async function ListingDetailPage({
           <span>{category}</span>
         </nav>
 
-        <section className="grid gap-10 lg:grid-cols-[1.28fr_0.92fr] lg:items-start">
+        <section className="grid gap-8 lg:grid-cols-[1.35fr_0.85fr] lg:items-start xl:gap-12">
           <div>
-            <div className="overflow-hidden rounded-2xl border border-[#E1E7F5] bg-[#F6F8FC] shadow-sm">
+            <div className="overflow-hidden rounded-2xl border border-[#E1E7F5] bg-white shadow-sm">
               {primaryImage ? (
-                <div className="relative h-[320px] w-full sm:h-[420px] lg:h-[470px]">
-                  <Image src={primaryImage} alt={title} fill sizes="(min-width: 1024px) 56vw, 100vw" className="object-cover" priority />
+                <div className="relative h-[340px] w-full sm:h-[460px] lg:h-[520px]">
+                  <Image src={primaryImage} alt={title} fill sizes="(min-width: 1024px) 58vw, 100vw" className="object-contain p-6" priority />
                 </div>
               ) : (
-                <div className="flex h-[320px] items-center justify-center px-6 text-center text-sm font-bold text-[#667399] sm:h-[420px] lg:h-[470px]">No listing image available</div>
+                <div className="flex h-[340px] items-center justify-center px-6 text-center text-sm font-bold text-[#667399] sm:h-[460px] lg:h-[520px]">No listing image available</div>
               )}
             </div>
 
@@ -176,7 +176,7 @@ export default async function ListingDetailPage({
               ))}
             </div>
 
-            <div className="mt-8 rounded-2xl border border-[#DFE6F6] bg-white p-5 shadow-sm">
+            <div className="mt-8 rounded-2xl border border-[#DFE6F6] bg-white p-6 shadow-sm">
               <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div className="text-xl font-black">{sellerName}</div>
@@ -198,7 +198,7 @@ export default async function ListingDetailPage({
             </div>
           </div>
 
-          <aside className="lg:pt-1">
+          <aside className="lg:pt-2">
             <div className="flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#667399]">
               <span>{category}</span>
               <span>•</span>
@@ -206,7 +206,7 @@ export default async function ListingDetailPage({
               {isSold ? <><span>•</span><span>Sold</span></> : null}
             </div>
 
-            <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight text-[#080D32] sm:text-5xl">{title}</h1>
+            <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight text-[#080D32] sm:text-5xl lg:text-[52px]">{title}</h1>
             <div className="mt-4 text-4xl font-black tracking-tight">{money(displayPrice)}</div>
             <div className="mt-6 flex flex-wrap items-center gap-4 text-base font-bold text-[#667399]">
               <span>{location}</span>
