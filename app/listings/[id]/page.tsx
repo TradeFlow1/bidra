@@ -179,7 +179,6 @@ export default async function ListingDetailPage({
         orderBy: { amount: "desc" },
         include: { buyer: true },
       },
-      orders: true,
     },
   });
 
@@ -200,7 +199,7 @@ export default async function ListingDetailPage({
   const isTimedOffers = isTimedOffersType(listing.type);
   const currentOffer = listing.offers.length ? listing.offers[0].amount : null;
   const displayPrice = isTimedOffers ? (currentOffer ?? listing.price) : (listing.buyNowPrice ?? listing.price);
-  const isSold = listing.orders.length > 0 || listing.status !== "ACTIVE";
+  const isSold = listing.status !== "ACTIVE";
   const endsText = isTimedOffers ? formatTimeRemaining((listing as any).endsAt) : null;
   const topOffer = listing.offers.length ? listing.offers[0] : null;
   const offerCount = listing.offers.length;
