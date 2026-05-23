@@ -1,8 +1,6 @@
 import Link from "next/link";
 import AccountNav from "@/components/account-nav";
-import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
 import { BackButton } from "@/components/ui/back-button";
@@ -14,10 +12,35 @@ export const fetchCache = "force-no-store";
 
 export default async function WatchlistPage() {
   const session = await auth();
-  if (!session?.user?.id) redirect("/auth/login?next=/watchlist");
 
-  const gate = await requireAdult(session);
-  if (!gate.ok) redirect("/account/restrictions");
+  if (!session?.user?.id) {
+    return (
+      <ReferencePage>
+        <div className={appShell + " space-y-5 py-6 sm:py-8"}>
+          <section className="bd-logged-in-hero">
+            <div className="max-w-3xl">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Saved listings</div>
+              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Your watchlist</h1>
+              <p className="mt-2 text-sm bd-ink2 sm:text-base">
+                Sign in to save listings, track items you care about, and return to them later.
+              </p>
+            </div>
+            <div className="mt-5 flex flex-wrap gap-2">
+              <Link href="/auth/login?next=/watchlist" className="bd-btn bd-btn-primary text-center">
+                Sign in to view watchlist
+              </Link>
+              <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center">
+                Create account
+              </Link>
+              <Link href="/listings" className="bd-btn bd-btn-ghost text-center">
+                Browse listings
+              </Link>
+            </div>
+          </section>
+        </div>
+      </ReferencePage>
+    );
+  }
 
   const userId = session.user.id;
 
@@ -155,5 +178,6 @@ export default async function WatchlistPage() {
     </ReferencePage>
   );
 }
+
 
 
