@@ -97,6 +97,7 @@ export default async function ListingDetailPage({
           id: true,
           name: true,
           username: true,
+          avatarUrl: true,
           location: true,
           createdAt: true,
           emailVerified: true,
@@ -108,24 +109,38 @@ export default async function ListingDetailPage({
 
   if (!listing) notFound();
 
-  const relatedListings = await prisma.listing.findMany({
+  const relatedSelect = {
+    id: true,
+    title: true,
+    price: true,
+    buyNowPrice: true,
+    location: true,
+    condition: true,
+    images: true,
+  };
+
+  const sameCategoryListings = await prisma.listing.findMany({
     where: {
       id: { not: listing.id },
       status: "ACTIVE",
       category: listing.category || undefined,
     },
-    select: {
-      id: true,
-      title: true,
-      price: true,
-      buyNowPrice: true,
-      location: true,
-      condition: true,
-      images: true,
-    },
+    select: relatedSelect,
     orderBy: { createdAt: "desc" },
     take: 5,
   });
+
+  const fallbackListings = sameCategoryListings.length >= 5 ? [] : await prisma.listing.findMany({
+    where: {
+      id: { notIn: [listing.id].concat(sameCategoryListings.map((item) => item.id)) },
+      status: "ACTIVE",
+    },
+    select: relatedSelect,
+    orderBy: { createdAt: "desc" },
+    take: 5 - sameCategoryListings.length,
+  });
+
+  const relatedListings = sameCategoryListings.concat(fallbackListings);
 
   const title = cleanText(listing.title) || "Bidra listing";
   const description = cleanDescription(listing.description) || "No description provided. Message the seller before buying or making an offer.";
@@ -134,6 +149,8 @@ export default async function ListingDetailPage({
   const category = cleanText(listing.category) || "Listing";
   const listingType = cleanText(listing.type) || "Buy now";
   const sellerName = cleanText(listing.seller?.name || listing.seller?.username) || "Bidra seller";
+  const sellerInitials = sellerName.split(/\s+/).slice(0, 2).map((part) => part.charAt(0).toUpperCase()).join("") || "B";
+  const sellerAvatarUrl = cleanText(listing.seller?.avatarUrl);
   const sellerLocation = cleanText(listing.seller?.location) || "Australia";
   const sellerJoined = listing.seller?.createdAt instanceof Date
     ? listing.seller.createdAt.toLocaleDateString("en-AU", { month: "short", year: "numeric" })
@@ -184,16 +201,21 @@ export default async function ListingDetailPage({
 
             <div className="mt-8 rounded-2xl border border-[#DFE6F6] bg-white p-6 shadow-sm">
               <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <div className="text-xl font-black">{sellerName}</div>
-                  <div className="mt-1 text-sm font-semibold text-[#667399]">{sellerLocation}</div>
-                  <div className="mt-1 text-sm font-semibold text-[#667399]">Member since {sellerJoined}</div>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#DFE6F6] bg-[#EEF2FF] text-2xl font-black text-[#352CFF] shadow-sm">
+                    {sellerAvatarUrl ? <Image src={sellerAvatarUrl} alt={sellerName} width={80} height={80} className="h-full w-full object-cover" /> : sellerInitials}
+                  </div>
+                  <div>
+                    <div className="text-xl font-black">{sellerName}</div>
+                    <div className="mt-1 text-sm font-semibold text-[#667399]">{sellerLocation}</div>
+                    <div className="mt-1 text-sm font-semibold text-[#667399]">Member since {sellerJoined}</div>
+                    <div className="mt-3 flex flex-wrap gap-2">
                     {sellerBadges.length ? sellerBadges.map((badge) => (
                       <span key={badge} className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800">{badge}</span>
                     )) : (
                       <span className="rounded-full border border-[#DFE6F6] bg-white px-3 py-1 text-xs font-extrabold text-[#667399]">Verification pending</span>
                     )}
+                    </div>
                   </div>
                 </div>
                 <div className="grid gap-3 sm:w-[320px] sm:grid-cols-2">
