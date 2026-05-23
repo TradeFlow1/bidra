@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import BuyNowButton from "./buy-now-button";
 import MessageSellerButton from "./message-seller-button";
+import PlaceOfferClient from "./place-offer-client";
 import ReportListingButton from "./report-listing-button";
 import WatchlistButton from "./watchlist-button";
 
@@ -141,6 +143,10 @@ export default async function ListingDetailPage({
     listing.seller?.phoneVerified ? "Phone verified" : "",
   ].filter(Boolean);
   const displayPrice = typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price;
+  const buyNowAmount = listing.type === "BUY_NOW" ? listing.price : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : null);
+  const canBuyNow = listing.status === "ACTIVE" && buyNowAmount !== null;
+  const canOffer = listing.status === "ACTIVE" && listing.type === "OFFERABLE";
+  const minOfferCents = Math.max(1, Number(listing.price || 0));
   const isSold = listing.status !== "ACTIVE";
   const images = safeListingImages(listing.images);
   const primaryImage = images[0] || "";
@@ -215,8 +221,16 @@ export default async function ListingDetailPage({
             </div>
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <Link href={"/auth/login?next=/listings/" + listing.id} className="inline-flex h-14 items-center justify-center rounded-xl bg-[#352CFF] px-6 text-base font-extrabold text-white shadow-sm hover:bg-[#2B23D9]">Buy now</Link>
-              <Link href={"/auth/login?next=/listings/" + listing.id} className="inline-flex h-14 items-center justify-center rounded-xl border border-[#352CFF] bg-white px-6 text-base font-extrabold text-[#352CFF] shadow-sm hover:bg-[#F5F3FF]">Make an offer</Link>
+              {canBuyNow ? (
+                <BuyNowButton listingId={listing.id} />
+              ) : (
+                <div className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-5 text-sm font-extrabold text-[#667399]">Buy now unavailable</div>
+              )}
+              {canOffer ? (
+                <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} />
+              ) : (
+                <div className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-5 text-sm font-extrabold text-[#667399]">Offers unavailable</div>
+              )}
             </div>
 
             <div className="mt-4 grid gap-3">
