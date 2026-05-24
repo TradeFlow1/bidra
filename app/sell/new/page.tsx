@@ -4,7 +4,7 @@ import { auth } from "@/lib/auth";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 import { prisma } from "@/lib/prisma";
 import { BackButton } from "@/components/ui/back-button";
-import { AppPanel, ProductCollage, ReferencePage, appNarrowShell } from "@/components/marketplace-redesign";
+import { AppPanel, ProductCollage, ReferencePage, appShell } from "@/components/marketplace-redesign";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +24,7 @@ export default async function SellNewPage() {
   if (gate.blocked) {
     return (
       <ReferencePage>
-        <div className={appNarrowShell + " py-6"}>
+        <div className={appShell + " py-6"}>
           <BackButton href="/dashboard" label="Back to dashboard" />
           <AppPanel className="mt-4">
             <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#0B4DFF]">Before selling</div>
@@ -42,24 +42,24 @@ export default async function SellNewPage() {
 
   return (
     <ReferencePage>
-      <div className={appNarrowShell + " py-5 sm:py-7"}>
+      <div className={appShell + " py-5 sm:py-7"}>
         <BackButton href="/dashboard" label="Back to dashboard" />
-        <section className="mt-4 grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
+        <section className="mt-4 grid gap-5 xl:grid-cols-[minmax(0,1120px)_320px] xl:justify-center xl:items-start">
           <div>
             <div className="rounded-[32px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-7">
               <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#0B4DFF]">Sell on Bidra</div>
               <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-5xl">Sell your item</h1>
-              <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-[#36506F] sm:text-base">Add photos, details, price and location. Buyers and sellers arrange payment, pickup, postage and handover directly.</p>
+              <p className="mt-3 max-w-3xl text-sm font-semibold leading-6 text-[#36506F] sm:text-base">Add photos, details, price and location. Buyers and sellers arrange payment, pickup, postage and handover directly.</p>
               <div className="mt-5 grid grid-cols-3 gap-2 text-center text-xs font-black text-[#0B4DFF]"><span className="rounded-full bg-white px-3 py-2 hover:bg-[#F5F3FF]">Details</span><span className="rounded-full bg-white px-3 py-2 hover:bg-[#F5F3FF]">Photos</span><span className="rounded-full bg-white px-3 py-2 hover:bg-[#F5F3FF]">Review</span></div>
             </div>
             <div className="mt-4"><SellNewClient defaultLocation={defaultLocation} /></div>
           </div>
-          <aside className="grid gap-4 lg:sticky lg:top-24">
+          <aside className="grid gap-4 xl:sticky xl:top-24">
             <AppPanel>
               <h2 className="text-xl font-black tracking-tight text-[#07152E]">Selling tips</h2>
               <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#526173]"><li>Use clear product-first photos.</li><li>Write condition, faults and included accessories.</li><li>Set pickup/postage expectations early.</li><li>Keep handover details in Messages.</li></ul>
             </AppPanel>
-            <div className="hidden overflow-hidden rounded-[28px] border border-[#D8E6F8] bg-[#EEF6FF] p-3 lg:block"><ProductCollage /></div>
+            <div className="hidden overflow-hidden rounded-[28px] border border-[#D8E6F8] bg-[#EEF6FF] p-3 xl:block"><ProductCollage /></div>
           </aside>
         </section>
       </div>
