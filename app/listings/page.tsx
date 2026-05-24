@@ -200,10 +200,10 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
   return (
     <>
-      <main className="hidden bg-white text-[#4F46E5] md:block hover:bg-[#F5F3FF]">
-        <div className="mx-auto grid w-full max-w-[1440px] grid-cols-[300px_minmax(0,1fr)] border-x border-[#E2E8F0]">
+      <main className="hidden bg-white text-[#08112F] md:block">
+        <div className="mx-auto grid w-full max-w-[1440px] grid-cols-[300px_minmax(0,1fr)] border-x border-[#E2E8F0] bg-white">
           <aside className="border-r border-[#E2E8F0] px-10 py-12">
-            <h1 className="text-2xl font-black tracking-tight">Categories</h1>
+            <h1 className="text-2xl font-black tracking-tight text-[#08112F]">Categories</h1>
             <nav className="mt-6 space-y-2">
               {categories.map((category) => {
                 const active = category === selectedCategory;
@@ -225,7 +225,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
             <form action="/listings" className="mt-12 border-t border-[#E2E8F0] pt-8">
               <input type="hidden" name="category" value={selectedCategory === "All categories" ? "" : slugify(selectedCategory)} />
-              <h2 className="text-2xl font-black tracking-tight">Filters</h2>
+              <h2 className="text-2xl font-black tracking-tight text-[#08112F]">Filters</h2>
               <div className="mt-6 space-y-6">
                 <div>
                   <div className="mb-3 text-sm font-black">Price</div>
@@ -304,10 +304,10 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
             </form>
           </aside>
 
-          <section className="px-10 py-12">
+          <section className="px-9 py-12">
             <div className="mb-7 flex items-start justify-between gap-6">
               <div>
-                <h2 className="text-4xl font-black tracking-tight">All listings</h2>
+                <h2 className="text-4xl font-black tracking-tight text-[#08112F]">All listings</h2>
                 <p className="mt-2 text-base font-semibold text-[#64748B]">{displayCount} results</p>
                 {radiusIsActive ? (
                   <p className="mt-1 text-sm font-semibold text-[#4F46E5]">
@@ -325,7 +325,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
             </div>
 
             {visibleListings.length ? (
-              <div className="grid gap-7 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
                 {visibleListings.map((listing) => {
                   const image = getListingImage(listing.images, listing.photos);
                   const price = listing.buyNowPrice ?? listing.price;
@@ -334,7 +334,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                     <Link
                       key={listing.id}
                       href={"/listings/" + listing.id}
-                      className="group overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(79,70,229,0.14)] hover:bg-[#F5F3FF]"
+                      className="group overflow-hidden rounded-2xl border border-[#DCE5F2] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]"
                     >
                       <div className="relative aspect-[4/3] overflow-hidden bg-[#F8FAFC]">
                         {image ? (
@@ -343,16 +343,16 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                             alt={listing.title}
                             fill
                             sizes="(min-width: 1280px) 220px, (min-width: 768px) 33vw, 100vw"
-                            className="object-cover transition duration-300 group-hover:scale-105"
+                            className="object-cover transition duration-300 group-hover:scale-[1.03]"
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-5xl text-[#4F46E5]">▯</div>
                         )}
-                        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#4F46E5] shadow-sm hover:bg-[#F5F3FF]">♡</span>
+                        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#2437FF] shadow-sm hover:bg-[#F8FAFC]">♡</span>
                       </div>
                       <div className="p-4">
-                        <h3 className="line-clamp-2 text-base font-black">{listing.title}</h3>
-                        <p className="mt-3 text-lg font-black">{formatPrice(price)}</p>
+                        <h3 className="line-clamp-2 text-base font-black text-[#08112F]">{listing.title}</h3>
+                        <p className="mt-3 text-lg font-black text-[#08112F]">{formatPrice(price)}</p>
                         <div className="mt-5 flex items-center justify-between gap-3 text-xs font-semibold text-[#64748B]">
                           <span className="truncate">{listing.location}</span>
                           <span>{formatAge(listing.createdAt)}</span>
