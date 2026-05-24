@@ -271,7 +271,7 @@ export default async function SellerPage({ params }: PageProps) {
                 <p className="mt-2 text-sm text-[#64748B]">This seller has no active listings right now.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                 {activeListings.map((listing) => {
                   const currentOffer = listing.offers[0]?.amount ?? null;
                   const displayPrice =
@@ -280,36 +280,32 @@ export default async function SellerPage({ params }: PageProps) {
                       : listing.buyNowPrice ?? listing.price;
 
                   return (
-                    <ListingCard
-                      key={listing.id}
-                      listing={{
-                        id: listing.id,
-                        title: listing.title,
-                        description: listing.description ?? null,
-                        price: displayPrice,
-                        buyNowPrice: listing.buyNowPrice ?? null,
-                        type: listing.type ?? undefined,
-                        category: listing.category ?? undefined,
-                        condition: listing.condition ?? undefined,
-                        location: listing.location ?? undefined,
-                        images: listing.images ?? undefined,
-                        status: listing.status ?? "ACTIVE",
-                        offerCount: listing._count.offers,
-                        currentOffer,
-                        seller: {
-                          name: sellerName,
-                          memberSince: seller.createdAt,
-                          location: sellerLocation || null,
-                          emailVerified: seller.emailVerified,
-                          phone: sellerPhoneVerified ? seller.phone : null,
-                          ratingAvg,
-                          ratingCount,
-                        },
-                      }}
-                      viewerAuthed={!!userId}
-                      showWatchButton={!!userId}
-                      initiallyWatched={watchedIds.has(listing.id)}
-                    />
+                    <div key={listing.id} className="overflow-hidden rounded-[20px] border border-[#DCE5F2] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(15,23,42,0.10)]">
+                      <Link href={"/listings/" + listing.id} className="block">
+                        <div className="overflow-hidden [&_.bd-marketplace-card]:rounded-none [&_.bd-marketplace-card]:border-0 [&_.bd-marketplace-card]:shadow-none [&_.bd-marketplace-card]:hover:translate-y-0 [&_.bd-marketplace-card]:hover:shadow-none [&_.bd-marketplace-card]:hover:bg-white [&_.bd-marketplace-card_.bd-card-meta]:hidden [&_.bd-marketplace-card_.bd-card-seller]:hidden">
+                          <ListingCard
+                            listing={{
+                              id: listing.id,
+                              title: listing.title,
+                              description: listing.description ?? null,
+                              price: displayPrice,
+                              buyNowPrice: listing.buyNowPrice ?? null,
+                              type: listing.type ?? undefined,
+                              category: listing.category ?? undefined,
+                              condition: listing.condition ?? undefined,
+                              location: listing.location ?? undefined,
+                              images: listing.images ?? undefined,
+                              status: listing.status ?? "ACTIVE",
+                              offerCount: listing._count.offers,
+                              currentOffer,
+                            }}
+                            viewerAuthed={!!userId}
+                            showWatchButton={false}
+                            initiallyWatched={watchedIds.has(listing.id)}
+                          />
+                        </div>
+                      </Link>
+                    </div>
                   );
                 })}
               </div>
@@ -319,14 +315,17 @@ export default async function SellerPage({ params }: PageProps) {
 
         {visibleRecentFeedback.length > 0 ? (
           <section id="seller-feedback" className="scroll-mt-24 rounded-[30px] border border-[#DCE5F2] bg-white p-5 shadow-sm sm:p-6">
-            <div className="text-xl font-extrabold tracking-tight text-[#0F172A]">Seller feedback</div>
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+              <div className="text-xl font-extrabold tracking-tight text-[#0F172A]">Seller feedback</div>
+              {ratingCount > visibleRecentFeedback.length ? <div className="text-sm font-semibold text-[#64748B]">Showing latest {visibleRecentFeedback.length} of {ratingCount} reviews</div> : null}
+            </div>
 
-            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {visibleRecentFeedback.map((entry) => (
-                <article key={entry.id} className="rounded-[24px] border border-[#DCE5F2] bg-[#F8FAFC] p-4">
+                <article key={entry.id} className="rounded-[22px] border border-[#DCE5F2] bg-[#F8FAFC] p-4">
                   <div className="text-xs font-extrabold text-amber-700">{renderStars(entry.rating)}</div>
-                  <p className="mt-2 text-sm leading-6 text-[#475569]">{cleanText(entry.comment) || "No written comment."}</p>
-                  <div className="mt-2 text-xs text-[#64748B]">
+                  <p className="mt-2 line-clamp-3 min-h-[3.75rem] text-sm leading-5 text-[#475569]">{cleanText(entry.comment) || "No written comment."}</p>
+                  <div className="mt-3 text-xs text-[#64748B]">
                     <time dateTime={entry.createdAt.toISOString()}>
                       {entry.createdAt.toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })}
                     </time>
