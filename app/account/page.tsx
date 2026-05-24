@@ -164,14 +164,14 @@ export default async function AccountPage() {
                 const price = listing.buyNowPrice ?? listing.price;
 
                 return (
-                  <Link key={listing.id} href={`/listings/${listing.id}`} className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm hover:border-[#C7D2FE] hover:bg-[#EEF2FF]">
-                    <div className="relative aspect-square bg-[#F1F5F9]">
-                      {image ? <Image src={image} alt="" fill className="object-cover" /> : null}
+                  <Link key={listing.id} href={`/listings/${listing.id}`} className="group overflow-hidden rounded-2xl border border-[#DCE5F2] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]">
+                    <div className="relative aspect-square overflow-hidden bg-[#F8FAFC]">
+                      {image ? <Image src={image} alt="" fill className="object-cover transition duration-300 group-hover:scale-[1.03]" /> : null}
                     </div>
                     <div className="p-5">
-                      <h3 className="line-clamp-2 text-lg font-black">{listing.title}</h3>
+                      <h3 className="line-clamp-2 text-lg font-black text-[#08112F]">{listing.title}</h3>
                       <p className="mt-2 text-base font-black text-[#0F172A]">{formatPrice(price)}</p>
-                      <p className="mt-2 text-xs font-semibold text-[#64748B]">{listing.status}</p>
+                      <p className="mt-2 text-xs font-black uppercase tracking-[0.08em] text-[#64748B]">{listing.status}</p>
                     </div>
                   </Link>
                 );
@@ -208,7 +208,7 @@ export default async function AccountPage() {
           </div>
         </section>
 
-        <section id="edit-account" className="mt-14 rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:bg-[#EEF2FF]">
+        <section id="edit-account" className="mt-14 rounded-[24px] border border-[#DCE5F2] bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-2xl font-black tracking-tight">Manage account</h2>
@@ -270,7 +270,7 @@ export default async function AccountPage() {
             </form>
           </div>
         </section>
-        <section id="restrictions" className="mt-14 rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:bg-[#EEF2FF]">
+        <section id="restrictions" className="mt-14 rounded-[24px] border border-[#DCE5F2] bg-white p-6 shadow-sm">
           <h2 className="text-2xl font-black tracking-tight">Account status</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <StatusPill label="Email" value={user.emailVerified ? "Verified" : "Needs verification"} good={Boolean(user.emailVerified)} />
@@ -288,7 +288,7 @@ export default async function AccountPage() {
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6 text-center shadow-sm hover:bg-[#EEF2FF]">
+    <div className="rounded-2xl border border-[#DCE5F2] bg-white p-6 text-center shadow-sm">
       <div className="text-4xl font-black">{value}</div>
       <div className="mt-1 text-sm font-semibold text-[#64748B]">{label}</div>
     </div>
@@ -297,7 +297,7 @@ function StatCard({ label, value }: { label: string; value: number }) {
 
 function InfoCard({ title, body, href, label }: { title: string; body: string; href: string; label: string }) {
   return (
-    <Link href={href} className="rounded-[24px] border border-[#E2E8F0] bg-white p-6 shadow-sm hover:border-[#C7D2FE] hover:bg-[#EEF2FF]">
+    <Link href={href} className="rounded-[24px] border border-[#DCE5F2] bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(15,23,42,0.08)]">
       <h3 className="text-lg font-black">{title}</h3>
       <p className="mt-2 min-h-12 text-sm font-semibold leading-6 text-[#64748B]">{body}</p>
       <div className="mt-4 text-sm font-black text-[#4F46E5]">{label}</div>
@@ -307,7 +307,7 @@ function InfoCard({ title, body, href, label }: { title: string; body: string; h
 
 function StatusPill({ label, value, good }: { label: string; value: string; good: boolean }) {
   return (
-    <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-5">
+    <div className="rounded-2xl border border-[#DCE5F2] bg-[#F8FAFC] p-5">
       <div className="text-sm font-black text-[#64748B]">{label}</div>
       <div className={good ? "mt-2 text-lg font-black text-[#15803D]" : "mt-2 text-lg font-black text-[#B45309]"}>{value}</div>
     </div>
