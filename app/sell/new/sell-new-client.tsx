@@ -215,6 +215,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   const [subcategoryKey, setSubcategoryKey] = useState("");
   const [categoryTouched, setCategoryTouched] = useState(false);
   const [condition, setCondition] = useState("USED");
+  const [attributeValues, setAttributeValues] = useState<Record<string, string>>({});
   const [location, setLocation] = useState((defaultLocation || "").trim());
   const [price, setPrice] = useState("");
   const [startingBid, setStartingBid] = useState("");
@@ -315,6 +316,46 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   }, [title, description, category, location, price, startingBid, buyNowPrice, isTimedOffers, files.length]);
 
   const publishReady = missingRequirements.length === 0;
+
+  const attributeFields = useMemo(() => {
+    if (topCategoryKey === "vehicles") {
+      return [
+        { key: "make", label: "Make", placeholder: "Toyota, Ford, Mazda" },
+        { key: "model", label: "Model", placeholder: "Corolla, Ranger, CX-5" },
+        { key: "year", label: "Year", placeholder: "e.g. 2018" },
+        { key: "odometer", label: "Odometer", placeholder: "e.g. 125000 km" },
+        { key: "transmission", label: "Transmission", placeholder: "Auto or manual" },
+        { key: "fuelType", label: "Fuel type", placeholder: "Petrol, diesel, hybrid, EV" },
+        { key: "bodyType", label: "Body type", placeholder: "Sedan, hatch, ute, SUV" },
+        { key: "registration", label: "Registration", placeholder: "Registered, expired, unregistered" },
+      ];
+    }
+
+    if (topCategoryKey === "electronics") {
+      return [
+        { key: "brand", label: "Brand", placeholder: "Apple, Samsung, Sony" },
+        { key: "model", label: "Model", placeholder: "iPhone 14, Galaxy S23" },
+        { key: "storage", label: "Storage / capacity", placeholder: "128GB, 512GB, 55 inch" },
+        { key: "colour", label: "Colour", placeholder: "Black, white, blue" },
+      ];
+    }
+
+    return [];
+  }, [topCategoryKey]);
+
+  const listingAttributes = useMemo(() => {
+    const output: Record<string, string> = {};
+    for (let i = 0; i < attributeFields.length; i += 1) {
+      const field = attributeFields[i];
+      const value = String(attributeValues[field.key] || "").trim();
+      if (value) output[field.key] = value;
+    }
+    return output;
+  }, [attributeFields, attributeValues]);
+
+  function setAttributeValue(key: string, value: string) {
+    setAttributeValues((prev) => ({ ...prev, [key]: value }));
+  }
 
   const reviewSaleType = isTimedOffers ? "Make Offer (timed offers)" : "Buy Now";
   const reviewPrice = isTimedOffers
@@ -423,6 +464,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           buyNowPrice: isTimedOffers ? buyNowCents : null,
           durationDays: isTimedOffers ? Number(durationDays) : null,
           images: uploadedImages,
+          attributes: listingAttributes,
         }),
       });
 
@@ -658,6 +700,27 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                 <option value="FOR_PARTS">For parts</option>
               </select>
             </div>
+
+            {attributeFields.length > 0 ? (
+              <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] p-3">
+                <div className="text-sm font-extrabold bd-ink">Item specifics</div>
+                <p className="mt-1 text-xs bd-ink2">Add make, model and specs so buyers can compare listings properly.</p>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  {attributeFields.map((field) => (
+                    <div key={field.key}>
+                      <label className="bd-label" htmlFor={"field-attribute-" + field.key}>{field.label}</label>
+                      <input
+                        id={"field-attribute-" + field.key}
+                        className="mt-1 bd-input"
+                        value={attributeValues[field.key] || ""}
+                        onChange={(e) => setAttributeValue(field.key, e.target.value)}
+                        placeholder={field.placeholder}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             <div>
               <label className="bd-label" htmlFor="field-description">Description</label>

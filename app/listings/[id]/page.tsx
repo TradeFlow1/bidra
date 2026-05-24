@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Fragment } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
@@ -27,6 +28,38 @@ function cleanDescription(value: unknown) {
     .replace(/Condition:\s*/gi, "")
     .replace(/Details:\s*/gi, "")
     .trim();
+}
+
+function labelForAttribute(key: string) {
+  const labels: Record<string, string> = {
+    make: "Make",
+    model: "Model",
+    year: "Year",
+    odometer: "Odometer",
+    transmission: "Transmission",
+    fuelType: "Fuel type",
+    bodyType: "Body type",
+    registration: "Registration",
+    brand: "Brand",
+    storage: "Storage / capacity",
+    colour: "Colour",
+  };
+  return labels[key] || key;
+}
+
+function listingAttributeRows(value: unknown) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return [];
+  const order = ["make", "brand", "model", "year", "odometer", "transmission", "fuelType", "bodyType", "registration", "storage", "colour"];
+  const raw = value as Record<string, unknown>;
+  const rows: { key: string; label: string; value: string }[] = [];
+
+  for (const key of order) {
+    const text = cleanText(raw[key]);
+    if (!text) continue;
+    rows.push({ key, label: labelForAttribute(key), value: text });
+  }
+
+  return rows;
 }
 
 function safeListingImages(value: unknown) {
@@ -88,6 +121,7 @@ export default async function ListingDetailPage({
       type: true,
       category: true,
       condition: true,
+      attributes: true,
       location: true,
       status: true,
       images: true,
@@ -165,6 +199,7 @@ export default async function ListingDetailPage({
   const canOffer = listing.status === "ACTIVE" && listing.type === "OFFERABLE";
   const minOfferCents = Math.max(1, Number(listing.price || 0));
   const isSold = listing.status !== "ACTIVE";
+  const attributeRows = listingAttributeRows(listing.attributes);
   const images = safeListingImages(listing.images);
   const primaryImage = images[0] || "";
 
@@ -257,6 +292,12 @@ export default async function ListingDetailPage({
                 <dd className="font-extrabold text-[#080D32]">{condition}</dd>
                 <dt className="font-bold text-[#667399]">Category</dt>
                 <dd className="font-extrabold text-[#080D32]">{category}</dd>
+                {attributeRows.map((row) => (
+                  <Fragment key={row.key}>
+                    <dt className="font-bold text-[#667399]">{row.label}</dt>
+                    <dd className="font-extrabold text-[#080D32]">{row.value}</dd>
+                  </Fragment>
+                ))}
                 <dt className="font-bold text-[#667399]">Listing type</dt>
                 <dd className="font-extrabold text-[#080D32]">{listingType}</dd>
                 <dt className="font-bold text-[#667399]">Status</dt>

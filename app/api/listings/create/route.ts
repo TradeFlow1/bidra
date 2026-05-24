@@ -35,6 +35,21 @@ function toIntOrNull(v: any): number | null {
   return Math.trunc(n);
 }
 
+function normalizeAttributes(raw: any): Record<string, string> | null {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
+  const allowed = new Set(["make", "model", "year", "odometer", "transmission", "fuelType", "bodyType", "registration", "brand", "storage", "colour"]);
+  const output: Record<string, string> = {};
+
+  for (const key of Object.keys(raw)) {
+    if (!allowed.has(key)) continue;
+    const value = String(raw[key] || "").replace(/\s+/g, " ").trim();
+    if (!value) continue;
+    output[key] = value.slice(0, 80);
+  }
+
+  return Object.keys(output).length ? output : null;
+}
+
 function normalizeLocation(input: string): string {
   const raw = String(input ?? "");
   const s = raw.replace(/\s+/g, " ").trim();
@@ -116,6 +131,7 @@ export async function POST(req: Request) {
     const buyNowPriceIn = toIntOrNull(body.buyNowPrice);
 
     const imagesRaw = Array.isArray(body.images) ? body.images : [];
+    const attributes = normalizeAttributes((body as any).attributes);
 
 
     const images = imagesRaw.map(function (v: any) {
@@ -220,6 +236,7 @@ export async function POST(req: Request) {
         images: images.map(function (img: any) { return String((img && img.url) || ""); }).filter(Boolean),
         buyNowPrice: buyNowToSave,
         buyNowEnabled: type === "BUY_NOW" ? true : (buyNowToSave !== null),
+        attributes: attributes || undefined,
         sellerId: session.user.id,
         status: "ACTIVE",
       },

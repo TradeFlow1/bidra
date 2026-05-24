@@ -98,6 +98,7 @@ model Listing {
   buyNowEnabled   Boolean           @default(false)
   fulfillmentType FulfillmentType   @default(PICKUP)
   photos          String[]          @default([])
+  attributes      Json?
   previousStatus  ListingStatus?
   offers          Offer[]
   seller          User              @relation("SellerListings", fields: [sellerId], references: [id])
