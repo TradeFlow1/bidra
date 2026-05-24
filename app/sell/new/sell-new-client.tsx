@@ -540,7 +540,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         <section className="bd-form-card rounded-[26px] p-4 sm:p-6">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <h2 className="text-base font-extrabold bd-ink">1) Photos</h2>
+              <h2 className="text-base font-extrabold bd-ink">Photos</h2>
               <p className="mt-1 text-xs bd-ink2">Add at least one clear photo.</p>
             </div>
             <span className={files.length > 0 ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
@@ -611,7 +611,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
         <details className="bd-form-card rounded-[26px] p-4 sm:p-6" open={!(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim())}>
           <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-extrabold bd-ink [&::-webkit-details-marker]:hidden">
-            <span>2) Item details</span>
+            <span>Details</span>
             <span className={(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim()) ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
               {(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim()) ? "Done" : "Open"}
             </span>
@@ -755,7 +755,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         </details>
 
         <section className="bd-form-card rounded-[26px] p-4 sm:p-6">
-          <h2 className="text-base font-extrabold bd-ink">3) Price</h2>
+          <h2 className="text-base font-extrabold bd-ink">Price</h2>
           <div className="mt-3 grid gap-2">
             <div>
               <label className="bd-label" htmlFor="field-sale-type">Sale type</label>
@@ -805,7 +805,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
         <details className="bd-form-card rounded-[26px] p-4 sm:p-6" open={!publishReady}>
           <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-extrabold bd-ink [&::-webkit-details-marker]:hidden">
-            <span>4) Publish</span>
+            <span>Review</span>
             <span className={publishReady ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
               {publishReady ? "Ready" : `${missingRequirements.length} left`}
             </span>
@@ -838,7 +838,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         </details>
 
         <button type="submit" disabled={busy || !publishReady} className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0B4DFF] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#0842D6] disabled:cursor-not-allowed disabled:opacity-60">
-          {busy ? "Saving..." : "Publish listing"}
+          {busy ? "Saving..." : "Continue"}
         </button>
       </form>
     </div>
