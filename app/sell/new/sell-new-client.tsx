@@ -514,7 +514,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   }
 
   return (
-    <div className="rounded-[28px] border border-[#D8E6F8] bg-white p-3 shadow-[0_18px_50px_rgba(32,75,140,0.10)] sm:p-5 hover:bg-[#F5F3FF]">
+    <div className="rounded-[28px] border border-[#D8E6F8] bg-white p-4 shadow-[0_18px_50px_rgba(32,75,140,0.10)] sm:p-6">
       {err && (
         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div>
       )}
@@ -536,8 +536,8 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         </div>
       )}
 
-      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="grid gap-4">
-        <section className="bd-form-card rounded-[26px] p-4 sm:p-6">
+      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="grid gap-5">
+        <section className="bd-form-card rounded-[26px] p-5 sm:p-7">
           <div className="flex items-center justify-between gap-3">
             <div>
               <h2 className="text-base font-extrabold bd-ink">Photos</h2>
@@ -552,7 +552,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             <div className="flex items-center gap-2 flex-wrap">
               <button
                 type="button"
-                className="bd-btn bd-btn-secondary"
+                className="bd-btn bd-btn-secondary rounded-2xl px-5"
                 onClick={() => cameraInputRef.current?.click()}
               >
                 Take photo
@@ -560,7 +560,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
               <button
                 type="button"
-                className="bd-btn bd-btn-secondary"
+                className="bd-btn bd-btn-secondary rounded-2xl px-5"
                 onClick={() => galleryInputRef.current?.click()}
               >
                 Add photos
@@ -609,7 +609,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </section>
 
-        <details className="bd-form-card rounded-[26px] p-4 sm:p-6" open={!(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim())}>
+        <details className="bd-form-card rounded-[26px] p-5 sm:p-7" open={!(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim())}>
           <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-extrabold bd-ink [&::-webkit-details-marker]:hidden">
             <span>Details</span>
             <span className={(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim()) ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
@@ -631,7 +631,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                   <span>Suggested: <span className="font-semibold bd-ink">{suggestedCategory.categoryLabel}</span></span>
                   <button
                     type="button"
-                    className="bd-btn bd-btn-secondary"
+                    className="bd-btn bd-btn-secondary rounded-2xl px-5"
                     onClick={() => {
                       setCategoryTouched(true);
                       setTopCategoryKey(suggestedCategory.categoryKey);
@@ -728,7 +728,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <button
                   type="button"
-                  className="bd-btn bd-btn-secondary"
+                  className="bd-btn bd-btn-secondary rounded-2xl px-5"
                   onClick={() => {
                     const priceLabel = type === "TIMED_OFFERS" ? (startingBid ? `$${startingBid} starting` : "") : (price ? `$${price}` : "");
                     const draft = suggestDescriptionDraft({
@@ -754,7 +754,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </details>
 
-        <section className="bd-form-card rounded-[26px] p-4 sm:p-6">
+        <section className="bd-form-card rounded-[26px] p-5 sm:p-7">
           <h2 className="text-base font-extrabold bd-ink">Price</h2>
           <div className="mt-3 grid gap-2">
             <div>
@@ -803,7 +803,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </section>
 
-        <details className="bd-form-card rounded-[26px] p-4 sm:p-6" open={!publishReady}>
+        <details className="bd-form-card rounded-[26px] p-5 sm:p-7" open={!publishReady}>
           <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-extrabold bd-ink [&::-webkit-details-marker]:hidden">
             <span>Review</span>
             <span className={publishReady ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
@@ -837,7 +837,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </details>
 
-        <button type="submit" disabled={busy || !publishReady} className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0B4DFF] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#0842D6] disabled:cursor-not-allowed disabled:opacity-60">
+        <button type="submit" disabled={busy || !publishReady} className="inline-flex h-14 w-full items-center justify-center rounded-[22px] bg-[#2437FF] px-6 text-base font-extrabold text-white shadow-[0_16px_36px_rgba(36,55,255,0.22)] transition hover:bg-[#172BEF] disabled:cursor-not-allowed disabled:opacity-60">
           {busy ? "Saving..." : "Continue"}
         </button>
       </form>
