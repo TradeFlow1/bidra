@@ -42,7 +42,7 @@ export default async function AdminOpsPage() {
   if (user.role !== "ADMIN") redirect("/");
 
   const requiredEnv = ["DATABASE_URL", "NEXTAUTH_SECRET", "NEXTAUTH_URL", "NEXT_PUBLIC_SITE_URL"];
-  const optionalEnv = ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "RESEND_API_KEY", "BLOB_READ_WRITE_TOKEN", "FT_ENABLED", "PHONE_GATE_ENABLED"];
+  const optionalEnv = ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "RESEND_API_KEY", "BLOB_READ_WRITE_TOKEN", "PHONE_GATE_ENABLED"];
 
   const paymentReadiness = {
     model: "External handover",

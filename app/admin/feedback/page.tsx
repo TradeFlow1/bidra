@@ -52,13 +52,12 @@ export default async function AdminFeedbackPage() {
   }
 
   const items = await prisma.adminEvent.findMany({
-    where: { type: { in: ["SITE_FEEDBACK", "FT_FEEDBACK"] } },
+    where: { type: "SITE_FEEDBACK" },
     orderBy: { createdAt: "desc" },
     take: 200,
   });
 
   const siteFeedbackCount = items.filter((e) => e.type === "SITE_FEEDBACK").length;
-  const ftFeedbackCount = items.filter((e) => e.type === "FT_FEEDBACK").length;
 
   return (
     <main className="bd-container py-10">
@@ -69,7 +68,7 @@ export default async function AdminFeedbackPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin feedback</div>
               <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">Feedback submissions</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Review site and Friend Test feedback submissions by type, user, category, date, and message before deciding whether follow-up is needed.
+                Review site feedback submissions by type, user, category, date, and message before deciding whether follow-up is needed.
               </p>
             </div>
 
@@ -92,18 +91,14 @@ export default async function AdminFeedbackPage() {
             value={siteFeedbackCount}
             note="General product and site feedback submissions."
           />
-          <InfoCard
-            title="Friend Test feedback"
-            value={ftFeedbackCount}
-            note="Private testing feedback submissions."
-          />
+
         </div>
 
         <section className="rounded-3xl border border-black/10 bg-white shadow-sm overflow-hidden hover:bg-[#F5F3FF]">
           <div className="border-b border-black/10 px-6 py-4">
             <div className="text-sm font-extrabold bd-ink">Latest feedback</div>
             <div className="mt-1 text-sm bd-ink2">
-              Site and Friend Test feedback submissions, newest first.
+              Site feedback submissions, newest first.
             </div>
           </div>
 
@@ -161,7 +156,7 @@ export default async function AdminFeedbackPage() {
         <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
           <div className="text-sm font-extrabold bd-ink">Admin note</div>
           <div className="mt-2 text-sm bd-ink2 leading-7">
-            Scan feedback for repeated themes, product issues, and moderation concerns before deciding whether follow-up is needed. Keep Friend Test feedback enabled only during private testing.
+            Scan feedback for repeated themes, product issues, and moderation concerns before deciding whether follow-up is needed.
           </div>
         </section>
       </div>
