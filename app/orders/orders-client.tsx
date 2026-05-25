@@ -15,6 +15,8 @@ type OrderItem = {
   id: string;
   title: string;
   status: string;
+  role: string;
+  nextAction: string;
   amountLabel: string;
   createdLabel: string;
 };
@@ -78,11 +80,17 @@ function readOrders(payload: unknown): OrderItem[] {
     const order = asObject(raw) || {};
     const listing = asObject(order.listing) || {};
 
+    const status = asString(order.outcome, asString(order.status, "PENDING")).toUpperCase();
+    const isCompleted = status === "COMPLETED";
+    const role = asString(order.role, "Order");
+
     return {
       id: asString(order.id, "order-" + index),
       title: asString(order.title, asString(listing.title, "Order")),
-      status: asString(order.status, "Pending"),
-      amountLabel: moneyLabel(order.totalCents || order.amountCents || order.priceCents || order.total || order.amount),
+      status: isCompleted ? "Completed" : "Purchase committed",
+      role: role,
+      nextAction: isCompleted ? "Order completed. Feedback may be available." : "Arrange payment, pickup/postage and handover.",
+      amountLabel: moneyLabel(order.totalCents || order.amountCents || order.priceCents || order.total || order.amount || listing.price),
       createdLabel: dateLabel(order.createdAt || order.updatedAt),
     };
   });
@@ -156,7 +164,7 @@ export function OrdersClient() {
         <BidraPageHeader
           eyebrow="Orders"
           title="Your orders"
-          description="Track buying and selling activity, handover status and order history."
+          description="Buy Now is a committed purchase. Track payment, pickup/postage, handover and order history."
           actions={<BidraButton href="/listings" variant="secondary">Browse listings</BidraButton>}
         />
 
@@ -195,6 +203,7 @@ export function OrdersClient() {
                       <BidraBadge tone="info">{order.status}</BidraBadge>
                     </div>
                     <p className="mt-2 text-sm font-bold text-[#64748B]">{order.createdLabel}</p>
+                    <p className="mt-2 text-sm font-semibold text-[#475569]">{order.nextAction}</p>
                   </div>
                   <div className="flex flex-col gap-2 sm:items-end">
                     <p className="text-xl font-black text-[#0F172A]">{order.amountLabel}</p>

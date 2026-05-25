@@ -32,6 +32,7 @@ export async function GET(_req: Request) {
         id: true,
         status: true,
         outcome: true,
+        amount: true,
         createdAt: true,
         buyerId: true,
         listingId: true,
