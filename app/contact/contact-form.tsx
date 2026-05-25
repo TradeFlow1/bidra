@@ -8,14 +8,16 @@ const SUPPORT_EMAIL = "support@bidra.com.au";
 export default function ContactForm({ defaultEmail }: { defaultEmail: string }) {
   const [note, setNote] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [sending, setSending] = useState(false);
 
   return (
     <form
-      className="rounded-2xl border bd-bd bg-white p-5 space-y-3 hover:bg-[#F5F3FF]"
+      className="rounded-[28px] border border-[#D8E1F0] bg-white p-5 shadow-sm sm:p-6"
       onSubmit={async (e) => {
         e.preventDefault();
         setNote("");
         setError("");
+        setSending(true);
 
         const fd = new FormData(e.currentTarget);
         const email = String(fd.get("email") || "").trim();
@@ -30,61 +32,65 @@ export default function ContactForm({ defaultEmail }: { defaultEmail: string }) 
           });
           const data = await res.json().catch(() => ({}));
           if (!res.ok || !data?.ok) {
-            setError("We could not send your message. Please check your details and try again.");
+            setError(typeof data?.error === "string" ? data.error : "We could not send your message. Please check your details and try again.");
             return;
           }
           (e.currentTarget as HTMLFormElement).reset();
-          setNote("Message sent. WeÃ¢â‚¬â„¢ll get back to you as soon as we can.");
+          setNote("Message sent. We will get back to you as soon as we can.");
         } catch {
           setError("We could not send your message. Please try again shortly.");
+        } finally {
+          setSending(false);
         }
       }}
     >
-      <div className="text-sm font-extrabold bd-ink">Contact Bidra Support</div>
+      <h2 className="text-2xl font-black tracking-[-0.04em] text-[#07152E]">Send us a message</h2>
+      <p className="mt-2 text-sm font-semibold leading-6 text-[#475569]">
+        Include listing, order or message links where relevant. Do not send passwords or verification codes.
+      </p>
 
       <div style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }} aria-hidden="true">
         <label>Website</label>
         <input name="website" autoComplete="off" tabIndex={-1} />
       </div>
 
-      <div className="text-xs bd-ink2">
-        Prefer email?{" "}
-        <a className="bd-link font-semibold" href={`mailto:${SUPPORT_EMAIL}`}>
-          {SUPPORT_EMAIL}
-        </a>
-      </div>
-
-      <div className="grid gap-2">
-        <label className="text-sm bd-ink2">Your email</label>
+      <div className="mt-5">
+        <label className="text-sm font-black text-[#07152E]">Your email</label>
         <input
           name="email"
           type="email"
           defaultValue={defaultEmail || ""}
           required
-          className="mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5 hover:bg-[#F5F3FF]"
+          className="mt-2 h-12 w-full rounded-2xl border border-[#CBD5E1] bg-white px-4 text-sm font-semibold text-[#07152E] placeholder:text-[#94A3B8] outline-none transition focus:border-[#4F46E5] focus:ring-4 focus:ring-[#C7D2FE]"
           placeholder="name@email.com"
           autoComplete="email"
         />
       </div>
 
-      <div className="grid gap-2">
-        <label className="text-sm bd-ink2">Message</label>
+      <div className="mt-4">
+        <label className="text-sm font-black text-[#07152E]">Message</label>
         <textarea
           name="message"
           required
-          rows={6}
-          className="mt-1 w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-[15px] text-[#0b1220] placeholder:text-black/40 outline-none transition focus:border-black/20 focus:ring-4 focus:ring-black/5 hover:bg-[#F5F3FF]"
-          placeholder="Tell us what happened and include any links (listing / order / thread). Never share passwords or verification codes."
+          rows={7}
+          className="mt-2 w-full rounded-2xl border border-[#CBD5E1] bg-white px-4 py-3 text-sm font-semibold leading-6 text-[#07152E] placeholder:text-[#94A3B8] outline-none transition focus:border-[#4F46E5] focus:ring-4 focus:ring-[#C7D2FE]"
+          placeholder="Tell us what happened and include any useful links."
         />
       </div>
 
-      <button type="submit" className="inline-flex w-fit bd-btn bd-btn-secondary text-center">
-        Send message
-      </button>
+      <div className="mt-5 flex flex-wrap items-center gap-3">
+        <button type="submit" disabled={sending} className="bd-btn bd-btn-primary rounded-2xl px-6 disabled:opacity-60">
+          {sending ? "Sending..." : "Send message"}
+        </button>
+        <a className="text-sm font-black text-[#4F46E5] hover:text-[#4338CA]" href={`mailto:${SUPPORT_EMAIL}`}>
+          Email {SUPPORT_EMAIL}
+        </a>
+      </div>
 
-      {note ? <StatusMessage tone="success">{note}</StatusMessage> : null}
-      {error ? <StatusMessage tone="error">{error}</StatusMessage> : null}
+      <div className="mt-4 space-y-3">
+        {note ? <StatusMessage tone="success">{note}</StatusMessage> : null}
+        {error ? <StatusMessage tone="error">{error}</StatusMessage> : null}
+      </div>
     </form>
   );
 }
-
