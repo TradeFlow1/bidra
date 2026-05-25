@@ -17,7 +17,7 @@ export default async function WatchlistPage() {
     return (
       <ReferencePage>
         <div className={appShell + " space-y-5 py-6 sm:py-8"}>
-          <section className="bd-logged-in-hero">
+          <section className="bd-logged-in-hero pb-8">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Saved listings</div>
               <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Your watchlist</h1>
@@ -109,8 +109,8 @@ export default async function WatchlistPage() {
     <ReferencePage>
       <div className={appShell + " space-y-5 py-6 sm:py-8"}>
         <AccountNav active="saved" />
-        <section className="bd-logged-in-hero">
-          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <section className="bd-logged-in-hero pb-8">
+          <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Saved</div>
               <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Saved</h1>
@@ -119,7 +119,7 @@ export default async function WatchlistPage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 md:pb-1">
               <Link href="/listings" className="bd-btn bd-btn-primary text-center">
                 Browse marketplace
               </Link>
@@ -150,26 +150,29 @@ export default async function WatchlistPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {items.map(function (item: any) {
               if (!item.listing) return null;
               return (
-                <ListingCard
-                  key={item.id}
-                  listing={{
-                    ...item.listing,
-                    seller: {
-                      name: item.listing.seller?.name || item.listing.seller?.username || null,
-                      memberSince: item.listing.seller?.createdAt ?? null,
-                      location: item.listing.seller?.location ?? null,
-                      emailVerified: item.listing.seller?.emailVerified ?? false,
-                      phone: item.listing.seller?.phone ?? null,
-                    },
-                  }}
-                  initiallyWatched={true}
-                  viewerAuthed={true}
-                  showWatchButton={true}
-                />
+                <div key={item.id} className="overflow-hidden rounded-[20px] border border-[#DCE5F2] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(15,23,42,0.10)]">
+                  <div className="overflow-hidden [&_.bd-marketplace-card]:rounded-none [&_.bd-marketplace-card]:border-0 [&_.bd-marketplace-card]:shadow-none [&_.bd-marketplace-card]:hover:translate-y-0 [&_.bd-marketplace-card]:hover:shadow-none [&_.bd-marketplace-card]:hover:bg-white [&_.bd-marketplace-card_.bd-card-meta]:hidden [&_.bd-marketplace-card_.bd-card-seller]:hidden">
+                    <ListingCard
+                      listing={{
+                        ...item.listing,
+                        seller: {
+                          name: item.listing.seller?.name || item.listing.seller?.username || null,
+                          memberSince: item.listing.seller?.createdAt ?? null,
+                          location: item.listing.seller?.location ?? null,
+                          emailVerified: item.listing.seller?.emailVerified ?? false,
+                          phone: item.listing.seller?.phone ?? null,
+                        },
+                      }}
+                      initiallyWatched={true}
+                      viewerAuthed={true}
+                      showWatchButton={true}
+                    />
+                  </div>
+                </div>
               );
             })}
           </div>
