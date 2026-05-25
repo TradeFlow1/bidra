@@ -101,12 +101,12 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
       <main className="mx-auto w-full max-w-[1280px] px-5 py-10 text-[#07152E] sm:px-8 lg:px-10">
         <h1 className="text-4xl font-black tracking-tight sm:text-5xl">Messages</h1>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-[420px_minmax(0,1fr)]">
-          <aside className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
+        <div className="mt-8 grid gap-6 lg:grid-cols-[400px_minmax(0,1fr)]">
+          <aside className="overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
             <Link href="/messages" className="block border-b border-[#E2E8F0] p-5 text-sm font-black text-[#4F46E5]">Back to messages</Link>
             <div className="flex gap-4 bg-[#F8FAFC] p-6">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-lg font-black text-[#4F46E5]">
-                {thumb ? <Image src={thumb} alt="" width={64} height={64} className="h-full w-full object-cover" unoptimized /> : initials(otherLabel)}
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-base font-black text-[#4F46E5]">
+                {thumb ? <Image src={thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(otherLabel)}
               </div>
               <div className="min-w-0">
                 <h2 className="truncate text-xl font-black">{otherLabel}</h2>
@@ -117,11 +117,11 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
             <div className="p-5 text-sm font-semibold leading-6 text-[#64748B]">Keep pickup, payment and handover details in Bidra messages.</div>
           </aside>
 
-          <section className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
-            <div className="flex items-center justify-between border-b border-[#E2E8F0] p-6">
+          <section className="overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
+            <div className="flex items-center justify-between border-b border-[#E2E8F0] p-5">
               <div className="flex min-w-0 items-center gap-4">
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-lg font-black text-[#4F46E5]">
-                  {thumb ? <Image src={thumb} alt="" width={64} height={64} className="h-full w-full object-cover" unoptimized /> : initials(otherLabel)}
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-base font-black text-[#4F46E5]">
+                  {thumb ? <Image src={thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(otherLabel)}
                 </div>
                 <div className="min-w-0">
                   <h2 className="truncate text-xl font-black">{otherLabel}</h2>
@@ -145,7 +145,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                 return (
                   <div key={message.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
                     <div className={`max-w-[78%] ${mine ? "text-right" : "text-left"}`}>
-                      <div className={`rounded-2xl px-5 py-4 text-base font-semibold leading-6 ${mine ? "bg-[#EDEBFF] text-[#07152E]" : "bg-[#F1F5F9] text-[#07152E]"}`}>
+                      <div className={`rounded-2xl px-5 py-4 text-base font-semibold leading-6 shadow-sm ${mine ? "bg-[#EEF2FF] text-[#07152E]" : "bg-[#F8FAFC] text-[#07152E]"}`}>
                         {message.body}
                       </div>
                       <div className="mt-2 text-sm font-semibold text-[#64748B]">
@@ -157,7 +157,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               })}
 
               {messages.length === 0 ? (
-                <div className="rounded-[24px] bg-[#F8FAFC] p-8 text-center">
+                <div className="rounded-[24px] border border-[#DCE5F2] bg-[#F8FAFC] p-8 text-center">
                   <h3 className="text-2xl font-black">No messages yet</h3>
                   <p className="mt-3 text-base font-semibold text-[#64748B]">Start the conversation below.</p>
                 </div>

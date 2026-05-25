@@ -98,26 +98,26 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
         </section>
 
         {items.length === 0 ? (
-          <div className="mt-8 rounded-[30px] border border-[#E2E8F0] bg-white p-10 text-center shadow-sm hover:bg-[#F5F3FF]">
+          <div className="mt-8 rounded-[30px] border border-[#DCE5F2] bg-white p-10 text-center shadow-sm">
             <h2 className="text-2xl font-black">No messages yet</h2>
             <p className="mt-3 text-base font-semibold text-[#64748B]">Messages from listings and orders will appear here.</p>
             <Link href="/listings" className="mt-6 inline-flex h-12 items-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black text-white !text-white disabled:!text-white">Browse listings</Link>
           </div>
         ) : (
-          <div className="mt-6 grid gap-6 lg:grid-cols-[430px_minmax(0,1fr)]">
-            <aside className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
+          <div className="mt-6 grid gap-6 lg:grid-cols-[400px_minmax(0,1fr)]">
+            <aside className="overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
               {items.map((thread) => (
-                <Link key={thread.id} href={`/messages?thread=${thread.id}`} className={`flex gap-4 border-b border-[#E2E8F0] p-6 last:border-b-0 hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F5F3FF]" : ""}`}>
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-lg font-black text-[#4F46E5]">
-                    {thread.thumb ? <Image src={thread.thumb} alt="" width={64} height={64} className="h-full w-full object-cover" unoptimized /> : initials(thread.otherLabel)}
+                <Link key={thread.id} href={`/messages?thread=${thread.id}`} className={`flex gap-4 border-b border-[#E2E8F0] p-5 last:border-b-0 hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F8FAFC] shadow-[inset_4px_0_0_#4F46E5]" : ""}`}>
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-base font-black text-[#4F46E5]">
+                    {thread.thumb ? <Image src={thread.thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(thread.otherLabel)}
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-3">
-                      <h2 className="truncate text-lg font-black">{thread.otherLabel}</h2>
+                      <h2 className="truncate text-base font-black text-[#08112F]">{thread.otherLabel}</h2>
                       <DateTimeText className="shrink-0 text-sm font-semibold text-[#64748B]" value={thread.lastMessageAt} />
                     </div>
                     <p className="mt-1 truncate text-sm font-semibold text-[#475569]">{thread.listing?.title || "Listing"}</p>
-                    <p className="mt-1 truncate text-base text-[#475569]">{thread.last}</p>
+                    <p className="mt-1 truncate text-sm text-[#475569]">{thread.last}</p>
                   </div>
                   {thread.unread ? <span className="mt-8 h-3 w-3 shrink-0 rounded-full bg-[#4F46E5] !text-white disabled:!text-white" /> : null}
                 </Link>
@@ -128,11 +128,11 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
               </div>
             </aside>
 
-            <section className="overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
-              <div className="flex items-center justify-between border-b border-[#E2E8F0] p-6">
+            <section className="overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
+              <div className="flex items-center justify-between border-b border-[#E2E8F0] p-5">
                 <div className="flex min-w-0 items-center gap-4">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-lg font-black text-[#4F46E5]">
-                    {selected?.thumb ? <Image src={selected.thumb} alt="" width={64} height={64} className="h-full w-full object-cover" unoptimized /> : initials(selected?.otherLabel || "User")}
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-base font-black text-[#4F46E5]">
+                    {selected?.thumb ? <Image src={selected.thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(selected?.otherLabel || "User")}
                   </div>
                   <div className="min-w-0">
                     <h2 className="truncate text-xl font-black">{selected?.otherLabel || "Select a message"}</h2>
@@ -144,7 +144,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
 
               {selected ? (
                 <>
-                  <div className="min-h-[500px] space-y-5 px-6 py-7">
+                  <div className="min-h-[380px] space-y-5 px-6 py-7">
                     <div className="flex items-center gap-5 text-sm font-black text-[#64748B]">
                       <div className="h-px flex-1 bg-[#E2E8F0]" />
                       <span>Today</span>
@@ -157,7 +157,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
                       return (
                         <div key={message.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
                           <div className={`max-w-[78%] ${mine ? "text-right" : "text-left"}`}>
-                            <div className={`rounded-2xl px-5 py-4 text-base font-semibold leading-6 ${mine ? "bg-[#EDEBFF] text-[#07152E]" : "bg-[#F1F5F9] text-[#07152E]"}`}>
+                            <div className={`rounded-2xl px-5 py-4 text-base font-semibold leading-6 shadow-sm ${mine ? "bg-[#EEF2FF] text-[#07152E]" : "bg-[#F8FAFC] text-[#07152E]"}`}>
                               {message.body}
                             </div>
                             <div className="mt-2 text-sm font-semibold text-[#64748B]">
@@ -167,7 +167,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
                         </div>
                       );
                     }) : (
-                      <div className="rounded-[24px] bg-[#F8FAFC] p-8 text-center">
+                      <div className="rounded-[24px] border border-[#DCE5F2] bg-[#F8FAFC] p-8 text-center">
                         <h3 className="text-2xl font-black">No messages yet</h3>
                         <p className="mt-3 text-base font-semibold text-[#64748B]">Start the conversation below.</p>
                       </div>
@@ -179,7 +179,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
                   </div>
                 </>
               ) : (
-                <div className="flex min-h-[440px] flex-col justify-center px-6 text-center">
+                <div className="flex min-h-[380px] flex-col justify-center px-6 text-center">
                   <div className="mx-auto max-w-md rounded-[24px] bg-[#F8FAFC] p-8">
                     <h3 className="text-2xl font-black">Select a conversation</h3>
                     <p className="mt-3 text-base font-semibold leading-7 text-[#64748B]">Open a message thread to confirm price, payment, pickup and handover details in one place.</p>
