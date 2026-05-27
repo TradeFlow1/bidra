@@ -46,54 +46,53 @@ export function PublicContentPage({ title, subtitle, children, className }: Publ
   );
 }
 
-export function LegalContentPage({ title, updated = "Last updated: 1 May 2025", active, children }: LegalContentPageProps) {
+export function LegalContentPage({ title, active, children }: LegalContentPageProps) {
   return (
-    <main className="bg-white text-[#4F46E5] hover:bg-[#F5F3FF]">
-      <div className="mx-auto grid w-full max-w-6xl gap-10 px-6 py-10 lg:grid-cols-[250px_minmax(0,1fr)] lg:px-8 lg:py-14">
-        <aside className="border-[#E2E8F0] lg:border-r lg:pr-8">
-          <h1 className="text-2xl font-black tracking-tight">Legal</h1>
-          <nav className="mt-7 space-y-3">
+    <main className="bg-white text-[#07152E]">
+      <div className="mx-auto w-full max-w-[1120px] px-6 py-10 sm:px-8">
+        <section className="rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-6 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
+          <div className="text-xs font-black uppercase tracking-[0.18em] text-[#4F46E5]">Legal</div>
+          <h1 className="mt-4 text-5xl font-black leading-none tracking-[-0.06em] text-[#07152E] sm:text-6xl">{title}</h1>
+          <p className="mt-4 text-base font-semibold leading-7 text-[#475569]">Last updated: 1 May 2025</p>
+          <div className="mt-6 flex flex-wrap gap-3">
             {legalLinks.map((item) => (
               <Link
-                key={item.key}
+                key={item.href}
                 href={item.href}
-                className={cn(
-                  "block rounded-xl px-5 py-4 text-base font-semibold text-[#475569] hover:bg-[#F5F3FF] hover:text-[#4F46E5]",
-                  active === item.key ? "border-l-4 border-[#4F46E5] bg-[#EEF2FF] font-black text-[#4F46E5]" : ""
-                )}
+                className={[
+                  "rounded-2xl border px-4 py-2 text-sm font-black shadow-sm transition",
+                  active === item.key
+                    ? "border-[#4F46E5] bg-[#4F46E5] text-white"
+                    : "border-[#D8E1F0] bg-white text-[#4F46E5]",
+                ].join(" ")}
               >
                 {item.label}
               </Link>
             ))}
-          </nav>
-        </aside>
-
-        <article className="max-w-5xl">
-          <h2 className="text-4xl font-black tracking-tight text-[#0F172A] sm:text-5xl">{title}</h2>
-          <p className="mt-5 text-xl font-semibold text-[#64748B]">{updated}</p>
-          <div className="mt-12 space-y-11 text-lg font-semibold leading-8 text-[#475569]">
-            {children}
           </div>
+        </section>
+
+        <article className="mt-8 rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm sm:p-8">
+          <div className="space-y-8">{children}</div>
         </article>
       </div>
     </main>
   );
 }
-
 export function TopicGrid({ items }: { items: InfoCardProps[] }) {
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="grid gap-4 md:grid-cols-2">
       {items.map((item) => {
         const content = (
-          <div className="flex items-center gap-6 rounded-[18px] border border-[#E2E8F0] bg-white p-6 shadow-sm transition hover:border-[#C7D2FE] hover:bg-[#FBFAFF] hover:bg-[#F5F3FF]">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#EEF2FF] text-2xl text-[#4F46E5]">
+          <div className="flex items-center gap-5 rounded-[24px] border border-[#D8E1F0] bg-white p-5 shadow-sm">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#EEF2FF] text-xl text-[#4F46E5]">
               {item.icon || "□"}
             </div>
             <div className="min-w-0">
-              <h2 className="text-lg font-black text-[#0F172A]">{item.title}</h2>
-              <p className="mt-1 text-base font-semibold text-[#64748B]">{item.body}</p>
+              <h2 className="text-lg font-black tracking-[-0.03em] text-[#07152E]">{item.title}</h2>
+              <p className="mt-1 text-sm font-semibold leading-6 text-[#475569]">{item.body}</p>
             </div>
-            <span className="ml-auto text-3xl font-semibold text-[#4F46E5]">›</span>
+            <span className="ml-auto text-2xl font-semibold text-[#4F46E5]">›</span>
           </div>
         );
 
@@ -105,10 +104,10 @@ export function TopicGrid({ items }: { items: InfoCardProps[] }) {
 
 export function ArticleList({ items }: { items: { href: string; title: string }[] }) {
   return (
-    <div className="divide-y divide-[#E2E8F0] overflow-hidden rounded-[18px] border border-[#E2E8F0] bg-white shadow-sm hover:bg-[#F5F3FF]">
+    <div className="divide-y divide-[#E2E8F0] overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-white shadow-sm">
       {items.map((item) => (
-        <Link key={item.href + item.title} href={item.href} className="flex items-center gap-5 px-5 py-5 text-base font-semibold text-[#4F46E5] hover:bg-[#F5F3FF]">
-          <span className="text-xl">▤</span>
+        <Link key={item.href + item.title} href={item.href} className="flex items-center gap-4 px-5 py-5 text-sm font-black text-[#4F46E5]">
+          <span className="text-lg">▤</span>
           <span>{item.title}</span>
           <span className="ml-auto text-2xl">›</span>
         </Link>
@@ -119,13 +118,12 @@ export function ArticleList({ items }: { items: { href: string; title: string }[
 
 export function SearchBox({ placeholder = "Search..." }: { placeholder?: string }) {
   return (
-    <div className="flex h-16 max-w-5xl items-center gap-4 rounded-2xl border border-[#CBD5E1] bg-white px-6 text-lg font-semibold text-[#64748B] shadow-sm hover:bg-[#F5F3FF]">
-      <span className="text-2xl">⌕</span>
+    <div className="flex h-14 max-w-5xl items-center gap-4 rounded-2xl border border-[#CBD5E1] bg-white px-5 text-base font-semibold text-[#64748B] shadow-sm">
+      <span className="text-xl">⌕</span>
       <span>{placeholder}</span>
     </div>
   );
 }
-
 export function LegalSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section>
