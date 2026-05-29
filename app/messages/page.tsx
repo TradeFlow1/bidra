@@ -176,7 +176,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
                               {message.body}
                             </div>
                             <div className="mt-2 text-sm font-semibold text-[#64748B]">
-                              {message.createdAt.toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit" })}
+                              <DateTimeText value={message.createdAt} />
                             </div>
                           </div>
                         </div>
