@@ -34,10 +34,48 @@ const quickActions = [
   { label: "Reset password", href: "/forgot-password" },
 ];
 
+const mobileTasks = [
+  { title: "Buy", body: "Check item details, then use Buy now only when you are ready to follow through.", href: "/listings" },
+  { title: "Offer", body: "Send a fair price and keep the deal inside Bidra messages.", href: "/listings" },
+  { title: "Sell", body: "Add clear photos, price, condition and pickup details before publishing.", href: "/sell/new" },
+  { title: "Account", body: "Reset password, verify email, then manage messages and saved items.", href: "/forgot-password" },
+];
+
 export default function HelpPage() {
   return (
     <main className="bg-white text-[#07152E]">
-      <div className="mx-auto w-full max-w-[1120px] px-6 py-10 sm:px-8">
+      <div className="md:hidden">
+        <section className="px-4 pb-24 pt-4">
+          <div className="rounded-[28px] border border-[#D8E6F8] bg-[#EEF6FF] p-5">
+            <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#4F46E5]">Help centre</div>
+            <h1 className="mt-3 text-3xl font-black leading-[0.95] tracking-[-0.05em] text-[#07152E]">Get help fast</h1>
+            <p className="mt-3 text-sm font-semibold leading-6 text-[#475569]">Pick what you need and get back to buying, selling or messaging.</p>
+            <Link href="/support" className="mt-5 flex h-12 items-center justify-center rounded-2xl bg-[#4F46E5] px-4 text-sm font-black text-white !text-white">Safety or report issue</Link>
+          </div>
+
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            {quickActions.map((action) => (
+              <Link key={action.href} href={action.href} className="flex min-h-[72px] items-center rounded-[22px] border border-[#D8E1F0] bg-white px-4 text-sm font-black leading-tight text-[#4F46E5] shadow-sm">
+                {action.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-5 space-y-3">
+            {mobileTasks.map((task) => (
+              <Link key={task.title} href={task.href} className="block rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+                <div className="flex items-center justify-between gap-3">
+                  <h2 className="text-lg font-black tracking-[-0.035em] text-[#07152E]">{task.title}</h2>
+                  <span className="text-sm font-black text-[#4F46E5]">Open</span>
+                </div>
+                <p className="mt-2 text-sm font-semibold leading-6 text-[#475569]">{task.body}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <div className="mx-auto hidden w-full max-w-[1120px] px-6 py-10 sm:px-8 md:block">
         <section className="rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-6 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
           <div className="text-xs font-black uppercase tracking-[0.18em] text-[#4F46E5]">Help centre</div>
           <h1 className="mt-4 text-5xl font-black leading-none tracking-[-0.06em] text-[#07152E] sm:text-6xl">How Bidra works</h1>
