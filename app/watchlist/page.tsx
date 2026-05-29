@@ -139,12 +139,32 @@ export default async function WatchlistPage() {
   return (
     <ReferencePage>
       <div className={appShell + " space-y-4 pb-24 pt-4 md:space-y-5 md:py-8"}>
-        <AccountNav active="saved" />
-        <section className="bd-logged-in-hero pb-5 md:pb-8">
+        <div className="hidden md:block">
+          <AccountNav active="saved" />
+        </div>
+
+        <section className="md:hidden">
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#4F46E5]">Saved</div>
+              <h1 className="mt-1 text-3xl font-black tracking-[-0.055em] text-[#07152E]">Watchlist</h1>
+            </div>
+            <Link href="/listings" className="flex h-11 items-center rounded-2xl bg-[#4F46E5] px-4 text-sm font-black text-white !text-white">
+              Browse
+            </Link>
+          </div>
+
+          <div className="mt-3 rounded-[22px] border border-[#D7E2F1] bg-white px-4 py-3 text-sm text-[#475569] shadow-sm">
+            <span className="font-extrabold text-[#07152E]">{items.length}</span> saved
+            <span className="ml-2 text-[#607089]">{activeCount} active, {endedCount} unavailable.</span>
+          </div>
+        </section>
+
+        <section className="bd-logged-in-hero hidden pb-8 md:block">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Saved</div>
-              <h1 className="mt-2 text-3xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Saved</h1>
+              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Saved</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Save listings to track items you care about, keep an eye on offer movement, and spot ending windows before they close.
               </p>
@@ -161,7 +181,7 @@ export default async function WatchlistPage() {
           </div>
         </section>
 
-        <div className="rounded-[22px] border border-[#D7E2F1] bg-white px-4 py-2 text-sm text-[#475569] shadow-sm">
+        <div className="hidden rounded-[22px] border border-[#D7E2F1] bg-white px-4 py-2 text-sm text-[#475569] shadow-sm md:block">
           <span className="font-extrabold text-[#07152E]">{items.length}</span> saved listings.
           <span className="ml-2 text-[#607089]">{activeCount} active, {endedCount} unavailable.</span>
         </div>
