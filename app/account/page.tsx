@@ -101,39 +101,53 @@ export default async function AccountPage() {
 
   return (
     <main className="bd-logged-in-page text-[#0F172A]">
-      <div className="mx-auto w-full max-w-[1440px] px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
-        <AccountNav active="account" />
+      <div className="mx-auto w-full max-w-[1440px] px-4 pb-24 pt-4 sm:px-6 sm:py-8 lg:px-8">
+        <div className="hidden md:block">
+          <AccountNav active="account" />
+        </div>
 
-        <nav className="mb-8 mt-6 flex items-center gap-3 text-sm font-semibold text-[#64748B]">
+        <section className="mb-4 md:hidden">
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#4F46E5]">My Bidra</div>
+              <h1 className="mt-1 text-3xl font-black tracking-[-0.055em] text-[#07152E]">Account</h1>
+            </div>
+            <Link href="/sell/new" className="flex h-11 items-center rounded-2xl bg-[#4F46E5] px-4 text-sm font-black text-white !text-white">
+              Sell
+            </Link>
+          </div>
+        </section>
+
+        <nav className="mb-8 mt-6 hidden items-center gap-3 text-sm font-semibold text-[#64748B] md:flex">
           <Link href="/" className="text-[#4F46E5]">Home</Link>
           <span>/</span>
           <span>Account</span>
         </nav>
 
-        <section className="overflow-hidden rounded-[28px] border border-[#D7E2F1] bg-white shadow-sm">
-          <div className="h-64 bg-[linear-gradient(135deg,#DBEAFE_0%,#EEF2FF_45%,#F8FAFC_100%)] sm:h-72">
+        <section className="overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white shadow-sm md:rounded-[28px]">
+          <div className="h-24 bg-[linear-gradient(135deg,#DBEAFE_0%,#EEF2FF_45%,#F8FAFC_100%)] sm:h-72">
             <div className="h-full w-full bg-[radial-gradient(circle_at_25%_20%,rgba(79,70,229,0.22),transparent_28%),radial-gradient(circle_at_80%_40%,rgba(14,165,233,0.16),transparent_30%)]" />
           </div>
 
-          <div className="px-8 pb-10 sm:px-10">
-            <div className="-mt-20 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
-                <div className="flex h-40 w-40 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#EEF2FF] text-4xl font-black text-[#4F46E5] shadow-lg">
+          <div className="px-4 pb-4 sm:px-10 sm:pb-10">
+            <div className="-mt-10 flex flex-col gap-4 sm:-mt-20 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
+              <div className="flex items-end gap-3 sm:gap-5">
+                <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#EEF2FF] text-2xl font-black text-[#4F46E5] shadow-lg sm:h-40 sm:w-40 sm:text-4xl">
                   {user.avatarUrl ? <Image src={user.avatarUrl} alt="" width={160} height={160} className="h-full w-full object-cover" /> : avatarInitials}
                 </div>
-                <div className="pb-2">
-                  <h1 className="text-5xl font-black tracking-tight">{user.name || user.email || "Bidra account"}</h1>
-                  <p className="mt-2 text-base font-semibold text-[#64748B]">Member since {memberSince}</p>
-                  <p className="mt-3 text-base font-semibold text-[#64748B]">{locationLabel}</p>
+                <div className="min-w-0 pb-1 sm:pb-2">
+                  <h1 className="truncate text-2xl font-black tracking-tight sm:text-5xl">{user.name || user.email || "Bidra account"}</h1>
+                  <p className="mt-1 text-sm font-semibold text-[#64748B] sm:mt-2 sm:text-base">Member since {memberSince}</p>
+                  <p className="mt-1 truncate text-sm font-semibold text-[#64748B] sm:mt-3 sm:text-base">{locationLabel}</p>
                 </div>
               </div>
 
-              <Link href={`/seller/${user.id}`} className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-6 text-sm font-black text-[#4F46E5] hover:bg-[#EEF2FF]">
+              <Link href={`/seller/${user.id}`} className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-4 text-sm font-black text-[#4F46E5] md:h-12 md:px-6 md:hover:bg-[#EEF2FF]">
                 View public profile
               </Link>
             </div>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-4 grid grid-cols-4 gap-2 sm:mt-8 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
               <StatCard label="Listings" value={listingCount} />
               <StatCard label="Sold" value={soldCount} />
               <StatCard label="Bought" value={boughtCount} />
@@ -151,27 +165,27 @@ export default async function AccountPage() {
           </div>
         </div>
 
-        <section id="listings" className="mt-10">
+        <section id="listings" className="mt-5 md:mt-10">
           <div className="mb-6 flex items-center justify-between gap-4">
             <h2 className="text-2xl font-black tracking-tight">Your listings</h2>
             <BidraButton href="/sell/new">Sell an item</BidraButton>
           </div>
 
           {listings.length ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:gap-6 lg:grid-cols-5">
               {listings.map((listing) => {
                 const image = getListingImage(listing.images, listing.photos);
                 const price = listing.buyNowPrice ?? listing.price;
 
                 return (
                   <Link key={listing.id} href={`/listings/${listing.id}`} className="group overflow-hidden rounded-2xl border border-[#DCE5F2] bg-white shadow-sm transition">
-                    <div className="relative aspect-square overflow-hidden bg-[#F8FAFC]">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-[#F8FAFC] md:aspect-square">
                       {image ? <Image src={image} alt="" fill className="object-cover transition duration-300" /> : null}
                     </div>
-                    <div className="p-5">
-                      <h3 className="line-clamp-2 text-lg font-black text-[#08112F]">{listing.title}</h3>
-                      <p className="mt-2 text-base font-black text-[#0F172A]">{formatPrice(price)}</p>
-                      <p className="mt-2 text-xs font-black uppercase tracking-[0.08em] text-[#64748B]">{listing.status}</p>
+                    <div className="p-3 md:p-5">
+                      <h3 className="line-clamp-2 text-sm font-black text-[#08112F] md:text-lg">{listing.title}</h3>
+                      <p className="mt-1 text-sm font-black text-[#0F172A] md:mt-2 md:text-base">{formatPrice(price)}</p>
+                      <p className="mt-1 text-[10px] font-black uppercase tracking-[0.08em] text-[#64748B] md:mt-2 md:text-xs">{listing.status}</p>
                     </div>
                   </Link>
                 );
@@ -185,17 +199,17 @@ export default async function AccountPage() {
           )}
         </section>
 
-        <section id="account" className="mt-14 grid gap-6 lg:grid-cols-3">
+        <section id="account" className="mt-8 grid gap-3 md:mt-14 md:gap-6 lg:grid-cols-3">
           <InfoCard title="Profile details" body={`${user.email || "No email set"} - ${location}`} href="/account" label="Manage account" />
           <InfoCard title="Messages" body="Keep buyer and seller conversations in one place." href="/messages" label="Open messages" />
           <InfoCard title="Watchlist" body={`${watchlistCount} saved item${watchlistCount === 1 ? "" : "s"}.`} href="/watchlist" label="View watchlist" />
         </section>
 
-        <section id="activity" className="mt-14">
-          <h2 className="text-2xl font-black tracking-tight">Recent activity</h2>
-          <div className="mt-5 divide-y divide-[#E2E8F0] overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm">
+        <section id="activity" className="mt-8 md:mt-14">
+          <h2 className="text-xl font-black tracking-tight md:text-2xl">Recent activity</h2>
+          <div className="mt-3 divide-y divide-[#E2E8F0] overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm md:mt-5">
             {activeOrders.length ? activeOrders.map((order) => (
-              <Link key={order.id} href={`/orders/${order.id}`} className="flex items-center justify-between gap-4 p-5 hover:bg-[#EEF2FF]">
+              <Link key={order.id} href={`/orders/${order.id}`} className="flex items-center justify-between gap-4 p-4 md:p-5 md:hover:bg-[#EEF2FF]">
                 <div>
                   <div className="font-black">{order.listing.title}</div>
                   <div className="mt-1 text-sm font-semibold text-[#64748B]">Order status: {order.status}</div>
@@ -208,7 +222,7 @@ export default async function AccountPage() {
           </div>
         </section>
 
-        <section id="edit-account" className="mt-14 rounded-[24px] border border-[#DCE5F2] bg-white p-6 shadow-sm">
+        <section id="edit-account" className="mt-8 rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm md:mt-14 md:p-6">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-2xl font-black tracking-tight">Manage account</h2>
@@ -216,10 +230,10 @@ export default async function AccountPage() {
             </div>
           </div>
 
-          <div className="mt-6 grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
+          <div className="mt-4 grid gap-4 md:mt-6 md:gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
             <AccountAvatarUpload avatarUrl={user.avatarUrl} fallback={avatarInitials} />
 
-            <form action="/api/account/update" method="post" className="grid gap-4">
+            <form action="/api/account/update" method="post" className="grid gap-3 md:gap-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <label className="block">
                   <span className="text-sm font-black">Display name</span>
@@ -270,9 +284,9 @@ export default async function AccountPage() {
             </form>
           </div>
         </section>
-        <section id="restrictions" className="mt-14 rounded-[24px] border border-[#DCE5F2] bg-white p-6 shadow-sm">
-          <h2 className="text-2xl font-black tracking-tight">Account status</h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <section id="restrictions" className="mt-8 rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm md:mt-14 md:p-6">
+          <h2 className="text-xl font-black tracking-tight md:text-2xl">Account status</h2>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2 md:mt-4 md:gap-4">
             <StatusPill label="Email" value={user.emailVerified ? "Verified" : "Needs verification"} good={Boolean(user.emailVerified)} />
             <StatusPill
               label="Restrictions"
@@ -288,26 +302,26 @@ export default async function AccountPage() {
 
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-[#DCE5F2] bg-white p-6 text-center shadow-sm">
-      <div className="text-4xl font-black">{value}</div>
-      <div className="mt-1 text-sm font-semibold text-[#64748B]">{label}</div>
+    <div className="rounded-2xl border border-[#DCE5F2] bg-white p-3 text-center shadow-sm md:p-6">
+      <div className="text-2xl font-black md:text-4xl">{value}</div>
+      <div className="mt-1 text-[11px] font-semibold text-[#64748B] md:text-sm">{label}</div>
     </div>
   );
 }
 
 function InfoCard({ title, body, href, label }: { title: string; body: string; href: string; label: string }) {
   return (
-    <Link href={href} className="rounded-[24px] border border-[#DCE5F2] bg-white p-6 shadow-sm transition">
-      <h3 className="text-lg font-black">{title}</h3>
-      <p className="mt-2 min-h-12 text-sm font-semibold leading-6 text-[#64748B]">{body}</p>
-      <div className="mt-4 text-sm font-black text-[#4F46E5]">{label}</div>
+    <Link href={href} className="rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm transition md:p-6">
+      <h3 className="text-base font-black md:text-lg">{title}</h3>
+      <p className="mt-1 text-sm font-semibold leading-6 text-[#64748B] md:mt-2 md:min-h-12">{body}</p>
+      <div className="mt-3 text-sm font-black text-[#4F46E5] md:mt-4">{label}</div>
     </Link>
   );
 }
 
 function StatusPill({ label, value, good }: { label: string; value: string; good: boolean }) {
   return (
-    <div className="rounded-2xl border border-[#DCE5F2] bg-[#F8FAFC] p-5">
+    <div className="rounded-2xl border border-[#DCE5F2] bg-[#F8FAFC] p-4 md:p-5">
       <div className="text-sm font-black text-[#64748B]">{label}</div>
       <div className={good ? "mt-2 text-lg font-black text-[#15803D]" : "mt-2 text-lg font-black text-[#B45309]"}>{value}</div>
     </div>
