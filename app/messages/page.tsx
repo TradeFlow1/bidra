@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import DateTimeText from "@/components/date-time-text";
 import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { redirect } from "next/navigation";
@@ -26,6 +25,21 @@ function imageFromListing(listing: { images: unknown; photos: unknown } | null) 
   const photos = Array.isArray(listing?.photos) ? listing?.photos : [];
   const first = images.length ? images[0] : photos.length ? photos[0] : "";
   return first ? String(first) : "";
+}
+
+function messageTime(value: Date | string | null | undefined) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return "";
+  return new Intl.DateTimeFormat("en-AU", {
+    timeZone: "UTC",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  }).format(date);
 }
 
 export default async function MessagesInboxPage({ searchParams }: { searchParams?: { thread?: string } }) {
@@ -129,7 +143,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-3">
                       <h2 className="truncate text-base font-black text-[#08112F]">{thread.otherLabel}</h2>
-                      <DateTimeText className="shrink-0 text-sm font-semibold text-[#64748B]" value={thread.lastMessageAt} />
+                      <span className="shrink-0 text-sm font-semibold text-[#64748B]">{messageTime(thread.lastMessageAt)}</span>
                     </div>
                     <p className="mt-1 truncate text-sm font-semibold text-[#475569]">{thread.listing?.title || "Listing"}</p>
                     <p className="mt-1 truncate text-sm text-[#475569]">{thread.last}</p>
@@ -176,7 +190,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
                               {message.body}
                             </div>
                             <div className="mt-2 text-sm font-semibold text-[#64748B]">
-                              <DateTimeText value={message.createdAt} />
+                              {messageTime(message.createdAt)}
                             </div>
                           </div>
                         </div>
