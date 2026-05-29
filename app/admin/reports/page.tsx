@@ -28,14 +28,14 @@ function FilterTab(props: {
         : "inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-2 text-sm font-semibold text-sky-600"}
     >
       <span>{props.label}</span>
-      <span className="rounded-full border border-black/10 bg-white px-2 py-0.5 text-xs font-extrabold text-neutral-900 hover:bg-[#F5F3FF]">{props.count}</span>
+      <span className="rounded-full border border-black/10 bg-white px-2 py-0.5 text-xs font-extrabold text-neutral-900">{props.count}</span>
     </Link>
   );
 }
 
 function MetaPill(props: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900 hover:bg-[#F5F3FF]">
+    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900">
       {props.children}
     </span>
   );
@@ -95,19 +95,19 @@ export default async function AdminReports({
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Current view</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{showResolved ? "Resolved reports" : "Open triage records"}</div>
             <div className="mt-1 text-sm text-neutral-600">{showResolved ? "Completed moderation history with audit trail." : "Active moderation queue requiring evidence review and a clear next action."}</div>
           </div>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Open count</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{openCount}</div>
             <div className="mt-1 text-sm text-neutral-600">Reports still awaiting evidence review, safety assessment, and decision.</div>
           </div>
 
-          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
+          <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
             <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Resolved count</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{resolvedCount}</div>
             <div className="mt-1 text-sm text-neutral-600">Reports already actioned, cleared, or reopened with admin history.</div>
@@ -115,7 +115,7 @@ export default async function AdminReports({
         </div>
 
         {reports.length === 0 ? (
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
+          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">{showResolved ? "No resolved reports yet" : "No reports need review right now"}</div>
             <div className="mt-2 text-sm bd-ink2 leading-7">
               {showResolved ? "Resolved reports will appear here after moderators record a decision and close the report." : "No reports need review right now. New safety, scam, prohibited-item, and message reports will appear in the open triage queue."}
@@ -124,11 +124,11 @@ export default async function AdminReports({
         ) : (
           <section className="space-y-3">
             {reports.map((r) => (
-              <article key={r.id} className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm hover:bg-[#F5F3FF]">
+              <article key={r.id} className="rounded-3xl border border-black/10 bg-white p-5 shadow-sm">
                 <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between">
                   <div className="min-w-0 flex-1">
                     <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
-                      Report <span className="normal-case tracking-normal">â€¢ <DateTimeText value={r.createdAt} /></span>
+                      Report <span className="normal-case tracking-normal">- <DateTimeText value={r.createdAt} /></span>
                     </div>
 
                     <h2 className="mt-2 text-lg font-extrabold tracking-tight bd-ink">

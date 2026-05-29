@@ -19,7 +19,7 @@ function envPresent(name: string) {
 
 function StatusPill(props: { status: "ok" | "degraded" }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900 hover:bg-[#F5F3FF]">
+    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900">
       {props.status === "ok" ? "OK" : "Needs attention"}
     </span>
   );
@@ -27,7 +27,7 @@ function StatusPill(props: { status: "ok" | "degraded" }) {
 
 function InfoCard(props: { title: string; value: React.ReactNode; note: string }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
+    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
       <div className="text-xs font-extrabold uppercase tracking-[0.16em] text-neutral-500">{props.title}</div>
       <div className="mt-2 text-2xl font-extrabold bd-ink">{props.value}</div>
       <div className="mt-1 text-sm bd-ink2">{props.note}</div>
@@ -112,7 +112,7 @@ export default async function AdminOpsPage() {
           <p className="mt-1">Bidra discovery currently uses simple rules from active listing category, location, seller, recency, and explicit filters. It does not use AI personalisation, machine-learning ranking, vector search, embeddings, behavioural profiling, or paid placement ranking.</p>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="text-sm font-extrabold bd-ink">Readiness checks</div>
           <div className="mt-4 overflow-x-auto">
             <table className="min-w-full text-left">
@@ -136,7 +136,7 @@ export default async function AdminOpsPage() {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <div className="text-sm font-extrabold bd-ink">Payment readiness</div>
@@ -154,7 +154,7 @@ export default async function AdminOpsPage() {
         </section>
 
         <section className="grid gap-2 lg:grid-cols-2">
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
+          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">Required environment variables</div>
             <div className="mt-4 grid gap-2">
               {requiredEnv.map((name) => (
@@ -166,7 +166,7 @@ export default async function AdminOpsPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
+          <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-sm font-extrabold bd-ink">Optional integration variables</div>
             <div className="mt-4 grid gap-2">
               {optionalEnv.map((name) => (

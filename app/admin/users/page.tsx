@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -104,7 +104,7 @@ export default async function AdminUsers() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <div className="font-semibold">
-                  <Link className="hover:underline" href={"/admin/users/" + u.id}>
+                  <Link className="" href={"/admin/users/" + u.id}>
                     {u.username}
                   </Link>
                 </div>

@@ -45,7 +45,7 @@ function InfoCard(props: {
   note: string;
 }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
+    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
       <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{props.title}</div>
       <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{props.value}</div>
       <div className="mt-1 text-sm text-neutral-600">{props.note}</div>
@@ -55,7 +55,7 @@ function InfoCard(props: {
 
 function MetaPill(props: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900 hover:bg-[#F5F3FF]">
+    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900">
       {props.children}
     </span>
   );
@@ -67,7 +67,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
     return (
       <main className="bd-container py-10">
         <div className="container max-w-4xl space-y-5">
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
+          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin events</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink">Access restricted</h1>
             <p className="mt-2 text-sm bd-ink2 leading-7">Not allowed: {gate.reason}</p>
@@ -84,7 +84,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
     return (
       <main className="bd-container py-10">
         <div className="container max-w-4xl space-y-5">
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm hover:bg-[#F5F3FF]">
+          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-neutral-500">Admin events</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight bd-ink">Not authorised</h1>
             <p className="mt-2 text-sm bd-ink2 leading-7">You do not have access to this admin surface.</p>
@@ -162,7 +162,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
           />
         </div>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm space-y-4 hover:bg-[#F5F3FF]">
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm space-y-4">
           <div>
             <div className="text-sm font-extrabold bd-ink">Event filters</div>
             <div className="mt-1 text-sm bd-ink2">Choose a type shortcut or apply a text filter. This is an internal event stream, not GA4, Meta Pixel, PostHog, Segment, or Mixpanel.</div>
@@ -185,7 +185,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
               name="q"
               defaultValue={q}
               placeholder='Filter (e.g. "ORDER_", userId, orderId)'
-              className="min-w-[280px] rounded-xl border border-black/10 bg-white px-3 py-2 text-sm hover:bg-[#F5F3FF]"
+              className="min-w-[280px] rounded-xl border border-black/10 bg-white px-3 py-2 text-sm"
             />
             <button type="submit" className="bd-btn bd-btn-ghost text-center">
               Filter
@@ -198,7 +198,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
           </form>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white shadow-sm overflow-hidden hover:bg-[#F5F3FF]">
+        <section className="rounded-3xl border border-black/10 bg-white shadow-sm overflow-hidden">
           <div className="border-b border-black/10 px-6 py-4">
             <div className="text-sm font-extrabold bd-ink">Event table</div>
             <div className="mt-1 text-sm bd-ink2">
@@ -211,7 +211,7 @@ export default async function AdminEventsPage({ searchParams }: { searchParams?:
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm align-top">
-                <thead className="border-b border-black/10 bg-white/70 hover:bg-[#F5F3FF]">
+                <thead className="border-b border-black/10 bg-white/70">
                   <tr className="text-left">
                     <th className="px-4 py-3 text-xs font-extrabold bd-ink">Time</th>
                     <th className="px-4 py-3 text-xs font-extrabold bd-ink">Type</th>

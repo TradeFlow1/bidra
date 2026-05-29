@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -59,17 +59,17 @@ export default async function AdminListings() {
               <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
                 <div className="min-w-0 flex-1">
                   <div className="text-sm text-neutral-600 truncate">
-                    {labelCategory(l.category)} â€¢ {l.location}
+                    {labelCategory(l.category)} - {l.location}
                   </div>
 
                   <Link
-                    className="mt-1 block font-semibold hover:underline truncate"
+                    className="mt-1 block font-semibold truncate"
                     href={"/admin/listings/" + l.id}
                     title={l.title}
                   >
                     {l.title}</Link>
                   <div className="mt-2">
-                    <Link className="text-xs font-semibold text-blue-700 hover:underline" href={"/listings/" + l.id}>
+                    <Link className="text-xs font-semibold text-blue-700" href={"/listings/" + l.id}>
                       View public listing
                     </Link>
                   </div>

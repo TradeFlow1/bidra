@@ -52,7 +52,7 @@ function InfoCard(props: {
   note: string;
 }) {
   return (
-    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm hover:bg-[#F5F3FF]">
+    <div className="rounded-2xl border border-black/10 bg-white p-4 shadow-sm">
       <div className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{props.title}</div>
       <div className="mt-1 text-lg font-extrabold tracking-tight text-neutral-950">{props.value}</div>
       <div className="mt-1 text-sm text-neutral-600">{props.note}</div>
@@ -62,7 +62,7 @@ function InfoCard(props: {
 
 function MetaPill(props: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900 hover:bg-[#F5F3FF]">
+    <span className="inline-flex items-center rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-extrabold text-neutral-900">
       {props.children}
     </span>
   );
@@ -155,12 +155,12 @@ export default async function AdminAuditPage({
           />
           <InfoCard
             title="Query"
-            value={q || "â€”"}
+            value={q || "-"}
             note="Matches action and related IDs."
           />
         </div>
 
-        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm space-y-4 hover:bg-[#F5F3FF]">
+        <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm space-y-4">
           <div>
             <div className="text-sm font-extrabold bd-ink">Filters</div>
             <div className="mt-1 text-sm bd-ink2">Filter by entity type or search across actions, report IDs, listing IDs, user IDs, and admin IDs.</div>
@@ -179,7 +179,7 @@ export default async function AdminAuditPage({
               name="q"
               defaultValue={q}
               placeholder="Search action / IDs (reportId, listingId, userId, entityId)"
-              className="min-w-[320px] rounded-xl border border-black/10 bg-white px-3 py-2 text-sm hover:bg-[#F5F3FF]"
+              className="min-w-[320px] rounded-xl border border-black/10 bg-white px-3 py-2 text-sm"
             />
             <button type="submit" className="bd-btn bd-btn-ghost text-center">
               Search
@@ -187,7 +187,7 @@ export default async function AdminAuditPage({
           </form>
         </section>
 
-        <section className="rounded-3xl border border-black/10 bg-white shadow-sm overflow-hidden hover:bg-[#F5F3FF]">
+        <section className="rounded-3xl border border-black/10 bg-white shadow-sm overflow-hidden">
           <div className="border-b border-black/10 px-6 py-4">
             <div className="text-sm font-extrabold bd-ink">Audit table</div>
             <div className="mt-1 text-sm bd-ink2">
@@ -200,7 +200,7 @@ export default async function AdminAuditPage({
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="border-b border-black/10 bg-white/70 hover:bg-[#F5F3FF]">
+                <thead className="border-b border-black/10 bg-white/70">
                   <tr className="text-left">
                     <th className="px-4 py-3 text-xs font-extrabold bd-ink">When</th>
                     <th className="px-4 py-3 text-xs font-extrabold bd-ink">Action</th>
@@ -233,10 +233,10 @@ export default async function AdminAuditPage({
                           <div className="font-mono text-xs">{r.entityId}</div>
                         </td>
                         <td className="px-4 py-4">
-                          <div className="flex flex-wrap gap-2">{links.length ? links : <span className="text-sm bd-ink2 opacity-60">â€”</span>}</div>
+                          <div className="flex flex-wrap gap-2">{links.length ? links : <span className="text-sm bd-ink2 opacity-60">-</span>}</div>
                         </td>
                         <td className="px-4 py-4 bd-ink2 max-w-[420px]">
-                          <pre className="m-0 whitespace-pre-wrap break-words rounded-2xl border border-black/10 bg-neutral-50 p-3 text-[11px] leading-5">{r.meta ? JSON.stringify(r.meta, null, 2) : "â€”"}</pre>
+                          <pre className="m-0 whitespace-pre-wrap break-words rounded-2xl border border-black/10 bg-neutral-50 p-3 text-[11px] leading-5">{r.meta ? JSON.stringify(r.meta, null, 2) : "-"}</pre>
                         </td>
                       </tr>
                     );

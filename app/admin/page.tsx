@@ -1,4 +1,4 @@
-﻿import Link from "next/link"
+import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { requireAdult } from "@/lib/require-adult"
 import { redirect } from "next/navigation"
@@ -61,7 +61,6 @@ export default async function AdminHome() {
             <Link href="/admin/events" className="bd-btn bd-btn-ghost">Events</Link>
           </div>
         </div>
-      </div>
         <div className={card}>
           <div className={title}>Operator diagnostics</div>
           <div className={sub}>Check production readiness, required environment variables, deployment metadata, and database connectivity.</div>
@@ -69,6 +68,7 @@ export default async function AdminHome() {
             <Link href="/admin/ops" className="bd-btn bd-btn-primary">Open diagnostics</Link>
           </div>
         </div>
+      </div>
     </main>
   )
 }
