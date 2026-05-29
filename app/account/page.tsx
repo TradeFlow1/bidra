@@ -156,7 +156,14 @@ export default async function AccountPage() {
           </div>
         </section>
 
-        <div className="mt-10 border-b border-[#E2E8F0]">
+        <section className="mt-4 grid grid-cols-2 gap-3 md:hidden">
+          <MobileActionCard title="Profile" body="Edit details" href="#edit-account" />
+          <MobileActionCard title="Listings" body={`${listingCount} active items`} href="#listings" />
+          <MobileActionCard title="Activity" body={`${activeOrders.length} open orders`} href="#activity" />
+          <MobileActionCard title="Status" body={user.policyBlockedUntil ? "Restricted" : "Clear account"} href="#restrictions" />
+        </section>
+
+        <div className="mt-10 hidden border-b border-[#E2E8F0] md:block">
           <div className="flex gap-10 text-base font-black">
             <a href="#listings" className="border-b-2 border-[#4F46E5] pb-4 text-[#4F46E5]">Listings</a>
             <a href="#account" className="pb-4 text-[#0F172A]">Account</a>
@@ -199,7 +206,7 @@ export default async function AccountPage() {
           )}
         </section>
 
-        <section id="account" className="mt-8 grid gap-3 md:mt-14 md:gap-6 lg:grid-cols-3">
+        <section id="account" className="mt-6 grid gap-3 md:mt-14 md:gap-6 lg:grid-cols-3">
           <InfoCard title="Profile details" body={`${user.email || "No email set"} - ${location}`} href="/account" label="Manage account" />
           <InfoCard title="Messages" body="Keep buyer and seller conversations in one place." href="/messages" label="Open messages" />
           <InfoCard title="Watchlist" body={`${watchlistCount} saved item${watchlistCount === 1 ? "" : "s"}.`} href="/watchlist" label="View watchlist" />
@@ -222,7 +229,7 @@ export default async function AccountPage() {
           </div>
         </section>
 
-        <section id="edit-account" className="mt-8 rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm md:mt-14 md:p-6">
+        <section id="edit-account" className="mt-8 hidden rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm md:mt-14 md:block md:p-6">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-2xl font-black tracking-tight">Manage account</h2>
@@ -284,7 +291,7 @@ export default async function AccountPage() {
             </form>
           </div>
         </section>
-        <section id="restrictions" className="mt-8 rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm md:mt-14 md:p-6">
+        <section id="restrictions" className="mt-6 rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm md:mt-14 md:p-6">
           <h2 className="text-xl font-black tracking-tight md:text-2xl">Account status</h2>
           <div className="mt-3 grid gap-3 sm:grid-cols-2 md:mt-4 md:gap-4">
             <StatusPill label="Email" value={user.emailVerified ? "Verified" : "Needs verification"} good={Boolean(user.emailVerified)} />
@@ -300,6 +307,14 @@ export default async function AccountPage() {
   );
 }
 
+function MobileActionCard({ title, body, href }: { title: string; body: string; href: string }) {
+  return (
+    <Link href={href} className="rounded-[22px] border border-[#DCE5F2] bg-white p-4 shadow-sm active:scale-[0.99]">
+      <div className="text-base font-black text-[#4F46E5]">{title}</div>
+      <div className="mt-1 text-xs font-semibold text-[#64748B]">{body}</div>
+    </Link>
+  );
+}
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl border border-[#DCE5F2] bg-white p-3 text-center shadow-sm md:p-6">
