@@ -15,30 +15,61 @@ export default async function WatchlistPage() {
 
   if (!session?.user?.id) {
     return (
-      <ReferencePage>
-        <div className={appShell + " space-y-5 py-6 sm:py-8"}>
-          <section className="bd-logged-in-hero pb-8">
-            <div className="max-w-3xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Saved listings</div>
-              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Your watchlist</h1>
-              <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Sign in to save listings, track items you care about, and return to them later.
-              </p>
-            </div>
-            <div className="mt-5 flex flex-wrap gap-2">
-              <Link href="/auth/login?next=/watchlist" className="bd-btn bd-btn-primary text-center">
-                Sign in to view watchlist
+      <main className="bg-white text-[#07152E]">
+        <div className="md:hidden">
+          <section className="px-4 pb-24 pt-4">
+            <div className="rounded-[28px] border border-[#D8E6F8] bg-[#EEF6FF] p-5">
+              <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#4F46E5]">Saved</div>
+              <h1 className="mt-3 text-3xl font-black leading-[0.95] tracking-[-0.05em]">Save items</h1>
+              <p className="mt-3 text-sm font-semibold leading-6 text-[#475569]">Sign in to save listings, watch price changes and return to items later.</p>
+              <Link href="/auth/login?next=/watchlist" className="mt-5 flex h-12 items-center justify-center rounded-2xl bg-[#4F46E5] px-4 text-sm font-black text-white !text-white">
+                Sign in
               </Link>
-              <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center">
+            </div>
+
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <Link href="/auth/register" className="flex min-h-[72px] items-center rounded-[22px] border border-[#D8E1F0] bg-white px-4 text-sm font-black leading-tight text-[#4F46E5] shadow-sm">
                 Create account
               </Link>
-              <Link href="/listings" className="bd-btn bd-btn-ghost text-center">
+              <Link href="/listings" className="flex min-h-[72px] items-center rounded-[22px] border border-[#D8E1F0] bg-white px-4 text-sm font-black leading-tight text-[#4F46E5] shadow-sm">
                 Browse listings
               </Link>
             </div>
+
+            <div className="mt-5 rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+              <h2 className="text-lg font-black tracking-[-0.035em]">Why save?</h2>
+              <p className="mt-2 text-sm font-semibold leading-6 text-[#475569]">Keep good finds in one place before you buy, offer or message a seller.</p>
+            </div>
           </section>
         </div>
-      </ReferencePage>
+
+        <div className="hidden md:block">
+          <ReferencePage>
+            <div className={appShell + " space-y-5 py-6 sm:py-8"}>
+              <section className="bd-logged-in-hero pb-8">
+                <div className="max-w-3xl">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Saved listings</div>
+                  <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Your watchlist</h1>
+                  <p className="mt-2 text-sm bd-ink2 sm:text-base">
+                    Sign in to save listings, track items you care about, and return to them later.
+                  </p>
+                </div>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <Link href="/auth/login?next=/watchlist" className="bd-btn bd-btn-primary text-center">
+                    Sign in to view watchlist
+                  </Link>
+                  <Link href="/auth/register" className="bd-btn bd-btn-ghost text-center">
+                    Create account
+                  </Link>
+                  <Link href="/listings" className="bd-btn bd-btn-ghost text-center">
+                    Browse listings
+                  </Link>
+                </div>
+              </section>
+            </div>
+          </ReferencePage>
+        </div>
+      </main>
     );
   }
 
@@ -107,13 +138,13 @@ export default async function WatchlistPage() {
 
   return (
     <ReferencePage>
-      <div className={appShell + " space-y-5 py-6 sm:py-8"}>
+      <div className={appShell + " space-y-4 pb-24 pt-4 md:space-y-5 md:py-8"}>
         <AccountNav active="saved" />
-        <section className="bd-logged-in-hero pb-8">
+        <section className="bd-logged-in-hero pb-5 md:pb-8">
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Saved</div>
-              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Saved</h1>
+              <h1 className="mt-2 text-3xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Saved</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 Save listings to track items you care about, keep an eye on offer movement, and spot ending windows before they close.
               </p>
@@ -130,7 +161,7 @@ export default async function WatchlistPage() {
           </div>
         </section>
 
-        <div className="rounded-[22px] border border-[#D7E2F1] bg-white px-4 py-3 text-sm text-[#475569] shadow-sm">
+        <div className="rounded-[22px] border border-[#D7E2F1] bg-white px-4 py-2 text-sm text-[#475569] shadow-sm">
           <span className="font-extrabold text-[#07152E]">{items.length}</span> saved listings.
           <span className="ml-2 text-[#607089]">{activeCount} active, {endedCount} unavailable.</span>
         </div>
