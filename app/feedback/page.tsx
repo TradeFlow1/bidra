@@ -35,7 +35,7 @@ export default function FeedbackPage() {
 
         <section className="mt-8 grid gap-4 md:grid-cols-2">
           {feedbackOptions.map((option) => (
-            <Link key={option.href + option.title} href={option.href} className="rounded-[26px] border border-[#D8E1F0] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]">
+            <Link key={option.href + option.title} href={option.href} className="rounded-[26px] border border-[#D8E1F0] bg-white p-5 shadow-sm transition">
               <h2 className="text-xl font-black tracking-[-0.035em] text-[#07152E]">{option.title}</h2>
               <p className="mt-3 text-sm font-semibold leading-7 text-[#475569]">{option.body}</p>
               <span className="mt-5 inline-flex text-sm font-black text-[#4F46E5]">Open →</span>

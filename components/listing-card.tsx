@@ -137,7 +137,7 @@ export default function ListingCard({
   return (
     <Link
       href={"/listings/" + listing.id}
-      className="bd-marketplace-card group block overflow-hidden rounded-[24px] border border-[#D8E6F8] bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-[#AFC8F8] hover:shadow-[0_18px_50px_rgba(32,75,140,0.14)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
+      className="bd-marketplace-card group block overflow-hidden rounded-[24px] border border-[#D8E6F8] bg-white shadow-sm transition hover:border-[#AFC8F8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300"
       aria-label={"View listing " + title}
     >
       <div className="overflow-hidden bg-white">
@@ -150,7 +150,7 @@ export default function ListingCard({
               alt={title}
               fill
               sizes="(max-width: 768px) 50vw, (max-width: 1400px) 25vw, 20vw"
-              className="object-cover transition duration-300 group-hover:scale-[1.02]"
+              className="object-cover transition duration-300"
               draggable={false}
               onDragStart={function (e) {
                 e.preventDefault();
@@ -172,7 +172,7 @@ export default function ListingCard({
             <button
               type="button"
               onClick={onToggleWatch}
-              className="absolute right-2.5 top-2.5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-white/95 text-[18px] text-[#0E7490] shadow-[0_8px_20px_rgba(28,50,84,0.16)] transition hover:scale-105"
+              className="absolute right-2.5 top-2.5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-white/95 text-[18px] text-[#0E7490] shadow-[0_8px_20px_rgba(28,50,84,0.16)] transition"
               aria-label="Save listing"
             >
               {watched ? "♥" : "♡"}

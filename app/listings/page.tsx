@@ -334,7 +334,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                     <Link
                       key={listing.id}
                       href={"/listings/" + listing.id}
-                      className="group overflow-hidden rounded-2xl border border-[#DCE5F2] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]"
+                      className="group overflow-hidden rounded-2xl border border-[#DCE5F2] bg-white shadow-sm transition"
                     >
                       <div className="relative aspect-[4/3] overflow-hidden bg-[#F8FAFC]">
                         {image ? (
@@ -343,7 +343,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                             alt={listing.title}
                             fill
                             sizes="(min-width: 1280px) 220px, (min-width: 768px) 33vw, 100vw"
-                            className="object-cover transition duration-300 group-hover:scale-[1.03]"
+                            className="object-cover transition duration-300"
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-5xl text-[#4F46E5]">▯</div>

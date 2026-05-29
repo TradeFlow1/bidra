@@ -329,7 +329,7 @@ export default async function ListingDetailPage({
                 const itemImages = safeListingImages(item.images);
                 const itemPrice = typeof item.buyNowPrice === "number" ? item.buyNowPrice : item.price;
                 return (
-                  <Link key={item.id} href={"/listings/" + item.id} className="group overflow-hidden rounded-2xl border border-[#DFE6F6] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                  <Link key={item.id} href={"/listings/" + item.id} className="group overflow-hidden rounded-2xl border border-[#DFE6F6] bg-white shadow-sm transition">
                     {itemImages[0] ? (
                       <div className="relative h-44 w-full bg-[#F6F8FC]">
                         <Image src={itemImages[0]} alt={itemTitle} fill sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />

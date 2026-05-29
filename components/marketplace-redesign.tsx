@@ -132,7 +132,7 @@ export function ProductCollage({ listings = [] }: { listings?: FeaturedHeroListi
           key={item.id}
           href={item.id.startsWith("fallback-") ? "/listings" : `/listings/${item.id}`}
           className={cn(
-            "group relative min-h-[170px] overflow-hidden rounded-[24px] border border-white bg-white shadow-[0_18px_50px_rgba(32,75,140,0.14)] transition hover:-translate-y-0.5 hover:shadow-[0_24px_70px_rgba(32,75,140,0.18)] sm:min-h-[190px] lg:min-h-[195px]",
+            "group relative min-h-[170px] overflow-hidden rounded-[24px] border border-white bg-white shadow-[0_18px_50px_rgba(32,75,140,0.14)] transition sm:min-h-[190px] lg:min-h-[195px]",
             positions[index] || "",
           )}
         >
@@ -208,7 +208,7 @@ export function CategoryPillGrid({ categories }: { categories: Array<{ label: st
   return (
     <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
       {categories.map((category) => (
-        <Link key={category.href + "-" + category.label} href={category.href} className="group flex min-h-[104px] flex-col items-center justify-center rounded-[20px] border border-[#C7D2FE] bg-white p-3 text-center shadow-sm transition hover:-translate-y-0.5 hover:border-[#9CCDD6] hover:shadow-[0_16px_45px_rgba(32,75,140,0.12)] sm:min-h-[132px] sm:p-4">
+        <Link key={category.href + "-" + category.label} href={category.href} className="group flex min-h-[104px] flex-col items-center justify-center rounded-[20px] border border-[#C7D2FE] bg-white p-3 text-center shadow-sm transition hover:border-[#9CCDD6] sm:min-h-[132px] sm:p-4">
           <span className="grid h-10 w-10 place-items-center rounded-2xl bg-[#F6F8FB] text-[#0F172A] sm:h-12 sm:w-12"><MarketplaceIcon name={category.icon as any} className="h-5 w-5 sm:h-6 sm:w-6" /></span>
           <span className="mt-2 block text-xs font-black text-[#0F172A] sm:mt-3 sm:text-sm">{category.label}</span>
           <span className="mt-1 block text-xs font-bold text-[#64748B]">{category.meta || "Explore"}</span>

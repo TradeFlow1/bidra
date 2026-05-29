@@ -148,7 +148,7 @@ export function DesktopCard({ children, className }: { children: ReactNode; clas
 
 export function DesktopProductCard({ title, price, location, icon }: { title: string; price: string; location: string; icon: string }) {
   return (
-    <Link href="/listings" className="group overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(79,70,229,0.14)]">
+    <Link href="/listings" className="group overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition">
       <div className="relative flex aspect-[4/3] items-center justify-center bg-[#F8FAFC] text-5xl text-[#4F46E5]">
         {icon}
         <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#4F46E5] shadow-sm">♡</span>

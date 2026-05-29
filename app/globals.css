@@ -51,12 +51,12 @@ button.bd-btn {
   .bd-container { @apply mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8; }
   .bd-page-shell { @apply mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6 sm:py-7 lg:px-8; }
   .bd-page-header { @apply mb-5; }
-  .bd-back-link { @apply inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#D8E1F0] bg-white px-3.5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:-translate-y-px hover:border-[#B6C6DC] hover:bg-[#F8FAFC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300; }
+  .bd-back-link { @apply inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#D8E1F0] bg-white px-3.5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:border-[#B6C6DC] hover:bg-[#F8FAFC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300; }
   .bd-eyebrow { @apply text-xs font-extrabold uppercase tracking-[0.16em] text-[#64748B]; }
   .bd-page-title { @apply mt-2 text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl; }
   .bd-page-description { @apply mt-2 max-w-3xl text-sm leading-6 text-[#475569] sm:text-base; }
   .bd-card { @apply rounded-[24px] border border-[#D8E1F0] bg-white shadow-sm; }
-  .bd-card-clickable { @apply transition duration-200 hover:-translate-y-[2px] hover:border-[#B6C6DC] hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]; }
+  .bd-card-clickable { @apply transition duration-200 hover:border-[#B6C6DC]; }
   .bd-empty-state { @apply rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-5 py-10 text-center shadow-sm sm:px-8 sm:py-12; }
   .bd-badge { @apply inline-flex h-7 items-center justify-center whitespace-nowrap rounded-full border px-3 text-[11px] font-extrabold leading-none; }
   .bd-badge-neutral { @apply border-[#D8E1F0] bg-[#F8FAFC] text-[#334155]; }
@@ -323,7 +323,7 @@ button[aria-busy='true'] {
   .bd-card-soft { @apply rounded-[24px] border border-[#E1EAF5] bg-[#F8FAFF] shadow-[0_10px_30px_rgba(28,50,84,0.05)]; }
   .bd-page-hero { @apply overflow-hidden rounded-[28px] border border-[#D7E2F1] bg-[linear-gradient(135deg,#FFFFFF_0%,#F4F8FF_52%,#EAF2FF_100%)] shadow-[0_20px_60px_rgba(28,50,84,0.10)]; }
   .bd-page-grid { @apply grid gap-4 sm:gap-5 lg:gap-6; }
-  .bd-marketplace-card { @apply overflow-hidden rounded-[18px] border border-[#D7E2F1] bg-white shadow-[0_12px_35px_rgba(28,50,84,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#B9CAE2] hover:shadow-[0_18px_45px_rgba(28,50,84,0.14)]; }
+  .bd-marketplace-card { @apply overflow-hidden rounded-[18px] border border-[#D7E2F1] bg-white shadow-[0_12px_35px_rgba(28,50,84,0.08)] transition duration-200 hover:border-[#B9CAE2]; }
   .bd-pill { @apply inline-flex min-h-8 items-center justify-center rounded-full border border-[#D7E2F1] bg-white px-3 text-xs font-extrabold text-[#526173]; }
   .bd-primary-action { @apply inline-flex min-h-11 items-center justify-center rounded-2xl bg-[#4F46E5] px-5 py-3 text-sm font-extrabold text-white shadow-[0_12px_28px_rgba(11,77,255,0.25)] transition hover:bg-[#0842D6] active:translate-y-px; }
   .bd-btn-primary { @apply border-[#4F46E5] bg-[#4F46E5] text-white hover:bg-[#0842D6]; }

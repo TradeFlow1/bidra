@@ -88,7 +88,7 @@ export function TrustBadge({ title, description, icon = "safe" }: { title: strin
 
 export function CategoryTile({ href, label, count, icon = "listing" }: { href: string; label: string; count?: number; icon?: MarketplaceIconName | string }) {
   const valid = ["home", "browse", "sell", "messages", "account", "search", "heart", "safe", "handover", "offer", "listing", "filter", "help", "legal", "orders"].includes(icon);
-  return <Link href={href} className="rounded-[20px] border border-[#D7E2F1] bg-[#F8FAFF] p-4 text-center shadow-sm transition hover:-translate-y-0.5 hover:bg-white hover:shadow-md"><div className="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-white text-[#0B4DFF] shadow-sm" aria-hidden="true">{valid ? <MarketplaceIcon name={icon as MarketplaceIconName} /> : icon}</div><div className="mt-3 truncate text-sm font-extrabold text-[#0F172A]">{label}</div><div className="mt-1 text-xs font-semibold text-[#607089]">{count ? count.toLocaleString() + " items" : "Explore"}</div></Link>;
+  return <Link href={href} className="rounded-[20px] border border-[#D7E2F1] bg-[#F8FAFF] p-4 text-center shadow-sm transition hover:bg-white"><div className="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-white text-[#0B4DFF] shadow-sm" aria-hidden="true">{valid ? <MarketplaceIcon name={icon as MarketplaceIconName} /> : icon}</div><div className="mt-3 truncate text-sm font-extrabold text-[#0F172A]">{label}</div><div className="mt-1 text-xs font-semibold text-[#607089]">{count ? count.toLocaleString() + " items" : "Explore"}</div></Link>;
 }
 
 export function SellerCard({ name, location, memberSince, activeListings, children }: { name?: string | null; location?: string | null; memberSince?: string | null; activeListings?: number | null; children?: React.ReactNode }) {
@@ -104,7 +104,7 @@ export function ActionPanel({ title, description, children }: { title: string; d
 }
 
 export function HelpArticleCard({ href, title, description, icon = "?" }: { href: string; title: string; description: string; icon?: string }) {
-  return <Link href={href} className="flex items-start gap-3 rounded-[20px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-[#B9CAE2]"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#EEF4FF] text-[#0B4DFF]">{icon}</span><span><span className="block text-sm font-extrabold text-[#0F172A]">{title}</span><span className="mt-1 block text-xs leading-5 text-[#607089]">{description}</span></span></Link>;
+  return <Link href={href} className="flex items-start gap-3 rounded-[20px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition hover:border-[#B9CAE2]"><span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-[#EEF4FF] text-[#0B4DFF]">{icon}</span><span><span className="block text-sm font-extrabold text-[#0F172A]">{title}</span><span className="mt-1 block text-xs leading-5 text-[#607089]">{description}</span></span></Link>;
 }
 
 

@@ -130,7 +130,7 @@ export default function CategoriesPage() {
         <section className="mt-5 rounded-[26px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
           <div className="flex flex-wrap gap-2">
             {quickLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-black text-[#4F46E5] transition hover:-translate-y-0.5 hover:bg-white hover:shadow-[0_10px_26px_rgba(15,23,42,0.08)]">
+              <Link key={link.href} href={link.href} className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-black text-[#4F46E5] transition hover:bg-white">
                 {link.label}
               </Link>
             ))}
@@ -147,7 +147,7 @@ export default function CategoriesPage() {
 
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {categories.map((category) => (
-              <section key={category.href} className="flex min-h-[230px] flex-col rounded-[28px] border border-[#D8E1F0] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]">
+              <section key={category.href} className="flex min-h-[230px] flex-col rounded-[28px] border border-[#D8E1F0] bg-white p-5 shadow-sm transition">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <Link href={category.href} className="text-xl font-black tracking-[-0.035em] text-[#07152E] hover:text-[#4F46E5]">
@@ -160,7 +160,7 @@ export default function CategoriesPage() {
 
                 <div className="mt-5 grid grid-cols-2 gap-2">
                   {category.links.map((link) => (
-                    <Link key={link.href} href={link.href} className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-sm font-bold text-[#4F46E5] transition hover:bg-white hover:text-[#4338CA] hover:shadow-sm">
+                    <Link key={link.href} href={link.href} className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2 text-sm font-bold text-[#4F46E5] transition hover:bg-white hover:text-[#4338CA]">
                       {link.label}
                     </Link>
                   ))}

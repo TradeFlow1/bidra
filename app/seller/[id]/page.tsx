@@ -280,7 +280,7 @@ export default async function SellerPage({ params }: PageProps) {
                       : listing.buyNowPrice ?? listing.price;
 
                   return (
-                    <div key={listing.id} className="overflow-hidden rounded-[20px] border border-[#DCE5F2] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(15,23,42,0.10)]">
+                    <div key={listing.id} className="overflow-hidden rounded-[20px] border border-[#DCE5F2] bg-white shadow-sm transition">
                       <Link href={"/listings/" + listing.id} className="block">
                         <div className="overflow-hidden [&_.bd-marketplace-card]:rounded-none [&_.bd-marketplace-card]:border-0 [&_.bd-marketplace-card]:shadow-none [&_.bd-marketplace-card]:hover:translate-y-0 [&_.bd-marketplace-card]:hover:shadow-none [&_.bd-marketplace-card]:hover:bg-white [&_.bd-marketplace-card_.bd-card-meta]:hidden [&_.bd-marketplace-card_.bd-card-seller]:hidden">
                           <ListingCard

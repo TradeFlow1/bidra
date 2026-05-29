@@ -36,7 +36,7 @@ export default function AboutPage() {
           <p className="mt-4 max-w-3xl text-base font-semibold leading-7 text-[#475569]">Bidra helps people buy, sell and make offers locally with clearer commitments, better records and fewer vague handover arrangements.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             {links.map((link) => (
-              <Link key={link.href} href={link.href} className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2 text-sm font-black text-[#4F46E5] shadow-sm transition hover:-translate-y-0.5 hover:bg-[#F8FAFC] hover:shadow-[0_10px_26px_rgba(15,23,42,0.08)]">
+              <Link key={link.href} href={link.href} className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2 text-sm font-black text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC]">
                 {link.label}
               </Link>
             ))}

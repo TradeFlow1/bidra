@@ -111,13 +111,13 @@ export default function LoginPage() {
         </section>
 
         <aside className="grid gap-4">
-          <Link href="/auth/register" className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:bg-[#F8FAFC] hover:shadow-[0_14px_32px_rgba(15,23,42,0.10)]">
+          <Link href="/auth/register" className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm transition hover:bg-[#F8FAFC]">
             <div className="grid h-10 w-10 place-items-center rounded-2xl bg-[#EEF2FF] text-xl font-black text-[#4F46E5]">+</div>
             <h2 className="mt-5 text-lg font-black text-[#0F172A]">Create an account</h2>
             <p className="mt-2 text-sm font-semibold leading-6 text-[#64748B]">Join Bidra to buy, sell and message local users.</p>
           </Link>
 
-          <Link href="/forgot-password" className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:bg-[#F8FAFC] hover:shadow-[0_14px_32px_rgba(15,23,42,0.10)]">
+          <Link href="/forgot-password" className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm transition hover:bg-[#F8FAFC]">
             <div className="grid h-10 w-10 place-items-center rounded-2xl bg-[#EEF2FF] text-xl font-black text-[#4F46E5]">?</div>
             <h2 className="mt-5 text-lg font-black text-[#0F172A]">Forgot password</h2>
             <p className="mt-2 text-sm font-semibold leading-6 text-[#64748B]">Reset your password and get back into your account.</p>

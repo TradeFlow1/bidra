@@ -164,9 +164,9 @@ export default async function AccountPage() {
                 const price = listing.buyNowPrice ?? listing.price;
 
                 return (
-                  <Link key={listing.id} href={`/listings/${listing.id}`} className="group overflow-hidden rounded-2xl border border-[#DCE5F2] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(15,23,42,0.10)]">
+                  <Link key={listing.id} href={`/listings/${listing.id}`} className="group overflow-hidden rounded-2xl border border-[#DCE5F2] bg-white shadow-sm transition">
                     <div className="relative aspect-square overflow-hidden bg-[#F8FAFC]">
-                      {image ? <Image src={image} alt="" fill className="object-cover transition duration-300 group-hover:scale-[1.03]" /> : null}
+                      {image ? <Image src={image} alt="" fill className="object-cover transition duration-300" /> : null}
                     </div>
                     <div className="p-5">
                       <h3 className="line-clamp-2 text-lg font-black text-[#08112F]">{listing.title}</h3>
@@ -297,7 +297,7 @@ function StatCard({ label, value }: { label: string; value: number }) {
 
 function InfoCard({ title, body, href, label }: { title: string; body: string; href: string; label: string }) {
   return (
-    <Link href={href} className="rounded-[24px] border border-[#DCE5F2] bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(15,23,42,0.08)]">
+    <Link href={href} className="rounded-[24px] border border-[#DCE5F2] bg-white p-6 shadow-sm transition">
       <h3 className="text-lg font-black">{title}</h3>
       <p className="mt-2 min-h-12 text-sm font-semibold leading-6 text-[#64748B]">{body}</p>
       <div className="mt-4 text-sm font-black text-[#4F46E5]">{label}</div>

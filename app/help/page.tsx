@@ -44,7 +44,7 @@ export default function HelpPage() {
           <p className="mt-4 max-w-3xl text-base font-semibold leading-7 text-[#475569]">Practical answers for buying, selling, offers, messages and account setup. Start here before jumping between support pages.</p>
           <div className="mt-6 flex flex-wrap gap-3">
             {quickActions.map((action) => (
-              <Link key={action.href} href={action.href} className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2 text-sm font-black text-[#4F46E5] shadow-sm transition hover:-translate-y-0.5 hover:bg-[#F8FAFC] hover:shadow-[0_10px_26px_rgba(15,23,42,0.08)]">
+              <Link key={action.href} href={action.href} className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2 text-sm font-black text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC]">
                 {action.label}
               </Link>
             ))}

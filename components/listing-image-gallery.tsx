@@ -180,7 +180,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
             <button
               type="button"
               onClick={prev}
-              className="absolute left-3 top-1/2 z-50 flex min-h-12 min-w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white text-black shadow-xl backdrop-blur transition hover:scale-[1.03] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB] sm:left-4 sm:min-h-14 sm:min-w-14"
+              className="absolute left-3 top-1/2 z-50 flex min-h-12 min-w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white text-black shadow-xl backdrop-blur transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB] sm:left-4 sm:min-h-14 sm:min-w-14"
               aria-label="Previous photo"
             >
               <span className="text-[28px] leading-none sm:text-[32px]">&lsaquo;</span>
@@ -188,7 +188,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
             <button
               type="button"
               onClick={next}
-              className="absolute right-3 top-1/2 z-50 flex min-h-12 min-w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white text-black shadow-xl backdrop-blur transition hover:scale-[1.03] hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB] sm:right-4 sm:min-h-14 sm:min-w-14"
+              className="absolute right-3 top-1/2 z-50 flex min-h-12 min-w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white text-black shadow-xl backdrop-blur transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB] sm:right-4 sm:min-h-14 sm:min-w-14"
               aria-label="Next photo"
             >
               <span className="text-[28px] leading-none sm:text-[32px]">&rsaquo;</span>
