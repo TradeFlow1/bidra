@@ -73,7 +73,7 @@ export function DesktopMarketplaceHeader({ active }: { active?: DesktopMarketpla
 
 export function DesktopMarketplaceFooter({ compact = false }: DesktopFooterProps) {
   return (
-    <footer className="border-t border-[#E2E8F0] bg-white">
+    <footer className="hidden border-t border-[#E2E8F0] bg-white md:block">
       <div className={cn("mx-auto w-full max-w-7xl px-8", compact ? "py-10" : "py-14")}>
         <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1.2fr]">
           <div>
