@@ -30,17 +30,17 @@ function UpdateCard(props: {
 
   return (
     <Link href={props.href} className="block">
-      <div className={`h-full rounded-3xl border bg-white p-6 shadow-sm transition ${hasCount ? "border-blue-300 ring-2 ring-blue-100" : "border-[#D7E2F1]"}`}>
+      <div className={`h-full rounded-[24px] border bg-white p-4 shadow-sm transition md:rounded-3xl md:p-6 ${hasCount ? "border-blue-300 ring-2 ring-blue-100" : "border-[#D7E2F1]"}`}>
         <div className="flex items-start justify-between gap-2">
           <div>
-            <div className="text-2xl font-extrabold tracking-tight bd-ink">{props.title}</div>
-            <div className="mt-3 text-sm bd-ink2 leading-7">{props.children}</div>
+            <div className="text-xl font-extrabold tracking-tight bd-ink md:text-2xl">{props.title}</div>
+            <div className="mt-2 text-sm bd-ink2 leading-6 md:mt-3 md:leading-7">{props.children}</div>
           </div>
 
           <CountPill label={props.countLabel} value={props.count} />
         </div>
 
-        <div className="mt-6 inline-flex bd-btn bd-btn-secondary text-center">
+        <div className="mt-4 inline-flex bd-btn bd-btn-secondary text-center md:mt-6">
           {props.action}
         </div>
       </div>
@@ -57,9 +57,30 @@ export default async function NotificationsPage() {
 
   return (
     <ReferencePage>
-      <div className={appShell + " space-y-5 py-6 sm:py-8"}>
-        <AccountNav active="updates" />
-        <section className="bd-logged-in-hero">
+      <div className={appShell + " space-y-4 pb-24 pt-4 md:space-y-5 md:py-8"}>
+        <div className="hidden md:block">
+          <AccountNav active="updates" />
+        </div>
+
+        <section className="md:hidden">
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#4F46E5]">My Bidra</div>
+              <h1 className="mt-1 text-3xl font-black tracking-[-0.055em] text-[#07152E]">Updates</h1>
+            </div>
+            <Link href="/messages" className="flex h-11 items-center rounded-2xl bg-[#4F46E5] px-4 text-sm font-black text-white !text-white">
+              Inbox
+            </Link>
+          </div>
+
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <CountPill label="Unread" value={counts.unreadThreads} />
+            <CountPill label="Orders" value={counts.actionOrders} />
+            <CountPill label="Feedback" value={counts.pendingFeedback} />
+          </div>
+        </section>
+
+        <section className="bd-logged-in-hero hidden md:block">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">My Bidra</div>
@@ -77,7 +98,7 @@ export default async function NotificationsPage() {
           </div>
         </section>
 
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-3 md:gap-4 lg:grid-cols-2">
           <UpdateCard
             title="Messages"
             countLabel="Unread"
@@ -100,7 +121,7 @@ export default async function NotificationsPage() {
         </div>
 
         <Link href="/orders" className="block">
-          <div className="rounded-3xl border border-[#D7E2F1] bg-white p-5 shadow-sm transition">
+          <div className="rounded-[24px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition md:rounded-3xl md:p-5">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -120,7 +141,7 @@ export default async function NotificationsPage() {
         </Link>
 
         {counts.total === 0 ? (
-          <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
+          <div className="rounded-[24px] border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-5 py-8 text-center shadow-sm md:rounded-3xl md:px-6 md:py-12">
             <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-[#0F172A]">You are all caught up</div>
               <div className="mt-2 text-sm text-[#526173]">

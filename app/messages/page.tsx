@@ -87,9 +87,24 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
 
   return (
     <>
-      <main className="bd-logged-in-page mx-auto w-full max-w-[1440px] px-4 py-6 text-[#0F172A] sm:px-6 sm:py-8 lg:px-8">
-        <AccountNav active="messages" />
-        <section className="bd-logged-in-hero mt-5">
+      <main className="bd-logged-in-page mx-auto w-full max-w-[1440px] px-4 pb-24 pt-4 text-[#0F172A] sm:px-6 sm:py-8 lg:px-8">
+        <div className="hidden md:block">
+          <AccountNav active="messages" />
+        </div>
+
+        <section className="md:hidden">
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#4F46E5]">Inbox</div>
+              <h1 className="mt-1 text-3xl font-black tracking-[-0.055em] text-[#07152E]">Messages</h1>
+            </div>
+            <Link href="/listings" className="flex h-11 items-center rounded-2xl bg-[#4F46E5] px-4 text-sm font-black text-white !text-white">
+              Browse
+            </Link>
+          </div>
+        </section>
+
+        <section className="bd-logged-in-hero mt-5 hidden md:block">
           <div>
             <div className="bd-logged-in-eyebrow">Messages</div>
             <h1 className="bd-logged-in-title">Messages</h1>
@@ -104,11 +119,11 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
             <Link href="/listings" className="mt-6 inline-flex h-12 items-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black text-white !text-white disabled:!text-white">Browse listings</Link>
           </div>
         ) : (
-          <div className="mt-6 grid gap-6 lg:grid-cols-[400px_minmax(0,1fr)]">
+          <div className="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-[400px_minmax(0,1fr)]">
             <aside className="overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
               {items.map((thread) => (
-                <Link key={thread.id} href={`/messages?thread=${thread.id}`} className={`flex gap-4 border-b border-[#E2E8F0] p-5 last:border-b-0 hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F8FAFC] shadow-[inset_4px_0_0_#4F46E5]" : ""}`}>
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-base font-black text-[#4F46E5]">
+                <Link key={thread.id} href={`/messages?thread=${thread.id}`} className={`flex gap-3 border-b border-[#E2E8F0] p-4 last:border-b-0 md:gap-4 md:p-5 md:hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F8FAFC] shadow-[inset_4px_0_0_#4F46E5]" : ""}`}>
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-sm font-black text-[#4F46E5] md:h-14 md:w-14 md:text-base">
                     {thread.thumb ? <Image src={thread.thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(thread.otherLabel)}
                   </div>
                   <div className="min-w-0 flex-1">
@@ -129,13 +144,13 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
             </aside>
 
             <section className="overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
-              <div className="flex items-center justify-between border-b border-[#E2E8F0] p-5">
+              <div className="flex items-center justify-between border-b border-[#E2E8F0] p-4 md:p-5">
                 <div className="flex min-w-0 items-center gap-4">
-                  <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-base font-black text-[#4F46E5]">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-sm font-black text-[#4F46E5] md:h-14 md:w-14 md:text-base">
                     {selected?.thumb ? <Image src={selected.thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(selected?.otherLabel || "User")}
                   </div>
                   <div className="min-w-0">
-                    <h2 className="truncate text-xl font-black">{selected?.otherLabel || "Select a message"}</h2>
+                    <h2 className="truncate text-lg font-black md:text-xl">{selected?.otherLabel || "Select a message"}</h2>
                     <p className="mt-1 truncate text-sm font-semibold text-[#64748B]">{selected?.listing?.title || "Open a thread to continue the conversation"}</p>
                   </div>
                 </div>
@@ -144,7 +159,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
 
               {selected ? (
                 <>
-                  <div className="min-h-[380px] space-y-5 px-6 py-7">
+                  <div className="min-h-[280px] space-y-4 px-4 py-5 md:min-h-[380px] md:space-y-5 md:px-6 md:py-7">
                     <div className="flex items-center gap-5 text-sm font-black text-[#64748B]">
                       <div className="h-px flex-1 bg-[#E2E8F0]" />
                       <span>Today</span>
