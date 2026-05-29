@@ -135,7 +135,7 @@ export function LegalSection({ title, children }: { title: string; children: Rea
 
 export function PublicFooter() {
   return (
-    <footer className="border-t border-[#E2E8F0] bg-white">
+    <footer className="hidden border-t border-[#E2E8F0] bg-white md:block">
       <div className="mx-auto w-full max-w-6xl px-6 py-10 lg:px-8">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
           <div>

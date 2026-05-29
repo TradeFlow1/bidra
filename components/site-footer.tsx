@@ -40,7 +40,7 @@ function FooterColumn({ title, links }: { title: string; links: string[][] }) {
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t border-[#E2E8F0] bg-white">
+    <footer className="hidden border-t border-[#E2E8F0] bg-white md:block">
       <div className="mx-auto w-full max-w-[1320px] px-8 py-12">
         <div className="grid gap-10 lg:grid-cols-[1.25fr_0.9fr_0.9fr_0.9fr_1.25fr]">
           <div>
