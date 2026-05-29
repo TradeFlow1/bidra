@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { Card, Input, Textarea, Button } from "@/components/ui";
@@ -40,13 +40,13 @@ export default function ContactFormClient({ defaultEmail }: { defaultEmail: stri
         <label className="text-sm">Message</label>
         <Textarea name="message" required />
 
-        <Button type="submit" className="bg-black text-white border-black hover:opacity-90">
+        <Button type="submit" className="bg-black text-white border-black">
           Send
         </Button>
 
         {sent ? (
           <div className="text-sm text-green-700">
-            Message sent. Weâ€™ll reply to your email as soon as we can.
+            Message sent. We'll reply to your email as soon as we can.
           </div>
         ) : null}
       </form>

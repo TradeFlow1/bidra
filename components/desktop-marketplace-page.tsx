@@ -22,7 +22,7 @@ const navItems = [
 
 export function DesktopMarketplacePage({ children, className, active }: DesktopMarketplacePageProps) {
   return (
-    <main className="hidden min-h-screen bg-white text-[#4F46E5] md:block hover:bg-[#F5F3FF]">
+    <main className="hidden min-h-screen bg-white text-[#4F46E5] md:block">
       <DesktopMarketplaceHeader active={active} />
       <div className={cn("mx-auto w-full max-w-7xl px-8 py-10", className)}>{children}</div>
       <DesktopMarketplaceFooter />
@@ -32,7 +32,7 @@ export function DesktopMarketplacePage({ children, className, active }: DesktopM
 
 export function DesktopMarketplaceHeader({ active }: { active?: DesktopMarketplacePageProps["active"] }) {
   return (
-    <header className="sticky top-0 z-40 border-b border-[#E2E8F0] bg-white/95 backdrop-blur hover:bg-[#F5F3FF]">
+    <header className="sticky top-0 z-40 border-b border-[#E2E8F0] bg-white/95 backdrop-blur">
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center gap-8 px-8">
         <Link href="/" className="flex shrink-0 items-center">
           <BrandLogo className="relative block h-12 w-[190px] overflow-visible" priority />
@@ -56,7 +56,7 @@ export function DesktopMarketplaceHeader({ active }: { active?: DesktopMarketpla
         <div className="ml-auto flex items-center gap-5">
           <Link
             href="/listings"
-            className="hidden h-12 w-[360px] items-center justify-between rounded-2xl border border-[#CBD5E1] bg-white px-5 text-sm font-semibold text-[#64748B] shadow-sm lg:flex hover:bg-[#F5F3FF]"
+            className="hidden h-12 w-[360px] items-center justify-between rounded-2xl border border-[#CBD5E1] bg-white px-5 text-sm font-semibold text-[#64748B] shadow-sm lg:flex"
           >
             <span>Search listings...</span>
             <span className="text-xl text-[#0F172A]">⌕</span>
@@ -73,7 +73,7 @@ export function DesktopMarketplaceHeader({ active }: { active?: DesktopMarketpla
 
 export function DesktopMarketplaceFooter({ compact = false }: DesktopFooterProps) {
   return (
-    <footer className="border-t border-[#E2E8F0] bg-white hover:bg-[#F5F3FF]">
+    <footer className="border-t border-[#E2E8F0] bg-white">
       <div className={cn("mx-auto w-full max-w-7xl px-8", compact ? "py-10" : "py-14")}>
         <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1.2fr]">
           <div>
@@ -148,10 +148,10 @@ export function DesktopCard({ children, className }: { children: ReactNode; clas
 
 export function DesktopProductCard({ title, price, location, icon }: { title: string; price: string; location: string; icon: string }) {
   return (
-    <Link href="/listings" className="group overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(79,70,229,0.14)] hover:bg-[#F5F3FF]">
+    <Link href="/listings" className="group overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(79,70,229,0.14)]">
       <div className="relative flex aspect-[4/3] items-center justify-center bg-[#F8FAFC] text-5xl text-[#4F46E5]">
         {icon}
-        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#4F46E5] shadow-sm hover:bg-[#F5F3FF]">♡</span>
+        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#4F46E5] shadow-sm">♡</span>
       </div>
       <div className="p-4">
         <h3 className="text-sm font-black text-[#0F172A]">{title}</h3>

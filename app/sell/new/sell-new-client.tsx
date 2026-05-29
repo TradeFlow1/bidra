@@ -596,7 +596,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                     <button
                       type="button"
                       aria-label="Remove photo"
-                      className="absolute right-2 top-2 z-10 inline-flex min-h-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white/95 px-3 text-xs font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC] hover:bg-[#F5F3FF]"
+                      className="absolute right-2 top-2 z-10 inline-flex min-h-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white/95 px-3 text-xs font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]"
                       onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
                     >
                       Remove
@@ -684,7 +684,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               </div>
 
               {category ? (
-                <div className="mt-3 rounded-[18px] border border-[#D8E1F0] bg-white px-3 py-2 text-sm hover:bg-[#F5F3FF]">
+                <div className="mt-3 rounded-[18px] border border-[#D8E1F0] bg-white px-3 py-2 text-sm">
                   <span className="text-xs uppercase tracking-wide text-black/50">Selected</span>
                   <div className="mt-1 font-medium bd-ink">{category}</div>
                 </div>

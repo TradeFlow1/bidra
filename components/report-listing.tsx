@@ -129,7 +129,7 @@ export default function ReportListing({
             <select
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              className="w-full rounded-xl border border-black/15 bg-white px-3 py-2 text-sm hover:bg-[#F5F3FF]"
+              className="w-full rounded-xl border border-black/15 bg-white px-3 py-2 text-sm"
             >
               <option value="" disabled>
                 Choose a reason...
@@ -149,7 +149,7 @@ export default function ReportListing({
               onChange={(e) => setDetails(e.target.value)}
               placeholder="Add details that help review (optional)"
               rows={3}
-              className="w-full rounded-xl border border-black/15 bg-white px-3 py-2 text-sm hover:bg-[#F5F3FF]"
+              className="w-full rounded-xl border border-black/15 bg-white px-3 py-2 text-sm"
             />
           </div>
 

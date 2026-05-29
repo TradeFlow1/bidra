@@ -31,9 +31,9 @@ export function MobileMarketplacePage({
 }: MobileMarketplacePageProps) {
   return (
     <>
-      <main className="min-h-screen bg-white text-[#4F46E5] md:hidden hover:bg-[#F5F3FF]">
-        <div className="mx-auto min-h-screen w-full max-w-[430px] bg-white shadow-[0_24px_80px_rgba(15,23,42,0.10)] hover:bg-[#F5F3FF]">
-          <header className="relative z-30 border-b border-[#E2E8F0] bg-white/95 backdrop-blur hover:bg-[#F5F3FF]">
+      <main className="min-h-screen bg-white text-[#4F46E5] md:hidden">
+        <div className="mx-auto min-h-screen w-full max-w-[430px] bg-white shadow-[0_24px_80px_rgba(15,23,42,0.10)]">
+          <header className="relative z-30 border-b border-[#E2E8F0] bg-white/95 backdrop-blur">
             <div className="flex h-16 items-center justify-between px-4">
               <div className="flex min-w-0 items-center gap-3">
                 {backHref ? (
@@ -67,7 +67,7 @@ export function MobileMarketplacePage({
             ) : null}
           </header>
           <div className={cn("px-4 pb-24 pt-4", className)}>{children}</div>
-          <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto grid h-16 max-w-[430px] grid-cols-5 border-t border-[#E2E8F0] bg-white/95 px-2 text-[11px] font-bold text-[#475569] backdrop-blur hover:bg-[#F5F3FF]">
+          <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto grid h-16 max-w-[430px] grid-cols-5 border-t border-[#E2E8F0] bg-white/95 px-2 text-[11px] font-bold text-[#475569] backdrop-blur">
             <MobileNavItem href="/" label="Home" icon="⌂" />
             <MobileNavItem href="/listings" label="Buy now" icon="▣" />
             <MobileNavItem href="/sell" label="Sell" icon="⊕" />
@@ -77,7 +77,7 @@ export function MobileMarketplacePage({
         </div>
       </main>
 
-      <main className="hidden min-h-screen bg-white text-[#4F46E5] md:block hover:bg-[#F5F3FF]">
+      <main className="hidden min-h-screen bg-white text-[#4F46E5] md:block">
         <div className="mx-auto w-full max-w-6xl px-6 py-12 lg:px-8">
           {(desktopTitle || desktopSubtitle) ? (
             <div className="mb-8">
@@ -127,7 +127,7 @@ export function MobilePrimaryButton({ href, children }: { href: string; children
 
 export function MobileSecondaryButton({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="flex h-12 items-center justify-center rounded-xl border border-[#C7D2FE] bg-white px-4 text-sm font-black text-[#4F46E5] hover:bg-[#F5F3FF]">
+    <Link href={href} className="flex h-12 items-center justify-center rounded-xl border border-[#C7D2FE] bg-white px-4 text-sm font-black text-[#4F46E5]">
       {children}
     </Link>
   );

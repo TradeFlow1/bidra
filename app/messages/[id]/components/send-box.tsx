@@ -111,7 +111,7 @@ export default function SendBox({ threadId }: { threadId: string }) {
           <button
             type="button"
             onClick={retry}
-            className="mt-2 rounded-lg border border-red-200 bg-white px-3 py-1.5 text-xs font-extrabold text-red-800 hover:bg-red-50 hover:bg-[#F5F3FF]"
+            className="mt-2 rounded-lg border border-red-200 bg-white px-3 py-1.5 text-xs font-extrabold text-red-800 hover:bg-red-50"
           >
             Retry message
           </button>

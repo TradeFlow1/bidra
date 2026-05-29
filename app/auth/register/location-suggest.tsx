@@ -80,7 +80,7 @@ export default function LocationSuggest(props: {
   if (!canQuery) return null;
 
   return (
-    <div className="mt-2 rounded-2xl border bd-bd bg-white p-3 hover:bg-[#F5F3FF]">
+    <div className="mt-2 rounded-2xl border bd-bd bg-white p-3">
       <div className="flex items-center justify-between gap-2">
         <div className="text-xs font-semibold bd-ink">Suggestions</div>
         {loading ? <div className="text-xs bd-ink2">Searching…</div> : null}
@@ -102,7 +102,7 @@ export default function LocationSuggest(props: {
                 type="button"
                 className={cx(
                   "w-full rounded-xl border bd-bd px-3 py-2 text-left text-sm",
-                  "hover:bg-black/5"
+                  ""
                 )}
                 onClick={() => props.onPick({ suburb, postcode, state: st })}
               >

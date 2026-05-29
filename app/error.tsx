@@ -30,7 +30,7 @@ export default function GlobalError({
             >
               Try again
             </button>
-            <Link href="/" className="rounded-xl border bg-white px-4 py-2 hover:bg-[#F5F3FF]">
+            <Link href="/" className="rounded-xl border bg-white px-4 py-2">
               Go home
             </Link>
           </div>

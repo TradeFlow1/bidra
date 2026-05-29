@@ -10,7 +10,7 @@ const items = [
 
 export function BidraMobileBottomNav() {
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-[100] border-t border-[#D8E1F0] bg-white/95 px-2 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur md:hidden hover:bg-[#F5F3FF]" aria-label="Primary mobile navigation">
+    <nav className="fixed inset-x-0 bottom-0 z-[100] border-t border-[#D8E1F0] bg-white/95 px-2 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur md:hidden" aria-label="Primary mobile navigation">
       <ul className="grid grid-cols-5 gap-1 text-center text-[11px] font-extrabold text-[#334155]">
         {items.map(([label, href]) => (
           <li key={href}>

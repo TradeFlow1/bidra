@@ -76,7 +76,7 @@ export default function FeedbackClient() {
       setMessage("");
       setEmail("");
       setStatusTone("success");
-      setStatus("Thanks â€” we received your feedback.");
+      setStatus("Thanks - we received your feedback.");
     } catch {
       setStatusTone("error");
       setStatus("We could not send your feedback. Please try again shortly.");
@@ -94,7 +94,7 @@ export default function FeedbackClient() {
         </div>
       </div>
 
-      <div className="mt-5 rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5 hover:bg-[#F5F3FF]">
+      <div className="mt-5 rounded-[24px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5">
         <div className="text-sm font-extrabold bd-ink">Send feedback</div>
 
         {loading ? (

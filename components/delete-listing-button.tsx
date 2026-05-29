@@ -49,7 +49,7 @@ export default function DeleteListingButton({ listingId, listingTitle }: Props) 
       <button
         type="button"
         onClick={function () { setOpen(true); }}
-        className="w-full rounded-2xl border border-red-200 bg-white px-4 py-3 text-center text-sm font-extrabold text-red-700 shadow-sm transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60 hover:bg-[#F5F3FF]"
+        className="w-full rounded-2xl border border-red-200 bg-white px-4 py-3 text-center text-sm font-extrabold text-red-700 shadow-sm transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
       >
       Delete
     </button>
@@ -60,7 +60,7 @@ export default function DeleteListingButton({ listingId, listingTitle }: Props) 
             role="dialog"
             aria-modal="true"
             aria-labelledby="delete-listing-title"
-            className="w-full max-w-md rounded-3xl border border-black/10 bg-white p-6 text-left shadow-[0_24px_80px_rgba(15,23,42,0.35)] hover:bg-[#F5F3FF]"
+            className="w-full max-w-md rounded-3xl border border-black/10 bg-white p-6 text-left shadow-[0_24px_80px_rgba(15,23,42,0.35)]"
           >
             <h2 id="delete-listing-title" className="text-2xl font-extrabold tracking-tight text-neutral-950">Delete this listing?</h2>
             <p className="mt-3 text-sm leading-6 text-neutral-700">
@@ -74,7 +74,7 @@ export default function DeleteListingButton({ listingId, listingTitle }: Props) 
                 type="button"
                 onClick={function () { if (!pending) setOpen(false); }}
                 disabled={pending}
-                className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-neutral-950 shadow-sm hover:bg-black/5 disabled:cursor-not-allowed disabled:opacity-60 hover:bg-[#F5F3FF]"
+                className="rounded-xl border border-black/20 bg-white px-4 py-3 text-center text-sm font-extrabold text-neutral-950 shadow-sm disabled:cursor-not-allowed disabled:opacity-60"
               >
                 Keep listing
               </button>

@@ -214,7 +214,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                     className={
                       active
                         ? "block rounded-xl bg-[#EEF2FF] px-4 py-3 text-base font-black text-[#4F46E5]"
-                        : "block rounded-xl px-4 py-3 text-base font-semibold text-[#475569] hover:bg-[#F5F3FF] hover:text-[#4F46E5]"
+                        : "block rounded-xl px-4 py-3 text-base font-semibold text-[#475569] hover:text-[#4F46E5]"
                     }
                   >
                     {category}
@@ -243,7 +243,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                     <select
                       name="state"
                       defaultValue={selectedState}
-                      className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569] hover:bg-[#F5F3FF]"
+                      className="h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569]"
                     >
                       <option value="">All Australia</option>
                       <option value="QLD">Queensland</option>
@@ -270,7 +270,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
                 <label className="block">
                   <span className="text-sm font-black">Condition</span>
-                  <select name="condition" defaultValue={selectedCondition} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569] hover:bg-[#F5F3FF]">
+                  <select name="condition" defaultValue={selectedCondition} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569]">
                     <option value="">Any condition</option>
                     <option value="NEW">New</option>
                     <option value="LIKE_NEW">Like new</option>
@@ -282,7 +282,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
                 <label className="block">
                   <span className="text-sm font-black">Sort by</span>
-                  <select name="sort" defaultValue={selectedSort} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569] hover:bg-[#F5F3FF]">
+                  <select name="sort" defaultValue={selectedSort} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569]">
                     <option value="newest">Newest first</option>
                     <option value="price-low">Price low to high</option>
                     <option value="price-high">Price high to low</option>
@@ -319,7 +319,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
 
               </div>
-              <button className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-5 text-sm font-black text-[#4F46E5] shadow-sm hover:bg-[#F5F3FF]">
+              <button className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-5 text-sm font-black text-[#4F46E5] shadow-sm">
                 Save search
               </button>
             </div>
@@ -381,7 +381,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
         </div>
       </main>
 
-      <main className="min-h-screen bg-white text-[#4F46E5] md:hidden hover:bg-[#F5F3FF]">
+      <main className="min-h-screen bg-white text-[#4F46E5] md:hidden">
         <div className="px-4 py-6">
           <h1 className="text-2xl font-black">Categories</h1>
           <p className="mt-2 text-sm font-semibold text-[#64748B]">Mobile layout paused while desktop is fixed.</p>

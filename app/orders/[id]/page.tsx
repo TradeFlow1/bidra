@@ -142,7 +142,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             </div>
 
             <div className="grid grid-cols-3 gap-2 sm:min-w-[360px] lg:w-[360px]">
-              <Link href={primaryNextHref} className="whitespace-nowrap rounded-2xl bg-[#061126] px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition hover:opacity-90">
+              <Link href={primaryNextHref} className="whitespace-nowrap rounded-2xl bg-[#061126] px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition">
                 {primaryNextLabel}
               </Link>
               <Link href={listingHref} className="whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">

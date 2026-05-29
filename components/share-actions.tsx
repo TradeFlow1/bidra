@@ -50,7 +50,7 @@ export default function ShareActions({ url, title, text, label = "Share listing"
   }
 
   return (
-    <div className="rounded-2xl border border-[#E2E8F0] bg-white/80 p-3 hover:bg-[#F5F3FF]">
+    <div className="rounded-2xl border border-[#E2E8F0] bg-white/80 p-3">
       <div className="text-xs font-semibold uppercase tracking-[0.16em] text-[#64748B]">{label}</div>
       <p className="mt-1 text-sm text-[#64748B]">{description}</p>
       <div className="mt-2 flex flex-wrap gap-2">
@@ -58,7 +58,7 @@ export default function ShareActions({ url, title, text, label = "Share listing"
           <button
             type="button"
             onClick={handleShare}
-            className="inline-flex items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#4F46E5] transition hover:bg-white hover:bg-[#F5F3FF]"
+            className="inline-flex items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#4F46E5] transition hover:bg-white"
           >
             Share
           </button>
@@ -66,7 +66,7 @@ export default function ShareActions({ url, title, text, label = "Share listing"
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#4F46E5] transition hover:bg-white hover:bg-[#F5F3FF]"
+          className="inline-flex items-center justify-center rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-2 text-sm font-semibold text-[#4F46E5] transition hover:bg-white"
         >
           {copyState === "copied" ? "Copied" : copyState === "failed" ? "Copy failed" : "Copy link"}
         </button>

@@ -38,7 +38,7 @@ export default function MobileFiltersToggle({ children }: MobileFiltersTogglePro
         className="bd-mobile-tap-target flex w-full items-center justify-between rounded-2xl border border-[#D8E1F0] bg-[#0F172A] px-4 py-3 text-left text-sm font-extrabold text-white shadow-sm"
       >
         <span>Filters</span>
-        <span className="rounded-full bg-white/15 px-2 py-1 text-xs font-bold hover:bg-[#F5F3FF]">Search, sort, refine</span>
+        <span className="rounded-full bg-white/15 px-2 py-1 text-xs font-bold">Search, sort, refine</span>
       </button>
 
       {open ? (
@@ -50,7 +50,7 @@ export default function MobileFiltersToggle({ children }: MobileFiltersTogglePro
             onClick={function () { setOpen(false); }}
           />
 
-          <div className="absolute inset-x-0 bottom-0 max-h-[88vh] overflow-hidden rounded-t-[28px] border border-[#D8E1F0] bg-white shadow-2xl hover:bg-[#F5F3FF]">
+          <div className="absolute inset-x-0 bottom-0 max-h-[88vh] overflow-hidden rounded-t-[28px] border border-[#D8E1F0] bg-white shadow-2xl">
             <div className="flex items-center justify-between gap-3 border-b border-[#E2E8F0] px-4 py-3">
               <div>
                 <div id={panelId + "-title"} className="text-base font-extrabold text-[#0F172A]">Filter listings</div>

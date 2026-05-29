@@ -36,7 +36,7 @@ export default function RelistButton({ listingId }: { listingId: string }) {
         type="button"
         onClick={relist}
         disabled={loading}
-        className="w-full rounded-xl border border-black/10 bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-neutral-50 disabled:opacity-60 hover:bg-[#F5F3FF]"
+        className="w-full rounded-xl border border-black/10 bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-neutral-50 disabled:opacity-60"
       >
         {loading ? "Relisting..." : "Relist"}
       </button>

@@ -34,7 +34,7 @@ const legalLinks = [
 
 export function PublicContentPage({ title, subtitle, children, className }: PublicContentPageProps) {
   return (
-    <main className="bg-white text-[#4F46E5] hover:bg-[#F5F3FF]">
+    <main className="bg-white text-[#4F46E5]">
       <div className={cn("mx-auto w-full max-w-[1320px] px-8 py-12 lg:py-16", className)}>
         <header className="max-w-5xl">
           <h1 className="text-4xl font-black tracking-tight text-[#0F172A] sm:text-5xl">{title}</h1>
@@ -135,7 +135,7 @@ export function LegalSection({ title, children }: { title: string; children: Rea
 
 export function PublicFooter() {
   return (
-    <footer className="border-t border-[#E2E8F0] bg-white hover:bg-[#F5F3FF]">
+    <footer className="border-t border-[#E2E8F0] bg-white">
       <div className="mx-auto w-full max-w-6xl px-6 py-10 lg:px-8">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr_1.2fr]">
           <div>

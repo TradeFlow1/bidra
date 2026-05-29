@@ -69,7 +69,7 @@ export default function SiteHeaderClient({
 
   function renderAccountMenu(closeMenu: () => void) {
     return (
-      <div className="absolute right-0 top-full z-[120] mt-3 w-72 overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white text-[#4F46E5] shadow-[0_24px_70px_rgba(28,50,84,0.18)] hover:bg-[#F5F3FF]" role="menu" onClick={(e) => e.stopPropagation()}>
+      <div className="absolute right-0 top-full z-[120] mt-3 w-72 overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white text-[#4F46E5] shadow-[0_24px_70px_rgba(28,50,84,0.18)]" role="menu" onClick={(e) => e.stopPropagation()}>
         <div className="bg-[#F6F9FF] px-4 py-4">
           <div className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#607089]">Current account</div>
           <div className="mt-1 text-base font-extrabold text-[#0F172A]">{accountRoleLabel}</div>
@@ -93,7 +93,7 @@ export default function SiteHeaderClient({
 
   function renderMobileMenu() {
     return (
-      <div className="absolute right-0 top-full z-[120] mt-3 w-[min(90vw,22rem)] overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white text-[#4F46E5] shadow-[0_24px_70px_rgba(28,50,84,0.22)] hover:bg-[#F5F3FF]" role="menu" onClick={(e) => e.stopPropagation()}>
+      <div className="absolute right-0 top-full z-[120] mt-3 w-[min(90vw,22rem)] overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white text-[#4F46E5] shadow-[0_24px_70px_rgba(28,50,84,0.22)]" role="menu" onClick={(e) => e.stopPropagation()}>
         <div className="grid gap-1 p-2">
           <Link href="/" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Home</Link>
           <Link href="/categories" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Browse categories</Link>
@@ -151,12 +151,12 @@ export default function SiteHeaderClient({
 
       <div className="md:hidden bg-white">
         <div className="flex items-center gap-3 px-4 py-3">
-          <button type="button" className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg font-extrabold shadow-sm hover:bg-[#F5F3FF]" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><span aria-hidden="true">☰</span></button>
+          <button type="button" className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg font-extrabold shadow-sm" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><span aria-hidden="true">☰</span></button>
           <Link href="/" className="flex h-10 w-32 items-center" aria-label="Bidra home">
             <BrandLogo priority className="h-full w-auto max-w-full" />
           </Link>
           <div ref={mobileMenuRef} className="relative ml-auto">
-            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg shadow-sm hover:bg-[#F5F3FF]" aria-label="Account and notifications"><span aria-hidden="true">!</span></button>
+            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg shadow-sm" aria-label="Account and notifications"><span aria-hidden="true">!</span></button>
             {mobileMenuOpen ? renderMobileMenu() : null}
           </div>
         </div>

@@ -254,7 +254,7 @@ export default async function ListingDetailPage({
                   </div>
                 </div>
                 <div className="grid gap-3 sm:w-[320px] sm:grid-cols-2">
-                  <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center justify-center rounded-xl border border-[#352CFF] px-5 py-3 text-sm font-extrabold text-[#352CFF] hover:bg-[#F5F3FF]">View profile</Link>
+                  <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center justify-center rounded-xl border border-[#352CFF] px-5 py-3 text-sm font-extrabold text-[#352CFF]">View profile</Link>
                   <MessageSellerButton listingId={listing.id} />
                 </div>
               </div>

@@ -102,7 +102,7 @@ export default function AccountAvatarUpload({ avatarUrl, fallback }: AccountAvat
         </button>
 
         {avatarUrl ? (
-          <button type="button" disabled={isWorking} onClick={deleteAvatar} className="h-11 w-full rounded-2xl border border-[#CBD5E1] bg-white px-5 text-sm font-black text-[#4F46E5] hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60 hover:bg-[#F5F3FF]">
+          <button type="button" disabled={isWorking} onClick={deleteAvatar} className="h-11 w-full rounded-2xl border border-[#CBD5E1] bg-white px-5 text-sm font-black text-[#4F46E5] hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60">
             Delete picture
           </button>
         ) : null}
