@@ -265,16 +265,16 @@ export default async function ListingDetailPage({
           <aside className="lg:pt-2">
             <div className="flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#667399]">
               <span>{category}</span>
-              <span>â€¢</span>
+              <span>·</span>
               <span>{listingType}</span>
-              {isSold ? <><span>â€¢</span><span>Sold</span></> : null}
+              {isSold ? <><span>·</span><span>Sold</span></> : null}
             </div>
 
             <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight text-[#080D32] sm:text-5xl lg:text-[52px]">{title}</h1>
             <div className="mt-4 text-4xl font-black tracking-tight">{money(displayPrice)}</div>
             <div className="mt-6 flex flex-wrap items-center gap-4 text-base font-bold text-[#667399]">
               <span>{location}</span>
-              <span>â€¢</span>
+              <span>·</span>
               <span>{cleanText(listing.status)}</span>
             </div>
 
@@ -287,7 +287,7 @@ export default async function ListingDetailPage({
               <div className="mt-6 rounded-2xl border border-[#D8E1F0] bg-[#F8FAFF] p-4 shadow-sm">
                 <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#4F46E5]">Seller tools</div>
                 <div className="mt-2 text-sm font-semibold text-[#667399]">Manage this listing from your seller view.</div>
-                <Link href={"/sell/edit/" + params.id} className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#172BEF] px-5 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(36,55,255,0.24)] transition hover:bg-[#0F24D8]">
+                <Link href={"/sell/edit/" + params.id} className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#4F46E5]/30 bg-white px-5 text-sm font-black text-[#2437FF] shadow-sm transition hover:bg-[#F8FAFF]">
                   Edit listing
                 </Link>
               </div>
