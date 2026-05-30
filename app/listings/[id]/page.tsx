@@ -287,7 +287,7 @@ export default async function ListingDetailPage({
               <div className="mt-6 rounded-2xl border border-[#D8E1F0] bg-[#F8FAFF] p-4 shadow-sm">
                 <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#4F46E5]">Seller tools</div>
                 <div className="mt-2 text-sm font-semibold text-[#667399]">Manage this listing from your seller view.</div>
-                <Link href={"/sell/edit/" + listing.id} className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#2437FF] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172BEF]">
+                <Link href={"/sell/edit/" + params.id} className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#172BEF] px-5 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(36,55,255,0.24)] transition hover:bg-[#0F24D8]">
                   Edit listing
                 </Link>
               </div>
