@@ -8,6 +8,14 @@ import { auth } from "@/lib/auth";
 import { getNotificationCounts } from "@/lib/notifications";
 import { ReferencePage, appShell } from "@/components/marketplace-redesign";
 
+function MobileCountCard({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-2xl border border-[#D7E2F1] bg-white p-3 text-center shadow-sm">
+      <div className="text-2xl font-black text-[#07152E]">{value}</div>
+      <div className="mt-1 text-[11px] font-semibold text-[#607089]">{label}</div>
+    </div>
+  );
+}
 function CountPill({ label, value }: { label: string; value: number }) {
   return (
     <span className="inline-flex items-center gap-2 rounded-full border border-[#D7E2F1] bg-white px-3 py-1 text-xs shadow-sm">
@@ -30,7 +38,7 @@ function UpdateCard(props: {
 
   return (
     <Link href={props.href} className="block">
-      <div className={`h-full rounded-[24px] border bg-white p-4 shadow-sm transition md:rounded-3xl md:p-6 ${hasCount ? "border-blue-300 ring-2 ring-blue-100" : "border-[#D7E2F1]"}`}>
+      <div className={`h-full rounded-[22px] border bg-white p-4 shadow-sm transition active:scale-[0.99] md:rounded-3xl md:p-6 ${hasCount ? "border-blue-300 ring-2 ring-blue-100" : "border-[#D7E2F1]"}`}>
         <div className="flex items-start justify-between gap-2">
           <div>
             <div className="text-xl font-extrabold tracking-tight bd-ink md:text-2xl">{props.title}</div>
@@ -40,7 +48,7 @@ function UpdateCard(props: {
           <CountPill label={props.countLabel} value={props.count} />
         </div>
 
-        <div className="mt-4 inline-flex bd-btn bd-btn-secondary text-center md:mt-6">
+        <div className="mt-3 inline-flex rounded-2xl border border-[#C7D2FE] bg-white px-4 py-2 text-sm font-black text-[#4F46E5] shadow-sm md:mt-6">
           {props.action}
         </div>
       </div>
@@ -73,10 +81,10 @@ export default async function NotificationsPage() {
             </Link>
           </div>
 
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <CountPill label="Unread" value={counts.unreadThreads} />
-            <CountPill label="Orders" value={counts.actionOrders} />
-            <CountPill label="Feedback" value={counts.pendingFeedback} />
+          <div className="mt-4 grid grid-cols-3 gap-2">
+            <MobileCountCard label="Unread" value={counts.unreadThreads} />
+            <MobileCountCard label="Orders" value={counts.actionOrders} />
+            <MobileCountCard label="Feedback" value={counts.pendingFeedback} />
           </div>
         </section>
 
@@ -121,7 +129,7 @@ export default async function NotificationsPage() {
         </div>
 
         <Link href="/orders" className="block">
-          <div className="rounded-[24px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition md:rounded-3xl md:p-5">
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition active:scale-[0.99] md:rounded-3xl md:p-5">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
@@ -133,7 +141,7 @@ export default async function NotificationsPage() {
                 </div>
               </div>
 
-              <div className="inline-flex w-fit bd-btn bd-btn-secondary text-center">
+              <div className="inline-flex w-fit rounded-2xl border border-[#C7D2FE] bg-white px-4 py-2 text-sm font-black text-[#4F46E5] shadow-sm">
                 View orders
               </div>
             </div>
