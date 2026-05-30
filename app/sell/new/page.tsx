@@ -54,7 +54,7 @@ export default async function SellNewPage() {
             </div>
             <div className="mt-4"><SellNewClient defaultLocation={defaultLocation} /></div>
           </div>
-          <aside className="grid gap-4 xl:sticky xl:top-24">
+          <aside className="hidden gap-4 xl:sticky xl:top-24 xl:grid">
             <AppPanel>
               <h2 className="text-xl font-black tracking-tight text-[#07152E]">Selling tips</h2>
               <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#526173]"><li>Use clear product-first photos.</li><li>Write condition, faults and included accessories.</li><li>Set pickup/postage expectations early.</li><li>Keep handover details in Messages.</li></ul>
