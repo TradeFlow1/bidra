@@ -111,7 +111,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     ? (canLeave ? "Share feedback for this completed order." : "Feedback has been submitted.")
     : "Buy Now is committed. Arrange payment, pickup/postage and handover in Messages.";
   const primaryNextHref = order.outcome === "COMPLETED" ? feedbackHref : messageHref;
-  const primaryNextLabel = order.outcome === "COMPLETED" ? "Feedback" : "Message seller/buyer";
+  const primaryNextLabel = order.outcome === "COMPLETED" ? "Feedback" : (isBuyer ? "Message seller" : "Message buyer");
 
   return (
     <main className="bd-container pb-24 pt-4 sm:py-10">
