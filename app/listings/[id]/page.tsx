@@ -195,8 +195,9 @@ export default async function ListingDetailPage({
   ].filter(Boolean);
   const displayPrice = typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price;
   const buyNowAmount = listing.type === "BUY_NOW" ? listing.price : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : null);
-  const canBuyNow = listing.status === "ACTIVE" && buyNowAmount !== null;
-  const canOffer = listing.status === "ACTIVE" && listing.type === "OFFERABLE";
+  const isOwner = !!userId && userId === listing.sellerId;
+  const canBuyNow = listing.status === "ACTIVE" && buyNowAmount !== null && !isOwner;
+  const canOffer = listing.status === "ACTIVE" && listing.type === "OFFERABLE" && !isOwner;
   const minOfferCents = Math.max(1, Number(listing.price || 0));
   const isSold = listing.status !== "ACTIVE";
   const attributeRows = listingAttributeRows(listing.attributes);
@@ -208,9 +209,9 @@ export default async function ListingDetailPage({
       <div className="mx-auto max-w-[1440px]">
         <nav className="mb-8 flex flex-wrap items-center gap-3 text-sm font-bold text-[#4B5B8F]">
           <Link href="/" className="text-[#352CFF] hover:underline">Home</Link>
-          <span className="text-[#A8B1CC]">›</span>
+          <span className="text-[#A8B1CC]">â€º</span>
           <Link href="/listings" className="text-[#352CFF] hover:underline">Listings</Link>
-          <span className="text-[#A8B1CC]">›</span>
+          <span className="text-[#A8B1CC]">â€º</span>
           <span>{category}</span>
         </nav>
 
@@ -264,16 +265,16 @@ export default async function ListingDetailPage({
           <aside className="lg:pt-2">
             <div className="flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#667399]">
               <span>{category}</span>
-              <span>•</span>
+              <span>â€¢</span>
               <span>{listingType}</span>
-              {isSold ? <><span>•</span><span>Sold</span></> : null}
+              {isSold ? <><span>â€¢</span><span>Sold</span></> : null}
             </div>
 
             <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight text-[#080D32] sm:text-5xl lg:text-[52px]">{title}</h1>
             <div className="mt-4 text-4xl font-black tracking-tight">{money(displayPrice)}</div>
             <div className="mt-6 flex flex-wrap items-center gap-4 text-base font-bold text-[#667399]">
               <span>{location}</span>
-              <span>•</span>
+              <span>â€¢</span>
               <span>{cleanText(listing.status)}</span>
             </div>
 
@@ -282,9 +283,19 @@ export default async function ListingDetailPage({
               {canOffer ? <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} /> : null}
             </div>
 
-            <div className="mt-4 grid gap-3">
-              <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} />
-            </div>
+            {isOwner ? (
+              <div className="mt-6 rounded-2xl border border-[#D8E1F0] bg-[#F8FAFF] p-4 shadow-sm">
+                <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#4F46E5]">Seller tools</div>
+                <div className="mt-2 text-sm font-semibold text-[#667399]">Manage this listing from your seller view.</div>
+                <Link href={"/sell/edit/" + listing.id} className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#2437FF] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#172BEF]">
+                  Edit listing
+                </Link>
+              </div>
+            ) : (
+              <div className="mt-4 grid gap-3">
+                <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} />
+              </div>
+            )}
 
             <div className="mt-8 border-y border-[#DFE6F6] py-6">
               <dl className="grid grid-cols-[130px_1fr] gap-x-6 gap-y-4 text-sm">
