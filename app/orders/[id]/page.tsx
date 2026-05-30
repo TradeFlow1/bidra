@@ -54,10 +54,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   if (!order) {
     return (
-      <main className="bd-container py-6 sm:py-10">
+      <main className="bd-container pb-24 pt-4 sm:py-10">
         <div className="mx-auto mb-4 w-full max-w-7xl"><BackButton href="/orders" label="Back to orders" /></div>
         <div className="container max-w-7xl space-y-3 sm:space-y-4">
-          <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+          <div className="rounded-[26px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:rounded-[28px] sm:p-6">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Order details</h1>
           </div>
@@ -75,10 +75,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   if (order.buyerId !== user.id && order.listing?.sellerId !== user.id) {
     return (
-      <main className="bd-container py-6 sm:py-10">
+      <main className="bd-container pb-24 pt-4 sm:py-10">
         <div className="mx-auto mb-4 w-full max-w-7xl"><BackButton href="/orders" label="Back to orders" /></div>
         <div className="container max-w-7xl space-y-3 sm:space-y-4">
-          <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+          <div className="rounded-[26px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:rounded-[28px] sm:p-6">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Order details</h1>
           </div>
@@ -114,10 +114,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const primaryNextLabel = order.outcome === "COMPLETED" ? "Feedback" : "Message seller/buyer";
 
   return (
-    <main className="bd-container py-6 sm:py-10">
-        <div className="mx-auto mb-4 w-full max-w-7xl px-4"><BackButton href="/orders" label="Back to orders" /></div>
-        <div className="container max-w-7xl space-y-4">
-        <div className="rounded-[28px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:p-6">
+    <main className="bd-container pb-24 pt-4 sm:py-10">
+        <div className="mx-auto mb-3 w-full max-w-7xl px-4"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-7xl space-y-3 sm:space-y-4">
+        <div className="rounded-[26px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:rounded-[28px] sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">
               <div className="flex flex-wrap items-center gap-2">
@@ -128,7 +128,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
                   {statusLabel}
                 </span>
               </div>
-              <h1 className="mt-3 text-3xl font-extrabold tracking-tight bd-ink sm:text-4xl">{order.listing?.title ?? "Purchased item"}</h1>
+              <h1 className="mt-3 text-2xl font-black leading-tight tracking-tight bd-ink sm:text-4xl">{order.listing?.title ?? "Purchased item"}</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
                 This Buy Now order is a committed purchase. Use Messages to arrange payment, pickup/postage and handover.
               </p>
@@ -141,14 +141,14 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 sm:min-w-[360px] lg:w-[360px]">
-              <Link href={primaryNextHref} className="whitespace-nowrap rounded-2xl bg-[#061126] px-4 py-3 text-center text-sm font-extrabold text-white shadow-sm transition">
+            <div className="grid gap-2 sm:min-w-[360px] sm:grid-cols-3 lg:w-[360px]">
+              <Link href={primaryNextHref} className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-2xl bg-[#061126] px-4 text-center text-sm font-extrabold !text-white shadow-sm transition hover:bg-[#111E36]">
                 {primaryNextLabel}
               </Link>
-              <Link href={listingHref} className="whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
+              <Link href={listingHref} className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
                 Item
               </Link>
-              <Link href="/disputes" className="whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 py-3 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
+              <Link href="/disputes" className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
                 Help
               </Link>
               {alreadyLeft ? (
