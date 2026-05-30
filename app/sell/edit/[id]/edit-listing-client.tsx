@@ -543,10 +543,10 @@ buyNowPrice:
                 )}
 
                 <div className="grid gap-2 pt-1">
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="grid gap-2 sm:flex sm:flex-wrap sm:items-center">
                     <button
                       type="button"
-                      className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60"
+                      className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                       onClick={() => cameraInputRef.current?.click()}
                       disabled={isSaving || (existingImages?.length || 0) >= 10}
                     >
@@ -555,14 +555,14 @@ buyNowPrice:
 
                     <button
                       type="button"
-                      className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60"
+                      className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                       onClick={() => galleryInputRef.current?.click()}
                       disabled={isSaving || (existingImages?.length || 0) >= 10}
                     >
                       Add photos
                     </button>
 
-                    <div className="text-xs bd-ink2">{(existingImages?.length || 0)}/10 used</div>
+                    <div className="text-center text-xs bd-ink2 sm:text-left">{(existingImages?.length || 0)}/10 used</div>
                   </div>
 
                   {/* Hidden inputs (separate camera vs gallery for better Samsung behavior) */}
@@ -632,7 +632,7 @@ buyNowPrice:
               </details>
 
               <div className="grid gap-2 pt-1 sm:flex sm:flex-wrap">
-                <button type="submit" disabled={isSaving} className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0B4DFF] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#0842D6] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">
+                <button type="submit" disabled={isSaving} className="sticky bottom-20 z-20 inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0B4DFF] px-5 text-sm font-extrabold text-white shadow-sm transition hover:bg-[#0842D6] disabled:cursor-not-allowed disabled:bg-[#EEF2FF] disabled:text-[#4F5F88] disabled:shadow-none sm:static sm:w-auto">
                   {isSaving ? "Saving..." : "Save changes"}
                 </button>
                 <Link href={`/listings/${listing.id}`} className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] sm:w-auto">
