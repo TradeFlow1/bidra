@@ -47,7 +47,7 @@ export default function FeedbackClient({
       setError(
         orderOutcome === "COMPLETED"
           ? "Feedback has already been submitted for this order."
-          : "Only completed orders can be rated.",
+          : "Feedback has already been submitted for this order.",
       );
       return;
     }
@@ -202,14 +202,14 @@ export default function FeedbackClient({
               onClick={submit}
               disabled={status === "saving" || !canSubmit}
               style={{
-                width: 220,
-                padding: "12px 14px",
-                borderRadius: 12,
+                width: "100%",
+                padding: "14px 16px",
+                borderRadius: 16,
                 border: "1px solid rgba(0,0,0,0.12)",
-                background: "#2563eb",
-                color: "white",
+                background: canSubmit ? "#2437FF" : "#EEF2FF",
+                color: canSubmit ? "white" : "#8A94B8",
                 fontWeight: 900,
-                cursor: status === "saving" ? "not-allowed" : "pointer",
+                cursor: status === "saving" || !canSubmit ? "not-allowed" : "pointer",
               }}
             >
               {status === "saving" ? "Submitting..." : "Submit feedback"}
@@ -219,7 +219,7 @@ export default function FeedbackClient({
               <div className="text-sm text-neutral-600" aria-live="polite">
                 {orderOutcome === "COMPLETED"
                   ? "Feedback submitted already for this order."
-                  : "Only completed orders can be rated."}
+                  : "Feedback has already been submitted for this order."}
               </div>
             ) : null}
 

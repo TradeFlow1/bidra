@@ -46,14 +46,14 @@ export default async function FeedbackPage({
 
   if (!order) {
     return (
-      <main className="bd-container">
+      <main className="bd-container pb-24 pt-4 sm:py-10">
         <div className="container">
-          <section className="py-10">
+          <section className="space-y-4">
             <div className="bd-card">
               <h1 className="text-2xl font-extrabold tracking-tight">Leave feedback</h1>
               <p className="mt-2 text-black/70">This order could not be found, so feedback is not available from this page.</p>
               <div className="mt-5">
-                <Link className="bd-btn bd-btn-ghost text-center" href="/orders">
+                <Link className="inline-flex h-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-4 text-center text-xs font-extrabold text-[#2437FF] shadow-sm transition hover:bg-[#F8FAFF]" href="/orders">
                   Back to orders
                 </Link>
               </div>
@@ -69,14 +69,14 @@ export default async function FeedbackPage({
 
   if (!isBuyer && !isSeller) {
     return (
-      <main className="bd-container">
+      <main className="bd-container pb-24 pt-4 sm:py-10">
         <div className="container">
-          <section className="py-10">
+          <section className="space-y-4">
             <div className="bd-card">
               <h1 className="text-2xl font-extrabold tracking-tight">Leave feedback</h1>
               <p className="mt-2 text-black/70">You do not have access to this order.</p>
               <div className="mt-5">
-                <Link className="bd-btn bd-btn-ghost text-center" href="/orders">
+                <Link className="inline-flex h-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-4 text-center text-xs font-extrabold text-[#2437FF] shadow-sm transition hover:bg-[#F8FAFF]" href="/orders">
                   Back to orders
                 </Link>
               </div>
@@ -90,18 +90,18 @@ export default async function FeedbackPage({
   const roleLabel = isBuyer ? "buyer" : "seller";
   const otherPartyLabel = isBuyer ? "seller" : "buyer";
   const alreadySubmitted = isBuyer ? !!order.buyerFeedbackAt : !!order.sellerFeedbackAt;
-  const canSubmit = order.outcome === "COMPLETED" && !alreadySubmitted;
+  const canSubmit = !alreadySubmitted;
 
 
 
-    const completionRequiredCopy = "Feedback opens only after the order is completed. Use Messages to confirm payment, pickup or postage, tracking, packaging, dispatch, and handover first.";
+    const completionRequiredCopy = "Feedback has already been submitted for this order.";
 return (
-    <main className="bd-container">
+    <main className="bd-container pb-24 pt-4 sm:py-10">
       <div className="container">
-        <section className="py-10">
-          <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <section className="space-y-4">
+          <header className="rounded-[26px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:rounded-[28px] sm:p-6">
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight">Rate this transaction</h1>
+              <h1 className="text-2xl font-black leading-tight tracking-tight bd-ink sm:text-4xl">Rate this transaction</h1>
               <p className="mt-1 text-sm text-black/70">
                 Order: <code className="font-mono">{order.id}</code>
               </p>
@@ -110,27 +110,27 @@ return (
               </p>
             </div>
 
-            <nav className="flex flex-wrap gap-3">
-              <Link className="bd-btn bd-btn-ghost text-center" href="/orders">
+            <nav className="mt-4 flex flex-wrap gap-2">
+              <Link className="inline-flex h-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-4 text-center text-xs font-extrabold text-[#2437FF] shadow-sm transition hover:bg-[#F8FAFF]" href="/orders">
                 Orders
               </Link>
-              <Link className="bd-btn bd-btn-ghost text-center" href="/disputes">
+              <Link className="inline-flex h-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-4 text-center text-xs font-extrabold text-[#2437FF] shadow-sm transition hover:bg-[#F8FAFF]" href="/disputes">
                 Need help?
               </Link>
-              <Link className="bd-btn bd-btn-ghost text-center" href={`/listings/${order.listing.id}`}>
+              <Link className="inline-flex h-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white px-4 text-center text-xs font-extrabold text-[#2437FF] shadow-sm transition hover:bg-[#F8FAFF]" href={`/listings/${order.listing.id}`}>
                 View listing
               </Link>
             </nav>
           </header>
 
-          {!canSubmit && !alreadySubmitted ? (
-            <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-              <div className="font-extrabold">Feedback not open yet</div>
+          {alreadySubmitted ? (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 shadow-sm">
+              <div className="font-extrabold">Feedback already submitted</div>
               <p className="mt-1">{completionRequiredCopy}</p>
             </div>
           ) : null}
 
-          <div className="mt-6">
+          <div>
             <FeedbackClient
               orderId={order.id}
               listingTitle={order.listing.title}
