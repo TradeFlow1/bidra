@@ -46,7 +46,7 @@ export default async function FeedbackPage({
 
   if (!order) {
     return (
-      <main className="bd-container pb-24 pt-4 sm:py-10">
+      <main className="bd-container pb-36 pt-4 sm:py-10">
         <div className="container">
           <section className="space-y-4">
             <div className="bd-card">
@@ -69,7 +69,7 @@ export default async function FeedbackPage({
 
   if (!isBuyer && !isSeller) {
     return (
-      <main className="bd-container pb-24 pt-4 sm:py-10">
+      <main className="bd-container pb-36 pt-4 sm:py-10">
         <div className="container">
           <section className="space-y-4">
             <div className="bd-card">
@@ -96,7 +96,7 @@ export default async function FeedbackPage({
 
     const completionRequiredCopy = "Feedback has already been submitted for this order.";
 return (
-    <main className="bd-container pb-24 pt-4 sm:py-10">
+    <main className="bd-container pb-36 pt-4 sm:py-10">
       <div className="container">
         <section className="space-y-4">
           <header className="rounded-[26px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:rounded-[28px] sm:p-6">
