@@ -157,7 +157,7 @@ export default async function AccountPage() {
         </section>
 
         <section className="mt-4 grid grid-cols-2 gap-3 md:hidden">
-          <MobileActionCard title="Profile" body="Edit details" href="#edit-account" />
+          <MobileActionCard title="Profile" body="Details saved" href="/account" />
           <MobileActionCard title="Listings" body={`${listingCount} active items`} href="#listings" />
           <MobileActionCard title="Activity" body={`${activeOrders.length} open orders`} href="#activity" />
           <MobileActionCard title="Status" body={user.policyBlockedUntil ? "Restricted" : "Clear account"} href="#restrictions" />
@@ -180,7 +180,11 @@ export default async function AccountPage() {
 
           {listings.length ? (
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 md:gap-6 lg:grid-cols-5">
-              {listings.map((listing) => {
+              {listings.map((listing, index) => {
+                if (index >= 4) {
+                  return null;
+                }
+
                 const image = getListingImage(listing.images, listing.photos);
                 const price = listing.buyNowPrice ?? listing.price;
 
@@ -206,7 +210,7 @@ export default async function AccountPage() {
           )}
         </section>
 
-        <section id="account" className="mt-6 grid gap-3 md:mt-14 md:gap-6 lg:grid-cols-3">
+        <section id="account" className="mt-8 hidden gap-3 md:mt-14 md:grid md:gap-6 lg:grid-cols-3">
           <InfoCard title="Profile details" body={`${user.email || "No email set"} - ${location}`} href="/account" label="Manage account" />
           <InfoCard title="Messages" body="Keep buyer and seller conversations in one place." href="/messages" label="Open messages" />
           <InfoCard title="Watchlist" body={`${watchlistCount} saved item${watchlistCount === 1 ? "" : "s"}.`} href="/watchlist" label="View watchlist" />
