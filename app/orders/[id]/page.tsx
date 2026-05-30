@@ -142,7 +142,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             </div>
 
             <div className="grid gap-2 sm:min-w-[360px] sm:grid-cols-3 lg:w-[360px]">
-              <Link href={primaryNextHref} className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-2xl bg-[#061126] px-4 text-center text-sm font-extrabold !text-white shadow-sm transition hover:bg-[#111E36]">
+              <Link href={primaryNextHref} className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-2xl bg-[#2437FF] px-4 text-center text-sm font-black !text-white shadow-[0_14px_30px_rgba(36,55,255,0.24)] transition hover:bg-[#172BEF]">
                 {primaryNextLabel}
               </Link>
               <Link href={listingHref} className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
