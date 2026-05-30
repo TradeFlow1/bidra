@@ -102,12 +102,7 @@ return (
           <header className="rounded-[26px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:rounded-[28px] sm:p-6">
             <div>
               <h1 className="text-2xl font-black leading-tight tracking-tight bd-ink sm:text-4xl">Rate this transaction</h1>
-              <p className="mt-1 text-sm text-black/70">
-                Order: <code className="font-mono">{order.id}</code>
-              </p>
-              <p className="mt-2 text-sm text-black/70">
-                Feedback helps buyers and sellers trust each other after a completed order.
-              </p>
+
             </div>
 
             <nav className="mt-4 flex flex-wrap gap-2">
