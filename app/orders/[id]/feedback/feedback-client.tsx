@@ -144,7 +144,7 @@ export default function FeedbackClient({
             <p style={{ marginTop: 8, marginBottom: 0, opacity: 0.8 }}>Thanks — your feedback has been recorded.</p>
           </div>
         ) : (
-          <div style={{ display: "grid", gap: 12 }}>
+          <div style={{ display: "grid", gap: 12, paddingBottom: 96 }}>
             <div>
               <div id="feedback-rating" style={{ fontWeight: 800, display: "block" }}>
                 Rating (1–5)
