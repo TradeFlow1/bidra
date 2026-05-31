@@ -136,7 +136,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
           <div className="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-[400px_minmax(0,1fr)]">
             <aside className="overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
               {items.map((thread) => (
-                <Link key={thread.id} href={`/messages?thread=${thread.id}`} className={`flex gap-3 border-b border-[#E2E8F0] p-4 last:border-b-0 md:gap-4 md:p-5 md:hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F8FAFC] shadow-[inset_4px_0_0_#4F46E5]" : ""}`}>
+                <Link key={thread.id} href={`/messages/${thread.id}`} className={`flex gap-3 border-b border-[#E2E8F0] p-4 last:border-b-0 md:gap-4 md:p-5 md:hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F8FAFC] shadow-[inset_4px_0_0_#4F46E5]" : ""}`}>
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-sm font-black text-[#4F46E5] md:h-14 md:w-14 md:text-base">
                     {thread.thumb ? <Image src={thread.thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(thread.otherLabel)}
                   </div>
