@@ -5,7 +5,6 @@ import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import SendBox from "./components/send-box";
-import ThreadLiveRefresh from "./components/thread-live-refresh";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -97,7 +96,6 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
   return (
     <>
-      <ThreadLiveRefresh />
       <main className="mx-auto w-full max-w-[1280px] px-5 py-10 text-[#07152E] sm:px-8 lg:px-10">
         <h1 className="text-4xl font-black tracking-tight sm:text-5xl">Messages</h1>
 
