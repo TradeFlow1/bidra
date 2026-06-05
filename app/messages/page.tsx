@@ -101,7 +101,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
 
   return (
     <>
-      <main className="bd-logged-in-page mx-auto w-full max-w-[1440px] px-4 pb-24 pt-4 text-[#0F172A] sm:px-6 sm:py-8 lg:px-8">
+      <main className="bd-logged-in-page mx-auto w-full max-w-[1440px] px-2 pb-24 pt-3 text-[#0F172A] sm:px-6 sm:py-8 lg:px-8">
         <div className="hidden md:block">
           <AccountNav active="messages" />
         </div>
@@ -134,21 +134,21 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
           </div>
         ) : (
           <div className="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-[400px_minmax(0,1fr)]">
-            <aside className="overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
+            <aside className="overflow-hidden rounded-[20px] border border-[#DCE5F2] bg-white shadow-sm md:rounded-[24px]">
               {items.map((thread) => (
-                <Link key={thread.id} href={`/messages/${thread.id}`} className={`flex gap-3 border-b border-[#E2E8F0] p-4 last:border-b-0 md:gap-4 md:p-5 md:hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F8FAFC] shadow-[inset_4px_0_0_#4F46E5]" : ""}`}>
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-sm font-black text-[#4F46E5] md:h-14 md:w-14 md:text-base">
+                <Link key={thread.id} href={`/messages/${thread.id}`} className={`flex min-h-[88px] gap-3 border-b border-[#E2E8F0] p-4 last:border-b-0 active:bg-[#F8FAFC] md:min-h-0 md:gap-4 md:p-5 md:hover:bg-[#F8FAFC] ${selected?.id === thread.id ? "bg-[#F8FAFC] shadow-[inset_4px_0_0_#4F46E5]" : ""}`}>
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-sm font-black text-[#4F46E5] md:text-base">
                     {thread.thumb ? <Image src={thread.thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(thread.otherLabel)}
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-3">
-                      <h2 className="truncate text-base font-black text-[#08112F]">{thread.otherLabel}</h2>
-                      <span className="shrink-0 text-sm font-semibold text-[#64748B]">{messageTime(thread.lastMessageAt)}</span>
+                      <h2 className="truncate text-[15px] font-black leading-5 text-[#08112F] md:text-base">{thread.otherLabel}</h2>
+                      <span className="shrink-0 text-xs font-bold text-[#64748B] md:text-sm">{messageTime(thread.lastMessageAt)}</span>
                     </div>
-                    <p className="mt-1 truncate text-sm font-semibold text-[#475569]">{thread.listing?.title || "Listing"}</p>
-                    <p className="mt-1 truncate text-sm text-[#475569]">{thread.last}</p>
+                    <p className="mt-1 truncate text-sm font-bold text-[#475569]">{thread.listing?.title || "Listing"}</p>
+                    <p className="mt-1 truncate text-sm font-medium text-[#64748B]">{thread.last}</p>
                   </div>
-                  {thread.unread ? <span className="mt-8 h-3 w-3 shrink-0 rounded-full bg-[#4F46E5] !text-white disabled:!text-white" /> : null}
+                  {thread.unread ? <span aria-label="Unread" className="mt-8 h-3.5 w-3.5 shrink-0 rounded-full bg-[#4F46E5] ring-4 ring-[#EEF2FF] !text-white disabled:!text-white" /> : null}
                 </Link>
               ))}
 
@@ -157,10 +157,10 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
               </div>
             </aside>
 
-            <section className="overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
+            <section className="hidden overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm lg:block">
               <div className="flex items-center justify-between border-b border-[#E2E8F0] p-4 md:p-5">
                 <div className="flex min-w-0 items-center gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-sm font-black text-[#4F46E5] md:h-14 md:w-14 md:text-base">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-sm font-black text-[#4F46E5] md:text-base">
                     {selected?.thumb ? <Image src={selected.thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(selected?.otherLabel || "User")}
                   </div>
                   <div className="min-w-0">
