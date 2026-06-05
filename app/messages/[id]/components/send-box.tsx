@@ -73,10 +73,10 @@ export default function SendBox({ threadId }: { threadId: string }) {
 
   return (
     <div>
-      <label className="bd-label">Message</label>
+      <label className="sr-only">Message</label>
 
       <textarea
-        className="bd-input mt-2 min-h-[96px]"
+        className="bd-input min-h-[54px] resize-none rounded-2xl px-4 py-3 text-sm leading-5"
         value={body}
         onChange={(e) => {
           setBody(e.target.value)
@@ -115,8 +115,8 @@ export default function SendBox({ threadId }: { threadId: string }) {
         </div>
       ) : null}
 
-      <div className="mt-2 flex items-center justify-between gap-3">
-        <div className="text-xs text-[var(--bidra-ink-2)]">
+      <div className="mt-2 flex items-center justify-end gap-3">
+        <div className="hidden text-xs text-[var(--bidra-ink-2)] sm:block">
           Press <b>Enter</b> to send • <b>Shift+Enter</b> for a new line
         </div>
 
@@ -124,7 +124,7 @@ export default function SendBox({ threadId }: { threadId: string }) {
           type="button"
           disabled={busy || !body.trim()}
           onClick={send}
-          className="bd-btn bd-btn-primary disabled:opacity-60"
+          className="bd-btn bd-btn-primary h-11 shrink-0 rounded-2xl px-5 disabled:opacity-60"
         >
           {busy ? "Sending..." : sendState === "failed" ? "Retry" : "Send"}
         </button>

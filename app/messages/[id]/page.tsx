@@ -98,7 +98,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
         <div className="mt-8 grid gap-6 lg:grid-cols-[400px_minmax(0,1fr)]">
           <aside className="overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
             <Link href="/messages" className="block border-b border-[#E2E8F0] p-5 text-sm font-black text-[#4F46E5]">Back to messages</Link>
-            <div className="flex gap-4 bg-[#F8FAFC] p-6">
+            <div className="flex gap-4 bg-[#F8FAFC] p-4">
               <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-base font-black text-[#4F46E5]">
                 {thumb ? <Image src={thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(otherLabel)}
               </div>
@@ -108,7 +108,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
                 {thread.listing?.id ? <Link href={`/listings/${thread.listing.id}`} className="mt-4 inline-flex text-sm font-black text-[#4F46E5]">View listing</Link> : null}
               </div>
             </div>
-            <div className="p-5 text-sm font-semibold leading-6 text-[#64748B]">Keep pickup, payment and handover details in Bidra messages.</div>
+            <div className="p-4 text-sm font-semibold leading-6 text-[#64748B]">Keep pickup, payment and handover details in Bidra messages.</div>
           </aside>
 
           <section className="overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
@@ -127,7 +127,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
             <LiveMessageList threadId={thread.id} me={me} initialMessages={messages.map((message) => ({ id: message.id, body: message.body, createdAt: message.createdAt.toISOString(), userId: message.userId }))} />
 
-            <div className="border-t border-[#E2E8F0] p-5">
+            <div className="border-t border-[#E2E8F0] p-3">
               <SendBox threadId={thread.id} />
             </div>
           </section>
