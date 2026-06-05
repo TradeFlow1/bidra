@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 
 type SendState = "idle" | "sending" | "sent" | "failed"
 
@@ -20,7 +19,6 @@ function errorMessage(value: unknown) {
 }
 
 export default function SendBox({ threadId }: { threadId: string }) {
-  const router = useRouter()
   const [body, setBody] = useState("")
   const [lastDraft, setLastDraft] = useState("")
   const [sendState, setSendState] = useState<SendState>("idle")
@@ -58,7 +56,6 @@ export default function SendBox({ threadId }: { threadId: string }) {
       setBody("")
       setSendState("sent")
       window.dispatchEvent(new CustomEvent("bidra:message-sent"))
-      router.refresh()
     } catch (e: unknown) {
       setErr(errorMessage(e))
       setSendState("failed")

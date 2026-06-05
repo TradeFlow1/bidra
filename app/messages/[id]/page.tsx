@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 import { requireAdult } from "@/lib/require-adult";
 import { prisma } from "@/lib/prisma";
 import SendBox from "./components/send-box";
+import LiveMessageList from "./components/live-message-list";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -88,11 +89,6 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
     select: { id: true, body: true, createdAt: true, userId: true },
   });
 
-  const otherLastReadAt = (String(thread.buyerId) === me ? thread.sellerLastReadAt : thread.buyerLastReadAt) || null;
-  const myMessages = messages.filter((message) => String(message.userId) === me);
-  const lastMyMessageAt = myMessages.length ? myMessages[myMessages.length - 1].createdAt : null;
-  const lastMyMessageId = myMessages.length ? myMessages[myMessages.length - 1].id : null;
-  const seenLastMyMessage = Boolean(lastMyMessageAt && otherLastReadAt && new Date(otherLastReadAt).getTime() >= new Date(lastMyMessageAt).getTime());
 
   return (
     <>
@@ -129,38 +125,7 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
               {thread.listing?.id ? <Link href={`/listings/${thread.listing.id}`} className="rounded-2xl border border-[#C7D2FE] px-5 py-3 text-sm font-black text-[#4F46E5]">View listing</Link> : null}
             </div>
 
-            <div className="space-y-5 px-6 py-7">
-              <div className="flex items-center gap-5 text-sm font-black text-[#64748B]">
-                <div className="h-px flex-1 bg-[#E2E8F0]" />
-                <span>Today</span>
-                <div className="h-px flex-1 bg-[#E2E8F0]" />
-              </div>
-
-              {messages.map((message) => {
-                const mine = String(message.userId) === me;
-                const seen = mine && message.id === lastMyMessageId && seenLastMyMessage;
-
-                return (
-                  <div key={message.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-                    <div className={`max-w-[78%] ${mine ? "text-right" : "text-left"}`}>
-                      <div className={`rounded-2xl px-5 py-4 text-base font-semibold leading-6 shadow-sm ${mine ? "bg-[#EEF2FF] text-[#07152E]" : "bg-[#F8FAFC] text-[#07152E]"}`}>
-                        {message.body}
-                      </div>
-                      <div className="mt-2 text-sm font-semibold text-[#64748B]">
-                        {message.createdAt.toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit" })}{seen ? " - seen" : ""}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-
-              {messages.length === 0 ? (
-                <div className="rounded-[24px] border border-[#DCE5F2] bg-[#F8FAFC] p-8 text-center">
-                  <h3 className="text-2xl font-black">No messages yet</h3>
-                  <p className="mt-3 text-base font-semibold text-[#64748B]">Start the conversation below.</p>
-                </div>
-              ) : null}
-            </div>
+            <LiveMessageList threadId={thread.id} me={me} initialMessages={messages.map((message) => ({ id: message.id, body: message.body, createdAt: message.createdAt.toISOString(), userId: message.userId }))} />
 
             <div className="border-t border-[#E2E8F0] p-5">
               <SendBox threadId={thread.id} />
