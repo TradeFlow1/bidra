@@ -98,7 +98,7 @@ export default function LiveMessageList({ threadId, me, initialMessages }: LiveM
   }, [refreshMessages]);
 
   return (
-    <div className="space-y-5 px-6 py-7">
+    <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-3 py-4 sm:space-y-5 sm:px-6 sm:py-7">
       <div className="flex items-center gap-5 text-sm font-black text-[#64748B]">
         <div className="h-px flex-1 bg-[#E2E8F0]" />
         <span>Today</span>
@@ -117,8 +117,8 @@ export default function LiveMessageList({ threadId, me, initialMessages }: LiveM
 
         return (
           <div key={message.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
-            <div className={`max-w-[78%] ${mine ? "text-right" : "text-left"}`}>
-              <div className={`rounded-2xl px-5 py-4 text-base font-semibold leading-6 shadow-sm ${mine ? "bg-[#EEF2FF] text-[#07152E]" : "bg-[#F8FAFC] text-[#07152E]"}`}>
+            <div className={`max-w-[84%] sm:max-w-[78%] ${mine ? "text-right" : "text-left"}`}>
+              <div className={`rounded-2xl px-4 py-3 text-sm font-semibold leading-6 shadow-sm sm:px-5 sm:py-4 sm:text-base ${mine ? "bg-[#EEF2FF] text-[#07152E]" : "bg-[#F8FAFC] text-[#07152E]"}`}>
                 {message.body}
               </div>
               <div className="mt-2 text-sm font-semibold text-[#64748B]">
