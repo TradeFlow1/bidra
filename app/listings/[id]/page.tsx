@@ -118,6 +118,8 @@ export default async function ListingDetailPage({
       description: true,
       price: true,
       buyNowPrice: true,
+      currentOfferAmount: true,
+      currentOfferBuyerId: true,
       type: true,
       category: true,
       condition: true,
@@ -148,6 +150,8 @@ export default async function ListingDetailPage({
     title: true,
     price: true,
     buyNowPrice: true,
+    currentOfferAmount: true,
+    currentOfferBuyerId: true,
     location: true,
     condition: true,
     images: true,
@@ -193,7 +197,9 @@ export default async function ListingDetailPage({
     listing.seller?.emailVerified ? "Email verified" : "",
     listing.seller?.phoneVerified ? "Phone verified" : "",
   ].filter(Boolean);
-  const displayPrice = typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price;
+  const displayPrice = listing.type === "OFFERABLE"
+    ? (typeof listing.currentOfferAmount === "number" ? listing.currentOfferAmount : listing.price)
+    : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price);
   const buyNowAmount = listing.type === "BUY_NOW" ? listing.price : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : null);
   const isOwner = !!userId && userId === listing.sellerId;
   const canBuyNow = listing.status === "ACTIVE" && buyNowAmount !== null && !isOwner;
@@ -209,9 +215,9 @@ export default async function ListingDetailPage({
       <div className="mx-auto max-w-[1440px]">
         <nav className="mb-8 flex flex-wrap items-center gap-3 text-sm font-bold text-[#4B5B8F]">
           <Link href="/" className="text-[#352CFF] hover:underline">Home</Link>
-          <span className="text-[#A8B1CC]">â€º</span>
+          <span className="text-[#A8B1CC]">&gt;</span>
           <Link href="/listings" className="text-[#352CFF] hover:underline">Listings</Link>
-          <span className="text-[#A8B1CC]">â€º</span>
+          <span className="text-[#A8B1CC]">&gt;</span>
           <span>{category}</span>
         </nav>
 
@@ -265,16 +271,16 @@ export default async function ListingDetailPage({
           <aside className="lg:pt-2">
             <div className="flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#667399]">
               <span>{category}</span>
-              <span>·</span>
+              <span>-</span>
               <span>{listingType}</span>
-              {isSold ? <><span>·</span><span>Sold</span></> : null}
+              <span>-</span>
             </div>
 
             <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight text-[#080D32] sm:text-5xl lg:text-[52px]">{title}</h1>
             <div className="mt-4 text-4xl font-black tracking-tight">{money(displayPrice)}</div>
             <div className="mt-6 flex flex-wrap items-center gap-4 text-base font-bold text-[#667399]">
               <span>{location}</span>
-              <span>·</span>
+              <span>-</span>
               <span>{cleanText(listing.status)}</span>
             </div>
 

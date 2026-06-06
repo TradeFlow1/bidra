@@ -29,10 +29,7 @@ export async function POST(
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
       include: {
-        offers: {
-          orderBy: { amount: "desc" },
-          take: 1,
-        },
+        offers: { orderBy: [{ maxAmount: "desc" }, { createdAt: "asc" }], take: 1 },
       },
     });
 
@@ -76,13 +73,13 @@ export async function POST(
         create: {
           listingId: listingId,
           offerId: offer.id,
-          amount: offer.amount,
+          amount: offer.displayAmount || offer.amount,
           sellerId: String(me.id),
           buyerId: offer.buyerId,
           decision: "ACCEPTED",
         },
         update: {
-          amount: offer.amount,
+          amount: offer.displayAmount || offer.amount,
           sellerId: String(me.id),
           buyerId: offer.buyerId,
           decision: "ACCEPTED",
@@ -93,7 +90,7 @@ export async function POST(
         data: {
           listingId: listingId,
           buyerId: offer.buyerId,
-          amount: offer.amount,
+          amount: offer.displayAmount || offer.amount,
           status: OrderStatus.PENDING,
           outcome: "PENDING",
         },
@@ -114,3 +111,4 @@ export async function POST(
     return NextResponse.json({ ok: false, error: "We could not accept the highest offer. Please try again." }, { status: 500 });
   }
 }
+

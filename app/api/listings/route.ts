@@ -141,10 +141,12 @@ export async function GET(req: Request) {
         condition: true,
         createdAt: true,
         status: true,
+        currentOfferAmount: true,
+        currentOfferBuyerId: true,
         offers: {
-          orderBy: { amount: "desc" },
+          orderBy: [{ displayAmount: "desc" }, { amount: "desc" }],
           take: 1,
-          select: { amount: true },
+          select: { amount: true, displayAmount: true },
         },
         _count: {
           select: { offers: true },
@@ -209,3 +211,4 @@ export async function GET(req: Request) {
     return NextResponse.json({ error: "Failed to load listings" }, { status: 500 });
   }
 }
+

@@ -6,6 +6,21 @@ import { getIdempotencyKey } from "@/lib/transaction-safety";
 
 export const dynamic = "force-dynamic";
 
+function nextVisibleOfferAmount(startingAmount: number, leaderMax: number, challengerMax: number, increment: number) {
+  const safeIncrement = Math.max(1, increment);
+  const safeStart = Math.max(1, startingAmount);
+
+  if (leaderMax <= 0) {
+    return Math.max(safeStart, Math.min(challengerMax, safeStart));
+  }
+
+  if (challengerMax > leaderMax) {
+    return Math.min(challengerMax, leaderMax + safeIncrement);
+  }
+
+  return Math.min(leaderMax, challengerMax + safeIncrement);
+}
+
 export async function POST(req: Request) {
   const gate = await requireAdult();
   if (!gate.ok) {
@@ -31,133 +46,186 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Enter a valid offer amount before submitting." }, { status: 400 });
   }
 
-  const amountCents = Math.round(amountDollars * 100);
-  const idempotencyKey = getIdempotencyKey(req, [userId, listingId, amountCents]);
-
-  const listing = await prisma.listing.findUnique({
-    where: { id: listingId },
-    select: {
-      id: true,
-      title: true,
-      sellerId: true,
-      status: true,
-      type: true,
-      offers: {
-        orderBy: { amount: "desc" },
-        take: 1,
-        select: { amount: true, buyerId: true },
-      },
-    },
-  });
-
-  if (!listing) {
-    return NextResponse.json({ ok: false, error: "Listing not found" }, { status: 404 });
-  }
-
-  if (listing.status !== "ACTIVE") {
-    return NextResponse.json({ ok: false, error: "Offers can only be placed on active listings." }, { status: 400 });
-  }
-
-  if (listing.type !== "OFFERABLE") {
-    return NextResponse.json({ ok: false, error: "Offers are only available on offerable listings." }, { status: 400 });
-  }
-
-  if (listing.sellerId === userId) {
-    return NextResponse.json({ ok: false, error: "You cannot make an offer on your own listing." }, { status: 400 });
-  }
-
-  const highest = listing.offers && listing.offers.length ? listing.offers[0].amount : 0;
-
-  if (amountCents <= 0) {
-    return NextResponse.json({ ok: false, error: "Offer must be greater than 0." }, { status: 400 });
-  }
-
-  if (highest > 0 && amountCents <= highest) {
-    return NextResponse.json({ ok: false, error: "Your offer must be higher than the current highest offer." }, { status: 400 });
-  }
+  const maxAmountCents = Math.round(amountDollars * 100);
+  const idempotencyKey = getIdempotencyKey(req, [userId, listingId, maxAmountCents]);
 
   try {
-    const recentSince = new Date(Date.now() - 60 * 1000);
-    const existingOffer = await prisma.offer.findFirst({
-      where: {
-        listingId: listing.id,
-        buyerId: userId,
-        amount: amountCents,
-        createdAt: { gte: recentSince },
-      },
-      orderBy: { createdAt: "desc" },
-      select: { id: true, amount: true, buyerId: true },
-    });
+    const result = await prisma.$transaction(async function (tx) {
+      const listing = await tx.listing.findUnique({
+        where: { id: listingId },
+        select: {
+          id: true,
+          title: true,
+          sellerId: true,
+          status: true,
+          type: true,
+          price: true,
+          currentOfferAmount: true,
+          currentOfferBuyerId: true,
+          offerIncrement: true,
+          offers: {
+            orderBy: [{ maxAmount: "desc" }, { createdAt: "asc" }],
+            take: 1,
+            select: { id: true, amount: true, maxAmount: true, displayAmount: true, buyerId: true },
+          },
+        },
+      });
 
-    if (existingOffer) {
-      try {
-        await prisma.adminEvent.create({
+      if (!listing) {
+        return { ok: false, error: "Listing not found", status: 404 } as const;
+      }
+
+      if (listing.status !== "ACTIVE") {
+        return { ok: false, error: "Offers can only be placed on active listings.", status: 400 } as const;
+      }
+
+      if (listing.type !== "OFFERABLE") {
+        return { ok: false, error: "Offers are only available on offerable listings.", status: 400 } as const;
+      }
+
+      if (listing.sellerId === userId) {
+        return { ok: false, error: "You cannot make an offer on your own listing.", status: 400 } as const;
+      }
+
+      if (maxAmountCents <= 0) {
+        return { ok: false, error: "Offer must be greater than 0.", status: 400 } as const;
+      }
+
+      if (maxAmountCents < listing.price) {
+        return { ok: false, error: "Your offer must be at least the listing start price.", status: 400 } as const;
+      }
+
+      const leader = listing.offers && listing.offers.length ? listing.offers[0] : null;
+      const leaderMax = leader ? Number(leader.maxAmount || leader.amount || 0) : 0;
+      const leaderBuyerId = leader ? String(leader.buyerId || "") : "";
+      const increment = Number(listing.offerIncrement || 100);
+      const displayAmount = nextVisibleOfferAmount(listing.price, leaderMax, maxAmountCents, increment);
+      const challengerLeads = !leader || maxAmountCents > leaderMax;
+      const currentOfferBuyerId = challengerLeads ? userId : leaderBuyerId;
+      const currentOfferAmount = displayAmount;
+
+      const recentSince = new Date(Date.now() - 60 * 1000);
+      const existingOffer = await tx.offer.findFirst({
+        where: {
+          listingId: listing.id,
+          buyerId: userId,
+          maxAmount: maxAmountCents,
+          createdAt: { gte: recentSince },
+        },
+        orderBy: { createdAt: "desc" },
+        select: { id: true, amount: true, maxAmount: true, displayAmount: true, buyerId: true },
+      });
+
+      if (existingOffer) {
+        await tx.listing.update({
+          where: { id: listing.id },
           data: {
-            type: "OFFER_DUPLICATE_REUSED",
+            currentOfferAmount: currentOfferAmount,
+            currentOfferBuyerId: currentOfferBuyerId,
+            offerIncrement: increment,
+          },
+        });
+
+        try {
+          await tx.adminEvent.create({
+            data: {
+              type: "OFFER_DUPLICATE_REUSED",
+              userId: userId,
+              data: { listingId: listing.id, buyerId: userId, maxAmount: maxAmountCents, offerId: existingOffer.id, idempotencyKey },
+            },
+          });
+        } catch (_auditErr) {}
+
+        return {
+          ok: true,
+          reused: true,
+          listing: listing,
+          offerId: existingOffer.id,
+          amount: Number(existingOffer.displayAmount || existingOffer.amount || currentOfferAmount),
+          currentOfferAmount: currentOfferAmount,
+          challengerLeads: challengerLeads,
+        } as const;
+      }
+
+      const offer = await tx.offer.create({
+        data: {
+          amount: displayAmount,
+          maxAmount: maxAmountCents,
+          displayAmount: displayAmount,
+          buyerId: userId,
+          listingId: listing.id,
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+        select: { id: true, amount: true, maxAmount: true, displayAmount: true, buyerId: true },
+      });
+
+      await tx.listing.update({
+        where: { id: listing.id },
+        data: {
+          currentOfferAmount: currentOfferAmount,
+          currentOfferBuyerId: currentOfferBuyerId,
+          offerIncrement: increment,
+        },
+      });
+
+      try {
+        await tx.adminEvent.create({
+          data: {
+            type: "OFFER_PLACED",
             userId: userId,
-            data: { listingId: listing.id, buyerId: userId, amount: amountCents, offerId: existingOffer.id, idempotencyKey },
+            data: {
+              listingId: listing.id,
+              buyerId: userId,
+              amount: offer.amount,
+              maxAmountStored: true,
+              idempotencyKey: idempotencyKey,
+              notificationChannel: "email-if-configured",
+              pushNotification: false,
+            },
           },
         });
       } catch (_auditErr) {}
 
-      return NextResponse.json({
+      return {
         ok: true,
-        status: "PLACED",
-        duplicateReused: true,
-        offerId: existingOffer.id,
-        currentOfferCents: existingOffer.amount,
-      });
-    }
-
-    const offer = await prisma.offer.create({
-      data: {
-        amount: amountCents,
-        buyerId: userId,
-        listingId: listing.id,
-        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      },
-      select: { id: true, amount: true, buyerId: true },
+        reused: false,
+        listing: listing,
+        offerId: offer.id,
+        amount: offer.amount,
+        currentOfferAmount: currentOfferAmount,
+        challengerLeads: challengerLeads,
+      } as const;
     });
 
-    try {
-      await prisma.adminEvent.create({
-        data: {
-          type: "OFFER_PLACED",
-          userId: userId,
-          data: {
-            listingId: listing.id,
-            buyerId: userId,
-            amount: offer.amount,
-            idempotencyKey: idempotencyKey,
-            notificationChannel: "email-if-configured",
-            pushNotification: false,
-          },
-        },
-      });
-    } catch (_auditErr) {}
+    if (!result.ok) {
+      return NextResponse.json({ ok: false, error: result.error }, { status: result.status });
+    }
 
-    try {
-      const seller = await prisma.user.findUnique({
-        where: { id: listing.sellerId },
-        select: { email: true },
-      });
-
-      const to = String(seller?.email || "").trim();
-      if (to) {
-        await sendNewTopOfferEmail({
-          to: to,
-          listingId: listing.id,
-          listingTitle: listing.title || null,
-          amountCents: offer.amount,
+    if (result.challengerLeads) {
+      try {
+        const seller = await prisma.user.findUnique({
+          where: { id: result.listing.sellerId },
+          select: { email: true },
         });
-      }
-    } catch (_emailErr) {}
+
+        const to = String(seller?.email || "").trim();
+        if (to) {
+          await sendNewTopOfferEmail({
+            to: to,
+            listingId: result.listing.id,
+            listingTitle: result.listing.title || null,
+            amountCents: result.currentOfferAmount,
+          });
+        }
+      } catch (_emailErr) {}
+    }
 
     return NextResponse.json({
       ok: true,
       status: "PLACED",
-      offerId: offer.id,
-      currentOfferCents: offer.amount,
+      duplicateReused: result.reused,
+      offerId: result.offerId,
+      currentOfferCents: result.currentOfferAmount,
     });
   } catch (e) {
     console.error("offers/place failed", e);
