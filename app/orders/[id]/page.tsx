@@ -54,10 +54,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   if (!order) {
     return (
-      <main className="bd-container pb-24 pt-4 sm:py-10">
+      <main className="bd-container pb-28 pt-3 sm:py-10">
         <div className="mx-auto mb-4 w-full max-w-7xl"><BackButton href="/orders" label="Back to orders" /></div>
-        <div className="container max-w-7xl space-y-3 sm:space-y-4">
-          <div className="rounded-[26px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:rounded-[28px] sm:p-6">
+        <div className="container max-w-7xl space-y-4 sm:space-y-5">
+          <div className="overflow-hidden rounded-[30px] border border-[#D7E2F1] bg-gradient-to-br from-white via-[#F8FAFF] to-[#EEF2FF] p-4 shadow-[0_18px_45px_rgba(15,23,42,0.08)] sm:rounded-[32px] sm:p-6">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Order details</h1>
           </div>
@@ -75,10 +75,10 @@ export default async function OrderDetailPage({ params }: { params: { id: string
 
   if (order.buyerId !== user.id && order.listing?.sellerId !== user.id) {
     return (
-      <main className="bd-container pb-24 pt-4 sm:py-10">
+      <main className="bd-container pb-28 pt-3 sm:py-10">
         <div className="mx-auto mb-4 w-full max-w-7xl"><BackButton href="/orders" label="Back to orders" /></div>
-        <div className="container max-w-7xl space-y-3 sm:space-y-4">
-          <div className="rounded-[26px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:rounded-[28px] sm:p-6">
+        <div className="container max-w-7xl space-y-4 sm:space-y-5">
+          <div className="overflow-hidden rounded-[30px] border border-[#D7E2F1] bg-gradient-to-br from-white via-[#F8FAFF] to-[#EEF2FF] p-4 shadow-[0_18px_45px_rgba(15,23,42,0.08)] sm:rounded-[32px] sm:p-6">
             <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Order</div>
             <h1 className="mt-2 text-3xl font-extrabold tracking-tight">Order details</h1>
           </div>
@@ -114,42 +114,42 @@ export default async function OrderDetailPage({ params }: { params: { id: string
   const primaryNextLabel = order.outcome === "COMPLETED" ? "Feedback" : (isBuyer ? "Message seller" : "Message buyer");
 
   return (
-    <main className="bd-container pb-24 pt-4 sm:py-10">
-        <div className="mx-auto mb-3 w-full max-w-7xl px-4"><BackButton href="/orders" label="Back to orders" /></div>
-        <div className="container max-w-7xl space-y-3 sm:space-y-4">
-        <div className="rounded-[26px] border border-[#D7E2F1] bg-gradient-to-br from-white to-[#F8FAFF] p-4 shadow-sm sm:rounded-[28px] sm:p-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <main className="bd-container pb-28 pt-3 sm:py-10">
+        <div className="mx-auto mb-3 w-full max-w-7xl"><BackButton href="/orders" label="Back to orders" /></div>
+        <div className="container max-w-7xl space-y-4 sm:space-y-5">
+        <div className="overflow-hidden rounded-[30px] border border-[#D7E2F1] bg-gradient-to-br from-white via-[#F8FAFF] to-[#EEF2FF] p-4 shadow-[0_18px_45px_rgba(15,23,42,0.08)] sm:rounded-[32px] sm:p-6">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center rounded-full border border-[#D7E2F1] bg-white px-2.5 py-1 text-xs font-semibold text-neutral-800 shadow-sm">
+                <span className="inline-flex items-center rounded-full border border-[#D7E2F1] bg-white px-3 py-1.5 text-xs font-black text-[#0F172A] shadow-sm">
                   {roleLabel}
                 </span>
-                <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${statusTone(String(order.status), order.outcome)}`}>
+                <span className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-black ${statusTone(String(order.status), order.outcome)}`}>
                   {statusLabel}
                 </span>
               </div>
-              <h1 className="mt-3 text-2xl font-black leading-tight tracking-tight bd-ink sm:text-4xl">{order.listing?.title ?? "Purchased item"}</h1>
-              <p className="mt-2 text-sm bd-ink2 sm:text-base">
+              <h1 className="mt-4 text-3xl font-black leading-[1.05] tracking-[-0.055em] text-[#07152E] sm:text-4xl">{order.listing?.title ?? "Purchased item"}</h1>
+              <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-[#475569] sm:text-base">
                 This Buy Now order is a committed purchase. Use Messages to arrange payment, pickup/postage and handover.
               </p>
-              <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-950 shadow-sm">
-                <div className="font-extrabold">Next action</div>
-                <div className="mt-1">{primaryNextAction}</div>
+              <div className="mt-5 rounded-[22px] border border-[#C7D2FE] bg-white/85 px-4 py-3 text-sm leading-6 text-[#1E1B4B] shadow-sm ring-1 ring-white/70">
+                <div className="text-[11px] font-black uppercase tracking-[0.14em] text-[#4F46E5]">Next action</div>
+                <div className="mt-1 font-bold">{primaryNextAction}</div>
               </div>
-              <div className="mt-3 text-sm bd-ink2">
+              <div className="mt-4 text-xs font-bold uppercase tracking-[0.12em] text-[#64748B]">
                 Created <DateTimeText value={order.createdAt} />
               </div>
             </div>
 
-            <div className="grid gap-2 sm:min-w-[360px] sm:grid-cols-3 lg:w-[360px]">
-              <Link href={primaryNextHref} className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-2xl bg-[#2437FF] px-4 text-center text-sm font-black !text-white shadow-[0_14px_30px_rgba(36,55,255,0.24)] transition hover:bg-[#172BEF]">
+            <div className="grid gap-2.5 sm:min-w-[360px] sm:grid-cols-3 lg:w-[360px]">
+              <Link href={primaryNextHref} className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-[22px] bg-[#4F46E5] px-4 text-center text-sm font-black !text-white shadow-[0_16px_34px_rgba(79,70,229,0.24)] transition active:scale-[0.99] hover:bg-[#4338CA]">
                 {primaryNextLabel}
               </Link>
-              <Link href={listingHref} className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
-                Item
+              <Link href={listingHref} className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-[22px] border border-[#C7D2FE] bg-white px-4 text-center text-sm font-black text-[#3730A3] shadow-sm transition active:scale-[0.99] hover:bg-[#F8FAFC]">
+                View item
               </Link>
-              <Link href="/disputes" className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-2xl border border-[#D8E1F0] bg-white px-4 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">
-                Help
+              <Link href="/disputes" className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-[22px] border border-[#C7D2FE] bg-white px-4 text-center text-sm font-black text-[#3730A3] shadow-sm transition active:scale-[0.99] hover:bg-[#F8FAFC]">
+                Get help
               </Link>
               {alreadyLeft ? (
                 <span className="col-span-3 inline-flex items-center justify-center rounded-2xl border border-[#D7E2F1] bg-white px-4 py-3 text-center text-sm font-semibold bd-ink shadow-sm">
@@ -161,28 +161,28 @@ export default async function OrderDetailPage({ params }: { params: { id: string
         </div>
 
         <div className="grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Order ID</div>
-            <div className="mt-1 text-lg font-extrabold tracking-tight text-[#07152E]">{String(order.id).slice(-6)}</div>
-            <div className="mt-1 text-sm text-[#526173] font-mono break-all">{order.id}</div>
+          <div className="rounded-[24px] border border-[#D7E2F1] bg-white p-4 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
+            <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#64748B]">Order ID</div>
+            <div className="mt-1 text-xl font-black tracking-[-0.03em] text-[#07152E]">{String(order.id).slice(-6)}</div>
+            <div className="mt-1 hidden text-xs font-mono text-[#526173] break-all sm:block">{order.id}</div>
           </div>
 
-          <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Amount</div>
-            <div className="mt-1 text-3xl font-extrabold tracking-tight text-[#07152E]">{formatMoney(order.amount)}</div>
+          <div className="rounded-[24px] border border-[#D7E2F1] bg-white p-4 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
+            <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#64748B]">Amount</div>
+            <div className="mt-1 text-3xl font-black tracking-[-0.055em] text-[#07152E]">{formatMoney(order.amount)}</div>
             <div className="mt-1 text-sm text-[#526173]">Final sold price.</div>
           </div>
 
-          <div className="rounded-2xl border border-[#D7E2F1] bg-white p-4 shadow-sm">
-            <div className="text-xs font-semibold uppercase tracking-wide text-[#607089]">Listing</div>
+          <div className="rounded-[24px] border border-[#D7E2F1] bg-white p-4 shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
+            <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#64748B]">Listing</div>
             <div className="mt-1 text-lg font-extrabold tracking-tight text-[#07152E] truncate">{order.listing?.title ?? "Listing"}</div>
             <div className="mt-1 text-sm text-[#526173]">Original listing.</div>
           </div>
         </div>
-        <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-          <Card className="rounded-[24px] border border-[#D7E2F1] bg-white p-4 shadow-sm sm:p-5">
-            <div className="text-sm font-extrabold bd-ink">Order checklist</div>
-            <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm bd-ink2">
+        <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+          <Card className="rounded-[26px] border border-[#D7E2F1] bg-white p-4 shadow-[0_12px_32px_rgba(15,23,42,0.06)] sm:p-5">
+            <div className="text-lg font-black tracking-[-0.02em] text-[#07152E]">Order checklist</div>
+            <ul className="mt-3 list-disc space-y-2 pl-5 text-sm font-semibold leading-6 text-[#475569]">
               <li>Buy Now means the item has been bought and removed from sale.</li>
               <li>Use Messages to arrange payment, pickup/postage and handover.</li>
               <li>Report no-shows or flaky behaviour from the order if handover breaks down.</li>
@@ -196,12 +196,12 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </ul>
             </details>
           </Card>
-            <div className="rounded-2xl border border-[#D7E2F1] bg-white px-4 py-3 text-sm bd-ink2 shadow-sm">
-              <div className="font-extrabold">Need help with this order?</div>
+            <div className="rounded-[26px] border border-[#D7E2F1] bg-white px-4 py-4 text-sm leading-6 text-[#475569] shadow-[0_12px_32px_rgba(15,23,42,0.06)]">
+              <div className="text-lg font-black tracking-[-0.02em] text-[#07152E]">Need help with this order?</div>
               <p className="mt-1">Use the Resolution Centre or contact Support if the buyer or seller does not follow through.</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                <Link href="/disputes" className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">Help</Link>
-                <Link href="/contact" className="rounded-2xl border border-[#D8E1F0] bg-white px-4 py-2.5 text-center text-sm font-extrabold text-[#0B4DFF] shadow-sm transition hover:bg-[#F8FAFC]">Contact</Link>
+              <div className="mt-4 grid gap-2 sm:flex sm:flex-wrap">
+                <Link href="/disputes" className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-4 text-center text-sm font-black text-[#3730A3] shadow-sm transition hover:bg-[#F8FAFC]">Help</Link>
+                <Link href="/contact" className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-4 text-center text-sm font-black text-[#3730A3] shadow-sm transition hover:bg-[#F8FAFC]">Contact</Link>
               </div>
             </div>
         </div>
