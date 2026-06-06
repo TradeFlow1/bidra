@@ -50,6 +50,9 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
   if (!gate.ok && gate.reason === "UNDER_18") redirect("/account/restrictions");
   if (!gate.ok) redirect("/account");
 
+  const incomingThreadId = typeof searchParams?.thread === "string" ? searchParams.thread.trim() : "";
+  if (incomingThreadId) redirect(`/messages/${encodeURIComponent(incomingThreadId)}`);
+
   const me = session.user.id;
 
   const threads = await prisma.messageThread.findMany({
@@ -87,8 +90,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
     return { ...thread, unread, otherLabel, last, thumb };
   });
 
-  const selectedThreadId = typeof searchParams?.thread === "string" ? searchParams.thread : "";
-  const selected = items.find((item) => item.id === selectedThreadId) || items[0] || null;
+  const selected = items[0] || null;
 
   const selectedMessages = selected
     ? await prisma.message.findMany({
