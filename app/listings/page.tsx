@@ -346,9 +346,13 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                             className="object-cover transition duration-300"
                           />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center text-5xl text-[#4F46E5]">▯</div>
+                          <div className="flex h-full w-full items-center justify-center text-lg font-black text-[#4F46E5]">Bidra</div>
                         )}
-                        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#2437FF] shadow-sm hover:bg-[#F8FAFC]">♡</span>
+                        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#2437FF] shadow-sm hover:bg-[#F8FAFC]" aria-hidden="true">
+  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />
+  </svg>
+</span>
                       </div>
                       <div className="p-4">
                         <h3 className="line-clamp-2 text-base font-black text-[#08112F]">{listing.title}</h3>
@@ -381,12 +385,12 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
         </div>
       </main>
 
-      <main className="min-h-screen bg-white pb-28 text-[#08112F] md:hidden">
+      <main className="min-h-screen bg-[linear-gradient(180deg,#F8FAFF_0%,#FFFFFF_42%)] pb-32 text-[#08112F] md:hidden">
         <section className="px-4 pb-5 pt-4">
-          <div className="rounded-[28px] border border-[#D8E1F0] bg-[#EEF6FF] p-5">
-            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#4F46E5]">Buy now</p>
-            <h1 className="mt-3 text-3xl font-black leading-[0.95] tracking-[-0.04em] text-[#08112F]">Browse listings</h1>
-            <p className="mt-3 text-sm font-semibold leading-6 text-[#475569]">{displayCount} local results. Filter fast, then tap a listing to inspect it.</p>
+          <div className="overflow-hidden rounded-[30px] border border-[#D7E2F1] bg-gradient-to-br from-white via-[#F8FAFF] to-[#EEF2FF] p-5 shadow-[0_18px_45px_rgba(15,23,42,0.08)]">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#4F46E5]">Marketplace</p>
+            <h1 className="mt-3 text-4xl font-black leading-[0.92] tracking-[-0.065em] text-[#07152E]">Browse listings</h1>
+            <p className="mt-3 max-w-[290px] text-sm font-semibold leading-6 text-[#475569]">{displayCount} local results. Filter fast, compare clearly, then tap a listing to inspect it.</p>
           </div>
 
           <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -398,8 +402,8 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                   href={categoryHref(category)}
                   className={
                     active
-                      ? "shrink-0 rounded-full bg-[#4F46E5] px-4 py-2.5 text-sm font-black text-white !text-white"
-                      : "shrink-0 rounded-full border border-[#D8E1F0] bg-white px-4 py-2.5 text-sm font-black text-[#4F46E5]"
+                      ? "shrink-0 rounded-full bg-[#4F46E5] px-4 py-2.5 text-sm font-black text-white !text-white shadow-[0_10px_24px_rgba(79,70,229,0.20)]"
+                      : "shrink-0 rounded-full border border-[#D8E1F0] bg-white px-4 py-2.5 text-sm font-black text-[#3730A3] shadow-sm"
                   }
                 >
                   {category}
@@ -408,14 +412,14 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
             })}
           </div>
 
-          <form action="/listings" className="mt-4 rounded-[26px] border border-[#D8E1F0] bg-white p-4 shadow-sm">
+          <form action="/listings" className="mt-4 rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-[0_16px_38px_rgba(15,23,42,0.07)]">
             <input type="hidden" name="category" value={selectedCategory === "All categories" ? "" : slugify(selectedCategory)} />
             <div className="flex items-center justify-between gap-3">
               <div>
-                <h2 className="text-lg font-black text-[#08112F]">Refine</h2>
+                <h2 className="text-xl font-black tracking-[-0.035em] text-[#07152E]">Refine</h2>
                 <p className="mt-1 text-xs font-semibold text-[#64748B]">Built for quick one-handed browsing.</p>
               </div>
-              <Link href="/listings" className="rounded-full border border-[#D8E1F0] px-3 py-2 text-xs font-black text-[#4F46E5]">Clear</Link>
+              <Link href="/listings" className="rounded-full border border-[#D8E1F0] bg-white px-3 py-2 text-xs font-black text-[#3730A3] shadow-sm">Clear</Link>
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-3">
@@ -444,7 +448,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
             <div className="mt-3 grid grid-cols-[minmax(0,1fr)_112px] gap-3">
               <input name="location" defaultValue={selectedLocation} className="h-12 min-w-0 rounded-2xl border border-[#D8E1F0] px-4 text-sm font-bold text-[#08112F]" placeholder="Suburb or postcode" autoComplete="postal-code" />
-              <button type="submit" className="h-12 rounded-2xl bg-[#4F46E5] px-4 text-sm font-black text-white !text-white">Apply</button>
+              <button type="submit" className="h-12 rounded-2xl bg-[#4F46E5] px-4 text-sm font-black text-white !text-white shadow-[0_14px_30px_rgba(79,70,229,0.22)]">Apply</button>
             </div>
           </form>
         </section>
@@ -452,10 +456,10 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
         <section className="px-4">
           <div className="mb-3 flex items-end justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-black tracking-tight text-[#08112F]">Latest finds</h2>
+              <h2 className="text-3xl font-black tracking-[-0.055em] text-[#07152E]">Latest finds</h2>
               <p className="mt-1 text-xs font-bold text-[#64748B]">{selectedCategory}</p>
             </div>
-            <p className="text-xs font-black text-[#4F46E5]">{displayCount} results</p>
+            <p className="rounded-full border border-[#C7D2FE] bg-white px-3 py-1.5 text-xs font-black text-[#3730A3] shadow-sm">{displayCount} results</p>
           </div>
 
           {visibleListings.length ? (
@@ -465,31 +469,31 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                 const price = listing.buyNowPrice ?? listing.price;
 
                 return (
-                  <Link key={listing.id} href={"/listings/" + listing.id} className="block overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm">
+                  <Link key={listing.id} href={"/listings/" + listing.id} className="block overflow-hidden rounded-[28px] border border-[#DCE5F2] bg-white shadow-[0_16px_38px_rgba(15,23,42,0.07)] active:scale-[0.995]">
                     <div className="relative aspect-[16/10] overflow-hidden bg-[#F8FAFC]">
                       {image ? (
                         <Image src={image} alt={listing.title} fill sizes="100vw" className="object-cover" />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center text-4xl font-black text-[#4F46E5]">Bidra</div>
                       )}
-                      <span className="absolute left-3 top-3 rounded-full bg-[#4F46E5] px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.08em] text-white !text-white">Buy now</span>
+                      <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#3730A3] shadow-sm ring-1 ring-[#C7D2FE]">Buy now</span>
                     </div>
                     <div className="p-4">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <h3 className="line-clamp-2 text-lg font-black leading-tight text-[#08112F]">{listing.title}</h3>
-                          <p className="mt-2 text-xl font-black text-[#08112F]">{formatPrice(price)}</p>
+                          <h3 className="line-clamp-2 text-lg font-black leading-tight tracking-[-0.02em] text-[#07152E]">{listing.title}</h3>
+                          <p className="mt-2 text-2xl font-black tracking-[-0.045em] text-[#07152E]">{formatPrice(price)}</p>
                         </div>
-                        <span className="shrink-0 rounded-full border border-[#D8E1F0] px-3 py-1.5 text-xs font-black text-[#4F46E5]">{formatAge(listing.createdAt)}</span>
+                        <span className="shrink-0 rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-xs font-black text-[#3730A3] shadow-sm">{formatAge(listing.createdAt)}</span>
                       </div>
-                      <p className="mt-3 truncate text-sm font-bold text-[#64748B]">{listing.location}</p>
+                      <p className="mt-3 truncate text-sm font-bold text-[#64748B]">{listing.location || "Australia"}</p>
                     </div>
                   </Link>
                 );
               })}
             </div>
           ) : (
-            <div className="rounded-[28px] border border-dashed border-[#C7D2FE] bg-[#F8FAFC] px-5 py-10 text-center">
+            <div className="rounded-[30px] border border-dashed border-[#C7D2FE] bg-white px-5 py-10 text-center shadow-[0_16px_38px_rgba(15,23,42,0.07)]">
               <h3 className="text-xl font-black text-[#08112F]">No listings found</h3>
               <p className="mt-2 text-sm font-semibold text-[#64748B]">Clear filters or check another category.</p>
               <Link href="/listings" className="mt-5 inline-flex h-12 items-center justify-center rounded-2xl bg-[#4F46E5] px-5 text-sm font-black text-white !text-white">Clear filters</Link>
