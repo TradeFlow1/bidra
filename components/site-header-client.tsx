@@ -20,6 +20,24 @@ const DESKTOP_LINKS = [
   { href: "/categories", label: "Categories" },
 ];
 
+function MenuIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" aria-hidden="true">
+      <path d="M4 7h16" />
+      <path d="M4 12h16" />
+      <path d="M4 17h16" />
+    </svg>
+  );
+}
+
+function AccountIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" />
+      <path d="M4.5 21a7.5 7.5 0 0 1 15 0" />
+    </svg>
+  );
+}
 export default function SiteHeaderClient({
   session,
   notificationCount = 0,
@@ -151,12 +169,12 @@ export default function SiteHeaderClient({
 
       <div className="md:hidden bg-white">
         <div className="flex items-center gap-3 px-4 py-3">
-          <button type="button" className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg font-extrabold shadow-sm" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><span aria-hidden="true">☰</span></button>
+          <button type="button" className="grid h-11 w-11 place-items-center rounded-full border border-[#D7E2F1] bg-white text-[#0F172A] shadow-sm transition active:scale-95" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><MenuIcon /></button>
           <Link href="/" className="flex h-10 w-32 items-center" aria-label="Bidra home">
             <BrandLogo priority className="h-full w-auto max-w-full" />
           </Link>
           <div ref={mobileMenuRef} className="relative ml-auto">
-            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="grid h-10 w-10 place-items-center rounded-full border border-[#D7E2F1] bg-white text-lg shadow-sm" aria-label="Account and notifications"><span aria-hidden="true">!</span></button>
+            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="relative grid h-11 w-11 place-items-center rounded-full border border-[#D7E2F1] bg-white text-[#0F172A] shadow-sm transition active:scale-95" aria-label="Account and notifications"><AccountIcon />{notificationCount > 0 ? <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-[#4F46E5] ring-2 ring-white" aria-hidden="true" /> : null}</button>
             {mobileMenuOpen ? renderMobileMenu() : null}
           </div>
         </div>
