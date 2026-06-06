@@ -54,7 +54,7 @@ model User {
   sellerThreads          MessageThread[]      @relation("SellerThreads")
   offerDecisionsAsBuyer  OfferDecision[]      @relation("OfferDecisionBuyer")
   offerDecisionsAsSeller OfferDecision[]      @relation("OfferDecisionSeller")
-  // V2: no auto-bidding / proxy maxima
+  // Offer maxima are private. Public listing surfaces should use currentOfferAmount.
   orders                 Order[]              @relation("BuyerOrders")
   passwordResetTokens    PasswordResetToken[]
   clearedStrikes         PolicyStrike[]       @relation("ClearedStrikes")
@@ -100,6 +100,9 @@ model Listing {
   photos          String[]          @default([])
   attributes      Json?
   previousStatus  ListingStatus?
+  currentOfferAmount Int?
+  currentOfferBuyerId String?
+  offerIncrement Int @default(100)
   offers          Offer[]
   seller          User              @relation("SellerListings", fields: [sellerId], references: [id])
   questions       ListingQuestion[]
@@ -115,6 +118,8 @@ model Listing {
 model Offer {
   id            String         @id @default(cuid())
   amount        Int
+  maxAmount     Int?
+  displayAmount Int?
   createdAt     DateTime       @default(now())
   buyerId       String
   listingId     String
@@ -413,3 +418,4 @@ enum FulfillmentType {
   DELIVERY
   POSTAGE
 }
+
