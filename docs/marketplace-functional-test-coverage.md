@@ -1,11 +1,11 @@
-﻿# Marketplace Functional Test Coverage
+# Marketplace Functional Test Coverage
 
 Last verified locally: 2026-06-06
 
 ## Current verified status
 
 - Playwright UI/browser suite: 36 passed / 0 failed / 0 skipped
-- Marketplace DB logic suite: 22 passed / 0 failed
+- Marketplace DB logic suite: 23 passed / 0 failed
 
 ## Browser/UI coverage
 
@@ -48,6 +48,16 @@ Last verified locally: 2026-06-06
 20. Dashboard ownership summaries show correct seller listings and buyer/seller orders
 21. Conversation inbox, latest message ordering, recipient message history, and empty-message guards work
 22. Checkout/payment guards validate price, ownership, listing status, cancelled payment, and successful sale
+23. Proxy offer logic stores private maximums and exposes only current public offer amount
+
+## API route guard coverage
+
+- Offer placement route contains adult/session gating, owner blocking, active-listing validation, offerable-listing validation, private max amount storage, public display amount storage, and current-offer listing updates
+- Accept-highest-offer route uses proxy max ordering and stores accepted display amount
+- Buy Now route contains adult/session gating, owner blocking, active-listing validation, and sold-listing updates
+- Listing creation route contains adult/session gating and required listing-field validation
+- Messaging routes contain adult/session gating and participant/listing relationship checks
+- Report creation route contains adult/session gating and moderation record creation
 
 ## Known missing product logic
 
@@ -66,10 +76,10 @@ Last verified locally: 2026-06-06
 
 ## Recommended next test blocks
 
-1. Add API route tests for checkout, offers, messaging, reports, and listing mutation endpoints
-2. Add UI tests for create-listing form submission
-3. Add UI tests for buyer Buy Now checkout flow
-4. Add UI tests for buyer offer flow and seller accept/reject flow
-5. Add UI tests for buyer/seller messaging flow
-6. Add admin/moderator UI tests
-7. Add notification model and notification logic tests if notifications are required
+1. Add UI tests for create-listing form submission
+2. Add UI tests for buyer Buy Now checkout flow
+3. Add UI tests for buyer offer flow and seller accept/reject flow
+4. Add UI tests for buyer/seller messaging flow
+5. Add admin/moderator UI tests
+6. Add notification model and notification logic tests if notifications are required
+7. Add deeper mocked request/response API tests for route behaviour
