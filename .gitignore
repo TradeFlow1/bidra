@@ -120,3 +120,7 @@ tools/_patch-archive/
 tools/*.log
 tools/*scan*.txt
 public/uploads/
+
+.env.test
+
+.auth/
