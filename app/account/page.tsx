@@ -107,47 +107,51 @@ export default async function AccountPage() {
         </div>
 
         <section className="mb-4 md:hidden">
-          <div className="flex items-end justify-between gap-3">
-            <div>
-              <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#4F46E5]">My Bidra</div>
-              <h1 className="mt-1 text-3xl font-black tracking-[-0.055em] text-[#07152E]">Account</h1>
+          <div className="overflow-hidden rounded-[30px] border border-[#D7E2F1] bg-gradient-to-br from-white via-[#F8FAFF] to-[#EEF2FF] p-4 shadow-[0_18px_45px_rgba(15,23,42,0.08)]">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="text-[10px] font-black uppercase tracking-[0.22em] text-[#4F46E5]">My Bidra</div>
+                <h1 className="mt-1 text-4xl font-black tracking-[-0.065em] text-[#07152E]">Account</h1>
+                <p className="mt-2 max-w-[260px] text-sm font-semibold leading-6 text-[#475569]">
+                  Manage your profile, listings, orders and saved marketplace activity.
+                </p>
+              </div>
+              <Link href="/sell/new" className="flex h-11 shrink-0 items-center rounded-[22px] bg-[#4F46E5] px-4 text-sm font-black text-white !text-white shadow-[0_14px_30px_rgba(79,70,229,0.22)]">
+                Sell
+              </Link>
             </div>
-            <Link href="/sell/new" className="flex h-11 items-center rounded-2xl bg-[#4F46E5] px-4 text-sm font-black text-white !text-white">
-              Sell
-            </Link>
           </div>
         </section>
-
         <nav className="mb-8 mt-6 hidden items-center gap-3 text-sm font-semibold text-[#64748B] md:flex">
           <Link href="/" className="text-[#4F46E5]">Home</Link>
           <span>/</span>
           <span>Account</span>
         </nav>
 
-        <section className="overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white shadow-sm md:rounded-[28px]">
-          <div className="h-24 bg-[linear-gradient(135deg,#DBEAFE_0%,#EEF2FF_45%,#F8FAFC_100%)] sm:h-72">
+        <section className="overflow-hidden rounded-[30px] border border-[#D7E2F1] bg-white shadow-[0_18px_45px_rgba(15,23,42,0.08)] md:rounded-[32px]">
+          <div className="h-28 bg-[linear-gradient(135deg,#DBEAFE_0%,#EEF2FF_45%,#F8FAFC_100%)] sm:h-72">
             <div className="h-full w-full bg-[radial-gradient(circle_at_25%_20%,rgba(79,70,229,0.22),transparent_28%),radial-gradient(circle_at_80%_40%,rgba(14,165,233,0.16),transparent_30%)]" />
           </div>
 
-          <div className="px-4 pb-4 sm:px-10 sm:pb-10">
-            <div className="-mt-10 flex flex-col gap-4 sm:-mt-20 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
+          <div className="px-4 pb-5 sm:px-10 sm:pb-10">
+            <div className="-mt-11 flex flex-col gap-4 sm:-mt-20 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
               <div className="flex items-end gap-3 sm:gap-5">
-                <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#EEF2FF] text-2xl font-black text-[#4F46E5] shadow-lg sm:h-40 sm:w-40 sm:text-4xl">
+                <div className="flex h-[88px] w-[88px] shrink-0 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#EEF2FF] text-2xl font-black text-[#4F46E5] shadow-[0_18px_42px_rgba(15,23,42,0.16)] sm:h-40 sm:w-40 sm:text-4xl">
                   {user.avatarUrl ? <Image src={user.avatarUrl} alt="" width={160} height={160} className="h-full w-full object-cover" /> : avatarInitials}
                 </div>
                 <div className="min-w-0 pb-1 sm:pb-2">
-                  <h1 className="truncate text-2xl font-black tracking-tight sm:text-5xl">{user.name || user.email || "Bidra account"}</h1>
-                  <p className="mt-1 text-sm font-semibold text-[#64748B] sm:mt-2 sm:text-base">Member since {memberSince}</p>
-                  <p className="mt-1 truncate text-sm font-semibold text-[#64748B] sm:mt-3 sm:text-base">{locationLabel}</p>
+                  <h1 className="truncate text-3xl font-black tracking-[-0.055em] text-[#07152E] sm:text-5xl">{user.name || user.email || "Bidra account"}</h1>
+                  <p className="mt-1 text-sm font-bold text-[#64748B] sm:mt-2 sm:text-base">Member since {memberSince}</p>
+                  <p className="mt-1 truncate text-sm font-bold text-[#64748B] sm:mt-3 sm:text-base">{locationLabel}</p>
                 </div>
               </div>
 
-              <Link href={`/seller/${user.id}`} className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-4 text-sm font-black text-[#4F46E5] md:h-12 md:px-6 md:hover:bg-[#EEF2FF]">
+              <Link href={`/seller/${user.id}`} className="inline-flex h-12 w-full items-center justify-center rounded-[22px] border border-[#C7D2FE] bg-white px-4 text-sm font-black text-[#3730A3] shadow-sm md:h-12 md:w-auto md:px-6 md:hover:bg-[#EEF2FF]">
                 View public profile
               </Link>
             </div>
 
-            <div className="mt-4 grid grid-cols-4 gap-2 sm:mt-8 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
+            <div className="mt-5 grid grid-cols-2 gap-2 sm:mt-8 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
               <StatCard label="Listings" value={listingCount} />
               <StatCard label="Sold" value={soldCount} />
               <StatCard label="Bought" value={boughtCount} />
@@ -173,8 +177,8 @@ export default async function AccountPage() {
         </div>
 
         <section id="listings" className="mt-5 md:mt-10">
-          <div className="mb-6 flex items-center justify-between gap-4">
-            <h2 className="text-2xl font-black tracking-tight">Your listings</h2>
+          <div className="mb-4 flex items-center justify-between gap-4 md:mb-6">
+            <h2 className="text-2xl font-black tracking-[-0.04em] text-[#07152E]">Your listings</h2>
             <BidraButton href="/sell/new">Sell an item</BidraButton>
           </div>
 
@@ -313,21 +317,20 @@ export default async function AccountPage() {
 
 function MobileActionCard({ title, body, href }: { title: string; body: string; href: string }) {
   return (
-    <Link href={href} className="rounded-[22px] border border-[#DCE5F2] bg-white p-4 shadow-sm active:scale-[0.99]">
-      <div className="text-base font-black text-[#4F46E5]">{title}</div>
-      <div className="mt-1 text-xs font-semibold text-[#64748B]">{body}</div>
+    <Link href={href} className="rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-[0_12px_32px_rgba(15,23,42,0.06)] active:scale-[0.99]">
+      <div className="text-base font-black text-[#3730A3]">{title}</div>
+      <div className="mt-1 text-xs font-bold leading-5 text-[#64748B]">{body}</div>
     </Link>
   );
 }
 function StatCard({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-2xl border border-[#DCE5F2] bg-white p-3 text-center shadow-sm md:p-6">
-      <div className="text-2xl font-black md:text-4xl">{value}</div>
-      <div className="mt-1 text-[11px] font-semibold text-[#64748B] md:text-sm">{label}</div>
+    <div className="rounded-[22px] border border-[#DCE5F2] bg-white/90 p-3 text-center shadow-[0_12px_28px_rgba(15,23,42,0.07)] ring-1 ring-[#EEF2FF] md:p-6">
+      <div className="text-2xl font-black tracking-[-0.04em] text-[#07152E] md:text-4xl">{value}</div>
+      <div className="mt-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#64748B] md:text-sm">{label}</div>
     </div>
   );
 }
-
 function InfoCard({ title, body, href, label }: { title: string; body: string; href: string; label: string }) {
   return (
     <Link href={href} className="rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm transition md:p-6">
