@@ -91,7 +91,7 @@ export default function SendBox({ threadId }: { threadId: string }) {
             send()
           }
         }}
-        placeholder="Ask about the item, pickup, postage, payment expectations, or handover details…"
+        placeholder="Ask about the item, pickup, postage, payment expectations, or handover details..."
         aria-label="Message text"
         disabled={busy}
       />
@@ -117,7 +117,7 @@ export default function SendBox({ threadId }: { threadId: string }) {
 
       <div className="mt-2 flex items-center justify-end gap-3">
         <div className="hidden text-xs text-[var(--bidra-ink-2)] sm:block">
-          Press <b>Enter</b> to send • <b>Shift+Enter</b> for a new line
+          Press <b>Enter</b> to send - <b>Shift+Enter</b> for a new line
         </div>
 
         <button

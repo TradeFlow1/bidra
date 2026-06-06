@@ -100,9 +100,7 @@ export default async function CategorySeoPage({ params }: Props) {
                 const listingType = (listing as { type?: string }).type || "";
                 const listingPrice = (listing as { price?: number }).price ?? 0;
                 const listingBuyNowPrice = (listing as { buyNowPrice?: number | null }).buyNowPrice ?? null;
-                const currentOffer = (listing as unknown as { offers?: Array<{ amount?: number | null }> }).offers?.length
-                  ? (listing as unknown as { offers?: Array<{ amount?: number | null }> }).offers?.[0]?.amount ?? null
-                  : null;
+              const currentOffer = (listing as unknown as { currentOfferAmount?: number | null }).currentOfferAmount ?? null;
                 const displayPrice = listingType === "OFFERABLE"
                   ? ((currentOffer ?? listingPrice) as number)
                   : ((listingBuyNowPrice ?? listingPrice) as number);

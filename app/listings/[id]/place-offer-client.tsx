@@ -142,7 +142,7 @@ export default function PlaceOfferClient({
             </span>
             {lastResult.currentCents !== null ? (
               <>
-                {" "}• Current visible top offer:{" "}
+                {" "} - Current visible top offer:{" "}
                 <span className="font-semibold text-neutral-900">
                   ${(lastResult.currentCents / 100).toFixed(2)}
                 </span>

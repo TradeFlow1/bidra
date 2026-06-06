@@ -18,7 +18,8 @@
                     "test":  "node tools/control-02-regression-check.cjs",
                     "test:smoke":  "node tools/control-02-public-route-smoke.cjs",
                     "audit:live":  "node tmp-live-audit/live-browser-audit.mjs",
-                    "test:marketplace-api-guards":  "node tools/marketplace-api-guard-check.cjs"
+                    "test:marketplace-api-guards":  "node tools/marketplace-api-guard-check.cjs",
+                    "test:marketplace-ui-flows":  "node tools/marketplace-ui-flow-check.cjs"
                 },
     "prisma":  {
                    "seed":  "node prisma/seed.cjs"
