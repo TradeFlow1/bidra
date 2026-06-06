@@ -224,18 +224,19 @@ export function OrdersClient() {
           <div className="grid gap-3 md:gap-4">
             {orders.map((order) => (
               <BidraCard key={order.id} className="p-4 active:scale-[0.99] md:p-6">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="line-clamp-2 text-base font-black text-[#0F172A] md:text-xl">{order.title}</h2>
+                      <BidraBadge tone="info">{order.role}</BidraBadge>
                       <BidraBadge tone="info">{order.status}</BidraBadge>
                     </div>
+                    <h2 className="mt-3 line-clamp-2 text-lg font-black leading-tight text-[#0F172A] md:text-xl">{order.title}</h2>
                     <p className="mt-1 text-xs font-bold text-[#64748B] md:mt-2 md:text-sm">{order.createdLabel}</p>
-                    <p className="mt-1 line-clamp-2 text-sm font-semibold text-[#475569] md:mt-2 md:line-clamp-none">{order.nextAction}</p>
+                    <p className="mt-2 line-clamp-2 text-sm font-semibold leading-6 text-[#475569] md:line-clamp-none">{order.nextAction}</p>
                   </div>
-                  <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end">
-                    <p className="text-lg font-black text-[#0F172A] md:text-xl">{order.amountLabel}</p>
-                    <BidraButton href={"/orders/" + encodeURIComponent(order.id)} variant="secondary" size="sm">View</BidraButton>
+                  <div className="grid gap-3 sm:flex sm:flex-col sm:items-end">
+                    <p className="text-xl font-black text-[#0F172A] md:text-xl">{order.amountLabel}</p>
+                    <BidraButton href={"/orders/" + encodeURIComponent(order.id)} variant="secondary" size="sm">View order</BidraButton>
                   </div>
                 </div>
               </BidraCard>
