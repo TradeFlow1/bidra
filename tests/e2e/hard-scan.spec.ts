@@ -73,6 +73,7 @@ function isCancelledNavigationNoise(url: string, errorText: string, resourceType
 
   if (!isAbort) { return false; }
   if (url.indexOf('_rsc=') !== -1) { return true; }
+  if (url.indexOf('/_next/static/') !== -1) { return true; }
   if (url.indexOf('/auth/login?next=') !== -1) { return true; }
   if (method === 'GET' && resourceType === 'document') { return true; }
 
