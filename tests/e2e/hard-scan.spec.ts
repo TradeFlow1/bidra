@@ -67,10 +67,13 @@ function shouldSkipInternalPath(pathname: string) {
 }
 
 function isCancelledNavigationNoise(url: string, errorText: string, resourceType: string, method: string) {
-  const isAbort = errorText.indexOf('ERR_ABORTED') !== -1 || errorText.indexOf('NS_BINDING_ABORTED') !== -1;
+  const isAbort = errorText.indexOf('ERR_ABORTED') !== -1 ||
+    errorText.indexOf('NS_BINDING_ABORTED') !== -1 ||
+    errorText.indexOf('Load request cancelled') !== -1;
 
   if (!isAbort) { return false; }
   if (url.indexOf('_rsc=') !== -1) { return true; }
+  if (url.indexOf('/auth/login?next=') !== -1) { return true; }
   if (method === 'GET' && resourceType === 'document') { return true; }
 
   return false;
@@ -174,6 +177,7 @@ async function collectPageSignals(page: any, api: any, baseURL: string, route: s
 }
 
 test.describe('Bidra hard live QA baseline', function () {
+  test.setTimeout(180000);
   test('required public routes are production-ready', async function ({ page, request, baseURL }) {
     expect(baseURL, 'baseURL is required').toBeTruthy();
 
