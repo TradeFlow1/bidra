@@ -4,8 +4,10 @@ Last verified locally: 2026-06-06
 
 ## Current verified status
 
-- Playwright UI/browser suite: 36 passed / 0 failed / 0 skipped
+- Playwright UI/browser suite: 48 passed / 0 failed / 0 skipped
 - Marketplace DB logic suite: 23 passed / 0 failed
+- Marketplace API guard inventory: passed
+- Marketplace UI flow inventory: passed
 
 ## Browser/UI coverage
 
@@ -15,10 +17,13 @@ Last verified locally: 2026-06-06
 - Buy Now listings page renders
 - Category browsing page renders
 - Guest cannot access protected create-listing page
+- Guest create-listing redirect is covered across browser projects
+- Guest messages redirect is covered across browser projects
 - Seeded seller can log in
 - Seeded seller can access create-listing page
 - Seeded buyer can log in
 - Seeded buyer can see seeded listing in listing feed
+- Seeded public listing detail page loads from feed
 - Desktop Chromium coverage
 - Mobile Chromium coverage
 - Desktop Firefox coverage
@@ -59,27 +64,35 @@ Last verified locally: 2026-06-06
 - Messaging routes contain adult/session gating and participant/listing relationship checks
 - Report creation route contains adult/session gating and moderation record creation
 
+## UI flow inventory coverage
+
+- Create-listing client exposes required form anchors
+- Listing detail exposes Buy Now, Make an offer, and Message seller action anchors
+- Message send box exposes message textarea and send action anchors
+- Category SEO listing pages use currentOfferAmount for public offer display
+
 ## Known missing product logic
 
 - Notification model is not present in prisma/schema.prisma
 - No schema-backed unread/read message state exists on Message
 - Failed payment is represented as CANCELLED because OrderStatus has no FAILED enum
 - Full real payment provider webhook flow still needs endpoint-level tests
-- Full UI checkout journey still needs browser tests
-- Full UI offer accept/reject journey still needs browser tests
-- Full UI message send/reply journey still needs browser tests
+- Full UI checkout journey still needs browser tests with mocked or sandbox payment flow
+- Full UI offer accept/reject journey still needs browser tests with deterministic auth/session setup
+- Full UI message send/reply journey still needs browser tests with deterministic auth/session setup
 - Admin/moderator UI still needs browser tests
-- Listing creation form submission still needs browser tests
+- Listing creation form submission still needs browser tests with deterministic auth/session setup
 - Image upload flow still needs browser tests
 - Email verification flow still needs browser tests
 - Password reset flow still needs browser tests
 
 ## Recommended next test blocks
 
-1. Add UI tests for create-listing form submission
-2. Add UI tests for buyer Buy Now checkout flow
-3. Add UI tests for buyer offer flow and seller accept/reject flow
-4. Add UI tests for buyer/seller messaging flow
-5. Add admin/moderator UI tests
-6. Add notification model and notification logic tests if notifications are required
-7. Add deeper mocked request/response API tests for route behaviour
+1. Add deterministic auth/session setup for UI tests so authenticated browser journeys do not rely on live login form stability
+2. Add UI tests for create-listing form submission
+3. Add UI tests for buyer Buy Now checkout flow
+4. Add UI tests for buyer offer flow and seller accept/reject flow
+5. Add UI tests for buyer/seller messaging flow
+6. Add admin/moderator UI tests
+7. Add notification model and notification logic tests if notifications are required
+8. Add deeper mocked request/response API tests for route behaviour
