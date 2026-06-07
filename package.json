@@ -20,7 +20,9 @@
                     "audit:live":  "node tmp-live-audit/live-browser-audit.mjs",
                     "test:marketplace-api-guards":  "node tools/marketplace-api-guard-check.cjs",
                     "test:marketplace-ui-flows":  "node tools/marketplace-ui-flow-check.cjs",
-                    "seed:e2e":  "tsx scripts/seed-e2e.ts"
+                    "seed:e2e":  "tsx scripts/seed-e2e.ts",
+                    "qa:hard":  "playwright test tests/e2e/hard-scan.spec.ts",
+                    "qa:hard:live":  "playwright test tests/e2e/hard-scan.spec.ts"
                 },
     "prisma":  {
                    "seed":  "node prisma/seed.cjs"
