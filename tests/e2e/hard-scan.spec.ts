@@ -17,7 +17,6 @@ const requiredPublicRoutes = [
   '/listings',
   '/listings?type=BUY_NOW',
   '/login',
-  '/privacy',
   '/pricing',
   '/prohibited-items',
   '/register',
