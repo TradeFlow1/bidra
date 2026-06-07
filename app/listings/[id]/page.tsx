@@ -203,7 +203,8 @@ export default async function ListingDetailPage({
   const buyNowAmount = listing.type === "BUY_NOW" ? listing.price : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : null);
   const isOwner = !!userId && userId === listing.sellerId;
   const canBuyNow = listing.status === "ACTIVE" && buyNowAmount !== null && !isOwner;
-  const canOffer = listing.status === "ACTIVE" && listing.type === "OFFERABLE" && !isOwner;
+  const canOffer = listing.status === "ACTIVE" && listing.type === "OFFERABLE" && !!userId && !isOwner;
+  const showOfferLogin = listing.status === "ACTIVE" && listing.type === "OFFERABLE" && !userId;
   const minOfferCents = Math.max(1, Number(listing.price || 0));
   const isSold = listing.status !== "ACTIVE";
   const attributeRows = listingAttributeRows(listing.attributes);
@@ -287,6 +288,14 @@ export default async function ListingDetailPage({
             <div className={canBuyNow && canOffer ? "mt-8 grid gap-4 sm:grid-cols-2" : "mt-8 grid gap-4"}>
               {canBuyNow ? <BuyNowButton listingId={listing.id} /> : null}
               {canOffer ? <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} /> : null}
+              {showOfferLogin ? (
+                <Link
+                  href={"/auth/login?next=/listings/" + listing.id}
+                  className="bd-btn bd-btn-primary w-full rounded-2xl text-center"
+                >
+                  Log in to make an offer
+                </Link>
+              ) : null}
             </div>
 
             {isOwner ? (

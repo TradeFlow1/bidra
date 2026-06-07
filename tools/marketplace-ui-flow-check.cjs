@@ -48,7 +48,8 @@ check("app/listings/[id]/place-offer-client.tsx", [
   { pattern: "Make an offer", label: "offer button" },
   { pattern: "Enter your offer amount", label: "offer amount input" },
   { pattern: "/api/offers/place", label: "offer API call" },
-  { pattern: "Current visible top offer", label: "proxy offer public display copy" }
+  { pattern: "Current visible top offer", label: "proxy offer public display copy" },
+  { pattern: "data?.isTop === true", label: "proxy offer top response handling" }
 ]);
 
 check("app/listings/[id]/message-seller-button.tsx", [
@@ -71,3 +72,9 @@ check("app/listings/c/[category]/[location]/page.tsx", [
 ]);
 
 console.log("PASS Marketplace UI flow inventory checks completed.");
+
+check("app/listings/[id]/page.tsx", [
+  { pattern: "!!userId && !isOwner", label: "authenticated offer form gate" },
+  { pattern: "showOfferLogin", label: "guest offer login gate" },
+  { pattern: "Log in to make an offer", label: "guest offer login CTA" }
+]);

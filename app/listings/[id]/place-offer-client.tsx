@@ -93,7 +93,7 @@ export default function PlaceOfferClient({
         return;
       }
 
-      const isTop = data?.status === "TOP" || data?.status === "HIGHEST" || data?.status === "WINNING";
+      const isTop = data?.isTop === true || data?.status === "TOP" || data?.status === "HIGHEST" || data?.status === "WINNING";
 
       setLastResult({
         submittedCents: cents,

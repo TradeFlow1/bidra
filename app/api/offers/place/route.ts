@@ -222,7 +222,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       ok: true,
-      status: "PLACED",
+      status: result.challengerLeads ? "TOP" : "OUTBID",
+      isTop: result.challengerLeads,
       duplicateReused: result.reused,
       offerId: result.offerId,
       currentOfferCents: result.currentOfferAmount,
