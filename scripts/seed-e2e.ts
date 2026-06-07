@@ -1,3 +1,28 @@
+import fs from 'fs';
+import path from 'path';
+
+const envPath = path.join(process.cwd(), '.env.test');
+if (fs.existsSync(envPath)) {
+  const lines = fs.readFileSync(envPath, 'utf8').split(/\r?\n/);
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#') || !trimmed.includes('=')) {
+      continue;
+    }
+
+    const index = trimmed.indexOf('=');
+    const key = trimmed.slice(0, index);
+    const value = trimmed.slice(index + 1);
+    if (!process.env[key]) {
+      process.env[key] = value;
+    }
+  }
+}
+
+if (!process.env.DATABASE_URL) {
+  throw new Error('Missing required environment variable: DATABASE_URL. Add it to .env.test or set it before running npm run seed:e2e.');
+}
+
 import { prisma } from '../lib/prisma';
 
 function required(name: string) {
