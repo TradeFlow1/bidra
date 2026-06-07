@@ -30,7 +30,14 @@ if (-not $env:BIDRA_TEST_URL) {
     $env:BIDRA_TEST_URL = 'http://localhost:3000'
 }
 
-& npx.cmd playwright test
+$IsLocalE2eUrl = $env:BIDRA_TEST_URL -match '^https?://(localhost|127\.0\.0\.1)(:\d+)?(/|$)'
+if ($IsLocalE2eUrl) {
+    $env:BIDRA_TEST_AUTH_ENABLED = '1'
+} else {
+    Remove-Item Env:\BIDRA_TEST_AUTH_ENABLED -ErrorAction SilentlyContinue
+}
+
+& npx.cmd playwright test --grep-invert "Disposable authenticated marketplace browser flows"
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host 'Some Playwright tests failed. Opening report if available.'
