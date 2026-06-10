@@ -22,7 +22,8 @@
                     "test:marketplace-ui-flows":  "node tools/marketplace-ui-flow-check.cjs",
                     "seed:e2e":  "tsx scripts/seed-e2e.ts",
                     "qa:hard":  "playwright test tests/e2e/hard-scan.spec.ts",
-                    "qa:hard:live":  "playwright test tests/e2e/hard-scan.spec.ts"
+                    "qa:hard:live":  "playwright test tests/e2e/hard-scan.spec.ts",
+                    "launch:gate":  "powershell -ExecutionPolicy Bypass -File scripts/launch-readiness.ps1"
                 },
     "prisma":  {
                    "seed":  "node prisma/seed.cjs"
