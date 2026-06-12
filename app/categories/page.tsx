@@ -68,7 +68,7 @@ const categories = [
     ],
   },
   {
-    title: "Business & Industrial",
+    title: "Machinery & Equipment",
     href: "/listings?category=business-and-industrial",
     description: "Machinery, office equipment, trade tools and supplies.",
     links: [
@@ -167,7 +167,7 @@ export default function CategoriesPage() {
                 </div>
 
                 <Link href={category.href} className="mt-auto pt-5 text-sm font-black text-[#4F46E5] hover:text-[#4338CA]">
-                  See all in {category.title} →
+                  See all in {category.title} â†’
                 </Link>
               </section>
             ))}

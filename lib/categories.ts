@@ -22,8 +22,25 @@ export const BIDRA_CATEGORIES: BidraCategory[] = [
     subcategories: [
       { key: "cars", label: "Cars" },
       { key: "motorcycles", label: "Motorcycles" },
+      { key: "utes-vans", label: "Utes & Vans" },
+      { key: "trucks", label: "Trucks" },
+      { key: "trailers", label: "Trailers" },
       { key: "parts", label: "Parts & Accessories" },
-      { key: "commercial", label: "Commercial Vehicles" }
+      { key: "boats-marine", label: "Boats & Marine" }
+    ]
+  },
+  {
+    key: "machinery-equipment",
+    label: "Machinery & Equipment",
+    subcategories: [
+      { key: "construction-equipment", label: "Construction Equipment" },
+      { key: "farm-machinery", label: "Farm Machinery" },
+      { key: "forklifts-material-handling", label: "Forklifts & Material Handling" },
+      { key: "excavators-loaders", label: "Excavators & Loaders" },
+      { key: "trailers-attachments", label: "Trailers & Attachments" },
+      { key: "generators-compressors", label: "Generators & Compressors" },
+      { key: "commercial-tools", label: "Commercial Tools" },
+      { key: "other-machinery", label: "Other Machinery" }
     ]
   },
   {
@@ -32,7 +49,9 @@ export const BIDRA_CATEGORIES: BidraCategory[] = [
     subcategories: [
       { key: "rentals", label: "Rentals" },
       { key: "home-sales", label: "Home Sales" },
-      { key: "commercial", label: "Commercial Property" }
+      { key: "land", label: "Land" },
+      { key: "commercial", label: "Commercial Property" },
+      { key: "rooms-shared", label: "Rooms & Shared Accommodation" }
     ]
   },
   {
@@ -44,7 +63,9 @@ export const BIDRA_CATEGORIES: BidraCategory[] = [
       { key: "audio", label: "Audio" },
       { key: "gaming", label: "Gaming" },
       { key: "cameras", label: "Cameras" },
-      { key: "tvs", label: "TVs" }
+      { key: "tvs", label: "TVs" },
+      { key: "wearables", label: "Wearables" },
+      { key: "accessories", label: "Accessories" }
     ]
   },
   {
@@ -56,7 +77,8 @@ export const BIDRA_CATEGORIES: BidraCategory[] = [
       { key: "tables", label: "Tables" },
       { key: "storage", label: "Storage" },
       { key: "decor", label: "Decor" },
-      { key: "lighting", label: "Lighting" }
+      { key: "lighting", label: "Lighting" },
+      { key: "office-furniture", label: "Office Furniture" }
     ]
   },
   {
@@ -65,7 +87,33 @@ export const BIDRA_CATEGORIES: BidraCategory[] = [
     subcategories: [
       { key: "kitchen", label: "Kitchen Appliances" },
       { key: "laundry", label: "Laundry Appliances" },
-      { key: "heating-cooling", label: "Heating & Cooling" }
+      { key: "heating-cooling", label: "Heating & Cooling" },
+      { key: "vacuums-cleaning", label: "Vacuums & Cleaning" },
+      { key: "small-appliances", label: "Small Appliances" }
+    ]
+  },
+  {
+    key: "tools-diy",
+    label: "Tools & DIY",
+    subcategories: [
+      { key: "power-tools", label: "Power Tools" },
+      { key: "hand-tools", label: "Hand Tools" },
+      { key: "building-supplies", label: "Building Supplies" },
+      { key: "hardware", label: "Hardware" },
+      { key: "garden-tools", label: "Garden Tools" },
+      { key: "workshop-equipment", label: "Workshop Equipment" }
+    ]
+  },
+  {
+    key: "garden-outdoor",
+    label: "Garden & Outdoor",
+    subcategories: [
+      { key: "plants", label: "Plants" },
+      { key: "outdoor-furniture", label: "Outdoor Furniture" },
+      { key: "bbq", label: "BBQ & Outdoor Cooking" },
+      { key: "lawn-mowers", label: "Lawn Mowers" },
+      { key: "outdoor-power-equipment", label: "Outdoor Power Equipment" },
+      { key: "garden-supplies", label: "Garden Supplies" }
     ]
   },
   {
@@ -86,7 +134,8 @@ export const BIDRA_CATEGORIES: BidraCategory[] = [
       { key: "toys", label: "Toys" },
       { key: "clothing", label: "Kids Clothing" },
       { key: "nursery", label: "Nursery" },
-      { key: "prams", label: "Prams & Strollers" }
+      { key: "prams", label: "Prams & Strollers" },
+      { key: "car-seats", label: "Car Seats" }
     ]
   },
   {
@@ -96,17 +145,9 @@ export const BIDRA_CATEGORIES: BidraCategory[] = [
       { key: "fitness", label: "Fitness" },
       { key: "camping", label: "Camping" },
       { key: "cycling", label: "Cycling" },
-      { key: "team-sports", label: "Team Sports" }
-    ]
-  },
-  {
-    key: "tools-diy",
-    label: "Tools & DIY",
-    subcategories: [
-      { key: "power-tools", label: "Power Tools" },
-      { key: "hand-tools", label: "Hand Tools" },
-      { key: "building-supplies", label: "Building Supplies" },
-      { key: "hardware", label: "Hardware" }
+      { key: "team-sports", label: "Team Sports" },
+      { key: "fishing", label: "Fishing" },
+      { key: "water-sports", label: "Water Sports" }
     ]
   },
   {
@@ -116,7 +157,8 @@ export const BIDRA_CATEGORIES: BidraCategory[] = [
       { key: "collectibles", label: "Collectibles" },
       { key: "art", label: "Art" },
       { key: "crafts", label: "Crafts" },
-      { key: "music", label: "Musical Instruments" }
+      { key: "music", label: "Musical Instruments" },
+      { key: "antiques", label: "Antiques" }
     ]
   },
   {
@@ -126,16 +168,19 @@ export const BIDRA_CATEGORIES: BidraCategory[] = [
       { key: "books", label: "Books" },
       { key: "movies", label: "Movies" },
       { key: "music", label: "Music" },
-      { key: "games", label: "Video Games" }
+      { key: "games", label: "Video Games" },
+      { key: "board-games", label: "Board Games" }
     ]
   },
   {
-    key: "office-business",
-    label: "Office & Business",
+    key: "business-office",
+    label: "Business & Office",
     subcategories: [
       { key: "office-furniture", label: "Office Furniture" },
       { key: "supplies", label: "Office Supplies" },
-      { key: "equipment", label: "Business Equipment" }
+      { key: "retail-equipment", label: "Retail Equipment" },
+      { key: "hospitality-equipment", label: "Hospitality Equipment" },
+      { key: "medical-lab-equipment", label: "Medical & Lab Equipment" }
     ]
   },
   {
@@ -145,17 +190,8 @@ export const BIDRA_CATEGORIES: BidraCategory[] = [
       { key: "dogs", label: "Dogs" },
       { key: "cats", label: "Cats" },
       { key: "tanks", label: "Aquariums & Tanks" },
-      { key: "bedding", label: "Pet Bedding & Care" }
-    ]
-  },
-  {
-    key: "garden-outdoor",
-    label: "Garden & Outdoor",
-    subcategories: [
-      { key: "plants", label: "Plants" },
-      { key: "outdoor-furniture", label: "Outdoor Furniture" },
-      { key: "garden-tools", label: "Garden Tools" },
-      { key: "bbq", label: "BBQ & Outdoor Cooking" }
+      { key: "bedding", label: "Pet Bedding & Care" },
+      { key: "bird-small-animal", label: "Bird & Small Animal Supplies" }
     ]
   },
   {
@@ -196,6 +232,7 @@ export function findSubcategory(categoryKey: string | null | undefined, subcateg
   }
   return null;
 }
+
 export function joinCategory(parent: string, child?: string | null): string {
   const p = String(parent || "").trim();
   const c = String(child || "").trim();

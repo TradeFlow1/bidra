@@ -14,10 +14,11 @@ const categories = [
   "Electronics",
   "Home & Living",
   "Vehicles",
+  "Machinery & Equipment",
   "Sports & Outdoors",
   "Fashion",
   "Kids & Baby",
-  "Business & Industrial",
+  "Machinery & Equipment",
   "Books & Media",
   "Other",
 ];

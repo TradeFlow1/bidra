@@ -27,7 +27,33 @@ type SuggestionRule = {
   kws: string[];
 };
 
+const MACHINERY_TERMS = [
+  "skid steer",
+  "excavator",
+  "loader",
+  "bobcat",
+  "forklift",
+  "tractor",
+  "backhoe",
+  "dozer",
+  "grader",
+  "tipper",
+  "machinery",
+  "earthmoving",
+  "plant equipment",
+  "farm machinery",
+  "generator",
+  "compressor",
+  "pallet jack"
+];
+
 const SUGGESTION_RULES: SuggestionRule[] = [
+  { categoryKey: "machinery-equipment", subcategoryKey: "excavators-loaders", kws: ["skid steer","loader","bobcat","excavator","backhoe","dozer","grader","earthmoving","digger"] },
+  { categoryKey: "machinery-equipment", subcategoryKey: "farm-machinery", kws: ["tractor","farm machinery","harvester","slasher","plough","seeder"] },
+  { categoryKey: "machinery-equipment", subcategoryKey: "forklifts-material-handling", kws: ["forklift","pallet jack","telehandler","material handling"] },
+  { categoryKey: "machinery-equipment", subcategoryKey: "generators-compressors", kws: ["generator","compressor","air compressor"] },
+  { categoryKey: "machinery-equipment", subcategoryKey: "trailers-attachments", kws: ["machinery trailer","plant trailer","attachment","bucket","auger","grapple"] },
+  { categoryKey: "machinery-equipment", subcategoryKey: "construction-equipment", kws: ["machinery","plant equipment","construction equipment","tipper"] },
   { categoryKey: "fashion", subcategoryKey: "jewellery", kws: ["watch","watches","rolex","seiko","casio","ring","rings","necklace","bracelet","earrings","jewellery","jewelry"] },
   { categoryKey: "electronics", subcategoryKey: "phones", kws: ["iphone","android","phone","mobile","samsung","pixel","charger","case","airpods"] },
   { categoryKey: "electronics", subcategoryKey: "computers", kws: ["laptop","macbook","pc","desktop","computer","monitor","keyboard","mouse","ssd","gpu","graphics","ram"] },
@@ -68,8 +94,8 @@ const SUGGESTION_RULES: SuggestionRule[] = [
   { categoryKey: "entertainment-media", subcategoryKey: "books", kws: ["book","novel","textbook","paperback","hardcover"] },
   { categoryKey: "entertainment-media", subcategoryKey: "movies", kws: ["dvd","bluray","blu-ray","movie"] },
   { categoryKey: "entertainment-media", subcategoryKey: "games", kws: ["video game","game disc","nintendo game","xbox game","ps5 game"] },
-  { categoryKey: "office-business", subcategoryKey: "office-furniture", kws: ["office chair","desk","standing desk","filing cabinet"] },
-  { categoryKey: "office-business", subcategoryKey: "supplies", kws: ["stationery","paper","notebook","pens","labels","ink","toner"] },
+  { categoryKey: "business-office", subcategoryKey: "office-furniture", kws: ["office chair","desk","standing desk","filing cabinet"] },
+  { categoryKey: "business-office", subcategoryKey: "supplies", kws: ["stationery","paper","notebook","pens","labels","ink","toner"] },
   { categoryKey: "pet-supplies", subcategoryKey: "dogs", kws: ["dog","puppy","leash","collar","kennel","crate"] },
   { categoryKey: "pet-supplies", subcategoryKey: "cats", kws: ["cat","kitten","litter","scratching post","cat tree"] },
   { categoryKey: "pet-supplies", subcategoryKey: "tanks", kws: ["aquarium","fish tank"] },
@@ -625,6 +651,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
             <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] p-2.5 sm:p-3">
               <div className="text-sm font-semibold bd-ink">Category</div>
+              <p className="mt-1 text-xs font-semibold bd-ink2">Choose what the item is, not where it is used.</p>
 
               {suggestedCategory && suggestedCategory.categoryLabel !== category ? (
                 <div className="mt-3 flex flex-wrap items-center gap-2 text-xs bd-ink2">
