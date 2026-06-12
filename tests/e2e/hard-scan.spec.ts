@@ -60,6 +60,10 @@ function isInternalUrl(baseUrl: string, url: URL) {
   return url.origin === new URL(baseUrl).origin;
 }
 
+function isConfiguredBaseUrl(baseUrl: string, url: URL) {
+  return url.origin.toLowerCase() === new URL(baseUrl).origin.toLowerCase();
+}
+
 function shouldSkipInternalPath(pathname: string) {
   return pathname.startsWith('/api/') ||
     pathname === '/logout' ||
@@ -210,8 +214,10 @@ test.describe('Bidra hard live QA baseline', function () {
         discovered.set(cleanUrl, route);
 
         const lowerHref = cleanUrl.toLowerCase();
-        expect(lowerHref.includes('localhost'), 'Localhost link leaked on ' + route + ': ' + cleanUrl).toBe(false);
-        expect(lowerHref.includes('127.0.0.1'), 'Loopback link leaked on ' + route + ': ' + cleanUrl).toBe(false);
+        if (!isConfiguredBaseUrl(baseURL!, normalized)) {
+          expect(lowerHref.includes('localhost'), 'Localhost link leaked on ' + route + ': ' + cleanUrl).toBe(false);
+          expect(lowerHref.includes('127.0.0.1'), 'Loopback link leaked on ' + route + ': ' + cleanUrl).toBe(false);
+        }
       }
     }
 
