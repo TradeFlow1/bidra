@@ -58,6 +58,13 @@ check("app/api/listings/create/route.ts", [
   { pattern: "images", label: "image validation" }
 ]);
 
+check("app/api/listings/[id]/update/route.ts", [
+  { pattern: "requireAdult", label: "adult/session gate" },
+  { pattern: "existing.sellerId !== session.user.id", label: "seller ownership guard" },
+  { pattern: '"SOLD"', label: "seller sold status support" },
+  { pattern: "SELLER_ALLOWED_STATUSES", label: "seller status allow-list" }
+]);
+
 check("app/api/messages/thread/route.ts", [
   { pattern: "requireAdult", label: "adult/session gate" },
   { pattern: "listingId", label: "listing thread linkage" },

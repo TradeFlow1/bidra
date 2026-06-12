@@ -28,6 +28,7 @@ type ListingsPageProps = {
     min?: string;
     max?: string;
     location?: string;
+    q?: string;
     state?: string;
     radius?: string;
     condition?: string;
@@ -50,6 +51,10 @@ function parseDollars(value?: string) {
   const parsed = Number(value.replace(/[^0-9.]/g, ""));
   if (!Number.isFinite(parsed) || parsed < 0) return undefined;
   return Math.round(parsed * 100);
+}
+
+function cleanSearchQuery(value?: string) {
+  return String(value || "").replace(/\s+/g, " ").trim().slice(0, 80);
 }
 
 function formatPrice(cents: number | null | undefined) {
@@ -97,6 +102,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
   const maxPrice = parseDollars(searchParams.max);
   const selectedCondition = searchParams.condition || "";
   const selectedSort = searchParams.sort || "newest";
+  const selectedQuery = cleanSearchQuery(searchParams.q);
   const selectedLocation = searchParams.location || profileLocation || "";
   const selectedState = searchParams.state || profileState || "";
   const selectedRadius = (searchParams.radius || "").replace(/[^0-9.]/g, "");
@@ -125,6 +131,18 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
   if (selectedCategory !== "All categories") {
     where.category = { equals: selectedCategory, mode: "insensitive" };
+  }
+
+  if (selectedQuery) {
+    where.AND.push({
+      OR: [
+        { title: { contains: selectedQuery, mode: "insensitive" } },
+        { description: { contains: selectedQuery, mode: "insensitive" } },
+        { category: { contains: selectedQuery, mode: "insensitive" } },
+        { condition: { contains: selectedQuery, mode: "insensitive" } },
+        { location: { contains: selectedQuery, mode: "insensitive" } },
+      ],
+    });
   }
 
   if (typeof minPrice === "number" || typeof maxPrice === "number") {
@@ -227,6 +245,17 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
               <input type="hidden" name="category" value={selectedCategory === "All categories" ? "" : slugify(selectedCategory)} />
               <h2 className="text-2xl font-black tracking-tight text-[#08112F]">Filters</h2>
               <div className="mt-6 space-y-6">
+                <label className="block">
+                  <span className="text-sm font-black">Search</span>
+                  <input
+                    name="q"
+                    defaultValue={selectedQuery}
+                    className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] px-4 text-sm font-semibold"
+                    placeholder="Keyword, item, brand or suburb"
+                    autoComplete="off"
+                  />
+                </label>
+
                 <div>
                   <div className="mb-3 text-sm font-black">Price</div>
                   <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
@@ -309,6 +338,11 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
               <div>
                 <h2 className="text-4xl font-black tracking-tight text-[#08112F]">All listings</h2>
                 <p className="mt-2 text-base font-semibold text-[#64748B]">{displayCount} results</p>
+                {selectedQuery ? (
+                  <p className="mt-1 text-sm font-semibold text-[#4F46E5]">
+                    Search: {selectedQuery}
+                  </p>
+                ) : null}
                 {radiusIsActive ? (
                   <p className="mt-1 text-sm font-semibold text-[#4F46E5]">
                     {canApplyRadius
@@ -423,6 +457,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-3">
+              <input name="q" defaultValue={selectedQuery} className="col-span-2 h-12 min-w-0 rounded-2xl border border-[#D8E1F0] px-4 text-sm font-bold text-[#08112F]" placeholder="Search listings" autoComplete="off" />
               <input name="min" defaultValue={searchParams.min || ""} className="h-12 min-w-0 rounded-2xl border border-[#D8E1F0] px-4 text-sm font-bold text-[#08112F]" placeholder="Min $" inputMode="numeric" />
               <input name="max" defaultValue={searchParams.max || ""} className="h-12 min-w-0 rounded-2xl border border-[#D8E1F0] px-4 text-sm font-bold text-[#08112F]" placeholder="Max $" inputMode="numeric" />
             </div>

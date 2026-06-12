@@ -39,6 +39,13 @@ check("app/sell/new/sell-new-client.tsx", [
   { pattern: "Continue", label: "publish/continue submit button" }
 ]);
 
+check("app/sell/edit/[id]/edit-listing-client.tsx", [
+  { pattern: '"SOLD"', label: "seller sold status option" },
+  { pattern: "Mark sold", label: "seller mark sold action" },
+  { pattern: "markListingSold", label: "seller mark sold handler" },
+  { pattern: "/update", label: "listing update API call" }
+]);
+
 check("app/listings/[id]/buy-now-button.tsx", [
   { pattern: "Buy now", label: "buy now button" },
   { pattern: "/buy-now", label: "buy now API call" }
@@ -55,6 +62,13 @@ check("app/listings/[id]/place-offer-client.tsx", [
 check("app/listings/[id]/message-seller-button.tsx", [
   { pattern: "Message seller", label: "message seller button" },
   { pattern: "/api/messages/thread", label: "message thread API call" }
+]);
+
+check("app/listings/page.tsx", [
+  { pattern: "selectedQuery", label: "keyword query state" },
+  { pattern: 'name="q"', label: "keyword search input" },
+  { pattern: "contains: selectedQuery", label: "server-side keyword filtering" },
+  { pattern: "Search: {selectedQuery}", label: "keyword results summary" }
 ]);
 
 check("app/messages/[id]/components/send-box.tsx", [
@@ -76,5 +90,9 @@ console.log("PASS Marketplace UI flow inventory checks completed.");
 check("app/listings/[id]/page.tsx", [
   { pattern: "!!userId && !isOwner", label: "authenticated offer form gate" },
   { pattern: "showOfferLogin", label: "guest offer login gate" },
-  { pattern: "Log in to make an offer", label: "guest offer login CTA" }
+  { pattern: "Log in to make an offer", label: "guest offer login CTA" },
+  { pattern: "ListingImageGallery", label: "multi-image detail gallery" },
+  { pattern: "generateMetadata({ params }", label: "dynamic listing metadata" },
+  { pattern: "alternates: { canonical: canonicalPath }", label: "listing canonical URL" },
+  { pattern: "openGraph", label: "listing open graph metadata" }
 ]);

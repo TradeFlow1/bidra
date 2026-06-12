@@ -24,7 +24,7 @@ function sanitizeDescriptionDisplay(input: string): string {
 }
 
 
-const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED"] as const;
+const SELLER_ALLOWED_STATUSES = ["DRAFT", "ACTIVE", "ENDED", "SOLD"] as const;
 type SellerStatus = (typeof SELLER_ALLOWED_STATUSES)[number];
 
 type ListingSeed = {
@@ -111,6 +111,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [endOpen, setEndOpen] = useState(false);
+  const [soldOpen, setSoldOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const previews = useMemo(() => {
@@ -241,6 +242,53 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
     }
   }
 
+  async function markListingSold() {
+    if (isSaving) return;
+
+    setError(null);
+    setIsSaving(true);
+    try {
+      const body: any = {
+        title: title.trim(),
+        description: description.trim(),
+        category: category.trim(),
+        condition: condition.trim(),
+        location: location.trim(),
+        price: dollarsToCents(price),
+        images: (existingImages || []).filter(Boolean).slice(0, 10),
+        status: "SOLD",
+      };
+
+      if (isTimedOffers) {
+        body.buyNowPrice =
+          (!buyNowEnabled
+            ? null
+            : (inFinal24h && String(buyNow ?? "").trim()
+                ? dollarsToCents(String(buyNow ?? "").trim())
+                : null));
+      }
+
+      const res = await fetch(`/api/listings/${listing.id}/update`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(String((data as unknown as { error?: string })?.error || `Mark sold failed (HTTP ${res.status})`));
+        return;
+      }
+
+      setStatus("SOLD");
+      router.push("/dashboard/listings");
+      router.refresh();
+    } catch (e: any) {
+      setError(String(e?.message || e || "Mark sold failed."));
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
   async function deleteListing() {
     if (isSaving) return;
     if (!true) return;
@@ -296,6 +344,17 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                     className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
                   >
                     End listing
+                  </button>
+                ) : null}
+
+                {status !== "SOLD" ? (
+                  <button
+                    type="button"
+                    onClick={function () { setError(null); setSoldOpen(true); }}
+                    disabled={isSaving}
+                    className="inline-flex h-11 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+                  >
+                    Mark sold
                   </button>
                 ) : null}
 
@@ -665,6 +724,18 @@ buyNowPrice:
         confirmDisabled={isSaving}
       >
         This listing will be removed from public view.
+      </BdModal>
+
+      <BdModal
+        open={soldOpen}
+        title="Mark this listing as sold?"
+        onClose={function () { if (!isSaving) setSoldOpen(false); }}
+        onConfirm={async function () { await markListingSold(); setSoldOpen(false); }}
+        confirmText={isSaving ? "Marking sold..." : "Mark sold"}
+        cancelText="Keep listing"
+        confirmDisabled={isSaving}
+      >
+        This will remove the listing from active browsing and show it as sold in your listing records.
       </BdModal>
     </main>
   );

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { Fragment } from "react";
 import Link from "next/link";
@@ -9,6 +10,8 @@ import MessageSellerButton from "./message-seller-button";
 import PlaceOfferClient from "./place-offer-client";
 import ReportListingButton from "./report-listing-button";
 import WatchlistButton from "./watchlist-button";
+import ListingImageGallery from "@/components/listing-image-gallery";
+import { getBaseUrl } from "@/lib/base-url";
 
 function cleanText(value: unknown) {
   return String(value ?? "").replace(/[\u0000-\u001F\u007F]/g, "").trim();
@@ -95,10 +98,57 @@ function safeListingImages(value: unknown) {
   return Array.from(new Set(images)).slice(0, 8);
 }
 
-export async function generateMetadata() {
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const listing = await prisma.listing.findUnique({
+    where: { id: params.id },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      images: true,
+      status: true,
+      location: true,
+      price: true,
+      buyNowPrice: true,
+    },
+  });
+
+  if (!listing) {
+    return {
+      title: "Listing not found | Bidra",
+      description: "This Bidra listing is not available.",
+      robots: { index: false, follow: true },
+    };
+  }
+
+  const title = cleanText(listing.title) || "Bidra listing";
+  const price = money(typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price);
+  const location = cleanText(listing.location);
+  const description = cleanDescription(listing.description) ||
+    "View photos, price, seller profile, and contact options for this Bidra listing.";
+  const canonicalPath = "/listings/" + listing.id;
+  const url = getBaseUrl().replace(/\/+$/, "") + canonicalPath;
+  const images = safeListingImages(listing.images).slice(0, 4);
+  const metaDescription = `${price}${location ? " in " + location : ""}. ${description}`.slice(0, 180);
+
   return {
-    title: "Listing | Bidra",
-    description: "View this listing on Bidra.",
+    title: title + " | Bidra",
+    description: metaDescription,
+    alternates: { canonical: canonicalPath },
+    robots: listing.status === "ACTIVE" ? { index: true, follow: true } : { index: false, follow: true },
+    openGraph: {
+      type: "article",
+      url,
+      title: title + " | Bidra",
+      description: metaDescription,
+      images,
+    },
+    twitter: {
+      card: images.length ? "summary_large_image" : "summary",
+      title: title + " | Bidra",
+      description: metaDescription,
+      images,
+    },
   };
 }
 
@@ -209,7 +259,6 @@ export default async function ListingDetailPage({
   const isSold = listing.status !== "ACTIVE";
   const attributeRows = listingAttributeRows(listing.attributes);
   const images = safeListingImages(listing.images);
-  const primaryImage = images[0] || "";
 
   return (
     <main className="min-h-screen bg-white px-4 py-8 text-[#080D32] sm:px-6 lg:px-10">
@@ -224,23 +273,7 @@ export default async function ListingDetailPage({
 
         <section className="grid gap-8 lg:grid-cols-[1.35fr_0.85fr] lg:items-start xl:gap-12">
           <div>
-            <div className="overflow-hidden rounded-2xl border border-[#E1E7F5] bg-white shadow-sm">
-              {primaryImage ? (
-                <div className="relative h-[340px] w-full sm:h-[460px] lg:h-[520px]">
-                  <Image src={primaryImage} alt={title} fill sizes="(min-width: 1024px) 58vw, 100vw" className="object-contain p-6" priority />
-                </div>
-              ) : (
-                <div className="flex h-[340px] items-center justify-center px-6 text-center text-sm font-bold text-[#667399] sm:h-[460px] lg:h-[520px]">No listing image available</div>
-              )}
-            </div>
-
-            <div className="mt-4 flex flex-wrap justify-center gap-4">
-              {(images.length ? images : [""]).slice(0, 8).map((image, index) => (
-                <div key={image || String(index)} className="flex h-8 w-8 items-center justify-center rounded-xl border border-[#DFE6F6] bg-white shadow-sm">
-                  {image ? <span className="h-3 w-3 rounded border-2 border-[#352CFF]" /> : <span className="h-3 w-3 rounded border-2 border-[#A8B1CC]" />}
-                </div>
-              ))}
-            </div>
+            <ListingImageGallery images={images} title={title} />
 
             <div className="mt-8 rounded-2xl border border-[#DFE6F6] bg-white p-6 shadow-sm">
               <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
