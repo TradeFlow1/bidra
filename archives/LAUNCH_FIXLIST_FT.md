@@ -1,4 +1,4 @@
-﻿# [ARCHIVED]
+# [ARCHIVED]
 
 > Historical document only. **Do not use for active tracking.**
 > Single source of truth was .\LAUNCH_FIXLIST_LR.md (reached 100% and archived on 2026-01-24).
@@ -20,7 +20,7 @@ Rule: One checkbox = one focused change-set (minimal regress).
 ---
 
 ## P0 — Must fix before Friend Test (trust, usability, payment, privacy)
-- [x] CATS-01: Categories are unclear. Replace with full Category + Subcategory taxonomy (eBay/Gumtree style, original copy). Apply consistently on: Home category chips, /listings filters, /sell/new dropdown.
+- [x] CATS-01: Categories are unclear. Replace with full Category + Subcategory taxonomy (large peer-marketplace style, original copy). Apply consistently on: Home category chips, /listings filters, /sell/new dropdown.
 - [x] PAY-01: Remove any hardcoded support@bidra.com.au usage in user-facing flows/legal copy. Replace with neutral wording (no email) OR configurable seller contact.
 - [x] PAY-02: PayID/Osko payment: allow sellers to set PayID details in Account Settings (optional). After a sale: if seller has PayID show instructions; if not, show “Contact seller to arrange payment.”
 - [x] ACCT-01: Consolidate /dashboard and /account into one simple “My Account” hub (keep routes, but make one redirect or one canonical UI).

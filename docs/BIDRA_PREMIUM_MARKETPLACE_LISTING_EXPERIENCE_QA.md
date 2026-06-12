@@ -2,7 +2,7 @@
 
 ## Target
 
-Move Bidra closer to eBay/Gumtree-quality listing detail density, trust, and visual hierarchy.
+Move Bidra closer to high-quality marketplace listing detail density, trust, and visual hierarchy.
 
 ## Must pass
 

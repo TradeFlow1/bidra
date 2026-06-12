@@ -21,6 +21,10 @@ foreach ($Item in $Commands) {
     Write-Host ''
     Write-Host ('===== ' + $Item.Name + ' =====')
 
+    if ($Item.Name -eq 'Build') {
+        Remove-Item -Recurse -Force .next -ErrorAction SilentlyContinue
+    }
+
     $Program = $Item.Command[0]
     $Args = @()
     if ($Item.Command.Count -gt 1) {
