@@ -155,12 +155,22 @@ export default async function HomePage() {
   return (
     <ReferencePage>
       <div className={appShell + " pt-4 sm:pt-6"}>
-        <HomeHero sellHref={userId ? "/sell/new" : "/auth/register"} featuredListings={listings.slice(0, 4).map((listing) => ({
-          id: listing.id,
-          title: listing.title,
-          category: String(listing.category || "Listing").split(" > ")[0],
-          price: Number(listing.type === "OFFERABLE" ? (listing.offers?.[0]?.amount ?? listing.price) : (listing.buyNowPrice ?? listing.price)),
-        }))} />
+        <HomeHero sellHref={userId ? "/sell/new" : "/auth/register"} featuredListings={listings.slice(0, 4).map((listing) => {
+          const imageList = Array.isArray(listing.images) ? (listing.images as Array<string | { url?: string; src?: string }>) : [];
+          const firstImage = imageList[0];
+          const imageUrl =
+            typeof firstImage === "string"
+              ? firstImage
+              : firstImage?.url || firstImage?.src || null;
+
+          return {
+            id: listing.id,
+            title: listing.title,
+            category: String(listing.category || "Listing").split(" > ")[0],
+            price: Number(listing.type === "OFFERABLE" ? (listing.offers?.[0]?.amount ?? listing.price) : (listing.buyNowPrice ?? listing.price)),
+            imageUrl,
+          };
+        })} />
 
         <MarketplaceSection title="Browse categories" action={<Link href="/listings" className="text-sm font-black text-[#0E7490]">View all categories</Link>}>
           <CategoryPillGrid categories={categories} />
