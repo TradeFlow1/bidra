@@ -167,7 +167,7 @@ export default function CategoriesPage() {
                 </div>
 
                 <Link href={category.href} className="mt-auto pt-5 text-sm font-black text-[#4F46E5] hover:text-[#4338CA]">
-                  See all in {category.title} Ã¢â€ â€™
+                  See all in {category.title} â†’
                 </Link>
               </section>
             ))}

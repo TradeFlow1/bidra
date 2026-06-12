@@ -15,7 +15,6 @@ const categories = [
   "Home & Living",
   "Vehicles",
   "Machinery & Equipment",
-  "Machinery & Equipment",
   "Sports & Outdoors",
   "Fashion",
   "Kids & Baby",
