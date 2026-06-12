@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type React from "react";
 import { ProductPlaceholder, MarketplaceIcon } from "@/components/marketplace-ui";
@@ -19,6 +20,7 @@ type FeaturedHeroListing = {
   title: string;
   category: string;
   price: number;
+  imageUrl?: string | null;
 };
 
 export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string; featuredListings?: FeaturedHeroListing[] }) {
@@ -107,6 +109,15 @@ export function HomeHero({ sellHref, featuredListings = [] }: { sellHref: string
   );
 }
 
+function money(cents: number | null | undefined) {
+  const v = typeof cents === "number" ? cents : 0;
+  return (v / 100).toLocaleString("en-AU", {
+    style: "currency",
+    currency: "AUD",
+    maximumFractionDigits: 0,
+  });
+}
+
 export function ProductCollage({ listings = [] }: { listings?: FeaturedHeroListing[] }) {
   const fallbackProducts: FeaturedHeroListing[] = [
     { id: "fallback-sofa", title: "Fresh local sofa", category: "Home", price: 250 },
@@ -136,7 +147,17 @@ export function ProductCollage({ listings = [] }: { listings?: FeaturedHeroListi
             positions[index] || "",
           )}
         >
-          <ProductPlaceholder kind={productKinds[index] || "empty"} className="h-full min-h-[150px]" />
+          {item.imageUrl ? (
+            <Image
+              src={item.imageUrl}
+              alt={item.title}
+              fill
+              sizes="(max-width: 1024px) 50vw, 320px"
+              className="object-cover transition duration-300 group-hover:scale-[1.03]"
+            />
+          ) : (
+            <ProductPlaceholder kind={productKinds[index] || "empty"} className="h-full min-h-[150px]" />
+          )}
           <span className="absolute left-3 top-3 rounded-full bg-white px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#4F46E5] shadow-lg ring-1 ring-[#C7D2FE]">
             {item.category || "Listing"}
           </span>
@@ -144,7 +165,7 @@ export function ProductCollage({ listings = [] }: { listings?: FeaturedHeroListi
             {item.title}
           </span>
           <span className="absolute bottom-3 left-3 rounded-full bg-white px-3 py-1 text-xs font-black text-[#4F46E5] shadow-lg ring-1 ring-[#C7D2FE]">
-            ${item.price.toLocaleString("en-AU", { maximumFractionDigits: 0 })}
+            {money(item.price)}
           </span>
         </Link>
       ))}
