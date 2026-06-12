@@ -47,7 +47,33 @@ const MACHINERY_TERMS = [
   "pallet jack"
 ];
 
+const MACHINERY_TERMS = [
+  "skid steer",
+  "excavator",
+  "loader",
+  "bobcat",
+  "forklift",
+  "tractor",
+  "backhoe",
+  "dozer",
+  "grader",
+  "tipper",
+  "machinery",
+  "earthmoving",
+  "plant equipment",
+  "farm machinery",
+  "generator",
+  "compressor",
+  "pallet jack"
+];
+
 const SUGGESTION_RULES: SuggestionRule[] = [
+  { categoryKey: "machinery-equipment", subcategoryKey: "excavators-loaders", kws: ["skid steer","loader","bobcat","excavator","backhoe","dozer","grader","earthmoving","digger"] },
+  { categoryKey: "machinery-equipment", subcategoryKey: "farm-machinery", kws: ["tractor","farm machinery","harvester","slasher","plough","seeder"] },
+  { categoryKey: "machinery-equipment", subcategoryKey: "forklifts-material-handling", kws: ["forklift","pallet jack","telehandler","material handling"] },
+  { categoryKey: "machinery-equipment", subcategoryKey: "generators-compressors", kws: ["generator","compressor","air compressor"] },
+  { categoryKey: "machinery-equipment", subcategoryKey: "trailers-attachments", kws: ["machinery trailer","plant trailer","attachment","bucket","auger","grapple"] },
+  { categoryKey: "machinery-equipment", subcategoryKey: "construction-equipment", kws: ["machinery","plant equipment","construction equipment","tipper"] },
   { categoryKey: "machinery-equipment", subcategoryKey: "excavators-loaders", kws: ["skid steer","loader","bobcat","excavator","backhoe","dozer","grader","earthmoving","digger"] },
   { categoryKey: "machinery-equipment", subcategoryKey: "farm-machinery", kws: ["tractor","farm machinery","harvester","slasher","plough","seeder"] },
   { categoryKey: "machinery-equipment", subcategoryKey: "forklifts-material-handling", kws: ["forklift","pallet jack","telehandler","material handling"] },
@@ -651,6 +677,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
             <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] p-2.5 sm:p-3">
               <div className="text-sm font-semibold bd-ink">Category</div>
+              <p className="mt-1 text-xs font-semibold bd-ink2">Choose what the item is, not where it is used.</p>
               <p className="mt-1 text-xs font-semibold bd-ink2">Choose what the item is, not where it is used.</p>
 
               {suggestedCategory && suggestedCategory.categoryLabel !== category ? (
