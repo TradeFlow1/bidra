@@ -29,6 +29,7 @@ type ListingsPageProps = {
     max?: string;
     location?: string;
     q?: string;
+    type?: string;
     state?: string;
     radius?: string;
     condition?: string;
@@ -103,6 +104,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
   const selectedCondition = searchParams.condition || "";
   const selectedSort = searchParams.sort || "newest";
   const selectedQuery = cleanSearchQuery(searchParams.q);
+  const selectedType = String(searchParams.type || "").toUpperCase();
   const selectedLocation = searchParams.location || profileLocation || "";
   const selectedState = searchParams.state || profileState || "";
   const selectedRadius = (searchParams.radius || "").replace(/[^0-9.]/g, "");
@@ -131,6 +133,12 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
   if (selectedCategory !== "All categories") {
     where.category = { equals: selectedCategory, mode: "insensitive" };
+  }
+
+  if (selectedType === "BUY_NOW") {
+    where.AND.push({ OR: [{ type: "BUY_NOW" }, { buyNowPrice: { not: null } }] });
+  } else if (selectedType === "OFFERABLE") {
+    where.type = "OFFERABLE";
   }
 
   if (selectedQuery) {
