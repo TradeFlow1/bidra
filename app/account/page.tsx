@@ -70,7 +70,9 @@ export default async function AccountPage() {
         status: true,
         images: true,
         photos: true,
+        viewCount: true,
         createdAt: true,
+        offers: { select: { id: true } },
       },
     }),
     prisma.listing.count({ where: { sellerId: userId } }),
@@ -201,6 +203,7 @@ export default async function AccountPage() {
                       <h3 className="line-clamp-2 text-sm font-black text-[#08112F] md:text-lg">{listing.title}</h3>
                       <p className="mt-1 text-sm font-black text-[#0F172A] md:mt-2 md:text-base">{formatPrice(price)}</p>
                       <p className="mt-1 text-[10px] font-black uppercase tracking-[0.08em] text-[#64748B] md:mt-2 md:text-xs">{listing.status}</p>
+                      <p className="mt-1 text-[10px] font-black text-[#3730A3] md:mt-2 md:text-xs">{listing.viewCount.toLocaleString("en-AU")} views{listing.offers.length > 0 ? " - " + (listing.offers.length === 1 ? "1 offer" : listing.offers.length + " offers") : ""}</p>
                     </div>
                   </Link>
                 );
