@@ -66,14 +66,6 @@ function formatPrice(cents: number | null | undefined) {
   return "$" + (value / 100).toLocaleString("en-AU", { maximumFractionDigits: 0 });
 }
 
-function isRecentlyAdded(date: Date) {
-  return Date.now() - date.getTime() <= 48 * 60 * 60 * 1000;
-}
-
-function offerCountLabel(count: number) {
-  return count === 1 ? "1 offer" : count + " offers";
-}
-
 function formatAge(date: Date) {
   const diff = Date.now() - date.getTime();
   const minute = 60 * 1000;
@@ -215,9 +207,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
         price: true,
         buyNowPrice: true,
         category: true,
-        viewCount: true,
         createdAt: true,
-        offers: { select: { id: true } },
       },
     }),
     canApplyRadius ? Promise.resolve(0) : prisma.listing.count({ where }),
@@ -386,9 +376,6 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                 {visibleListings.map((listing) => {
                   const image = getListingImage(listing.images, listing.photos);
                   const price = listing.buyNowPrice ?? listing.price;
-                  const isNew = isRecentlyAdded(listing.createdAt);
-                  const isPopular = listing.viewCount >= 10;
-                  const offerCount = listing.offers.length;
 
                   return (
                     <Link
@@ -420,10 +407,6 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                         <div className="mt-5 flex items-center justify-between gap-3 text-xs font-semibold text-[#64748B]">
                           <span className="truncate">{listing.location}</span>
                           <span>{formatAge(listing.createdAt)}</span>
-                        </div>
-                        <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#3730A3]">
-                          {listing.viewCount > 0 ? <span>{listing.viewCount.toLocaleString("en-AU")} views</span> : null}
-                          {offerCount > 0 ? <span>{offerCountLabel(offerCount)}</span> : null}
                         </div>
                       </div>
                     </Link>
@@ -532,9 +515,6 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
               {visibleListings.map((listing) => {
                 const image = getListingImage(listing.images, listing.photos);
                 const price = listing.buyNowPrice ?? listing.price;
-                const isNew = isRecentlyAdded(listing.createdAt);
-                const isPopular = listing.viewCount >= 10;
-                const offerCount = listing.offers.length;
 
                 return (
                   <Link key={listing.id} href={"/listings/" + listing.id} className="block overflow-hidden rounded-[28px] border border-[#DCE5F2] bg-white shadow-[0_16px_38px_rgba(15,23,42,0.07)] active:scale-[0.995]">
@@ -544,11 +524,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                       ) : (
                         <div className="flex h-full w-full items-center justify-center text-4xl font-black text-[#4F46E5]">Bidra</div>
                       )}
-                      <div className="absolute left-3 top-3 flex max-w-[calc(100%-1.5rem)] flex-wrap gap-2">
-                        <span className="rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#3730A3] shadow-sm ring-1 ring-[#C7D2FE]">Buy now</span>
-                        {isNew ? <span className="rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#047857] shadow-sm ring-1 ring-emerald-200">Recently added</span> : null}
-                        {isPopular ? <span className="rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#B45309] shadow-sm ring-1 ring-amber-200">Popular</span> : null}
-                      </div>
+                      <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#3730A3] shadow-sm ring-1 ring-[#C7D2FE]">Buy now</span>
                     </div>
                     <div className="p-4">
                       <div className="flex items-start justify-between gap-3">
@@ -559,10 +535,6 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                         <span className="shrink-0 rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-xs font-black text-[#3730A3] shadow-sm">{formatAge(listing.createdAt)}</span>
                       </div>
                       <p className="mt-3 truncate text-sm font-bold text-[#64748B]">{listing.location || "Australia"}</p>
-                      <div className="mt-3 flex flex-wrap gap-2 text-xs font-black text-[#3730A3]">
-                        {listing.viewCount > 0 ? <span>{listing.viewCount.toLocaleString("en-AU")} views</span> : null}
-                        {offerCount > 0 ? <span>{offerCountLabel(offerCount)}</span> : null}
-                      </div>
                     </div>
                   </Link>
                 );

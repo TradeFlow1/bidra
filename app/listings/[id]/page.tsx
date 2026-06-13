@@ -177,10 +177,8 @@ export default async function ListingDetailPage({
       attributes: true,
       location: true,
       status: true,
-      createdAt: true,
       images: true,
       sellerId: true,
-      offers: { select: { id: true } },
       seller: {
         select: {
           id: true,
@@ -200,9 +198,6 @@ export default async function ListingDetailPage({
 
   const isOwner = !!userId && userId === listing.sellerId;
   const displayedViewCount = isOwner ? listing.viewCount : listing.viewCount + 1;
-  const offerCount = listing.offers.length;
-  const isRecentlyAddedListing = Date.now() - listing.createdAt.getTime() <= 48 * 60 * 60 * 1000;
-  const isPopularListing = displayedViewCount >= 10;
 
   if (!isOwner && listing.status === "ACTIVE") {
     await prisma.listing.update({
@@ -333,13 +328,6 @@ export default async function ListingDetailPage({
               <span>{cleanText(listing.status)}</span>
               <span>-</span>
               <span>{displayedViewCount.toLocaleString("en-AU")} views</span>
-              {offerCount > 0 ? <><span>-</span><span>{offerCount === 1 ? "1 offer" : offerCount + " offers"}</span></> : null}
-            </div>
-
-            <div className="mt-5 flex flex-wrap gap-2">
-              {isRecentlyAddedListing ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-black uppercase tracking-[0.10em] text-emerald-800">Recently added</span> : null}
-              {isPopularListing ? <span className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-black uppercase tracking-[0.10em] text-amber-800">Popular</span> : null}
-              {offerCount > 0 ? <span className="rounded-full border border-[#C7D2FE] bg-[#EEF2FF] px-3 py-1.5 text-xs font-black uppercase tracking-[0.10em] text-[#3730A3]">Active interest</span> : null}
             </div>
 
             <div className={canBuyNow && canOffer ? "mt-8 grid gap-4 sm:grid-cols-2" : "mt-8 grid gap-4"}>
@@ -387,8 +375,6 @@ export default async function ListingDetailPage({
                 <dd className="font-extrabold text-[#080D32]">{cleanText(listing.status)}</dd>
                 <dt className="font-bold text-[#667399]">Views</dt>
                 <dd className="font-extrabold text-[#080D32]">{displayedViewCount.toLocaleString("en-AU")}</dd>
-                <dt className="font-bold text-[#667399]">Interest</dt>
-                <dd className="font-extrabold text-[#080D32]">{offerCount > 0 ? (offerCount === 1 ? "1 offer" : offerCount + " offers") : "No offers yet"}</dd>
               </dl>
             </div>
 
