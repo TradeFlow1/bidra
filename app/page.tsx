@@ -116,6 +116,18 @@ export default async function HomePage() {
       meta: count > 0 ? `${count} ${count === 1 ? "item" : "items"}` : "Explore",
     };
   });
+  function getRotatingHeroListings(source: typeof listings) {
+    if (source.length <= 4) return source;
+
+    const bucket = Math.floor(Date.now() / 60000);
+    const start = bucket % source.length;
+    const rotated = source.slice(start).concat(source.slice(0, start));
+
+    return rotated.slice(0, 4);
+  }
+
+  const heroListings = getRotatingHeroListings(listings);
+
   function renderCard(listing: (typeof listings)[number]) {
     const currentOffer = listing.offers?.[0]?.amount ?? null;
     const displayPrice = listing.type === "OFFERABLE" ? ((currentOffer ?? listing.price) as number) : ((listing.buyNowPrice ?? listing.price) as number);
@@ -158,7 +170,7 @@ export default async function HomePage() {
       <div className={appShell + " pt-4 sm:pt-6"}>
         <BetaNotice />
 
-        <HomeHero sellHref={userId ? "/sell/new" : "/auth/register"} featuredListings={listings.slice(0, 4).map((listing) => {
+        <HomeHero sellHref={userId ? "/sell/new" : "/auth/register"} featuredListings={heroListings.map((listing) => {
           const imageList = Array.isArray(listing.images) ? (listing.images as Array<string | { url?: string; src?: string }>) : [];
           const firstImage = imageList[0];
           const imageUrl =
