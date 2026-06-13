@@ -156,6 +156,8 @@ export default async function HomePage() {
   return (
     <ReferencePage>
       <div className={appShell + " pt-4 sm:pt-6"}>
+        <BetaNotice />
+
         <HomeHero sellHref={userId ? "/sell/new" : "/auth/register"} featuredListings={listings.slice(0, 4).map((listing) => {
           const imageList = Array.isArray(listing.images) ? (listing.images as Array<string | { url?: string; src?: string }>) : [];
           const firstImage = imageList[0];
