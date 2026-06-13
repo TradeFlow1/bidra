@@ -30,7 +30,7 @@ export default function BrandLogo({ className, priority = false, variant = "full
         sizes="176px"
         priority={priority}
         unoptimized
-        className="object-contain object-left"
+        className="scale-[1.75] object-contain object-left origin-left"
       />
     </span>
   );
