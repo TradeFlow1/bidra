@@ -108,12 +108,17 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
   const selectedSort = searchParams.sort || "newest";
   const selectedQuery = cleanSearchQuery(searchParams.q);
   const selectedType = String(searchParams.type || "").toUpperCase();
-  const selectedLocation = searchParams.location || profileLocation || "";
-  const selectedState = searchParams.state || profileState || "";
+  const explicitLocation = searchParams.location || "";
+  const explicitState = searchParams.state || "";
+  const selectedLocation = explicitLocation || profileLocation || "";
+  const selectedState = explicitState || profileState || "";
   const selectedRadius = (searchParams.radius || "").replace(/[^0-9.]/g, "");
   const selectedRadiusKm = Number(selectedRadius);
-  const searchLocation = findAuLocation(selectedLocation, selectedState);
-  const radiusIsActive = Number.isFinite(selectedRadiusKm) && selectedRadiusKm > 0;
+  const locationFilterRequested = Boolean(explicitLocation.trim() || explicitState.trim() || selectedRadius.trim());
+  const filterLocation = explicitLocation || "";
+  const filterState = explicitState || "";
+  const searchLocation = locationFilterRequested ? findAuLocation(filterLocation, filterState) : null;
+  const radiusIsActive = locationFilterRequested && Number.isFinite(selectedRadiusKm) && selectedRadiusKm > 0;
   const canApplyRadius = radiusIsActive && Boolean(searchLocation);
 
   const where: any = {
@@ -162,15 +167,15 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
     };
   }
 
-  if (!canApplyRadius && (selectedLocation.trim() || selectedState.trim())) {
+  if (locationFilterRequested && !canApplyRadius && (filterLocation.trim() || filterState.trim())) {
     const fallbackLocationPredicates: Array<{ location: { contains: string; mode: "insensitive" } }> = [];
 
-    if (selectedLocation.trim()) {
-      fallbackLocationPredicates.push({ location: { contains: selectedLocation.trim(), mode: "insensitive" } });
+    if (filterLocation.trim()) {
+      fallbackLocationPredicates.push({ location: { contains: filterLocation.trim(), mode: "insensitive" } });
     }
 
-    if (selectedState.trim()) {
-      fallbackLocationPredicates.push({ location: { contains: selectedState.trim(), mode: "insensitive" } });
+    if (filterState.trim()) {
+      fallbackLocationPredicates.push({ location: { contains: filterState.trim(), mode: "insensitive" } });
     }
 
     if (fallbackLocationPredicates.length) {
@@ -218,9 +223,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
 
         return straightLineKm <= safeRadiusKm;
       })
-    : radiusIsActive
-      ? []
-      : listings;
+    : listings;
 
   const visibleListings = radiusFilteredListings.slice(0, pageSize);
   const displayCount = radiusFilteredListings.length;
