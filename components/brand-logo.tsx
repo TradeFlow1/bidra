@@ -22,7 +22,7 @@ export default function BrandLogo({ className, priority = false, variant = "full
   }
 
   return (
-    <span className={className || "relative block h-14 w-44 overflow-visible"} style={{ position: "relative", display: "block", height: "56px", width: "176px", overflow: "visible" }}>
+    <span className={className || "relative block h-14 w-44 overflow-hidden"} style={{ position: "relative", display: "block", height: "56px", width: "176px", overflow: "hidden" }}>
       <Image
         src="/bidra-logo.png"
         alt="Bidra"
@@ -30,7 +30,7 @@ export default function BrandLogo({ className, priority = false, variant = "full
         sizes="176px"
         priority={priority}
         unoptimized
-        className="scale-[1.75] object-contain object-left origin-left"
+        className="scale-[1.55] object-contain object-left origin-left"
       />
     </span>
   );
