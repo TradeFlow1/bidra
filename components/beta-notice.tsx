@@ -33,7 +33,7 @@ export default function BetaNotice() {
         <button
           type="button"
           onClick={dismiss}
-          className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-xl bg-slate-50 text-lg font-black text-slate-900 shadow-sm ring-1 ring-blue-100 hover:bg-blue-50"
+          className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-xl bg-white text-base font-black text-slate-900 shadow-sm ring-1 ring-blue-100 hover:bg-blue-50"
           aria-label="Dismiss notice"
         >
           x
