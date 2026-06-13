@@ -140,8 +140,8 @@ export default function SiteHeaderClient({
 
   return (
     <header className="sticky top-0 z-[100] border-b border-[#E2E8F0] bg-white/96 text-[#0F172A] backdrop-blur-xl">
-      <div className="mx-auto hidden h-24 w-full max-w-[1320px] grid-cols-[180px_1fr_minmax(22rem,26rem)_auto] items-center gap-8 px-8 md:grid">
-        <Link href="/" className="flex h-14 w-44 shrink-0 items-center" aria-label="Bidra home">
+      <div className="mx-auto hidden h-24 w-full max-w-[1320px] grid-cols-[220px_1fr_minmax(22rem,26rem)_auto] items-center gap-8 px-8 md:grid">
+        <Link href="/" className="flex h-16 w-56 shrink-0 items-center" aria-label="Bidra home">
           <BrandLogo priority className="h-full w-auto max-w-full" />
         </Link>
         <nav className="flex min-w-0 items-center gap-8" aria-label="Primary navigation">
@@ -170,7 +170,7 @@ export default function SiteHeaderClient({
       <div className="md:hidden bg-white">
         <div className="flex items-center gap-3 px-4 py-3">
           <button type="button" className="grid h-11 w-11 place-items-center rounded-full border border-[#D7E2F1] bg-white text-[#0F172A] shadow-sm transition active:scale-95" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><MenuIcon /></button>
-          <Link href="/" className="flex h-10 w-32 items-center" aria-label="Bidra home">
+          <Link href="/" className="flex h-12 w-40 items-center" aria-label="Bidra home">
             <BrandLogo priority className="h-full w-auto max-w-full" />
           </Link>
           <div ref={mobileMenuRef} className="relative ml-auto">
