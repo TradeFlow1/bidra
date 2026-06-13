@@ -170,6 +170,7 @@ export default async function ListingDetailPage({
       buyNowPrice: true,
       currentOfferAmount: true,
       currentOfferBuyerId: true,
+      viewCount: true,
       type: true,
       category: true,
       condition: true,
@@ -194,6 +195,16 @@ export default async function ListingDetailPage({
   });
 
   if (!listing) notFound();
+
+  const isOwner = !!userId && userId === listing.sellerId;
+  const displayedViewCount = isOwner ? listing.viewCount : listing.viewCount + 1;
+
+  if (!isOwner && listing.status === "ACTIVE") {
+    await prisma.listing.update({
+      where: { id: listing.id },
+      data: { viewCount: { increment: 1 } },
+    });
+  }
 
   const relatedSelect = {
     id: true,
@@ -251,7 +262,6 @@ export default async function ListingDetailPage({
     ? (typeof listing.currentOfferAmount === "number" ? listing.currentOfferAmount : listing.price)
     : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price);
   const buyNowAmount = listing.type === "BUY_NOW" ? listing.price : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : null);
-  const isOwner = !!userId && userId === listing.sellerId;
   const canBuyNow = listing.status === "ACTIVE" && buyNowAmount !== null && !isOwner;
   const canOffer = listing.status === "ACTIVE" && listing.type === "OFFERABLE" && !!userId && !isOwner;
   const showOfferLogin = listing.status === "ACTIVE" && listing.type === "OFFERABLE" && !userId;
@@ -316,6 +326,8 @@ export default async function ListingDetailPage({
               <span>{location}</span>
               <span>-</span>
               <span>{cleanText(listing.status)}</span>
+              <span>-</span>
+              <span>{displayedViewCount.toLocaleString("en-AU")} views</span>
             </div>
 
             <div className={canBuyNow && canOffer ? "mt-8 grid gap-4 sm:grid-cols-2" : "mt-8 grid gap-4"}>
@@ -361,6 +373,8 @@ export default async function ListingDetailPage({
                 <dd className="font-extrabold text-[#080D32]">{listingType}</dd>
                 <dt className="font-bold text-[#667399]">Status</dt>
                 <dd className="font-extrabold text-[#080D32]">{cleanText(listing.status)}</dd>
+                <dt className="font-bold text-[#667399]">Views</dt>
+                <dd className="font-extrabold text-[#080D32]">{displayedViewCount.toLocaleString("en-AU")}</dd>
               </dl>
             </div>
 

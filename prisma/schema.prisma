@@ -102,6 +102,7 @@ model Listing {
   previousStatus  ListingStatus?
   currentOfferAmount Int?
   currentOfferBuyerId String?
+  viewCount       Int               @default(0)
   offerIncrement Int @default(100)
   offers          Offer[]
   seller          User              @relation("SellerListings", fields: [sellerId], references: [id])
