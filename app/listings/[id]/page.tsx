@@ -177,6 +177,7 @@ export default async function ListingDetailPage({
       attributes: true,
       location: true,
       status: true,
+      createdAt: true,
       images: true,
       sellerId: true,
       offers: { select: { id: true } },
