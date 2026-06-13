@@ -18,7 +18,6 @@ const categories = [
   "Sports & Outdoors",
   "Fashion",
   "Kids & Baby",
-  "Machinery & Equipment",
   "Books & Media",
   "Other",
 ];
