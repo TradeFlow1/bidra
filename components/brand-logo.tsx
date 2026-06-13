@@ -12,7 +12,7 @@ export default function BrandLogo({ className, priority = false, variant = "full
       <Image
         src="/bidra-favicon.png"
         alt="Bidra"
-        width={96}
+        width={240}
         height={96}
         priority={priority}
         unoptimized
