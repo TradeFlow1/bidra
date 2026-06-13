@@ -30,6 +30,7 @@ type ListingsPageProps = {
     location?: string;
     q?: string;
     type?: string;
+    type?: string;
     state?: string;
     radius?: string;
     condition?: string;
@@ -104,6 +105,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
   const selectedCondition = searchParams.condition || "";
   const selectedSort = searchParams.sort || "newest";
   const selectedQuery = cleanSearchQuery(searchParams.q);
+  const selectedType = String(searchParams.type || "").toUpperCase();
   const selectedType = String(searchParams.type || "").toUpperCase();
   const selectedLocation = searchParams.location || profileLocation || "";
   const selectedState = searchParams.state || profileState || "";
