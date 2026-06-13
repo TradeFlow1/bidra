@@ -6,6 +6,9 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { distanceKm, findAuLocation, parseListingLocation } from "@/lib/au-location";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const pageSize = 50;
 const maxPriceCents = 100000000;
 
