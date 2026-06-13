@@ -17,7 +17,7 @@ const DESKTOP_LINKS = [
   { href: "/", label: "Home" },
   { href: "/listings?type=BUY_NOW", label: "Buy now" },
   { href: "/listings?type=OFFERABLE", label: "Make an offer" },
-  { href: "/categories", label: "Categories" },
+  { href: "/listings", label: "Browse" },
 ];
 
 function MenuIcon() {
@@ -114,7 +114,7 @@ export default function SiteHeaderClient({
       <div className="absolute right-0 top-full z-[120] mt-3 w-[min(90vw,22rem)] overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white text-[#4F46E5] shadow-[0_24px_70px_rgba(28,50,84,0.22)]" role="menu" onClick={(e) => e.stopPropagation()}>
         <div className="grid gap-1 p-2">
           <Link href="/" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Home</Link>
-          <Link href="/categories" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Browse categories</Link>
+          <Link href="/listings" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Browse</Link>
           <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Buy now</Link>
           <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Make an offer</Link>
           <Link href="/sell/new" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Sell an item</Link>
