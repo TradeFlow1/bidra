@@ -12,7 +12,7 @@ export default function BrandLogo({ className, priority = false, variant = "full
       <Image
         src="/bidra-favicon.png"
         alt="Bidra"
-        width={240}
+        width={96}
         height={96}
         priority={priority}
         unoptimized
@@ -22,12 +22,12 @@ export default function BrandLogo({ className, priority = false, variant = "full
   }
 
   return (
-    <span className={className || "relative block h-10 w-36 overflow-hidden"} style={{ position: "relative", display: "block", height: "40px", width: "144px", overflow: "hidden" }}>
+    <span className={className || "relative block h-14 w-44 overflow-visible"} style={{ position: "relative", display: "block", height: "56px", width: "176px", overflow: "visible" }}>
       <Image
         src="/bidra-logo.png"
         alt="Bidra"
         fill
-        sizes="144px"
+        sizes="176px"
         priority={priority}
         unoptimized
         className="object-contain object-left"
