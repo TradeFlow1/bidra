@@ -52,10 +52,8 @@ export default function SiteHeaderClient({
 
   const isAuthed = !!session?.user?.id;
   const rawRole = String(session?.user?.role || "USER").toUpperCase();
-  const accountRoleLabel = rawRole === "ADMIN" ? "Admin account" : rawRole === "SELLER" ? "Seller account" : "My Bidra";
-  const accountRoleDescription = rawRole === "ADMIN"
-    ? "Admin access visible for marketplace operations."
-    : "Your buying, selling, orders, messages, and saved listings.";
+  const accountRoleLabel = "My Bidra";
+  const accountRoleDescription = "Your buying, selling, orders, messages, and saved listings.";
 
   useEffect(function () {
     function onDocClick(e: MouseEvent) {
@@ -157,7 +155,7 @@ export default function SiteHeaderClient({
           {isAuthed ? (
             <div ref={desktopAccountRef} className="relative">
               <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="bd-btn bd-btn-primary h-12 rounded-2xl px-6" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
-                {rawRole === "ADMIN" ? "Admin" : "Account"}{badge}
+                Account{badge}
               </button>
               {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
             </div>

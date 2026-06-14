@@ -9,7 +9,7 @@ function isEnabled() {
 function isLocalOrTestUrl(request: Request) {
   const url = new URL(request.url);
   const host = url.hostname.toLowerCase();
-  return host === "localhost" || host === "127.0.0.1" || host === "::1" || host.endsWith(".vercel.app");
+  return host === "localhost" || host === "127.0.0.1" || host === "::1";
 }
 
 function sessionCookieName() {
@@ -19,6 +19,10 @@ function sessionCookieName() {
 }
 
 export async function POST(request: Request) {
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 });
+  }
+
   if (!isEnabled() || !isLocalOrTestUrl(request)) {
     return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 });
   }

@@ -13,6 +13,9 @@ import WatchlistButton from "./watchlist-button";
 import ListingImageGallery from "@/components/listing-image-gallery";
 import { getBaseUrl } from "@/lib/base-url";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 function cleanText(value: unknown) {
   return String(value ?? "").replace(/[\u0000-\u001F\u007F]/g, "").trim();
 }
@@ -65,32 +68,50 @@ function listingAttributeRows(value: unknown) {
   return rows;
 }
 
-function safeListingImages(value: unknown) {
+function isSafeImageUrl(value: unknown) {
+  if (typeof value !== "string") return false;
+  const trimmed = value.trim();
+  if (!trimmed) return false;
+  if (trimmed.startsWith("/")) return true;
+
+  try {
+    const url = new URL(trimmed);
+    return url.protocol === "https:" || url.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
+function safeListingImages(...values: unknown[]) {
   const images: string[] = [];
 
   function addImage(item: unknown) {
     if (typeof item === "string") {
       const trimmed = item.trim();
-      if (trimmed.startsWith("http://") || trimmed.startsWith("https://") || trimmed.startsWith("/")) {
-        images.push(trimmed);
-      }
+      if (isSafeImageUrl(trimmed)) images.push(trimmed);
+      return;
     }
+
     if (item && typeof item === "object" && "url" in item) {
       addImage((item as { url?: unknown }).url);
     }
   }
 
-  if (Array.isArray(value)) {
-    for (const item of value) addImage(item);
-  } else if (typeof value === "string" && value.trim()) {
-    try {
-      const parsed = JSON.parse(value);
-      if (Array.isArray(parsed)) {
-        for (const item of parsed) addImage(item);
-      } else {
+  for (const value of values) {
+    if (Array.isArray(value)) {
+      for (const item of value) addImage(item);
+    } else if (typeof value === "string" && value.trim()) {
+      try {
+        const parsed = JSON.parse(value);
+        if (Array.isArray(parsed)) {
+          for (const item of parsed) addImage(item);
+        } else {
+          addImage(value);
+        }
+      } catch {
         addImage(value);
       }
-    } catch {
+    } else {
       addImage(value);
     }
   }
@@ -106,6 +127,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       title: true,
       description: true,
       images: true,
+      photos: true,
       status: true,
       location: true,
       price: true,
@@ -128,7 +150,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     "View photos, price, seller profile, and contact options for this Bidra listing.";
   const canonicalPath = "/listings/" + listing.id;
   const url = getBaseUrl().replace(/\/+$/, "") + canonicalPath;
-  const images = safeListingImages(listing.images).slice(0, 4);
+  const images = safeListingImages(listing.images, listing.photos).slice(0, 4);
   const metaDescription = `${price}${location ? " in " + location : ""}. ${description}`.slice(0, 180);
 
   return {
@@ -178,6 +200,7 @@ export default async function ListingDetailPage({
       location: true,
       status: true,
       images: true,
+      photos: true,
       sellerId: true,
       seller: {
         select: {
@@ -197,13 +220,18 @@ export default async function ListingDetailPage({
   if (!listing) notFound();
 
   const isOwner = !!userId && userId === listing.sellerId;
-  const displayedViewCount = isOwner ? listing.viewCount : listing.viewCount + 1;
+  const currentViewCount = Number.isFinite(Number(listing.viewCount)) ? Number(listing.viewCount) : 0;
+  const displayedViewCount = isOwner ? currentViewCount : currentViewCount + 1;
 
   if (!isOwner && listing.status === "ACTIVE") {
-    await prisma.listing.update({
-      where: { id: listing.id },
-      data: { viewCount: { increment: 1 } },
-    });
+    try {
+      await prisma.listing.update({
+        where: { id: listing.id },
+        data: { viewCount: { increment: 1 } },
+      });
+    } catch (err) {
+      console.error("Listing view count update failed", { listingId: listing.id, err });
+    }
   }
 
   const relatedSelect = {
@@ -216,6 +244,7 @@ export default async function ListingDetailPage({
     location: true,
     condition: true,
     images: true,
+    photos: true,
   };
 
   const sameCategoryListings = await prisma.listing.findMany({
@@ -249,7 +278,7 @@ export default async function ListingDetailPage({
   const listingType = cleanText(listing.type) || "Buy now";
   const sellerName = cleanText(listing.seller?.name || listing.seller?.username) || "Bidra seller";
   const sellerInitials = sellerName.split(/\s+/).slice(0, 2).map((part) => part.charAt(0).toUpperCase()).join("") || "B";
-  const sellerAvatarUrl = cleanText(listing.seller?.avatarUrl);
+  const sellerAvatarUrl = isSafeImageUrl(cleanText(listing.seller?.avatarUrl)) ? cleanText(listing.seller?.avatarUrl) : "";
   const sellerLocation = cleanText(listing.seller?.location) || "Australia";
   const sellerJoined = listing.seller?.createdAt instanceof Date
     ? listing.seller.createdAt.toLocaleDateString("en-AU", { month: "short", year: "numeric" })
@@ -268,7 +297,7 @@ export default async function ListingDetailPage({
   const minOfferCents = Math.max(1, Number(listing.price || 0));
   const isSold = listing.status !== "ACTIVE";
   const attributeRows = listingAttributeRows(listing.attributes);
-  const images = safeListingImages(listing.images);
+  const images = safeListingImages(listing.images, listing.photos);
 
   return (
     <main className="min-h-screen bg-white px-4 py-8 text-[#080D32] sm:px-6 lg:px-10">
@@ -289,7 +318,7 @@ export default async function ListingDetailPage({
               <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
                   <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#DFE6F6] bg-[#EEF2FF] text-2xl font-black text-[#352CFF] shadow-sm">
-                    {sellerAvatarUrl ? <Image src={sellerAvatarUrl} alt={sellerName} width={80} height={80} className="h-full w-full object-cover" /> : sellerInitials}
+                    {sellerAvatarUrl ? <Image src={sellerAvatarUrl} alt={sellerName} width={80} height={80} className="h-full w-full object-cover" unoptimized /> : sellerInitials}
                   </div>
                   <div>
                     <div className="text-xl font-black">{sellerName}</div>
@@ -399,13 +428,13 @@ export default async function ListingDetailPage({
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
               {relatedListings.map((item) => {
                 const itemTitle = cleanText(item.title) || "Bidra listing";
-                const itemImages = safeListingImages(item.images);
+                const itemImages = safeListingImages(item.images, item.photos);
                 const itemPrice = typeof item.buyNowPrice === "number" ? item.buyNowPrice : item.price;
                 return (
                   <Link key={item.id} href={"/listings/" + item.id} className="group overflow-hidden rounded-2xl border border-[#DFE6F6] bg-white shadow-sm transition">
                     {itemImages[0] ? (
                       <div className="relative h-44 w-full bg-[#F6F8FC]">
-                        <Image src={itemImages[0]} alt={itemTitle} fill sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />
+                        <Image src={itemImages[0]} alt={itemTitle} fill sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" className="object-cover" unoptimized />
                       </div>
                     ) : (
                       <div className="flex h-44 items-center justify-center bg-[#F6F8FC] px-4 text-center text-xs font-bold text-[#667399]">No image</div>

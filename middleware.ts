@@ -44,6 +44,7 @@ function isProtected(pathname: string) {
     pathname.startsWith("/account") ||
     pathname.startsWith("/orders") ||
     pathname.startsWith("/profile") ||
+    pathname.startsWith("/watchlist") ||
     pathname.startsWith("/notifications") ||
     pathname.startsWith("/admin")
   );

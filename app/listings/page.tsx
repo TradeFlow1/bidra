@@ -89,17 +89,8 @@ function categoryHref(category: string) {
 }
 
 export default async function ListingsPage({ searchParams = {} }: ListingsPageProps) {
-  const session = await getServerSession(authOptions);
-  const profile = session?.user?.id
-    ? await prisma.user.findUnique({
-        where: { id: session.user.id },
-        select: { location: true, state: true, suburb: true, postcode: true },
-      })
-    : null;
+  await getServerSession(authOptions);
 
-  const profileLocationParts = [profile?.postcode, profile?.suburb].filter(Boolean);
-  const profileLocation = profileLocationParts.length ? profileLocationParts.join(" ") : (profile?.location || "");
-  const profileState = profile?.state || "";
 
   const selectedCategory = normalizeCategory(searchParams.category);
   const minPrice = parseDollars(searchParams.min);
@@ -110,8 +101,8 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
   const selectedType = String(searchParams.type || "").toUpperCase();
   const explicitLocation = searchParams.location || "";
   const explicitState = searchParams.state || "";
-  const selectedLocation = explicitLocation || profileLocation || "";
-  const selectedState = explicitState || profileState || "";
+  const selectedLocation = explicitLocation || "";
+  const selectedState = explicitState || "";
   const selectedRadius = (searchParams.radius || "").replace(/[^0-9.]/g, "");
   const selectedRadiusKm = Number(selectedRadius);
   const locationFilterRequested = Boolean(explicitLocation.trim() || explicitState.trim() || selectedRadius.trim());
@@ -350,7 +341,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
             <div className="mb-7 flex items-start justify-between gap-6">
               <div>
                 <h2 className="text-4xl font-black tracking-tight text-[#08112F]">All listings</h2>
-                <p className="mt-2 text-base font-semibold text-[#64748B]">{displayCount} results</p>
+                <p className="mt-2 text-base font-semibold text-[#64748B]">{displayCount} active listings across Australia</p>
                 {selectedQuery ? (
                   <p className="mt-1 text-sm font-semibold text-[#4F46E5]">
                     Search: {selectedQuery}
@@ -391,6 +382,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                             fill
                             sizes="(min-width: 1280px) 220px, (min-width: 768px) 33vw, 100vw"
                             className="object-cover transition duration-300"
+                          unoptimized
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-lg font-black text-[#4F46E5]">Bidra</div>
@@ -415,8 +407,8 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
               </div>
             ) : (
               <div className="rounded-3xl border border-dashed border-[#C7D2FE] bg-[#F8FAFC] px-8 py-14 text-center">
-                <h3 className="text-xl font-black text-[#0F172A]">No active listings found</h3>
-                <p className="mt-2 text-sm font-semibold text-[#64748B]">Clear filters or create a real listing.</p>
+                <h3 className="text-xl font-black text-[#0F172A]">No listings match these filters</h3>
+                <p className="mt-2 text-sm font-semibold text-[#64748B]">Clear filters to search all Australia, or try a broader keyword/category.</p>
                 <Link href="/sell/new" className="mt-6 inline-flex h-12 items-center justify-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black text-white !text-white disabled:!text-white">
                   Sell an item
                 </Link>
