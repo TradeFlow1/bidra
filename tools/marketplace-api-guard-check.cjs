@@ -74,6 +74,14 @@ check("app/api/listings/[id]/questions/route.ts", [
   { pattern: "listingQuestion.create", label: "public question creation" }
 ]);
 
+check("app/api/listings/[id]/questions/[questionId]/reply/route.ts", [
+  { pattern: "export async function POST", label: "seller reply create endpoint" },
+  { pattern: "session?.user?.id", label: "seller reply auth gate" },
+  { pattern: "question.listing.sellerId !== session.user.id", label: "seller ownership guard" },
+  { pattern: 'question.listing.status !== "ACTIVE"', label: "active listing reply guard" },
+  { pattern: "listingAnswer.create", label: "seller reply creation" }
+]);
+
 check("app/api/messages/thread/route.ts", [
   { pattern: "requireAdult", label: "adult/session gate" },
   { pattern: "listingId", label: "listing thread linkage" },

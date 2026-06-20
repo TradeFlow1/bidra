@@ -37,7 +37,9 @@ function dateLabel(value: string) {
 export default function ListingPublicQuestions({ listingId, authed, isOwner }: { listingId: string; authed: boolean; isOwner: boolean }) {
   const [questions, setQuestions] = useState<PublicQuestion[]>([]);
   const [text, setText] = useState("");
+  const [replyText, setReplyText] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
+  const [replyBusyId, setReplyBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -91,6 +93,36 @@ export default function ListingPublicQuestions({ listingId, authed, isOwner }: {
     }
   }
 
+  async function submitReply(questionId: string, event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const cleaned = String(replyText[questionId] || "").replace(/\s+/g, " ").trim();
+    if (cleaned.length < 2) {
+      setError("Reply must be at least 2 characters.");
+      return;
+    }
+
+    setReplyBusyId(questionId);
+    setError(null);
+    try {
+      const res = await fetch(endpoint + "/" + questionId + "/reply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: cleaned }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data?.reply) {
+        setError(String(data?.error || "Could not post seller reply."));
+        return;
+      }
+      setQuestions((items) => items.map((question) => question.id === questionId ? { ...question, answers: [...question.answers, data.reply] } : question));
+      setReplyText((items) => ({ ...items, [questionId]: "" }));
+    } catch {
+      setError("Could not post seller reply.");
+    } finally {
+      setReplyBusyId(null);
+    }
+  }
+
   return (
     <section className="mt-10 rounded-2xl border border-[#DFE6F6] bg-white p-5 shadow-sm" id="public-questions">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
@@ -130,7 +162,7 @@ export default function ListingPublicQuestions({ listingId, authed, isOwner }: {
         )
       ) : (
         <p className="mt-5 rounded-2xl border border-[#D8E1F0] bg-[#F8FAFF] p-4 text-sm font-semibold text-[#42526F]">
-          Buyers can ask public questions here. Seller replies will appear with the question.
+          Buyers can ask public questions here. Use seller replies to clarify item condition, inclusions, pickup, delivery or postage for everyone.
         </p>
       )}
 
@@ -157,6 +189,27 @@ export default function ListingPublicQuestions({ listingId, authed, isOwner }: {
                     </div>
                   ))}
                 </div>
+              ) : null}
+
+              {isOwner ? (
+                <form onSubmit={(event) => submitReply(question.id, event)} className="mt-4 grid gap-3 rounded-2xl border border-[#D8E1F0] bg-[#F8FAFF] p-4">
+                  <label className="block">
+                    <span className="text-xs font-black uppercase tracking-[0.12em] text-[#4F46E5]">Seller reply</span>
+                    <textarea
+                      value={replyText[question.id] || ""}
+                      onChange={(event) => setReplyText((items) => ({ ...items, [question.id]: event.target.value }))}
+                      maxLength={500}
+                      className="mt-2 min-h-20 w-full rounded-2xl border border-[#CBD5E1] px-4 py-3 text-sm font-semibold"
+                      placeholder="Reply publicly so every buyer can see the clarification."
+                    />
+                  </label>
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-xs font-bold text-[#667399]">Keep personal payment, phone and address details in Bidra Messages.</p>
+                    <button disabled={replyBusyId === question.id} className="h-11 rounded-2xl bg-[#0F172A] px-5 text-sm font-black !text-white disabled:opacity-60" type="submit">
+                      {replyBusyId === question.id ? "Posting..." : "Post seller reply"}
+                    </button>
+                  </div>
+                </form>
               ) : null}
             </article>
           ))
