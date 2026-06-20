@@ -36,6 +36,7 @@ type ListingsPageProps = {
     state?: string;
     radius?: string;
     condition?: string;
+    fulfillment?: string;
     sort?: string;
   };
 };
@@ -88,9 +89,20 @@ function categoryHref(category: string) {
   return "/listings?category=" + slugify(category);
 }
 
+function saleTypeLabel(type: string | null | undefined, buyNowPrice: number | null | undefined) {
+  if (type === "OFFERABLE") return buyNowPrice ? "Offers + Buy Now" : "Offers";
+  return "Buy now";
+}
+
+function handoverLabel(value: string | null | undefined) {
+  const raw = String(value || "").toUpperCase();
+  if (raw === "POSTAGE") return "Postage";
+  if (raw === "DELIVERY") return "Delivery";
+  return "Pickup";
+}
+
 export default async function ListingsPage({ searchParams = {} }: ListingsPageProps) {
   await getServerSession(authOptions);
-
 
   const selectedCategory = normalizeCategory(searchParams.category);
   const minPrice = parseDollars(searchParams.min);
@@ -99,6 +111,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
   const selectedSort = searchParams.sort || "newest";
   const selectedQuery = cleanSearchQuery(searchParams.q);
   const selectedType = String(searchParams.type || "").toUpperCase();
+  const selectedFulfillment = String(searchParams.fulfillment || "").toUpperCase();
   const explicitLocation = searchParams.location || "";
   const explicitState = searchParams.state || "";
   const selectedLocation = explicitLocation || "";
@@ -139,6 +152,11 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
   } else if (selectedType === "OFFERABLE") {
     where.type = "OFFERABLE";
   }
+
+  if (["PICKUP", "POSTAGE", "DELIVERY"].includes(selectedFulfillment)) {
+    where.fulfillmentType = selectedFulfillment;
+  }
+
   if (selectedQuery) {
     where.AND.push({
       OR: [
@@ -197,6 +215,9 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
         photos: true,
         price: true,
         buyNowPrice: true,
+        type: true,
+        condition: true,
+        fulfillmentType: true,
         category: true,
         createdAt: true,
       },
@@ -260,6 +281,25 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                   />
                 </label>
 
+                <label className="block">
+                  <span className="text-sm font-black">Sale type</span>
+                  <select name="type" defaultValue={selectedType} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569]">
+                    <option value="">Buy now and offers</option>
+                    <option value="BUY_NOW">Buy now available</option>
+                    <option value="OFFERABLE">Offers only</option>
+                  </select>
+                </label>
+
+                <label className="block">
+                  <span className="text-sm font-black">Handover</span>
+                  <select name="fulfillment" defaultValue={selectedFulfillment} className="mt-3 h-12 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 text-sm font-semibold text-[#475569]">
+                    <option value="">Any handover</option>
+                    <option value="PICKUP">Pickup</option>
+                    <option value="POSTAGE">Postage</option>
+                    <option value="DELIVERY">Delivery</option>
+                  </select>
+                </label>
+
                 <div>
                   <div className="mb-3 text-sm font-black">Price</div>
                   <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
@@ -307,9 +347,8 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                     <option value="">Any condition</option>
                     <option value="NEW">New</option>
                     <option value="LIKE_NEW">Like new</option>
-                    <option value="GOOD">Good</option>
-                    <option value="FAIR">Fair</option>
                     <option value="USED">Used</option>
+                    <option value="FOR_PARTS">For parts</option>
                   </select>
                 </label>
 
@@ -322,7 +361,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                   </select>
                 </label>
 
-                                <div className="space-y-3 border-t border-[#E2E8F0] pt-5">
+                <div className="space-y-3 border-t border-[#E2E8F0] pt-5">
                   <button
                     type="submit"
                     className="h-12 w-full rounded-2xl bg-[#4F46E5] text-sm font-black text-white shadow-[0_12px_26px_rgba(79,70,229,0.18)] hover:bg-[#4338CA] !text-white disabled:!text-white"
@@ -354,8 +393,6 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                       : "Add a suburb/postcode in your profile or enter one here to use distance filtering."}
                   </p>
                 ) : null}
-
-
               </div>
               <button className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-5 text-sm font-black text-[#4F46E5] shadow-sm">
                 Save search
@@ -367,6 +404,8 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                 {visibleListings.map((listing) => {
                   const image = getListingImage(listing.images, listing.photos);
                   const price = listing.buyNowPrice ?? listing.price;
+                  const typeLabel = saleTypeLabel(listing.type, listing.buyNowPrice);
+                  const handover = handoverLabel(listing.fulfillmentType);
 
                   return (
                     <Link
@@ -382,11 +421,12 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                             fill
                             sizes="(min-width: 1280px) 220px, (min-width: 768px) 33vw, 100vw"
                             className="object-cover transition duration-300"
-                          unoptimized
+                            unoptimized
                           />
                         ) : (
                           <div className="flex h-full w-full items-center justify-center text-lg font-black text-[#4F46E5]">Bidra</div>
                         )}
+                        <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#3730A3] shadow-sm ring-1 ring-[#C7D2FE]">{typeLabel}</span>
                         <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#2437FF] shadow-sm hover:bg-[#F8FAFC]" aria-hidden="true">
   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />
@@ -396,6 +436,10 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                       <div className="p-4">
                         <h3 className="line-clamp-2 text-base font-black text-[#08112F]">{listing.title}</h3>
                         <p className="mt-3 text-lg font-black text-[#08112F]">{formatPrice(price)}</p>
+                        <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#3730A3]">
+                          <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">{handover}</span>
+                          {listing.condition ? <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">{String(listing.condition).replace(/_/g, " ")}</span> : null}
+                        </div>
                         <div className="mt-5 flex items-center justify-between gap-3 text-xs font-semibold text-[#64748B]">
                           <span className="truncate">{listing.location}</span>
                           <span>{formatAge(listing.createdAt)}</span>
@@ -468,6 +512,20 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
             </div>
 
             <div className="mt-3 grid grid-cols-2 gap-3">
+              <select name="type" defaultValue={selectedType} className="h-12 min-w-0 rounded-2xl border border-[#D8E1F0] bg-white px-3 text-sm font-bold text-[#08112F]">
+                <option value="">Any type</option>
+                <option value="BUY_NOW">Buy now</option>
+                <option value="OFFERABLE">Offers</option>
+              </select>
+              <select name="fulfillment" defaultValue={selectedFulfillment} className="h-12 min-w-0 rounded-2xl border border-[#D8E1F0] bg-white px-3 text-sm font-bold text-[#08112F]">
+                <option value="">Any handover</option>
+                <option value="PICKUP">Pickup</option>
+                <option value="POSTAGE">Postage</option>
+                <option value="DELIVERY">Delivery</option>
+              </select>
+            </div>
+
+            <div className="mt-3 grid grid-cols-2 gap-3">
               <select name="state" defaultValue={selectedState} className="h-12 min-w-0 rounded-2xl border border-[#D8E1F0] bg-white px-3 text-sm font-bold text-[#08112F]">
                 <option value="">Australia</option>
                 <option value="QLD">QLD</option>
@@ -507,6 +565,8 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
               {visibleListings.map((listing) => {
                 const image = getListingImage(listing.images, listing.photos);
                 const price = listing.buyNowPrice ?? listing.price;
+                const typeLabel = saleTypeLabel(listing.type, listing.buyNowPrice);
+                const handover = handoverLabel(listing.fulfillmentType);
 
                 return (
                   <Link key={listing.id} href={"/listings/" + listing.id} className="block overflow-hidden rounded-[28px] border border-[#DCE5F2] bg-white shadow-[0_16px_38px_rgba(15,23,42,0.07)] active:scale-[0.995]">
@@ -516,7 +576,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                       ) : (
                         <div className="flex h-full w-full items-center justify-center text-4xl font-black text-[#4F46E5]">Bidra</div>
                       )}
-                      <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#3730A3] shadow-sm ring-1 ring-[#C7D2FE]">Buy now</span>
+                      <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#3730A3] shadow-sm ring-1 ring-[#C7D2FE]">{typeLabel}</span>
                     </div>
                     <div className="p-4">
                       <div className="flex items-start justify-between gap-3">
@@ -525,6 +585,10 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                           <p className="mt-2 text-2xl font-black tracking-[-0.045em] text-[#07152E]">{formatPrice(price)}</p>
                         </div>
                         <span className="shrink-0 rounded-full border border-[#D8E1F0] bg-white px-3 py-1.5 text-xs font-black text-[#3730A3] shadow-sm">{formatAge(listing.createdAt)}</span>
+                      </div>
+                      <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#3730A3]">
+                        <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">{handover}</span>
+                        {listing.condition ? <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">{String(listing.condition).replace(/_/g, " ")}</span> : null}
                       </div>
                       <p className="mt-3 truncate text-sm font-bold text-[#64748B]">{listing.location || "Australia"}</p>
                     </div>
@@ -544,4 +608,3 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
     </>
   );
 }
-
