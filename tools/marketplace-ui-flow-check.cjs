@@ -82,6 +82,20 @@ check("app/messages/[id]/components/send-box.tsx", [
   { pattern: "/send", label: "message send API call" }
 ]);
 
+check("app/notifications/page.tsx", [
+  { pattern: "Saved items", label: "watchlist notifications card" },
+  { pattern: "watchlistUpdates", label: "watchlist update count" },
+  { pattern: "Saved item activity", label: "watchlist activity summary" },
+  { pattern: "/watchlist", label: "watchlist notification link" }
+]);
+
+check("lib/notifications.ts", [
+  { pattern: "watchlist.findMany", label: "watchlist notification source" },
+  { pattern: "watchedSold", label: "watched sold count" },
+  { pattern: "watchedWithOffers", label: "watched offers count" },
+  { pattern: "watchedWithQuestions", label: "watched question count" }
+]);
+
 check("app/listings/c/[category]/page.tsx", [
   { pattern: "currentOfferAmount", label: "category page public current offer amount" }
 ]);
