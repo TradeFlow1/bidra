@@ -8,6 +8,8 @@ type SavedSearch = {
   label: string;
   href: string;
   createdAt: string;
+  alertEnabled?: boolean;
+  lastCheckedAt?: string;
 };
 
 const STORAGE_KEY = "bidra:saved-searches:v1";
@@ -41,6 +43,10 @@ function labelFromSearch(search: string) {
   return parts.join(" - ").slice(0, 90);
 }
 
+function enabledCount(items: SavedSearch[]) {
+  return items.filter((item) => item.alertEnabled).length;
+}
+
 export function SaveSearchButton({ className = "" }: { className?: string }) {
   const [saved, setSaved] = useState(false);
   const [label, setLabel] = useState("Save search");
@@ -54,11 +60,14 @@ export function SaveSearchButton({ className = "" }: { className?: string }) {
 
   function saveSearch() {
     const href = window.location.pathname + window.location.search;
+    const existingItem = readSavedSearches().find((item) => item.href === href);
     const nextItem: SavedSearch = {
       id: href,
       label,
       href,
-      createdAt: new Date().toISOString(),
+      createdAt: existingItem?.createdAt || new Date().toISOString(),
+      alertEnabled: existingItem?.alertEnabled || false,
+      lastCheckedAt: existingItem?.lastCheckedAt,
     };
     const existing = readSavedSearches().filter((item) => item.href !== href);
     writeSavedSearches([nextItem, ...existing]);
@@ -80,6 +89,7 @@ export function SavedSearchesPanel() {
   const [items, setItems] = useState<SavedSearch[]>([]);
 
   const orderedItems = useMemo(() => items.slice(0, 10), [items]);
+  const alertsOn = enabledCount(items);
 
   useEffect(() => {
     function refresh() {
@@ -100,6 +110,16 @@ export function SavedSearchesPanel() {
     setItems(next);
   }
 
+  function toggleAlert(id: string) {
+    const next = readSavedSearches().map((item) => item.id === id ? {
+      ...item,
+      alertEnabled: !item.alertEnabled,
+      lastCheckedAt: new Date().toISOString(),
+    } : item);
+    writeSavedSearches(next);
+    setItems(next);
+  }
+
   return (
     <div className="rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm md:p-6" id="saved-searches">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
@@ -107,12 +127,17 @@ export function SavedSearchesPanel() {
           <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#4F46E5]">Saved searches</div>
           <h2 className="mt-1 text-2xl font-black tracking-tight">Search again fast</h2>
           <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-[#64748B]">
-            Save useful filters for suburb, category, handover and price. Alerts can build on this foundation later.
+            Save useful filters for suburb, category, handover and price. Turn on in-app search alerts to track new matching listings.
           </p>
         </div>
-        <Link href="/listings" className="inline-flex h-12 items-center justify-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black !text-white">
-          Browse listings
-        </Link>
+        <div className="flex flex-col gap-2 sm:items-end">
+          <span className="rounded-full border border-[#C7D2FE] bg-[#EEF2FF] px-3 py-1 text-xs font-black text-[#3730A3]">
+            {alertsOn} alerts on
+          </span>
+          <Link href="/listings" className="inline-flex h-12 items-center justify-center rounded-2xl bg-[#4F46E5] px-6 text-sm font-black !text-white">
+            Browse listings
+          </Link>
+        </div>
       </div>
 
       <div className="mt-5 divide-y divide-[#E2E8F0] overflow-hidden rounded-2xl border border-[#E2E8F0]">
@@ -123,10 +148,16 @@ export function SavedSearchesPanel() {
                 {item.label || "Saved listing search"}
               </Link>
               <p className="mt-1 truncate text-xs font-bold text-[#64748B]">{item.href}</p>
+              {item.alertEnabled ? <p className="mt-1 text-xs font-black text-emerald-700">Search alert on</p> : null}
             </div>
-            <button type="button" onClick={() => removeSearch(item.id)} className="h-10 rounded-2xl border border-[#D8E1F0] px-4 text-xs font-black text-[#3730A3] hover:bg-[#EEF2FF]">
-              Remove
-            </button>
+            <div className="flex flex-wrap gap-2">
+              <button type="button" onClick={() => toggleAlert(item.id)} className="h-10 rounded-2xl border border-[#C7D2FE] px-4 text-xs font-black text-[#3730A3] hover:bg-[#EEF2FF]">
+                {item.alertEnabled ? "Alert on" : "Turn on alert"}
+              </button>
+              <button type="button" onClick={() => removeSearch(item.id)} className="h-10 rounded-2xl border border-[#D8E1F0] px-4 text-xs font-black text-[#3730A3] hover:bg-[#EEF2FF]">
+                Remove
+              </button>
+            </div>
           </div>
         )) : (
           <div className="p-4 text-sm font-semibold text-[#64748B]">
