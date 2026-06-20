@@ -394,9 +394,9 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                   </p>
                 ) : null}
               </div>
-              <button className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-5 text-sm font-black text-[#4F46E5] shadow-sm">
-                Save search
-              </button>
+              <div className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-5 text-sm font-black text-[#4F46E5] shadow-sm">
+                Share filters from URL
+              </div>
             </div>
 
             {visibleListings.length ? (
