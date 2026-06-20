@@ -6,6 +6,15 @@ type SendState = "idle" | "sending" | "sent" | "failed"
 
 const SEND_TIMEOUT_MS = 12000
 
+const QUICK_REPLIES = [
+  "Is the item still available?",
+  "Can I inspect it before paying?",
+  "What pickup time and suburb work for you?",
+  "Is postage available, and what would it cost?",
+  "Would you consider an offer?",
+  "I’ll keep payment and handover details in Bidra Messages."
+]
+
 function errorMessage(value: unknown) {
   if (value instanceof Error && value.name === "AbortError") {
     return "Message send timed out. Check your connection and try again."
@@ -25,6 +34,16 @@ export default function SendBox({ threadId }: { threadId: string }) {
   const [err, setErr] = useState<string | null>(null)
 
   const busy = sendState === "sending"
+
+  function addQuickReply(text: string) {
+    if (busy) return
+    setBody(function (current) {
+      const trimmed = current.trim()
+      return trimmed ? trimmed + "\n" + text : text
+    })
+    setSendState("idle")
+    setErr(null)
+  }
 
   async function send() {
     const text = body.trim()
@@ -74,6 +93,20 @@ export default function SendBox({ threadId }: { threadId: string }) {
   return (
     <div>
       <label className="sr-only">Message</label>
+
+      <div className="mb-2 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {QUICK_REPLIES.map((reply) => (
+          <button
+            key={reply}
+            type="button"
+            disabled={busy}
+            onClick={() => addQuickReply(reply)}
+            className="shrink-0 rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-extrabold text-[#334155] shadow-sm hover:border-[#C7D2FE] hover:bg-white disabled:opacity-60"
+          >
+            {reply}
+          </button>
+        ))}
+      </div>
 
       <textarea
         className="bd-input min-h-[54px] resize-none rounded-2xl px-4 py-3 text-sm leading-5"
