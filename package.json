@@ -21,6 +21,7 @@
     "test:marketplace-api-guards": "node tools/marketplace-api-guard-check.cjs",
     "test:marketplace-ui-flows": "node tools/marketplace-ui-flow-check.cjs",
     "test:marketplace-originality": "node tools/marketplace-originality-check.cjs",
+    "test:production-deployment": "node tools/prod-02-production-deployment-verification-check.cjs",
     "seed:e2e": "tsx scripts/seed-e2e.ts",
     "qa:hard": "playwright test tests/e2e/hard-scan.spec.ts",
     "qa:hard:live": "playwright test tests/e2e/hard-scan.spec.ts",
