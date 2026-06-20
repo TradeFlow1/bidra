@@ -110,7 +110,10 @@ check("app/listings/[id]/layout.tsx", [
 check("app/listings/[id]/listing-public-questions.tsx", [
   { pattern: "Post public question", label: "public question submit action" },
   { pattern: "/api/listings/", label: "public question API call" },
-  { pattern: "Do not post phone numbers", label: "public safety guidance" }
+  { pattern: "Do not post phone numbers", label: "public safety guidance" },
+  { pattern: "Post seller reply", label: "seller reply submit action" },
+  { pattern: "/reply", label: "seller reply API call" },
+  { pattern: "Keep personal payment", label: "seller reply safety guidance" }
 ]);
 
 check("components/account-recovery-form.tsx", [
