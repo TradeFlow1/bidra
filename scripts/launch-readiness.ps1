@@ -10,6 +10,9 @@ Set-Location $RepoRoot
 
 $Commands = @(
     @{ Name = 'Production readiness gate'; Command = @('node', '.\tools\prod-01-production-readiness-gate-check.cjs') },
+    @{ Name = 'Marketplace API guards'; Command = @('npm.cmd', 'run', 'test:marketplace-api-guards') },
+    @{ Name = 'Marketplace UI flows'; Command = @('npm.cmd', 'run', 'test:marketplace-ui-flows') },
+    @{ Name = 'Marketplace originality'; Command = @('npm.cmd', 'run', 'test:marketplace-originality') },
     @{ Name = 'Typecheck'; Command = @('npm.cmd', 'run', 'typecheck') },
     @{ Name = 'Regression tests'; Command = @('npm.cmd', 'run', 'test') },
     @{ Name = 'Public smoke tests'; Command = @('npm.cmd', 'run', 'test:smoke') },
