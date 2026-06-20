@@ -12,10 +12,21 @@ Bidra is a trust-first Australian household marketplace focused on reliable loca
 
 ## Production go-live checks
 
-Run these from the repository root before launch or after a production-risk change:
+Run this from the repository root before launch or after a production-risk change:
+
+```powershell
+npm.cmd run launch:gate
+```
+
+The consolidated launch gate runs production readiness checks, marketplace API guard checks, marketplace UI flow checks, originality checks, typecheck, regression tests, public smoke tests, lint, and a clean Next.js build.
+
+For debugging a failed gate, the individual commands are:
 
 ```powershell
 node .\tools\prod-01-production-readiness-gate-check.cjs
+npm.cmd run test:marketplace-api-guards
+npm.cmd run test:marketplace-ui-flows
+npm.cmd run test:marketplace-originality
 npm.cmd run typecheck
 npm.cmd run test
 npm.cmd run test:smoke
