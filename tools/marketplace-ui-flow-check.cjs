@@ -86,7 +86,22 @@ check("app/notifications/page.tsx", [
   { pattern: "Saved items", label: "watchlist notifications card" },
   { pattern: "watchlistUpdates", label: "watchlist update count" },
   { pattern: "Saved item activity", label: "watchlist activity summary" },
+  { pattern: "SearchAlertsPanel", label: "search alerts panel" },
+  { pattern: "saved search alerts", label: "search alerts update copy" },
   { pattern: "/watchlist", label: "watchlist notification link" }
+]);
+
+check("components/saved-searches.tsx", [
+  { pattern: "Turn on alert", label: "saved search alert toggle" },
+  { pattern: "alertEnabled", label: "saved search alert state" },
+  { pattern: "Search alert on", label: "saved search alert status" }
+]);
+
+check("components/search-alerts-panel.tsx", [
+  { pattern: "Search alerts", label: "search alerts panel title" },
+  { pattern: "lastCheckedAt", label: "search alert last checked tracking" },
+  { pattern: "Manage alerts", label: "search alert management link" },
+  { pattern: "Turn off", label: "search alert disable action" }
 ]);
 
 check("lib/notifications.ts", [
