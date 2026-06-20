@@ -119,6 +119,13 @@ function safeListingImages(...values: unknown[]) {
   return Array.from(new Set(images)).slice(0, 8);
 }
 
+function formatFulfillment(value: unknown) {
+  const raw = cleanText(value).toUpperCase();
+  if (raw === "POSTAGE") return "Postage available";
+  if (raw === "DELIVERY") return "Delivery available";
+  return "Pickup with seller";
+}
+
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const listing = await prisma.listing.findUnique({
     where: { id: params.id },
@@ -198,6 +205,7 @@ export default async function ListingDetailPage({
       condition: true,
       attributes: true,
       location: true,
+      fulfillmentType: true,
       status: true,
       images: true,
       photos: true,
@@ -212,6 +220,12 @@ export default async function ListingDetailPage({
           createdAt: true,
           emailVerified: true,
           phoneVerified: true,
+          _count: {
+            select: {
+              feedbackReceived: true,
+              listings: true,
+            },
+          },
         },
       },
     },
@@ -258,7 +272,7 @@ export default async function ListingDetailPage({
     take: 5,
   });
 
-  const fallbackListings = sameCategoryListings.length >= 5 ? [] : await prisma.listing.findMany({
+  const fallbackListings = await prisma.listing.findMany({
     where: {
       id: { notIn: [listing.id].concat(sameCategoryListings.map((item) => item.id)) },
       status: "ACTIVE",
@@ -276,6 +290,7 @@ export default async function ListingDetailPage({
   const condition = cleanText(listing.condition) || "Condition not specified";
   const category = cleanText(listing.category) || "Listing";
   const listingType = cleanText(listing.type) || "Buy now";
+  const fulfillmentLabel = formatFulfillment(listing.fulfillmentType);
   const sellerName = cleanText(listing.seller?.name || listing.seller?.username) || "Bidra seller";
   const sellerInitials = sellerName.split(/\s+/).slice(0, 2).map((part) => part.charAt(0).toUpperCase()).join("") || "B";
   const sellerAvatarUrl = isSafeImageUrl(cleanText(listing.seller?.avatarUrl)) ? cleanText(listing.seller?.avatarUrl) : "";
@@ -283,6 +298,8 @@ export default async function ListingDetailPage({
   const sellerJoined = listing.seller?.createdAt instanceof Date
     ? listing.seller.createdAt.toLocaleDateString("en-AU", { month: "short", year: "numeric" })
     : "Recently";
+  const sellerFeedbackCount = listing.seller?._count?.feedbackReceived ?? 0;
+  const sellerListingCount = listing.seller?._count?.listings ?? 0;
   const sellerBadges = [
     listing.seller?.emailVerified ? "Email verified" : "",
     listing.seller?.phoneVerified ? "Phone verified" : "",
@@ -325,17 +342,31 @@ export default async function ListingDetailPage({
                     <div className="mt-1 text-sm font-semibold text-[#667399]">{sellerLocation}</div>
                     <div className="mt-1 text-sm font-semibold text-[#667399]">Member since {sellerJoined}</div>
                     <div className="mt-3 flex flex-wrap gap-2">
-                    {sellerBadges.length ? sellerBadges.map((badge) => (
-                      <span key={badge} className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800">{badge}</span>
-                    )) : (
-                      <span className="rounded-full border border-[#DFE6F6] bg-white px-3 py-1 text-xs font-extrabold text-[#667399]">Verification pending</span>
-                    )}
+                      {sellerBadges.length ? sellerBadges.map((badge) => (
+                        <span key={badge} className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800">{badge}</span>
+                      )) : (
+                        <span className="rounded-full border border-[#DFE6F6] bg-white px-3 py-1 text-xs font-extrabold text-[#667399]">Verification pending</span>
+                      )}
                     </div>
                   </div>
                 </div>
                 <div className="grid gap-3 sm:w-[320px] sm:grid-cols-2">
                   <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center justify-center rounded-xl border border-[#352CFF] px-5 py-3 text-sm font-extrabold text-[#352CFF]">View profile</Link>
                   <MessageSellerButton listingId={listing.id} />
+                </div>
+              </div>
+              <div className="mt-6 grid gap-3 border-t border-[#DFE6F6] pt-5 sm:grid-cols-3">
+                <div className="rounded-2xl bg-[#F8FAFF] p-4">
+                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#667399]">Feedback</div>
+                  <div className="mt-1 text-xl font-black text-[#080D32]">{sellerFeedbackCount}</div>
+                </div>
+                <div className="rounded-2xl bg-[#F8FAFF] p-4">
+                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#667399]">Listings</div>
+                  <div className="mt-1 text-xl font-black text-[#080D32]">{sellerListingCount}</div>
+                </div>
+                <div className="rounded-2xl bg-[#F8FAFF] p-4">
+                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#667399]">Handover</div>
+                  <div className="mt-1 text-sm font-black text-[#080D32]">{fulfillmentLabel}</div>
                 </div>
               </div>
             </div>
@@ -347,6 +378,7 @@ export default async function ListingDetailPage({
               <span>-</span>
               <span>{listingType}</span>
               <span>-</span>
+              <span>{fulfillmentLabel}</span>
             </div>
 
             <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight text-[#080D32] sm:text-5xl lg:text-[52px]">{title}</h1>
@@ -386,12 +418,24 @@ export default async function ListingDetailPage({
               </div>
             )}
 
+            <div className="mt-6 rounded-2xl border border-[#C7D2FE] bg-[#F8FAFF] p-5 shadow-sm">
+              <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#4F46E5]">Buyer safety</div>
+              <h2 className="mt-2 text-lg font-black text-[#080D32]">Keep the handover clear.</h2>
+              <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#42526F]">
+                <li>Use Bidra Messages to keep a record before pickup, delivery or postage.</li>
+                <li>Inspect the item and confirm condition before paying where practical.</li>
+                <li>Use public handover locations when possible and report unusual requests.</li>
+              </ul>
+            </div>
+
             <div className="mt-8 border-y border-[#DFE6F6] py-6">
               <dl className="grid grid-cols-[130px_1fr] gap-x-6 gap-y-4 text-sm">
                 <dt className="font-bold text-[#667399]">Condition</dt>
                 <dd className="font-extrabold text-[#080D32]">{condition}</dd>
                 <dt className="font-bold text-[#667399]">Category</dt>
                 <dd className="font-extrabold text-[#080D32]">{category}</dd>
+                <dt className="font-bold text-[#667399]">Handover</dt>
+                <dd className="font-extrabold text-[#080D32]">{fulfillmentLabel}</dd>
                 {attributeRows.map((row) => (
                   <Fragment key={row.key}>
                     <dt className="font-bold text-[#667399]">{row.label}</dt>
