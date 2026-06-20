@@ -116,12 +116,15 @@ check("app/listings/[id]/listing-public-questions.tsx", [
   { pattern: "Keep personal payment", label: "seller reply safety guidance" }
 ]);
 
-check("components/account-recovery-form.tsx", [
-  { pattern: "/api/auth/password-reset/request", label: "account recovery API call" },
-  { pattern: "Send reset link", label: "account recovery submit action" }
+check("components/account-security-form.tsx", [
+  { pattern: "Current password", label: "current password input" },
+  { pattern: "New password", label: "new password input" },
+  { pattern: "Confirm new password", label: "confirm password input" },
+  { pattern: "/api/account/credentials", label: "in-app account credential API call" },
+  { pattern: "Update password", label: "in-app password submit action" }
 ]);
 
 check("app/account/layout.tsx", [
   { pattern: "Change password", label: "account security change password panel" },
-  { pattern: "/forgot-password", label: "account security reset link" }
+  { pattern: "AccountSecurityForm", label: "in-app account security form" }
 ]);

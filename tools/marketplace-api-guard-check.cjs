@@ -26,6 +26,14 @@ function check(file, expectations) {
   console.log("PASS " + file);
 }
 
+check("app/api/account/credentials/route.ts", [
+  { pattern: "getServerSession", label: "authenticated account gate" },
+  { pattern: "session?.user?.id", label: "session user guard" },
+  { pattern: "bcrypt.compare", label: "current credential verification" },
+  { pattern: "bcrypt.hash", label: "new credential hashing" },
+  { pattern: "prisma.user.update", label: "account credential update" }
+]);
+
 check("app/api/offers/place/route.ts", [
   { pattern: "requireAdult", label: "adult/session gate" },
   { pattern: "listing.sellerId === userId", label: "seller cannot offer on own listing" },
