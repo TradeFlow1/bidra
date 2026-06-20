@@ -39,7 +39,18 @@ Optional integrations can be absent for the current launch model, but should be 
 Run from the repository root:
 
 ```powershell
+npm.cmd run launch:gate
+```
+
+The launch gate runs the production readiness gate, marketplace API guards, marketplace UI flow checks, marketplace originality check, typecheck, regression tests, public smoke tests, lint, and a clean production build.
+
+If the gate fails and you need to isolate the failing check, run the individual commands:
+
+```powershell
 node .\tools\prod-01-production-readiness-gate-check.cjs
+npm.cmd run test:marketplace-api-guards
+npm.cmd run test:marketplace-ui-flows
+npm.cmd run test:marketplace-originality
 npm.cmd run typecheck
 npm.cmd run test
 npm.cmd run test:smoke
@@ -61,7 +72,7 @@ After deployment, check:
 - Required environment variables are present in production.
 - Database migrations have been applied with `npm.cmd run db:deploy` or the production host equivalent.
 - A production admin account exists and can access `/admin/ops`.
-- Public route smoke coverage passes.
+- `npm.cmd run launch:gate` passes on the release branch or commit.
 - Auth login/register/password reset flows are available.
 - Listing creation, Buy Now order creation, offer acceptance, messaging, reporting, and feedback checks remain protected by static regression scripts.
 - Legal, fees, support, and how-it-works pages match the current platform-only launch model.
