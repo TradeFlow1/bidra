@@ -1,12 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 
-// Watchlist notifications are intentionally inactive until a persisted notification model exists.
-// add watchlist event counts/hooks for:
-// - watched listing ending soon
-// - watched listing receiving a new offer
-// - watched listing sold
-// Keep this derived-count helper schema-free until that model is available.
 export async function getNotificationCounts(userId: string) {
   const unreadThreads = await prisma.messageThread.count({
     where: {
@@ -50,15 +44,68 @@ export async function getNotificationCounts(userId: string) {
     },
   });
 
+  const watchedListings = await prisma.watchlist.findMany({
+    where: { userId },
+    orderBy: { createdAt: "desc" },
+    take: 200,
+    select: {
+      createdAt: true,
+      listing: {
+        select: {
+          id: true,
+          status: true,
+          updatedAt: true,
+          currentOfferAmount: true,
+          questions: {
+            where: { deletedAt: null },
+            select: { id: true, createdAt: true, answers: { where: { deletedAt: null }, select: { id: true, createdAt: true } } },
+            take: 20,
+          },
+        },
+      },
+    },
+  }).catch(() => []);
+
+  let watchedChanged = 0;
+  let watchedSold = 0;
+  let watchedWithOffers = 0;
+  let watchedWithQuestions = 0;
+
+  for (const item of watchedListings) {
+    const listing = item.listing;
+    if (!listing) continue;
+    if (listing.status === "SOLD") watchedSold++;
+    if (typeof listing.currentOfferAmount === "number" && listing.currentOfferAmount > 0) watchedWithOffers++;
+
+    const hasQuestionActivity = listing.questions.some((question) => {
+      if (question.createdAt.getTime() > item.createdAt.getTime()) return true;
+      return question.answers.some((answer) => answer.createdAt.getTime() > item.createdAt.getTime());
+    });
+
+    if (hasQuestionActivity) watchedWithQuestions++;
+
+    if (
+      listing.updatedAt.getTime() > item.createdAt.getTime() ||
+      listing.status === "SOLD" ||
+      (typeof listing.currentOfferAmount === "number" && listing.currentOfferAmount > 0) ||
+      hasQuestionActivity
+    ) {
+      watchedChanged++;
+    }
+  }
+
   const unreadThreadCount = Number(unreadThreads || 0);
   const orderCount = Number(soldOrders || 0);
-  const total = unreadThreadCount + pendingFeedback;
+  const watchlistUpdates = Number(watchedChanged || 0);
+  const total = unreadThreadCount + pendingFeedback + watchlistUpdates;
 
   const hasCritical = pendingFeedback > 0;
   const hasMessages = unreadThreadCount > 0;
+  const hasWatchlistUpdates = watchlistUpdates > 0;
   const primaryType =
     pendingFeedback > 0 ? "feedback" :
     unreadThreadCount > 0 ? "messages" :
+    watchlistUpdates > 0 ? "watchlist" :
     "none";
 
   return {
@@ -66,8 +113,13 @@ export async function getNotificationCounts(userId: string) {
     unreadThreads: unreadThreadCount,
     pendingFeedback,
     actionOrders: orderCount,
+    watchlistUpdates,
+    watchedSold,
+    watchedWithOffers,
+    watchedWithQuestions,
     hasCritical,
     hasMessages,
+    hasWatchlistUpdates,
     primaryType,
   };
 }

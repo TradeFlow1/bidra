@@ -81,9 +81,10 @@ export default async function NotificationsPage() {
             </Link>
           </div>
 
-          <div className="mt-4 grid grid-cols-3 gap-2">
+          <div className="mt-4 grid grid-cols-4 gap-2">
             <MobileCountCard label="Unread" value={counts.unreadThreads} />
             <MobileCountCard label="Orders" value={counts.actionOrders} />
+            <MobileCountCard label="Saved" value={counts.watchlistUpdates} />
             <MobileCountCard label="Feedback" value={counts.pendingFeedback} />
           </div>
         </section>
@@ -94,27 +95,40 @@ export default async function NotificationsPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">My Bidra</div>
               <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">Updates</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Unread messages, order actions, and feedback reminders.
+                Unread messages, saved item changes, order actions, and feedback reminders.
               </p>
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
               <CountPill label="Unread" value={counts.unreadThreads} />
+              <CountPill label="Saved" value={counts.watchlistUpdates} />
               <CountPill label="Orders" value={counts.actionOrders} />
               <CountPill label="Feedback" value={counts.pendingFeedback} />
             </div>
           </div>
         </section>
 
-        <div className="grid gap-3 md:gap-4 lg:grid-cols-2">
+        <div className="grid gap-3 md:gap-4 lg:grid-cols-3">
           <UpdateCard
             title="Messages"
             countLabel="Unread"
             count={counts.unreadThreads}
             href="/messages"
             action="Open inbox"
+            highlight
           >
             Reply to buyers and sellers, ask questions, and keep pickup or postage details in Bidra Messages.
+          </UpdateCard>
+
+          <UpdateCard
+            title="Saved items"
+            countLabel="Updates"
+            count={counts.watchlistUpdates}
+            href="/watchlist"
+            action="Open watchlist"
+            highlight
+          >
+            Track watched listings with new activity, seller replies, visible offers, or sold status changes.
           </UpdateCard>
 
           <UpdateCard
@@ -127,6 +141,22 @@ export default async function NotificationsPage() {
             Review orders, message the other person, and handle pickup, postage, or follow-up.
           </UpdateCard>
         </div>
+
+        {counts.watchlistUpdates > 0 ? (
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm md:rounded-3xl md:p-5">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="text-lg font-extrabold bd-ink">Saved item activity</div>
+                <div className="mt-2 text-sm bd-ink2">
+                  {counts.watchedSold} sold, {counts.watchedWithOffers} with visible offers, and {counts.watchedWithQuestions} with public question activity.
+                </div>
+              </div>
+              <Link href="/watchlist" className="inline-flex w-fit rounded-2xl border border-[#C7D2FE] bg-white px-4 py-2 text-sm font-black text-[#4F46E5] shadow-sm">
+                View saved items
+              </Link>
+            </div>
+          </div>
+        ) : null}
 
         <Link href="/orders" className="block">
           <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition active:scale-[0.99] md:rounded-3xl md:p-5">
@@ -153,7 +183,7 @@ export default async function NotificationsPage() {
             <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-[#0F172A]">You are all caught up</div>
               <div className="mt-2 text-sm text-[#526173]">
-                New messages, orders, and optional feedback will appear here.
+                New messages, saved item updates, orders, and optional feedback will appear here.
               </div>
             </div>
           </div>
@@ -162,4 +192,3 @@ export default async function NotificationsPage() {
     </ReferencePage>
   );
 }
-
