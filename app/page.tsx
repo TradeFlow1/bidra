@@ -8,6 +8,7 @@ import {
   CategoryPillGrid,
   EmptyMarketplaceState,
   HomeHero,
+  HomeTrustStrip,
   MarketplaceSection,
   ReferencePage,
   appShell,
@@ -31,8 +32,6 @@ const categoryIcons: Record<string, string> = {
   Appliances: "grid",
   "Sports & Outdoors": "ball",
 };
-
-const fallbackCategories = ["Electronics", "Furniture", "Vehicles", "Sports", "Fashion", "Appliances"];
 
 export default async function HomePage() {
   const session = await auth();
@@ -116,6 +115,7 @@ export default async function HomePage() {
       meta: count > 0 ? `${count} ${count === 1 ? "item" : "items"}` : "Explore",
     };
   });
+
   function getRotatingHeroListings(source: typeof listings) {
     if (source.length <= 4) return source;
 
@@ -187,18 +187,42 @@ export default async function HomePage() {
           };
         })} />
 
+        <HomeTrustStrip />
+
         <MarketplaceSection title="Browse categories" action={<Link href="/listings" className="text-sm font-black text-[#0E7490]">View all categories</Link>}>
           <CategoryPillGrid categories={categories} />
         </MarketplaceSection>
 
-        <MarketplaceSection title="Latest listings" className="pb-24 md:pb-8" action={<Link href="/listings?sort=newest" className="text-sm font-black text-[#0E7490]">View all listings</Link>}>
+        <MarketplaceSection title="Latest listings" action={<Link href="/listings?sort=newest" className="text-sm font-black text-[#0E7490]">View all listings</Link>}>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {listings.length ? listings.slice(0, 4).map(renderCard) : <EmptyMarketplaceState title="No listings yet" body="Be the first to list a buyer-ready item with clear photos, price and handover details." href={userId ? "/sell/new" : "/auth/register"} cta="Create a listing" />}
+            {listings.length ? listings.map(renderCard) : <EmptyMarketplaceState title="No listings yet" body="Be the first to list a buyer-ready item with clear photos, price and handover details." href={userId ? "/sell/new" : "/auth/register"} cta="Create a listing" />}
           </div>
         </MarketplaceSection>
-</div>
+
+        <section className="mb-24 rounded-[28px] border border-[#C7D2FE] bg-[#F8FAFC] p-5 shadow-sm sm:p-7 md:mb-8">
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-center">
+            <div>
+              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#64748B]">Safer local trading</div>
+              <h2 className="mt-2 text-2xl font-black tracking-[-0.035em] text-[#0F172A] sm:text-3xl">Agree the details clearly before handover.</h2>
+              <p className="mt-3 text-sm font-semibold leading-6 text-[#475569]">
+                Bidra helps buyers and sellers keep a clear message record while arranging pickup, postage or delivery directly.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {[
+                "Keep conversations in Bidra Messages.",
+                "Inspect items before paying where practical.",
+                "Use public handover locations when possible.",
+                "Report unsafe listings or unusual requests.",
+              ].map((item) => (
+                <div key={item} className="rounded-2xl border border-[#C7D2FE] bg-white p-4 text-sm font-bold leading-6 text-[#334155] shadow-sm">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
     </ReferencePage>
   );
 }
-
-
