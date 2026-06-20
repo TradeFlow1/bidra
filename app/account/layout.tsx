@@ -1,10 +1,16 @@
 import type { ReactNode } from "react";
 import AccountSecurityForm from "@/components/account-security-form";
+import { SavedSearchesPanel } from "@/components/saved-searches";
 
 export default function AccountLayout({ children }: { children: ReactNode }) {
   return (
     <>
       {children}
+      <section id="saved-searches" className="bg-white px-4 pb-6 text-[#0F172A] sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1440px]">
+          <SavedSearchesPanel />
+        </div>
+      </section>
       <section id="security" className="bg-white px-4 pb-24 text-[#0F172A] sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-[1440px]">
           <div className="rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm md:p-6">
