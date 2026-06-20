@@ -22,6 +22,27 @@ function sanitizeDescription(desc: string): string {
   return keep.join("\n").trim();
 }
 
+function validateListingQuality(desc: string): string | null {
+  const cleaned = sanitizeDescription(desc).replace(/\s+/g, " ").trim();
+  const lower = cleaned.toLowerCase();
+
+  if (cleaned.length < 40) {
+    return "Description must include condition, inclusions or faults, and pickup/postage details.";
+  }
+
+  const hasConditionSignal = /condition|new|used|like new|fault|faults|mark|marks|scratch|scratches|wear|working|works|damage|damaged/.test(lower);
+  if (!hasConditionSignal) {
+    return "Description must mention condition, faults, marks, or whether the item works.";
+  }
+
+  const hasHandoverSignal = /pickup|pick up|postage|post|delivery|deliver|handover|collect|collection/.test(lower);
+  if (!hasHandoverSignal) {
+    return "Description must include pickup, postage, delivery, or handover details.";
+  }
+
+  return null;
+}
+
 function normalizeType(raw: any): "BUY_NOW" | "OFFERABLE" {
   const t = String(raw || "").trim().toUpperCase();
   if (t === "OFFERABLE") return "OFFERABLE";
@@ -117,6 +138,7 @@ export async function POST(req: Request) {
 
     const title = String(body.title || "").trim();
     const description = String(body.description || "").trim();
+    const cleanedDescription = sanitizeDescription(description);
     const category = String(body.category || "").trim();
     const tags = Array.isArray((body as any)?.tags) ? (body as any).tags : null;
     const condition = String(body.condition || "Used").trim();
@@ -133,7 +155,6 @@ export async function POST(req: Request) {
     const imagesRaw = Array.isArray(body.images) ? body.images : [];
     const attributes = normalizeAttributes((body as any).attributes);
 
-
     const images = imagesRaw.map(function (v: any) {
       if (typeof v === "string") return { url: String(v).trim() };
       if (v && typeof v === "object" && typeof v.url === "string") return { url: String(v.url).trim() };
@@ -148,6 +169,8 @@ export async function POST(req: Request) {
     if (images.length < 1) return NextResponse.json({ error: "Add at least 1 photo to publish your listing." }, { status: 400 });
     if (images.length > 10) return NextResponse.json({ error: "Too many images (max 10)." }, { status: 400 });
 
+    const qualityError = validateListingQuality(description);
+    if (qualityError) return NextResponse.json({ error: qualityError }, { status: 400 });
 
     if (type === "BUY_NOW") {
       if (priceIn === null || Number.isNaN(priceIn) || priceIn <= 0) return NextResponse.json({ error: "Price must be greater than 0." }, { status: 400 });
@@ -228,7 +251,7 @@ export async function POST(req: Request) {
       data: {
         type: type,
         title: title,
-        description: sanitizeDescription(description),
+        description: cleanedDescription,
         category: category,
         condition: condition,
         location: location,
