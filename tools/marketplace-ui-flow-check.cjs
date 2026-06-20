@@ -101,3 +101,24 @@ check("app/listings/[id]/page.tsx", [
   { pattern: "alternates: { canonical: canonicalPath }", label: "listing canonical URL" },
   { pattern: "openGraph", label: "listing open graph metadata" }
 ]);
+
+check("app/listings/[id]/layout.tsx", [
+  { pattern: "ListingPublicQuestions", label: "public listing questions surface" },
+  { pattern: "isOwner={userId === listing.sellerId}", label: "seller ownership passed to questions" }
+]);
+
+check("app/listings/[id]/listing-public-questions.tsx", [
+  { pattern: "Post public question", label: "public question submit action" },
+  { pattern: "/api/listings/", label: "public question API call" },
+  { pattern: "Do not post phone numbers", label: "public safety guidance" }
+]);
+
+check("components/account-recovery-form.tsx", [
+  { pattern: "/api/auth/password-reset/request", label: "account recovery API call" },
+  { pattern: "Send reset link", label: "account recovery submit action" }
+]);
+
+check("app/account/layout.tsx", [
+  { pattern: "Change password", label: "account security change password panel" },
+  { pattern: "/forgot-password", label: "account security reset link" }
+]);

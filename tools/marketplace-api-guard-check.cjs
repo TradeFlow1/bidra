@@ -65,6 +65,15 @@ check("app/api/listings/[id]/update/route.ts", [
   { pattern: "SELLER_ALLOWED_STATUSES", label: "seller status allow-list" }
 ]);
 
+check("app/api/listings/[id]/questions/route.ts", [
+  { pattern: "export async function GET", label: "public question read endpoint" },
+  { pattern: "export async function POST", label: "public question create endpoint" },
+  { pattern: "session?.user?.id", label: "question auth gate" },
+  { pattern: 'listing.status !== "ACTIVE"', label: "active listing question guard" },
+  { pattern: "listing.sellerId === session.user.id", label: "seller cannot ask own public question" },
+  { pattern: "listingQuestion.create", label: "public question creation" }
+]);
+
 check("app/api/messages/thread/route.ts", [
   { pattern: "requireAdult", label: "adult/session gate" },
   { pattern: "listingId", label: "listing thread linkage" },
