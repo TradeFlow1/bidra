@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 import AccountSecurityForm from "@/components/account-security-form";
+import SellerAnalyticsPanel from "@/components/seller-analytics-panel";
 import { SavedSearchesPanel } from "@/components/saved-searches";
 
 export default function AccountLayout({ children }: { children: ReactNode }) {
   return (
     <>
       {children}
+      <SellerAnalyticsPanel />
       <section id="saved-searches" className="bg-white px-4 pb-6 text-[#0F172A] sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-[1440px]">
           <SavedSearchesPanel />
