@@ -73,6 +73,22 @@ check("app/api/listings/[id]/update/route.ts", [
   { pattern: "SELLER_ALLOWED_STATUSES", label: "seller status allow-list" }
 ]);
 
+check("app/api/listings/[id]/duplicate/route.ts", [
+  { pattern: "requireAdult", label: "adult/session gate" },
+  { pattern: "source.sellerId !== userId", label: "seller ownership guard" },
+  { pattern: 'status: "DRAFT"', label: "duplicate creates draft" },
+  { pattern: "offers", label: "no offer history copied absent" },
+  { pattern: "listingId: copy.id", label: "new listing id returned" }
+]);
+
+check("app/api/listings/relist/route.ts", [
+  { pattern: "requireAdult", label: "adult/session gate" },
+  { pattern: "listing.sellerId !== userId", label: "seller ownership guard" },
+  { pattern: 'listing.status !== "ENDED"', label: "ended-only relist guard" },
+  { pattern: "completedOrder", label: "completed order relist block" },
+  { pattern: 'status: "ACTIVE"', label: "relist active update" }
+]);
+
 check("app/api/listings/[id]/questions/route.ts", [
   { pattern: "export async function GET", label: "public question read endpoint" },
   { pattern: "export async function POST", label: "public question create endpoint" },
