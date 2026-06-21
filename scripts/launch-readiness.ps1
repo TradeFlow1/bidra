@@ -13,6 +13,7 @@ $Commands = @(
     @{ Name = 'Production deployment verification'; Command = @('npm.cmd', 'run', 'test:production-deployment') },
     @{ Name = 'Marketplace API guards'; Command = @('npm.cmd', 'run', 'test:marketplace-api-guards') },
     @{ Name = 'Marketplace UI flows'; Command = @('npm.cmd', 'run', 'test:marketplace-ui-flows') },
+    @{ Name = 'Suburb landing pages'; Command = @('npm.cmd', 'run', 'test:suburb-landing-pages') },
     @{ Name = 'Marketplace originality'; Command = @('npm.cmd', 'run', 'test:marketplace-originality') },
     @{ Name = 'Typecheck'; Command = @('npm.cmd', 'run', 'typecheck') },
     @{ Name = 'Regression tests'; Command = @('npm.cmd', 'run', 'test') },
