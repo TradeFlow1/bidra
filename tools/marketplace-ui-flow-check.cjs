@@ -100,6 +100,15 @@ check("app/watchlist/page.tsx", [
   { pattern: "Open Updates", label: "watchlist updates link" }
 ]);
 
+check("components/timed-offer-window-panel.tsx", [
+  { pattern: "Timed offers", label: "timed offers panel title" },
+  { pattern: "Closing soon", label: "timed offer closing-soon state" },
+  { pattern: "Offer window ended", label: "timed offer ended state" },
+  { pattern: "seller chooses whether to accept", label: "seller chooses offer copy" },
+  { pattern: "Bidra does not automatically sell the item", label: "no automatic sale copy" },
+  { pattern: "payment, pickup, delivery or postage directly in Bidra Messages", label: "external handover copy" }
+]);
+
 check("components/saved-searches.tsx", [
   { pattern: "Turn on alert", label: "saved search alert toggle" },
   { pattern: "alertEnabled", label: "saved search alert state" },
@@ -141,6 +150,8 @@ check("app/listings/[id]/page.tsx", [
 ]);
 
 check("app/listings/[id]/layout.tsx", [
+  { pattern: "TimedOfferWindowPanel", label: "timed offer window panel surface" },
+  { pattern: "expiresAt: { gt: new Date() }", label: "active offer window expiry source" },
   { pattern: "ListingPublicQuestions", label: "public listing questions surface" },
   { pattern: "isOwner={userId === listing.sellerId}", label: "seller ownership passed to questions" }
 ]);
