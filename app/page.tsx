@@ -4,6 +4,7 @@ import BetaNotice from "@/components/beta-notice";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
+import ClosingSoonFeed from "@/components/closing-soon-feed";
 import {
   CategoryPillGrid,
   EmptyMarketplaceState,
@@ -188,6 +189,8 @@ export default async function HomePage() {
         })} />
 
         <HomeTrustStrip />
+
+        <ClosingSoonFeed />
 
         <MarketplaceSection title="Browse categories" action={<Link href="/listings" className="text-sm font-black text-[#0E7490]">View all categories</Link>}>
           <CategoryPillGrid categories={categories} />
