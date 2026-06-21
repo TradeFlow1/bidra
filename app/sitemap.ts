@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getSeoSitemapCombos, getSiteUrl } from "@/lib/listing-seo";
+import { getSeoLocationLandingLinks, getSeoSitemapCombos, getSiteUrl } from "@/lib/listing-seo";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +20,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/legal/prohibited-items`, lastModified: now, changeFrequency: "monthly", priority: 0.48 },
   ];
 
-  const combos = process.env.DATABASE_URL ? await getSeoSitemapCombos() : [];
+  const [combos, locations] = process.env.DATABASE_URL
+    ? await Promise.all([getSeoSitemapCombos(), getSeoLocationLandingLinks()])
+    : [[], []];
 
   const seoEntries: MetadataRoute.Sitemap = combos.map(function (combo) {
     const path = combo.locationSlug
@@ -35,5 +37,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
-  return staticEntries.concat(seoEntries);
+  const locationEntries: MetadataRoute.Sitemap = locations.map(function (location) {
+    return {
+      url: `${baseUrl}/listings/near/${location.slug}`,
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: location.kind === "suburb" ? 0.72 : 0.74,
+    };
+  });
+
+  return staticEntries.concat(seoEntries, locationEntries);
 }
