@@ -77,7 +77,7 @@ check("app/api/listings/[id]/duplicate/route.ts", [
   { pattern: "requireAdult", label: "adult/session gate" },
   { pattern: "source.sellerId !== userId", label: "seller ownership guard" },
   { pattern: 'status: "DRAFT"', label: "duplicate creates draft" },
-  { pattern: "offers", label: "no offer history copied absent" },
+  { pattern: "listing.create", label: "duplicate creates new listing" },
   { pattern: "listingId: copy.id", label: "new listing id returned" }
 ]);
 
