@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import EditListingClient from "./edit-listing-client";
+import SellerListingReuseActions from "@/components/seller-listing-reuse-actions";
 import { BackButton } from "@/components/ui/back-button";
 
 export default async function EditListingPage({ params }: { params: { id: string } }) {
@@ -22,11 +23,14 @@ export default async function EditListingPage({ params }: { params: { id: string
     select: { amount: true },
   });
   const highestOfferCents = highest?.amount ?? 0;
+  const status = String((listing as unknown as { status?: unknown }).status || "DRAFT");
+
   return (
     <>
       <main className="bd-container py-5">
         <BackButton href={`/listings/${listing.id}`} label="Back to listing" />
       </main>
+      <SellerListingReuseActions listingId={listing.id} status={status} />
       <EditListingClient
       listing={{
         id: listing.id,
@@ -37,7 +41,7 @@ export default async function EditListingPage({ params }: { params: { id: string
         location: listing.location || "",
         priceDollars: Number(listing.price || 0) / 100,
         images,
-        status: String((listing as unknown as { status?: unknown }).status || "DRAFT"),
+        status,
 
         // Kevin timed-offers support (seller-controlled, late-stage only)
         type: String((listing as unknown as { type?: unknown }).type || "BUY_NOW"),
@@ -49,4 +53,3 @@ export default async function EditListingPage({ params }: { params: { id: string
     </>
   );
 }
-
