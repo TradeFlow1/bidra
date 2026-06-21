@@ -76,6 +76,20 @@ check("app/listings/page.tsx", [
   { pattern: "Search: {selectedQuery}", label: "keyword results summary" }
 ]);
 
+check("app/page.tsx", [
+  { pattern: "ClosingSoonFeed", label: "homepage closing soon feed surface" },
+  { pattern: "HomeTrustStrip", label: "homepage trust strip still present" },
+  { pattern: "Latest listings", label: "homepage latest listings still present" }
+]);
+
+check("components/closing-soon-feed.tsx", [
+  { pattern: "Closing soon", label: "closing soon feed label" },
+  { pattern: "Timed offers closing soon", label: "timed offers closing soon title" },
+  { pattern: "expiresAt", label: "offer expiry source" },
+  { pattern: "Bidra does not automatically sell the item", label: "no automatic sale copy" },
+  { pattern: "Browse timed offers", label: "browse timed offers link" }
+]);
+
 check("app/messages/[id]/components/send-box.tsx", [
   { pattern: 'aria-label="Message text"', label: "message textarea label" },
   { pattern: "Send", label: "send button" },
