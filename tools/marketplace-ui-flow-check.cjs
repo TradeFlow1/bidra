@@ -91,6 +91,15 @@ check("app/notifications/page.tsx", [
   { pattern: "/watchlist", label: "watchlist notification link" }
 ]);
 
+check("app/watchlist/page.tsx", [
+  { pattern: "Watchlist alerts", label: "watchlist alert detail section" },
+  { pattern: "Lower Buy Now", label: "watchlist lower buy now insight" },
+  { pattern: "Visible offers", label: "watchlist visible offer count" },
+  { pattern: "Public Q&amp;A", label: "watchlist public question count" },
+  { pattern: "WatchlistInsightCard", label: "watchlist insight card component" },
+  { pattern: "Open Updates", label: "watchlist updates link" }
+]);
+
 check("components/saved-searches.tsx", [
   { pattern: "Turn on alert", label: "saved search alert toggle" },
   { pattern: "alertEnabled", label: "saved search alert state" },

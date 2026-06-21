@@ -3,12 +3,56 @@ import AccountNav from "@/components/account-nav";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
-import { BackButton } from "@/components/ui/back-button";
 import { ReferencePage, appShell } from "@/components/marketplace-redesign";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
+
+function formatPrice(cents: number | null | undefined) {
+  if (typeof cents !== "number") return "-";
+  return "$" + (cents / 100).toLocaleString("en-AU", { maximumFractionDigits: 0 });
+}
+
+function insightLabel(item: any) {
+  const listing = item?.listing;
+  if (!listing) return "Unavailable";
+  if (listing.status !== "ACTIVE") return "No longer active";
+  if (typeof listing.buyNowPrice === "number" && listing.buyNowPrice > 0 && listing.buyNowPrice < listing.price) return "Buy Now below listed price";
+  if (typeof listing.currentOfferAmount === "number" && listing.currentOfferAmount > 0) return "Visible offer activity";
+  if ((listing.questions || []).length > 0) return "Public question activity";
+  if (listing.updatedAt && new Date(listing.updatedAt).getTime() > new Date(item.createdAt).getTime()) return "Updated since saved";
+  return "Watching";
+}
+
+function WatchlistInsightCard({ item }: { item: any }) {
+  const listing = item?.listing;
+  if (!listing) return null;
+  const effectivePrice = typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price;
+  const lowerBuyNow = typeof listing.buyNowPrice === "number" && listing.buyNowPrice > 0 && listing.buyNowPrice < listing.price;
+  const hasVisibleOffer = typeof listing.currentOfferAmount === "number" && listing.currentOfferAmount > 0;
+  const questionCount = Array.isArray(listing.questions) ? listing.questions.length : 0;
+
+  return (
+    <Link href={`/listings/${listing.id}`} className="block rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition hover:border-[#C7D2FE] hover:bg-[#F8FAFF]">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="truncate text-sm font-black text-[#07152E]">{listing.title}</div>
+          <div className="mt-1 text-xs font-bold text-[#64748B]">{insightLabel(item)}</div>
+        </div>
+        <span className="shrink-0 rounded-full border border-[#C7D2FE] bg-[#EEF2FF] px-2.5 py-1 text-[11px] font-black text-[#3730A3]">
+          {formatPrice(effectivePrice)}
+        </span>
+      </div>
+      <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#3730A3]">
+        {lowerBuyNow ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-800">Lower Buy Now</span> : null}
+        {hasVisibleOffer ? <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">Offer {formatPrice(listing.currentOfferAmount)}</span> : null}
+        {questionCount ? <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">{questionCount} public Q&amp;A</span> : null}
+        {listing.status !== "ACTIVE" ? <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-amber-900">Unavailable</span> : null}
+      </div>
+    </Link>
+  );
+}
 
 export default async function WatchlistPage() {
   const session = await auth();
@@ -88,12 +132,21 @@ export default async function WatchlistPage() {
           description: true,
           price: true,
           buyNowPrice: true,
+          currentOfferAmount: true,
           type: true,
           category: true,
           condition: true,
           location: true,
           images: true,
+          photos: true,
           status: true,
+          updatedAt: true,
+          questions: {
+            where: { deletedAt: null },
+            select: { id: true, createdAt: true },
+            take: 10,
+            orderBy: { createdAt: "desc" },
+          },
           seller: {
             select: {
               username: true,
@@ -121,20 +174,29 @@ export default async function WatchlistPage() {
     return String(x?.listing?.type ?? "") === "OFFERABLE";
   }).length;
 
-  const savedBuyNowListings = items.filter(function (x: any) {
-    return String(x?.listing?.type ?? "") !== "OFFERABLE";
+  const lowerBuyNowCount = items.filter(function (x: any) {
+    const listing = x?.listing;
+    return typeof listing?.buyNowPrice === "number" && listing.buyNowPrice > 0 && listing.buyNowPrice < listing.price;
   }).length;
 
-  const nowMs = Date.now();
-  const endingSoonCount = items.filter(function (x: any) {
-    if (String(x?.listing?.status ?? "") !== "ACTIVE") return false;
-    const endsAtRaw = (x?.listing as any)?.endsAt;
-    if (!endsAtRaw) return false;
-    const endsAtMs = new Date(endsAtRaw).getTime();
-    if (!Number.isFinite(endsAtMs)) return false;
-    const diff = endsAtMs - nowMs;
-    return diff > 0 && diff <= 24 * 60 * 60 * 1000;
+  const visibleOfferCount = items.filter(function (x: any) {
+    const amount = x?.listing?.currentOfferAmount;
+    return typeof amount === "number" && amount > 0;
   }).length;
+
+  const questionActivityCount = items.filter(function (x: any) {
+    return Array.isArray(x?.listing?.questions) && x.listing.questions.length > 0;
+  }).length;
+
+  const insightItems = items.filter(function (x: any) {
+    const listing = x?.listing;
+    if (!listing) return false;
+    return listing.status !== "ACTIVE" ||
+      (typeof listing.buyNowPrice === "number" && listing.buyNowPrice > 0 && listing.buyNowPrice < listing.price) ||
+      (typeof listing.currentOfferAmount === "number" && listing.currentOfferAmount > 0) ||
+      (Array.isArray(listing.questions) && listing.questions.length > 0) ||
+      (listing.updatedAt && new Date(listing.updatedAt).getTime() > new Date(x.createdAt).getTime());
+  }).slice(0, 6);
 
   return (
     <ReferencePage>
@@ -166,7 +228,7 @@ export default async function WatchlistPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Saved</div>
               <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Saved</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Save listings to track items you care about, keep an eye on offer movement, and spot ending windows before they close.
+                Save listings to track items you care about, compare price movement, visible offers, public Q&amp;A and availability.
               </p>
             </div>
 
@@ -181,10 +243,30 @@ export default async function WatchlistPage() {
           </div>
         </section>
 
-        <div className="hidden rounded-[22px] border border-[#D7E2F1] bg-white px-4 py-2 text-sm text-[#475569] shadow-sm md:block">
-          <span className="font-extrabold text-[#07152E]">{items.length}</span> saved listings.
-          <span className="ml-2 text-[#607089]">{activeCount} active, {endedCount} unavailable.</span>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{items.length}</div><div className="text-xs font-bold text-[#64748B]">Saved listings</div></div>
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{lowerBuyNowCount}</div><div className="text-xs font-bold text-[#64748B]">Lower Buy Now</div></div>
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{visibleOfferCount}</div><div className="text-xs font-bold text-[#64748B]">Visible offers</div></div>
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{questionActivityCount}</div><div className="text-xs font-bold text-[#64748B]">Public Q&amp;A</div></div>
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{savedOfferListings}</div><div className="text-xs font-bold text-[#64748B]">Offer listings</div></div>
         </div>
+
+        {insightItems.length ? (
+          <section className="rounded-[24px] border border-[#D7E2F1] bg-[#F8FAFF] p-4 shadow-sm md:p-5">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <div className="text-lg font-black text-[#07152E]">Watchlist alerts</div>
+                <p className="mt-1 text-sm font-semibold text-[#64748B]">Saved listings with price opportunities, visible offers, public question activity or availability changes.</p>
+              </div>
+              <Link href="/notifications" className="inline-flex h-11 items-center rounded-2xl border border-[#C7D2FE] bg-white px-4 text-sm font-black text-[#4F46E5] shadow-sm">
+                Open Updates
+              </Link>
+            </div>
+            <div className="mt-4 grid gap-3 lg:grid-cols-2">
+              {insightItems.map((item: any) => <WatchlistInsightCard key={item.id} item={item} />)}
+            </div>
+          </section>
+        ) : null}
 
         {!items.length ? (
           <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
@@ -232,6 +314,3 @@ export default async function WatchlistPage() {
     </ReferencePage>
   );
 }
-
-
-
