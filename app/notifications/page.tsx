@@ -3,6 +3,7 @@ export const revalidate = 0;
 
 import Link from "next/link";
 import AccountNav from "@/components/account-nav";
+import SearchAlertsPanel from "@/components/search-alerts-panel";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getNotificationCounts } from "@/lib/notifications";
@@ -95,7 +96,7 @@ export default async function NotificationsPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">My Bidra</div>
               <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">Updates</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Unread messages, saved item changes, order actions, and feedback reminders.
+                Unread messages, saved search alerts, saved item changes, order actions, and feedback reminders.
               </p>
             </div>
 
@@ -107,6 +108,8 @@ export default async function NotificationsPage() {
             </div>
           </div>
         </section>
+
+        <SearchAlertsPanel />
 
         <div className="grid gap-3 md:gap-4 lg:grid-cols-3">
           <UpdateCard
@@ -183,7 +186,7 @@ export default async function NotificationsPage() {
             <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-[#0F172A]">You are all caught up</div>
               <div className="mt-2 text-sm text-[#526173]">
-                New messages, saved item updates, orders, and optional feedback will appear here.
+                New messages, saved search alerts, saved item updates, orders, and optional feedback will appear here.
               </div>
             </div>
           </div>
