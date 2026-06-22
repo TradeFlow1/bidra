@@ -15,6 +15,7 @@ $Commands = @(
     @{ Name = 'Marketplace UI flows'; Command = @('npm.cmd', 'run', 'test:marketplace-ui-flows') },
     @{ Name = 'Suburb landing pages'; Command = @('npm.cmd', 'run', 'test:suburb-landing-pages') },
     @{ Name = 'Wanted ads foundation'; Command = @('npm.cmd', 'run', 'test:wanted-ads') },
+    @{ Name = 'Seller storefronts'; Command = @('npm.cmd', 'run', 'test:seller-storefronts') },
     @{ Name = 'Marketplace originality'; Command = @('npm.cmd', 'run', 'test:marketplace-originality') },
     @{ Name = 'Prisma generate'; Command = @('npm.cmd', 'run', 'prisma:generate') },
     @{ Name = 'Typecheck'; Command = @('npm.cmd', 'run', 'typecheck') },
