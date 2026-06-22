@@ -61,6 +61,7 @@ model User {
   policyStrikeEvents     PolicyStrike[]       @relation("UserPolicyStrikes")
   reports                Report[]             @relation("ReporterReports")
   verificationTokens     VerificationToken[]
+  wantedAds              WantedAd[]
   watchlist              Watchlist[]
 }
 
@@ -114,6 +115,28 @@ model Listing {
   policyStrikes   PolicyStrike[]
   reports         Report[]
   watchlist       Watchlist[]
+}
+
+model WantedAd {
+  id          String       @id @default(cuid())
+  title       String
+  description String
+  category    String
+  location    String
+  budgetMin   Int?
+  budgetMax   Int?
+  status      WantedStatus @default(ACTIVE)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  expiresAt   DateTime?
+  buyerId     String
+  buyer       User         @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+
+  @@index([buyerId])
+  @@index([status])
+  @@index([category])
+  @@index([location])
+  @@index([createdAt])
 }
 
 model Offer {
@@ -387,6 +410,13 @@ enum ListingStatus {
   DELETED
 }
 
+enum WantedStatus {
+  ACTIVE
+  CLOSED
+  EXPIRED
+  DELETED
+}
+
 enum OrderStatus {
   PENDING
   ACCEPTED
@@ -419,4 +449,3 @@ enum FulfillmentType {
   DELIVERY
   POSTAGE
 }
-
