@@ -18,6 +18,7 @@ $Commands = @(
     @{ Name = 'Seller storefronts'; Command = @('npm.cmd', 'run', 'test:seller-storefronts') },
     @{ Name = 'Map/list browsing'; Command = @('npm.cmd', 'run', 'test:map-list-browsing') },
     @{ Name = 'Promoted listing foundation'; Command = @('npm.cmd', 'run', 'test:promoted-listings') },
+    @{ Name = 'Bulk listing/photo improvements'; Command = @('npm.cmd', 'run', 'test:bulk-listing-photos') },
     @{ Name = 'Marketplace originality'; Command = @('npm.cmd', 'run', 'test:marketplace-originality') },
     @{ Name = 'Prisma generate'; Command = @('npm.cmd', 'run', 'prisma:generate') },
     @{ Name = 'Typecheck'; Command = @('npm.cmd', 'run', 'typecheck') },
