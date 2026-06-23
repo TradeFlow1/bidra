@@ -5,6 +5,8 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import ListingCard from "@/components/listing-card";
 import ClosingSoonFeed from "@/components/closing-soon-feed";
+import PromotedListingsRail from "@/components/promoted-listings-rail";
+import { getPromotedListingIds, promotedListingSort } from "@/lib/featured-listings";
 import {
   CategoryPillGrid,
   EmptyMarketplaceState,
@@ -37,37 +39,58 @@ const categoryIcons: Record<string, string> = {
 export default async function HomePage() {
   const session = await auth();
   const userId = session?.user?.id ?? null;
+  const promotedListingIds = getPromotedListingIds();
 
-  const listings = await prisma.listing.findMany({
-    where: { status: "ACTIVE", orders: { none: {} } },
-    orderBy: { createdAt: "desc" },
-    take: 10,
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      category: true,
-      location: true,
-      type: true,
-      condition: true,
-      status: true,
-      price: true,
-      buyNowPrice: true,
-      createdAt: true,
-      images: true,
-      offers: { orderBy: { amount: "desc" }, take: 1, select: { amount: true } },
-      _count: { select: { offers: true } },
-      seller: { select: { username: true, name: true, createdAt: true, location: true, emailVerified: true, phone: true } },
-    },
-  });
+  const [listings, promotedListings, categoryRows] = await Promise.all([
+    prisma.listing.findMany({
+      where: { status: "ACTIVE", orders: { none: {} } },
+      orderBy: { createdAt: "desc" },
+      take: 10,
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        category: true,
+        location: true,
+        type: true,
+        condition: true,
+        status: true,
+        price: true,
+        buyNowPrice: true,
+        createdAt: true,
+        images: true,
+        offers: { orderBy: { amount: "desc" }, take: 1, select: { amount: true } },
+        _count: { select: { offers: true } },
+        seller: { select: { username: true, name: true, createdAt: true, location: true, emailVerified: true, phone: true } },
+      },
+    }),
+    promotedListingIds.length
+      ? prisma.listing.findMany({
+          where: { id: { in: promotedListingIds }, status: "ACTIVE", orders: { none: {} } },
+          take: 12,
+          select: {
+            id: true,
+            title: true,
+            category: true,
+            location: true,
+            type: true,
+            price: true,
+            buyNowPrice: true,
+            images: true,
+            seller: { select: { username: true, name: true } },
+          },
+        })
+      : Promise.resolve([]),
+    prisma.listing.groupBy({
+      by: ["category"],
+      where: { status: "ACTIVE", orders: { none: {} } },
+      _count: { category: true },
+      orderBy: { _count: { category: "desc" } },
+      take: 8,
+    }),
+  ]);
 
-  const categoryRows = await prisma.listing.groupBy({
-    by: ["category"],
-    where: { status: "ACTIVE", orders: { none: {} } },
-    _count: { category: true },
-    orderBy: { _count: { category: "desc" } },
-    take: 8,
-  });
+  promotedListings.sort(promotedListingSort(promotedListingIds));
 
   const watchedSet = new Set<string>();
   if (userId && listings.length) {
@@ -191,6 +214,8 @@ export default async function HomePage() {
         <HomeTrustStrip />
 
         <ClosingSoonFeed />
+
+        <PromotedListingsRail listings={promotedListings} />
 
         <MarketplaceSection title="Browse categories" action={<Link href="/listings" className="text-sm font-black text-[#0E7490]">View all categories</Link>}>
           <CategoryPillGrid categories={categories} />
