@@ -16,6 +16,7 @@ $Commands = @(
     @{ Name = 'Suburb landing pages'; Command = @('npm.cmd', 'run', 'test:suburb-landing-pages') },
     @{ Name = 'Wanted ads foundation'; Command = @('npm.cmd', 'run', 'test:wanted-ads') },
     @{ Name = 'Seller storefronts'; Command = @('npm.cmd', 'run', 'test:seller-storefronts') },
+    @{ Name = 'Map/list browsing'; Command = @('npm.cmd', 'run', 'test:map-list-browsing') },
     @{ Name = 'Marketplace originality'; Command = @('npm.cmd', 'run', 'test:marketplace-originality') },
     @{ Name = 'Prisma generate'; Command = @('npm.cmd', 'run', 'prisma:generate') },
     @{ Name = 'Typecheck'; Command = @('npm.cmd', 'run', 'typecheck') },
