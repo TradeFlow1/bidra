@@ -1,3 +1,4 @@
+import Link from "next/link";
 import SellNewClient from "./sell-new-client";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
@@ -50,14 +51,14 @@ export default async function SellNewPage() {
               <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#0B4DFF]">Sell on Bidra</div>
               <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-5xl">Sell your item</h1>
               <p className="mt-3 max-w-3xl text-sm font-semibold leading-6 text-[#36506F] sm:text-base">Add photos, details, price and location. Buyers and sellers arrange payment, pickup, postage and handover directly.</p>
-              <div className="mt-5 grid grid-cols-3 gap-2 text-center text-xs font-black text-[#0B4DFF]"><span className="rounded-full bg-white px-3 py-2">Details</span><span className="rounded-full bg-white px-3 py-2">Photos</span><span className="rounded-full bg-white px-3 py-2">Review</span></div>
+              <div className="mt-5 flex flex-wrap gap-2 text-center text-xs font-black text-[#0B4DFF]"><span className="rounded-full bg-white px-3 py-2">Details</span><span className="rounded-full bg-white px-3 py-2">Photos</span><span className="rounded-full bg-white px-3 py-2">Review</span><Link href="/sell/bulk" className="rounded-full bg-white px-3 py-2 underline-offset-2 hover:underline">Bulk/photo prep</Link></div>
             </div>
             <div className="mt-4"><SellNewClient defaultLocation={defaultLocation} /></div>
           </div>
           <aside className="hidden gap-4 xl:sticky xl:top-24 xl:grid">
             <AppPanel>
               <h2 className="text-xl font-black tracking-tight text-[#07152E]">Selling tips</h2>
-              <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#526173]"><li>Use clear product-first photos.</li><li>Write condition, faults and included accessories.</li><li>Set pickup/postage expectations early.</li><li>Keep handover details in Messages.</li></ul>
+              <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#526173]"><li>Use clear product-first photos.</li><li>Write condition, faults and included accessories.</li><li>Set pickup/postage expectations early.</li><li>Keep handover details in Messages.</li><li><Link href="/sell/bulk" className="font-black text-[#4F46E5] underline-offset-2 hover:underline">Prep bulk listing photos</Link></li></ul>
             </AppPanel>
             <div className="hidden overflow-hidden rounded-[28px] border border-[#D8E6F8] bg-[#EEF6FF] p-3 xl:block"><ProductCollage /></div>
           </aside>
