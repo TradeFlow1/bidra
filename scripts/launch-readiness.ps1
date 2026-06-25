@@ -20,6 +20,7 @@ $Commands = @(
     @{ Name = 'Promoted listing foundation'; Command = @('npm.cmd', 'run', 'test:promoted-listings') },
     @{ Name = 'Bulk listing/photo improvements'; Command = @('npm.cmd', 'run', 'test:bulk-listing-photos') },
     @{ Name = 'Sell-new validation alignment'; Command = @('npm.cmd', 'run', 'test:sell-new-validation-alignment') },
+    @{ Name = 'Persisted search alerts'; Command = @('npm.cmd', 'run', 'test:persisted-search-alerts') },
     @{ Name = 'Marketplace originality'; Command = @('npm.cmd', 'run', 'test:marketplace-originality') },
     @{ Name = 'Prisma generate'; Command = @('npm.cmd', 'run', 'prisma:generate') },
     @{ Name = 'Typecheck'; Command = @('npm.cmd', 'run', 'typecheck') },
