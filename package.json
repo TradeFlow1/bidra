@@ -29,6 +29,7 @@
     "test:sell-new-validation-alignment": "node tools/sell-new-validation-alignment-check.cjs",
     "test:persisted-search-alerts": "node tools/persisted-search-alerts-check.cjs",
     "test:watchlist-price-history": "node tools/watchlist-price-history-check.cjs",
+    "test:notification-preferences": "node tools/notification-preferences-check.cjs",
     "test:marketplace-originality": "node tools/marketplace-originality-check.cjs",
     "test:production-deployment": "node tools/prod-02-production-deployment-verification-check.cjs",
     "seed:e2e": "tsx scripts/seed-e2e.ts",
