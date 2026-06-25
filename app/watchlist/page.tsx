@@ -9,15 +9,43 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const fetchCache = "force-no-store";
 
+type SnapshotRow = {
+  watchlistId: string;
+  price: number;
+  buyNowPrice: number | null;
+  currentOfferAmount: number | null;
+  status: string;
+  createdAt: Date;
+};
+
 function formatPrice(cents: number | null | undefined) {
   if (typeof cents !== "number") return "-";
   return "$" + (cents / 100).toLocaleString("en-AU", { maximumFractionDigits: 0 });
+}
+
+function currentEffectivePrice(listing: any) {
+  if (!listing) return null;
+  if (typeof listing.buyNowPrice === "number" && listing.buyNowPrice > 0) return listing.buyNowPrice;
+  return typeof listing.price === "number" ? listing.price : null;
+}
+
+function snapshotEffectivePrice(snapshot?: SnapshotRow) {
+  if (!snapshot) return null;
+  if (typeof snapshot.buyNowPrice === "number" && snapshot.buyNowPrice > 0) return snapshot.buyNowPrice;
+  return typeof snapshot.price === "number" ? snapshot.price : null;
+}
+
+function persistedPriceDrop(item: any) {
+  const baseline = snapshotEffectivePrice(item?.baselineSnapshot);
+  const current = currentEffectivePrice(item?.listing);
+  return typeof baseline === "number" && typeof current === "number" && current < baseline;
 }
 
 function insightLabel(item: any) {
   const listing = item?.listing;
   if (!listing) return "Unavailable";
   if (listing.status !== "ACTIVE") return "No longer active";
+  if (persistedPriceDrop(item)) return "Price dropped since saved";
   if (typeof listing.buyNowPrice === "number" && listing.buyNowPrice > 0 && listing.buyNowPrice < listing.price) return "Buy Now below listed price";
   if (typeof listing.currentOfferAmount === "number" && listing.currentOfferAmount > 0) return "Visible offer activity";
   if ((listing.questions || []).length > 0) return "Public question activity";
@@ -28,10 +56,12 @@ function insightLabel(item: any) {
 function WatchlistInsightCard({ item }: { item: any }) {
   const listing = item?.listing;
   if (!listing) return null;
-  const effectivePrice = typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : listing.price;
+  const effectivePrice = currentEffectivePrice(listing);
+  const baselinePrice = snapshotEffectivePrice(item.baselineSnapshot);
   const lowerBuyNow = typeof listing.buyNowPrice === "number" && listing.buyNowPrice > 0 && listing.buyNowPrice < listing.price;
   const hasVisibleOffer = typeof listing.currentOfferAmount === "number" && listing.currentOfferAmount > 0;
   const questionCount = Array.isArray(listing.questions) ? listing.questions.length : 0;
+  const hasPersistedDrop = persistedPriceDrop(item);
 
   return (
     <Link href={`/listings/${listing.id}`} className="block rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm transition hover:border-[#C7D2FE] hover:bg-[#F8FAFF]">
@@ -39,12 +69,14 @@ function WatchlistInsightCard({ item }: { item: any }) {
         <div className="min-w-0">
           <div className="truncate text-sm font-black text-[#07152E]">{listing.title}</div>
           <div className="mt-1 text-xs font-bold text-[#64748B]">{insightLabel(item)}</div>
+          {typeof baselinePrice === "number" && typeof effectivePrice === "number" ? <div className="mt-1 text-[11px] font-bold text-[#64748B]">Saved at {formatPrice(baselinePrice)} · now {formatPrice(effectivePrice)}</div> : null}
         </div>
         <span className="shrink-0 rounded-full border border-[#C7D2FE] bg-[#EEF2FF] px-2.5 py-1 text-[11px] font-black text-[#3730A3]">
           {formatPrice(effectivePrice)}
         </span>
       </div>
       <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#3730A3]">
+        {hasPersistedDrop ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-800">Recorded price drop</span> : null}
         {lowerBuyNow ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-800">Lower Buy Now</span> : null}
         {hasVisibleOffer ? <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">Offer {formatPrice(listing.currentOfferAmount)}</span> : null}
         {questionCount ? <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">{questionCount} public Q&amp;A</span> : null}
@@ -162,36 +194,47 @@ export default async function WatchlistPage() {
     },
   });
 
-  const activeCount = items.filter(function (x: any) {
+  const snapshotRows = items.length ? await prisma.$queryRaw<SnapshotRow[]>`
+    SELECT DISTINCT ON ("watchlistId") "watchlistId", "price", "buyNowPrice", "currentOfferAmount", "status", "createdAt"
+    FROM "WatchlistPriceSnapshot"
+    WHERE "watchlistId" IN (${items.map((item) => item.id)})
+    ORDER BY "watchlistId", "createdAt" ASC
+  ` : [];
+  const snapshotsByWatchlistId = new Map(snapshotRows.map((row) => [row.watchlistId, row]));
+  const itemsWithSnapshots = items.map((item: any) => ({ ...item, baselineSnapshot: snapshotsByWatchlistId.get(item.id) || null }));
+
+  const activeCount = itemsWithSnapshots.filter(function (x: any) {
     return String(x?.listing?.status ?? "") === "ACTIVE";
   }).length;
 
-  const endedCount = items.filter(function (x: any) {
+  const endedCount = itemsWithSnapshots.filter(function (x: any) {
     return String(x?.listing?.status ?? "") !== "ACTIVE";
   }).length;
 
-  const savedOfferListings = items.filter(function (x: any) {
+  const savedOfferListings = itemsWithSnapshots.filter(function (x: any) {
     return String(x?.listing?.type ?? "") === "OFFERABLE";
   }).length;
 
-  const lowerBuyNowCount = items.filter(function (x: any) {
-    const listing = x?.listing;
-    return typeof listing?.buyNowPrice === "number" && listing.buyNowPrice > 0 && listing.buyNowPrice < listing.price;
+  const lowerBuyNowCount = itemsWithSnapshots.filter(function (x: any) {
+    return persistedPriceDrop(x) || (typeof x?.listing?.buyNowPrice === "number" && x.listing.buyNowPrice > 0 && x.listing.buyNowPrice < x.listing.price);
   }).length;
 
-  const visibleOfferCount = items.filter(function (x: any) {
+  const visibleOfferCount = itemsWithSnapshots.filter(function (x: any) {
     const amount = x?.listing?.currentOfferAmount;
     return typeof amount === "number" && amount > 0;
   }).length;
 
-  const questionActivityCount = items.filter(function (x: any) {
+  const questionActivityCount = itemsWithSnapshots.filter(function (x: any) {
     return Array.isArray(x?.listing?.questions) && x.listing.questions.length > 0;
   }).length;
 
-  const insightItems = items.filter(function (x: any) {
+  const persistedDropCount = itemsWithSnapshots.filter(persistedPriceDrop).length;
+
+  const insightItems = itemsWithSnapshots.filter(function (x: any) {
     const listing = x?.listing;
     if (!listing) return false;
     return listing.status !== "ACTIVE" ||
+      persistedPriceDrop(x) ||
       (typeof listing.buyNowPrice === "number" && listing.buyNowPrice > 0 && listing.buyNowPrice < listing.price) ||
       (typeof listing.currentOfferAmount === "number" && listing.currentOfferAmount > 0) ||
       (Array.isArray(listing.questions) && listing.questions.length > 0) ||
@@ -217,7 +260,7 @@ export default async function WatchlistPage() {
           </div>
 
           <div className="mt-3 rounded-[22px] border border-[#D7E2F1] bg-white px-4 py-3 text-sm text-[#475569] shadow-sm">
-            <span className="font-extrabold text-[#07152E]">{items.length}</span> saved
+            <span className="font-extrabold text-[#07152E]">{itemsWithSnapshots.length}</span> saved
             <span className="ml-2 text-[#607089]">{activeCount} active, {endedCount} unavailable.</span>
           </div>
         </section>
@@ -228,7 +271,7 @@ export default async function WatchlistPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">Saved</div>
               <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">Saved</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Save listings to track items you care about, compare price movement, visible offers, public Q&amp;A and availability.
+                Save listings to track items you care about, compare persisted price history, visible offers, public Q&amp;A and availability.
               </p>
             </div>
 
@@ -243,9 +286,10 @@ export default async function WatchlistPage() {
           </div>
         </section>
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{items.length}</div><div className="text-xs font-bold text-[#64748B]">Saved listings</div></div>
-          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{lowerBuyNowCount}</div><div className="text-xs font-bold text-[#64748B]">Lower Buy Now</div></div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{itemsWithSnapshots.length}</div><div className="text-xs font-bold text-[#64748B]">Saved listings</div></div>
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{persistedDropCount}</div><div className="text-xs font-bold text-[#64748B]">Recorded drops</div></div>
+          <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{lowerBuyNowCount}</div><div className="text-xs font-bold text-[#64748B]">Lower price signals</div></div>
           <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{visibleOfferCount}</div><div className="text-xs font-bold text-[#64748B]">Visible offers</div></div>
           <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{questionActivityCount}</div><div className="text-xs font-bold text-[#64748B]">Public Q&amp;A</div></div>
           <div className="rounded-[22px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="text-2xl font-black text-[#07152E]">{savedOfferListings}</div><div className="text-xs font-bold text-[#64748B]">Offer listings</div></div>
@@ -256,7 +300,7 @@ export default async function WatchlistPage() {
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <div className="text-lg font-black text-[#07152E]">Watchlist alerts</div>
-                <p className="mt-1 text-sm font-semibold text-[#64748B]">Saved listings with price opportunities, visible offers, public question activity or availability changes.</p>
+                <p className="mt-1 text-sm font-semibold text-[#64748B]">Saved listings with persisted price drops, visible offers, public question activity or availability changes.</p>
               </div>
               <Link href="/notifications" className="inline-flex h-11 items-center rounded-2xl border border-[#C7D2FE] bg-white px-4 text-sm font-black text-[#4F46E5] shadow-sm">
                 Open Updates
@@ -268,7 +312,7 @@ export default async function WatchlistPage() {
           </section>
         ) : null}
 
-        {!items.length ? (
+        {!itemsWithSnapshots.length ? (
           <div className="rounded-3xl border border-dashed border-[#C8D7EA] bg-[#F8FAFF] px-6 py-12 text-center shadow-sm">
             <div className="mx-auto w-full max-w-xl">
               <div className="text-xl font-extrabold text-[#0F172A]">Your watchlist is empty</div>
@@ -284,10 +328,11 @@ export default async function WatchlistPage() {
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {items.map(function (item: any) {
+            {itemsWithSnapshots.map(function (item: any) {
               if (!item.listing) return null;
               return (
                 <div key={item.id} className="overflow-hidden rounded-[20px] border border-[#DCE5F2] bg-white shadow-sm transition">
+                  {persistedPriceDrop(item) ? <div className="border-b border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-black text-emerald-800">Recorded price drop since saved</div> : null}
                   <div className="overflow-hidden [&_.bd-marketplace-card]:rounded-none [&_.bd-marketplace-card]:border-0 [&_.bd-marketplace-card]:shadow-none [&_.bd-marketplace-card]:hover:translate-y-0 [&_.bd-marketplace-card]:hover:shadow-none [&_.bd-marketplace-card]:hover:bg-white [&_.bd-marketplace-card_.bd-card-meta]:hidden [&_.bd-marketplace-card_.bd-card-seller]:hidden">
                     <ListingCard
                       listing={{
