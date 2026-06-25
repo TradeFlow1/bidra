@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SellNewClient from "./sell-new-client";
+import SellNewQualityGate from "@/components/sell-new-quality-gate";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getFeedbackGate } from "@/lib/feedback-gate";
@@ -53,7 +54,7 @@ export default async function SellNewPage() {
               <p className="mt-3 max-w-3xl text-sm font-semibold leading-6 text-[#36506F] sm:text-base">Add photos, details, price and location. Buyers and sellers arrange payment, pickup, postage and handover directly.</p>
               <div className="mt-5 flex flex-wrap gap-2 text-center text-xs font-black text-[#0B4DFF]"><span className="rounded-full bg-white px-3 py-2">Details</span><span className="rounded-full bg-white px-3 py-2">Photos</span><span className="rounded-full bg-white px-3 py-2">Review</span><Link href="/sell/bulk" className="rounded-full bg-white px-3 py-2 underline-offset-2 hover:underline">Bulk/photo prep</Link></div>
             </div>
-            <div className="mt-4"><SellNewClient defaultLocation={defaultLocation} /></div>
+            <div className="mt-4 grid gap-4"><SellNewQualityGate /><SellNewClient defaultLocation={defaultLocation} /></div>
           </div>
           <aside className="hidden gap-4 xl:sticky xl:top-24 xl:grid">
             <AppPanel>
