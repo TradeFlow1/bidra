@@ -4,6 +4,7 @@ export const revalidate = 0;
 import Link from "next/link";
 import AccountNav from "@/components/account-nav";
 import SearchAlertsPanel from "@/components/search-alerts-panel";
+import NotificationPreferencesForm from "@/components/notification-preferences-form";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getNotificationCounts } from "@/lib/notifications";
@@ -96,7 +97,7 @@ export default async function NotificationsPage() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#607089]">My Bidra</div>
               <h1 className="mt-2 text-2xl font-extrabold tracking-tight bd-ink sm:text-3xl">Updates</h1>
               <p className="mt-2 text-sm bd-ink2 sm:text-base">
-                Unread messages, saved search alerts, saved item changes, order actions, and feedback reminders.
+                Unread messages, saved search alerts, saved item changes, order actions, feedback reminders, and notification preferences.
               </p>
             </div>
 
@@ -108,6 +109,8 @@ export default async function NotificationsPage() {
             </div>
           </div>
         </section>
+
+        <NotificationPreferencesForm />
 
         <SearchAlertsPanel />
 
