@@ -21,7 +21,7 @@ function readSavedSearches(): SavedSearch[] {
   if (typeof window === "undefined") return [];
   try {
     const parsed = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "[]");
-    return Array.isArray(parsed) ? parsed.filter((item) => item && typeof item.href === "string") : [];
+    return Array.isArray(parsed) ? parsed.filter((item): item is SavedSearch => item && typeof item.href === "string") : [];
   } catch {
     return [];
   }
@@ -50,14 +50,14 @@ function enabledCount(items: SavedSearch[]) {
   return items.filter((item) => item.alertEnabled).length;
 }
 
-async function fetchPersistedSearches() {
+async function fetchPersistedSearches(): Promise<SavedSearch[] | null> {
   const res = await fetch("/api/saved-searches", { cache: "no-store" });
   if (!res.ok) return null;
   const data = await res.json().catch(() => null);
   return Array.isArray(data?.savedSearches) ? data.savedSearches.map((item: SavedSearch) => ({ ...item, source: "persisted" as const })) : [];
 }
 
-async function persistSearch(item: SavedSearch) {
+async function persistSearch(item: SavedSearch): Promise<SavedSearch | null> {
   const res = await fetch("/api/saved-searches", {
     method: "POST",
     headers: { "content-type": "application/json" },
