@@ -80,12 +80,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Only listing searches can be saved." }, { status: 400 });
   }
 
-  const query = queryFromHref(href);
+  const queryJson = JSON.stringify(queryFromHref(href));
   const id = `ss_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
 
   const rows = await prisma.$queryRaw<SavedSearchRow[]>`
     INSERT INTO "SavedSearch" ("id", "userId", "label", "href", "query", "alertEnabled", "lastCheckedAt", "updatedAt")
-    VALUES (${id}, ${userId}, ${label}, ${href}, ${query}, ${alertEnabled}, CASE WHEN ${alertEnabled} THEN CURRENT_TIMESTAMP ELSE NULL END, CURRENT_TIMESTAMP)
+    VALUES (${id}, ${userId}, ${label}, ${href}, CAST(${queryJson} AS jsonb), ${alertEnabled}, CASE WHEN ${alertEnabled} THEN CURRENT_TIMESTAMP ELSE NULL END, CURRENT_TIMESTAMP)
     ON CONFLICT ("userId", "href") DO UPDATE SET
       "label" = EXCLUDED."label",
       "query" = EXCLUDED."query",
