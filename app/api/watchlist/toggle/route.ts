@@ -3,6 +3,10 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { requireAdult } from "@/lib/require-adult";
 
+function snapshotId() {
+  return `wps_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
 export async function POST(req: Request) {
   try {
     const session = await auth();
@@ -24,7 +28,7 @@ export async function POST(req: Request) {
 
     const listing = await prisma.listing.findUnique({
       where: { id: listingId },
-      select: { id: true, status: true },
+      select: { id: true, status: true, price: true, buyNowPrice: true, currentOfferAmount: true },
     });
 
     if (!listing || listing.status === "DELETED") {
@@ -54,12 +58,18 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: true, watched: false });
     }
 
-    await prisma.watchlist.create({
+    const watch = await prisma.watchlist.create({
       data: {
         userId: session.user.id,
         listingId: listingId,
       },
+      select: { id: true },
     });
+
+    await prisma.$executeRaw`
+      INSERT INTO "WatchlistPriceSnapshot" ("id", "watchlistId", "listingId", "price", "buyNowPrice", "currentOfferAmount", "status", "reason")
+      VALUES (${snapshotId()}, ${watch.id}, ${listing.id}, ${listing.price}, ${listing.buyNowPrice}, ${listing.currentOfferAmount}, ${listing.status}, 'WATCHED')
+    `;
 
     return NextResponse.json({ ok: true, watched: true });
   } catch (e: any) {
