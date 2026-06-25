@@ -27,6 +27,7 @@
     "test:promoted-listings": "node tools/promoted-listing-foundation-check.cjs",
     "test:bulk-listing-photos": "node tools/bulk-listing-photo-check.cjs",
     "test:sell-new-validation-alignment": "node tools/sell-new-validation-alignment-check.cjs",
+    "test:persisted-search-alerts": "node tools/persisted-search-alerts-check.cjs",
     "test:marketplace-originality": "node tools/marketplace-originality-check.cjs",
     "test:production-deployment": "node tools/prod-02-production-deployment-verification-check.cjs",
     "seed:e2e": "tsx scripts/seed-e2e.ts",
