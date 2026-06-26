@@ -133,7 +133,7 @@ function scrollTo(i: number) {
   return (
     <div className="flex h-full w-full items-center justify-center bg-neutral-100">
       <Image
-        src="/brand/bidra-symbol.svg"
+        src="/brand/bidra-child-drawing-mark.svg"
         alt="No image"
         width={64}
         height={64}
