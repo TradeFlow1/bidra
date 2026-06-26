@@ -461,7 +461,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                             unoptimized
                           />
                         ) : (
-                          <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Photo coming soon" />
+                          <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Image pending" />
                         )}
                         <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#5B21B6] shadow-sm ring-1 ring-[#DDD6FE]">{typeLabel}</span>
                         <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#2437FF] shadow-sm hover:bg-[#F8FAFC]" aria-hidden="true">
@@ -622,7 +622,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                       {image ? (
                         <Image src={image} alt={listing.title} fill sizes="100vw" className="object-cover" />
                       ) : (
-                        <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Photo coming soon" />
+                        <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Image pending" />
                       )}
                       <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#5B21B6] shadow-sm ring-1 ring-[#DDD6FE]">{typeLabel}</span>
                       {remaining ? <span className="absolute bottom-3 left-3 rounded-full bg-[#120724]/92 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-white shadow-sm">{remaining}</span> : null}

@@ -186,7 +186,7 @@ export default function ListingCard({
       <div className="overflow-hidden bg-white">
         <div className="relative aspect-[1/0.92] overflow-hidden bg-[#FBF9FF]" style={{ position: "relative", aspectRatio: "1 / 0.92", width: "100%", maxWidth: "100%", overflow: "hidden", background: "#FBF9FF" }}>
           {isNoPhotos ? (
-            <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Photo coming soon" />
+            <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Image pending" />
           ) : (
             <Image
               src={fallback}
@@ -221,10 +221,12 @@ export default function ListingCard({
             <button
               type="button"
               onClick={onToggleWatch}
-              className="absolute right-2.5 top-2.5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-white/95 text-[18px] text-[#5B21B6] shadow-[0_8px_20px_rgba(43,16,85,0.16)] transition hover:bg-[#F5F3FF]"
+              className="absolute right-2.5 top-2.5 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-white/80 bg-white/95 text-[#5B21B6] shadow-[0_8px_20px_rgba(43,16,85,0.16)] transition hover:bg-[#F5F3FF]"
               aria-label="Save listing"
             >
-              {watched ? "♥" : "♡"}
+              <svg className="h-[18px] w-[18px]" viewBox="0 0 24 24" fill={watched ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />
+              </svg>
             </button>
           ) : null}
         </div>

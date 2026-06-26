@@ -54,12 +54,12 @@ export function ProductPlaceholder({ kind = "generic", title, className }: { kin
   const placeholderKind = placeholderKindFromCategory(kind);
   const item = placeholderCopy[placeholderKind] || placeholderCopy.generic;
   return (
-    <div className={cn("flex h-full min-h-[9rem] w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_24%_18%,#FFFFFF_0,#FFFFFF_18%,#F5F3FF_48%,#ECE7F7_100%)]", className)}>
-      <div className="flex flex-col items-center gap-2 text-[#2B1055]">
-        <span className="grid h-16 w-16 place-items-center rounded-[22px] border border-white/75 bg-white/82 shadow-[0_14px_34px_rgba(43,16,85,0.09)]">
-          <svg className="h-9 w-9 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{item.path}</svg>
+    <div className={cn("flex h-full min-h-[9rem] w-full items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#F8FAFC_0%,#F4F1FA_54%,#ECE7F7_100%)]", className)}>
+      <div className="flex flex-col items-center gap-3 text-[#34214A]">
+        <span className="grid h-14 w-14 place-items-center rounded-2xl border border-white/80 bg-white/78 shadow-[0_12px_30px_rgba(43,16,85,0.08)]">
+          <svg className="h-7 w-7 opacity-75" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{item.path}</svg>
         </span>
-        <span className="max-w-[11rem] truncate rounded-full border border-white/80 bg-white/78 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#62516F] shadow-sm">{title || item.title}</span>
+        <span className="max-w-[11rem] truncate text-[10px] font-black uppercase tracking-[0.16em] text-[#766784]">{title || "Image pending"}</span>
       </div>
     </div>
   );
@@ -82,7 +82,7 @@ export function EmptyState({ icon = "empty", title, description, actionHref, act
 }
 
 export function PageHero({ badge, title, description, children }: { badge?: string; title: string; description?: string; children?: React.ReactNode }) {
-  return <section className="bd-page-hero p-5 sm:p-7"><div className="bd-pill w-fit border-blue-100 bg-[#EEF4FF] text-[#0B4DFF]">{badge || "Australia’s trust-first local marketplace"}</div><h1 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.04em] text-[#07152E] sm:text-5xl">{title}</h1>{description ? <p className="mt-3 max-w-2xl text-base font-medium leading-7 text-[#526173]">{description}</p> : null}{children}</section>;
+  return <section className="bd-page-hero p-5 sm:p-7"><div className="bd-pill w-fit border-blue-100 bg-[#EEF4FF] text-[#0B4DFF]">{badge || "Australia's trust-first local marketplace"}</div><h1 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.04em] text-[#07152E] sm:text-5xl">{title}</h1>{description ? <p className="mt-3 max-w-2xl text-base font-medium leading-7 text-[#526173]">{description}</p> : null}{children}</section>;
 }
 
 export function SectionHeader({ eyebrow, title, description, actionHref, actionLabel }: { eyebrow?: string; title: string; description?: string; actionHref?: string; actionLabel?: string }) {
@@ -100,7 +100,7 @@ export function CategoryTile({ href, label, count, icon = "listing" }: { href: s
 }
 
 export function SellerCard({ name, location, memberSince, activeListings, children }: { name?: string | null; location?: string | null; memberSince?: string | null; activeListings?: number | null; children?: React.ReactNode }) {
-  return <aside className="rounded-[24px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="flex items-center gap-3"><AvatarPlaceholder name={name} /><div><div className="font-black text-[#07152E]">{name || "Bidra seller"}</div><div className="text-xs font-semibold text-[#607089]">{location || "Australia"}{memberSince ? ` • Member since ${memberSince}` : ""}</div></div></div><div className="mt-4 grid grid-cols-2 gap-2 text-xs font-bold text-[#36506F]"><span className="rounded-2xl bg-[#F8FAFF] px-3 py-2">Verified signals</span><span className="rounded-2xl bg-[#F8FAFF] px-3 py-2">{typeof activeListings === "number" ? `${activeListings} active` : "Active seller"}</span></div>{children ? <div className="mt-4">{children}</div> : null}</aside>;
+  return <aside className="rounded-[24px] border border-[#D7E2F1] bg-white p-4 shadow-sm"><div className="flex items-center gap-3"><AvatarPlaceholder name={name} /><div><div className="font-black text-[#07152E]">{name || "Bidra seller"}</div><div className="text-xs font-semibold text-[#607089]">{location || "Australia"}{memberSince ? ` - Member since ${memberSince}` : ""}</div></div></div><div className="mt-4 grid grid-cols-2 gap-2 text-xs font-bold text-[#36506F]"><span className="rounded-2xl bg-[#F8FAFF] px-3 py-2">Verified signals</span><span className="rounded-2xl bg-[#F8FAFF] px-3 py-2">{typeof activeListings === "number" ? `${activeListings} active` : "Active seller"}</span></div>{children ? <div className="mt-4">{children}</div> : null}</aside>;
 }
 
 export function SafetyPanel() {
@@ -128,5 +128,5 @@ export function LegalLayout({ title, description, children }: { title: string; d
   const links = [
     ["/legal", "Overview"], ["/legal/terms", "Terms"], ["/legal/privacy", "Privacy"], ["/legal/fees", "Fees"], ["/legal/prohibited-items", "Prohibited items"],
   ];
-  return <div className="grid gap-5 lg:grid-cols-[260px_minmax(0,1fr)]"><aside className="rounded-[24px] border border-[#D7E2F1] bg-white p-3 shadow-sm lg:sticky lg:top-24 lg:self-start"><div className="px-2 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#607089]">Bidra policies</div><div className="mt-1 flex gap-2 overflow-x-auto lg:grid lg:overflow-visible">{links.map(([href, label]) => <Link key={href} href={href} className="whitespace-nowrap rounded-2xl px-3 py-2 text-sm font-extrabold text-[#36506F] hover:bg-[#EEF4FF] hover:text-[#0B4DFF]">{label}</Link>)}</div></aside><article className="rounded-[28px] border border-[#D7E2F1] bg-white p-5 shadow-sm sm:p-7"><div className="bd-pill w-fit border-blue-100 bg-[#EEF4FF] text-[#0B4DFF]">Australia’s trust-first local marketplace</div><h1 className="mt-4 text-3xl font-black tracking-tight text-[#07152E] sm:text-4xl">{title}</h1><p className="mt-2 max-w-3xl text-sm leading-6 text-[#526173] sm:text-base">{description}</p><div className="mt-6 bd-readable-prose">{children}</div></article></div>;
+  return <div className="grid gap-5 lg:grid-cols-[260px_minmax(0,1fr)]"><aside className="rounded-[24px] border border-[#D7E2F1] bg-white p-3 shadow-sm lg:sticky lg:top-24 lg:self-start"><div className="px-2 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#607089]">Bidra policies</div><div className="mt-1 flex gap-2 overflow-x-auto lg:grid lg:overflow-visible">{links.map(([href, label]) => <Link key={href} href={href} className="whitespace-nowrap rounded-2xl px-3 py-2 text-sm font-extrabold text-[#36506F] hover:bg-[#EEF4FF] hover:text-[#0B4DFF]">{label}</Link>)}</div></aside><article className="rounded-[28px] border border-[#D7E2F1] bg-white p-5 shadow-sm sm:p-7"><div className="bd-pill w-fit border-blue-100 bg-[#EEF4FF] text-[#0B4DFF]">Australia's trust-first local marketplace</div><h1 className="mt-4 text-3xl font-black tracking-tight text-[#07152E] sm:text-4xl">{title}</h1><p className="mt-2 max-w-3xl text-sm leading-6 text-[#526173] sm:text-base">{description}</p><div className="mt-6 bd-readable-prose">{children}</div></article></div>;
 }

@@ -108,9 +108,9 @@ export default function ListingImageGallery(props: { images: any; title?: string
           <div className="flex h-[260px] items-center justify-center px-6 text-center md:h-[420px]">
             <div className="max-w-sm">
               <div className="mx-auto mb-4 h-32 w-44 overflow-hidden rounded-[24px] border border-[#DDD6FE] bg-white shadow-sm">
-                <ProductPlaceholder kind="generic" title="Photo coming soon" />
+                <ProductPlaceholder kind="generic" title="Image pending" />
               </div>
-              <div className="text-lg font-semibold text-[#120724]">Photos coming soon</div>
+              <div className="text-lg font-semibold text-[#120724]">Images pending</div>
               <div className="mt-1 text-sm text-[#62516F]">
                 Review the listing details and message the seller if you need more information.
               </div>

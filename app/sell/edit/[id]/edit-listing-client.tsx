@@ -598,7 +598,7 @@ buyNowPrice:
                     ))}
                   </div>
                 ) : (
-                  <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold bd-ink2">Photos coming soon.</div>
+                  <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold bd-ink2">Images pending.</div>
                 )}
 
                 <div className="grid gap-2 pt-1">
