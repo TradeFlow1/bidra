@@ -6,7 +6,7 @@ import { auth } from "@/lib/auth";
 import { getFeedbackGate } from "@/lib/feedback-gate";
 import { prisma } from "@/lib/prisma";
 import { BackButton } from "@/components/ui/back-button";
-import { AppPanel, ProductCollage, ReferencePage, appShell } from "@/components/marketplace-redesign";
+import { AppPanel, ReferencePage, appShell } from "@/components/marketplace-redesign";
 
 export const dynamic = "force-dynamic";
 
@@ -58,10 +58,22 @@ export default async function SellNewPage() {
           </div>
           <aside className="hidden gap-4 xl:sticky xl:top-24 xl:grid">
             <AppPanel>
-              <h2 className="text-xl font-black tracking-tight text-[#120724]">Selling tips</h2>
-              <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#62516F]"><li>Use clear product-first photos.</li><li>Write condition, faults and included accessories.</li><li>Set pickup/postage expectations early.</li><li>Keep handover details in Messages.</li><li><Link href="/sell/bulk" className="font-black text-[#6D28D9] underline-offset-2 hover:underline">Prep bulk listing photos</Link></li></ul>
+              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#6D28D9]">Listing quality</div>
+              <h2 className="mt-2 text-xl font-black tracking-tight text-[#120724]">Buyer-ready checklist</h2>
+              <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#62516F]">
+                <li>Hero photo shows the real item clearly.</li>
+                <li>Title names the item, model or size.</li>
+                <li>Condition, faults and inclusions are explicit.</li>
+                <li>Price and offer settings match your intent.</li>
+                <li>Pickup, postage or delivery expectations are clear.</li>
+              </ul>
+              <Link href="/sell/bulk" className="bd-btn bd-btn-secondary mt-5 inline-flex h-11 items-center rounded-2xl px-4 text-sm font-black">Prepare photos</Link>
             </AppPanel>
-            <div className="hidden overflow-hidden rounded-[28px] border border-[#EDE9FE] bg-[#FBF9FF] p-3 shadow-[0_18px_50px_rgba(43,16,85,0.07)] xl:block"><ProductCollage /></div>
+            <AppPanel tone="dark">
+              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#C4B5FD]">Seller profile</div>
+              <h2 className="mt-2 text-2xl font-black tracking-[-0.045em] text-white">Build trust with every listing.</h2>
+              <p className="mt-3 text-sm font-semibold leading-6 text-white/70">Clear photos, accurate details and on-platform messages help buyers make confident decisions.</p>
+            </AppPanel>
           </aside>
         </section>
       </div>

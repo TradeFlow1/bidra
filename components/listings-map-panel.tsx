@@ -51,7 +51,7 @@ export default function ListingsMapPanel({ listings }: { listings: MapListing[] 
         <div>
           <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#4F46E5]">Map and list</div>
           <h2 className="mt-1 text-2xl font-black tracking-[-0.045em] text-[#07152E]">Browse by area</h2>
-          <p className="mt-1 text-sm font-semibold leading-6 text-[#526173]">Map pins use seller-provided listing location data where available. Open the listing to ask questions or arrange handover in Bidra Messages.</p>
+          <p className="mt-1 text-sm font-semibold leading-6 text-[#526173]">Map pins use seller-provided listing location data where available. Open the listing to ask questions and keep handover details in Bidra Messages.</p>
         </div>
         <Link href="/listings" className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-4 text-sm font-black text-[#4F46E5]">List view</Link>
       </div>
