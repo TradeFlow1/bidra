@@ -317,13 +317,13 @@ export default async function ListingDetailPage({
   const images = safeListingImages(listing.images, listing.photos);
 
   return (
-    <main className="min-h-screen bg-white px-4 py-8 text-[#080D32] sm:px-6 lg:px-10">
-      <div className="mx-auto max-w-[1440px]">
-        <nav className="mb-8 flex flex-wrap items-center gap-3 text-sm font-bold text-[#4B5B8F]">
-          <Link href="/" className="text-[#352CFF] hover:underline">Home</Link>
-          <span className="text-[#A8B1CC]">&gt;</span>
-          <Link href="/listings" className="text-[#352CFF] hover:underline">Listings</Link>
-          <span className="text-[#A8B1CC]">&gt;</span>
+    <main className="min-h-screen bg-[#FBF9FF] px-4 py-8 text-[#120724] sm:px-6 lg:px-10">
+      <div className="mx-auto max-w-[1440px] pb-24">
+        <nav className="mb-8 flex flex-wrap items-center gap-3 text-sm font-bold text-[#62516F]">
+          <Link href="/" className="text-[#6D28D9] hover:underline">Home</Link>
+          <span className="text-[#C4B5FD]">&gt;</span>
+          <Link href="/listings" className="text-[#6D28D9] hover:underline">Listings</Link>
+          <span className="text-[#C4B5FD]">&gt;</span>
           <span>{category}</span>
         </nav>
 
@@ -331,49 +331,49 @@ export default async function ListingDetailPage({
           <div>
             <ListingImageGallery images={images} title={title} />
 
-            <div className="mt-8 rounded-2xl border border-[#DFE6F6] bg-white p-6 shadow-sm">
+            <div className="mt-8 rounded-[30px] border border-[#EDE9FE] bg-white p-6 shadow-[0_18px_50px_rgba(43,16,85,0.08)]">
               <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#DFE6F6] bg-[#EEF2FF] text-2xl font-black text-[#352CFF] shadow-sm">
+                  <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#DDD6FE] bg-[#F5F3FF] text-2xl font-black text-[#6D28D9] shadow-sm">
                     {sellerAvatarUrl ? <Image src={sellerAvatarUrl} alt={sellerName} width={80} height={80} className="h-full w-full object-cover" unoptimized /> : sellerInitials}
                   </div>
                   <div>
-                    <div className="text-xl font-black">{sellerName}</div>
-                    <div className="mt-1 text-sm font-semibold text-[#667399]">{sellerLocation}</div>
-                    <div className="mt-1 text-sm font-semibold text-[#667399]">Member since {sellerJoined}</div>
+                    <div className="text-xl font-black text-[#120724]">{sellerName}</div>
+                    <div className="mt-1 text-sm font-semibold text-[#62516F]">{sellerLocation}</div>
+                    <div className="mt-1 text-sm font-semibold text-[#62516F]">Member since {sellerJoined}</div>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {sellerBadges.length ? sellerBadges.map((badge) => (
                         <span key={badge} className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800">{badge}</span>
                       )) : (
-                        <span className="rounded-full border border-[#DFE6F6] bg-white px-3 py-1 text-xs font-extrabold text-[#667399]">Verification pending</span>
+                        <span className="rounded-full border border-[#DDD6FE] bg-white px-3 py-1 text-xs font-extrabold text-[#62516F]">Verification pending</span>
                       )}
                     </div>
                   </div>
                 </div>
                 <div className="grid gap-3 sm:w-[320px] sm:grid-cols-2">
-                  <Link href={"/seller/" + listing.sellerId} className="inline-flex items-center justify-center rounded-xl border border-[#352CFF] px-5 py-3 text-sm font-extrabold text-[#352CFF]">View profile</Link>
+                  <Link href={"/seller/" + listing.sellerId} className="bd-btn bd-btn-secondary h-12 rounded-2xl px-5 text-sm">View profile</Link>
                   <MessageSellerButton listingId={listing.id} />
                 </div>
               </div>
-              <div className="mt-6 grid gap-3 border-t border-[#DFE6F6] pt-5 sm:grid-cols-3">
-                <div className="rounded-2xl bg-[#F8FAFF] p-4">
-                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#667399]">Feedback</div>
-                  <div className="mt-1 text-xl font-black text-[#080D32]">{sellerFeedbackCount}</div>
+              <div className="mt-6 grid gap-3 border-t border-[#EDE9FE] pt-5 sm:grid-cols-3">
+                <div className="rounded-2xl bg-[#FBF9FF] p-4">
+                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#8B7A98]">Feedback</div>
+                  <div className="mt-1 text-xl font-black text-[#120724]">{sellerFeedbackCount}</div>
                 </div>
-                <div className="rounded-2xl bg-[#F8FAFF] p-4">
-                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#667399]">Listings</div>
-                  <div className="mt-1 text-xl font-black text-[#080D32]">{sellerListingCount}</div>
+                <div className="rounded-2xl bg-[#FBF9FF] p-4">
+                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#8B7A98]">Listings</div>
+                  <div className="mt-1 text-xl font-black text-[#120724]">{sellerListingCount}</div>
                 </div>
-                <div className="rounded-2xl bg-[#F8FAFF] p-4">
-                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#667399]">Handover</div>
-                  <div className="mt-1 text-sm font-black text-[#080D32]">{fulfillmentLabel}</div>
+                <div className="rounded-2xl bg-[#FBF9FF] p-4">
+                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#8B7A98]">Handover</div>
+                  <div className="mt-1 text-sm font-black text-[#120724]">{fulfillmentLabel}</div>
                 </div>
               </div>
             </div>
           </div>
 
           <aside className="lg:pt-2">
-            <div className="flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#667399]">
+            <div className="flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#7C3AED]">
               <span>{category}</span>
               <span>-</span>
               <span>{listingType}</span>
@@ -381,9 +381,9 @@ export default async function ListingDetailPage({
               <span>{fulfillmentLabel}</span>
             </div>
 
-            <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight text-[#080D32] sm:text-5xl lg:text-[52px]">{title}</h1>
-            <div className="mt-4 text-4xl font-black tracking-tight">{money(displayPrice)}</div>
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-base font-bold text-[#667399]">
+            <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.055em] text-[#120724] sm:text-5xl lg:text-[52px]">{title}</h1>
+            <div className="mt-4 text-4xl font-black tracking-[-0.045em] text-[#120724]">{money(displayPrice)}</div>
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-base font-bold text-[#62516F]">
               <span>{location}</span>
               <span>-</span>
               <span>{cleanText(listing.status)}</span>
@@ -405,10 +405,10 @@ export default async function ListingDetailPage({
             </div>
 
             {isOwner ? (
-              <div className="mt-6 rounded-2xl border border-[#D8E1F0] bg-[#F8FAFF] p-4 shadow-sm">
-                <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#4F46E5]">Seller tools</div>
-                <div className="mt-2 text-sm font-semibold text-[#667399]">Manage this listing from your seller view.</div>
-                <Link href={"/sell/edit/" + params.id} className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#4F46E5]/30 bg-white px-5 text-sm font-black text-[#2437FF] shadow-sm transition hover:bg-[#F8FAFF]">
+              <div className="mt-6 rounded-[24px] border border-[#DDD6FE] bg-white p-4 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
+                <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7C3AED]">Seller tools</div>
+                <div className="mt-2 text-sm font-semibold text-[#62516F]">Manage this listing from your seller view.</div>
+                <Link href={"/sell/edit/" + params.id} className="bd-btn bd-btn-secondary mt-4 h-12 w-full rounded-2xl px-5 text-sm">
                   Edit listing
                 </Link>
               </div>
@@ -418,45 +418,46 @@ export default async function ListingDetailPage({
               </div>
             )}
 
-            <div className="mt-6 rounded-2xl border border-[#C7D2FE] bg-[#F8FAFF] p-5 shadow-sm">
-              <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#4F46E5]">Buyer safety</div>
-              <h2 className="mt-2 text-lg font-black text-[#080D32]">Keep the handover clear.</h2>
-              <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#42526F]">
+            <div className="mt-6 rounded-[24px] border border-[#DDD6FE] bg-white p-5 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
+              <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7C3AED]">Buyer safety</div>
+              <h2 className="mt-2 text-lg font-black text-[#120724]">Keep the handover clear.</h2>
+              <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#62516F]">
                 <li>Use Bidra Messages to keep a record before pickup, delivery or postage.</li>
                 <li>Inspect the item and confirm condition before paying where practical.</li>
                 <li>Use public handover locations when possible and report unusual requests.</li>
               </ul>
             </div>
 
-            <div className="mt-8 border-y border-[#DFE6F6] py-6">
+            <div className="mt-8 rounded-[24px] border border-[#EDE9FE] bg-white p-5 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
               <dl className="grid grid-cols-[130px_1fr] gap-x-6 gap-y-4 text-sm">
-                <dt className="font-bold text-[#667399]">Condition</dt>
-                <dd className="font-extrabold text-[#080D32]">{condition}</dd>
-                <dt className="font-bold text-[#667399]">Category</dt>
-                <dd className="font-extrabold text-[#080D32]">{category}</dd>
-                <dt className="font-bold text-[#667399]">Handover</dt>
-                <dd className="font-extrabold text-[#080D32]">{fulfillmentLabel}</dd>
+                <dt className="font-bold text-[#62516F]">Condition</dt>
+                <dd className="font-extrabold text-[#120724]">{condition}</dd>
+                <dt className="font-bold text-[#62516F]">Category</dt>
+                <dd className="font-extrabold text-[#120724]">{category}</dd>
+                <dt className="font-bold text-[#62516F]">Handover</dt>
+                <dd className="font-extrabold text-[#120724]">{fulfillmentLabel}</dd>
                 {attributeRows.map((row) => (
                   <Fragment key={row.key}>
-                    <dt className="font-bold text-[#667399]">{row.label}</dt>
-                    <dd className="font-extrabold text-[#080D32]">{row.value}</dd>
+                    <dt className="font-bold text-[#62516F]">{row.label}</dt>
+                    <dd className="font-extrabold text-[#120724]">{row.value}</dd>
                   </Fragment>
                 ))}
-                <dt className="font-bold text-[#667399]">Listing type</dt>
-                <dd className="font-extrabold text-[#080D32]">{listingType}</dd>
-                <dt className="font-bold text-[#667399]">Status</dt>
-                <dd className="font-extrabold text-[#080D32]">{cleanText(listing.status)}</dd>
-                <dt className="font-bold text-[#667399]">Views</dt>
-                <dd className="font-extrabold text-[#080D32]">{displayedViewCount.toLocaleString("en-AU")}</dd>
+                <dt className="font-bold text-[#62516F]">Listing type</dt>
+                <dd className="font-extrabold text-[#120724]">{listingType}</dd>
+                <dt className="font-bold text-[#62516F]">Status</dt>
+                <dd className="font-extrabold text-[#120724]">{cleanText(listing.status)}</dd>
+                <dt className="font-bold text-[#62516F]">Views</dt>
+                <dd className="font-extrabold text-[#120724]">{displayedViewCount.toLocaleString("en-AU")}</dd>
               </dl>
             </div>
 
-            <div className="mt-6">
-              <p className="whitespace-pre-wrap text-base leading-8 text-[#26345F]">{description}</p>
+            <div className="mt-6 rounded-[24px] border border-[#EDE9FE] bg-white p-5 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
+              <h2 className="text-lg font-black text-[#120724]">Description</h2>
+              <p className="mt-3 whitespace-pre-wrap text-base leading-8 text-[#3F304B]">{description}</p>
             </div>
 
             <div className="mt-6 flex flex-wrap items-center gap-4">
-              <div className="inline-flex rounded-full border border-[#080D32] bg-white px-4 py-2 text-sm font-extrabold text-[#080D32] shadow-sm hover:bg-[#F8FAFC]">
+              <div className="inline-flex rounded-full border border-[#DDD6FE] bg-white px-4 py-2 text-sm font-extrabold text-[#120724] shadow-sm hover:bg-[#F5F3FF]">
                 <ReportListingButton listingId={listing.id} />
               </div>
             </div>
@@ -464,10 +465,13 @@ export default async function ListingDetailPage({
         </section>
 
         {relatedListings.length ? (
-          <section className="mt-12 max-w-[880px]">
+          <section className="mt-12">
             <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-              <h2 className="text-3xl font-black tracking-tight">You may also like</h2>
-              <Link href="/listings" className="text-sm font-extrabold text-[#352CFF] hover:underline">Browse all</Link>
+              <div>
+                <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">Keep browsing</div>
+                <h2 className="mt-1 text-3xl font-black tracking-[-0.045em] text-[#120724]">You may also like</h2>
+              </div>
+              <Link href="/listings" className="text-sm font-extrabold text-[#6D28D9] hover:underline">Browse all</Link>
             </div>
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
               {relatedListings.map((item) => {
@@ -475,17 +479,17 @@ export default async function ListingDetailPage({
                 const itemImages = safeListingImages(item.images, item.photos);
                 const itemPrice = typeof item.buyNowPrice === "number" ? item.buyNowPrice : item.price;
                 return (
-                  <Link key={item.id} href={"/listings/" + item.id} className="group overflow-hidden rounded-2xl border border-[#DFE6F6] bg-white shadow-sm transition">
+                  <Link key={item.id} href={"/listings/" + item.id} className="group overflow-hidden rounded-[24px] border border-[#EDE9FE] bg-white shadow-[0_14px_40px_rgba(43,16,85,0.06)] transition hover:-translate-y-0.5 hover:border-[#C4B5FD] hover:shadow-[0_22px_60px_rgba(43,16,85,0.11)]">
                     {itemImages[0] ? (
-                      <div className="relative h-44 w-full bg-[#F6F8FC]">
+                      <div className="relative h-44 w-full bg-[#F5F3FF]">
                         <Image src={itemImages[0]} alt={itemTitle} fill sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" className="object-cover" unoptimized />
                       </div>
                     ) : (
-                      <div className="flex h-44 items-center justify-center bg-[#F6F8FC] px-4 text-center text-xs font-bold text-[#667399]">No image</div>
+                      <div className="flex h-44 items-center justify-center bg-[#F5F3FF] px-4 text-center text-xs font-bold text-[#62516F]">No image</div>
                     )}
                     <div className="p-4">
-                      <div className="line-clamp-2 text-sm font-black text-[#080D32]">{itemTitle}</div>
-                      <div className="mt-2 text-base font-black text-[#080D32]">{money(itemPrice)}</div>
+                      <div className="line-clamp-2 text-sm font-black text-[#120724]">{itemTitle}</div>
+                      <div className="mt-2 text-base font-black text-[#120724]">{money(itemPrice)}</div>
                     </div>
                   </Link>
                 );

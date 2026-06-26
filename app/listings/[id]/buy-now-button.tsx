@@ -51,12 +51,12 @@ export default function BuyNowButton({ listingId }: { listingId: string }) {
         type="button"
         onClick={buyNow}
         disabled={loading}
-        className="inline-flex h-12 w-full items-center justify-center rounded-2xl bg-[#0B4DFF] px-5 text-sm font-extrabold text-white shadow-[0_12px_28px_rgba(11,77,255,0.24)] transition hover:bg-[#0842D6] disabled:cursor-not-allowed disabled:opacity-60"
+        className="bd-btn bd-btn-primary h-12 w-full rounded-2xl px-5 text-sm disabled:cursor-not-allowed disabled:opacity-60"
       >
         {loading ? "Securing item..." : "Buy now"}
       </button>
 
-      {msg ? <div className="rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-semibold text-[#475569]">{msg}</div> : null}
+      {msg ? <div className="rounded-2xl border border-[#DDD6FE] bg-[#FBF9FF] px-3 py-2 text-xs font-semibold text-[#62516F]">{msg}</div> : null}
     </div>
   );
 }

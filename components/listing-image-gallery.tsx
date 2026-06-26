@@ -103,14 +103,14 @@ export default function ListingImageGallery(props: { images: any; title?: string
   if (!imgs.length) {
     return (
       <div className="w-full">
-        <div className="overflow-hidden rounded-[28px] border border-black/10 bg-gradient-to-br from-neutral-50 to-neutral-100 shadow-sm">
+        <div className="overflow-hidden rounded-[30px] border border-[#EDE9FE] bg-gradient-to-br from-white via-[#FBF9FF] to-[#F5F3FF] shadow-[0_18px_50px_rgba(43,16,85,0.08)]">
           <div className="flex h-[260px] items-center justify-center px-6 text-center md:h-[420px]">
             <div className="max-w-sm">
-              <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-black/10 bg-white text-sm font-semibold text-neutral-800 shadow-sm">
+              <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-[#DDD6FE] bg-white text-sm font-semibold text-[#5B21B6] shadow-sm">
                 Photo
               </div>
-              <div className="text-lg font-semibold text-neutral-900">No gallery photos yet</div>
-              <div className="mt-1 text-sm text-neutral-600">
+              <div className="text-lg font-semibold text-[#120724]">No gallery photos yet</div>
+              <div className="mt-1 text-sm text-[#62516F]">
                 This seller has not added gallery images yet. Review the description and message the seller if you need more detail.
               </div>
             </div>
@@ -122,14 +122,14 @@ export default function ListingImageGallery(props: { images: any; title?: string
 
   return (
     <div className="w-full">
-      <div className="relative overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-sm">
+      <div className="relative overflow-hidden rounded-[30px] border border-[#EDE9FE] bg-white shadow-[0_18px_50px_rgba(43,16,85,0.08)]">
         <div
           ref={scroller}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
           onMouseUp={endDrag}
           onMouseLeave={endDrag}
-          className="flex w-full overflow-x-auto scroll-smooth snap-x snap-mandatory select-none bg-neutral-100"
+          className="flex w-full snap-x snap-mandatory select-none overflow-x-auto scroll-smooth bg-[#F5F3FF]"
           style={{
             scrollbarWidth: "none",
             userSelect: "none",
@@ -157,7 +157,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/45 to-transparent" />
 
                 <div className="pointer-events-none absolute left-3 top-3 flex items-center gap-2 sm:left-4 sm:top-4">
-                  <span className="rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-neutral-900 shadow-sm ring-1 ring-black/5">
+                <span className="rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#120724] shadow-sm ring-1 ring-[#DDD6FE]">
                     Gallery
                   </span>
                   {isMulti ? (
@@ -180,7 +180,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
             <button
               type="button"
               onClick={prev}
-              className="absolute left-3 top-1/2 z-50 flex min-h-12 min-w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white text-black shadow-xl backdrop-blur transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB] sm:left-4 sm:min-h-14 sm:min-w-14"
+              className="absolute left-3 top-1/2 z-50 flex min-h-12 min-w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white text-[#120724] shadow-xl backdrop-blur transition hover:bg-[#F5F3FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B5CF6] sm:left-4 sm:min-h-14 sm:min-w-14"
               aria-label="Previous photo"
             >
               <span className="text-[28px] leading-none sm:text-[32px]">&lsaquo;</span>
@@ -188,7 +188,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
             <button
               type="button"
               onClick={next}
-              className="absolute right-3 top-1/2 z-50 flex min-h-12 min-w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white text-black shadow-xl backdrop-blur transition hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB] sm:right-4 sm:min-h-14 sm:min-w-14"
+              className="absolute right-3 top-1/2 z-50 flex min-h-12 min-w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white text-[#120724] shadow-xl backdrop-blur transition hover:bg-[#F5F3FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B5CF6] sm:right-4 sm:min-h-14 sm:min-w-14"
               aria-label="Next photo"
             >
               <span className="text-[28px] leading-none sm:text-[32px]">&rsaquo;</span>
@@ -207,7 +207,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
                 type="button"
                 onClick={() => go(i)}
                 aria-label={`View photo ${i + 1}`}
-                className={active ? "relative h-14 w-16 flex-none overflow-hidden rounded-xl border-2 border-[#0F172A] bg-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB]" : "relative h-14 w-16 flex-none overflow-hidden rounded-xl border border-[#CBD5E1] bg-white opacity-75 transition hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2563EB]"}
+                className={active ? "relative h-14 w-16 flex-none overflow-hidden rounded-xl border-2 border-[#7C3AED] bg-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B5CF6]" : "relative h-14 w-16 flex-none overflow-hidden rounded-xl border border-[#DDD6FE] bg-white opacity-75 transition hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8B5CF6]"}
               >
                 <Image
                   src={src}
