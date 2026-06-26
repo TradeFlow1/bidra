@@ -1,0 +1,66 @@
+﻿$ErrorActionPreference = "Stop"
+$Root = Split-Path -Parent $MyInvocation.MyCommand.Path
+Set-Location $Root
+if (!(Test-Path -LiteralPath ".\package.json") -or !(Test-Path -LiteralPath ".\.git")) { throw "Refusing to run: not repo root." }
+
+$FooterPath = ".\components\site-footer.tsx"
+$FooterLines = @(
+'import Link from "next/link";'
+'import BrandLogo from "./brand-logo";'
+'const buyLinks = [["Browse all", "/listings"], ["Buy now", "/listings?type=BUY_NOW"], ["Make an offer", "/listings?type=OFFERABLE"], ["Wanted ads", "/wanted"]];'
+'const sellLinks = [["Sell your item", "/sell/new"], ["Bulk listing", "/sell/bulk"], ["Pricing", "/pricing"], ["How it works", "/how-it-works"]];'
+'const supportLinks = [["Help centre", "/help"], ["Contact", "/contact"], ["Safety", "/support"], ["Messages", "/messages"]];'
+'const legalLinks = [["Terms", "/legal/terms"], ["Privacy", "/legal/privacy"], ["Fees", "/legal/fees"], ["Prohibited items", "/legal/prohibited-items"]];'
+'function FooterColumn({ title, links }: { title: string; links: string[][] }) {'
+'  return <div><h2 className="text-sm font-black uppercase tracking-[0.18em] text-[#C4B5FD]">{title}</h2><div className="mt-5 grid gap-3">{links.map(([label, href]) => <Link key={href + label} href={href} className="text-sm font-semibold text-white/72 transition hover:text-white">{label}</Link>)}</div></div>;'
+'}'
+'export default function SiteFooter() {'
+'  return ('
+'    <footer className="bd-premium-footer hidden md:block">'
+'      <div className="mx-auto w-full max-w-[1440px] px-8 py-14">'
+'        <div className="grid gap-10 lg:grid-cols-[1.3fr_0.85fr_0.85fr_0.85fr_0.85fr_1.25fr]">'
+'          <div>'
+'            <Link href="/" aria-label="Bidra home"><BrandLogo tone="light" /></Link>'
+'            <p className="mt-5 max-w-xs text-sm font-semibold leading-7 text-white/70">Australia&apos;s premium marketplace for buying, selling and discovering serious local deals.</p>'
+'            <div className="mt-6 grid gap-3 text-xs font-bold text-white/64">'
+'              <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">Australian marketplace</div>'
+'              <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">Secure messaging and clear handover records</div>'
+'            </div>'
+'          </div>'
+'          <FooterColumn title="Buy" links={buyLinks} />'
+'          <FooterColumn title="Sell" links={sellLinks} />'
+'          <FooterColumn title="Support" links={supportLinks} />'
+'          <FooterColumn title="Legal" links={legalLinks} />'
+'          <div>'
+'            <h2 className="text-sm font-black uppercase tracking-[0.18em] text-[#C4B5FD]">Trust first</h2>'
+'            <p className="mt-5 text-sm font-semibold leading-7 text-white/70">Bidra is built around safer marketplace behaviour: clear listings, visible seller history, saved messages, reports and admin moderation.</p>'
+'            <Link href="/sell/new" className="bd-btn mt-6 h-12 rounded-2xl bg-white px-6 text-[#2B1055] hover:bg-[#F5F3FF]">Sell your item</Link>'
+'          </div>'
+'        </div>'
+'        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-7 text-xs font-semibold text-white/52 sm:flex-row sm:items-center sm:justify-between">'
+'          <p>© 2026 Bidra. All rights reserved.</p>'
+'          <p>Buyers and sellers arrange payment, pickup and handover directly.</p>'
+'        </div>'
+'      </div>'
+'    </footer>'
+'  );'
+'}'
+)
+Set-Content -LiteralPath $FooterPath -Value $FooterLines -Encoding UTF8
+
+$LayoutPath = ".\app\layout.tsx"
+$Layout = Get-Content -LiteralPath $LayoutPath -Raw
+$Layout = $Layout.Replace('icon: "/favicon.svg",', 'icon: "/brand/bidra-kids-bird-mark.svg",')
+$Layout = $Layout.Replace('className="min-h-screen flex flex-col bg-[#F4F7FB] text-[#0B1220]"', 'className="min-h-screen flex flex-col bg-[#FBF9FF] text-[#120724] antialiased"')
+Set-Content -LiteralPath $LayoutPath -Value $Layout -Encoding UTF8
+
+if (Test-Path -LiteralPath ".\.next") { Remove-Item -LiteralPath ".\.next" -Recurse -Force }
+
+npm.cmd run build
+
+git status --short
+git add app/globals.css app/layout.tsx components/brand-logo.tsx components/site-footer.tsx public/brand/bidra-kids-bird-mark.svg styles/premium-purple.css
+git commit -m "Complete phase 1 premium shared visual foundation"
+git push origin premium-purple-visual-overhaul
+
+Write-Host "Phase 1 shared foundation committed and pushed."
