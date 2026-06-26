@@ -57,7 +57,7 @@ export default function ListingThumbCarousel(props: { images: any; title: string
   const dragging = useRef(false);
   const dragStartX = useRef(0);
   const dragStartLeft = useRef(0);
-// <— key: suppress Link click only if user dragged
+  // Suppress Link click only if user dragged.
   const isMulti = imgs.length > 1;
 
   function clamp(i: number) {
@@ -233,7 +233,7 @@ function scrollTo(i: number) {
             className="absolute left-2 top-1/2 -translate-y-1/2 flex h-8 w-8 md:h-9 md:w-9 items-center justify-center rounded-full bg-white text-black shadow-sm border border-black/15 z-50 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity" style={{ backgroundColor: "#ffffff", opacity: 0.95 }}
             aria-label="Prev photo"
           >
-            <span className="text-[20px] leading-none">‹</span>
+            <span className="text-[20px] leading-none">&lsaquo;</span>
           </button>
           <button
             type="button"
@@ -242,7 +242,7 @@ function scrollTo(i: number) {
             style={{ backgroundColor: "#ffffff", opacity: 0.95 }}
             aria-label="Next photo"
           >
-            <span className="text-[20px] leading-none">›</span>
+            <span className="text-[20px] leading-none">&rsaquo;</span>
           </button>
         </>
       )}

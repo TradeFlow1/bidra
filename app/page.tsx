@@ -265,6 +265,57 @@ export default async function HomePage() {
         <HomeTrustStrip />
 
         <MarketplaceSection
+          eyebrow="How it works"
+          title="A clearer path from search to handover"
+          description="Bidra keeps the existing marketplace actions simple: search active listings, inspect the seller context, then buy, offer, watch or message from the listing page."
+        >
+          <div className="grid gap-4 lg:grid-cols-3">
+            {[
+              ["1", "Search the live marketplace", "Use keyword, category, sale type, price and location filters to narrow real active listings across Australia."],
+              ["2", "Inspect before you act", "Open the listing for photos, condition, suburb, seller cues, handover details and similar items."],
+              ["3", "Choose the right action", "Buy Now, Make Offer, Watchlist, Message Seller and Report Listing remain exactly where buyers expect them."],
+            ].map((step) => (
+              <AppCard key={step[0]} className="relative overflow-hidden">
+                <div className="absolute right-4 top-4 text-5xl font-black tracking-[-0.08em] text-[#F0EAFE]">{step[0]}</div>
+                <div className="relative">
+                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[#120724] text-sm font-black text-white">{step[0]}</div>
+                  <h3 className="mt-5 text-xl font-black tracking-[-0.04em] text-[#120724]">{step[1]}</h3>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-[#62516F]">{step[2]}</p>
+                </div>
+              </AppCard>
+            ))}
+          </div>
+        </MarketplaceSection>
+
+        <section className="grid gap-4 py-5 sm:py-8 lg:grid-cols-2">
+          <AppPanel className="bg-white/92">
+            <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">For buyers</div>
+            <h2 className="mt-2 text-3xl font-black tracking-[-0.05em] text-[#120724]">Compare serious listings with fewer surprises.</h2>
+            <p className="mt-3 text-sm font-semibold leading-7 text-[#62516F]">
+              Browse by suburb, price, handover type, listing type and seller cues before you message, offer or buy.
+            </p>
+            <div className="mt-5 grid gap-2 text-sm font-bold text-[#3B254F]">
+              {["Live listing data and photos where sellers have added them.", "Saved listings and notifications keep important updates close.", "Messages and orders remain attached to marketplace activity."].map((item) => (
+                <div key={item} className="rounded-2xl border border-[#EDE9FE] bg-[#FBF9FF] px-4 py-3">{item}</div>
+              ))}
+            </div>
+          </AppPanel>
+
+          <AppPanel className="bg-white/92">
+            <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">For sellers</div>
+            <h2 className="mt-2 text-3xl font-black tracking-[-0.05em] text-[#120724]">Create buyer-ready listings without extra noise.</h2>
+            <p className="mt-3 text-sm font-semibold leading-7 text-[#62516F]">
+              The sell flow guides clear photos, category, condition, price, location and handover details before publishing.
+            </p>
+            <div className="mt-5 grid gap-2 text-sm font-bold text-[#3B254F]">
+              {["Buy Now and offer-led listings both stay supported.", "Seller dashboards keep listings, orders and messages in one place.", "Marketplace rules and report routes stay visible for safer trading."].map((item) => (
+                <div key={item} className="rounded-2xl border border-[#EDE9FE] bg-[#FBF9FF] px-4 py-3">{item}</div>
+              ))}
+            </div>
+          </AppPanel>
+        </section>
+
+        <MarketplaceSection
           eyebrow="Featured movement"
           title="Worth checking now"
           description="Promoted launch picks and offer activity are kept close to browsing, without changing how buyers ask questions, make offers or buy now."

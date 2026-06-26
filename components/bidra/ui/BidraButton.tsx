@@ -6,10 +6,10 @@ type BidraButtonVariant = "primary" | "secondary" | "danger" | "ghost";
 type BidraButtonSize = "sm" | "md" | "lg";
 
 const variantClass: Record<BidraButtonVariant, string> = {
-  primary: "border-transparent bg-[#4F46E5] !text-white shadow-sm hover:bg-[#4338CA] disabled:!text-white",
-  secondary: "border-[#C7D2FE] bg-white text-[#4F46E5] shadow-sm",
+  primary: "border-transparent bg-[linear-gradient(135deg,#8B5CF6_0%,#7C3AED_48%,#5B21B6_100%)] !text-white shadow-[0_16px_34px_rgba(124,58,237,0.24)] hover:brightness-[1.04] disabled:!text-white",
+  secondary: "border-[#DDD6FE] bg-white text-[#2B1055] shadow-sm hover:bg-[#F5F3FF] hover:text-[#5B21B6]",
   danger: "border-red-200 bg-red-50 text-red-700 shadow-sm hover:bg-red-100",
-  ghost: "border-transparent bg-transparent text-[#4F46E5] hover:bg-[#EEF2FF]",
+  ghost: "border-transparent bg-transparent text-[#5B21B6] hover:bg-[#F5F3FF]",
 };
 
 const sizeClass: Record<BidraButtonSize, string> = {

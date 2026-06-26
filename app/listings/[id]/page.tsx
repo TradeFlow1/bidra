@@ -11,6 +11,7 @@ import PlaceOfferClient from "./place-offer-client";
 import ReportListingButton from "./report-listing-button";
 import WatchlistButton from "./watchlist-button";
 import ListingImageGallery from "@/components/listing-image-gallery";
+import ListingCard from "@/components/listing-card";
 import { getBaseUrl } from "@/lib/base-url";
 
 export const dynamic = "force-dynamic";
@@ -251,14 +252,22 @@ export default async function ListingDetailPage({
   const relatedSelect = {
     id: true,
     title: true,
+    description: true,
     price: true,
     buyNowPrice: true,
     currentOfferAmount: true,
     currentOfferBuyerId: true,
+    type: true,
+    category: true,
     location: true,
     condition: true,
     images: true,
     photos: true,
+    status: true,
+    createdAt: true,
+    offers: { orderBy: { amount: "desc" as const }, take: 1, select: { amount: true, expiresAt: true } },
+    _count: { select: { offers: true } },
+    seller: { select: { username: true, name: true, createdAt: true, location: true, emailVerified: true, phoneVerified: true, phone: true } },
   };
 
   const sameCategoryListings = await prisma.listing.findMany({
@@ -317,7 +326,7 @@ export default async function ListingDetailPage({
   const images = safeListingImages(listing.images, listing.photos);
 
   return (
-    <main className="min-h-screen bg-[#FBF9FF] px-4 py-8 text-[#120724] sm:px-6 lg:px-10">
+    <main className="bd-listing-detail-page min-h-screen bg-[#FBF9FF] px-4 py-8 text-[#120724] sm:px-6 lg:px-10">
       <div className="mx-auto max-w-[1440px] pb-24">
         <nav className="mb-8 flex flex-wrap items-center gap-3 text-sm font-bold text-[#62516F]">
           <Link href="/" className="text-[#6D28D9] hover:underline">Home</Link>
@@ -372,7 +381,7 @@ export default async function ListingDetailPage({
             </div>
           </div>
 
-          <aside className="lg:pt-2">
+          <aside className="bd-listing-action-panel lg:sticky lg:top-28 lg:pt-2">
             <div className="flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#7C3AED]">
               <span>{category}</span>
               <span>-</span>
@@ -473,25 +482,42 @@ export default async function ListingDetailPage({
               </div>
               <Link href="/listings" className="text-sm font-extrabold text-[#6D28D9] hover:underline">Browse all</Link>
             </div>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
               {relatedListings.map((item) => {
-                const itemTitle = cleanText(item.title) || "Bidra listing";
-                const itemImages = safeListingImages(item.images, item.photos);
-                const itemPrice = typeof item.buyNowPrice === "number" ? item.buyNowPrice : item.price;
+                const itemPrice = item.type === "OFFERABLE"
+                  ? (typeof item.offers?.[0]?.amount === "number" ? item.offers[0].amount : item.price)
+                  : (typeof item.buyNowPrice === "number" ? item.buyNowPrice : item.price);
                 return (
-                  <Link key={item.id} href={"/listings/" + item.id} className="group overflow-hidden rounded-[24px] border border-[#EDE9FE] bg-white shadow-[0_14px_40px_rgba(43,16,85,0.06)] transition hover:-translate-y-0.5 hover:border-[#C4B5FD] hover:shadow-[0_22px_60px_rgba(43,16,85,0.11)]">
-                    {itemImages[0] ? (
-                      <div className="relative h-44 w-full bg-[#F5F3FF]">
-                        <Image src={itemImages[0]} alt={itemTitle} fill sizes="(min-width: 1024px) 20vw, (min-width: 640px) 50vw, 100vw" className="object-cover" unoptimized />
-                      </div>
-                    ) : (
-                      <div className="flex h-44 items-center justify-center bg-[#F5F3FF] px-4 text-center text-xs font-bold text-[#62516F]">No image</div>
-                    )}
-                    <div className="p-4">
-                      <div className="line-clamp-2 text-sm font-black text-[#120724]">{itemTitle}</div>
-                      <div className="mt-2 text-base font-black text-[#120724]">{money(itemPrice)}</div>
-                    </div>
-                  </Link>
+                  <ListingCard
+                    key={item.id}
+                    listing={{
+                      id: item.id,
+                      title: item.title,
+                      description: item.description,
+                      price: itemPrice,
+                      buyNowPrice: item.buyNowPrice,
+                      type: item.type,
+                      category: item.category,
+                      condition: item.condition,
+                      location: item.location,
+                      images: item.images ?? item.photos ?? null,
+                      status: item.status,
+                      offerCount: item._count?.offers ?? 0,
+                      currentOffer: item.offers?.[0]?.amount ?? item.currentOfferAmount ?? null,
+                      endsAt: item.offers?.[0]?.expiresAt ?? null,
+                      createdAt: item.createdAt,
+                      seller: {
+                        name: item.seller?.name || item.seller?.username || null,
+                        memberSince: item.seller?.createdAt ?? null,
+                        location: item.seller?.location ?? null,
+                        emailVerified: item.seller?.emailVerified ?? false,
+                        phoneVerified: item.seller?.phoneVerified ?? false,
+                        phone: item.seller?.phone ?? null,
+                      },
+                    }}
+                    viewerAuthed={!!userId}
+                    showWatchButton={false}
+                  />
                 );
               })}
             </div>

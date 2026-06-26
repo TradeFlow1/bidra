@@ -132,10 +132,10 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
   }
 
   return (
-    <header className="bd-premium-header sticky top-0 z-[100] text-white">
+    <header className="bd-premium-header sticky top-0 z-[100] text-[#120724]">
       <div className="mx-auto hidden h-24 w-full max-w-[1440px] grid-cols-[220px_1fr_minmax(22rem,30rem)_auto] items-center gap-8 px-8 md:grid">
         <Link href="/" className="flex h-16 w-[220px] shrink-0 items-center" aria-label="Bidra home">
-          <BrandLogo priority tone="light" />
+          <BrandLogo priority tone="dark" />
         </Link>
         <nav className="flex min-w-0 items-center gap-7" aria-label="Primary navigation">
           {DESKTOP_LINKS.map((link) => (
@@ -146,27 +146,30 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
         </nav>
         <SearchBar inputClassName={searchInputClass} />
         <div className="flex items-center gap-3 justify-self-end">
+          <Link href="/sell/new" className="bd-btn bd-btn-primary h-12 rounded-2xl px-5 text-sm">
+            Sell item
+          </Link>
           {isAuthed ? (
             <div ref={desktopAccountRef} className="relative">
-              <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="bd-btn h-12 rounded-2xl border border-white/20 bg-white/12 px-6 text-white shadow-[0_10px_28px_rgba(18,7,36,0.22)] hover:bg-white/18" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
+              <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="bd-btn bd-btn-secondary h-12 rounded-2xl px-5 text-sm" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
                 Account{badge}
               </button>
               {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
             </div>
           ) : (
-            <Link href="/auth/login" className="bd-btn h-12 rounded-2xl border border-white/20 bg-white px-6 text-[#2B1055] shadow-[0_10px_28px_rgba(18,7,36,0.22)] hover:bg-[#F5F3FF]">Sign in</Link>
+            <Link href="/auth/login" className="bd-btn bd-btn-secondary h-12 rounded-2xl px-5 text-sm">Sign in</Link>
           )}
         </div>
       </div>
 
       <div className="md:hidden">
         <div className="flex items-center gap-3 px-4 py-3">
-          <button type="button" className="grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition active:scale-95" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><MenuIcon /></button>
+          <button type="button" className="grid h-11 w-11 place-items-center rounded-full border border-[#DDD6FE] bg-white text-[#120724] shadow-sm transition active:scale-95" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><MenuIcon /></button>
           <Link href="/" className="flex h-12 min-w-0 flex-1 items-center" aria-label="Bidra home">
-            <BrandLogo priority tone="light" className="inline-flex items-center gap-2" />
+            <BrandLogo priority tone="dark" className="inline-flex items-center gap-2" />
           </Link>
           <div ref={mobileMenuRef} className="relative ml-auto">
-            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="relative grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition active:scale-95" aria-label="Account and notifications"><AccountIcon />{notificationCount > 0 ? <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-[#D8B4FE] ring-2 ring-[#120724]" aria-hidden="true" /> : null}</button>
+            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="relative grid h-11 w-11 place-items-center rounded-full border border-[#DDD6FE] bg-white text-[#120724] shadow-sm transition active:scale-95" aria-label="Account and notifications"><AccountIcon />{notificationCount > 0 ? <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-[#7C3AED] ring-2 ring-white" aria-hidden="true" /> : null}</button>
             {mobileMenuOpen ? renderMobileMenu() : null}
           </div>
         </div>
