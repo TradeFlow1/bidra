@@ -47,15 +47,15 @@ export default function AccountSecurityForm() {
       <div className="grid gap-4 md:grid-cols-3">
         <label className="block">
           <span className="text-sm font-black">Current password</span>
-          <input name="current" type="password" autoComplete="current-password" className="mt-2 h-12 w-full rounded-2xl border border-[#CBD5E1] px-4 text-sm font-semibold" required />
+          <input name="current" type="password" autoComplete="current-password" className="bd-input mt-2 h-12 w-full rounded-2xl px-4 text-sm font-semibold" required />
         </label>
         <label className="block">
           <span className="text-sm font-black">New password</span>
-          <input name="next" type="password" autoComplete="new-password" minLength={8} className="mt-2 h-12 w-full rounded-2xl border border-[#CBD5E1] px-4 text-sm font-semibold" required />
+          <input name="next" type="password" autoComplete="new-password" minLength={8} className="bd-input mt-2 h-12 w-full rounded-2xl px-4 text-sm font-semibold" required />
         </label>
         <label className="block">
           <span className="text-sm font-black">Confirm new password</span>
-          <input name="confirm" type="password" autoComplete="new-password" minLength={8} className="mt-2 h-12 w-full rounded-2xl border border-[#CBD5E1] px-4 text-sm font-semibold" required />
+          <input name="confirm" type="password" autoComplete="new-password" minLength={8} className="bd-input mt-2 h-12 w-full rounded-2xl px-4 text-sm font-semibold" required />
         </label>
       </div>
 
@@ -66,8 +66,8 @@ export default function AccountSecurityForm() {
       ) : null}
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs font-bold text-[#64748B]">Use this only from your own device. You stay signed in after the update.</p>
-        <button disabled={busy} type="submit" className="h-12 rounded-2xl bg-[#4F46E5] px-6 text-sm font-black !text-white disabled:opacity-60">
+        <p className="text-xs font-bold text-[#62516F]">Use this only from your own device. You stay signed in after the update.</p>
+        <button disabled={busy} type="submit" className="bd-btn bd-btn-primary h-12 rounded-2xl px-6 text-sm font-black !text-white disabled:opacity-60">
           {busy ? "Updating..." : "Update password"}
         </button>
       </div>

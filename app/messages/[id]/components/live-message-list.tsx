@@ -99,10 +99,10 @@ export default function LiveMessageList({ threadId, me, initialMessages }: LiveM
 
   return (
     <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-3 py-4 sm:space-y-5 sm:px-6 sm:py-7">
-      <div className="flex items-center gap-5 text-sm font-black text-[#64748B]">
-        <div className="h-px flex-1 bg-[#E2E8F0]" />
+      <div className="flex items-center gap-5 text-sm font-black text-[#8B7A98]">
+        <div className="h-px flex-1 bg-[#F0EAFE]" />
         <span>Today</span>
-        <div className="h-px flex-1 bg-[#E2E8F0]" />
+        <div className="h-px flex-1 bg-[#F0EAFE]" />
       </div>
 
       {updateError ? (
@@ -118,10 +118,10 @@ export default function LiveMessageList({ threadId, me, initialMessages }: LiveM
         return (
           <div key={message.id} className={`flex ${mine ? "justify-end" : "justify-start"}`}>
             <div className={`max-w-[84%] sm:max-w-[78%] ${mine ? "text-right" : "text-left"}`}>
-              <div className={`rounded-2xl px-4 py-3 text-sm font-semibold leading-6 shadow-sm sm:px-5 sm:py-4 sm:text-base ${mine ? "bg-[#EEF2FF] text-[#07152E]" : "bg-[#F8FAFC] text-[#07152E]"}`}>
+              <div className={`rounded-2xl px-4 py-3 text-sm font-semibold leading-6 shadow-sm sm:px-5 sm:py-4 sm:text-base ${mine ? "bd-message-bubble-mine" : "bd-message-bubble-other"}`}>
                 {message.body}
               </div>
-              <div className="mt-2 text-sm font-semibold text-[#64748B]">
+              <div className="mt-2 text-sm font-semibold text-[#8B7A98]">
                 {formatTime(message.createdAt)}{seen ? "" : ""}
               </div>
             </div>
@@ -130,9 +130,9 @@ export default function LiveMessageList({ threadId, me, initialMessages }: LiveM
       })}
 
       {messages.length === 0 ? (
-        <div className="rounded-[24px] border border-[#DCE5F2] bg-[#F8FAFC] p-8 text-center">
+        <div className="rounded-[24px] border border-[#EDE9FE] bg-[#FBF9FF] p-8 text-center">
           <h3 className="text-2xl font-black">No messages yet</h3>
-          <p className="mt-3 text-base font-semibold text-[#64748B]">Start the conversation below.</p>
+          <p className="mt-3 text-base font-semibold text-[#62516F]">Start the conversation below.</p>
         </div>
       ) : null}
     </div>

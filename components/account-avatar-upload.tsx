@@ -80,29 +80,29 @@ export default function AccountAvatarUpload({ avatarUrl, fallback }: AccountAvat
   }
 
   return (
-    <div className="rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-5">
+    <div className="rounded-2xl border border-[#EDE9FE] bg-[#FBF9FF] p-5 shadow-[0_16px_44px_rgba(43,16,85,0.06)]">
       {status ? (
-        <div className="mb-4 rounded-2xl border border-[#C7D2FE] bg-[#EEF2FF] px-4 py-3 text-sm font-black text-[#4F46E5]">
+        <div className="mb-4 rounded-2xl border border-[#EDE9FE] bg-[#F5F3FF] px-4 py-3 text-sm font-black text-[#6D28D9]">
           {status}
         </div>
       ) : null}
 
-      <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#EEF2FF] text-3xl font-black text-[#4F46E5] shadow-sm">
+      <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-[#F5F3FF] text-3xl font-black text-[#6D28D9] shadow-[0_14px_34px_rgba(43,16,85,0.12)]">
         {avatarUrl ? <Image src={avatarUrl} alt="" width={128} height={128} className="h-full w-full object-cover" /> : fallback}
       </div>
 
       <form onSubmit={onSubmit} className="mt-5 space-y-3">
         <label className="block">
           <span className="text-sm font-black">Profile picture</span>
-          <input ref={inputRef} name="avatar" type="file" accept="image/*" className="mt-2 block w-full text-sm font-semibold text-[#475569] file:mr-3 file:rounded-xl file:border-0 file:bg-[#EEF2FF] file:px-4 file:py-2 file:text-sm file:font-black file:text-[#4F46E5]" />
+          <input ref={inputRef} name="avatar" type="file" accept="image/*" className="mt-2 block w-full text-sm font-semibold text-[#62516F] file:mr-3 file:rounded-xl file:border-0 file:bg-[#F5F3FF] file:px-4 file:py-2 file:text-sm file:font-black file:text-[#6D28D9]" />
         </label>
 
-        <button type="submit" disabled={isWorking} className="h-11 w-full rounded-2xl bg-[#4F46E5] px-5 text-sm font-black !text-white hover:bg-[#4338CA] disabled:cursor-not-allowed disabled:opacity-60 disabled:!text-white">
+        <button type="submit" disabled={isWorking} className="bd-btn bd-btn-primary h-11 w-full rounded-2xl px-5 text-sm font-black !text-white disabled:cursor-not-allowed disabled:opacity-60">
           {isWorking ? "Working..." : "Upload picture"}
         </button>
 
         {avatarUrl ? (
-          <button type="button" disabled={isWorking} onClick={deleteAvatar} className="h-11 w-full rounded-2xl border border-[#CBD5E1] bg-white px-5 text-sm font-black text-[#4F46E5] hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60">
+          <button type="button" disabled={isWorking} onClick={deleteAvatar} className="bd-btn bd-btn-secondary h-11 w-full rounded-2xl px-5 text-sm font-black disabled:cursor-not-allowed disabled:opacity-60">
             Delete picture
           </button>
         ) : null}

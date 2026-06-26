@@ -15,6 +15,10 @@ const QUICK_REPLIES = [
   "I’ll keep payment and handover details in Bidra Messages."
 ]
 
+function displayQuickReply(text: string) {
+  return text.replace("\u00e2\u20ac\u2122", "'");
+}
+
 function errorMessage(value: unknown) {
   if (value instanceof Error && value.name === "AbortError") {
     return "Message send timed out. Check your connection and try again."
@@ -95,17 +99,21 @@ export default function SendBox({ threadId }: { threadId: string }) {
       <label className="sr-only">Message</label>
 
       <div className="mb-2 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {QUICK_REPLIES.map((reply) => (
-          <button
-            key={reply}
-            type="button"
-            disabled={busy}
-            onClick={() => addQuickReply(reply)}
-            className="shrink-0 rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-3 py-2 text-xs font-extrabold text-[#334155] shadow-sm hover:border-[#C7D2FE] hover:bg-white disabled:opacity-60"
-          >
-            {reply}
-          </button>
-        ))}
+        {QUICK_REPLIES.map((reply) => {
+          const label = displayQuickReply(reply);
+
+          return (
+            <button
+              key={label}
+              type="button"
+              disabled={busy}
+              onClick={() => addQuickReply(label)}
+              className="shrink-0 rounded-full border border-[#EDE9FE] bg-[#FBF9FF] px-3 py-2 text-xs font-extrabold text-[#3B254F] shadow-sm hover:border-[#C4B5FD] hover:bg-white disabled:opacity-60"
+            >
+              {label}
+            </button>
+          );
+        })}
       </div>
 
       <textarea

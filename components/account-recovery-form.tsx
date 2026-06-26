@@ -34,18 +34,18 @@ export default function AccountRecoveryForm() {
   return (
     <form onSubmit={submit} className="space-y-5">
       <label className="block">
-        <span className="text-sm font-black text-[#0F172A]">Email</span>
+        <span className="text-sm font-black text-[#120724]">Email</span>
         <input
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           name="email"
           type="email"
-          className="mt-2 h-12 w-full rounded-2xl border border-[#CBD5E1] bg-white px-4 text-sm font-semibold text-[#07152E] placeholder:text-[#94A3B8] outline-none transition focus:border-[#4F46E5] focus:ring-4 focus:ring-[#C7D2FE]"
+          className="bd-input mt-2 h-12 w-full rounded-2xl px-4 text-sm font-semibold"
           placeholder="you@example.com"
           required
         />
       </label>
-      <button disabled={busy} type="submit" className="h-12 w-full rounded-2xl bg-[#4F46E5] text-sm font-black text-white !text-white disabled:opacity-60 disabled:!text-white">
+      <button disabled={busy} type="submit" className="bd-btn bd-btn-primary h-12 w-full rounded-2xl text-sm font-black !text-white disabled:opacity-60">
         {busy ? "Sending..." : "Send reset link"}
       </button>
     </form>

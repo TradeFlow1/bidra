@@ -92,42 +92,42 @@ export default async function MessagesThreadPage({ params }: { params: { id: str
 
   return (
     <>
-      <main className="mx-auto flex min-h-[calc(100svh-8.25rem)] w-full max-w-[760px] flex-col px-2 pb-16 pt-2 text-[#07152E] sm:px-6 sm:py-8 lg:max-w-[1280px] lg:px-10">
+      <main className="bd-logged-in-page mx-auto flex min-h-[calc(100svh-8.25rem)] w-full max-w-[760px] flex-col px-2 pb-16 pt-2 text-[#120724] sm:px-6 sm:py-8 lg:max-w-[1280px] lg:px-10">
         <h1 className="sr-only">Messages</h1>
 
         <div className="mt-0 grid min-h-0 flex-1 gap-3 lg:mt-8 lg:grid-cols-[400px_minmax(0,1fr)] lg:gap-6">
-          <aside className="hidden overflow-hidden rounded-[24px] border border-[#DCE5F2] bg-white shadow-sm lg:block">
-            <Link href="/messages" className="block border-b border-[#E2E8F0] p-5 text-sm font-black text-[#4F46E5]">Back to messages</Link>
-            <div className="flex gap-4 bg-[#F8FAFC] p-4">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-sm font-black text-[#4F46E5] sm:h-14 sm:w-14 sm:text-base">
+          <aside className="hidden overflow-hidden rounded-[24px] border border-[#EDE9FE] bg-white shadow-[0_18px_52px_rgba(43,16,85,0.07)] lg:block">
+            <Link href="/messages" className="block border-b border-[#F0EAFE] p-5 text-sm font-black text-[#6D28D9]">Back to messages</Link>
+            <div className="flex gap-4 bg-[#FBF9FF] p-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#F5F3FF] text-sm font-black text-[#6D28D9] sm:h-14 sm:w-14 sm:text-base">
                 {thumb ? <Image src={thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(otherLabel)}
               </div>
               <div className="min-w-0">
                 <h2 className="truncate text-base font-black sm:text-xl">{otherLabel}</h2>
-                <p className="mt-1 text-sm font-semibold text-[#64748B]">{thread.listing?.title || "Listing"}</p>
-                {thread.listing?.id ? <Link href={`/listings/${thread.listing.id}`} className="mt-4 inline-flex text-sm font-black text-[#4F46E5]">View listing</Link> : null}
+                <p className="mt-1 text-sm font-semibold text-[#62516F]">{thread.listing?.title || "Listing"}</p>
+                {thread.listing?.id ? <Link href={`/listings/${thread.listing.id}`} className="mt-4 inline-flex text-sm font-black text-[#6D28D9]">View listing</Link> : null}
               </div>
             </div>
-            <div className="p-4 text-sm font-semibold leading-6 text-[#64748B]">Keep pickup, payment and handover details in Bidra messages.</div>
+            <div className="p-4 text-sm font-semibold leading-6 text-[#62516F]">Keep pickup, payment and handover details in Bidra messages.</div>
           </aside>
 
-          <section className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[18px] border border-[#DCE5F2] bg-white shadow-sm lg:rounded-[24px]">
-            <div className="flex shrink-0 items-center justify-between border-b border-[#E2E8F0] p-3 sm:p-5">
+          <section className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[18px] border border-[#EDE9FE] bg-white shadow-[0_18px_52px_rgba(43,16,85,0.07)] lg:rounded-[24px]">
+            <div className="flex shrink-0 items-center justify-between border-b border-[#F0EAFE] p-3 sm:p-5">
               <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#EEF2FF] text-sm font-black text-[#4F46E5] sm:h-14 sm:w-14 sm:text-base">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#F5F3FF] text-sm font-black text-[#6D28D9] sm:h-14 sm:w-14 sm:text-base">
                   {thumb ? <Image src={thumb} alt="" width={56} height={56} className="h-full w-full object-cover" unoptimized /> : initials(otherLabel)}
                 </div>
                 <div className="min-w-0">
                   <h2 className="truncate text-base font-black sm:text-xl">{otherLabel}</h2>
-                  <p className="mt-0.5 truncate text-xs font-semibold text-[#64748B] sm:mt-1 sm:text-sm">Member conversation</p>
+                  <p className="mt-0.5 truncate text-xs font-semibold text-[#62516F] sm:mt-1 sm:text-sm">Member conversation</p>
                 </div>
               </div>
-              {thread.listing?.id ? <Link href={`/listings/${thread.listing.id}`} className="hidden rounded-2xl border border-[#C7D2FE] px-5 py-3 text-sm font-black text-[#4F46E5] sm:inline-flex">View listing</Link> : null}
+              {thread.listing?.id ? <Link href={`/listings/${thread.listing.id}`} className="bd-btn bd-btn-secondary hidden rounded-2xl px-5 py-3 text-sm font-black sm:inline-flex">View listing</Link> : null}
             </div>
 
             <LiveMessageList threadId={thread.id} me={me} initialMessages={messages.map((message) => ({ id: message.id, body: message.body, createdAt: message.createdAt.toISOString(), userId: message.userId }))} />
 
-            <div className="shrink-0 border-t border-[#E2E8F0] bg-white p-2 sm:p-3">
+            <div className="shrink-0 border-t border-[#F0EAFE] bg-white p-2 sm:p-3">
               <SendBox threadId={thread.id} />
             </div>
           </section>

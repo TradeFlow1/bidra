@@ -98,9 +98,9 @@ function readOrders(payload: unknown): OrderItem[] {
 
 function MobileOrderStat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-[#D7E2F1] bg-white p-3 text-center shadow-sm">
-      <div className="text-2xl font-black text-[#07152E]">{value}</div>
-      <div className="mt-1 text-[11px] font-semibold text-[#607089]">{label}</div>
+    <div className="bd-order-stat rounded-2xl border border-[#EDE9FE] bg-white p-3 text-center shadow-[0_14px_34px_rgba(43,16,85,0.06)]">
+      <div className="text-2xl font-black text-[#120724]">{value}</div>
+      <div className="mt-1 text-[11px] font-semibold text-[#8B7A98]">{label}</div>
     </div>
   );
 }
@@ -175,8 +175,8 @@ export function OrdersClient() {
         <section className="md:hidden">
           <div className="flex items-end justify-between gap-3">
             <div>
-              <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#4F46E5]">My Bidra</div>
-              <h1 className="mt-1 text-3xl font-black tracking-[-0.055em] text-[#07152E]">Orders</h1>
+              <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#6D28D9]">My Bidra</div>
+              <h1 className="mt-1 text-3xl font-black tracking-[-0.055em] text-[#120724]">Orders</h1>
             </div>
             <BidraButton href="/listings" variant="secondary" size="sm">Browse</BidraButton>
           </div>
@@ -214,9 +214,9 @@ export function OrdersClient() {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {[0, 1, 2].map((item) => (
               <BidraCard key={item} className="p-4 md:p-6">
-                <div className="h-4 w-24 rounded-full bg-[#E2E8F0]" />
-                <div className="mt-5 h-6 w-3/4 rounded-full bg-[#E2E8F0]" />
-                <div className="mt-3 h-4 w-1/2 rounded-full bg-[#E2E8F0]" />
+                <div className="bd-skeleton h-4 w-24 rounded-full" />
+                <div className="bd-skeleton mt-5 h-6 w-3/4 rounded-full" />
+                <div className="bd-skeleton mt-3 h-4 w-1/2 rounded-full" />
               </BidraCard>
             ))}
           </div>
@@ -230,12 +230,12 @@ export function OrdersClient() {
                       <BidraBadge tone="info">{order.role}</BidraBadge>
                       <BidraBadge tone="info">{order.status}</BidraBadge>
                     </div>
-                    <h2 className="mt-3 line-clamp-2 text-lg font-black leading-tight text-[#0F172A] md:text-xl">{order.title}</h2>
-                    <p className="mt-1 text-xs font-bold text-[#64748B] md:mt-2 md:text-sm">{order.createdLabel}</p>
-                    <p className="mt-2 line-clamp-2 text-sm font-semibold leading-6 text-[#475569] md:line-clamp-none">{order.nextAction}</p>
+                    <h2 className="mt-3 line-clamp-2 text-lg font-black leading-tight text-[#120724] md:text-xl">{order.title}</h2>
+                    <p className="mt-1 text-xs font-bold text-[#8B7A98] md:mt-2 md:text-sm">{order.createdLabel}</p>
+                    <p className="mt-2 line-clamp-2 text-sm font-semibold leading-6 text-[#62516F] md:line-clamp-none">{order.nextAction}</p>
                   </div>
                   <div className="grid gap-3 sm:flex sm:flex-col sm:items-end">
-                    <p className="text-xl font-black text-[#0F172A] md:text-xl">{order.amountLabel}</p>
+                    <p className="text-xl font-black text-[#120724] md:text-xl">{order.amountLabel}</p>
                     <BidraButton href={"/orders/" + encodeURIComponent(order.id)} variant="secondary" size="sm">View order</BidraButton>
                   </div>
                 </div>

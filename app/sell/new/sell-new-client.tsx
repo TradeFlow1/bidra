@@ -540,7 +540,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   }
 
   return (
-    <div className="rounded-[26px] border border-[#D8E6F8] bg-white p-3 shadow-[0_18px_50px_rgba(32,75,140,0.10)] sm:p-6">
+    <div className="rounded-[30px] border border-[#EDE9FE] bg-white p-3 shadow-[0_22px_64px_rgba(43,16,85,0.09)] sm:p-6">
       {err && (
         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div>
       )}
@@ -618,11 +618,11 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             {previews.length > 0 && (
               <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 {previews.map((p, idx) => (
-                  <div key={p.url} className="relative h-24 overflow-hidden rounded-2xl border border-[#D8E1F0] bg-[#F8FAFC] shadow-sm sm:h-32">
+                  <div key={p.url} className="relative h-24 overflow-hidden rounded-2xl border border-[#EDE9FE] bg-[#FBF9FF] shadow-sm sm:h-32">
                     <button
                       type="button"
                       aria-label="Remove photo"
-                      className="absolute right-2 top-2 z-10 inline-flex min-h-9 items-center justify-center rounded-full border border-[#D8E1F0] bg-white/95 px-3 text-xs font-extrabold text-[#4F46E5] shadow-sm hover:bg-[#F8FAFC]"
+                      className="absolute right-2 top-2 z-10 inline-flex min-h-9 items-center justify-center rounded-full border border-[#EDE9FE] bg-white/95 px-3 text-xs font-extrabold text-[#6D28D9] shadow-sm hover:bg-[#F5F3FF]"
                       onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
                     >
                       Remove
@@ -649,7 +649,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               <input id="field-title" className="mt-1 bd-input" value={title} onChange={(e) => setTitle(e.target.value)} />
             </div>
 
-            <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] p-2.5 sm:p-3">
+            <div className="rounded-[20px] border border-[#EDE9FE] bg-[#FBF9FF] p-2.5 sm:p-3">
               <div className="text-sm font-semibold bd-ink">Category</div>
               <p className="mt-1 text-xs font-semibold bd-ink2">Choose what the item is, not where it is used.</p>
 
@@ -711,7 +711,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               </div>
 
               {category ? (
-                <div className="mt-3 rounded-[18px] border border-[#D8E1F0] bg-white px-3 py-2 text-sm">
+                <div className="mt-3 rounded-[18px] border border-[#EDE9FE] bg-white px-3 py-2 text-sm">
                   <span className="text-xs uppercase tracking-wide text-black/50">Selected</span>
                   <div className="mt-1 font-medium bd-ink">{category}</div>
                 </div>
@@ -729,7 +729,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             </div>
 
             {attributeFields.length > 0 ? (
-              <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] p-3">
+              <div className="rounded-[20px] border border-[#EDE9FE] bg-[#FBF9FF] p-3">
                 <div className="text-sm font-extrabold bd-ink">Item specifics</div>
                 <p className="mt-1 text-xs bd-ink2">Add make, model and specs so buyers can compare listings properly.</p>
                 <div className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -838,7 +838,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             </span>
           </summary>
 
-          <div className="mt-3 rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] p-3 text-sm">
+          <div className="mt-3 rounded-[20px] border border-[#EDE9FE] bg-[#FBF9FF] p-3 text-sm">
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Listing</div>
@@ -864,7 +864,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
           </div>
         </details>
 
-        <button type="submit" disabled={busy || !publishReady} className="sticky bottom-20 z-20 inline-flex h-14 w-full items-center justify-center rounded-[22px] bg-[#2437FF] px-6 text-base font-extrabold text-white shadow-[0_16px_36px_rgba(36,55,255,0.22)] transition hover:bg-[#172BEF] disabled:cursor-not-allowed disabled:bg-[#EEF2FF] disabled:text-[#4F5F88] disabled:shadow-none sm:static">
+        <button type="submit" disabled={busy || !publishReady} className="bd-btn bd-btn-primary sticky bottom-20 z-20 inline-flex h-14 w-full items-center justify-center rounded-[22px] px-6 text-base font-extrabold shadow-[0_18px_38px_rgba(124,58,237,0.22)] transition disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none sm:static">
           {busy ? "Saving..." : "Continue"}
         </button>
       </form>

@@ -310,6 +310,143 @@ main [class*="bg-[#F8FAFF]"] {
     #ffffff !important;
 }
 
+.bd-logged-in-page,
+main[class*="bd-container"],
+main[class*="bd-page-shell"] {
+  background:
+    radial-gradient(760px 260px at 12% -120px, rgba(124, 58, 237, 0.08), transparent 72%),
+    linear-gradient(180deg, #fbf9ff 0%, #ffffff 40%, #ffffff 100%) !important;
+  color: var(--bidra-ink) !important;
+}
+
+.bd-logged-in-hero,
+.bd-page-hero,
+section[class*="bg-gradient-to-br"][class*="EEF2FF"],
+section[class*="bg-[#EEF6FF]"],
+div[class*="bg-gradient-to-br"][class*="EEF2FF"] {
+  border-color: var(--bidra-line) !important;
+  background:
+    radial-gradient(560px 220px at 88% -60px, rgba(124, 58, 237, 0.12), transparent 72%),
+    linear-gradient(135deg, #ffffff 0%, #fbf9ff 54%, #f5f3ff 100%) !important;
+  box-shadow: 0 24px 70px rgba(43, 16, 85, 0.09) !important;
+}
+
+.bd-logged-in-eyebrow,
+div[class*="text-[11px]"][class*="uppercase"][class*="text-[#4F46E5]"],
+div[class*="text-[11px]"][class*="uppercase"][class*="text-[#0B4DFF]"],
+div[class*="text-[10px]"][class*="uppercase"][class*="text-[#4F46E5]"] {
+  color: var(--bidra-accent-2) !important;
+}
+
+.bd-form-card,
+.bd-card,
+article[class*="border"],
+aside[class*="border"],
+section[class*="border"][class*="bg-white"],
+div[class*="rounded-[24px]"][class*="border"][class*="bg-white"],
+div[class*="rounded-[26px]"][class*="border"][class*="bg-white"],
+div[class*="rounded-[28px]"][class*="border"][class*="bg-white"],
+div[class*="rounded-[30px]"][class*="border"][class*="bg-white"] {
+  border-color: var(--bidra-line) !important;
+  box-shadow: 0 18px 50px rgba(43, 16, 85, 0.07) !important;
+}
+
+div[class*="bg-[#FBF9FF]"],
+div[class*="bg-[#F5F3FF]"],
+section[class*="bg-[#FBF9FF]"],
+section[class*="bg-[#F5F3FF]"] {
+  border-color: var(--bidra-line) !important;
+}
+
+.bd-message-bubble-mine {
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%) !important;
+  color: var(--bidra-ink) !important;
+}
+
+.bd-message-bubble-other {
+  border: 1px solid var(--bidra-line) !important;
+  background: #ffffff !important;
+  color: var(--bidra-ink) !important;
+}
+
+.bd-order-stat,
+.bd-soft-panel {
+  border-color: var(--bidra-line) !important;
+  background: #ffffff !important;
+  box-shadow: 0 16px 44px rgba(43, 16, 85, 0.06) !important;
+}
+
+.bd-readable-prose,
+main[class*="bg-white"],
+main[class*="text-[#4F46E5]"] {
+  color: var(--bidra-ink) !important;
+}
+
+main a[class*="border"][class*="text-[#4F46E5]"],
+main a[class*="border"][class*="text-[#2437FF]"],
+main button[class*="border"][class*="text-[#4F46E5]"],
+main button[class*="border"][class*="text-[#2437FF]"],
+main [class*="border-[#C7D2FE]"][class*="bg-white"] {
+  border-color: var(--bidra-line) !important;
+  background: #ffffff !important;
+  color: var(--bidra-accent-2) !important;
+  box-shadow: 0 10px 28px rgba(43, 16, 85, 0.05) !important;
+}
+
+main a[class*="border"][class*="text-[#4F46E5]"]:hover,
+main a[class*="border"][class*="text-[#2437FF]"]:hover,
+main button[class*="border"][class*="text-[#4F46E5]"]:hover,
+main button[class*="border"][class*="text-[#2437FF]"]:hover {
+  background: #f5f3ff !important;
+}
+
+main [class*="border-blue"],
+main [class*="ring-blue"] {
+  border-color: rgba(124, 58, 237, 0.28) !important;
+  --tw-ring-color: rgba(124, 58, 237, 0.16) !important;
+}
+
+main [class*="bg-blue"],
+main [class*="bg-[#DBEAFE]"] {
+  background-color: #f5f3ff !important;
+}
+
+main [class*="text-blue"],
+main [class*="text-[#2437FF]"],
+main [class*="text-[#36506F]"] {
+  color: var(--bidra-accent-2) !important;
+}
+
+main [class*="shadow-[0_20px_60px_rgba(32,75,140"],
+main [class*="shadow-[0_18px_45px_rgba(15,23,42"],
+main [class*="shadow-[0_14px_45px_rgba(28,50,84"] {
+  box-shadow: 0 22px 64px rgba(43, 16, 85, 0.08) !important;
+}
+
+main [class*="rounded-[34px]"][class*="border"],
+main [class*="rounded-[32px]"][class*="border"],
+main [class*="rounded-[30px]"][class*="border"],
+main [class*="rounded-[28px]"][class*="border"],
+main [class*="rounded-[24px]"][class*="border"],
+main [class*="rounded-[22px]"][class*="border"] {
+  border-color: var(--bidra-line) !important;
+}
+
+main label[class*="bg-[#F8FAFC]"],
+main div[class*="bg-[#F8FAFC]"],
+main section[class*="bg-[#F8FAFF]"],
+main aside[class*="bg-[#F8FAFF]"] {
+  background-color: #fbf9ff !important;
+}
+
+main input[type="file"]::file-selector-button {
+  border: 0 !important;
+  border-radius: 0.75rem !important;
+  background: #f5f3ff !important;
+  color: var(--bidra-accent-2) !important;
+  font-weight: 900 !important;
+}
+
 .bd-skeleton,
 [data-skeleton],
 .skeleton,
