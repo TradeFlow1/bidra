@@ -2,16 +2,14 @@
 type BrandLogoProps = { className?: string; priority?: boolean; variant?: "full" | "symbol"; tone?: "dark" | "light"; };
 export default function BrandLogo({ className, priority = false, variant = "full", tone = "dark" }: BrandLogoProps) {
   if (variant === "symbol") {
-    return <Image src="/brand/bidra-child-drawing-mark.svg" alt="Bidra" width={96} height={96} priority={priority} unoptimized className={className || "h-10 w-10 object-contain"} />;
+    return <Image src="/brand/bidra-child-drawing-mark.svg" alt="Bidra" width={96} height={96} priority={priority} unoptimized className={className || "h-9 w-9 object-contain"} />;
   }
   const textClass = tone === "light" ? "text-white" : "text-[#120724]";
-  const subTextClass = tone === "light" ? "text-[#C4B5FD]" : "text-[#6D28D9]";
   return (
     <span className={className || "inline-flex items-center gap-3"}>
-      <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={52} height={52} priority={priority} unoptimized className="h-12 w-12 shrink-0 object-contain" />
+      <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={52} height={52} priority={priority} unoptimized className="h-10 w-10 shrink-0 object-contain" />
       <span className="leading-none">
-        <span className={"block text-[32px] font-black tracking-[-0.06em] " + textClass}>Bidra</span>
-        <span className={"mt-1 block text-[9px] font-black uppercase tracking-[0.32em] " + subTextClass}>Bid. Buy. Sell.</span>
+        <span className={"block text-[28px] font-black tracking-[-0.055em] " + textClass}>Bidra</span>
       </span>
     </span>
   );

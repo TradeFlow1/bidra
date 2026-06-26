@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type React from "react";
-import { MarketplaceIcon } from "@/components/marketplace-ui";
+import { MarketplaceIcon, ProductPlaceholder, placeholderKindFromCategory } from "@/components/marketplace-ui";
 import { cn } from "@/lib/utils";
 
 type MarketplaceIconName = React.ComponentProps<typeof MarketplaceIcon>["name"];
@@ -85,8 +85,8 @@ function compactTimeRemaining(value?: string | Date | null) {
 }
 
 function heroSaleType(item: FeaturedHeroListing) {
-  if (item.type === "OFFERABLE") return typeof item.offerCount === "number" && item.offerCount > 0 ? `${item.offerCount} offers` : "Make Offer";
-  return "Buy Now";
+  if (item.type === "OFFERABLE") return typeof item.offerCount === "number" && item.offerCount > 0 ? `${item.offerCount} offers` : "Make an offer";
+  return "Buy now";
 }
 
 export function normaliseMarketplaceIcon(icon?: string | null): MarketplaceIconName {
@@ -213,38 +213,38 @@ export function HomeHero({
   featuredListings?: FeaturedHeroListing[];
 }) {
   return (
-    <section className="relative overflow-hidden rounded-[34px] border border-[#DDD6FE] bg-white shadow-[0_28px_90px_rgba(43,16,85,0.12)]">
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_48%,#F4F0FF_100%)]" />
-      <div className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(124,58,237,0.45),transparent)]" />
+    <section className="relative overflow-hidden rounded-[34px] border border-white/10 bg-[#120724] text-white shadow-[0_28px_90px_rgba(18,7,36,0.26)]">
+      <div className="absolute inset-0 bg-[radial-gradient(780px_360px_at_76%_8%,rgba(124,58,237,0.30),transparent_68%),linear-gradient(135deg,#10061F_0%,#150A28_56%,#21103C_100%)]" />
+      <div className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(196,181,253,0.55),transparent)]" />
 
       <div className="relative grid gap-8 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_520px] lg:p-10 xl:p-12">
         <div className="flex min-h-[500px] flex-col justify-center">
-          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#DDD6FE] bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#6D28D9] shadow-sm">
+          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#C4B5FD] shadow-sm">
             Live Australian marketplace
           </div>
 
-          <h1 className="mt-6 max-w-3xl text-[44px] font-black leading-[0.92] tracking-[-0.065em] text-[#120724] sm:text-6xl lg:text-7xl">
-            Search serious listings before you commit.
+          <h1 className="mt-6 max-w-3xl text-[44px] font-black leading-[0.92] tracking-[-0.065em] text-white sm:text-6xl lg:text-7xl">
+            Australia&apos;s marketplace for serious local deals.
           </h1>
 
-          <p className="mt-5 max-w-xl text-base font-semibold leading-8 text-[#62516F] sm:text-lg">
-            Bidra brings real listings, seller context, clear offers and marketplace messages into one clean buying flow built for Australia.
+          <p className="mt-5 max-w-xl text-base font-semibold leading-8 text-white/72 sm:text-lg">
+            Search active listings, compare seller context, buy now or make an offer.
           </p>
 
-          <div className="mt-7 rounded-[24px] border border-[#DDD6FE] bg-white p-3 shadow-[0_18px_50px_rgba(43,16,85,0.08)]">
+          <div className="mt-7 rounded-[24px] border border-white/15 bg-white/10 p-3 shadow-[0_18px_50px_rgba(18,7,36,0.22)] backdrop-blur">
             <form action="/listings" className="grid gap-3 md:grid-cols-[1fr_auto]">
               <input
                 name="q"
                 placeholder="Search cars, tools, furniture, electronics..."
-                className="h-14 rounded-2xl border border-[#EDE9FE] bg-[#FBF9FF] px-5 text-base font-bold text-[#120724] outline-none placeholder:text-[#8B7A98] focus:border-[#8B5CF6] focus:ring-4 focus:ring-[#EDE9FE]"
+                className="h-14 rounded-2xl border border-white/10 bg-white px-5 text-base font-bold text-[#120724] outline-none placeholder:text-[#8B7A98] focus:border-[#C4B5FD] focus:ring-4 focus:ring-white/15"
               />
               <button className="bd-btn bd-btn-primary h-14 rounded-2xl px-7" type="submit">
                 Search Bidra
               </button>
             </form>
-            <div className="mt-3 flex flex-wrap gap-2 px-1 text-xs font-black text-[#5B21B6]">
+            <div className="mt-3 flex flex-wrap gap-2 px-1 text-xs font-black text-white/82">
               {["Vehicles", "Tools", "Furniture", "Electronics"].map((item) => (
-                <Link key={item} href={`/listings?category=${encodeURIComponent(item)}`} className="rounded-full border border-[#EDE9FE] bg-[#FBF9FF] px-3 py-1.5 hover:bg-[#F5F3FF]">
+                <Link key={item} href={`/listings?category=${encodeURIComponent(item)}`} className="rounded-full border border-white/12 bg-white/8 px-3 py-1.5 hover:bg-white/14">
                   {item}
                 </Link>
               ))}
@@ -259,9 +259,9 @@ export function HomeHero({
           </div>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
-            <TrustItem icon="safe" title="Trust focused" body="Clear records, reports and safer marketplace behaviour." />
-            <TrustItem icon="offer" title="Offers or buy now" body="Flexible ways to transact without messy auction noise." />
-            <TrustItem icon="location" title="Australia wide" body="Local handover, pickup and postage friendly." />
+            <div className="rounded-2xl border border-white/10 bg-white/8 p-4 text-sm font-bold text-white/82">Seller context</div>
+            <div className="rounded-2xl border border-white/10 bg-white/8 p-4 text-sm font-bold text-white/82">Offers or buy now</div>
+            <div className="rounded-2xl border border-white/10 bg-white/8 p-4 text-sm font-bold text-white/82">Australia wide</div>
           </div>
         </div>
 
@@ -281,15 +281,17 @@ export function ProductCollage({
   if (!listings.length) {
     return (
       <div className={cn("hidden min-h-[500px] lg:block", className)}>
-        <div className="flex h-full min-h-[500px] flex-col justify-end overflow-hidden rounded-[32px] border border-[#DDD6FE] bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_52%,#F5F3FF_100%)] p-6 shadow-[0_24px_72px_rgba(43,16,85,0.12)]">
-          <div className="mx-auto mb-auto mt-10 flex h-32 w-32 items-center justify-center rounded-[32px] border border-[#EDE9FE] bg-white shadow-[0_18px_50px_rgba(43,16,85,0.08)]">
-            <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={104} height={104} unoptimized className="h-20 w-20 opacity-90" />
-          </div>
-          <div className="rounded-[26px] border border-white/70 bg-white/94 p-5 shadow-lg backdrop-blur">
-            <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#6D28D9]">Live marketplace</div>
-            <h2 className="mt-2 text-2xl font-black tracking-[-0.045em] text-[#120724]">Real listings appear here as inventory goes live.</h2>
-            <p className="mt-2 text-sm font-semibold leading-6 text-[#62516F]">
-              The homepage hero uses active marketplace data only, so buyers see current items rather than decorative mock cards.
+        <div className="grid h-full min-h-[500px] grid-cols-2 gap-4 overflow-hidden rounded-[32px] border border-white/10 bg-white/8 p-4 shadow-[0_24px_72px_rgba(18,7,36,0.22)] backdrop-blur">
+          {["vehicles", "home", "tools", "electronics"].map((item) => (
+            <div key={item} className="overflow-hidden rounded-[26px] border border-white/12 bg-white/8">
+              <ProductPlaceholder kind={item} title={item === "home" ? "Home" : item.charAt(0).toUpperCase() + item.slice(1)} />
+            </div>
+          ))}
+          <div className="col-span-2 rounded-[26px] border border-white/12 bg-white/10 p-5 shadow-lg backdrop-blur">
+            <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#C4B5FD]">Live marketplace</div>
+            <h2 className="mt-2 text-2xl font-black tracking-[-0.045em] text-white">Active listings appear here.</h2>
+            <p className="mt-2 text-sm font-semibold leading-6 text-white/68">
+              Browse categories while new inventory comes online.
             </p>
           </div>
         </div>
@@ -322,9 +324,7 @@ export function ProductCollage({
                   className="object-cover transition duration-300 group-hover:scale-[1.04]"
                 />
               ) : (
-                <div className="flex h-full min-h-[230px] items-center justify-center bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_55%,#F5F3FF_100%)]">
-                  <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={88} height={88} unoptimized className="h-16 w-16 opacity-85" />
-                </div>
+                <ProductPlaceholder kind={placeholderKindFromCategory(item.category)} title="No photo" />
               )}
             </div>
 

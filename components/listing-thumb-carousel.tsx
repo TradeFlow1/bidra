@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { ProductPlaceholder } from "@/components/marketplace-ui";
 
 type Img = { url: string };
 
@@ -131,15 +132,8 @@ function scrollTo(i: number) {
 
   if (!imgs.length) {
   return (
-    <div className="flex h-full w-full items-center justify-center bg-neutral-100">
-      <Image
-        src="/brand/bidra-child-drawing-mark.svg"
-        alt="No image"
-        width={64}
-        height={64}
-        className="h-16 w-16 object-contain opacity-70"
-        draggable={false}
-      />
+    <div className="h-full w-full">
+      <ProductPlaceholder kind="generic" title="No photo" />
     </div>
   );
 }

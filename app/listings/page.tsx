@@ -5,6 +5,7 @@ import DistanceSlider from "@/components/distance-slider";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { distanceKm, findAuLocation, parseListingLocation } from "@/lib/au-location";
+import { ProductPlaceholder, placeholderKindFromCategory } from "@/components/marketplace-ui";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -90,7 +91,7 @@ function categoryHref(category: string) {
 }
 
 function saleTypeLabel(type: string | null | undefined, buyNowPrice: number | null | undefined) {
-  if (type === "OFFERABLE") return buyNowPrice ? "Offers + Buy Now" : "Offers";
+  if (type === "OFFERABLE") return buyNowPrice ? "Offers + buy now" : "Offers";
   return "Buy now";
 }
 
@@ -460,9 +461,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                             unoptimized
                           />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_55%,#F5F3FF_100%)]">
-                            <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={82} height={82} unoptimized className="h-14 w-14 opacity-80" />
-                          </div>
+                          <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="No photo" />
                         )}
                         <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#5B21B6] shadow-sm ring-1 ring-[#DDD6FE]">{typeLabel}</span>
                         <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#2437FF] shadow-sm hover:bg-[#F8FAFC]" aria-hidden="true">
@@ -623,9 +622,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                       {image ? (
                         <Image src={image} alt={listing.title} fill sizes="100vw" className="object-cover" />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_55%,#F5F3FF_100%)]">
-                          <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={86} height={86} unoptimized className="h-16 w-16 opacity-80" />
-                        </div>
+                        <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="No photo" />
                       )}
                       <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#5B21B6] shadow-sm ring-1 ring-[#DDD6FE]">{typeLabel}</span>
                       {remaining ? <span className="absolute bottom-3 left-3 rounded-full bg-[#120724]/92 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-white shadow-sm">{remaining}</span> : null}

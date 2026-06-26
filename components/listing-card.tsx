@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, type CSSProperties, type MouseEvent } from "react";
 import { useRouter } from "next/navigation";
+import { ProductPlaceholder, placeholderKindFromCategory } from "@/components/marketplace-ui";
 
 type ListingCardListing = {
   id: string;
@@ -94,9 +95,9 @@ function suburbLabel(value: string | null | undefined) {
 }
 
 function saleTypeText(listing: ListingCardListing) {
-  if (listing.type === "OFFERABLE" && typeof listing.buyNowPrice === "number") return "Offers + Buy Now";
-  if (listing.type === "OFFERABLE") return "Make Offer";
-  return "Buy Now";
+  if (listing.type === "OFFERABLE" && typeof listing.buyNowPrice === "number") return "Offers + buy now";
+  if (listing.type === "OFFERABLE") return "Make an offer";
+  return "Buy now";
 }
 
 function sellerTrustCue(seller: any) {
@@ -124,11 +125,10 @@ export default function ListingCard({
 
   const imgs = Array.isArray(listing.images) ? listing.images : null;
 
-  const isNoPhotos = !imgs || imgs.length === 0;
-
   const fallback =
     (imgs && imgs.length > 0 && (imgs[0]?.url || imgs[0]?.src || imgs[0])) ||
-    "/brand/bidra-child-drawing-mark.svg";
+    null;
+  const isNoPhotos = !fallback;
 
   const primaryCents = Number(listing.price);
 
@@ -186,9 +186,7 @@ export default function ListingCard({
       <div className="overflow-hidden bg-white">
         <div className="relative aspect-[1/0.92] overflow-hidden bg-[#FBF9FF]" style={{ position: "relative", aspectRatio: "1 / 0.92", width: "100%", maxWidth: "100%", overflow: "hidden", background: "#FBF9FF" }}>
           {isNoPhotos ? (
-            <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_55%,#F5F3FF_100%)] p-6">
-              <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={96} height={96} unoptimized className="h-16 w-16 opacity-80" />
-            </div>
+            <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="No photo" />
           ) : (
             <Image
               src={fallback}

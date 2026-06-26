@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import { ProductPlaceholder } from "@/components/marketplace-ui";
 
 function normalizeImages(images: any): string[] {
   if (!images) return [];
@@ -106,12 +107,12 @@ export default function ListingImageGallery(props: { images: any; title?: string
         <div className="overflow-hidden rounded-[30px] border border-[#EDE9FE] bg-gradient-to-br from-white via-[#FBF9FF] to-[#F5F3FF] shadow-[0_18px_50px_rgba(43,16,85,0.08)]">
           <div className="flex h-[260px] items-center justify-center px-6 text-center md:h-[420px]">
             <div className="max-w-sm">
-              <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full border border-[#DDD6FE] bg-white text-sm font-semibold text-[#5B21B6] shadow-sm">
-                Photo
+              <div className="mx-auto mb-4 h-32 w-44 overflow-hidden rounded-[24px] border border-[#DDD6FE] bg-white shadow-sm">
+                <ProductPlaceholder kind="generic" title="No photo" />
               </div>
-              <div className="text-lg font-semibold text-[#120724]">No gallery photos yet</div>
+              <div className="text-lg font-semibold text-[#120724]">No photos yet</div>
               <div className="mt-1 text-sm text-[#62516F]">
-                This seller has not added gallery images yet. Review the description and message the seller if you need more detail.
+                Review the listing details and message the seller if you need more information.
               </div>
             </div>
           </div>

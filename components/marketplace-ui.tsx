@@ -32,26 +32,34 @@ export function MarketplaceIcon({ name, className = "h-5 w-5" }: { name: Marketp
 }
 
 const placeholderCopy: Record<string, { title: string; path: React.ReactNode }> = {
-  sofa: { title: "Sofa", path: <><path d="M6 13h12a2 2 0 0 1 2 2v3H4v-3a2 2 0 0 1 2-2Z" /><path d="M7 13V9a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v4" /><path d="M6 18v2M18 18v2" /></> },
-  bicycle: { title: "Bike", path: <><circle cx="7" cy="16" r="3" /><circle cx="17" cy="16" r="3" /><path d="M7 16l4-7h2l4 7M11 9l2 7M10 16h4M13 9h3" /></> },
-  headphones: { title: "Headphones", path: <><path d="M5 14v-2a7 7 0 0 1 14 0v2" /><path d="M5 14h3v5H6a1 1 0 0 1-1-1v-4ZM19 14h-3v5h2a1 1 0 0 0 1-1v-4Z" /></> },
-  furniture: { title: "Furniture", path: <><path d="M5 12h14v6H5z" /><path d="M7 12V8h10v4" /><path d="M7 18v2M17 18v2" /></> },
-  camera: { title: "Camera", path: <><path d="M5 8h4l1.5-2h3L15 8h4v10H5z" /><circle cx="12" cy="13" r="3" /></> },
-  phone: { title: "Phone", path: <><rect x="8" y="3" width="8" height="18" rx="2" /><path d="M11 18h2" /></> },
-  laptop: { title: "Laptop", path: <><path d="M6 6h12v9H6z" /><path d="M4 18h16" /></> },
-  "coffee-machine": { title: "Coffee", path: <><path d="M8 6h8v12H8z" /><path d="M16 9h3a2 2 0 0 1 0 4h-3" /><path d="M10 3v3M14 3v3M9 18h6" /></> },
-  messages: { title: "Messages", path: <><path d="M5 6.5h14v9H8l-3 3v-12Z" /><path d="M8 10h8M8 13h5" /></> },
-  empty: { title: "Empty", path: <><path d="M6 7h12v11H6z" /><path d="M9 10h6M9 13h4" /></> },
+  vehicles: { title: "Vehicle", path: <><path d="M6 15h12l-1.3-4.3A2.5 2.5 0 0 0 14.3 9H9.7a2.5 2.5 0 0 0-2.4 1.7L6 15Z" /><path d="M5 15h14v3H5z" /><circle cx="8" cy="18" r="1.5" /><circle cx="16" cy="18" r="1.5" /></> },
+  home: { title: "Home", path: <><path d="M4 11.5 12 5l8 6.5V20H5v-8.5Z" /><path d="M9 20v-6h6v6" /></> },
+  tools: { title: "Tools", path: <><path d="m14.5 5 4.5 4.5-8.8 8.8a2.5 2.5 0 0 1-3.5 0l-1-1a2.5 2.5 0 0 1 0-3.5L14.5 5Z" /><path d="m13 6.5 4.5 4.5" /></> },
+  electronics: { title: "Electronics", path: <><rect x="6" y="5" width="12" height="14" rx="2" /><path d="M9 8h6M9 16h6M12 18h.01" /></> },
+  sports: { title: "Sports", path: <><circle cx="12" cy="12" r="7" /><path d="M5.4 9.6c3.6.2 6.8 3 7.1 9.3" /><path d="M18.6 14.4c-3.6-.2-6.8-3-7.1-9.3" /></> },
   generic: { title: "Listing", path: <><rect x="5" y="5" width="14" height="14" rx="3" /><path d="m8 15 2.5-3 2 2 2.5-3 2 4" /></> },
 };
 
+export function placeholderKindFromCategory(value?: string | null) {
+  const raw = String(value || "").toLowerCase();
+  if (/vehicle|car|motor|bike|ute|truck|trailer/.test(raw)) return "vehicles";
+  if (/home|furniture|living|garden|appliance|property/.test(raw)) return "home";
+  if (/tool|equipment|machinery|industrial|diy/.test(raw)) return "tools";
+  if (/electronic|phone|computer|laptop|camera|audio|gaming/.test(raw)) return "electronics";
+  if (/sport|outdoor|fitness|camping|cycling/.test(raw)) return "sports";
+  return "generic";
+}
+
 export function ProductPlaceholder({ kind = "generic", title, className }: { kind?: keyof typeof placeholderCopy | string; title?: string; className?: string }) {
-  const item = placeholderCopy[kind] || placeholderCopy.generic;
+  const placeholderKind = placeholderKindFromCategory(kind);
+  const item = placeholderCopy[placeholderKind] || placeholderCopy.generic;
   return (
-    <div className={cn("flex h-full min-h-[9rem] w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_30%_20%,#FFFFFF_0,#FFFFFF_18%,#EAF3FF_52%,#DDEBFF_100%)]", className)}>
-      <div className="flex flex-col items-center gap-2 text-[#0B4DFF]">
-        <svg className="h-14 w-14 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{item.path}</svg>
-        <span className="max-w-[11rem] truncate rounded-full border border-white/80 bg-white/75 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#36506F] shadow-sm">{title || item.title}</span>
+    <div className={cn("flex h-full min-h-[9rem] w-full items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_24%_18%,#FFFFFF_0,#FFFFFF_18%,#F5F3FF_48%,#ECE7F7_100%)]", className)}>
+      <div className="flex flex-col items-center gap-2 text-[#2B1055]">
+        <span className="grid h-16 w-16 place-items-center rounded-[22px] border border-white/75 bg-white/82 shadow-[0_14px_34px_rgba(43,16,85,0.09)]">
+          <svg className="h-9 w-9 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{item.path}</svg>
+        </span>
+        <span className="max-w-[11rem] truncate rounded-full border border-white/80 bg-white/78 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#62516F] shadow-sm">{title || item.title}</span>
       </div>
     </div>
   );

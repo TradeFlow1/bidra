@@ -321,7 +321,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
     if (!isTimedOffers) {
       if (fixedPriceCents === null || Number.isNaN(fixedPriceCents) || fixedPriceCents <= 0) {
-        missing.push("Enter a valid Buy Now price");
+        missing.push("Enter a valid Buy now price");
       }
       return missing;
     }
@@ -332,9 +332,9 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
 
     if (buyNowCents !== null) {
       if (Number.isNaN(buyNowCents) || buyNowCents <= 0) {
-        missing.push("Enter a valid Buy Now price");
+        missing.push("Enter a valid Buy now price");
       } else if (startBidCents !== null && !Number.isNaN(startBidCents) && buyNowCents < startBidCents) {
-        missing.push("Buy Now price must be at least the starting offer");
+        missing.push("Buy now price must be at least the starting offer");
       }
     }
 
@@ -383,9 +383,9 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
     setAttributeValues((prev) => ({ ...prev, [key]: value }));
   }
 
-  const reviewSaleType = isTimedOffers ? "Make Offer (timed offers)" : "Buy Now";
+  const reviewSaleType = isTimedOffers ? "Make an offer" : "Buy now";
   const reviewPrice = isTimedOffers
-    ? `${startingBid ? `$${startingBid} starting` : "Not set"}${buyNowPrice ? ` | Buy Now $${buyNowPrice}` : ""}`
+    ? `${startingBid ? `$${startingBid} starting` : "Not set"}${buyNowPrice ? ` | Buy now $${buyNowPrice}` : ""}`
     : (price ? `$${price}` : "Not set");
 
   const previews = useMemo(() => {
@@ -436,9 +436,9 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         return setErr("Starting offer must be greater than 0.");
       }
       if (buyNowCents !== null) {
-        if (Number.isNaN(buyNowCents)) return setErr("Buy Now must be a number or blank.");
-        if (buyNowCents <= 0) return setErr("Buy Now must be greater than 0 (or blank).");
-        if (buyNowCents < startBidCents) return setErr("Buy Now must be >= starting offer.");
+        if (Number.isNaN(buyNowCents)) return setErr("Buy now must be a number or blank.");
+        if (buyNowCents <= 0) return setErr("Buy now must be greater than 0 (or blank).");
+        if (buyNowCents < startBidCents) return setErr("Buy now must be >= starting offer.");
       }
     }
 
@@ -827,7 +827,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
                 value={type}
                 onChange={(e) => setType(e.target.value as ListingTypeUI)}
               >
-                <option value="BUY_NOW">Buy Now</option>
+                <option value="BUY_NOW">Buy now</option>
                 <option value="TIMED_OFFERS">Timed offers (seller decides at end)</option>
               </select>
             </div>
@@ -842,12 +842,12 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             {isTimedOffers && (
               <>
                 <div>
-                  <label className="bd-label" htmlFor="field-starting-bid">Starting offer (AUD)</label>
-                  <input id="field-starting-bid" className="mt-1 bd-input" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
+                  <label className="bd-label" htmlFor="field-starting-offer">Starting offer (AUD)</label>
+                  <input id="field-starting-offer" className="mt-1 bd-input" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
                 </div>
 
                 <div>
-                  <label className="bd-label" htmlFor="field-buy-now-price">Buy Now price (AUD) (optional)</label>
+                  <label className="bd-label" htmlFor="field-buy-now-price">Buy now price (AUD) (optional)</label>
                   <input id="field-buy-now-price" className="mt-1 bd-input" value={buyNowPrice} onChange={(e) => setBuyNowPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 200" inputMode="decimal" />
                 </div>
 

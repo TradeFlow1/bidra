@@ -265,60 +265,9 @@ export default async function HomePage() {
         <HomeTrustStrip />
 
         <MarketplaceSection
-          eyebrow="How it works"
-          title="A clearer path from search to handover"
-          description="Bidra keeps the existing marketplace actions simple: search active listings, inspect the seller context, then buy, offer, watch or message from the listing page."
-        >
-          <div className="grid gap-4 lg:grid-cols-3">
-            {[
-              ["1", "Search the live marketplace", "Use keyword, category, sale type, price and location filters to narrow real active listings across Australia."],
-              ["2", "Inspect before you act", "Open the listing for photos, condition, suburb, seller cues, handover details and similar items."],
-              ["3", "Choose the right action", "Buy Now, Make Offer, Watchlist, Message Seller and Report Listing remain exactly where buyers expect them."],
-            ].map((step) => (
-              <AppCard key={step[0]} className="relative overflow-hidden">
-                <div className="absolute right-4 top-4 text-5xl font-black tracking-[-0.08em] text-[#F0EAFE]">{step[0]}</div>
-                <div className="relative">
-                  <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-[#120724] text-sm font-black text-white">{step[0]}</div>
-                  <h3 className="mt-5 text-xl font-black tracking-[-0.04em] text-[#120724]">{step[1]}</h3>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-[#62516F]">{step[2]}</p>
-                </div>
-              </AppCard>
-            ))}
-          </div>
-        </MarketplaceSection>
-
-        <section className="grid gap-4 py-5 sm:py-8 lg:grid-cols-2">
-          <AppPanel className="bg-white/92">
-            <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">For buyers</div>
-            <h2 className="mt-2 text-3xl font-black tracking-[-0.05em] text-[#120724]">Compare serious listings with fewer surprises.</h2>
-            <p className="mt-3 text-sm font-semibold leading-7 text-[#62516F]">
-              Browse by suburb, price, handover type, listing type and seller cues before you message, offer or buy.
-            </p>
-            <div className="mt-5 grid gap-2 text-sm font-bold text-[#3B254F]">
-              {["Live listing data and photos where sellers have added them.", "Saved listings and notifications keep important updates close.", "Messages and orders remain attached to marketplace activity."].map((item) => (
-                <div key={item} className="rounded-2xl border border-[#EDE9FE] bg-[#FBF9FF] px-4 py-3">{item}</div>
-              ))}
-            </div>
-          </AppPanel>
-
-          <AppPanel className="bg-white/92">
-            <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">For sellers</div>
-            <h2 className="mt-2 text-3xl font-black tracking-[-0.05em] text-[#120724]">Create buyer-ready listings without extra noise.</h2>
-            <p className="mt-3 text-sm font-semibold leading-7 text-[#62516F]">
-              The sell flow guides clear photos, category, condition, price, location and handover details before publishing.
-            </p>
-            <div className="mt-5 grid gap-2 text-sm font-bold text-[#3B254F]">
-              {["Buy Now and offer-led listings both stay supported.", "Seller dashboards keep listings, orders and messages in one place.", "Marketplace rules and report routes stay visible for safer trading."].map((item) => (
-                <div key={item} className="rounded-2xl border border-[#EDE9FE] bg-[#FBF9FF] px-4 py-3">{item}</div>
-              ))}
-            </div>
-          </AppPanel>
-        </section>
-
-        <MarketplaceSection
-          eyebrow="Featured movement"
+          eyebrow="Featured listings"
           title="Worth checking now"
-          description="Promoted launch picks and offer activity are kept close to browsing, without changing how buyers ask questions, make offers or buy now."
+          description="Live items with clear price, offer and seller context."
           action={<AppButtonLink href="/listings" variant="secondary">Browse all</AppButtonLink>}
         >
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)]">
@@ -328,7 +277,7 @@ export default async function HomePage() {
               ) : (
                 <AppPanel>
                   <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">Promoted listings</div>
-                  <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#120724]">Launch picks will appear here</h2>
+                  <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#120724]">Featured listings will appear here</h2>
                   <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-[#62516F]">
                     Featured inventory uses the same listing routes and buyer actions as the rest of the marketplace.
                   </p>
@@ -338,14 +287,14 @@ export default async function HomePage() {
 
             <AppPanel tone="dark" className="flex flex-col justify-between">
               <div>
-                <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#C4B5FD]">How Bidra keeps trades clear</div>
-                <h2 className="mt-3 text-3xl font-black leading-tight tracking-[-0.05em] text-white">Search first. Inspect properly. Keep the record in messages.</h2>
+                <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#C4B5FD]">Marketplace confidence</div>
+                <h2 className="mt-3 text-3xl font-black leading-tight tracking-[-0.05em] text-white">Clear listings. Real sellers. Direct actions.</h2>
                 <p className="mt-3 text-sm font-semibold leading-6 text-white/72">
-                  Every listing can carry price, offer mode, seller context and handover details before a buyer commits to a conversation or order.
+                  Browse active items with price, location, offer activity and seller signals close at hand.
                 </p>
               </div>
               <div className="mt-6 grid gap-3 text-sm font-bold text-white/82">
-                {["Buy Now and Make Offer stay visible.", "Watchlist and messages remain part of the flow.", "Reports and seller clarity support safer decisions."].map((item) => (
+                {["Buy now and make an offer", "Watchlist and messages", "Seller and safety signals"].map((item) => (
                   <div key={item} className="rounded-2xl border border-white/10 bg-white/8 px-4 py-3">
                     {item}
                   </div>
@@ -360,7 +309,7 @@ export default async function HomePage() {
         <MarketplaceSection
           eyebrow="Browse faster"
           title="Shop by category"
-          description="Start broad, then refine by keyword, sale type, location, condition and price on the browse page."
+          description="Popular Australian marketplace categories, ready to refine."
           action={<AppButtonLink href="/listings" variant="secondary">View all categories</AppButtonLink>}
         >
           <CategoryPillGrid categories={categories} />
@@ -369,7 +318,7 @@ export default async function HomePage() {
         <MarketplaceSection
           eyebrow="Recently listed"
           title="Fresh listings from Australian sellers"
-          description="The existing listing feed remains live here, including watchlist state and the same detail-page routes."
+          description="Real active listings, refreshed from the marketplace."
           action={<AppButtonLink href="/listings?sort=newest" variant="secondary">View all listings</AppButtonLink>}
         >
           <div className="rounded-[32px] border border-[#EDE9FE] bg-white/74 p-3 shadow-[0_22px_70px_rgba(43,16,85,0.08)] sm:p-4">
@@ -382,10 +331,10 @@ export default async function HomePage() {
         <section className="mb-24 overflow-hidden rounded-[34px] border border-[#DDD6FE] bg-white p-5 shadow-[0_22px_70px_rgba(43,16,85,0.09)] sm:p-7 md:mb-8">
           <div className="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
             <div>
-              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">Why Bidra</div>
-              <h2 className="mt-2 text-3xl font-black tracking-[-0.055em] text-[#120724] sm:text-4xl">A marketplace that treats the decision seriously.</h2>
+              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">Trust built in</div>
+              <h2 className="mt-2 text-3xl font-black tracking-[-0.055em] text-[#120724] sm:text-4xl">Built for trusted local trade.</h2>
               <p className="mt-3 text-sm font-semibold leading-7 text-[#62516F]">
-                Bidra keeps the core trade surfaces close together: searchable listings, seller context, watchlists, messages and clear order records.
+                Searchable listings, seller context, saved items, messages and order records in one marketplace.
               </p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 <AppButtonLink href="/how-it-works">How it works</AppButtonLink>
@@ -394,10 +343,10 @@ export default async function HomePage() {
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
               {[
-                ["Clear buyer actions", "Buy Now, Make Offer and Message Seller stay direct and predictable."],
-                ["Seller context", "Profiles, locations and listing metadata help buyers inspect before acting."],
-                ["Message records", "Conversations remain part of the marketplace experience."],
-                ["Safety routes", "Report, support and prohibited item guidance stay visible."],
+                ["Clear buyer actions", "Buy now, Make an offer and Message seller stay direct."],
+                ["Seller context", "Profiles, locations and listing metadata stay visible."],
+                ["Message records", "Conversations remain attached to marketplace activity."],
+                ["Safety routes", "Report, support and prohibited item guidance remain close."],
               ].map((item) => (
                 <AppCard key={item[0]} className="shadow-none">
                   <div className="text-sm font-black text-[#120724]">{item[0]}</div>

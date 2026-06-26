@@ -127,6 +127,13 @@ function formatFulfillment(value: unknown) {
   return "Pickup with seller";
 }
 
+function saleTypeLabel(value: unknown, buyNowPrice?: number | null) {
+  const raw = cleanText(value).toUpperCase();
+  if (raw === "OFFERABLE" && typeof buyNowPrice === "number") return "Offers + buy now";
+  if (raw === "OFFERABLE") return "Make an offer";
+  return "Buy now";
+}
+
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const listing = await prisma.listing.findUnique({
     where: { id: params.id },
@@ -298,7 +305,7 @@ export default async function ListingDetailPage({
   const location = cleanText(listing.location) || "Location on request";
   const condition = cleanText(listing.condition) || "Condition not specified";
   const category = cleanText(listing.category) || "Listing";
-  const listingType = cleanText(listing.type) || "Buy now";
+  const listingType = saleTypeLabel(listing.type, listing.buyNowPrice);
   const fulfillmentLabel = formatFulfillment(listing.fulfillmentType);
   const sellerName = cleanText(listing.seller?.name || listing.seller?.username) || "Bidra seller";
   const sellerInitials = sellerName.split(/\s+/).slice(0, 2).map((part) => part.charAt(0).toUpperCase()).join("") || "B";
