@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, type CSSProperties, type MouseEvent } from "react";
 import { useRouter } from "next/navigation";
-import { ProductPlaceholder } from "@/components/marketplace-ui";
 
 type ListingCardListing = {
   id: string;
@@ -89,7 +88,7 @@ export default function ListingCard({
 
   const fallback =
     (imgs && imgs.length > 0 && (imgs[0]?.url || imgs[0]?.src || imgs[0])) ||
-    "/brand/bidra-symbol.svg";
+    "/brand/bidra-child-drawing-mark.svg";
 
   const primaryCents = Number(listing.price);
 
@@ -143,7 +142,9 @@ export default function ListingCard({
       <div className="overflow-hidden bg-white">
         <div className="relative aspect-[1/0.92] overflow-hidden bg-[#EEF3FA]" style={{ position: "relative", aspectRatio: "1 / 0.92", width: "100%", maxWidth: "100%", overflow: "hidden", background: "#EEF3FA" }}>
           {isNoPhotos ? (
-            <ProductPlaceholder kind={cleanText(listing.category).toLowerCase().includes("bike") ? "bicycle" : cleanText(listing.category).toLowerCase().includes("electronics") ? "laptop" : "generic"} title={title || "Bidra listing"} />
+            <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_55%,#F5F3FF_100%)] p-6">
+              <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={96} height={96} unoptimized className="h-16 w-16 opacity-75" />
+            </div>
           ) : (
             <Image
               src={fallback}
