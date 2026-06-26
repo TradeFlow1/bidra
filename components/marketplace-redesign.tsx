@@ -324,7 +324,7 @@ export function ProductCollage({
                   className="object-cover transition duration-300 group-hover:scale-[1.04]"
                 />
               ) : (
-                <ProductPlaceholder kind={placeholderKindFromCategory(item.category)} title="No photo" />
+                <ProductPlaceholder kind={placeholderKindFromCategory(item.category)} title="Photo coming soon" />
               )}
             </div>
 

@@ -133,7 +133,7 @@ function scrollTo(i: number) {
   if (!imgs.length) {
   return (
     <div className="h-full w-full">
-      <ProductPlaceholder kind="generic" title="No photo" />
+      <ProductPlaceholder kind="generic" title="Photo coming soon" />
     </div>
   );
 }

@@ -16,7 +16,7 @@ function suggestionFor(listing: {
 }) {
   if (listing.status !== "ACTIVE") return "Review status before relisting or updating this item.";
   if (listing.viewCount >= 20 && listing._count.offers === 0) return "Strong views but no offers yet. Check photos, price and handover details.";
-  if (listing._count.watchlist >= 3 && listing._count.offers === 0) return "People are saving this item. Consider clearer details or a sharper Buy Now price.";
+  if (listing._count.watchlist >= 3 && listing._count.offers === 0) return "People are saving this item. Consider clearer details or a sharper Buy now price.";
   if (listing._count.questions > 0) return "Public questions show buyer interest. Add missing details to the description.";
   if (listing._count.offers > 0) return "Offer activity is active. Keep replies clear and arrange next steps in Messages.";
   return "Keep photos, condition and pickup or postage details clear to improve buyer confidence.";

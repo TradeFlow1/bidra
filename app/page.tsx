@@ -23,8 +23,8 @@ import {
 export const revalidate = 10;
 
 export const metadata: Metadata = {
-  title: "Bidra marketplace | Buy Now and offers in Australia",
-  description: "Browse Bidra for Australian marketplace listings, Buy Now items, offers, pickup, postage, and local handover details.",
+  title: "Bidra marketplace | Buy now and offers in Australia",
+  description: "Browse Bidra for Australian marketplace listings, Buy now items, offers, pickup, postage, and local handover details.",
   alternates: { canonical: "/" },
 };
 
@@ -192,7 +192,7 @@ export default async function HomePage() {
     {
       label: "Top category",
       value: topCategory ? topCategory[0] : "All categories",
-      body: topCategory ? `${topCategory[1]} active ${topCategory[1] === 1 ? "item" : "items"} in the current category sample.` : "Browse across Australia.",
+      body: topCategory ? `${topCategory[1]} active ${topCategory[1] === 1 ? "item" : "items"} in the this category.` : "Browse across Australia.",
     },
     {
       label: "Buying modes",

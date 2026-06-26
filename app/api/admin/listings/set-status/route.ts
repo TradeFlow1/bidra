@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import type { ListingStatus } from "@prisma/client";
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
   const nextStatus: ListingStatus = status;
 
 // V2 enforcement lock: SOLD/COMPLETE transitions must only be created by the enforcement routes
-// (Buy Now + Accept Offer). Admin tools may suspend/delete/restore, but must not bypass.
+// (Buy now + Accept Offer). Admin tools may suspend/delete/restore, but must not bypass.
 const statusUpper = String(status || "").toUpperCase();
 if (statusUpper === "SOLD" || statusUpper === "COMPLETE" || statusUpper === "COMPLETED") {
   return NextResponse.json({ ok: false, error: "Forbidden status transition" }, { status: 403 });

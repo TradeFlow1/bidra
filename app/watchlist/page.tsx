@@ -46,7 +46,7 @@ function insightLabel(item: any) {
   if (!listing) return "Unavailable";
   if (listing.status !== "ACTIVE") return "No longer active";
   if (persistedPriceDrop(item)) return "Price dropped since saved";
-  if (typeof listing.buyNowPrice === "number" && listing.buyNowPrice > 0 && listing.buyNowPrice < listing.price) return "Buy Now below listed price";
+  if (typeof listing.buyNowPrice === "number" && listing.buyNowPrice > 0 && listing.buyNowPrice < listing.price) return "Buy now below listed price";
   if (typeof listing.currentOfferAmount === "number" && listing.currentOfferAmount > 0) return "Visible offer activity";
   if ((listing.questions || []).length > 0) return "Public question activity";
   if (listing.updatedAt && new Date(listing.updatedAt).getTime() > new Date(item.createdAt).getTime()) return "Updated since saved";
@@ -77,7 +77,7 @@ function WatchlistInsightCard({ item }: { item: any }) {
       </div>
       <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#3730A3]">
         {hasPersistedDrop ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-800">Recorded price drop</span> : null}
-        {lowerBuyNow ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-800">Lower Buy Now</span> : null}
+        {lowerBuyNow ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-800">Lower Buy now</span> : null}
         {hasVisibleOffer ? <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">Offer {formatPrice(listing.currentOfferAmount)}</span> : null}
         {questionCount ? <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">{questionCount} public Q&amp;A</span> : null}
         {listing.status !== "ACTIVE" ? <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-amber-900">Unavailable</span> : null}

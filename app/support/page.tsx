@@ -7,7 +7,7 @@ const supportSections = [
   },
   {
     title: "No-shows and flaky buyers",
-    body: "Buy Now is a committed purchase. If a buyer commits and then does not follow through, keep the messages and use the order/report options so the behaviour can be reviewed.",
+    body: "Buy now is a committed purchase. If a buyer commits and then does not follow through, keep the messages and use the order/report options so the behaviour can be reviewed.",
   },
   {
     title: "Problems with a seller",

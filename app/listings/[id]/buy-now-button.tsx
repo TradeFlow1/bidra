@@ -20,14 +20,14 @@ export default function BuyNowButton({ listingId }: { listingId: string }) {
 
       // Professional UX: if logged out, send user to sign-in with a return path.
       if (res.status === 401) {
-        setMsg("Please sign in to Buy Now.");
+        setMsg("Please sign in to Buy now.");
         const next = encodeURIComponent(`/listings/${listingId}`);
         window.location.href = `/auth/login?next=${next}`;
         return;
       }
 
       if (!res.ok) {
-        setMsg(data?.error || "Buy Now failed.");
+        setMsg(data?.error || "Buy now failed.");
         return;
       }
 
@@ -39,7 +39,7 @@ export default function BuyNowButton({ listingId }: { listingId: string }) {
 
       setMsg("Sold item created. Opening order details so buyer and seller can confirm next steps.");
     } catch {
-      setMsg("Buy Now could not be completed. Please try again.");
+      setMsg("Buy now could not be completed. Please try again.");
     } finally {
       setLoading(false);
     }

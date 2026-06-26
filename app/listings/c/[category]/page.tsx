@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!category) return {};
 
   const title = `${category.label} listings | Bidra`;
-  const description = `Browse active ${category.label} listings on Bidra by location, price, condition, and seller trust signals. Buy Now or make offers with handover details kept in Messages.`;
+  const description = `Browse active ${category.label} listings on Bidra by location, price, condition, and seller trust signals. Buy now or make offers with handover details kept in Messages.`;
   const canonicalPath = `/listings/c/${category.slug}`;
   const url = `${getSiteUrl()}${canonicalPath}`;
 
@@ -63,7 +63,7 @@ export default async function CategorySeoPage({ params }: Props) {
         <BackButton href="/listings" label="Back to listings" />
         <section className="mt-4 rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-5 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
           <h1 className="text-4xl font-black tracking-[-0.055em] text-[#07152E] sm:text-6xl">{category.label} listings</h1>
-          <p className="mt-2 text-sm text-[#475569]">Browse active {category.label} listings on Bidra by location, price, condition, and seller trust signals. Buy Now or make offers, then keep pickup, postage, and handover details in Messages.</p>
+          <p className="mt-2 text-sm text-[#475569]">Browse active {category.label} listings on Bidra by location, price, condition, and seller trust signals. Buy now or make offers, then keep pickup, postage, and handover details in Messages.</p>
           <div className="mt-4">
             <div className="flex flex-wrap gap-2"><Link href="/listings" className="bd-btn bd-btn-secondary text-center">Back to all listings</Link><Link href="/sell/new" className="bd-btn bd-btn-primary text-center">List in this category</Link></div>
           </div>

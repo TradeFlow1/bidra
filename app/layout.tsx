@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import "./globals.css";
 import "../styles/bidra-v2-premium-final.css";
 import SiteHeader from "@/components/site-header";
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     default: "Bidra | Australian marketplace for local buying and selling",
     template: "%s | Bidra",
   },
-  description: "Discover active Australian marketplace listings by category, suburb, city, and postcode. Buy Now or make offers while keeping pickup, postage, and handover details in Bidra Messages.",
+  description: "Discover active Australian marketplace listings by category, suburb, city, and postcode. Buy now or make offers while keeping pickup, postage, and handover details in Bidra Messages.",
   alternates: {
     canonical: "/",
   },

@@ -47,14 +47,29 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-black tracking-[-0.04em] text-[#0F172A] sm:text-5xl">Sign in</h1>
-        <p className="mt-3 text-lg font-extrabold text-[#0F172A]">Access your Bidra account.</p>
-      </div>
+    <main className="bg-[#FBF9FF] px-4 py-6 text-[#120724] sm:px-6 lg:px-8">
+      <div className="mx-auto grid w-full max-w-[1180px] overflow-hidden rounded-[34px] border border-[#EDE9FE] bg-white shadow-[0_28px_90px_rgba(43,16,85,0.12)] lg:grid-cols-[0.9fr_1.1fr]">
+        <section className="relative overflow-hidden bg-[#120724] p-7 text-white sm:p-10">
+          <div className="absolute inset-0 bg-[radial-gradient(680px_300px_at_82%_0%,rgba(124,58,237,0.28),transparent_68%),linear-gradient(135deg,#10061F_0%,#160A2A_58%,#21103C_100%)]" />
+          <div className="relative flex min-h-[360px] flex-col justify-between">
+            <div>
+              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#C4B5FD]">Account</div>
+              <h1 className="mt-4 max-w-lg text-5xl font-black leading-[0.95] tracking-[-0.06em] sm:text-6xl">Welcome back.</h1>
+              <p className="mt-4 max-w-md text-base font-semibold leading-7 text-white/72">Open saved listings, messages, orders and seller tools.</p>
+            </div>
+            <div className="mt-8 grid gap-3 text-sm font-bold text-white/78 sm:grid-cols-3 lg:grid-cols-1">
+              <div className="rounded-2xl border border-white/10 bg-white/8 px-4 py-3">Saved listings</div>
+              <div className="rounded-2xl border border-white/10 bg-white/8 px-4 py-3">Messages</div>
+              <div className="rounded-2xl border border-white/10 bg-white/8 px-4 py-3">Orders</div>
+            </div>
+          </div>
+        </section>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <section className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-[0_14px_45px_rgba(28,50,84,0.08)] sm:p-8">
+        <section className="p-5 sm:p-8 lg:p-10">
+          <div className="mb-7">
+            <h2 className="text-3xl font-black tracking-[-0.045em] text-[#120724]">Sign in</h2>
+            <p className="mt-2 text-sm font-semibold text-[#62516F]">Use your email and password to continue.</p>
+          </div>
           <form onSubmit={onSubmit} className="space-y-5">
             <label className="block">
               <span className="text-sm font-black text-[#0F172A]">Email</span>
@@ -104,25 +119,19 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className="mt-6 text-center text-sm font-semibold text-[#64748B]">
+          <p className="mt-6 text-center text-sm font-semibold text-[#62516F]">
             New to Bidra?{" "}
-            <Link href="/auth/register" className="font-black text-[#4F46E5]">Create an account</Link>
+            <Link href="/auth/register" className="font-black text-[#5B21B6]">Create an account</Link>
           </p>
         </section>
-
-        <aside className="grid gap-4">
-          <Link href="/auth/register" className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm transition hover:bg-[#F8FAFC]">
-            <div className="grid h-10 w-10 place-items-center rounded-2xl bg-[#EEF2FF] text-xl font-black text-[#4F46E5]">+</div>
-            <h2 className="mt-5 text-lg font-black text-[#0F172A]">Create an account</h2>
-            <p className="mt-2 text-sm font-semibold leading-6 text-[#64748B]">Join Bidra to buy, sell and message local users.</p>
-          </Link>
-
-          <Link href="/forgot-password" className="rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm transition hover:bg-[#F8FAFC]">
-            <div className="grid h-10 w-10 place-items-center rounded-2xl bg-[#EEF2FF] text-xl font-black text-[#4F46E5]">?</div>
-            <h2 className="mt-5 text-lg font-black text-[#0F172A]">Forgot password</h2>
-            <p className="mt-2 text-sm font-semibold leading-6 text-[#64748B]">Reset your password and get back into your account.</p>
-          </Link>
-        </aside>
+      </div>
+      <div className="mx-auto mt-4 flex w-full max-w-[1180px] flex-col gap-3 sm:flex-row">
+        <Link href="/auth/register" className="flex min-h-14 flex-1 items-center justify-between rounded-2xl border border-[#EDE9FE] bg-white px-5 text-sm font-black text-[#120724] shadow-sm hover:bg-[#F5F3FF]">
+          Create an account <span className="text-[#7C3AED]">Join</span>
+        </Link>
+        <Link href="/forgot-password" className="flex min-h-14 flex-1 items-center justify-between rounded-2xl border border-[#EDE9FE] bg-white px-5 text-sm font-black text-[#120724] shadow-sm hover:bg-[#F5F3FF]">
+          Forgot password <span className="text-[#7C3AED]">Reset</span>
+        </Link>
       </div>
     </main>
   );

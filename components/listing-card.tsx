@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -186,7 +186,7 @@ export default function ListingCard({
       <div className="overflow-hidden bg-white">
         <div className="relative aspect-[1/0.92] overflow-hidden bg-[#FBF9FF]" style={{ position: "relative", aspectRatio: "1 / 0.92", width: "100%", maxWidth: "100%", overflow: "hidden", background: "#FBF9FF" }}>
           {isNoPhotos ? (
-            <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="No photo" />
+            <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Photo coming soon" />
           ) : (
             <Image
               src={fallback}

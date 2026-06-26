@@ -109,7 +109,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
     ((isBuyer && !!order.buyerFeedbackAt) || (isSeller && !!order.sellerFeedbackAt));
   const primaryNextAction = order.outcome === "COMPLETED"
     ? (canLeave ? "Share feedback for this completed order." : "Feedback has been submitted.")
-    : "Buy Now is committed. Arrange payment, pickup/postage and handover in Messages.";
+    : "Buy now is committed. Arrange payment, pickup/postage and handover in Messages.";
   const primaryNextHref = order.outcome === "COMPLETED" ? feedbackHref : messageHref;
   const primaryNextLabel = order.outcome === "COMPLETED" ? "Feedback" : (isBuyer ? "Message seller" : "Message buyer");
 
@@ -130,7 +130,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
               </div>
               <h1 className="mt-4 text-3xl font-black leading-[1.05] tracking-[-0.055em] text-[#120724] sm:text-4xl">{order.listing?.title ?? "Purchased item"}</h1>
               <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-[#62516F] sm:text-base">
-                This Buy Now order is a committed purchase. Use Messages to arrange payment, pickup/postage and handover.
+                This Buy now order is a committed purchase. Use Messages to arrange payment, pickup/postage and handover.
               </p>
               <div className="mt-5 rounded-[22px] border border-[#EDE9FE] bg-white/90 px-4 py-3 text-sm leading-6 text-[#3B254F] shadow-sm ring-1 ring-white/70">
                 <div className="text-[11px] font-black uppercase tracking-[0.14em] text-[#6D28D9]">Next action</div>
@@ -183,7 +183,7 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           <Card className="rounded-[26px] border border-[#EDE9FE] bg-white p-4 shadow-[0_16px_44px_rgba(43,16,85,0.06)] sm:p-5">
             <div className="text-lg font-black tracking-[-0.02em] text-[#120724]">Order checklist</div>
             <ul className="mt-3 list-disc space-y-2 pl-5 text-sm font-semibold leading-6 text-[#62516F]">
-              <li>Buy Now means the item has been bought and removed from sale.</li>
+              <li>Buy now means the item has been bought and removed from sale.</li>
               <li>Use Messages to arrange payment, pickup/postage and handover.</li>
               <li>Report no-shows or flaky behaviour from the order if handover breaks down.</li>
             </ul>

@@ -181,9 +181,9 @@ export async function POST(req: Request) {
       if (durationDaysIn === null || Number.isNaN(durationDaysIn) || !(durationDaysIn === 3 || durationDaysIn === 5 || durationDaysIn === 7)) return NextResponse.json({ error: "Timed offers duration must be 3, 5, or 7 days." }, { status: 400 });
     }
 
-    if (Number.isNaN(buyNowPriceIn)) return NextResponse.json({ error: "Buy Now must be a number or blank." }, { status: 400 });
-    if (type === "OFFERABLE" && buyNowPriceIn !== null && buyNowPriceIn <= 0) return NextResponse.json({ error: "Buy Now must be greater than 0 (or blank)." }, { status: 400 });
-    if (type === "OFFERABLE" && buyNowPriceIn !== null && buyNowPriceIn < priceIn) return NextResponse.json({ error: "Buy Now must be at least the starting offer." }, { status: 400 });
+    if (Number.isNaN(buyNowPriceIn)) return NextResponse.json({ error: "Buy now must be a number or blank." }, { status: 400 });
+    if (type === "OFFERABLE" && buyNowPriceIn !== null && buyNowPriceIn <= 0) return NextResponse.json({ error: "Buy now must be greater than 0 (or blank)." }, { status: 400 });
+    if (type === "OFFERABLE" && buyNowPriceIn !== null && buyNowPriceIn < priceIn) return NextResponse.json({ error: "Buy now must be at least the starting offer." }, { status: 400 });
 
     if (images.some(function (img: any) {
       const s = String((img && img.url) || "").toLowerCase();

@@ -6,8 +6,8 @@ const steps = [
     body: "Use category, price and location filters to find items near you. Check the photos, condition, location and seller profile before deciding.",
   },
   {
-    title: "2. Choose Buy Now or Make an Offer",
-    body: "Buy Now is for committing to the listed price. Make an Offer is for negotiating before a seller accepts. Do not commit unless you intend to follow through.",
+    title: "2. Choose Buy now or Make an Offer",
+    body: "Buy now is for committing to the listed price. Make an Offer is for negotiating before a seller accepts. Do not commit unless you intend to follow through.",
   },
   {
     title: "3. Keep messages on Bidra",
@@ -20,7 +20,7 @@ const steps = [
 ];
 
 const rules = [
-  "Buy Now means bought. The item should be treated as committed once confirmed.",
+  "Buy now means bought. The item should be treated as committed once confirmed.",
   "No-shows and flaky behaviour can be reported and reviewed.",
   "Sellers should describe items honestly and set pickup or postage expectations early.",
   "Buyers should ask questions before committing, not after.",
@@ -62,7 +62,7 @@ export default function HowItWorksPage() {
         <section className="mt-8 grid gap-5 lg:grid-cols-[1fr_360px]">
           <article className="rounded-[28px] border border-[#D8E1F0] bg-[#F8FAFC] p-6">
             <h2 className="text-2xl font-black tracking-[-0.04em] text-[#07152E]">The important part</h2>
-            <p className="mt-3 text-sm font-semibold leading-7 text-[#475569]">Bidra is not designed for casual holds where buyers can click now and decide later. A confirmed Buy Now should remove uncertainty for the seller and create a clear next step for both sides.</p>
+            <p className="mt-3 text-sm font-semibold leading-7 text-[#475569]">Bidra is not designed for casual holds where buyers can click now and decide later. A confirmed Buy now should remove uncertainty for the seller and create a clear next step for both sides.</p>
           </article>
 
           <aside className="rounded-[28px] border border-[#D8E1F0] bg-white p-5 shadow-sm">

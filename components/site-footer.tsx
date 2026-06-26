@@ -1,9 +1,9 @@
 ﻿import Link from "next/link";
 import BrandLogo from "./brand-logo";
-const buyLinks = [["Browse all", "/listings"], ["Buy now", "/listings?type=BUY_NOW"], ["Make an offer", "/listings?type=OFFERABLE"], ["Wanted ads", "/wanted"]];
-const sellLinks = [["Sell your item", "/sell/new"], ["Bulk listing", "/sell/bulk"], ["Pricing", "/pricing"], ["How it works", "/how-it-works"]];
-const supportLinks = [["Help centre", "/help"], ["Contact", "/contact"], ["Safety", "/support"], ["Messages", "/messages"]];
-const legalLinks = [["Terms", "/legal/terms"], ["Privacy", "/legal/privacy"], ["Fees", "/legal/fees"], ["Prohibited items", "/legal/prohibited-items"]];
+const buyLinks = [["Browse", "/listings"], ["Buy now", "/listings?type=BUY_NOW"], ["Make an offer", "/listings?type=OFFERABLE"]];
+const sellLinks = [["Sell", "/sell/new"], ["Pricing", "/pricing"]];
+const supportLinks = [["Help", "/help"], ["Safety", "/support"], ["Contact", "/contact"]];
+const legalLinks = [["Privacy", "/legal/privacy"], ["Terms", "/legal/terms"], ["Prohibited items", "/legal/prohibited-items"]];
 function FooterColumn({ title, links }: { title: string; links: string[][] }) {
   return <div><h2 className="text-sm font-black uppercase tracking-[0.18em] text-[#C4B5FD]">{title}</h2><div className="mt-5 grid gap-3">{links.map(([label, href]) => <Link key={href + label} href={href} className="text-sm font-semibold text-white/72 transition hover:text-white">{label}</Link>)}</div></div>;
 }
@@ -14,13 +14,13 @@ export default function SiteFooter() {
         <div className="grid gap-10 lg:grid-cols-[1.3fr_0.85fr_0.85fr_0.85fr_0.85fr_1.25fr]">
           <div>
             <Link href="/" aria-label="Bidra home"><BrandLogo tone="light" /></Link>
-            <p className="mt-5 max-w-xs text-sm font-semibold leading-7 text-white/70">Australia&apos;s premium marketplace for buying, selling and discovering serious local deals.</p>
+            <p className="mt-5 max-w-xs text-sm font-semibold leading-7 text-white/70">Australia&apos;s premium peer-to-peer marketplace for serious local deals.</p>
             <div className="mt-6 grid gap-3 text-xs font-bold text-white/64">
               <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">Australian marketplace</div>
               <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">Secure messaging and clear handover records</div>
             </div>
           </div>
-          <FooterColumn title="Buy" links={buyLinks} />
+          <FooterColumn title="Browse" links={buyLinks} />
           <FooterColumn title="Sell" links={sellLinks} />
           <FooterColumn title="Support" links={supportLinks} />
           <FooterColumn title="Legal" links={legalLinks} />

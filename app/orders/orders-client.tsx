@@ -191,7 +191,7 @@ export function OrdersClient() {
           <BidraPageHeader
             eyebrow="Orders"
             title="Your orders"
-            description="Buy Now is a committed purchase. Track payment, pickup/postage, handover and order history."
+            description="Buy now is a committed purchase. Track payment, pickup/postage, handover and order history."
             actions={<BidraButton href="/listings" variant="secondary">Browse listings</BidraButton>}
           />
         </div>

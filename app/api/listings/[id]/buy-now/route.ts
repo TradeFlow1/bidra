@@ -14,13 +14,13 @@ function jsonError(message: string, status = 400) {
 export async function POST(_req: Request, ctx: { params: { id: string } }) {
   try {
     const session = await auth();
-    if (!session?.user?.id) return jsonError("Sign in required before using Buy Now.", 401);
+    if (!session?.user?.id) return jsonError("Sign in required before using Buy now.", 401);
 
     const adult = await requireAdult(session);
-    if (!adult.ok) return jsonError("Your account is not eligible to use Buy Now.", 403);
+    if (!adult.ok) return jsonError("Your account is not eligible to use Buy now.", 403);
 
     const id = String(ctx?.params?.id || "").trim();
-    if (!id) return jsonError("Listing id is required before using Buy Now.", 400);
+    if (!id) return jsonError("Listing id is required before using Buy now.", 400);
 
     const listing = await prisma.listing.findUnique({
       where: { id: id },
@@ -30,23 +30,23 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
     });
 
     if (!listing) return jsonError("Listing not found.", 404);
-    if (listing.status !== "ACTIVE") return jsonError("Buy Now is only available on active listings.", 400);
+    if (listing.status !== "ACTIVE") return jsonError("Buy now is only available on active listings.", 400);
 
     const amount = listing.type === "BUY_NOW"
       ? listing.price
       : (typeof listing.buyNowPrice === "number" ? listing.buyNowPrice : null);
 
     if (amount === null) {
-      return jsonError("Buy Now is not available for this listing.", 400);
+      return jsonError("Buy now is not available for this listing.", 400);
     }
 
     const highestOffer = listing.offers?.length ? listing.offers[0].amount : 0;
     if (highestOffer >= amount) {
-      return jsonError("Buy Now is no longer available.", 400);
+      return jsonError("Buy now is no longer available.", 400);
     }
 
     if (listing.sellerId === session.user.id) {
-      return jsonError("You cannot Buy Now your own listing.", 400);
+      return jsonError("You cannot Buy now your own listing.", 400);
     }
 
 
@@ -138,10 +138,10 @@ export async function POST(_req: Request, ctx: { params: { id: string } }) {
       reusedExistingOrder: !!result.reusedExistingOrder,
     });
   } catch (e: any) {
-    console.error("Buy Now error:", e);
+    console.error("Buy now error:", e);
 
     if (e?.message === "LISTING_NOT_ACTIVE") {
-      return jsonError("Buy Now is no longer available for this listing.", 400);
+      return jsonError("Buy now is no longer available for this listing.", 400);
     }
 
     return jsonError("We could not create the order. Please try again.", 500);

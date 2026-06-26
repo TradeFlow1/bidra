@@ -6,8 +6,8 @@ const values = [
     body: "Bidra keeps listings, offers, messages and handover steps simple so buyers and sellers know what happens next.",
   },
   {
-    title: "Buy Now means committed",
-    body: "The marketplace is designed to reduce flaky behaviour. A confirmed Buy Now should be treated as bought, not as a casual hold.",
+    title: "Buy now means committed",
+    body: "The marketplace is designed to reduce flaky behaviour. A confirmed Buy now should be treated as bought, not as a casual hold.",
   },
   {
     title: "Offers without confusion",
@@ -54,7 +54,7 @@ export default function AboutPage() {
 
         <section className="mt-8 rounded-[28px] border border-[#D8E1F0] bg-[#F8FAFC] p-6">
           <h2 className="text-2xl font-black tracking-[-0.04em] text-[#07152E]">Built for practical local trading</h2>
-          <p className="mt-3 max-w-3xl text-sm font-semibold leading-7 text-[#475569]">Bidra focuses on the core marketplace experience first: useful listings, straightforward offers, committed Buy Now purchases, messaging, reporting and handover guidance.</p>
+          <p className="mt-3 max-w-3xl text-sm font-semibold leading-7 text-[#475569]">Bidra focuses on the core marketplace experience first: useful listings, straightforward offers, committed Buy now purchases, messaging, reporting and handover guidance.</p>
         </section>
       </div>
     </main>

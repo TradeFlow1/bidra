@@ -50,7 +50,7 @@ export default function PromotedListingsRail({ listings }: { listings: PromotedL
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={image} alt="" className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]" />
                 ) : (
-                  <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="No photo" />
+                  <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Photo coming soon" />
                 )}
                 <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-[#4F46E5] shadow-sm">Promoted</span>
               </div>

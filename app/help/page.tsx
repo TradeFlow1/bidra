@@ -6,7 +6,7 @@ const helpSections = [
     body: "Open a listing, check the photos, description, condition, location and seller details. If the item suits you, use Buy now for a committed purchase or Make an offer when offers are available.",
   },
   {
-    title: "Buy Now means bought",
+    title: "Buy now means bought",
     body: "When you click Buy now and confirm, the item is treated as bought and removed from active sale. Do not use Buy now unless you intend to follow through with payment and handover.",
   },
   {

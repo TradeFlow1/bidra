@@ -13,7 +13,7 @@ const feedbackOptions = [
   },
   {
     title: "Get help using Bidra",
-    body: "Read practical help for buying, Buy Now commitments, offers, messages, selling and account setup.",
+    body: "Read practical help for buying, Buy now commitments, offers, messages, selling and account setup.",
     href: "/help",
   },
   {

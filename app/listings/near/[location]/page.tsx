@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const placeLabel = location.state ? `${location.label}, ${location.state}` : location.label;
   const title = `Marketplace listings near ${placeLabel} | Bidra`;
-  const description = `Browse active marketplace listings near ${placeLabel} on Bidra. Find Buy Now and offer listings with seller trust signals and clear pickup, postage or handover guidance.`;
+  const description = `Browse active marketplace listings near ${placeLabel} on Bidra. Find Buy now and offer listings with seller trust signals and clear pickup, postage or handover guidance.`;
   const canonicalPath = `/listings/near/${location.slug}`;
   const url = `${getSiteUrl()}${canonicalPath}`;
 

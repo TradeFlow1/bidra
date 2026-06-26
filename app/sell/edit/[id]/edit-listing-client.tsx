@@ -74,7 +74,7 @@ export default function EditListingClient({ listing }: { listing: ListingSeed })
   const [price, setPrice] = useState(String(listing.priceDollars || ""));
   const [status, setStatus] = useState<SellerStatus>(normalizeStatus(listing.status));
 
-  // Kevin timed-offers: late-stage Buy Now reveal (seller-controlled)
+  // Kevin timed-offers: late-stage Buy now reveal (seller-controlled)
   const isTimedOffers = isTimedOffersType((listing as unknown as { type?: string }).type);
   const hoursLeft = useMemo(() => { const v = (listing as unknown as { endsAt?: string | Date | null | undefined }).endsAt; return hoursUntilIso(v instanceof Date ? v.toISOString() : (typeof v === "string" ? v : null)); }, [listing]);
   const inFinal24h = !!(isTimedOffers && typeof hoursLeft === "number" && hoursLeft > 0 && hoursLeft <= 24);
@@ -117,9 +117,9 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
   const previews = useMemo(() => {
     return files.slice(0, 10).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
   }, [files]);
-  const reviewSaleType = isTimedOffers ? "Make Offer (timed offers)" : "Buy Now";
+  const reviewSaleType = isTimedOffers ? "Make an offer (timed offers)" : "Buy now";
   const reviewPrice = isTimedOffers
-    ? `${price ? `$${price} current` : "Not set"}${buyNowEnabled && buyNow ? ` · Buy Now $${buyNow}` : ""}`
+    ? `${price ? `$${price} current` : "Not set"}${buyNowEnabled && buyNow ? ` · Buy now $${buyNow}` : ""}`
     : (price ? `$${price}` : "Not set");
 
   async function uploadAndAppend(nextFiles: File[]) {
@@ -180,13 +180,13 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
     const total = (existingImages?.length || 0) + (files?.length || 0);
     if (total > 10) return "Too many images (max 10 total).";
 
-    // Late-stage Buy Now: allow blank to clear, but validate if provided
+    // Late-stage Buy now: allow blank to clear, but validate if provided
     if (isTimedOffers) {
       const s = String(buyNow ?? "").trim();
       if (s) {
         const n = Number(s);
-        if (!Number.isFinite(n)) return "Buy Now must be a number.";
-        if (n <= 0) return "Buy Now must be greater than $0.";
+        if (!Number.isFinite(n)) return "Buy now must be a number.";
+        if (n <= 0) return "Buy now must be greater than $0.";
       }
     }
 
@@ -401,7 +401,7 @@ const [buyNowEnabled, setBuyNowEnabled] = useState<boolean>(((listing as unknown
                     images: (existingImages || []).filter(Boolean).slice(0, 10),
                     status,
 
-                    // Kevin timed-offers: seller-controlled late Buy Now reveal
+                    // Kevin timed-offers: seller-controlled late Buy now reveal
 buyNowPrice:
   isTimedOffers
     ? (!buyNowEnabled
@@ -510,7 +510,7 @@ buyNowPrice:
 
               {isTimedOffers ? (
                 <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] p-3">
-                  <div className="text-sm font-extrabold bd-ink">Buy Now option</div>
+                  <div className="text-sm font-extrabold bd-ink">Buy now option</div>
 
                   
   <div className="mt-3 flex items-center gap-2">
@@ -523,11 +523,11 @@ buyNowPrice:
       disabled={isSaving}
     />
     <label htmlFor="buyNowEnabled" className="text-sm font-extrabold bd-ink">
-      Enable Buy Now
+      Enable Buy now
     </label>
   </div>
 <div className="mt-3 grid gap-2">
-                    <label className="text-sm font-extrabold bd-ink">Buy Now price (AUD)</label>
+                    <label className="text-sm font-extrabold bd-ink">Buy now price (AUD)</label>
                     <input
                       className="bd-input mt-1 w-full"
                       value={buyNow}
@@ -545,7 +545,7 @@ buyNowPrice:
                     {!inFinal24h ? (
                       <div className="text-xs bd-ink2">Available near the end of the listing.</div>
                     ) : (
-                      <div className="text-xs bd-ink2">Clear the price to remove Buy Now.</div>
+                      <div className="text-xs bd-ink2">Clear the price to remove Buy now.</div>
                     )}
                   </div>
                 </div>
@@ -598,7 +598,7 @@ buyNowPrice:
                     ))}
                   </div>
                 ) : (
-                  <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold bd-ink2">No photos yet.</div>
+                  <div className="rounded-[20px] border border-[#D8E1F0] bg-[#F8FAFC] px-4 py-3 text-sm font-semibold bd-ink2">Photos coming soon.</div>
                 )}
 
                 <div className="grid gap-2 pt-1">
