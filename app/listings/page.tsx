@@ -101,6 +101,33 @@ function handoverLabel(value: string | null | undefined) {
   return "Pickup";
 }
 
+function suburbLabel(value: string | null | undefined) {
+  const raw = String(value || "").replace(/\s+/g, " ").trim();
+  if (!raw) return "Australia";
+  const first = raw.split(",")[0]?.trim() || raw;
+  return first.replace(/^\d{4}\s+/, "").trim() || raw;
+}
+
+function timeRemaining(value: Date | string | null | undefined) {
+  if (!value) return "";
+  const end = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(end.getTime())) return "";
+  const ms = end.getTime() - Date.now();
+  if (ms <= 0) return "Ended";
+  const hours = Math.floor(ms / 3600000);
+  const days = Math.floor(hours / 24);
+  if (days > 0) return `${days}d left`;
+  if (hours > 0) return `${hours}h left`;
+  return "Closing soon";
+}
+
+function sellerTrustLabel(seller: { emailVerified?: boolean | null; phoneVerified?: boolean | null; createdAt?: Date | null } | null | undefined) {
+  if (seller?.emailVerified && seller?.phoneVerified) return "Verified seller";
+  if (seller?.emailVerified || seller?.phoneVerified) return "Verified profile";
+  if (seller?.createdAt) return "Seller profile";
+  return "Bidra seller";
+}
+
 export default async function ListingsPage({ searchParams = {} }: ListingsPageProps) {
   await getServerSession(authOptions);
 
@@ -220,6 +247,9 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
         fulfillmentType: true,
         category: true,
         createdAt: true,
+        offers: { orderBy: { amount: "desc" }, take: 1, select: { amount: true, expiresAt: true } },
+        _count: { select: { offers: true } },
+        seller: { select: { username: true, name: true, createdAt: true, emailVerified: true, phoneVerified: true } },
       },
     }),
     canApplyRadius ? Promise.resolve(0) : prisma.listing.count({ where }),
@@ -407,6 +437,11 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                   const price = listing.buyNowPrice ?? listing.price;
                   const typeLabel = saleTypeLabel(listing.type, listing.buyNowPrice);
                   const handover = handoverLabel(listing.fulfillmentType);
+                  const offerCount = listing._count?.offers ?? 0;
+                  const remaining = timeRemaining(listing.offers?.[0]?.expiresAt ?? null);
+                  const sellerName = listing.seller?.name || listing.seller?.username || "Bidra seller";
+                  const trustLabel = sellerTrustLabel(listing.seller);
+                  const place = suburbLabel(listing.location);
 
                   return (
                     <Link
@@ -425,7 +460,9 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                             unoptimized
                           />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center text-lg font-black text-[#7C3AED]">Bidra</div>
+                          <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_55%,#F5F3FF_100%)]">
+                            <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={82} height={82} unoptimized className="h-14 w-14 opacity-80" />
+                          </div>
                         )}
                         <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#5B21B6] shadow-sm ring-1 ring-[#DDD6FE]">{typeLabel}</span>
                         <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#2437FF] shadow-sm hover:bg-[#F8FAFC]" aria-hidden="true">
@@ -440,10 +477,16 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                         <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#5B21B6]">
                           <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{handover}</span>
                           {listing.condition ? <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{String(listing.condition).replace(/_/g, " ")}</span> : null}
+                          {listing.type === "OFFERABLE" ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">{offerCount} offers</span> : null}
+                          {remaining ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">{remaining}</span> : null}
                         </div>
                         <div className="mt-5 flex items-center justify-between gap-3 text-xs font-semibold text-[#62516F]">
-                          <span className="truncate">{listing.location}</span>
+                          <span className="truncate">{place}</span>
                           <span>{formatAge(listing.createdAt)}</span>
+                        </div>
+                        <div className="mt-3 border-t border-[#F0EAFE] pt-3 text-xs font-bold leading-5 text-[#62516F]">
+                          <div className="truncate text-[#3B254F]">{sellerName}</div>
+                          <div className="truncate">{trustLabel}</div>
                         </div>
                       </div>
                     </Link>
@@ -568,6 +611,11 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                 const price = listing.buyNowPrice ?? listing.price;
                 const typeLabel = saleTypeLabel(listing.type, listing.buyNowPrice);
                 const handover = handoverLabel(listing.fulfillmentType);
+                const offerCount = listing._count?.offers ?? 0;
+                const remaining = timeRemaining(listing.offers?.[0]?.expiresAt ?? null);
+                const sellerName = listing.seller?.name || listing.seller?.username || "Bidra seller";
+                const trustLabel = sellerTrustLabel(listing.seller);
+                const place = suburbLabel(listing.location);
 
                 return (
                   <Link key={listing.id} href={"/listings/" + listing.id} className="block overflow-hidden rounded-[28px] border border-[#EDE9FE] bg-white shadow-[0_16px_38px_rgba(43,16,85,0.08)] active:scale-[0.995]">
@@ -575,9 +623,12 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                       {image ? (
                         <Image src={image} alt={listing.title} fill sizes="100vw" className="object-cover" />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center text-4xl font-black text-[#7C3AED]">Bidra</div>
+                        <div className="flex h-full w-full items-center justify-center bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_55%,#F5F3FF_100%)]">
+                          <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={86} height={86} unoptimized className="h-16 w-16 opacity-80" />
+                        </div>
                       )}
                       <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#5B21B6] shadow-sm ring-1 ring-[#DDD6FE]">{typeLabel}</span>
+                      {remaining ? <span className="absolute bottom-3 left-3 rounded-full bg-[#120724]/92 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-white shadow-sm">{remaining}</span> : null}
                     </div>
                     <div className="p-4">
                       <div className="flex items-start justify-between gap-3">
@@ -590,8 +641,13 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                       <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#3730A3]">
                         <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{handover}</span>
                         {listing.condition ? <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{String(listing.condition).replace(/_/g, " ")}</span> : null}
+                        {listing.type === "OFFERABLE" ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">{offerCount} offers</span> : null}
                       </div>
-                      <p className="mt-3 truncate text-sm font-bold text-[#62516F]">{listing.location || "Australia"}</p>
+                      <div className="mt-3 flex items-center justify-between gap-3 text-sm font-bold text-[#62516F]">
+                        <span className="min-w-0 truncate">{place}</span>
+                        <span className="shrink-0">{trustLabel}</span>
+                      </div>
+                      <p className="mt-1 truncate text-xs font-bold text-[#8B7A98]">{sellerName}</p>
                     </div>
                   </Link>
                 );

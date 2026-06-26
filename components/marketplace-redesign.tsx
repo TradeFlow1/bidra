@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type React from "react";
-import { MarketplaceIcon, ProductPlaceholder } from "@/components/marketplace-ui";
+import { MarketplaceIcon } from "@/components/marketplace-ui";
 import { cn } from "@/lib/utils";
 
 type MarketplaceIconName = React.ComponentProps<typeof MarketplaceIcon>["name"];
@@ -11,6 +11,11 @@ type FeaturedHeroListing = {
   title: string;
   category: string;
   price: number;
+  location?: string | null;
+  type?: string | null;
+  offerCount?: number | null;
+  endsAt?: string | Date | null;
+  sellerName?: string | null;
   imageUrl?: string | null;
 };
 
@@ -46,15 +51,6 @@ const iconAliases: Record<string, MarketplaceIconName> = {
   vehicles: "browse",
 };
 
-const fallbackProducts: FeaturedHeroListing[] = [
-  { id: "fallback-tools", title: "Trade-ready tool kit", category: "Tools", price: 650 },
-  { id: "fallback-bike", title: "Weekend road bike", category: "Sports", price: 420 },
-  { id: "fallback-camera", title: "Mirrorless camera kit", category: "Electronics", price: 880 },
-  { id: "fallback-sofa", title: "Designer lounge", category: "Home", price: 1200 },
-];
-
-const placeholderKinds = ["laptop", "bicycle", "camera", "sofa"] as const;
-
 export const appShell = "mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8 xl:px-10";
 export const appNarrowShell = "mx-auto w-full max-w-[1180px] px-4 sm:px-6 lg:px-8";
 
@@ -66,6 +62,31 @@ function formatMoney(cents: number | null | undefined) {
     currency: "AUD",
     maximumFractionDigits: 0,
   });
+}
+
+function compactLocation(value?: string | null) {
+  const raw = String(value || "").replace(/\s+/g, " ").trim();
+  if (!raw) return "Australia";
+  const first = raw.split(",")[0]?.trim() || raw;
+  return first.replace(/^\d{4}\s+/, "").trim() || raw;
+}
+
+function compactTimeRemaining(value?: string | Date | null) {
+  if (!value) return "";
+  const end = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(end.getTime())) return "";
+  const ms = end.getTime() - Date.now();
+  if (ms <= 0) return "Ended";
+  const hours = Math.floor(ms / 3600000);
+  const days = Math.floor(hours / 24);
+  if (days > 0) return `${days}d left`;
+  if (hours > 0) return `${hours}h left`;
+  return "Closing soon";
+}
+
+function heroSaleType(item: FeaturedHeroListing) {
+  if (item.type === "OFFERABLE") return typeof item.offerCount === "number" && item.offerCount > 0 ? `${item.offerCount} offers` : "Make Offer";
+  return "Buy Now";
 }
 
 export function normaliseMarketplaceIcon(icon?: string | null): MarketplaceIconName {
@@ -199,15 +220,15 @@ export function HomeHero({
       <div className="relative grid gap-8 p-5 sm:p-7 lg:grid-cols-[minmax(0,1fr)_520px] lg:p-10 xl:p-12">
         <div className="flex min-h-[500px] flex-col justify-center">
           <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#DDD6FE] bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#6D28D9] shadow-sm">
-            Premium Australian marketplace
+            Live Australian marketplace
           </div>
 
           <h1 className="mt-6 max-w-3xl text-[44px] font-black leading-[0.92] tracking-[-0.065em] text-[#120724] sm:text-6xl lg:text-7xl">
-            Buy and sell with confidence.
+            Search serious listings before you commit.
           </h1>
 
           <p className="mt-5 max-w-xl text-base font-semibold leading-8 text-[#62516F] sm:text-lg">
-            Bidra brings serious listings, clear offers and secure messaging into one clean marketplace built for Australia.
+            Bidra brings real listings, seller context, clear offers and marketplace messages into one clean buying flow built for Australia.
           </p>
 
           <div className="mt-7 rounded-[24px] border border-[#DDD6FE] bg-white p-3 shadow-[0_18px_50px_rgba(43,16,85,0.08)]">
@@ -221,6 +242,13 @@ export function HomeHero({
                 Search Bidra
               </button>
             </form>
+            <div className="mt-3 flex flex-wrap gap-2 px-1 text-xs font-black text-[#5B21B6]">
+              {["Vehicles", "Tools", "Furniture", "Electronics"].map((item) => (
+                <Link key={item} href={`/listings?category=${encodeURIComponent(item)}`} className="rounded-full border border-[#EDE9FE] bg-[#FBF9FF] px-3 py-1.5 hover:bg-[#F5F3FF]">
+                  {item}
+                </Link>
+              ))}
+            </div>
           </div>
 
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
@@ -250,17 +278,34 @@ export function ProductCollage({
   listings?: FeaturedHeroListing[];
   className?: string;
 }) {
-  const items = [...listings, ...fallbackProducts].slice(0, 4);
+  if (!listings.length) {
+    return (
+      <div className={cn("hidden min-h-[500px] lg:block", className)}>
+        <div className="flex h-full min-h-[500px] flex-col justify-end overflow-hidden rounded-[32px] border border-[#DDD6FE] bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_52%,#F5F3FF_100%)] p-6 shadow-[0_24px_72px_rgba(43,16,85,0.12)]">
+          <div className="mx-auto mb-auto mt-10 flex h-32 w-32 items-center justify-center rounded-[32px] border border-[#EDE9FE] bg-white shadow-[0_18px_50px_rgba(43,16,85,0.08)]">
+            <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={104} height={104} unoptimized className="h-20 w-20 opacity-90" />
+          </div>
+          <div className="rounded-[26px] border border-white/70 bg-white/94 p-5 shadow-lg backdrop-blur">
+            <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#6D28D9]">Live marketplace</div>
+            <h2 className="mt-2 text-2xl font-black tracking-[-0.045em] text-[#120724]">Real listings appear here as inventory goes live.</h2>
+            <p className="mt-2 text-sm font-semibold leading-6 text-[#62516F]">
+              The homepage hero uses active marketplace data only, so buyers see current items rather than decorative mock cards.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const items = listings.slice(0, 4);
 
   return (
     <div className={cn("hidden min-h-[500px] grid-cols-2 gap-4 lg:grid", className)}>
       {items.map((item, index) => {
-        const isFallback = item.id.startsWith("fallback-");
-
         return (
           <Link
             key={item.id}
-            href={isFallback ? "/listings" : `/listings/${item.id}`}
+            href={`/listings/${item.id}`}
             className={cn(
               "group relative overflow-hidden rounded-[28px] border border-white bg-white shadow-[0_22px_65px_rgba(43,16,85,0.16)] transition hover:-translate-y-1 hover:shadow-[0_28px_85px_rgba(43,16,85,0.20)]",
               index === 0 && "mt-8",
@@ -277,14 +322,26 @@ export function ProductCollage({
                   className="object-cover transition duration-300 group-hover:scale-[1.04]"
                 />
               ) : (
-                <ProductPlaceholder kind={placeholderKinds[index] || "generic"} className="h-full min-h-[230px]" />
+                <div className="flex h-full min-h-[230px] items-center justify-center bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_55%,#F5F3FF_100%)]">
+                  <Image src="/brand/bidra-child-drawing-mark.svg" alt="" width={88} height={88} unoptimized className="h-16 w-16 opacity-85" />
+                </div>
               )}
             </div>
 
-            <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-white/60 bg-white/92 p-3 shadow-lg backdrop-blur">
-              <div className="text-[10px] font-black uppercase tracking-[0.16em] text-[#6D28D9]">{item.category}</div>
+            <div className="absolute left-3 top-3 rounded-full border border-white/70 bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.12em] text-[#5B21B6] shadow-sm">
+              {heroSaleType(item)}
+            </div>
+
+            <div className="absolute inset-x-3 bottom-3 rounded-2xl border border-white/60 bg-white/94 p-3 shadow-lg backdrop-blur">
+              <div className="flex items-center justify-between gap-3 text-[10px] font-black uppercase tracking-[0.16em] text-[#6D28D9]">
+                <span className="truncate">{item.category}</span>
+                <span className="shrink-0">{compactTimeRemaining(item.endsAt) || compactLocation(item.location)}</span>
+              </div>
               <div className="mt-1 truncate text-sm font-black text-[#120724]">{item.title}</div>
-              <div className="mt-1 text-sm font-black text-[#2B1055]">{formatMoney(item.price)}</div>
+              <div className="mt-1 flex items-center justify-between gap-3">
+                <span className="text-sm font-black text-[#2B1055]">{formatMoney(item.price)}</span>
+                <span className="truncate text-[11px] font-bold text-[#62516F]">{item.sellerName || compactLocation(item.location)}</span>
+              </div>
             </div>
           </Link>
         );

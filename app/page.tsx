@@ -63,9 +63,9 @@ export default async function HomePage() {
         buyNowPrice: true,
         createdAt: true,
         images: true,
-        offers: { orderBy: { amount: "desc" }, take: 1, select: { amount: true } },
+        offers: { orderBy: { amount: "desc" }, take: 1, select: { amount: true, expiresAt: true } },
         _count: { select: { offers: true } },
-        seller: { select: { username: true, name: true, createdAt: true, location: true, emailVerified: true, phone: true } },
+        seller: { select: { username: true, name: true, createdAt: true, location: true, emailVerified: true, phoneVerified: true, phone: true } },
       },
     }),
     promotedListingIds.length
@@ -80,7 +80,10 @@ export default async function HomePage() {
             type: true,
             price: true,
             buyNowPrice: true,
+            createdAt: true,
             images: true,
+            offers: { orderBy: { amount: "desc" }, take: 1, select: { amount: true, expiresAt: true } },
+            _count: { select: { offers: true } },
             seller: { select: { username: true, name: true } },
           },
         })
@@ -171,6 +174,11 @@ export default async function HomePage() {
       title: listing.title,
       category: String(listing.category || "Listing").split(" > ")[0],
       price: Number(listing.type === "OFFERABLE" ? (listing.offers?.[0]?.amount ?? listing.price) : (listing.buyNowPrice ?? listing.price)),
+      location: listing.location,
+      type: listing.type,
+      offerCount: listing._count?.offers ?? 0,
+      endsAt: listing.offers?.[0]?.expiresAt ?? null,
+      sellerName: listing.seller?.name || listing.seller?.username || null,
       imageUrl,
     };
   });
@@ -219,12 +227,14 @@ export default async function HomePage() {
           status: listing.status,
           offerCount: listing._count?.offers ?? 0,
           currentOffer,
+          endsAt: listing.offers?.[0]?.expiresAt ?? null,
           createdAt: listing.createdAt,
           seller: {
             name: listing.seller?.name || listing.seller?.username || null,
             memberSince: listing.seller?.createdAt ?? null,
             location: listing.seller?.location ?? null,
             emailVerified: listing.seller?.emailVerified ?? false,
+            phoneVerified: listing.seller?.phoneVerified ?? false,
             phone: listing.seller?.phone ?? null,
           },
         }}
