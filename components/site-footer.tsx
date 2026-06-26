@@ -9,15 +9,15 @@ function FooterColumn({ title, links }: { title: string; links: string[][] }) {
 }
 export default function SiteFooter() {
   return (
-    <footer className="bd-premium-footer hidden md:block">
-      <div className="mx-auto w-full max-w-[1440px] px-8 py-14">
+    <footer className="bd-premium-footer block">
+      <div className="mx-auto w-full max-w-[1440px] px-4 pb-28 pt-12 sm:px-6 md:px-8 md:pb-14">
         <div className="grid gap-10 lg:grid-cols-[1.3fr_0.85fr_0.85fr_0.85fr_0.85fr_1.25fr]">
           <div>
             <Link href="/" aria-label="Bidra home"><BrandLogo tone="light" /></Link>
-            <p className="mt-5 max-w-xs text-sm font-semibold leading-7 text-white/70">Australia&apos;s premium peer-to-peer marketplace for serious local deals.</p>
+            <p className="mt-5 max-w-xs text-sm font-semibold leading-7 text-white/70">Australia&apos;s premium peer-to-peer marketplace for quality local listings.</p>
             <div className="mt-6 grid gap-3 text-xs font-bold text-white/64">
               <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">Australian marketplace</div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">Secure messaging and clear handover records</div>
+              <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">Saved messages and clear item records</div>
             </div>
           </div>
           <FooterColumn title="Browse" links={buyLinks} />
@@ -32,7 +32,7 @@ export default function SiteFooter() {
         </div>
         <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-7 text-xs font-semibold text-white/52 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Bidra. All rights reserved.</p>
-          <p>Buyers and sellers arrange payment, pickup and handover directly.</p>
+          <p>Buyers and sellers confirm pickup, postage and payment details directly.</p>
         </div>
       </div>
     </footer>
