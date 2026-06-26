@@ -1,0 +1,21 @@
+<svg width="720" height="180" viewBox="0 0 720 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="mark" x1="22" y1="20" x2="142" y2="154" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D8B4FE"/>
+      <stop offset="0.42" stop-color="#A855F7"/>
+      <stop offset="1" stop-color="#5B21B6"/>
+    </linearGradient>
+    <linearGradient id="text" x1="178" y1="42" x2="510" y2="142" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EDE9FE"/>
+    </linearGradient>
+  </defs>
+  <path d="M22 88C22 43 60 17 104 22C149 27 187 61 182 101C177 142 144 170 95 164C52 158 22 133 22 88Z" stroke="url(#mark)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M83 95C97 79 129 74 144 86C156 96 147 113 130 120C113 126 98 119 83 106C79 102 79 100 83 95Z" stroke="url(#mark)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M75 58C69 65 71 76 80 78C88 79 94 70 91 62" stroke="#EDE9FE" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M80 64L85 59" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+  <path d="M99 164V178" stroke="url(#mark)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M120 164V178" stroke="url(#mark)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M86 178H134" stroke="url(#mark)" stroke-width="10" stroke-linecap="round"/>
+  <text x="212" y="126" font-family="Inter, Arial, sans-serif" font-size="92" font-weight="900" letter-spacing="-5" fill="url(#text)">Bidra</text>
+</svg>
