@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: "/brand/bidra-kids-bird-mark.svg",
   },
 };
 
@@ -44,7 +44,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col bg-[#F4F7FB] text-[#0B1220]">
+      <body className="min-h-screen flex flex-col bg-[#FBF9FF] text-[#120724] antialiased">
         <Providers>
           <SiteHeader />
           <main className="flex-1">{children}</main>
@@ -55,4 +55,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 

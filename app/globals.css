@@ -1,5 +1,6 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 @import "../styles/bidra-theme.css";
+@import "../styles/premium-purple.css";
 
 :root {
   --brand: #4F46E5;
@@ -1897,3 +1898,4 @@ main:has(.bd-account-nav) [class*="rounded-"] {
   }
 }
 /* BIDRA_MILLION_DOLLAR_LOGGED_IN_END */
+
