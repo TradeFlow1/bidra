@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import SearchBar from "./search-bar";
@@ -15,9 +14,10 @@ type SessionLike = {
 
 const DESKTOP_LINKS = [
   { href: "/", label: "Home" },
+  { href: "/listings", label: "Browse" },
   { href: "/listings?type=BUY_NOW", label: "Buy now" },
   { href: "/listings?type=OFFERABLE", label: "Make an offer" },
-  { href: "/listings", label: "Browse" },
+  { href: "/sell/new", label: "Sell" },
 ];
 
 function MenuIcon() {
@@ -38,13 +38,8 @@ function AccountIcon() {
     </svg>
   );
 }
-export default function SiteHeaderClient({
-  session,
-  notificationCount = 0,
-}: {
-  session?: SessionLike;
-  notificationCount?: number;
-}) {
+
+export default function SiteHeaderClient({ session, notificationCount = 0 }: { session?: SessionLike; notificationCount?: number }) {
   const [desktopAcctOpen, setDesktopAcctOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const desktopAccountRef = useRef<HTMLDivElement | null>(null);
@@ -75,21 +70,21 @@ export default function SiteHeaderClient({
     };
   }, []);
 
-  const menuLinkClass = "block w-full rounded-2xl px-3 py-2.5 text-left text-sm font-semibold text-[#0F172A] transition hover:bg-[#EEF2FF]";
-  const searchInputClass = "h-12 w-full rounded-2xl border border-[#D8E1F0] bg-white px-5 text-[15px] font-semibold text-[#0F172A] outline-none placeholder:text-[#64748B] shadow-sm focus:border-[#4F46E5] focus:ring-4 focus:ring-[#C7D2FE]";
+  const menuLinkClass = "block w-full rounded-2xl px-3 py-2.5 text-left text-sm font-bold text-[#120724] transition hover:bg-[#F5F3FF] hover:text-[#6D28D9]";
+  const searchInputClass = "bd-premium-search h-12 w-full rounded-2xl border px-5 text-[15px] font-semibold outline-none transition";
   const badge = notificationCount > 0 ? (
-    <span className="ml-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-[#4F46E5] px-1.5 py-0.5 text-[11px] font-extrabold text-white !text-white disabled:!text-white">
+    <span className="ml-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-white px-1.5 py-0.5 text-[11px] font-extrabold text-[#6D28D9]">
       {notificationCount > 99 ? "99+" : notificationCount}
     </span>
   ) : null;
 
   function renderAccountMenu(closeMenu: () => void) {
     return (
-      <div className="absolute right-0 top-full z-[120] mt-3 w-72 overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white text-[#4F46E5] shadow-[0_24px_70px_rgba(28,50,84,0.18)]" role="menu" onClick={(e) => e.stopPropagation()}>
-        <div className="bg-[#F6F9FF] px-4 py-4">
-          <div className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#607089]">Current account</div>
-          <div className="mt-1 text-base font-extrabold text-[#0F172A]">{accountRoleLabel}</div>
-          <div className="mt-1 text-xs leading-5 text-[#607089]">{accountRoleDescription}</div>
+      <div className="absolute right-0 top-full z-[120] mt-3 w-72 overflow-hidden rounded-[24px] border border-[#DDD6FE] bg-white text-[#120724] shadow-[0_24px_70px_rgba(43,16,85,0.22)]" role="menu" onClick={(e) => e.stopPropagation()}>
+        <div className="bg-[#F5F3FF] px-4 py-4">
+          <div className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#7C3AED]">Current account</div>
+          <div className="mt-1 text-base font-extrabold text-[#120724]">{accountRoleLabel}</div>
+          <div className="mt-1 text-xs leading-5 text-[#62516F]">{accountRoleDescription}</div>
         </div>
         <div className="grid gap-1 p-2">
           {rawRole === "ADMIN" ? <Link href="/admin" className={menuLinkClass} onClick={closeMenu}>Admin workspace</Link> : null}
@@ -99,7 +94,7 @@ export default function SiteHeaderClient({
           <Link href="/messages" className={menuLinkClass} onClick={closeMenu}>Messages</Link>
           <Link href="/watchlist" className={menuLinkClass} onClick={closeMenu}>Saved listings</Link>
           <Link href="/notifications" className={menuLinkClass} onClick={closeMenu}>Notifications{notificationCount > 0 ? " (" + (notificationCount > 99 ? "99+" : String(notificationCount)) + ")" : ""}</Link>
-          <div className="mt-1 border-t border-[#E6EDF7] pt-1">
+          <div className="mt-1 border-t border-[#EDE9FE] pt-1">
             <Link href="/logout" className={menuLinkClass} onClick={closeMenu}>Sign out</Link>
           </div>
         </div>
@@ -109,7 +104,7 @@ export default function SiteHeaderClient({
 
   function renderMobileMenu() {
     return (
-      <div className="absolute right-0 top-full z-[120] mt-3 w-[min(90vw,22rem)] overflow-hidden rounded-[24px] border border-[#D7E2F1] bg-white text-[#4F46E5] shadow-[0_24px_70px_rgba(28,50,84,0.22)]" role="menu" onClick={(e) => e.stopPropagation()}>
+      <div className="absolute right-0 top-full z-[120] mt-3 w-[min(90vw,22rem)] overflow-hidden rounded-[24px] border border-[#DDD6FE] bg-white text-[#120724] shadow-[0_24px_70px_rgba(43,16,85,0.24)]" role="menu" onClick={(e) => e.stopPropagation()}>
         <div className="grid gap-1 p-2">
           <Link href="/" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Home</Link>
           <Link href="/listings" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Browse</Link>
@@ -118,7 +113,7 @@ export default function SiteHeaderClient({
           <Link href="/sell/new" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Sell an item</Link>
           {isAuthed ? (
             <>
-              <div className="my-1 border-t border-[#E6EDF7]" />
+              <div className="my-1 border-t border-[#EDE9FE]" />
               {rawRole === "ADMIN" ? <Link href="/admin" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Admin workspace</Link> : null}
               <Link href="/dashboard" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>{accountRoleLabel}</Link>
               <Link href="/messages" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Messages</Link>
@@ -126,7 +121,7 @@ export default function SiteHeaderClient({
               <Link href="/logout" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Sign out</Link>
             </>
           ) : (
-            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-[#E6EDF7] pt-3">
+            <div className="mt-2 grid grid-cols-2 gap-2 border-t border-[#EDE9FE] pt-3">
               <Link href="/auth/login" className="bd-btn bd-btn-secondary" onClick={() => setMobileMenuOpen(false)}>Sign in</Link>
               <Link href="/auth/register" className="bd-btn bd-btn-primary" onClick={() => setMobileMenuOpen(false)}>Join</Link>
             </div>
@@ -137,42 +132,41 @@ export default function SiteHeaderClient({
   }
 
   return (
-    <header className="sticky top-0 z-[100] border-b border-[#E2E8F0] bg-white/96 text-[#0F172A] backdrop-blur-xl">
-      <div className="mx-auto hidden h-24 w-full max-w-[1320px] grid-cols-[180px_1fr_minmax(22rem,26rem)_auto] items-center gap-8 px-8 md:grid">
-        <Link href="/" className="flex h-14 w-44 shrink-0 items-center" aria-label="Bidra home">
-          <BrandLogo priority className="h-full w-auto max-w-full" />
+    <header className="bd-premium-header sticky top-0 z-[100] text-white">
+      <div className="mx-auto hidden h-24 w-full max-w-[1440px] grid-cols-[220px_1fr_minmax(22rem,30rem)_auto] items-center gap-8 px-8 md:grid">
+        <Link href="/" className="flex h-16 w-[220px] shrink-0 items-center" aria-label="Bidra home">
+          <BrandLogo priority tone="light" />
         </Link>
-        <nav className="flex min-w-0 items-center gap-8" aria-label="Primary navigation">
+        <nav className="flex min-w-0 items-center gap-7" aria-label="Primary navigation">
           {DESKTOP_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="text-[15px] font-black text-[#0F172A] transition hover:text-[#4F46E5]">
+            <Link key={link.href} href={link.href} className="bd-premium-header-link text-[14px] font-black transition">
               {link.label}
             </Link>
           ))}
         </nav>
         <SearchBar inputClassName={searchInputClass} />
         <div className="flex items-center gap-3 justify-self-end">
-          
           {isAuthed ? (
             <div ref={desktopAccountRef} className="relative">
-              <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="bd-btn bd-btn-primary h-12 rounded-2xl px-6" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
+              <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="bd-btn h-12 rounded-2xl border border-white/20 bg-white/12 px-6 text-white shadow-[0_10px_28px_rgba(18,7,36,0.22)] hover:bg-white/18" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
                 Account{badge}
               </button>
               {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
             </div>
           ) : (
-            <Link href="/auth/login" className="bd-btn bd-btn-primary h-12 rounded-2xl px-6">Sign in</Link>
+            <Link href="/auth/login" className="bd-btn h-12 rounded-2xl border border-white/20 bg-white px-6 text-[#2B1055] shadow-[0_10px_28px_rgba(18,7,36,0.22)] hover:bg-[#F5F3FF]">Sign in</Link>
           )}
         </div>
       </div>
 
-      <div className="md:hidden bg-white">
+      <div className="md:hidden">
         <div className="flex items-center gap-3 px-4 py-3">
-          <button type="button" className="grid h-11 w-11 place-items-center rounded-full border border-[#D7E2F1] bg-white text-[#0F172A] shadow-sm transition active:scale-95" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><MenuIcon /></button>
-          <Link href="/" className="flex h-10 w-32 items-center" aria-label="Bidra home">
-            <BrandLogo priority className="h-full w-auto max-w-full" />
+          <button type="button" className="grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition active:scale-95" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><MenuIcon /></button>
+          <Link href="/" className="flex h-12 min-w-0 flex-1 items-center" aria-label="Bidra home">
+            <BrandLogo priority tone="light" className="inline-flex items-center gap-2" />
           </Link>
           <div ref={mobileMenuRef} className="relative ml-auto">
-            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="relative grid h-11 w-11 place-items-center rounded-full border border-[#D7E2F1] bg-white text-[#0F172A] shadow-sm transition active:scale-95" aria-label="Account and notifications"><AccountIcon />{notificationCount > 0 ? <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-[#4F46E5] ring-2 ring-white" aria-hidden="true" /> : null}</button>
+            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="relative grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition active:scale-95" aria-label="Account and notifications"><AccountIcon />{notificationCount > 0 ? <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-[#D8B4FE] ring-2 ring-[#120724]" aria-hidden="true" /> : null}</button>
             {mobileMenuOpen ? renderMobileMenu() : null}
           </div>
         </div>
@@ -183,4 +177,3 @@ export default function SiteHeaderClient({
     </header>
   );
 }
-
