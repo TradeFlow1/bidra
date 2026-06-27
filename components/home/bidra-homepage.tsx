@@ -186,16 +186,30 @@ function CategoryIcon({ name = "generic" }: { name?: string }) {
 function HeroListingPanel({ listing, sellHref }: { listing: HomeListing | null; sellHref: string }) {
   if (!listing) {
     return (
-      <div className="bd-v5-hero-panel bd-v5-hero-empty">
-        <div className="bd-v5-hero-empty__frame">
-          <ProductPlaceholder kind="generic" title="Listings ready soon" />
+      <div className="bd-v5-hero-panel bd-v5-launch-panel">
+        <div className="bd-v5-launch-panel__intro">
+          <p className="bd-v5-featured__eyebrow">Marketplace opening</p>
+          <h2>Marketplace opening</h2>
+          <p>Bidra is opening with real listings only. New items will appear here as Australian sellers publish them.</p>
         </div>
-        <div className="bd-v5-hero-empty__copy">
-          <span>New marketplace supply</span>
-          <h2>Quality Australian listings will appear here as sellers publish them.</h2>
-          <p>Bidra is ready for buyer-ready photos, clear prices, suburb details and saved messages.</p>
-          <Link href={sellHref} className="bd-v5-secondary-link">List the first item</Link>
+        <div className="bd-v5-launch-list" aria-label="Marketplace launch readiness">
+          <div>
+            <span aria-hidden="true">01</span>
+            <strong>Buyer-ready listings</strong>
+            <small>Photos, price, suburb and item condition.</small>
+          </div>
+          <div>
+            <span aria-hidden="true">02</span>
+            <strong>Local seller profiles</strong>
+            <small>Account signals and seller context close to the item.</small>
+          </div>
+          <div>
+            <span aria-hidden="true">03</span>
+            <strong>Saved messages</strong>
+            <small>Keep item conversations together in Bidra.</small>
+          </div>
         </div>
+        <Link href={sellHref} className="bd-v5-primary bd-v5-launch-cta">List the first item</Link>
       </div>
     );
   }
@@ -217,7 +231,7 @@ function HeroListingPanel({ listing, sellHref }: { listing: HomeListing | null; 
         <div>
           <p className="bd-v5-featured__eyebrow">Featured active listing</p>
           <h2>{title}</h2>
-          <p>{suburbLabel(listing.location)}{listing.category ? ` · ${String(listing.category).split(" > ")[0]}` : ""}</p>
+          <p>{suburbLabel(listing.location)}{listing.category ? ` - ${String(listing.category).split(" > ")[0]}` : ""}</p>
         </div>
         <div className="bd-v5-featured__price">
           <span>{money(displayPrice(listing))}</span>
@@ -270,7 +284,7 @@ export default function BidraHomepage({ listings, categories, sellHref, viewerAu
           <div className="bd-v5-hero__copy">
             <p className="bd-v5-kicker">Australian peer-to-peer marketplace</p>
             <h1 id="home-hero-title">Find quality local items with confidence.</h1>
-            <p className="bd-v5-hero__lead">Search active listings across Australia, compare price and seller signals, then message directly through Bidra.</p>
+            <p className="bd-v5-hero__lead">Search active listings across Australia, compare seller details and message directly through Bidra.</p>
 
             <form action="/listings" method="get" className="bd-v5-search" role="search">
               <span aria-hidden="true"><SearchIcon /></span>
@@ -312,8 +326,8 @@ export default function BidraHomepage({ listings, categories, sellHref, viewerAu
             <div className="bd-v5-empty">
               <div>
                 <p className="bd-v5-kicker bd-v5-kicker--dark">Marketplace opening</p>
-                <h3>No active listings yet.</h3>
-                <p>When sellers publish real items, they will appear here with photos, price, suburb and seller context.</p>
+                <h3>Listings are opening now</h3>
+                <p>Be one of the first sellers to publish on Bidra. New items will appear here with photos, price, suburb and seller details.</p>
               </div>
               <div className="bd-v5-empty__actions">
                 <Link href={sellHref} className="bd-v5-primary">Sell an item</Link>
@@ -347,14 +361,14 @@ export default function BidraHomepage({ listings, categories, sellHref, viewerAu
           <div className="bd-v5-split">
             <article className="bd-v5-value-card bd-v5-value-card--dark">
               <p className="bd-v5-kicker">For buyers</p>
-              <h2 id="home-marketplace-title">Clear prices, seller context and messages in one place.</h2>
+              <h2 id="home-marketplace-title">Buy with clearer context.</h2>
               <p>Compare real listings by suburb, listing type and seller signals before you make contact.</p>
               <Link href="/listings" className="bd-v5-secondary">Browse listings</Link>
             </article>
 
             <article className="bd-v5-value-card">
               <p className="bd-v5-kicker bd-v5-kicker--dark">For sellers</p>
-              <h2>Present items like they matter.</h2>
+              <h2>Sell with a listing that feels ready.</h2>
               <p>Add buyer-ready photos, price, location and details that help serious buyers decide quickly.</p>
               <Link href={sellHref} className="bd-v5-primary">Sell an item</Link>
             </article>

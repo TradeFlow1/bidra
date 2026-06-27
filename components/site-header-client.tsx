@@ -71,7 +71,7 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
   }, []);
 
   const menuLinkClass = "block w-full rounded-2xl px-3 py-2.5 text-left text-sm font-bold text-[#120724] transition hover:bg-[#F5F3FF] hover:text-[#6D28D9]";
-  const searchInputClass = "bd-premium-search h-12 w-full rounded-2xl border px-5 text-[15px] font-semibold outline-none transition";
+  const searchInputClass = "bd-premium-search h-11 w-full rounded-xl border px-4 text-[14px] font-semibold outline-none transition";
   const badge = notificationCount > 0 ? (
     <span className="ml-2 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-white px-1.5 py-0.5 text-[11px] font-extrabold text-[#6D28D9]">
       {notificationCount > 99 ? "99+" : notificationCount}
@@ -133,36 +133,36 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
 
   return (
     <header className="bd-premium-header sticky top-0 z-[100] text-white">
-      <div className="mx-auto hidden h-24 w-full max-w-[1440px] grid-cols-[220px_1fr_minmax(22rem,30rem)_auto] items-center gap-8 px-8 md:grid">
-        <Link href="/" className="flex h-16 w-[220px] shrink-0 items-center" aria-label="Bidra home">
+      <div className="mx-auto hidden h-20 w-full max-w-[1440px] items-center gap-5 px-6 lg:flex xl:px-8">
+        <Link href="/" className="flex h-14 w-[172px] shrink-0 items-center" aria-label="Bidra home">
           <BrandLogo priority tone="light" />
         </Link>
-        <nav className="flex min-w-0 items-center gap-7" aria-label="Primary navigation">
+        <nav className="flex shrink-0 items-center gap-4 xl:gap-5" aria-label="Primary navigation">
           {DESKTOP_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="bd-premium-header-link text-[14px] font-black transition">
+            <Link key={link.href} href={link.href} className="bd-premium-header-link whitespace-nowrap text-[13px] font-extrabold transition">
               {link.label}
             </Link>
           ))}
         </nav>
-        <SearchBar inputClassName={searchInputClass} />
-        <div className="flex items-center gap-3 justify-self-end">
-          <Link href="/sell/new" className="bd-btn bd-btn-primary h-12 rounded-2xl px-5 text-sm">
+        <SearchBar className="min-w-[15rem] max-w-[27rem] flex-1" inputClassName={searchInputClass} />
+        <div className="flex shrink-0 items-center gap-2.5">
+          <Link href="/sell/new" className="bd-btn bd-btn-primary h-11 rounded-xl px-4 text-sm">
             Sell item
           </Link>
           {isAuthed ? (
             <div ref={desktopAccountRef} className="relative">
-              <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="bd-premium-account-button bd-btn h-12 rounded-2xl px-5 text-sm" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
+              <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="bd-premium-account-button bd-btn h-11 rounded-xl px-4 text-sm" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
                 Account{badge}
               </button>
               {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
             </div>
           ) : (
-            <Link href="/auth/login" className="bd-premium-account-button bd-btn h-12 rounded-2xl px-5 text-sm">Sign in</Link>
+            <Link href="/auth/login" className="bd-premium-account-button bd-btn h-11 rounded-xl px-4 text-sm">Sign in</Link>
           )}
         </div>
       </div>
 
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <div className="flex items-center gap-3 px-4 py-3">
           <button type="button" className="grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition active:scale-95" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><MenuIcon /></button>
           <Link href="/" className="flex h-12 min-w-0 flex-1 items-center" aria-label="Bidra home">
