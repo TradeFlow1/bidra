@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "../styles/bidra-v2-premium-final.css";
 import "../styles/bidra-v5-homepage.css";
+import "../styles/bidra-carwow-full-site.css";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import Providers from "@/components/providers";
@@ -57,5 +58,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-
