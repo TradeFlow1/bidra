@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { distanceKm, findAuLocation, parseListingLocation } from "@/lib/au-location";
 import { ProductPlaceholder, placeholderKindFromCategory } from "@/components/marketplace-ui";
-import { BrowseHeader, BrowseResultsGrid, BrowseMobileResults } from "@/components/listings";
+import { BrowseHeader, BrowseResultsGrid, BrowseMobileResults, BrowseMobileHero, BrowsePaginationNotice } from "@/components/listings";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -433,32 +433,9 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
       </main>
 
       <main className="min-h-screen bg-[linear-gradient(180deg,#FBF9FF_0%,#FFFFFF_46%)] pb-32 text-[#120724] md:hidden">
-        <section className="px-4 pb-5 pt-4">
-          <div className="overflow-hidden rounded-[30px] border border-[#DDD6FE] bg-gradient-to-br from-white via-[#FBF9FF] to-[#F5F3FF] p-5 shadow-[0_18px_45px_rgba(43,16,85,0.09)]">
-            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#7C3AED]">Marketplace</p>
-            <h1 className="mt-3 text-4xl font-black leading-[0.92] tracking-[-0.065em] text-[#120724]">Browse listings</h1>
-            <p className="mt-3 max-w-[290px] text-sm font-semibold leading-6 text-[#62516F]">{displayCount} local results. Filter fast, compare clearly, then tap a listing to inspect it.</p>
-          </div>
+        <BrowseMobileHero count={displayCount} selectedCategory={selectedCategory} />
 
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {categories.map((category) => {
-              const active = category === selectedCategory;
-              return (
-                <Link
-                  key={category}
-                  href={categoryHref(category)}
-                  className={
-                    active
-                      ? "shrink-0 rounded-full bg-[#6D28D9] px-4 py-2.5 text-sm font-black text-white !text-white shadow-[0_10px_24px_rgba(109,40,217,0.22)]"
-                      : "shrink-0 rounded-full border border-[#DDD6FE] bg-white px-4 py-2.5 text-sm font-black text-[#5B21B6] shadow-sm"
-                  }
-                >
-                  {category}
-                </Link>
-              );
-            })}
-          </div>
-
+        <section className="px-4 pb-5">
           <form action="/listings" className="mt-4 rounded-[28px] border border-[#EDE9FE] bg-white p-4 shadow-[0_16px_38px_rgba(43,16,85,0.08)]">
             <input type="hidden" name="category" value={selectedCategory === "All categories" ? "" : slugify(selectedCategory)} />
             <div className="flex items-center justify-between gap-3">
