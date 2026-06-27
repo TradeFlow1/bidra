@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { distanceKm, findAuLocation, parseListingLocation } from "@/lib/au-location";
 import { ProductPlaceholder, placeholderKindFromCategory } from "@/components/marketplace-ui";
-import { BrowseHeader, BrowseResultsGrid, BrowseMobileResults, BrowseMobileHero, BrowsePaginationNotice, BrowseToolbar } from "@/components/listings";
+import { BrowseHeader, BrowseResultsGrid, BrowseMobileResults, BrowseMobileHero, BrowsePaginationNotice, BrowseToolbar, BrowseCategoryNav } from "@/components/listings";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -279,24 +279,13 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
         <div className="mx-auto grid w-full max-w-[1440px] grid-cols-[300px_minmax(0,1fr)] overflow-hidden rounded-[34px] border border-[#EDE9FE] bg-white shadow-[0_24px_80px_rgba(43,16,85,0.10)]">
           <aside className="border-r border-[#EDE9FE] bg-[#FBF9FF] px-10 py-12">
             <h1 className="text-2xl font-black tracking-tight text-[#120724]">Categories</h1>
-            <nav className="mt-6 space-y-2">
-              {categories.map((category) => {
-                const active = category === selectedCategory;
-                return (
-                  <Link
-                    key={category}
-                    href={categoryHref(category)}
-                    className={
-                      active
-                        ? "block rounded-2xl bg-[#F5F3FF] px-4 py-3 text-base font-black text-[#5B21B6] shadow-sm ring-1 ring-[#DDD6FE]"
-                        : "block rounded-2xl px-4 py-3 text-base font-semibold text-[#62516F] hover:bg-white hover:text-[#5B21B6]"
-                    }
-                  >
-                    {category}
-                  </Link>
-                );
-              })}
-            </nav>
+            <div className="mt-6">
+              <BrowseCategoryNav
+                categories={categories}
+                selectedCategory={selectedCategory}
+                categoryHref={categoryHref}
+              />
+            </div>
 
             <form action="/listings" className="mt-12 border-t border-[#EDE9FE] pt-8">
               <input type="hidden" name="category" value={selectedCategory === "All categories" ? "" : slugify(selectedCategory)} />
