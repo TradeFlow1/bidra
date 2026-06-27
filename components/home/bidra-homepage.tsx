@@ -328,6 +328,16 @@ export default function BidraHomepage({ listings, categories, sellHref, viewerAu
                 <p className="bd-v5-kicker bd-v5-kicker--dark">Marketplace opening</p>
                 <h3>Listings are opening now</h3>
                 <p>Be one of the first sellers to publish on Bidra. New items will appear here with photos, price, suburb and seller details.</p>
+                <div className="bd-v5-starting-points" aria-label="Popular starting points">
+                  <span>Popular starting points</span>
+                  <div>
+                    {categoryLinks.slice(0, 4).map((category) => (
+                      <Link key={`empty-${category.href}-${category.label}`} href={category.href}>
+                        {category.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </div>
               <div className="bd-v5-empty__actions">
                 <Link href={sellHref} className="bd-v5-primary">Sell an item</Link>

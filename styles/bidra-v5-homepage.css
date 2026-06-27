@@ -81,13 +81,13 @@
 }
 
 .bd-v5-hero h1 {
-  max-width: 40rem;
+  max-width: 37rem;
   margin: 0.85rem 0 0;
   color: #fff;
-  font-size: clamp(2.8rem, 5.4vw, 4.85rem);
-  font-weight: 800;
-  letter-spacing: -0.045em;
-  line-height: 1.02;
+  font-size: clamp(2.55rem, 4.75vw, 4.15rem);
+  font-weight: 740;
+  letter-spacing: -0.038em;
+  line-height: 1.06;
 }
 
 .bd-v5-hero__lead {
@@ -160,9 +160,15 @@
 .bd-v5-primary {
   border: 0;
   background: linear-gradient(135deg, var(--bd-v5-blue), var(--bd-v5-accent));
-  color: #fff;
+  color: #fff !important;
   box-shadow: 0 16px 34px rgba(76, 29, 149, 0.28);
   cursor: pointer;
+}
+
+.bd-v5-search button *,
+.bd-v5-primary *,
+.bd-v5-primary:visited {
+  color: #fff !important;
 }
 
 .bd-v5-search button {
@@ -177,7 +183,7 @@
 .bd-v5-secondary {
   border: 1px solid rgba(255, 255, 255, 0.24);
   background: rgba(255, 255, 255, 0.95);
-  color: var(--bd-v5-ink);
+  color: var(--bd-v5-ink) !important;
   padding: 0 1.2rem;
   box-shadow: 0 14px 30px rgba(4, 2, 12, 0.18);
 }
@@ -185,6 +191,7 @@
 .bd-v5-secondary--light {
   border-color: var(--bd-v5-border);
   background: #fff;
+  color: var(--bd-v5-ink) !important;
   box-shadow: none;
 }
 
@@ -256,8 +263,8 @@
 .bd-v5-launch-panel__intro h2 {
   margin: 0.45rem 0 0;
   color: #fff;
-  font-size: clamp(1.75rem, 2.7vw, 2.35rem);
-  font-weight: 800;
+  font-size: clamp(1.65rem, 2.35vw, 2.15rem);
+  font-weight: 740;
   letter-spacing: -0.045em;
   line-height: 1.05;
 }
@@ -315,6 +322,7 @@
 
 .bd-v5-launch-cta {
   width: 100%;
+  margin-top: 0.1rem;
 }
 
 .bd-v5-featured {
@@ -386,8 +394,8 @@
   margin: 0;
   overflow: hidden;
   color: var(--bd-v5-ink);
-  font-size: clamp(1.25rem, 2.2vw, 1.72rem);
-  font-weight: 800;
+  font-size: clamp(1.18rem, 2vw, 1.55rem);
+  font-weight: 740;
   letter-spacing: -0.045em;
   line-height: 1.04;
   -webkit-box-orient: vertical;
@@ -409,8 +417,8 @@
 .bd-v5-featured__price span {
   display: block;
   color: var(--bd-v5-ink);
-  font-size: clamp(1.45rem, 2.6vw, 2.05rem);
-  font-weight: 800;
+  font-size: clamp(1.35rem, 2.35vw, 1.85rem);
+  font-weight: 760;
   letter-spacing: -0.045em;
 }
 
@@ -496,9 +504,9 @@
 .bd-v5-section-head h2 {
   margin: 0.3rem 0 0;
   color: var(--bd-v5-ink);
-  font-size: clamp(1.65rem, 2.5vw, 2.45rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-size: clamp(1.55rem, 2.25vw, 2.2rem);
+  font-weight: 740;
+  letter-spacing: -0.034em;
   line-height: 1.08;
 }
 
@@ -613,9 +621,9 @@
   max-width: 42rem;
   margin: 0.8rem 0 0;
   color: inherit;
-  font-size: clamp(1.85rem, 2.8vw, 2.75rem);
-  font-weight: 800;
-  letter-spacing: -0.045em;
+  font-size: clamp(1.65rem, 2.45vw, 2.35rem);
+  font-weight: 740;
+  letter-spacing: -0.036em;
   line-height: 1.08;
 }
 
@@ -686,9 +694,9 @@
 .bd-v5-empty h3 {
   margin: 0.55rem 0 0;
   color: var(--bd-v5-ink);
-  font-size: clamp(1.9rem, 3vw, 2.75rem);
-  font-weight: 800;
-  letter-spacing: -0.045em;
+  font-size: clamp(1.72rem, 2.65vw, 2.45rem);
+  font-weight: 740;
+  letter-spacing: -0.036em;
   line-height: 1.08;
 }
 
@@ -699,6 +707,48 @@
   font-size: 1rem;
   font-weight: 550;
   line-height: 1.65;
+}
+
+.bd-v5-starting-points {
+  margin-top: 1.15rem;
+}
+
+.bd-v5-starting-points > span {
+  display: block;
+  color: #4f3d63;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.bd-v5-starting-points > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.65rem;
+}
+
+.bd-v5-starting-points a {
+  display: inline-flex;
+  min-height: 2.2rem;
+  align-items: center;
+  border: 1px solid #e3dcf2;
+  border-radius: 999px;
+  background: #fbfaff;
+  color: var(--bd-v5-ink);
+  padding: 0 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 750;
+  text-decoration: none;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.bd-v5-starting-points a:hover {
+  transform: translateY(-1px);
+  border-color: #c4b5fd;
+  background: #f5f3ff;
+  color: #4c1d95;
 }
 
 .bd-v5-empty__actions {
@@ -773,8 +823,8 @@
   }
 
   .bd-v5-hero h1 {
-    font-size: clamp(2.35rem, 12vw, 3.35rem);
-    letter-spacing: -0.045em;
+    font-size: clamp(2.2rem, 10.5vw, 3rem);
+    letter-spacing: -0.038em;
   }
 
   .bd-v5-hero__lead {

@@ -123,7 +123,7 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
           ) : (
             <div className="mt-2 grid grid-cols-2 gap-2 border-t border-[#EDE9FE] pt-3">
               <Link href="/auth/login" className="bd-btn bd-btn-secondary" onClick={() => setMobileMenuOpen(false)}>Sign in</Link>
-              <Link href="/auth/register" className="bd-btn bd-btn-primary" onClick={() => setMobileMenuOpen(false)}>Join</Link>
+              <Link href="/auth/register" className="bd-btn bd-btn-primary !text-white" onClick={() => setMobileMenuOpen(false)}>Join</Link>
             </div>
           )}
         </div>
@@ -146,7 +146,7 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
         </nav>
         <SearchBar className="min-w-[15rem] max-w-[27rem] flex-1" inputClassName={searchInputClass} />
         <div className="flex shrink-0 items-center gap-2.5">
-          <Link href="/sell/new" className="bd-btn bd-btn-primary h-11 rounded-xl px-4 text-sm">
+          <Link href="/sell/new" className="bd-btn bd-btn-primary h-11 rounded-xl px-4 text-sm !text-white">
             Sell item
           </Link>
           {isAuthed ? (
