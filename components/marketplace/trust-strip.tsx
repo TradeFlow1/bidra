@@ -1,6 +1,6 @@
 const TRUST_ITEMS = [
   "Australia-only marketplace",
-  "Highest offer, not bids",
+  "Highest offer with seller choice",
   "Seller chooses when to accept",
   "Messages and order records kept together",
 ];
