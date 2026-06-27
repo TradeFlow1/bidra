@@ -79,6 +79,7 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
   const typeLabel = saleTypeLabel(listing);
   const handover = handoverLabel(listing.fulfillmentType);
   const offerCount = listing._count?.offers ?? 0;
+  const highestOffer = listing.offers?.[0]?.amount ?? null;
   const remaining = timeRemaining(listing.offers?.[0]?.expiresAt ?? null);
   const sellerName = listing.seller?.name || listing.seller?.username || "Bidra seller";
   const trustLabel = sellerTrustLabel(listing.seller);
@@ -120,7 +121,12 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
 
       <div className="p-4">
         <h3 className="line-clamp-2 text-base font-black leading-tight tracking-[-0.035em] text-[var(--bd-ink)]">{listing.title}</h3>
-        <p className="mt-3 text-xl font-black tracking-[-0.045em] text-[var(--bd-ink)]">{formatPrice(price)}</p>
+        <div className="mt-3">
+          <p className="text-xl font-black tracking-[-0.045em] text-[var(--bd-ink)]">{formatPrice(price)}</p>
+          {listing.type === "OFFERABLE" && highestOffer ? (
+            <p className="mt-1 text-xs font-black uppercase tracking-[0.10em] text-[var(--bd-purple-dark)]">Highest offer {formatPrice(highestOffer)}</p>
+          ) : null}
+        </div>
 
         <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[var(--bd-purple-dark)]">
           <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{handover}</span>
@@ -148,6 +154,7 @@ export function BrowseListingMobileCard({ listing }: { listing: BrowseListing })
   const typeLabel = saleTypeLabel(listing);
   const handover = handoverLabel(listing.fulfillmentType);
   const offerCount = listing._count?.offers ?? 0;
+  const highestOffer = listing.offers?.[0]?.amount ?? null;
   const remaining = timeRemaining(listing.offers?.[0]?.expiresAt ?? null);
   const sellerName = listing.seller?.name || listing.seller?.username || "Bidra seller";
   const trustLabel = sellerTrustLabel(listing.seller);
@@ -178,6 +185,9 @@ export function BrowseListingMobileCard({ listing }: { listing: BrowseListing })
           <div className="min-w-0">
             <h3 className="line-clamp-2 text-lg font-black leading-tight tracking-[-0.02em] text-[var(--bd-ink)]">{listing.title}</h3>
             <p className="mt-2 text-2xl font-black tracking-[-0.045em] text-[var(--bd-ink)]">{formatPrice(price)}</p>
+            {listing.type === "OFFERABLE" && highestOffer ? (
+              <p className="mt-1 text-xs font-black uppercase tracking-[0.10em] text-[var(--bd-purple-dark)]">Highest offer {formatPrice(highestOffer)}</p>
+            ) : null}
           </div>
           <span className="shrink-0 rounded-full border border-[#DDD6FE] bg-white px-3 py-1.5 text-xs font-black text-[var(--bd-purple-dark)] shadow-sm">{formatAge(listing.createdAt)}</span>
         </div>
