@@ -286,3 +286,39 @@ img, svg, video, canvas { max-width: 100%; }
   .bd-btn, .bd-primary-action, .bd-back-link { width: 100%; }
   .bd-page-title, .bd-marketplace-title { font-size: 32px; line-height: 1.02; }
 }
+
+/* PHASE 2 SHELL POLISH */
+main {
+  min-height: 62vh;
+}
+
+.bd-page-title, .bd-marketplace-title, h1, h2, h3 {
+  text-wrap: balance;
+}
+
+p, li {
+  text-wrap: pretty;
+}
+
+a, button, input, select, textarea {
+  touch-action: manipulation;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (max-width: 1023px) {
+  body {
+    overflow-x: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

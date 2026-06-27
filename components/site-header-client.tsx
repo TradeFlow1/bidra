@@ -133,21 +133,21 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
   }
 
   return (
-    <header className="bd-premium-header text-white" data-site-header>
-      <div className="mx-auto hidden h-[76px] w-full max-w-[1440px] items-center gap-5 px-6 lg:flex xl:px-8">
-        <Link href="/" className="flex h-14 w-[160px] shrink-0 items-center" aria-label="Bidra home">
+    <header className="bd-premium-header text-white shadow-[0_18px_55px_rgba(18,7,36,0.28)]" data-site-header>
+      <div className="mx-auto hidden h-[82px] w-full max-w-[1440px] items-center gap-5 px-6 lg:flex xl:px-8">
+        <Link href="/" className="flex h-16 w-[178px] shrink-0 items-center" aria-label="Bidra home">
           <BrandLogo priority tone="light" />
         </Link>
         <nav className="flex shrink-0 items-center gap-3 xl:gap-4" aria-label="Primary navigation">
           {DESKTOP_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="bd-premium-header-link whitespace-nowrap px-3 py-2 text-[13px] font-extrabold transition">
+            <Link key={link.href} href={link.href} className="bd-premium-header-link whitespace-nowrap rounded-full px-3.5 py-2.5 text-[13px] font-extrabold transition hover:bg-white/10">
               {link.label}
             </Link>
           ))}
         </nav>
-        <SearchBar className="min-w-[14rem] max-w-[25rem] flex-1" inputClassName={searchInputClass} />
+        <SearchBar className="min-w-[16rem] max-w-[30rem] flex-1" inputClassName={searchInputClass} />
         <div className="flex shrink-0 items-center gap-2.5">
-          <Link href="/sell/new" className="bd-btn bd-btn-primary h-11 rounded-xl px-4 text-sm !text-white">
+          <Link href="/sell/new" className="bd-btn bd-btn-primary h-12 rounded-2xl px-5 text-sm !text-white">
             Sell your item
           </Link>
           {isAuthed ? (

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -7,10 +7,10 @@ type NavIcon = "home" | "buy" | "sell" | "chat" | "profile";
 
 const items: Array<{ href: string; label: string; icon: NavIcon; match: (p: string) => boolean }> = [
   { href: "/", label: "Home", icon: "home", match: (p: string) => p === "/" },
-  { href: "/listings?type=BUY_NOW", label: "Buy now", icon: "buy", match: (p: string) => p === "/listings" || p.startsWith("/listings/") },
+  { href: "/listings", label: "Browse", icon: "buy", match: (p: string) => p === "/listings" || p.startsWith("/listings/") },
   { href: "/sell/new", label: "Sell", icon: "sell", match: (p: string) => p.startsWith("/sell") },
-  { href: "/messages", label: "Chats", icon: "chat", match: (p: string) => p.startsWith("/messages") },
-  { href: "/dashboard", label: "Profile", icon: "profile", match: (p: string) => p.startsWith("/dashboard") || p.startsWith("/orders") || p.startsWith("/watchlist") || p.startsWith("/notifications") || p.startsWith("/account") || p.startsWith("/seller") },
+  { href: "/messages", label: "Messages", icon: "chat", match: (p: string) => p.startsWith("/messages") },
+  { href: "/dashboard", label: "My Bidra", icon: "profile", match: (p: string) => p.startsWith("/dashboard") || p.startsWith("/orders") || p.startsWith("/watchlist") || p.startsWith("/notifications") || p.startsWith("/account") || p.startsWith("/seller") },
 ];
 
 const enabledPrefixes = [
