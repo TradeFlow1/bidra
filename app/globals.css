@@ -1,1901 +1,288 @@
-﻿@import "tailwindcss";
-@import "../styles/bidra-theme.css";
-@import "../styles/premium-purple.css";
+@import "tailwindcss";
 
 :root {
-  --brand: #4F46E5;
-  --brand-hover: #4338CA;
-  --brand-accent: #6366F1;
-
-  --brand-soft: #EEF2FF;
-  --brand-soft-2: #F5F3FF;
-  --brand-border: #C7D2FE;
-
-  --text-main: #0F172A;
-  --text-muted: #475569;
-  --surface: #FFFFFF;
+  --bd-bg: #f7f5fb;
+  --bd-ink: #0f0920;
+  --bd-muted: #6d647a;
+  --bd-surface: #ffffff;
+  --bd-border: #e6def3;
+  --bd-purple: #7c3aed;
+  --bd-purple-dark: #5b21b6;
+  --bd-purple-soft: #f3eefe;
+  --bd-hero: #120724;
+  --bd-hero-2: #241047;
+  --bd-success: #22c55e;
+  --bd-warning: #f59e0b;
+  --bd-danger: #ef4444;
+  --bd-radius: 18px;
+  --bd-shadow: 0 18px 55px rgba(18, 7, 36, 0.10);
 }
 
+* { box-sizing: border-box; }
 
+html { min-height: 100%; background: var(--bd-bg); }
 
-/* PERF-02 mobile premium tap targets */
-.bd-btn,
-.bd-input,
-button,
-input,
-select,
-textarea {
-  min-height: 44px;
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--bd-bg);
+  color: var(--bd-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-a.bd-btn,
-button.bd-btn {
-  min-height: 44px;
-}
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled, input:disabled, select:disabled, textarea:disabled { cursor: not-allowed; opacity: 0.65; }
+img, svg, video, canvas { max-width: 100%; }
 
-.bd-mobile-tap-target {
-  min-height: 44px;
-  touch-action: manipulation;
-}
-
-.bd-mobile-scroll-safe {
-  overflow-wrap: anywhere;
-}
-
-@media (max-width: 640px) {
-  .bd-mobile-stack {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-}
-/* Launch readiness design system utilities */
-@layer utilities {
-  .bd-container { @apply mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8; }
-  .bd-page-shell { @apply mx-auto w-full max-w-[1440px] px-4 py-5 sm:px-6 sm:py-7 lg:px-8; }
-  .bd-page-header { @apply mb-5; }
-  .bd-back-link { @apply inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#D8E1F0] bg-white px-3.5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:border-[#B6C6DC] hover:bg-[#F8FAFC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300; }
-  .bd-eyebrow { @apply text-xs font-extrabold uppercase tracking-[0.16em] text-[#64748B]; }
-  .bd-page-title { @apply mt-2 text-3xl font-extrabold tracking-tight text-[#0F172A] sm:text-4xl; }
-  .bd-page-description { @apply mt-2 max-w-3xl text-sm leading-6 text-[#475569] sm:text-base; }
-  .bd-card { @apply rounded-[24px] border border-[#D8E1F0] bg-white shadow-sm; }
-  .bd-card-clickable { @apply transition duration-200 hover:border-[#B6C6DC]; }
-  .bd-empty-state { @apply rounded-[28px] border border-dashed border-[#CBD5E1] bg-white px-5 py-10 text-center shadow-sm sm:px-8 sm:py-12; }
-  .bd-badge { @apply inline-flex h-7 items-center justify-center whitespace-nowrap rounded-full border px-3 text-[11px] font-extrabold leading-none; }
-  .bd-badge-neutral { @apply border-[#D8E1F0] bg-[#F8FAFC] text-[#334155]; }
-  .bd-badge-buy { @apply border-emerald-200 bg-emerald-50 text-emerald-800; }
-  .bd-badge-offer { @apply border-amber-200 bg-[#FFFBEB] text-amber-800; }
-  .bd-badge-success { @apply border-emerald-200 bg-emerald-50 text-emerald-800; }
-  .bd-badge-warning { @apply border-amber-200 bg-[#FFFBEB] text-amber-800; }
-  .bd-badge-danger { @apply border-rose-200 bg-rose-50 text-rose-800; }
-  .bd-badge-info { @apply border-[#CFE3E8] bg-[#F5F3FF] text-[#0F172A]; }
-  .bd-form-card { @apply rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6; }
-}
-
-@layer utilities {
-  .bd-btn { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-extrabold leading-none transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-300 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-55; }
-  .bd-btn-primary { @apply border border-[#0F172A] bg-[#0F172A] text-white shadow-sm hover:bg-[#1E293B] active:translate-y-px; }
-  .bd-btn-secondary { @apply border border-[#D8E1F0] bg-white text-[#0F172A] shadow-sm hover:border-[#B6C6DC] hover:bg-[#F8FAFC] active:translate-y-px; }
-  .bd-btn-outline { @apply border border-[#CBD5E1] bg-transparent text-[#0F172A] hover:bg-white active:translate-y-px; }
-  .bd-btn-ghost { @apply border border-transparent bg-transparent text-[#0F172A] hover:bg-[#EEF2F7] active:translate-y-px; }
-  .bd-btn-destructive { @apply border border-rose-600 bg-rose-600 text-white shadow-sm hover:bg-rose-700 active:translate-y-px; }
-  .bd-btn-link { @apply min-h-11 rounded-lg px-1 text-[#4F46E5] underline underline-offset-4 hover:text-[#4F46E5]; }
-  .bd-input { @apply min-h-11 w-full rounded-xl border border-[#CBD5E1] bg-white px-3.5 py-2.5 text-[15px] text-[#0F172A] shadow-sm outline-none transition placeholder:text-[#94A3B8] focus:border-[#6BAFB8] focus:ring-4 focus:ring-[#C7D2FE] disabled:cursor-not-allowed disabled:bg-[#F8FAFC] disabled:text-[#64748B]; }
-  .bd-label { @apply text-sm font-extrabold text-[#0F172A]; }
-  .bd-help { @apply mt-1.5 text-xs leading-5 text-[#64748B]; }
-}
-
-@media (max-width: 640px) {
-  .bd-page-title { font-size: 1.875rem; line-height: 2.25rem; }
-  .bd-card, .bd-empty-state { border-radius: 22px; }
-}
-/* BIDRA_MILLION_DOLLAR_POLISH_START */
-
-/*
-  Bidra public-launch marketplace polish.
-  Keep this block focused on visual consistency, mobile usability, trust clarity,
-  and safe marketplace interaction states. Do not put product claims here.
-*/
-
-@layer utilities {
-  .bd-marketplace-section { @apply rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-6; }
-  .bd-marketplace-muted { @apply text-sm leading-6 text-[#475569]; }
-  .bd-marketplace-title { @apply text-2xl font-extrabold tracking-tight text-[#0F172A] sm:text-3xl; }
-  .bd-marketplace-subtitle { @apply mt-2 max-w-3xl text-sm leading-6 text-[#475569] sm:text-base; }
-  .bd-action-row { @apply flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center; }
-  .bd-action-row > .bd-btn, .bd-action-row > a.bd-btn, .bd-action-row > button.bd-btn { @apply w-full sm:w-auto; }
-  .bd-trust-panel { @apply rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950; }
-  .bd-warning-panel { @apply rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950; }
-  .bd-info-panel { @apply rounded-2xl border border-[#CFE3E8] bg-[#F5F3FF] px-4 py-3 text-sm leading-6 text-blue-950; }
-  .bd-danger-panel { @apply rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-950; }
-  .bd-card-grid { @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4; }
-  .bd-readable-prose { @apply text-sm leading-7 text-[#334155] sm:text-base; }
-  .bd-readable-prose h2 { @apply mt-6 text-xl font-extrabold tracking-tight text-[#0F172A]; }
-  .bd-readable-prose h3 { @apply mt-5 text-base font-extrabold tracking-tight text-[#0F172A]; }
-  .bd-readable-prose p { @apply mt-3; }
-  .bd-readable-prose ul { @apply mt-3 list-disc space-y-2 pl-5; }
-  .bd-readable-prose a { @apply font-semibold text-[#4F46E5] underline underline-offset-4; }
-  .bd-image-frame { @apply overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-[#F8FAFC]; }
-  .bd-image-contain { object-fit: contain; }
-  .bd-image-cover { object-fit: cover; }
-  .bd-form-stack { @apply grid gap-4; }
-  .bd-form-row { @apply grid gap-3 sm:grid-cols-2; }
-  .bd-sticky-safe { scroll-margin-top: 96px; }
-}
-
-a.bd-btn, button.bd-btn {
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-
-button.bd-btn[aria-busy='true'],
-button[aria-busy='true'] {
-  cursor: wait;
-}
-
-.bd-btn svg,
-.bd-back-link svg {
-  flex-shrink: 0;
-}
-
-.bd-card,
-.bd-form-card,
-.bd-empty-state,
-.bd-marketplace-section {
-  overflow-wrap: anywhere;
-}
-
-.bd-input:focus,
-.bd-btn:focus-visible,
-.bd-back-link:focus-visible {
+:focus-visible {
+  outline: 3px solid rgba(124, 58, 237, 0.35);
   outline-offset: 3px;
 }
 
-.bd-card img,
-.bd-image-frame img {
-  max-width: 100%;
+::selection {
+  background: rgba(124, 58, 237, 0.18);
+  color: var(--bd-ink);
 }
 
-@media (max-width: 640px) {
-  .bd-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  .bd-page-shell {
-    padding-top: 1rem;
-    padding-bottom: 1.25rem;
-  }
-
-  .bd-page-title,
-  .bd-marketplace-title {
-    font-size: 1.875rem;
-    line-height: 2.25rem;
-    letter-spacing: -0.03em;
-  }
-
-  .bd-page-description,
-  .bd-marketplace-subtitle {
-    font-size: 0.95rem;
-    line-height: 1.6rem;
-  }
-
-  .bd-card,
-  .bd-form-card,
-  .bd-empty-state,
-  .bd-marketplace-section {
-    border-radius: 22px;
-  }
-
-  .bd-btn {
-    min-height: 46px;
-  }
-
-  .bd-badge {
-    min-height: 28px;
-  }
-
-  .bd-mobile-full-actions > .bd-btn,
-  .bd-mobile-full-actions > a.bd-btn,
-  .bd-mobile-full-actions > button.bd-btn {
-    width: 100%;
-  }
+.bd-container, .bd-shell, .bd-page-shell, .bd-account-shell {
+  width: min(100%, 1320px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .bd-card-clickable,
-  .bd-btn,
-  .bd-back-link {
-    transition: none !important;
-    transform: none !important;
-  }
+.bd-page-shell, .bd-account-shell {
+  padding-top: 32px;
+  padding-bottom: 48px;
 }
 
-/* BIDRA_MILLION_DOLLAR_POLISH_END */
-
-/* BIDRA_LISTING_DETAIL_TRUST_POLISH_START */
-
-/* Listing detail and marketplace trust polish.
-   Fixes large dead-space layouts, small gallery controls, repetitive marketplace CTAs,
-   and logged-in/logged-out trust copy presentation. */
-
-@layer utilities {
-  .bd-listing-detail-layout { @apply grid gap-4 lg:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_320px]; }
-  .bd-listing-main-column { @apply grid min-w-0 gap-4; }
-  .bd-listing-side-column { @apply grid min-w-0 gap-4 self-start lg:sticky lg:top-24; }
-  .bd-listing-gallery-card { @apply rounded-[28px] border border-[#D8E1F0] bg-white p-3 shadow-sm sm:p-4; }
-  .bd-listing-under-gallery { @apply grid gap-4 rounded-[28px] border border-[#D8E1F0] bg-white p-4 shadow-sm sm:p-5; }
-  .bd-listing-description { @apply text-sm leading-7 text-[#334155] sm:text-base; }
-  .bd-listing-description-title { @apply text-base font-extrabold tracking-tight text-[#0F172A] sm:text-lg; }
-  .bd-listing-meta-grid { @apply grid gap-3 sm:grid-cols-3; }
-  .bd-listing-meta-tile { @apply rounded-2xl border border-[#E2E8F0] bg-[#F8FAFC] p-3; }
-  .bd-listing-meta-label { @apply text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#64748B]; }
-  .bd-listing-meta-value { @apply mt-1 text-sm font-extrabold text-[#0F172A]; }
-  .bd-gallery-control { @apply inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-[#D8E1F0] bg-white text-base font-extrabold text-[#0F172A] shadow-md transition hover:bg-[#F8FAFC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4F46E5]; }
-  .bd-gallery-count { @apply rounded-full bg-[#0F172A] px-3 py-1.5 text-xs font-extrabold text-white shadow; }
-  .bd-gallery-dot { @apply h-4 w-4 rounded-full bg-[#CBD5E1] transition; }
-  .bd-gallery-dot-active { @apply h-7 w-7 rounded-full bg-[#0F172A]; }
-  .bd-card-primary-action { @apply text-sm font-extrabold text-[#0F172A]; }
-  .bd-card-secondary-action { @apply text-sm font-bold text-[#475569]; }
-  .bd-own-listing-note { @apply rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-bold leading-5 text-amber-950; }
-  .bd-trust-copy-compact { @apply text-sm leading-6 text-[#334155]; }
+.bd-card, .bd-form-card, .bd-marketplace-section, .bd-surface, .bd-empty-state {
+  border: 1px solid var(--bd-border);
+  border-radius: 24px;
+  background: var(--bd-surface);
+  box-shadow: var(--bd-shadow);
 }
 
-.bd-listing-gallery-card + .bd-listing-under-gallery {
-  margin-top: 0;
-}
+.bd-form-card, .bd-marketplace-section { padding: 24px; }
 
-.bd-listing-detail-layout .bd-listing-gallery-card {
-  min-height: 0;
-}
-
-.bd-listing-detail-layout .bd-listing-gallery-card:has(.bd-image-frame) {
-  align-self: start;
-}
-
-@media (max-width: 1023px) {
-  .bd-listing-detail-layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .bd-listing-side-column {
-    position: static;
-  }
-}
-
-@media (max-width: 640px) {
-  .bd-listing-gallery-card {
-    border-radius: 22px;
-    padding: 0.75rem;
-  }
-  .bd-listing-under-gallery {
-    border-radius: 22px;
-    padding: 1rem;
-  }
-  .bd-gallery-control {
-    min-height: 44px;
-    min-width: 44px;
-  }
-  .bd-gallery-dot {
-    height: 0.875rem;
-    width: 0.875rem;
-  }
-  .bd-gallery-dot-active {
-    height: 1.5rem;
-    width: 1.5rem;
-  }
-}
-
-/* BIDRA_LISTING_DETAIL_TRUST_POLISH_END */
-
-/* BIDRA_LISTING_DETAIL_STRUCTURAL_FIX_START */
-
-/* Structural fix for listing detail pages.
-   Prevents the gallery side of the page from stretching to the height of the action/trust sidebar. */
-
-@layer utilities {
-  .bd-listing-detail-grid { @apply grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_300px] xl:grid-cols-[minmax(0,1fr)_320px]; }
-  .bd-listing-detail-main { @apply grid min-w-0 gap-4 self-start; }
-  .bd-listing-detail-sidebar { @apply grid min-w-0 gap-4 self-start lg:sticky lg:top-24; }
-}
-
-.bd-listing-detail-grid > *,
-.bd-listing-detail-main > *,
-.bd-listing-detail-sidebar > * {
-  min-height: 0;
-}
-
-.bd-listing-gallery-card,
-.bd-listing-under-gallery {
-  align-self: start;
-}
-
-/* BIDRA_LISTING_DETAIL_STRUCTURAL_FIX_END */
-
-
-/* Bidra marketplace visual redesign foundation */
-@layer base {
-  html { background: #F4F7FB; }
-  body { color: #0B1220; -webkit-font-smoothing: antialiased; }
-}
-
-@layer utilities {
-  .bd-shell { @apply mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8; }
-  .bd-section { @apply py-6 sm:py-8 lg:py-10; }
-  .bd-card { @apply rounded-[24px] border border-[#D7E2F1] bg-white shadow-[0_14px_45px_rgba(28,50,84,0.08)]; }
-  .bd-card-soft { @apply rounded-[24px] border border-[#E1EAF5] bg-[#F8FAFF] shadow-[0_10px_30px_rgba(28,50,84,0.05)]; }
-  .bd-page-hero { @apply overflow-hidden rounded-[28px] border border-[#D7E2F1] bg-[linear-gradient(135deg,#FFFFFF_0%,#F4F8FF_52%,#EAF2FF_100%)] shadow-[0_20px_60px_rgba(28,50,84,0.10)]; }
-  .bd-page-grid { @apply grid gap-4 sm:gap-5 lg:gap-6; }
-  .bd-marketplace-card { @apply overflow-hidden rounded-[18px] border border-[#D7E2F1] bg-white shadow-[0_12px_35px_rgba(28,50,84,0.08)] transition duration-200 hover:border-[#B9CAE2]; }
-  .bd-pill { @apply inline-flex min-h-8 items-center justify-center rounded-full border border-[#D7E2F1] bg-white px-3 text-xs font-extrabold text-[#526173]; }
-  .bd-primary-action { @apply inline-flex min-h-11 items-center justify-center rounded-2xl bg-[#4F46E5] px-5 py-3 text-sm font-extrabold text-white shadow-[0_12px_28px_rgba(11,77,255,0.25)] transition hover:bg-[#0842D6] active:translate-y-px; }
-  .bd-btn-primary { @apply border-[#4F46E5] bg-[#4F46E5] text-white hover:bg-[#0842D6]; }
-  .bd-btn-secondary { @apply border-[#D7E2F1] bg-white text-[#10213F] hover:border-[#B9CAE2] hover:bg-[#F6F8FB]; }
-  .bd-bottom-nav { position: fixed; left: 0.75rem; right: 0.75rem; bottom: calc(0.75rem + env(safe-area-inset-bottom)); z-index: 90; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 0.25rem; border: 1px solid #D7E2F1; border-radius: 1.5rem; background: rgba(255,255,255,0.96); padding: 0.45rem; box-shadow: 0 20px 50px rgba(28,50,84,0.18); backdrop-filter: blur(18px); }
-  .bd-bottom-nav-item { display: inline-flex; min-height: 3.35rem; flex-direction: column; align-items: center; justify-content: center; gap: 0.15rem; border-radius: 1.05rem; color: #607089; font-size: 0.68rem; font-weight: 800; line-height: 1; }
-  .bd-bottom-nav-icon { font-size: 1rem; line-height: 1; }
-  .bd-bottom-nav-item-active { background: #EEF2FF; color: #4F46E5; }
-  .browseList, .bd-card-grid { @apply grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5; }
-}
-
-@media (max-width: 767px) {
-  main { padding-bottom: calc(5.25rem + env(safe-area-inset-bottom)); }
-  .bd-shell, .bd-container, .bd-page-shell { padding-left: 1rem; padding-right: 1rem; }
-}
-
-
-/* Full reference UI pass: customer/account surfaces */
-@layer utilities {
-  .bd-account-shell { @apply mx-auto w-full max-w-[1320px] px-4 py-5 sm:px-6 sm:py-8 lg:px-8; }
-  .bd-mobile-bottom-nav { position: fixed; left: 0.75rem; right: 0.75rem; bottom: calc(0.75rem + env(safe-area-inset-bottom)); z-index: 90; display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 0.25rem; border: 1px solid #D7E2F1; border-radius: 1.5rem; background: rgba(255,255,255,0.96); padding: 0.45rem; box-shadow: 0 20px 50px rgba(28,50,84,0.18); backdrop-filter: blur(18px); }
-  .bd-surface { @apply rounded-[24px] border border-[#D7E2F1] bg-white shadow-[0_14px_45px_rgba(28,50,84,0.08)]; }
-  .bd-muted-surface { @apply rounded-[22px] border border-[#E1EAF5] bg-[#F8FAFF]; }
-}
-
-@layer components {
-  .bd-container > .container, .bd-shell > .container { width: 100%; margin-left: auto; margin-right: auto; }
-  input:not([type='checkbox']):not([type='radio']), select, textarea { border-color: #D7E2F1; border-radius: 0.875rem; }
-  input:not([type='checkbox']):not([type='radio']):focus, select:focus, textarea:focus { outline: none; border-color: #4F46E5; box-shadow: 0 0 0 4px rgba(11,77,255,0.10); }
-}
-
-@media (max-width: 767px) {
-  .bd-account-shell { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
-}
-
-/* Premium mobile-first public marketplace identity pass */
-:root {
-  --bidra-navy: #06132B;
-  --bidra-blue-action: #4F46E5;
-  --bidra-soft-blue: #EEF2FF;
-  --bidra-canvas-premium: #F4F7FB;
-  --bidra-border-premium: #D7E2F1;
-}
-
-html,
-body {
-  max-width: 100%;
-  overflow-x: clip;
-}
-
-body {
-  background:
-    radial-gradient(900px 420px at 50% -160px, rgba(11, 77, 255, 0.10), transparent 70%),
-    var(--bidra-canvas-premium);
-}
-
-.bd-card,
-.bd-surface,
-.bd-marketplace-card,
-.bd-page-hero {
-  box-shadow: 0 14px 45px rgba(28, 50, 84, 0.07);
-}
-
-.bd-marketplace-card {
-  border-radius: 20px;
-}
-
-.bd-marketplace-card .relative {
-  background:
-    linear-gradient(135deg, rgba(238, 244, 255, 0.95), rgba(248, 250, 255, 0.95));
-}
-
-.bd-btn-primary,
-.bd-primary-action {
-  background: var(--bidra-blue-action) !important;
-  border-color: var(--bidra-blue-action) !important;
-  color: #fff !important;
-}
-
-.bd-btn-primary:hover,
-.bd-primary-action:hover {
-  background: #0842D6 !important;
-}
-
-@media (max-width: 430px) {
-  .bd-shell,
-  .bd-container,
-  .bd-page-shell,
-  .bd-account-shell {
-    padding-left: 0.875rem;
-    padding-right: 0.875rem;
-  }
-
-  .bd-page-hero,
-  .bd-card,
-  .bd-surface {
-    border-radius: 22px;
-  }
-
-  .browseList,
-  .bd-card-grid {
-    gap: 0.625rem;
-  }
-}
-
-/* Reference-clone marketplace redesign pass */
-.bd-shell,
-.bd-container > .container,
-.container.max-w-7xl {
-  max-width: 1440px;
-}
-
-.bd-btn {
-  min-height: 44px;
+.bd-btn, .bd-primary-action, .bd-back-link {
   display: inline-flex;
+  min-height: 44px;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  font-weight: 900;
-}
-
-.bd-marketplace-card {
+  gap: 8px;
+  border-radius: 14px;
+  padding: 0 18px;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
   -webkit-tap-highlight-color: transparent;
 }
 
-.bd-mobile-bottom-nav {
-  border-top: 1px solid #d8e6f8;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 -16px 45px rgba(32, 75, 140, 0.12);
-}
-
-@media (max-width: 767px) {
-  body { padding-bottom: calc(4.75rem + env(safe-area-inset-bottom)); }
-  .bd-marketplace-card { border-radius: 20px; }
-  .bd-marketplace-card .bd-btn { min-height: 44px; }
-  input, select, textarea, button, a { scroll-margin-top: 88px; }
-}
-
-@media (max-width: 767px) {
-  body:has(.bidra-homepage) [data-site-footer] {
-    display: none !important;
-  }
-
-  body:has(.bidra-homepage) main {
-    padding-bottom: 96px;
-  }
-}
-
-
-
-/* bidra-homepage-mobile-header-cleanup */
-@media (max-width: 767px) {
-  body:has(.bidra-homepage) header,
-  body:has(.bidra-homepage) [data-site-header],
-  body:has(.bidra-homepage) form[role="search"] {
-    display: none !important;
-  }
-
-  body:has(.bidra-homepage) main.bidra-homepage {
-    padding-top: 12px !important;
-  }
-}
-/* bidra-slate-teal-theme */
-.bidra-homepage .bd-btn-primary {
-  background: #4F46E5 !important;
-  border-color: #4F46E5 !important;
-  color: #FFFFFF !important;
-}
-
-.bidra-homepage .bd-btn-primary:hover {
-  background: #4338CA !important;
-  border-color: #4338CA !important;
-}
-
-.bidra-homepage .bd-btn-secondary {
-  background: #FFFFFF !important;
-  border-color: #C7D2FE !important;
-  color: #0F172A !important;
-}
-
-.bidra-homepage a {
-  text-decoration: none;
-}
-
-.bidra-homepage ::selection {
-  background: #C8A45D;
-  color: #0F172A;
-}
-
-/* bidra-mobile-bottom-nav-click-fix */
-@media (max-width: 1023px) {
-  [data-mobile-bottom-nav] {
-    display: grid !important;
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    pointer-events: auto !important;
-  }
-
-  [data-mobile-bottom-nav] a {
-    pointer-events: auto !important;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .bd-mobile-bottom-nav {
-    background: rgba(255, 255, 255, 0.96);
-    border-top: 1px solid #C7D2FE;
-    box-shadow: 0 -16px 40px rgba(15, 23, 42, 0.08);
-  }
-
-  .bd-bottom-nav-item {
-    color: #475569;
-  }
-
-  .bd-bottom-nav-item-active {
-    background: #EEF2FF;
-    color: #4F46E5;
-  }
-}
-
-@media (min-width: 1024px) {
-  [data-mobile-bottom-nav] {
-    display: none !important;
-  }
-
-  body {
-    padding-bottom: 0 !important;
-  }
-}
-
-/* bidra-homepage-final-polish */
-:root {
-  --bidra-ink: #0F172A;
-  --bidra-muted: #475569;
-  --bidra-action: #4F46E5;
-  --bidra-action-hover: #4338CA;
-  --bidra-surface: #F6F8FB;
-  --bidra-border: #C7D2FE;
-}
-
-.bidra-homepage a,
-[data-site-footer] a,
-header a {
-  color: var(--bidra-action);
-}
-
-.bidra-homepage a:hover,
-[data-site-footer] a:hover,
-header a:hover {
-  color: var(--bidra-action-hover);
-}
-
-.bidra-homepage .bg-\[\#4F46E5\],
-header .bg-\[\#4F46E5\],
-[data-site-footer] .bg-\[\#4F46E5\] {
-  background-color: var(--bidra-action) !important;
-}
-
-.bidra-homepage .text-\[\#4F46E5\],
-header .text-\[\#4F46E5\],
-[data-site-footer] .text-\[\#4F46E5\] {
-  color: var(--bidra-action) !important;
-}
-
-.bidra-homepage .border-\[\#4F46E5\],
-header .border-\[\#4F46E5\],
-[data-site-footer] .border-\[\#4F46E5\] {
-  border-color: var(--bidra-action) !important;
-}
-
-.bidra-homepage {
-  color: var(--bidra-ink);
-}
-
-@media (min-width: 1024px) {
-  .bidra-homepage {
-    padding-bottom: 0 !important;
-  }
-
-  .bidra-homepage > div,
-  .bidra-homepage section {
-    max-width: 1320px;
-  }
-
-  [data-site-footer] {
-    margin-top: 56px !important;
-    padding-top: 44px !important;
-    padding-bottom: 28px !important;
-  }
-}
-
-@media (max-width: 767px) {
-  [data-site-footer] {
-    display: none !important;
-  }
-}
-
-
-
-
-/* bidra-remove-final-blue */
-.bidra-homepage svg,
-.bidra-homepage [class*="text-[#4F46E5]"] svg,
-.bd-mobile-bottom-nav svg,
-header svg,
-[data-site-footer] svg {
-  color: #4F46E5 !important;
-  stroke: currentColor;
-}
-
-.bidra-homepage .bd-bottom-nav-item-active,
-.bd-mobile-bottom-nav .bd-bottom-nav-item-active {
-  background: #EEF2FF !important;
-  color: #4F46E5 !important;
-}
-
-.bidra-homepage [class*="bg-[#4F46E5]"],
-header [class*="bg-[#4F46E5]"],
-.bd-mobile-bottom-nav [class*="bg-[#4F46E5]"] {
-  background-color: #4F46E5 !important;
-}
-
-.bidra-homepage [class*="text-[#4F46E5]"],
-header [class*="text-[#4F46E5]"],
-[data-site-footer] [class*="text-[#4F46E5]"] {
-  color: #4F46E5 !important;
-}
-
-.bidra-homepage [class*="border-[#4F46E5]"],
-header [class*="border-[#4F46E5]"] {
-  border-color: #4F46E5 !important;
-}
-
-.bidra-homepage .fill-blue-500,
-.bidra-homepage .fill-blue-600,
-.bidra-homepage .fill-blue-700 {
-  fill: #4F46E5 !important;
-}
-
-.bidra-homepage .stroke-blue-500,
-.bidra-homepage .stroke-blue-600,
-.bidra-homepage .stroke-blue-700 {
-  stroke: #4F46E5 !important;
-}
-
-/* bidra-final-teal-overrides */
-:root {
-  --bidra-action: #4F46E5;
-  --bidra-action-hover: #4338CA;
-  --bidra-ink: #0F172A;
-  --bidra-border: #C7D2FE;
-  --bidra-soft: #EEF2FF;
-}
-
-.bidra-homepage .bd-listing-card [class*="BUY"],
-.bidra-homepage .bd-listing-card [class*="buy"],
-.bidra-homepage [class*="rounded-full"][class*="uppercase"],
-.bidra-homepage [class*="shadow"][class*="uppercase"] {
-  background-color: var(--bidra-action) !important;
-  border-color: var(--bidra-action) !important;
-  color: #FFFFFF !important;
-}
-
-.bidra-homepage button,
-.bidra-homepage a,
-header a,
-[data-site-footer] a {
-  color: var(--bidra-action);
-}
-
-.bidra-homepage button:hover,
-.bidra-homepage a:hover,
-header a:hover,
-[data-site-footer] a:hover {
-  color: var(--bidra-action-hover);
-}
-
-.bidra-homepage svg {
-  color: var(--bidra-action) !important;
-}
-
-.bidra-homepage [class*="text-[#2563EB]"],
-.bidra-homepage [class*="text-blue"],
-.bidra-homepage [class*="stroke-blue"],
-.bidra-homepage [class*="fill-blue"],
-header [class*="text-blue"],
-[data-site-footer] [class*="text-blue"] {
-  color: var(--bidra-action) !important;
-  stroke: var(--bidra-action) !important;
-  fill: var(--bidra-action) !important;
-}
-
-.bidra-homepage [class*="bg-blue"],
-.bidra-homepage [class*="bg-[#2563EB]"],
-.bidra-homepage [class*="bg-[#0B4DFF]"],
-.bidra-homepage [class*="bg-[#0057FF]"] {
-  background-color: var(--bidra-action) !important;
-}
-
-.bidra-homepage [class*="border-blue"],
-.bidra-homepage [class*="border-[#2563EB]"],
-.bidra-homepage [class*="border-[#0B4DFF]"],
-.bidra-homepage [class*="border-[#0057FF]"] {
-  border-color: var(--bidra-action) !important;
-}
-
-@media (min-width: 1024px) {
-  body:has(.bidra-homepage) .bidra-homepage {
-    min-height: auto !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage article {
-    min-height: 300px !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage article [class*="min-h-[170px]"],
-  body:has(.bidra-homepage) .bidra-homepage article [class*="min-h-[190px]"] {
-    min-height: 260px !important;
-  }
-
-  body:has(.bidra-homepage) [data-site-footer] {
-    margin-top: 36px !important;
-  }
-}
-
-/* Kill remaining bright blue visual noise on homepage/header/footer */
-header a,
-header button,
-header svg,
-.bidra-homepage a,
-.bidra-homepage button,
-.bidra-homepage svg,
-[data-site-footer] a,
-[data-site-footer] button,
-[data-site-footer] svg {
-  color: var(--bidra-action) !important;
-}
-
-header a:hover,
-header button:hover,
-.bidra-homepage a:hover,
-.bidra-homepage button:hover,
-[data-site-footer] a:hover,
-[data-site-footer] button:hover {
-  color: var(--bidra-action-hover) !important;
-}
-
-header [class*="bg-[#4F46E5]"],
-header [class*="bg-blue"],
-.bidra-homepage [class*="bg-[#4F46E5]"],
-.bidra-homepage [class*="bg-blue"],
-[data-site-footer] [class*="bg-[#4F46E5]"],
-[data-site-footer] [class*="bg-blue"] {
-  background-color: var(--bidra-action) !important;
-}
-
-header [class*="border-[#4F46E5]"],
-header [class*="border-blue"],
-.bidra-homepage [class*="border-[#4F46E5]"],
-.bidra-homepage [class*="border-blue"],
-[data-site-footer] [class*="border-[#4F46E5]"],
-[data-site-footer] [class*="border-blue"] {
-  border-color: var(--bidra-action) !important;
-}
-
-/* Desktop layout: remove the giant dead area before the footer */
-@media (min-width: 1024px) {
-  body:has(.bidra-homepage) main.bidra-homepage {
-    min-height: 0 !important;
-    padding-top: 24px !important;
-    padding-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage > div {
-    padding-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section {
-    margin-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section:last-child {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage article {
-    min-height: 260px !important;
-  }
+.bd-btn:active, .bd-primary-action:active { transform: translateY(1px); }
 
-  body:has(.bidra-homepage) [data-site-footer] {
-    margin-top: 32px !important;
-    padding-top: 32px !important;
-    padding-bottom: 22px !important;
-  }
-
-  body:has(.bidra-homepage) [data-site-footer] > div {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
-}
-
-/* Keep mobile breathing room for bottom nav */
-@media (max-width: 1023px) {
-  body:has(.bidra-homepage) main.bidra-homepage {
-    padding-bottom: 96px !important;
-  }
-}
-
-/* bidra-homepage-deadspace-and-blue-fix */
-:root {
-  --bidra-ink: #0F172A;
-  --bidra-muted: #475569;
-  --bidra-action: #4F46E5;
-  --bidra-action-hover: #4338CA;
-  --bidra-soft: #EEF2FF;
-  --bidra-border: #C7D2FE;
-}
-
-/* Kill remaining bright blue visual noise on homepage/header/footer */
-header a,
-header button,
-header svg,
-.bidra-homepage a,
-.bidra-homepage button,
-.bidra-homepage svg,
-[data-site-footer] a,
-[data-site-footer] button,
-[data-site-footer] svg {
-  color: var(--bidra-action) !important;
-}
-
-header a:hover,
-header button:hover,
-.bidra-homepage a:hover,
-.bidra-homepage button:hover,
-[data-site-footer] a:hover,
-[data-site-footer] button:hover {
-  color: var(--bidra-action-hover) !important;
-}
-
-header [class*="bg-[#4F46E5]"],
-header [class*="bg-blue"],
-.bidra-homepage [class*="bg-[#4F46E5]"],
-.bidra-homepage [class*="bg-blue"],
-[data-site-footer] [class*="bg-[#4F46E5]"],
-[data-site-footer] [class*="bg-blue"] {
-  background-color: var(--bidra-action) !important;
-}
-
-header [class*="border-[#4F46E5]"],
-header [class*="border-blue"],
-.bidra-homepage [class*="border-[#4F46E5]"],
-.bidra-homepage [class*="border-blue"],
-[data-site-footer] [class*="border-[#4F46E5]"],
-[data-site-footer] [class*="border-blue"] {
-  border-color: var(--bidra-action) !important;
-}
-
-/* Desktop layout: remove the giant dead area before the footer */
-@media (min-width: 1024px) {
-  body:has(.bidra-homepage) main.bidra-homepage {
-    min-height: 0 !important;
-    padding-top: 24px !important;
-    padding-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage > div {
-    padding-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section {
-    margin-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section:last-child {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage article {
-    min-height: 260px !important;
-  }
-
-  body:has(.bidra-homepage) [data-site-footer] {
-    margin-top: 32px !important;
-    padding-top: 32px !important;
-    padding-bottom: 22px !important;
-  }
-
-  body:has(.bidra-homepage) [data-site-footer] > div {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
-}
-
-/* Keep mobile breathing room for bottom nav */
-@media (max-width: 1023px) {
-  body:has(.bidra-homepage) main.bidra-homepage {
-    padding-bottom: 96px !important;
-  }
-}
-
-/* bidra-footer-band-cleanup */
-@media (min-width: 1024px) {
-  body:has(.bidra-homepage) {
-    background: #FFFFFF !important;
-  }
-
-  body:has(.bidra-homepage) main.bidra-homepage {
-    background: #FFFFFF !important;
-  }
-
-  body:has(.bidra-homepage) [data-site-footer] {
-    background: #FFFFFF !important;
-    border-top: 1px solid #C7D2FE !important;
-    margin-top: 28px !important;
-    padding-top: 28px !important;
-    padding-bottom: 20px !important;
-  }
-
-  body:has(.bidra-homepage) [data-site-footer]::before,
-  body:has(.bidra-homepage) [data-site-footer]::after {
-    display: none !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage + [data-site-footer],
-  body:has(.bidra-homepage) footer {
-    background-color: #FFFFFF !important;
-  }
-}
-
-/* bidra-homepage-gap-final-fix */
-@media (min-width: 1024px) {
-  body:has(.bidra-homepage) main,
-  body:has(.bidra-homepage) main.bidra-homepage,
-  body:has(.bidra-homepage) .bidra-homepage,
-  body:has(.bidra-homepage) .bidra-homepage > div {
-    min-height: 0 !important;
-    height: auto !important;
-    padding-bottom: 0 !important;
-    margin-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage {
-    display: block !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section {
-    min-height: 0 !important;
-    height: auto !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section:last-of-type {
-    margin-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage article {
-    min-height: 250px !important;
-  }
-
-  body:has(.bidra-homepage) [data-site-footer],
-  body:has(.bidra-homepage) footer {
-    margin-top: 24px !important;
-  }
-}
-
-/* bidra-desktop-zoom-resilience */
-@media (min-width: 1024px) {
-  body:has(.bidra-homepage) main.bidra-homepage {
-    padding-top: clamp(18px, 2.2vh, 32px) !important;
-    padding-bottom: 0 !important;
-    min-height: auto !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage > div,
-  body:has(.bidra-homepage) [data-site-footer] > div {
-    width: min(1180px, calc(100vw - clamp(48px, 12vw, 220px))) !important;
-    max-width: 1180px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section {
-    margin-top: clamp(20px, 2.8vh, 34px) !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage h1 {
-    font-size: clamp(44px, 4.2vw, 70px) !important;
-    line-height: 0.98 !important;
-    letter-spacing: -0.052em !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage h2 {
-    font-size: clamp(24px, 1.8vw, 32px) !important;
-    line-height: 1.05 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage article {
-    min-height: clamp(260px, 24vh, 340px) !important;
-  }
-
-  body:has(.bidra-homepage) [data-site-footer],
-  body:has(.bidra-homepage) footer {
-    margin-top: clamp(28px, 4vh, 56px) !important;
-    padding-top: clamp(24px, 3vh, 36px) !important;
-    padding-bottom: 22px !important;
-  }
-}
-
-@media (min-width: 1440px) {
-  body:has(.bidra-homepage) .bidra-homepage > div,
-  body:has(.bidra-homepage) [data-site-footer] > div {
-    width: min(1240px, calc(100vw - clamp(72px, 16vw, 300px))) !important;
-    max-width: 1240px !important;
-  }
-}
-
-@media (min-width: 1800px) {
-  body:has(.bidra-homepage) .bidra-homepage > div,
-  body:has(.bidra-homepage) [data-site-footer] > div {
-    width: min(1320px, 68vw) !important;
-    max-width: 1320px !important;
-  }
-}
-
-
-/* bidra-mobile-nav-dock-bottom */
-@media (max-width: 1023px) {
-  .bd-mobile-bottom-nav {
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 6px 8px max(6px, env(safe-area-inset-bottom)) 8px !important;
-    border-radius: 0 !important;
-    border-left: 0 !important;
-    border-right: 0 !important;
-    border-bottom: 0 !important;
-    box-shadow: 0 -10px 26px rgba(15, 23, 42, 0.08) !important;
-  }
-
-  .bd-mobile-bottom-nav::before,
-  .bd-mobile-bottom-nav::after {
-    display: none !important;
-    content: none !important;
-  }
-
-  .bd-bottom-nav-item {
-    border-radius: 14px !important;
-  }
-}
-
-
-/* bidra-mobile-category-tighten */
-@media (max-width: 767px) {
-  body:has(.bidra-homepage) .bidra-homepage section:has(a[href*="/listings?category="]) {
-    margin-top: 22px !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] {
-    min-height: 82px !important;
-    padding: 12px 10px !important;
-    border-radius: 17px !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] > div:first-child {
-    width: 32px !important;
-    height: 32px !important;
-    min-width: 32px !important;
-    min-height: 32px !important;
-    margin-bottom: 6px !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] svg {
-    width: 15px !important;
-    height: 15px !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] h3,
-  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] [class*="font-black"] {
-    font-size: 12px !important;
-    line-height: 1.1 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] p,
-  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] [class*="text-sm"],
-  body:has(.bidra-homepage) .bidra-homepage a[href*="/listings?category="] [class*="text-xs"] {
-    font-size: 11px !important;
-    line-height: 1.1 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section:has(a[href*="/listings?category="]) .grid {
-    gap: 9px !important;
-  }
-}
-
-
-
-
-/* bidra-mobile-home-card-compact */
-@media (max-width: 767px) {
-  body:has(.bidra-homepage) .bidra-homepage section:has(a[href^="/listings/"]) {
-    padding-bottom: 18px !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage section:has(a[href^="/listings/"]) .grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 10px !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] {
-    width: auto !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    min-height: 0 !important;
-    border-radius: 18px !important;
-    overflow: hidden !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] img,
-  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] picture,
-  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="aspect"],
-  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="h-44"],
-  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="h-48"],
-  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="h-56"] {
-    max-height: 112px !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="p-4"] {
-    padding: 10px !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="text-xl"] {
-    font-size: 16px !important;
-    line-height: 1.15 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage a[href^="/listings/"] [class*="text-sm"] {
-    font-size: 11px !important;
-    line-height: 1.15 !important;
-  }
-
-  body:has(.bidra-homepage) .bidra-homepage {
-    padding-bottom: 76px !important;
-  }
-}
-
-
-
-
-/* bidra-hero-primary-button-fix */
-.bd-hero-primary-button,
-.bd-hero-primary-button:visited,
-.bd-hero-primary-button:hover,
-.bd-hero-primary-button:focus {
-  color: #4F46E5 !important;
-  background: #FFFFFF !important;
-  border-color: #4F46E5 !important;
-  opacity: 1 !important;
-  text-decoration: none !important;
-}
-
-.bd-hero-primary-button * {
-  color: #4F46E5 !important;
-  opacity: 1 !important;
-}
-
-
-
-/* BIDRA_PRODUCTION_IMAGE_BOUNDS_HOTFIX_START */
-.bd-marketplace-card {
-  display: block;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.bd-marketplace-card img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover;
+.bd-btn-primary, .bd-primary-action {
+  border: 1px solid var(--bd-purple);
+  background: linear-gradient(135deg, #8b5cf6 0%, var(--bd-purple) 52%, var(--bd-purple-dark) 100%);
+  color: #ffffff !important;
+  box-shadow: 0 14px 30px rgba(124, 58, 237, 0.24);
 }
 
-a[aria-label="Bidra home"] img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-/* BIDRA_PRODUCTION_IMAGE_BOUNDS_HOTFIX_END */
-
-/* BIDRA_BUTTON_CONTRAST_HOTFIX_START */
-:root {
-  --brand: #4F46E5;
-  --brand-hover: #4338CA;
-  --brand-accent: #6366F1;
-  --brand-soft: #EEF2FF;
-  --brand-soft-2: #F5F3FF;
-  --brand-border: #C7D2FE;
-  --text-main: #0F172A;
-  --text-muted: #475569;
-  --surface: #FFFFFF;
-}
-
-/* Force readable text on all solid Bidra primary buttons. */
-button[class*="bg-[#4F46E5]"],
-button[class*="bg-[#4338CA]"],
-button[class*="bg-[#2563EB]"],
-button[class*="to-[#7C3AED]"],
-a[class*="bg-[#4F46E5]"],
-a[class*="bg-[#4338CA]"],
-a[class*="bg-[#2563EB]"],
-a[class*="to-[#7C3AED]"],
-.bd-primary-button {
-  color: #FFFFFF !important;
-  background-color: var(--brand);
-  border-color: var(--brand);
-}
-
-button[class*="bg-[#4F46E5]"] *,
-button[class*="bg-[#4338CA]"] *,
-button[class*="bg-[#2563EB]"] *,
-button[class*="to-[#7C3AED]"] *,
-a[class*="bg-[#4F46E5]"] *,
-a[class*="bg-[#4338CA]"] *,
-a[class*="bg-[#2563EB]"] *,
-a[class*="to-[#7C3AED]"] *,
-.bd-primary-button * {
-  color: #FFFFFF !important;
-}
-
-button[class*="bg-[#4F46E5]"]:hover,
-button[class*="bg-[#4338CA]"]:hover,
-a[class*="bg-[#4F46E5]"]:hover,
-a[class*="bg-[#4338CA]"]:hover,
-.bd-primary-button:hover {
-  background-color: var(--brand-hover);
-  border-color: var(--brand-hover);
-}
-
-button:disabled,
-button[disabled],
-a[aria-disabled="true"] {
-  cursor: not-allowed;
-  opacity: 0.65;
-}
-
-button:disabled[class*="bg-[#4F46E5]"],
-button:disabled[class*="bg-[#4338CA]"],
-button:disabled[class*="bg-[#2563EB]"],
-button:disabled[class*="to-[#7C3AED]"],
-button[disabled][class*="bg-[#4F46E5]"],
-button[disabled][class*="bg-[#4338CA]"],
-button[disabled][class*="bg-[#2563EB]"],
-button[disabled][class*="to-[#7C3AED]"] {
-  color: #FFFFFF !important;
-}
+.bd-btn-primary *, .bd-primary-action * { color: #ffffff !important; }
 
-/* Secondary buttons must stay white with brand text. */
-button[class*="bg-white"],
-a[class*="bg-white"] {
-  color: var(--brand) !important;
+.bd-btn-primary:hover, .bd-primary-action:hover {
+  border-color: var(--bd-purple-dark);
+  background: var(--bd-purple-dark);
 }
 
-button[class*="bg-white"]:hover,
-a[class*="bg-white"]:hover {
-  background-color: var(--brand-soft-2) !important;
+.bd-btn-secondary, .bd-btn-outline, .bd-back-link {
+  border: 1px solid var(--bd-border);
+  background: #ffffff;
+  color: var(--bd-ink);
 }
 
-/* Inputs and cards use the same border/tone everywhere. */
-input,
-select,
-textarea {
-  color: var(--text-main);
-  border-color: #CBD5E1;
+.bd-btn-secondary:hover, .bd-btn-outline:hover, .bd-back-link:hover {
+  border-color: #cbb8e8;
+  background: var(--bd-purple-soft);
+  color: var(--bd-purple-dark);
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: #94A3B8;
+.bd-input, input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--bd-border);
+  border-radius: 14px;
+  background: #ffffff;
+  color: var(--bd-ink);
+  padding: 10px 14px;
+  box-shadow: 0 8px 22px rgba(18, 7, 36, 0.04);
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--brand) !important;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12) !important;
+.bd-input:focus, input:not([type="checkbox"]):not([type="radio"]):focus, select:focus, textarea:focus {
+  border-color: var(--bd-purple);
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.13);
   outline: none;
 }
 
-/* Header account/admin buttons should always read correctly. */
-header a[href*="/account"],
-header a[href*="/admin"],
-header button[class*="Account"],
-header button[class*="Admin"] {
-  color: #FFFFFF !important;
+.bd-label, label { font-weight: 800; color: var(--bd-ink); }
+.bd-help, .bd-page-description, .bd-marketplace-muted, .bd-marketplace-subtitle { color: var(--bd-muted); }
+
+.bd-page-title, .bd-marketplace-title {
+  color: var(--bd-ink);
+  font-weight: 950;
+  letter-spacing: -0.05em;
 }
 
-/* Fix blank active pill on dashboard/watchlist tabs. */
-a[aria-current="page"],
-.bd-dashboard-tab-active {
-  color: #FFFFFF !important;
-  background-color: var(--brand) !important;
-}
-
-/* Make links readable but not button-blue inside solid buttons. */
-a:not([class*="bg-[#4F46E5]"]):not([class*="bg-[#4338CA]"]):not([class*="bg-[#2563EB]"]):not([class*="to-[#7C3AED]"]) {
-  color: var(--brand);
-}
-
-a:not([class*="bg-[#4F46E5]"]):not([class*="bg-[#4338CA]"]):not([class*="bg-[#2563EB]"]):not([class*="to-[#7C3AED]"]):hover {
-  color: var(--brand-hover);
-}
-
-/* BIDRA_BUTTON_CONTRAST_HOTFIX_END */
-
-/* BIDRA_FINAL_CONTRAST_SYSTEM_START */
-:root {
-  --brand: #4F46E5;
-  --brand-hover: #4338CA;
-  --brand-accent: #6366F1;
-  --brand-soft: #EEF2FF;
-  --brand-soft-2: #F5F3FF;
-  --brand-border: #C7D2FE;
-  --text-main: #0F172A;
-  --text-muted: #475569;
-  --surface: #FFFFFF;
-}
-
-button[class*="bg-[#4F46E5]"],
-button[class*="bg-[#4338CA]"],
-button[class*="bg-[#2563EB]"],
-button[class*="bg-gradient-to-r"],
-a[class*="bg-[#4F46E5]"],
-a[class*="bg-[#4338CA]"],
-a[class*="bg-[#2563EB]"],
-a[class*="bg-gradient-to-r"],
-.bd-primary-button {
-  background: var(--brand) !important;
-  background-image: none !important;
-  border-color: var(--brand) !important;
-  color: #FFFFFF !important;
-}
-
-button[class*="bg-[#4F46E5]"] *,
-button[class*="bg-[#4338CA]"] *,
-button[class*="bg-[#2563EB]"] *,
-button[class*="bg-gradient-to-r"] *,
-a[class*="bg-[#4F46E5]"] *,
-a[class*="bg-[#4338CA]"] *,
-a[class*="bg-[#2563EB]"] *,
-a[class*="bg-gradient-to-r"] *,
-.bd-primary-button * {
-  color: #FFFFFF !important;
-}
-
-button[class*="bg-[#4F46E5]"]:hover,
-button[class*="bg-[#4338CA]"]:hover,
-button[class*="bg-[#2563EB]"]:hover,
-button[class*="bg-gradient-to-r"]:hover,
-a[class*="bg-[#4F46E5]"]:hover,
-a[class*="bg-[#4338CA]"]:hover,
-a[class*="bg-[#2563EB]"]:hover,
-a[class*="bg-gradient-to-r"]:hover {
-  background: var(--brand-hover) !important;
-  background-image: none !important;
-  color: #FFFFFF !important;
-}
-
-button[class*="bg-white"],
-a[class*="bg-white"] {
-  background: #FFFFFF !important;
-  color: var(--brand) !important;
-}
-
-button[class*="bg-white"]:hover,
-a[class*="bg-white"]:hover {
-  background: var(--brand-soft-2) !important;
-  color: var(--brand-hover) !important;
-}
-
-a[aria-current="page"],
-button[aria-current="page"],
-[data-active="true"],
-.bd-dashboard-tab-active {
-  background: var(--brand) !important;
-  color: #FFFFFF !important;
-}
-
-a[aria-current="page"] *,
-button[aria-current="page"] *,
-[data-active="true"] *,
-.bd-dashboard-tab-active * {
-  color: #FFFFFF !important;
-}
-
-a[aria-current="page"]:empty::after,
-button[aria-current="page"]:empty::after,
-.bd-dashboard-tab-active:empty::after {
-  content: "Saved";
-  color: #FFFFFF;
-}
-
-input,
-select,
-textarea {
-  color: var(--text-main);
-  border-color: #CBD5E1;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: #94A3B8;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--brand) !important;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12) !important;
-  outline: none;
-}
-/* BIDRA_FINAL_CONTRAST_SYSTEM_END */
-
-/* BIDRA_LOGGED_IN_LAYOUT_FIX_START */
-.bd-logged-in-page {
-  min-height: calc(100vh - 160px);
-  background: transparent;
-}
-
-.bd-account-nav {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0.5rem;
-  width: 100%;
-  border: 1px solid #C7D2FE;
-  border-radius: 1.5rem;
-  background: rgba(255, 255, 255, 0.92);
-  padding: 0.45rem;
-  box-shadow: 0 16px 45px rgba(79, 70, 229, 0.08);
-}
-
-.bd-account-nav-link {
+.bd-badge, .bd-pill {
   display: inline-flex;
-  min-height: 3rem;
+  min-height: 28px;
   align-items: center;
   justify-content: center;
-  border-radius: 1.1rem;
-  color: #4F46E5;
-  font-size: 0.875rem;
+  border: 1px solid var(--bd-border);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--bd-muted);
+  padding: 0 10px;
+  font-size: 11px;
   font-weight: 900;
-  text-decoration: none;
 }
 
-.bd-account-nav-link:hover {
-  background: #EEF2FF;
-  color: #4338CA;
+.bd-badge-buy, .bd-badge-success { border-color: rgba(34,197,94,0.25); background: #ecfdf5; color: #047857; }
+.bd-badge-offer, .bd-badge-info { border-color: rgba(124,58,237,0.24); background: var(--bd-purple-soft); color: var(--bd-purple-dark); }
+.bd-badge-danger { border-color: rgba(239,68,68,0.25); background: #fef2f2; color: #b91c1c; }
+
+.bd-premium-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(135deg, var(--bd-hero) 0%, #170a2d 52%, var(--bd-hero-2) 100%);
+  color: #ffffff;
+  box-shadow: 0 16px 45px rgba(18, 7, 36, 0.22);
 }
 
-.bd-account-nav-link-active,
-.bd-account-nav-link[aria-current="page"] {
-  background: #4F46E5 !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 12px 24px rgba(79, 70, 229, 0.24);
+.bd-premium-header a, .bd-premium-header button, .bd-premium-header svg { color: #ffffff; }
+
+.bd-premium-header-link, .bd-premium-account-button {
+  border-radius: 999px;
+  color: rgba(255,255,255,0.86) !important;
 }
 
-.bd-logged-in-hero {
-  border: 1px solid #C7D2FE;
-  border-radius: 2rem;
-  background: linear-gradient(135deg, #FFFFFF 0%, #EEF2FF 56%, #F5F3FF 100%);
-  padding: 1.5rem;
-  box-shadow: 0 22px 60px rgba(79, 70, 229, 0.08);
+.bd-premium-header-link:hover, .bd-premium-account-button:hover {
+  background: rgba(255,255,255,0.10);
+  color: #ffffff !important;
 }
 
-.bd-logged-in-eyebrow {
-  color: #475569;
-  font-size: 0.72rem;
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
+.bd-premium-search {
+  border: 1px solid rgba(255,255,255,0.16) !important;
+  background: rgba(255,255,255,0.10) !important;
+  color: #ffffff !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 28px rgba(18,7,36,0.18) !important;
 }
 
-.bd-logged-in-title {
-  margin-top: 0.4rem;
-  color: #0F172A;
-  font-size: clamp(2rem, 4vw, 3.75rem);
-  font-weight: 950;
-  letter-spacing: -0.055em;
-  line-height: 0.98;
-}
+.bd-premium-search::placeholder { color: rgba(255,255,255,0.62) !important; }
 
-.bd-logged-in-copy {
-  margin-top: 0.75rem;
-  max-width: 48rem;
-  color: #475569;
-  font-size: 1rem;
-  font-weight: 650;
-  line-height: 1.65;
-}
-
-.bd-btn-primary,
-.bd-primary-action,
-button[class*="bg-[#4F46E5]"],
-a[class*="bg-[#4F46E5]"] {
-  background: #4F46E5 !important;
-  border-color: #4F46E5 !important;
-  color: #FFFFFF !important;
-}
-
-.bd-btn-primary *,
-.bd-primary-action *,
-button[class*="bg-[#4F46E5]"] *,
-a[class*="bg-[#4F46E5]"] * {
-  color: #FFFFFF !important;
-}
-
-.bd-btn-primary:hover,
-.bd-primary-action:hover,
-button[class*="bg-[#4F46E5]"]:hover,
-a[class*="bg-[#4F46E5]"]:hover {
-  background: #4338CA !important;
-  border-color: #4338CA !important;
-}
-
-.bd-btn-secondary,
-a[class*="bg-white"],
-button[class*="bg-white"] {
-  color: #4F46E5;
-}
-
-@media (max-width: 760px) {
-  .bd-account-nav {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .bd-account-nav-link {
-    min-height: 2.75rem;
-    font-size: 0.8rem;
-  }
-
-  .bd-logged-in-hero {
-    border-radius: 1.5rem;
-    padding: 1.1rem;
-  }
-}
-/* BIDRA_LOGGED_IN_LAYOUT_FIX_END */
-
-/* BIDRA_REFERENCE_QUALITY_SYSTEM_START */
-:root {
-  --brand: #4F46E5;
-  --brand-hover: #4338CA;
-  --brand-accent: #6366F1;
-  --brand-soft: #EEF2FF;
-  --brand-soft-2: #F5F3FF;
-  --brand-border: #C7D2FE;
-  --text-main: #0F172A;
-  --text-muted: #475569;
-  --surface: #FFFFFF;
-}
-
-body {
-  background: #FFFFFF;
-  color: var(--text-main);
-}
-
-.bd-reference-page {
-  background:
-    radial-gradient(900px 420px at 50% -180px, rgba(79, 70, 229, 0.08), transparent 70%),
-    #FFFFFF;
-}
-
-.bd-reference-hero,
-.bd-logged-in-hero {
-  border: 1px solid var(--brand-border);
-  border-radius: 2rem;
-  background: linear-gradient(135deg, #FFFFFF 0%, #EEF2FF 58%, #F5F3FF 100%);
-  padding: 1.75rem;
-  box-shadow: 0 22px 60px rgba(79, 70, 229, 0.08);
-}
-
-.bd-reference-eyebrow,
-.bd-logged-in-eyebrow {
-  color: var(--text-muted);
-  font-size: 0.72rem;
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.bd-reference-title,
-.bd-logged-in-title {
-  margin-top: 0.5rem;
-  color: var(--text-main);
-  font-size: clamp(2.25rem, 4vw, 4rem);
-  font-weight: 950;
-  letter-spacing: -0.055em;
-  line-height: 0.98;
-}
-
-.bd-reference-copy,
-.bd-logged-in-copy {
-  margin-top: 0.75rem;
-  max-width: 48rem;
-  color: var(--text-muted);
-  font-size: 1rem;
-  font-weight: 650;
-  line-height: 1.65;
-}
-
-.bd-account-nav {
+.bd-mobile-bottom-nav, .bd-bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0.5rem;
-  width: 100%;
-  border: 1px solid var(--brand-border);
-  border-radius: 1.5rem;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 0.45rem;
-  box-shadow: 0 16px 45px rgba(79, 70, 229, 0.08);
-}
-
-.bd-account-nav-link {
-  display: inline-flex;
-  min-height: 3rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 1.1rem;
-  color: var(--brand);
-  font-size: 0.875rem;
-  font-weight: 900;
-  text-decoration: none;
-}
-
-.bd-account-nav-link:hover {
-  background: var(--brand-soft);
-  color: var(--brand-hover);
-}
-
-.bd-account-nav-link-active,
-.bd-account-nav-link[aria-current="page"] {
-  background: var(--brand) !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 12px 24px rgba(79, 70, 229, 0.24);
-}
-
-.bd-btn-primary,
-.bd-primary-action,
-button[class*="bg-[#4F46E5]"],
-a[class*="bg-[#4F46E5]"] {
-  background: var(--brand) !important;
-  border-color: var(--brand) !important;
-  color: #FFFFFF !important;
-}
-
-.bd-btn-primary:hover,
-.bd-primary-action:hover,
-button[class*="bg-[#4F46E5]"]:hover,
-a[class*="bg-[#4F46E5]"]:hover {
-  background: var(--brand-hover) !important;
-  border-color: var(--brand-hover) !important;
-}
-
-.bd-btn-secondary,
-a[class*="bg-white"],
-button[class*="bg-white"] {
-  color: var(--brand);
-}
-
-@media (max-width: 760px) {
-  .bd-account-nav {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .bd-account-nav-link {
-    min-height: 2.75rem;
-    font-size: 0.8rem;
-  }
-
-  .bd-reference-hero,
-  .bd-logged-in-hero {
-    border-radius: 1.5rem;
-    padding: 1.15rem;
-  }
-}
-/* BIDRA_REFERENCE_QUALITY_SYSTEM_END */
-
-/* BIDRA_MARKETPLACE_QA_FIX_START */
-:root {
-  --brand: #4F46E5;
-  --brand-hover: #4338CA;
-  --brand-accent: #6366F1;
-  --brand-soft: #EEF2FF;
-  --brand-soft-2: #F5F3FF;
-  --brand-border: #C7D2FE;
-  --text-main: #0F172A;
-  --text-muted: #475569;
-  --surface: #FFFFFF;
-}
-
-.bd-account-nav {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0.5rem;
-  width: 100%;
-  border: 1px solid var(--brand-border);
-  border-radius: 1.5rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  border-top: 1px solid var(--bd-border);
   background: rgba(255,255,255,0.96);
-  padding: 0.45rem;
-  box-shadow: 0 16px 45px rgba(79,70,229,0.08);
+  padding: 6px 8px max(6px, env(safe-area-inset-bottom)) 8px;
+  box-shadow: 0 -12px 32px rgba(18,7,36,0.12);
+  backdrop-filter: blur(18px);
 }
 
-.bd-account-nav-link {
+.bd-bottom-nav-item {
   display: inline-flex;
-  min-height: 3rem;
+  min-height: 54px;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 1.1rem;
-  color: var(--brand);
-  font-size: 0.875rem;
-  font-weight: 900;
-  text-decoration: none;
+  gap: 3px;
+  border-radius: 14px;
+  color: var(--bd-muted);
+  font-size: 11px;
+  font-weight: 850;
 }
 
-.bd-account-nav-link:hover {
-  background: var(--brand-soft);
-  color: var(--brand-hover);
+.bd-bottom-nav-item-active {
+  background: var(--bd-purple-soft);
+  color: var(--bd-purple-dark);
 }
 
-.bd-account-nav-link-active,
-.bd-account-nav-link[aria-current="page"] {
-  background: var(--brand) !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 12px 24px rgba(79,70,229,0.24);
+.bd-marketplace-card {
+  overflow: hidden;
+  border: 1px solid var(--bd-border);
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 12px 34px rgba(18,7,36,0.08);
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 
-.bd-btn-primary,
-.bd-primary-action,
-button[class*="bg-[#4F46E5]"],
-a[class*="bg-[#4F46E5]"] {
-  background: var(--brand) !important;
-  border-color: var(--brand) !important;
-  color: #FFFFFF !important;
+.bd-marketplace-card:hover {
+  transform: translateY(-2px);
+  border-color: #cbb8e8;
+  box-shadow: 0 20px 50px rgba(18,7,36,0.13);
 }
 
-.bd-btn-primary:hover,
-.bd-primary-action:hover,
-button[class*="bg-[#4F46E5]"]:hover,
-a[class*="bg-[#4F46E5]"]:hover {
-  background: var(--brand-hover) !important;
-  border-color: var(--brand-hover) !important;
+.bd-image-frame {
+  overflow: hidden;
+  border: 1px solid var(--bd-border);
+  border-radius: 22px;
+  background: linear-gradient(135deg, #f9f7ff 0%, #ffffff 100%);
 }
 
-.bd-btn-secondary,
-a[class*="bg-white"],
-button[class*="bg-white"] {
-  color: var(--brand);
+.bd-trust-panel { border: 1px solid rgba(34,197,94,0.22); border-radius: 18px; background: #ecfdf5; color: #064e3b; padding: 14px 16px; }
+.bd-info-panel, .bd-warning-panel { border: 1px solid rgba(124,58,237,0.22); border-radius: 18px; background: var(--bd-purple-soft); color: var(--bd-purple-dark); padding: 14px 16px; }
+.bd-danger-panel { border: 1px solid rgba(239,68,68,0.22); border-radius: 18px; background: #fef2f2; color: #991b1b; padding: 14px 16px; }
+
+[data-site-footer], footer {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(135deg, var(--bd-hero) 0%, #170a2d 52%, var(--bd-hero-2) 100%);
+  color: #ffffff;
 }
 
-@media (max-width: 760px) {
-  .bd-account-nav {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+[data-site-footer] a, footer a { color: rgba(255,255,255,0.82); }
+[data-site-footer] a:hover, footer a:hover { color: #ffffff; }
+
+@media (min-width: 1024px) {
+  .bd-desktop-only { display: block; }
+  .bd-mobile-only { display: none !important; }
+  .bd-mobile-bottom-nav, .bd-bottom-nav { display: none !important; }
+  main { padding-bottom: 0; }
+}
+
+@media (max-width: 1023px) {
+  .bd-desktop-only { display: none !important; }
+  .bd-mobile-only { display: block; }
+  main { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .bd-container, .bd-shell, .bd-page-shell, .bd-account-shell {
+    padding-left: 16px;
+    padding-right: 16px;
   }
-
-  .bd-account-nav-link {
-    min-height: 2.75rem;
-    font-size: 0.8rem;
+  .bd-page-shell, .bd-account-shell {
+    padding-top: 20px;
+    padding-bottom: 28px;
   }
-}
-/* BIDRA_MARKETPLACE_QA_FIX_END */
-
-/* BIDRA_MILLION_DOLLAR_LOGGED_IN_START */
-.bd-account-shell,
-main:has(.bd-account-nav) {
-  min-height: calc(100vh - 96px);
-}
-
-.bd-account-nav {
-  display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 0.5rem;
-  width: 100%;
-  max-width: none;
-  border: 1px solid #C7D2FE;
-  border-radius: 1.5rem;
-  background: rgba(255, 255, 255, 0.96);
-  padding: 0.45rem;
-  box-shadow: 0 18px 50px rgba(79, 70, 229, 0.10);
-}
-
-.bd-account-nav-link {
-  display: inline-flex;
-  min-height: 3.15rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 1.1rem;
-  color: #4F46E5;
-  font-size: 0.9rem;
-  font-weight: 950;
-  text-decoration: none;
-}
-
-.bd-account-nav-link:hover {
-  background: #EEF2FF;
-  color: #4338CA;
-}
-
-.bd-account-nav-link-active,
-.bd-account-nav-link[aria-current="page"] {
-  background: #4F46E5 !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 12px 26px rgba(79, 70, 229, 0.28);
-}
-
-.bd-account-hero {
-  border: 1px solid #C7D2FE;
-  border-radius: 2rem;
-  background: linear-gradient(135deg, #FFFFFF 0%, #EEF2FF 55%, #F5F3FF 100%);
-  padding: 2rem;
-  box-shadow: 0 24px 70px rgba(79, 70, 229, 0.10);
-}
-
-.bd-account-eyebrow {
-  color: #475569;
-  font-size: 0.72rem;
-  font-weight: 950;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.bd-account-title {
-  margin-top: 0.5rem;
-  color: #0F172A;
-  font-size: clamp(2.5rem, 4vw, 4.5rem);
-  font-weight: 950;
-  letter-spacing: -0.06em;
-  line-height: 0.95;
-}
-
-.bd-account-copy {
-  margin-top: 0.75rem;
-  max-width: 52rem;
-  color: #475569;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.65;
-}
-
-main:has(.bd-account-nav) [class*="rounded-"] {
-  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.06);
-}
-
-@media (max-width: 760px) {
-  .bd-account-nav {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .bd-card, .bd-form-card, .bd-marketplace-section, .bd-surface, .bd-empty-state {
+    border-radius: 20px;
   }
-
-  .bd-account-nav-link {
-    min-height: 2.75rem;
-    font-size: 0.8rem;
-  }
-
-  .bd-account-hero {
-    border-radius: 1.5rem;
-    padding: 1.25rem;
-  }
+  .bd-form-card, .bd-marketplace-section { padding: 18px; }
+  .bd-premium-header .lg\:hidden { color: #ffffff; }
 }
-/* BIDRA_MILLION_DOLLAR_LOGGED_IN_END */
 
+@media (max-width: 640px) {
+  .bd-btn, .bd-primary-action, .bd-back-link { width: 100%; }
+  .bd-page-title, .bd-marketplace-title { font-size: 32px; line-height: 1.02; }
+}

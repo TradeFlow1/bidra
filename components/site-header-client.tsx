@@ -13,10 +13,10 @@ type SessionLike = {
 } | null | undefined;
 
 const DESKTOP_LINKS = [
-  { href: "/", label: "Home" },
   { href: "/listings", label: "Browse" },
-  { href: "/listings?type=BUY_NOW", label: "Buy now" },
-  { href: "/listings?type=OFFERABLE", label: "Make an offer" },
+  { href: "/listings?type=OFFERABLE", label: "Offers" },
+  { href: "/listings?type=BUY_NOW", label: "Buy Now" },
+  { href: "/wanted", label: "Wanted" },
   { href: "/sell/new", label: "Sell" },
 ];
 
@@ -48,7 +48,7 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
   const isAuthed = !!session?.user?.id;
   const rawRole = String(session?.user?.role || "USER").toUpperCase();
   const accountRoleLabel = "My Bidra";
-  const accountRoleDescription = "Your buying, selling, orders, messages, and saved listings.";
+  const accountRoleDescription = "Your buying, selling, orders, messages and watchlist.";
 
   useEffect(function () {
     function onDocClick(e: MouseEvent) {
@@ -108,9 +108,10 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
         <div className="grid gap-1 p-2">
           <Link href="/" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Home</Link>
           <Link href="/listings" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Browse</Link>
-          <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Buy now</Link>
-          <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Make an offer</Link>
-          <Link href="/sell/new" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Sell an item</Link>
+          <Link href="/listings?type=OFFERABLE" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Offers</Link>
+          <Link href="/listings?type=BUY_NOW" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Buy Now</Link>
+          <Link href="/wanted" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Wanted</Link>
+          <Link href="/sell/new" className={menuLinkClass} onClick={() => setMobileMenuOpen(false)}>Sell your item</Link>
           {isAuthed ? (
             <>
               <div className="my-1 border-t border-[#EDE9FE]" />
@@ -123,7 +124,7 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
           ) : (
             <div className="mt-2 grid grid-cols-2 gap-2 border-t border-[#EDE9FE] pt-3">
               <Link href="/auth/login" className="bd-btn bd-btn-secondary" onClick={() => setMobileMenuOpen(false)}>Sign in</Link>
-              <Link href="/auth/register" className="bd-btn bd-btn-primary !text-white" onClick={() => setMobileMenuOpen(false)}>Join</Link>
+              <Link href="/auth/register" className="bd-btn bd-btn-primary !text-white" onClick={() => setMobileMenuOpen(false)}>Join Bidra</Link>
             </div>
           )}
         </div>
@@ -132,22 +133,22 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
   }
 
   return (
-    <header className="bd-premium-header sticky top-0 z-[100] text-white">
-      <div className="mx-auto hidden h-20 w-full max-w-[1440px] items-center gap-5 px-6 lg:flex xl:px-8">
-        <Link href="/" className="flex h-14 w-[172px] shrink-0 items-center" aria-label="Bidra home">
+    <header className="bd-premium-header text-white" data-site-header>
+      <div className="mx-auto hidden h-[76px] w-full max-w-[1440px] items-center gap-5 px-6 lg:flex xl:px-8">
+        <Link href="/" className="flex h-14 w-[160px] shrink-0 items-center" aria-label="Bidra home">
           <BrandLogo priority tone="light" />
         </Link>
-        <nav className="flex shrink-0 items-center gap-4 xl:gap-5" aria-label="Primary navigation">
+        <nav className="flex shrink-0 items-center gap-3 xl:gap-4" aria-label="Primary navigation">
           {DESKTOP_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="bd-premium-header-link whitespace-nowrap text-[13px] font-extrabold transition">
+            <Link key={link.href} href={link.href} className="bd-premium-header-link whitespace-nowrap px-3 py-2 text-[13px] font-extrabold transition">
               {link.label}
             </Link>
           ))}
         </nav>
-        <SearchBar className="min-w-[15rem] max-w-[27rem] flex-1" inputClassName={searchInputClass} />
+        <SearchBar className="min-w-[14rem] max-w-[25rem] flex-1" inputClassName={searchInputClass} />
         <div className="flex shrink-0 items-center gap-2.5">
           <Link href="/sell/new" className="bd-btn bd-btn-primary h-11 rounded-xl px-4 text-sm !text-white">
-            Sell item
+            Sell your item
           </Link>
           {isAuthed ? (
             <div ref={desktopAccountRef} className="relative">
@@ -180,3 +181,5 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
     </header>
   );
 }
+
+
