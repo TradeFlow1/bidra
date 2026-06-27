@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { distanceKm, findAuLocation, parseListingLocation } from "@/lib/au-location";
 import { ProductPlaceholder, placeholderKindFromCategory } from "@/components/marketplace-ui";
-import { BrowseHeader, BrowseResultsGrid, BrowseMobileResults, BrowseMobileHero, BrowsePaginationNotice } from "@/components/listings";
+import { BrowseHeader, BrowseResultsGrid, BrowseMobileResults, BrowseMobileHero, BrowsePaginationNotice, BrowseToolbar } from "@/components/listings";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -421,6 +421,12 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
               }
             />
 
+            <BrowseToolbar
+              count={displayCount}
+              selectedSort={selectedSort}
+              selectedType={selectedType}
+              selectedCategory={selectedCategory}
+            />
             <BrowseResultsGrid listings={visibleListings} />
 
             {showPagination ? (
@@ -501,6 +507,12 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
             <p className="rounded-full border border-[#DDD6FE] bg-white px-3 py-1.5 text-xs font-black text-[#5B21B6] shadow-sm">{displayCount} results</p>
           </div>
 
+          <BrowseToolbar
+            count={displayCount}
+            selectedSort={selectedSort}
+            selectedType={selectedType}
+            selectedCategory={selectedCategory}
+          />
           <BrowseMobileResults listings={visibleListings} />
         </section>
       </main>
