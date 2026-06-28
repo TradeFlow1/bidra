@@ -11,7 +11,7 @@ import WatchlistButton from "./watchlist-button";
 import ListingImageGallery from "@/components/listing-image-gallery";
 import ListingCard from "@/components/listing-card";
 import { getBaseUrl } from "@/lib/base-url";
-import { BuyerSafetyCard, DescriptionCard, ListingActionPanel, ListingBreadcrumbs, ListingOfferSummary, RelatedListings, SellerCard, SpecificationTable } from "@/components/listing-detail";
+import { BuyerSafetyCard, DescriptionCard, ListingActionPanel, ListingBreadcrumbs, ListingGallery, ListingOfferSummary, RelatedListings, SellerCard, SpecificationTable } from "@/components/listing-detail";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -338,7 +338,7 @@ export default async function ListingDetailPage({
 
         <section className="grid gap-8 lg:grid-cols-[1.35fr_0.85fr] lg:items-start xl:gap-12">
           <div>
-            <ListingImageGallery images={images} title={title} />
+            <ListingGallery images={images} title={title} />
 
             <SellerCard
               sellerName={sellerName}
