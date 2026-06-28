@@ -6,3 +6,4 @@ export * from "./listing-offer-summary";
 export * from "./seller-card";
 export * from "./listing-action-panel";
 export * from "./specification-table";
+export * from "./related-listings";
