@@ -11,7 +11,7 @@ import WatchlistButton from "./watchlist-button";
 import ListingImageGallery from "@/components/listing-image-gallery";
 import ListingCard from "@/components/listing-card";
 import { getBaseUrl } from "@/lib/base-url";
-import { BuyerSafetyCard, DescriptionCard, ListingActionPanel, ListingBreadcrumbs, ListingGallery, ListingOfferSummary, RelatedListings, SellerCard, SpecificationTable } from "@/components/listing-detail";
+import { BuyerSafetyCard, DescriptionCard, ListingActionPanel, ListingBreadcrumbs, ListingGallery, ListingOfferSummary, RelatedListings, SellerCard, SpecificationTable, StickyMobileActions } from "@/components/listing-detail";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -454,6 +454,15 @@ export default async function ListingDetailPage({
                 );
               })}
         </RelatedListings>
+        <StickyMobileActions
+          price={money(displayPrice)}
+          primaryAction={canBuyNow ? <BuyNowButton listingId={listing.id} /> : canOffer ? <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} /> : showOfferLogin ? (
+            <Link href={"/auth/login?next=/listings/" + listing.id} className="bd-btn bd-btn-primary rounded-2xl text-center text-sm">
+              Log in to offer
+            </Link>
+          ) : null}
+          secondaryAction={!isOwner ? <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} /> : null}
+        />
       </div>
     </main>
   );
