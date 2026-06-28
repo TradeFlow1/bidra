@@ -12,7 +12,7 @@ import WatchlistButton from "./watchlist-button";
 import ListingImageGallery from "@/components/listing-image-gallery";
 import ListingCard from "@/components/listing-card";
 import { getBaseUrl } from "@/lib/base-url";
-import { BuyerSafetyCard, DescriptionCard, ListingBreadcrumbs, ListingOfferSummary, SellerCard } from "@/components/listing-detail";
+import { BuyerSafetyCard, DescriptionCard, ListingActionPanel, ListingBreadcrumbs, ListingOfferSummary, SellerCard } from "@/components/listing-detail";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -375,33 +375,26 @@ export default async function ListingDetailPage({
               <span>{displayedViewCount.toLocaleString("en-AU")} views</span>
             </div>
 
-            <div className={canBuyNow && canOffer ? "mt-8 grid gap-4 sm:grid-cols-2" : "mt-8 grid gap-4"}>
-              {canBuyNow ? <BuyNowButton listingId={listing.id} /> : null}
-              {canOffer ? <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} /> : null}
-              {showOfferLogin ? (
-                <Link
-                  href={"/auth/login?next=/listings/" + listing.id}
-                  className="bd-btn bd-btn-primary w-full rounded-2xl text-center"
-                >
+            <ListingActionPanel
+              canSplitActions={canBuyNow && canOffer}
+              buyNowAction={canBuyNow ? <BuyNowButton listingId={listing.id} /> : null}
+              offerAction={canOffer ? <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} /> : null}
+              loginAction={showOfferLogin ? (
+                <Link href={"/auth/login?next=/listings/" + listing.id} className="bd-btn bd-btn-primary w-full rounded-2xl text-center">
                   Log in to make an offer
                 </Link>
               ) : null}
-            </div>
-
-            {isOwner ? (
-              <div className="mt-6 rounded-[24px] border border-[#DDD6FE] bg-white p-4 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
-                <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7C3AED]">Seller tools</div>
-                <div className="mt-2 text-sm font-semibold text-[#62516F]">Manage this listing from your seller view.</div>
-                <Link href={"/sell/edit/" + params.id} className="bd-btn bd-btn-secondary mt-4 h-12 w-full rounded-2xl px-5 text-sm">
-                  Edit listing
-                </Link>
-              </div>
-            ) : (
-              <div className="mt-4 grid gap-3">
-                <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} />
-              </div>
-            )}
-
+              ownerTools={isOwner ? (
+                <div className="mt-6 rounded-[24px] border border-[#DDD6FE] bg-white p-4 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
+                  <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7C3AED]">Seller tools</div>
+                  <div className="mt-2 text-sm font-semibold text-[#62516F]">Manage this listing from your seller view.</div>
+                  <Link href={"/sell/edit/" + params.id} className="bd-btn bd-btn-secondary mt-4 h-12 w-full rounded-2xl px-5 text-sm">
+                    Edit listing
+                  </Link>
+                </div>
+              ) : null}
+              watchlistAction={!isOwner ? <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} /> : null}
+            />
             <BuyerSafetyCard />
 
             <div className="mt-8 rounded-[24px] border border-[#EDE9FE] bg-white p-5 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
