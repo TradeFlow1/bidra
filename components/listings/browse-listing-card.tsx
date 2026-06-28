@@ -143,7 +143,9 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
 
         <div className="mt-3 border-t border-[#F0EAFE] pt-3 text-xs font-bold leading-5 text-[var(--bd-muted)]">
           <div className="truncate text-[#3B254F]">{sellerName}</div>
-          <div className="truncate">{trustLabel}</div>
+          <div className="mt-1 inline-flex max-w-full items-center rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.10em] text-[var(--bd-purple-dark)]">
+            {trustLabel}
+          </div>
         </div>
       </div>
     </Link>
@@ -204,7 +206,7 @@ export function BrowseListingMobileCard({ listing }: { listing: BrowseListing })
 
         <div className="mt-3 flex items-center justify-between gap-3 text-sm font-bold text-[var(--bd-muted)]">
           <span className="min-w-0 truncate">{place}</span>
-          <span className="shrink-0">{trustLabel}</span>
+          <span className="shrink-0 rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-[var(--bd-purple-dark)]">{trustLabel}</span>
         </div>
         <p className="mt-1 truncate text-xs font-bold text-[#8B7A98]">{sellerName}</p>
       </div>
