@@ -7,3 +7,4 @@ export * from "./seller-card";
 export * from "./listing-action-panel";
 export * from "./specification-table";
 export * from "./related-listings";
+export * from "./listing-gallery";
