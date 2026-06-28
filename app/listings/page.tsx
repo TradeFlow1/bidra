@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { distanceKm, findAuLocation, parseListingLocation } from "@/lib/au-location";
 import { ProductPlaceholder, placeholderKindFromCategory } from "@/components/marketplace-ui";
-import { BrowseHeader, BrowseResultsGrid, BrowseMobileResults, BrowseMobileHero, BrowsePaginationNotice, BrowseToolbar, BrowseCategoryNav } from "@/components/listings";
+import { BrowseHeader, BrowseResultsGrid, BrowseMobileResults, BrowseMobileHero, BrowsePaginationNotice, BrowseToolbar, BrowseCategoryNav, BrowseTrustRail } from "@/components/listings";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -416,6 +416,7 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
               selectedType={selectedType}
               selectedCategory={selectedCategory}
             />
+            <BrowseTrustRail />
             <BrowseResultsGrid listings={visibleListings} />
 
             {showPagination ? (
