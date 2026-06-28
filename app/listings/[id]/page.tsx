@@ -13,7 +13,7 @@ import WatchlistButton from "./watchlist-button";
 import ListingImageGallery from "@/components/listing-image-gallery";
 import ListingCard from "@/components/listing-card";
 import { getBaseUrl } from "@/lib/base-url";
-import { BuyerSafetyCard, DescriptionCard, ListingBreadcrumbs } from "@/components/listing-detail";
+import { BuyerSafetyCard, DescriptionCard, ListingBreadcrumbs, ListingOfferSummary } from "@/components/listing-detail";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
