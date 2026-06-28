@@ -104,8 +104,9 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
           <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Image pending" />
         )}
 
-        <div className="absolute left-3 top-3">
+        <div className="absolute left-3 top-3 flex flex-wrap gap-2">
           <Badge tone={typeLabel.includes("Buy") ? "buy" : "offer"}>{typeLabel}</Badge>
+          {listing.buyNowPrice && listing.type === "OFFERABLE" ? <Badge tone="neutral">Flexible deal</Badge> : null}
         </div>
 
         <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[var(--bd-purple-dark)] shadow-sm">
@@ -131,6 +132,7 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
         <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[var(--bd-purple-dark)]">
           <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{handover}</span>
           {listing.condition ? <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{String(listing.condition).replace(/_/g, " ")}</span> : null}
+          {listing.buyNowPrice ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">Buy Now available</span> : null}
           {listing.type === "OFFERABLE" ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">{offerCount} offers</span> : null}
         </div>
 
@@ -169,8 +171,9 @@ export function BrowseListingMobileCard({ listing }: { listing: BrowseListing })
           <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Image pending" />
         )}
 
-        <div className="absolute left-3 top-3">
+        <div className="absolute left-3 top-3 flex flex-wrap gap-2">
           <Badge tone={typeLabel.includes("Buy") ? "buy" : "offer"}>{typeLabel}</Badge>
+          {listing.buyNowPrice && listing.type === "OFFERABLE" ? <Badge tone="neutral">Flexible deal</Badge> : null}
         </div>
 
         {remaining ? (
@@ -195,6 +198,7 @@ export function BrowseListingMobileCard({ listing }: { listing: BrowseListing })
         <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#3730A3]">
           <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{handover}</span>
           {listing.condition ? <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{String(listing.condition).replace(/_/g, " ")}</span> : null}
+          {listing.buyNowPrice ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">Buy Now available</span> : null}
           {listing.type === "OFFERABLE" ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">{offerCount} offers</span> : null}
         </div>
 
