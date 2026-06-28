@@ -13,6 +13,7 @@ import WatchlistButton from "./watchlist-button";
 import ListingImageGallery from "@/components/listing-image-gallery";
 import ListingCard from "@/components/listing-card";
 import { getBaseUrl } from "@/lib/base-url";
+import { BuyerSafetyCard, DescriptionCard, ListingBreadcrumbs } from "@/components/listing-detail";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -335,13 +336,7 @@ export default async function ListingDetailPage({
   return (
     <main className="bd-listing-detail-page min-h-screen bg-[#FBF9FF] px-4 py-8 text-[#120724] sm:px-6 lg:px-10">
       <div className="mx-auto max-w-[1440px] pb-24">
-        <nav className="mb-8 flex flex-wrap items-center gap-3 text-sm font-bold text-[#62516F]">
-          <Link href="/" className="text-[#6D28D9] hover:underline">Home</Link>
-          <span className="text-[#C4B5FD]">&gt;</span>
-          <Link href="/listings" className="text-[#6D28D9] hover:underline">Listings</Link>
-          <span className="text-[#C4B5FD]">&gt;</span>
-          <span>{category}</span>
-        </nav>
+        <ListingBreadcrumbs category={category} />
 
         <section className="grid gap-8 lg:grid-cols-[1.35fr_0.85fr] lg:items-start xl:gap-12">
           <div>
@@ -434,15 +429,7 @@ export default async function ListingDetailPage({
               </div>
             )}
 
-            <div className="mt-6 rounded-[24px] border border-[#DDD6FE] bg-white p-5 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
-              <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7C3AED]">Buyer safety</div>
-              <h2 className="mt-2 text-lg font-black text-[#120724]">Keep the handover clear.</h2>
-              <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#62516F]">
-                <li>Use Bidra Messages to keep a record before pickup, delivery or postage.</li>
-                <li>Inspect the item and confirm condition before paying where practical.</li>
-                <li>Use public handover locations when possible and report unusual requests.</li>
-              </ul>
-            </div>
+            <BuyerSafetyCard />
 
             <div className="mt-8 rounded-[24px] border border-[#EDE9FE] bg-white p-5 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
               <dl className="grid grid-cols-[130px_1fr] gap-x-6 gap-y-4 text-sm">
@@ -467,10 +454,7 @@ export default async function ListingDetailPage({
               </dl>
             </div>
 
-            <div className="mt-6 rounded-[24px] border border-[#EDE9FE] bg-white p-5 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
-              <h2 className="text-lg font-black text-[#120724]">Description</h2>
-              <p className="mt-3 whitespace-pre-wrap text-base leading-8 text-[#3F304B]">{description}</p>
-            </div>
+            <DescriptionCard description={description} />
 
             <div className="mt-6 flex flex-wrap items-center gap-4">
               <div className="inline-flex rounded-full border border-[#DDD6FE] bg-white px-4 py-2 text-sm font-extrabold text-[#120724] shadow-sm hover:bg-[#F5F3FF]">
