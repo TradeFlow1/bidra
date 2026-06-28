@@ -88,7 +88,7 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
   return (
     <Link
       href={"/listings/" + listing.id}
-      className="group overflow-hidden rounded-[24px] border border-[var(--bd-border)] bg-white shadow-[0_14px_40px_rgba(43,16,85,0.06)] transition hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-[0_24px_70px_rgba(43,16,85,0.13)]"
+      className="group block overflow-hidden rounded-[28px] border border-[var(--bd-border)] bg-white shadow-[0_18px_55px_rgba(43,16,85,0.08)] transition duration-200 hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-[0_30px_90px_rgba(43,16,85,0.16)]"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-[#F8FAFC]">
         {image ? (
@@ -97,7 +97,7 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
             alt={listing.title}
             fill
             sizes="(min-width: 1280px) 240px, (min-width: 768px) 33vw, 100vw"
-            className="object-cover transition duration-300 group-hover:scale-[1.035]"
+            className="object-cover transition duration-500 group-hover:scale-[1.045]"
             unoptimized
           />
         ) : (
@@ -119,8 +119,8 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
         ) : null}
       </div>
 
-      <div className="p-4">
-        <h3 className="line-clamp-2 text-base font-black leading-tight tracking-[-0.035em] text-[var(--bd-ink)]">{listing.title}</h3>
+      <div className="p-4 sm:p-5">
+        <h3 className="line-clamp-2 text-lg font-black leading-tight tracking-[-0.04em] text-[var(--bd-ink)]">{listing.title}</h3>
         <div className="mt-3">
           <p className="text-xl font-black tracking-[-0.045em] text-[var(--bd-ink)]">{formatPrice(price)}</p>
           {listing.type === "OFFERABLE" && highestOffer ? (
@@ -161,7 +161,7 @@ export function BrowseListingMobileCard({ listing }: { listing: BrowseListing })
   const place = suburbLabel(listing.location);
 
   return (
-    <Link href={"/listings/" + listing.id} className="block overflow-hidden rounded-[28px] border border-[var(--bd-border)] bg-white shadow-[0_16px_38px_rgba(43,16,85,0.08)] active:scale-[0.995]">
+    <Link href={"/listings/" + listing.id} className="block overflow-hidden rounded-[30px] border border-[var(--bd-border)] bg-white shadow-[0_18px_50px_rgba(43,16,85,0.10)] active:scale-[0.995]">
       <div className="relative aspect-[16/10] overflow-hidden bg-[#F8FAFC]">
         {image ? (
           <Image src={image} alt={listing.title} fill sizes="100vw" className="object-cover" unoptimized />
@@ -180,7 +180,7 @@ export function BrowseListingMobileCard({ listing }: { listing: BrowseListing })
         ) : null}
       </div>
 
-      <div className="p-4">
+      <div className="p-4 sm:p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h3 className="line-clamp-2 text-lg font-black leading-tight tracking-[-0.02em] text-[var(--bd-ink)]">{listing.title}</h3>
