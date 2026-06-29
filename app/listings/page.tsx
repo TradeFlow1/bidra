@@ -409,6 +409,9 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
                   : undefined
               }
             />
+            {selectedQuery ? (
+              <p className="sr-only">Search: {selectedQuery}</p>
+            ) : null}
 
             <BrowseToolbar
               count={displayCount}

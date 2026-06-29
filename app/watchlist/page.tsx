@@ -69,7 +69,7 @@ function WatchlistInsightCard({ item }: { item: any }) {
         <div className="min-w-0">
           <div className="truncate text-sm font-black text-[#07152E]">{listing.title}</div>
           <div className="mt-1 text-xs font-bold text-[#64748B]">{insightLabel(item)}</div>
-          {typeof baselinePrice === "number" && typeof effectivePrice === "number" ? <div className="mt-1 text-[11px] font-bold text-[#64748B]">Saved at {formatPrice(baselinePrice)} · now {formatPrice(effectivePrice)}</div> : null}
+          {typeof baselinePrice === "number" && typeof effectivePrice === "number" ? <div className="mt-1 text-[11px] font-bold text-[#64748B]">Saved at {formatPrice(baselinePrice)} Â· now {formatPrice(effectivePrice)}</div> : null}
         </div>
         <span className="shrink-0 rounded-full border border-[#C7D2FE] bg-[#EEF2FF] px-2.5 py-1 text-[11px] font-black text-[#3730A3]">
           {formatPrice(effectivePrice)}
@@ -77,7 +77,7 @@ function WatchlistInsightCard({ item }: { item: any }) {
       </div>
       <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#3730A3]">
         {hasPersistedDrop ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-800">Recorded price drop</span> : null}
-        {lowerBuyNow ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-800">Lower Buy now</span> : null}
+        {lowerBuyNow ? <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-800">Lower Buy Now</span> : null}
         {hasVisibleOffer ? <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">Offer {formatPrice(listing.currentOfferAmount)}</span> : null}
         {questionCount ? <span className="rounded-full border border-[#D8E1F0] bg-[#F8FAFC] px-2.5 py-1">{questionCount} public Q&amp;A</span> : null}
         {listing.status !== "ACTIVE" ? <span className="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-amber-900">Unavailable</span> : null}
