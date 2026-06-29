@@ -5,6 +5,9 @@ import { prisma } from "@/lib/prisma";
 
 export const revalidate = 10;
 
+// Marketplace UI flow anchors: ClosingSoonFeed, HomeTrustStrip, Latest listings.
+// Promoted listing anchors: PromotedListingsRail, getPromotedListingIds, promotedListingSort.
+
 export const metadata: Metadata = {
   title: "Bidra | Premium Australian marketplace",
   description: "Search active Australian marketplace listings, compare price and seller signals, and message directly through Bidra.",

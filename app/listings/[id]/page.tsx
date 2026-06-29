@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { Fragment } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
@@ -13,6 +11,7 @@ import WatchlistButton from "./watchlist-button";
 import ListingImageGallery from "@/components/listing-image-gallery";
 import ListingCard from "@/components/listing-card";
 import { getBaseUrl } from "@/lib/base-url";
+import { BuyerSafetyCard, DescriptionCard, ListingActionPanel, ListingBreadcrumbs, ListingGallery, ListingOfferSummary, RelatedListings, SellerCard, SpecificationTable, StickyMobileActions } from "@/components/listing-detail";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -335,57 +334,25 @@ export default async function ListingDetailPage({
   return (
     <main className="bd-listing-detail-page min-h-screen bg-[#FBF9FF] px-4 py-8 text-[#120724] sm:px-6 lg:px-10">
       <div className="mx-auto max-w-[1440px] pb-24">
-        <nav className="mb-8 flex flex-wrap items-center gap-3 text-sm font-bold text-[#62516F]">
-          <Link href="/" className="text-[#6D28D9] hover:underline">Home</Link>
-          <span className="text-[#C4B5FD]">&gt;</span>
-          <Link href="/listings" className="text-[#6D28D9] hover:underline">Listings</Link>
-          <span className="text-[#C4B5FD]">&gt;</span>
-          <span>{category}</span>
-        </nav>
+        <ListingBreadcrumbs category={category} />
 
         <section className="grid gap-8 lg:grid-cols-[1.35fr_0.85fr] lg:items-start xl:gap-12">
           <div>
-            <ListingImageGallery images={images} title={title} />
+            <ListingGallery images={images} title={title} />
 
-            <div className="mt-8 rounded-[30px] border border-[#EDE9FE] bg-white p-6 shadow-[0_18px_50px_rgba(43,16,85,0.08)]">
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#DDD6FE] bg-[#F5F3FF] text-2xl font-black text-[#6D28D9] shadow-sm">
-                    {sellerAvatarUrl ? <Image src={sellerAvatarUrl} alt={sellerName} width={80} height={80} className="h-full w-full object-cover" unoptimized /> : sellerInitials}
-                  </div>
-                  <div>
-                    <div className="text-xl font-black text-[#120724]">{sellerName}</div>
-                    <div className="mt-1 text-sm font-semibold text-[#62516F]">{sellerLocation}</div>
-                    <div className="mt-1 text-sm font-semibold text-[#62516F]">Member since {sellerJoined}</div>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {sellerBadges.length ? sellerBadges.map((badge) => (
-                        <span key={badge} className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800">{badge}</span>
-                      )) : (
-                        <span className="rounded-full border border-[#DDD6FE] bg-white px-3 py-1 text-xs font-extrabold text-[#62516F]">Verification pending</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="grid gap-3 sm:w-[320px] sm:grid-cols-2">
-                  <Link href={"/seller/" + listing.sellerId} className="bd-btn bd-btn-secondary h-12 rounded-2xl px-5 text-sm">View profile</Link>
-                  <MessageSellerButton listingId={listing.id} />
-                </div>
-              </div>
-              <div className="mt-6 grid gap-3 border-t border-[#EDE9FE] pt-5 sm:grid-cols-3">
-                <div className="rounded-2xl bg-[#FBF9FF] p-4">
-                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#8B7A98]">Feedback</div>
-                  <div className="mt-1 text-xl font-black text-[#120724]">{sellerFeedbackCount}</div>
-                </div>
-                <div className="rounded-2xl bg-[#FBF9FF] p-4">
-                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#8B7A98]">Listings</div>
-                  <div className="mt-1 text-xl font-black text-[#120724]">{sellerListingCount}</div>
-                </div>
-                <div className="rounded-2xl bg-[#FBF9FF] p-4">
-                  <div className="text-xs font-black uppercase tracking-[0.14em] text-[#8B7A98]">Handover</div>
-                  <div className="mt-1 text-sm font-black text-[#120724]">{fulfillmentLabel}</div>
-                </div>
-              </div>
-            </div>
+            <SellerCard
+              sellerName={sellerName}
+              sellerInitials={sellerInitials}
+              sellerAvatarUrl={sellerAvatarUrl}
+              sellerLocation={sellerLocation}
+              sellerJoined={sellerJoined}
+              sellerBadges={sellerBadges}
+              sellerFeedbackCount={sellerFeedbackCount}
+              sellerListingCount={sellerListingCount}
+              fulfillmentLabel={fulfillmentLabel}
+              sellerHref={"/seller/" + listing.sellerId}
+              messageAction={<MessageSellerButton listingId={listing.id} />}
+            />
           </div>
 
           <aside className="bd-listing-action-panel lg:sticky lg:top-28 lg:pt-2">
@@ -407,70 +374,38 @@ export default async function ListingDetailPage({
               <span>{displayedViewCount.toLocaleString("en-AU")} views</span>
             </div>
 
-            <div className={canBuyNow && canOffer ? "mt-8 grid gap-4 sm:grid-cols-2" : "mt-8 grid gap-4"}>
-              {canBuyNow ? <BuyNowButton listingId={listing.id} /> : null}
-              {canOffer ? <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} /> : null}
-              {showOfferLogin ? (
-                <Link
-                  href={"/auth/login?next=/listings/" + listing.id}
-                  className="bd-btn bd-btn-primary w-full rounded-2xl text-center"
-                >
+            <ListingActionPanel
+              canSplitActions={canBuyNow && canOffer}
+              buyNowAction={canBuyNow ? <BuyNowButton listingId={listing.id} /> : null}
+              offerAction={canOffer ? <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} /> : null}
+              loginAction={showOfferLogin ? (
+                <Link href={"/auth/login?next=/listings/" + listing.id} className="bd-btn bd-btn-primary w-full rounded-2xl text-center">
                   Log in to make an offer
                 </Link>
               ) : null}
-            </div>
+              ownerTools={isOwner ? (
+                <div className="mt-6 rounded-[24px] border border-[#DDD6FE] bg-white p-4 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
+                  <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7C3AED]">Seller tools</div>
+                  <div className="mt-2 text-sm font-semibold text-[#62516F]">Manage this listing from your seller view.</div>
+                  <Link href={"/sell/edit/" + params.id} className="bd-btn bd-btn-secondary mt-4 h-12 w-full rounded-2xl px-5 text-sm">
+                    Edit listing
+                  </Link>
+                </div>
+              ) : null}
+              watchlistAction={!isOwner ? <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} /> : null}
+            />
+            <BuyerSafetyCard />
 
-            {isOwner ? (
-              <div className="mt-6 rounded-[24px] border border-[#DDD6FE] bg-white p-4 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
-                <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7C3AED]">Seller tools</div>
-                <div className="mt-2 text-sm font-semibold text-[#62516F]">Manage this listing from your seller view.</div>
-                <Link href={"/sell/edit/" + params.id} className="bd-btn bd-btn-secondary mt-4 h-12 w-full rounded-2xl px-5 text-sm">
-                  Edit listing
-                </Link>
-              </div>
-            ) : (
-              <div className="mt-4 grid gap-3">
-                <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} />
-              </div>
-            )}
-
-            <div className="mt-6 rounded-[24px] border border-[#DDD6FE] bg-white p-5 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
-              <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7C3AED]">Buyer safety</div>
-              <h2 className="mt-2 text-lg font-black text-[#120724]">Keep the handover clear.</h2>
-              <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#62516F]">
-                <li>Use Bidra Messages to keep a record before pickup, delivery or postage.</li>
-                <li>Inspect the item and confirm condition before paying where practical.</li>
-                <li>Use public handover locations when possible and report unusual requests.</li>
-              </ul>
-            </div>
-
-            <div className="mt-8 rounded-[24px] border border-[#EDE9FE] bg-white p-5 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
-              <dl className="grid grid-cols-[130px_1fr] gap-x-6 gap-y-4 text-sm">
-                <dt className="font-bold text-[#62516F]">Condition</dt>
-                <dd className="font-extrabold text-[#120724]">{condition}</dd>
-                <dt className="font-bold text-[#62516F]">Category</dt>
-                <dd className="font-extrabold text-[#120724]">{category}</dd>
-                <dt className="font-bold text-[#62516F]">Handover</dt>
-                <dd className="font-extrabold text-[#120724]">{fulfillmentLabel}</dd>
-                {attributeRows.map((row) => (
-                  <Fragment key={row.key}>
-                    <dt className="font-bold text-[#62516F]">{row.label}</dt>
-                    <dd className="font-extrabold text-[#120724]">{row.value}</dd>
-                  </Fragment>
-                ))}
-                <dt className="font-bold text-[#62516F]">Listing type</dt>
-                <dd className="font-extrabold text-[#120724]">{listingType}</dd>
-                <dt className="font-bold text-[#62516F]">Status</dt>
-                <dd className="font-extrabold text-[#120724]">{cleanText(listing.status)}</dd>
-                <dt className="font-bold text-[#62516F]">Views</dt>
-                <dd className="font-extrabold text-[#120724]">{displayedViewCount.toLocaleString("en-AU")}</dd>
-              </dl>
-            </div>
-
-            <div className="mt-6 rounded-[24px] border border-[#EDE9FE] bg-white p-5 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
-              <h2 className="text-lg font-black text-[#120724]">Description</h2>
-              <p className="mt-3 whitespace-pre-wrap text-base leading-8 text-[#3F304B]">{description}</p>
-            </div>
+            <SpecificationTable
+              condition={condition}
+              category={category}
+              fulfillmentLabel={fulfillmentLabel}
+              listingType={listingType}
+              status={cleanText(listing.status)}
+              views={displayedViewCount.toLocaleString("en-AU")}
+              rows={attributeRows}
+            />
+            <DescriptionCard description={description} />
 
             <div className="mt-6 flex flex-wrap items-center gap-4">
               <div className="inline-flex rounded-full border border-[#DDD6FE] bg-white px-4 py-2 text-sm font-extrabold text-[#120724] shadow-sm hover:bg-[#F5F3FF]">
@@ -480,17 +415,8 @@ export default async function ListingDetailPage({
           </aside>
         </section>
 
-        {relatedListings.length ? (
-          <section className="mt-12">
-            <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">Keep browsing</div>
-                <h2 className="mt-1 text-3xl font-black tracking-[-0.045em] text-[#120724]">You may also like</h2>
-              </div>
-              <Link href="/listings" className="text-sm font-extrabold text-[#6D28D9] hover:underline">Browse all</Link>
-            </div>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-              {relatedListings.map((item) => {
+        <RelatedListings hasListings={relatedListings.length > 0}>
+          {relatedListings.map((item) => {
                 const itemPrice = item.type === "OFFERABLE"
                   ? (typeof item.offers?.[0]?.amount === "number" ? item.offers[0].amount : item.price)
                   : (typeof item.buyNowPrice === "number" ? item.buyNowPrice : item.price);
@@ -527,9 +453,16 @@ export default async function ListingDetailPage({
                   />
                 );
               })}
-            </div>
-          </section>
-        ) : null}
+        </RelatedListings>
+        <StickyMobileActions
+          price={money(displayPrice)}
+          primaryAction={canBuyNow ? <BuyNowButton listingId={listing.id} /> : canOffer ? <PlaceOfferClient listingId={listing.id} minOfferCents={minOfferCents} /> : showOfferLogin ? (
+            <Link href={"/auth/login?next=/listings/" + listing.id} className="bd-btn bd-btn-primary rounded-2xl text-center text-sm">
+              Log in to offer
+            </Link>
+          ) : null}
+          secondaryAction={!isOwner ? <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} /> : null}
+        />
       </div>
     </main>
   );

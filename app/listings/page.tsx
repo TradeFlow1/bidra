@@ -6,6 +6,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { distanceKm, findAuLocation, parseListingLocation } from "@/lib/au-location";
 import { ProductPlaceholder, placeholderKindFromCategory } from "@/components/marketplace-ui";
+import { BrowseHeader, BrowseResultsGrid, BrowseMobileResults, BrowseMobileHero, BrowsePaginationNotice, BrowseToolbar, BrowseCategoryNav, BrowseTrustRail, BrowseClosingSoonRail } from "@/components/listings";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -278,24 +279,13 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
         <div className="mx-auto grid w-full max-w-[1440px] grid-cols-[300px_minmax(0,1fr)] overflow-hidden rounded-[34px] border border-[#EDE9FE] bg-white shadow-[0_24px_80px_rgba(43,16,85,0.10)]">
           <aside className="border-r border-[#EDE9FE] bg-[#FBF9FF] px-10 py-12">
             <h1 className="text-2xl font-black tracking-tight text-[#120724]">Categories</h1>
-            <nav className="mt-6 space-y-2">
-              {categories.map((category) => {
-                const active = category === selectedCategory;
-                return (
-                  <Link
-                    key={category}
-                    href={categoryHref(category)}
-                    className={
-                      active
-                        ? "block rounded-2xl bg-[#F5F3FF] px-4 py-3 text-base font-black text-[#5B21B6] shadow-sm ring-1 ring-[#DDD6FE]"
-                        : "block rounded-2xl px-4 py-3 text-base font-semibold text-[#62516F] hover:bg-white hover:text-[#5B21B6]"
-                    }
-                  >
-                    {category}
-                  </Link>
-                );
-              })}
-            </nav>
+            <div className="mt-6">
+              <BrowseCategoryNav
+                categories={categories}
+                selectedCategory={selectedCategory}
+                categoryHref={categoryHref}
+              />
+            </div>
 
             <form action="/listings" className="mt-12 border-t border-[#EDE9FE] pt-8">
               <input type="hidden" name="category" value={selectedCategory === "All categories" ? "" : slugify(selectedCategory)} />
@@ -408,99 +398,30 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
           </aside>
 
           <section className="bg-white px-9 py-12">
-            <div className="mb-7 flex items-start justify-between gap-6">
-              <div>
-                <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">Premium browse</div>
-                <h2 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#120724]">All listings</h2>
-                <p className="mt-2 text-base font-semibold text-[#62516F]">{displayCount} active listings across Australia</p>
-                {selectedQuery ? (
-                  <p className="mt-1 text-sm font-semibold text-[#6D28D9]">
-                    Search: {selectedQuery}
-                  </p>
-                ) : null}
-                {radiusIsActive ? (
-                  <p className="mt-1 text-sm font-semibold text-[#6D28D9]">
-                    {canApplyRadius
-                      ? `Showing listings within ${selectedRadiusKm} km of ${searchLocation?.suburb}, ${searchLocation?.state}`
-                      : "Add a suburb/postcode in your profile or enter one here to use distance filtering."}
-                  </p>
-                ) : null}
-              </div>
-              <div className="inline-flex h-12 items-center justify-center rounded-2xl border border-[#DDD6FE] bg-[#F5F3FF] px-5 text-sm font-black text-[#5B21B6] shadow-sm">
-                Share filters from URL
-              </div>
-            </div>
+            <BrowseHeader
+              count={displayCount}
+              selectedQuery={selectedQuery}
+              radiusMessage={
+                radiusIsActive
+                  ? canApplyRadius
+                    ? `Showing listings within ${selectedRadiusKm} km of ${searchLocation?.suburb}, ${searchLocation?.state}`
+                    : "Add a suburb/postcode in your profile or enter one here to use distance filtering."
+                  : undefined
+              }
+            />
+            {selectedQuery ? (
+              <p className="sr-only">Search: {selectedQuery}</p>
+            ) : null}
 
-            {visibleListings.length ? (
-              <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-                {visibleListings.map((listing) => {
-                  const image = getListingImage(listing.images, listing.photos);
-                  const price = listing.buyNowPrice ?? listing.price;
-                  const typeLabel = saleTypeLabel(listing.type, listing.buyNowPrice);
-                  const handover = handoverLabel(listing.fulfillmentType);
-                  const offerCount = listing._count?.offers ?? 0;
-                  const remaining = timeRemaining(listing.offers?.[0]?.expiresAt ?? null);
-                  const sellerName = listing.seller?.name || listing.seller?.username || "Bidra seller";
-                  const trustLabel = sellerTrustLabel(listing.seller);
-                  const place = suburbLabel(listing.location);
-
-                  return (
-                    <Link
-                      key={listing.id}
-                      href={"/listings/" + listing.id}
-                      className="group overflow-hidden rounded-[24px] border border-[#EDE9FE] bg-white shadow-[0_14px_40px_rgba(43,16,85,0.06)] transition hover:-translate-y-0.5 hover:border-[#C4B5FD] hover:shadow-[0_22px_60px_rgba(43,16,85,0.11)]"
-                    >
-                      <div className="relative aspect-[4/3] overflow-hidden bg-[#F8FAFC]">
-                        {image ? (
-                          <Image
-                            src={image}
-                            alt={listing.title}
-                            fill
-                            sizes="(min-width: 1280px) 220px, (min-width: 768px) 33vw, 100vw"
-                            className="object-cover transition duration-300"
-                            unoptimized
-                          />
-                        ) : (
-                          <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Image pending" />
-                        )}
-                        <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#5B21B6] shadow-sm ring-1 ring-[#DDD6FE]">{typeLabel}</span>
-                        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[#2437FF] shadow-sm hover:bg-[#F8FAFC]" aria-hidden="true">
-  <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />
-  </svg>
-</span>
-                      </div>
-                      <div className="p-4">
-                        <h3 className="line-clamp-2 text-base font-black text-[#120724]">{listing.title}</h3>
-                        <p className="mt-3 text-lg font-black text-[#120724]">{formatPrice(price)}</p>
-                        <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#5B21B6]">
-                          <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{handover}</span>
-                          {listing.condition ? <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{String(listing.condition).replace(/_/g, " ")}</span> : null}
-                          {listing.type === "OFFERABLE" ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">{offerCount} offers</span> : null}
-                          {remaining ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">{remaining}</span> : null}
-                        </div>
-                        <div className="mt-5 flex items-center justify-between gap-3 text-xs font-semibold text-[#62516F]">
-                          <span className="truncate">{place}</span>
-                          <span>{formatAge(listing.createdAt)}</span>
-                        </div>
-                        <div className="mt-3 border-t border-[#F0EAFE] pt-3 text-xs font-bold leading-5 text-[#62516F]">
-                          <div className="truncate text-[#3B254F]">{sellerName}</div>
-                          <div className="truncate">{trustLabel}</div>
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="rounded-3xl border border-dashed border-[#C4B5FD] bg-[#FBF9FF] px-8 py-14 text-center">
-                <h3 className="text-xl font-black text-[#120724]">No listings match these filters</h3>
-                <p className="mt-2 text-sm font-semibold text-[#62516F]">Clear filters to search all Australia, or try a broader keyword/category.</p>
-                <Link href="/sell/new" className="bd-btn bd-btn-primary mt-6 inline-flex h-12 rounded-2xl px-6 text-sm">
-                  Sell an item
-                </Link>
-              </div>
-            )}
+            <BrowseToolbar
+              count={displayCount}
+              selectedSort={selectedSort}
+              selectedType={selectedType}
+              selectedCategory={selectedCategory}
+            />
+            <BrowseTrustRail />
+            <BrowseClosingSoonRail listings={visibleListings} />
+            <BrowseResultsGrid listings={visibleListings} />
 
             {showPagination ? (
               <div className="mt-12 text-center text-sm font-semibold text-[#62516F]">
@@ -512,32 +433,9 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
       </main>
 
       <main className="min-h-screen bg-[linear-gradient(180deg,#FBF9FF_0%,#FFFFFF_46%)] pb-32 text-[#120724] md:hidden">
-        <section className="px-4 pb-5 pt-4">
-          <div className="overflow-hidden rounded-[30px] border border-[#DDD6FE] bg-gradient-to-br from-white via-[#FBF9FF] to-[#F5F3FF] p-5 shadow-[0_18px_45px_rgba(43,16,85,0.09)]">
-            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#7C3AED]">Marketplace</p>
-            <h1 className="mt-3 text-4xl font-black leading-[0.92] tracking-[-0.065em] text-[#120724]">Browse listings</h1>
-            <p className="mt-3 max-w-[290px] text-sm font-semibold leading-6 text-[#62516F]">{displayCount} local results. Filter fast, compare clearly, then tap a listing to inspect it.</p>
-          </div>
+        <BrowseMobileHero count={displayCount} selectedCategory={selectedCategory} />
 
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {categories.map((category) => {
-              const active = category === selectedCategory;
-              return (
-                <Link
-                  key={category}
-                  href={categoryHref(category)}
-                  className={
-                    active
-                      ? "shrink-0 rounded-full bg-[#6D28D9] px-4 py-2.5 text-sm font-black text-white !text-white shadow-[0_10px_24px_rgba(109,40,217,0.22)]"
-                      : "shrink-0 rounded-full border border-[#DDD6FE] bg-white px-4 py-2.5 text-sm font-black text-[#5B21B6] shadow-sm"
-                  }
-                >
-                  {category}
-                </Link>
-              );
-            })}
-          </div>
-
+        <section className="px-4 pb-5">
           <form action="/listings" className="mt-4 rounded-[28px] border border-[#EDE9FE] bg-white p-4 shadow-[0_16px_38px_rgba(43,16,85,0.08)]">
             <input type="hidden" name="category" value={selectedCategory === "All categories" ? "" : slugify(selectedCategory)} />
             <div className="flex items-center justify-between gap-3">
@@ -603,60 +501,13 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
             <p className="rounded-full border border-[#DDD6FE] bg-white px-3 py-1.5 text-xs font-black text-[#5B21B6] shadow-sm">{displayCount} results</p>
           </div>
 
-          {visibleListings.length ? (
-            <div className="space-y-3">
-              {visibleListings.map((listing) => {
-                const image = getListingImage(listing.images, listing.photos);
-                const price = listing.buyNowPrice ?? listing.price;
-                const typeLabel = saleTypeLabel(listing.type, listing.buyNowPrice);
-                const handover = handoverLabel(listing.fulfillmentType);
-                const offerCount = listing._count?.offers ?? 0;
-                const remaining = timeRemaining(listing.offers?.[0]?.expiresAt ?? null);
-                const sellerName = listing.seller?.name || listing.seller?.username || "Bidra seller";
-                const trustLabel = sellerTrustLabel(listing.seller);
-                const place = suburbLabel(listing.location);
-
-                return (
-                  <Link key={listing.id} href={"/listings/" + listing.id} className="block overflow-hidden rounded-[28px] border border-[#EDE9FE] bg-white shadow-[0_16px_38px_rgba(43,16,85,0.08)] active:scale-[0.995]">
-                    <div className="relative aspect-[16/10] overflow-hidden bg-[#F8FAFC]">
-                      {image ? (
-                        <Image src={image} alt={listing.title} fill sizes="100vw" className="object-cover" />
-                      ) : (
-                        <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Image pending" />
-                      )}
-                      <span className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-[#5B21B6] shadow-sm ring-1 ring-[#DDD6FE]">{typeLabel}</span>
-                      {remaining ? <span className="absolute bottom-3 left-3 rounded-full bg-[#120724]/92 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-white shadow-sm">{remaining}</span> : null}
-                    </div>
-                    <div className="p-4">
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <h3 className="line-clamp-2 text-lg font-black leading-tight tracking-[-0.02em] text-[#120724]">{listing.title}</h3>
-                          <p className="mt-2 text-2xl font-black tracking-[-0.045em] text-[#120724]">{formatPrice(price)}</p>
-                        </div>
-                        <span className="shrink-0 rounded-full border border-[#DDD6FE] bg-white px-3 py-1.5 text-xs font-black text-[#5B21B6] shadow-sm">{formatAge(listing.createdAt)}</span>
-                      </div>
-                      <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#3730A3]">
-                        <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{handover}</span>
-                        {listing.condition ? <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{String(listing.condition).replace(/_/g, " ")}</span> : null}
-                        {listing.type === "OFFERABLE" ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">{offerCount} offers</span> : null}
-                      </div>
-                      <div className="mt-3 flex items-center justify-between gap-3 text-sm font-bold text-[#62516F]">
-                        <span className="min-w-0 truncate">{place}</span>
-                        <span className="shrink-0">{trustLabel}</span>
-                      </div>
-                      <p className="mt-1 truncate text-xs font-bold text-[#8B7A98]">{sellerName}</p>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="rounded-[30px] border border-dashed border-[#C4B5FD] bg-white px-5 py-10 text-center shadow-[0_16px_38px_rgba(43,16,85,0.08)]">
-              <h3 className="text-xl font-black text-[#120724]">No listings found</h3>
-              <p className="mt-2 text-sm font-semibold text-[#62516F]">Clear filters or check another category.</p>
-              <Link href="/listings" className="bd-btn bd-btn-primary mt-5 inline-flex h-12 rounded-2xl px-5 text-sm">Clear filters</Link>
-            </div>
-          )}
+          <BrowseToolbar
+            count={displayCount}
+            selectedSort={selectedSort}
+            selectedType={selectedType}
+            selectedCategory={selectedCategory}
+          />
+          <BrowseMobileResults listings={visibleListings} />
         </section>
       </main>
     </>

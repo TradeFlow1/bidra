@@ -31,7 +31,7 @@ export default function PromotedListingsRail({ listings }: { listings: PromotedL
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#4F46E5]">Promoted listings</div>
-          <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#07152E] sm:text-3xl">Featured items worth a look</h2>
+          <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#07152E] sm:text-3xl">Launch picks worth a look</h2>
           <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-[#526173]">{promotedPlacementDisclosure} Open the listing to ask questions, make offers, and keep handover details in Bidra Messages.</p>
         </div>
         <Link href="/listings" className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#C7D2FE] bg-white px-5 text-sm font-black text-[#4F46E5]">Browse all</Link>

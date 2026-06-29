@@ -842,8 +842,8 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
             {isTimedOffers && (
               <>
                 <div>
-                  <label className="bd-label" htmlFor="field-starting-offer">Starting offer (AUD)</label>
-                  <input id="field-starting-offer" className="mt-1 bd-input" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
+                  <label className="bd-label" htmlFor="field-starting-bid">Starting offer (AUD)</label>
+                  <input id="field-starting-bid" className="mt-1 bd-input" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
                 </div>
 
                 <div>
