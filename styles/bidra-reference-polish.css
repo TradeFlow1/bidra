@@ -1,0 +1,186 @@
+/* Bidra reference visual polish layer */
+
+body {
+  background:
+    radial-gradient(900px 420px at 8% -180px, rgba(124, 58, 237, 0.12), transparent 72%),
+    radial-gradient(760px 360px at 96% -160px, rgba(167, 139, 250, 0.10), transparent 72%),
+    linear-gradient(180deg, #fbf9ff 0%, #ffffff 48%, #ffffff 100%) !important;
+}
+
+/* Global reference surface polish */
+.bd-card,
+.bd-form-card,
+.bd-marketplace-section,
+.bd-surface,
+.bd-empty-state,
+article[class*="border"][class*="bg-white"],
+section[class*="border"][class*="bg-white"],
+div[class*="border"][class*="bg-white"] {
+  border-color: rgba(124, 58, 237, 0.16) !important;
+  box-shadow: 0 20px 64px rgba(18, 7, 36, 0.08) !important;
+}
+
+.bd-btn,
+.bd-primary-action,
+.bd-back-link {
+  font-weight: 900 !important;
+}
+
+.bd-btn-primary,
+.bd-primary-action,
+button[type="submit"].bd-btn-primary {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 48%, #5b21b6 100%) !important;
+  box-shadow: 0 18px 38px rgba(124, 58, 237, 0.26) !important;
+}
+
+/* Home reference polish */
+main section:first-child[class*="bg-[radial-gradient"] {
+  min-height: clamp(520px, 58vw, 680px);
+}
+
+main section:first-child h1 {
+  text-wrap: balance;
+}
+
+main section:first-child a[href="/listings"],
+main section:first-child a[href="/sell/new"] {
+  min-height: 3.25rem;
+  border-radius: 0.95rem !important;
+}
+
+main section:first-child [class*="aspect-[16/9]"] {
+  min-height: 320px;
+}
+
+main section[class*="rounded-[2rem]"] {
+  border: 1px solid rgba(124, 58, 237, 0.12);
+}
+
+main section[class*="rounded-[2rem]"] h2 {
+  letter-spacing: -0.045em;
+}
+
+/* Listing detail reference polish */
+main[class*="bg-[#F7F3FF]"] {
+  background:
+    radial-gradient(720px 320px at 10% -120px, rgba(124, 58, 237, 0.10), transparent 72%),
+    linear-gradient(180deg, #fbf9ff 0%, #ffffff 64%, #ffffff 100%) !important;
+}
+
+main[class*="bg-[#F7F3FF]"] aside .bd-btn,
+main[class*="bg-[#F7F3FF]"] aside a[class*="rounded"],
+main[class*="bg-[#F7F3FF]"] aside button[class*="rounded"] {
+  min-height: 3rem;
+  border-radius: 0.95rem !important;
+}
+
+main[class*="bg-[#F7F3FF]"] [class*="rounded-[28px]"] {
+  border-color: rgba(124, 58, 237, 0.16) !important;
+}
+
+main[class*="bg-[#F7F3FF]"] img {
+  background: #fbf9ff;
+}
+
+/* Sell page reference polish */
+.bd-form-card {
+  border-radius: 1.75rem !important;
+  border-color: rgba(124, 58, 237, 0.16) !important;
+  background:
+    radial-gradient(420px 160px at 92% 0%, rgba(124, 58, 237, 0.07), transparent 72%),
+    linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(251,249,255,0.78) 100%) !important;
+  box-shadow: 0 20px 64px rgba(18, 7, 36, 0.08) !important;
+}
+
+.bd-form-card > h2,
+.bd-form-card summary,
+.bd-form-card .bd-ink {
+  letter-spacing: -0.035em;
+}
+
+.bd-form-card summary {
+  min-height: 2.5rem;
+}
+
+.bd-label,
+label.bd-label {
+  color: #120724 !important;
+  font-size: 0.82rem !important;
+  font-weight: 900 !important;
+}
+
+.bd-input,
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  border-radius: 1rem !important;
+  border-color: rgba(124, 58, 237, 0.16) !important;
+  background: #ffffff !important;
+  color: #120724 !important;
+  box-shadow: 0 10px 28px rgba(43, 16, 85, 0.05) !important;
+}
+
+.bd-input:focus,
+input:not([type="checkbox"]):not([type="radio"]):focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(124, 58, 237, 0.52) !important;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.13), 0 12px 34px rgba(43, 16, 85, 0.08) !important;
+}
+
+form .bd-form-card:first-of-type {
+  border-radius: 2rem !important;
+  background:
+    radial-gradient(520px 220px at 88% -80px, rgba(124, 58, 237, 0.10), transparent 72%),
+    #ffffff !important;
+}
+
+form .bd-form-card:first-of-type button.bd-btn-secondary {
+  min-height: 3rem;
+  border-radius: 0.95rem !important;
+}
+
+form .bd-form-card img {
+  border-radius: 1rem;
+}
+
+form .bd-form-card [class*="bg-[#FBF9FF]"],
+form .bd-form-card [class*="bg-[#F5F3FF]"] {
+  border-color: rgba(124, 58, 237, 0.16) !important;
+  background: #fbf9ff !important;
+}
+
+button[type="submit"].bd-btn-primary {
+  min-height: 3.5rem;
+  border-radius: 1.2rem !important;
+}
+
+@media (min-width: 1024px) {
+  form.grid {
+    gap: 1.35rem !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  main section:first-child[class*="bg-[radial-gradient"] {
+    min-height: auto;
+  }
+
+  main section:first-child [class*="aspect-[16/9]"] {
+    min-height: 230px;
+  }
+}
+
+@media (max-width: 640px) {
+  .bd-form-card {
+    border-radius: 1.35rem !important;
+  }
+
+  form .bd-form-card {
+    padding: 1rem !important;
+  }
+
+  button[type="submit"].bd-btn-primary {
+    bottom: calc(5.25rem + env(safe-area-inset-bottom)) !important;
+  }
+}

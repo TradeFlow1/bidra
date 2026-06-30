@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 export function ListingDetailShell({ children }: { children: ReactNode }) {
   return (
-    <main className="bd-listing-detail-page min-h-screen bg-[#FBF9FF] px-4 py-8 text-[#120724] sm:px-6 lg:px-10">
+    <main className="min-h-screen bg-[#F7F3FF] px-4 py-6 text-[#120724] sm:px-6 lg:px-10 lg:py-8">
       <div className="mx-auto max-w-[1440px] pb-24">
         {children}
       </div>
@@ -18,9 +18,9 @@ export function ListingDetailGrid({
   side: ReactNode;
 }) {
   return (
-    <section className="grid gap-8 lg:grid-cols-[1.35fr_0.85fr] lg:items-start xl:gap-12">
-      <div>{gallery}</div>
-      <aside className="bd-listing-action-panel lg:sticky lg:top-28 lg:pt-2">{side}</aside>
+    <section className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_440px] lg:items-start xl:gap-10">
+      <div className="rounded-[28px] border border-[#E8E2F4] bg-white p-3 shadow-[0_22px_70px_rgba(18,7,36,0.08)] sm:p-4">{gallery}</div>
+      <aside className="lg:sticky lg:top-28">{side}</aside>
     </section>
   );
 }

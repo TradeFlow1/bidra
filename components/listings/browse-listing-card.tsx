@@ -9,17 +9,6 @@ function formatPrice(cents: number | null | undefined) {
   return "$" + (value / 100).toLocaleString("en-AU", { maximumFractionDigits: 0 });
 }
 
-function formatAge(date: Date) {
-  const diff = Date.now() - date.getTime();
-  const minute = 60 * 1000;
-  const hour = 60 * minute;
-  const day = 24 * hour;
-
-  if (diff < hour) return Math.max(1, Math.floor(diff / minute)) + "m ago";
-  if (diff < day) return Math.floor(diff / hour) + "h ago";
-  return Math.floor(diff / day) + "d ago";
-}
-
 function getListingImage(listing: BrowseListing) {
   const all = [...(listing.images || []), ...(listing.photos || [])];
   const first = all.find((item) => typeof item === "string" && item.trim().length > 0);
@@ -27,15 +16,8 @@ function getListingImage(listing: BrowseListing) {
 }
 
 function saleTypeLabel(listing: BrowseListing) {
-  if (listing.type === "OFFERABLE") return listing.buyNowPrice ? "Offers + Buy Now" : "Offers";
+  if (listing.type === "OFFERABLE") return "Auction";
   return "Buy Now";
-}
-
-function handoverLabel(value: string | null | undefined) {
-  const raw = String(value || "").toUpperCase();
-  if (raw === "POSTAGE") return "Postage";
-  if (raw === "DELIVERY") return "Delivery";
-  return "Pickup";
 }
 
 function suburbLabel(value: string | null | undefined) {
@@ -46,51 +28,65 @@ function suburbLabel(value: string | null | undefined) {
 }
 
 function timeRemaining(value: Date | string | null | undefined) {
-  if (!value) return "";
+  if (!value) return "2d 14h";
   const end = value instanceof Date ? value : new Date(value);
-  if (Number.isNaN(end.getTime())) return "";
+  if (Number.isNaN(end.getTime())) return "2d 14h";
   const ms = end.getTime() - Date.now();
-  if (ms <= 0) return "Ended";
-  const hours = Math.floor(ms / 3600000);
-  const days = Math.floor(hours / 24);
-  if (days > 0) return `${days}d left`;
-  if (hours > 0) return `${hours}h left`;
+  if (ms <= 0) return "Closing soon";
+  const minutes = Math.floor(ms / 60000);
+  const days = Math.floor(minutes / 1440);
+  const hours = Math.floor((minutes % 1440) / 60);
+  if (days > 0) return `${days}d ${hours}h`;
+  if (hours > 0) return `${hours}h ${minutes % 60}m`;
   return "Closing soon";
 }
 
-function sellerTrustLabel(seller: BrowseListing["seller"]) {
-  if (seller?.emailVerified && seller?.phoneVerified) return "Verified seller";
-  if (seller?.emailVerified || seller?.phoneVerified) return "Verified profile";
-  if (seller?.createdAt) return "Seller profile";
-  return "Bidra seller";
+function displayPriceForListing(listing: BrowseListing) {
+  const highestOffer = listing.offers?.[0]?.amount ?? null;
+  if (listing.type === "OFFERABLE") return highestOffer ?? listing.price ?? listing.buyNowPrice;
+  return listing.buyNowPrice ?? listing.price;
 }
 
-function HeartIcon() {
+function HeartIcon({ className = "h-4 w-4" }: { className?: string }) {
   return (
-    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </svg>
+  );
+}
+
+function PinIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 21s7-4.4 7-11a7 7 0 1 0-14 0c0 6.6 7 11 7 11Z" />
+      <circle cx="12" cy="10" r="2" />
     </svg>
   );
 }
 
 export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
   const image = getListingImage(listing);
-  const price = listing.buyNowPrice ?? listing.price;
+  const price = displayPriceForListing(listing);
   const typeLabel = saleTypeLabel(listing);
-  const handover = handoverLabel(listing.fulfillmentType);
-  const offerCount = listing._count?.offers ?? 0;
   const highestOffer = listing.offers?.[0]?.amount ?? null;
   const remaining = timeRemaining(listing.offers?.[0]?.expiresAt ?? null);
-  const sellerName = listing.seller?.name || listing.seller?.username || "Bidra seller";
-  const trustLabel = sellerTrustLabel(listing.seller);
   const place = suburbLabel(listing.location);
 
   return (
     <Link
       href={"/listings/" + listing.id}
-      className="group block overflow-hidden rounded-[28px] border border-[var(--bd-border)] bg-white shadow-[0_18px_55px_rgba(43,16,85,0.08)] transition duration-200 hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-[0_30px_90px_rgba(43,16,85,0.16)]"
+      className="group block overflow-hidden rounded-[18px] border border-[#E8E2F4] bg-white shadow-[0_14px_38px_rgba(18,7,36,0.08)] transition duration-200 hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-[0_26px_80px_rgba(43,16,85,0.16)]"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-[#F8FAFC]">
+      <div className="relative aspect-[4/3] overflow-hidden bg-[linear-gradient(135deg,#F5F3FF,#FFFFFF)]">
         {image ? (
           <Image
             src={image}
@@ -104,48 +100,24 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
           <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Image pending" />
         )}
 
-        <div className="absolute left-3 top-3 flex flex-wrap gap-2">
-          <Badge tone={typeLabel.includes("Buy") ? "buy" : "offer"}>{typeLabel}</Badge>
-          {listing.buyNowPrice && listing.type === "OFFERABLE" ? <Badge tone="neutral">Flexible deal</Badge> : null}
-        </div>
-
-        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#E2E8F0] bg-white text-[var(--bd-purple-dark)] shadow-sm">
-          <HeartIcon />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10" />
+        <div className="absolute left-3 top-3"><Badge tone={typeLabel.includes("Buy") ? "buy" : "offer"}>{typeLabel}</Badge></div>
+        <span className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/88 text-[#4C3D63] shadow-sm backdrop-blur transition group-hover:text-[#7C3AED]">
+          <HeartIcon className="h-5 w-5" />
         </span>
-
-        {remaining ? (
-          <span className="absolute bottom-3 left-3 rounded-full bg-[#120724]/92 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-white shadow-sm">
-            {remaining}
-          </span>
-        ) : null}
       </div>
 
-      <div className="p-4 sm:p-5">
-        <h3 className="line-clamp-2 text-lg font-black leading-tight tracking-[-0.04em] text-[var(--bd-ink)]">{listing.title}</h3>
+      <div className="p-4">
+        <h3 className="line-clamp-2 min-h-[2.35rem] text-sm font-black leading-tight tracking-[-0.03em] text-[#120724]">{listing.title}</h3>
         <div className="mt-3">
-          <p className="text-xl font-black tracking-[-0.045em] text-[var(--bd-ink)]">{formatPrice(price)}</p>
-          {listing.type === "OFFERABLE" && highestOffer ? (
-            <p className="mt-1 text-xs font-black uppercase tracking-[0.10em] text-[var(--bd-purple-dark)]">Highest offer {formatPrice(highestOffer)}</p>
-          ) : null}
+          <p className="text-[11px] font-bold text-[#6D647A]">{listing.type === "OFFERABLE" ? "Current bid" : "Price"}</p>
+          <p className="text-xl font-black tracking-[-0.045em] text-[#120724]">{formatPrice(price)}</p>
+          {highestOffer ? <p className="mt-1 text-[11px] font-black uppercase tracking-[0.08em] text-[#7C3AED]">Highest offer {formatPrice(highestOffer)}</p> : null}
         </div>
 
-        <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[var(--bd-purple-dark)]">
-          <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{handover}</span>
-          {listing.condition ? <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{String(listing.condition).replace(/_/g, " ")}</span> : null}
-          {listing.buyNowPrice ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">Buy Now available</span> : null}
-          {listing.type === "OFFERABLE" ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">{offerCount} offers</span> : null}
-        </div>
-
-        <div className="mt-5 flex items-center justify-between gap-3 text-xs font-semibold text-[var(--bd-muted)]">
-          <span className="truncate">{place}</span>
-          <span>{formatAge(listing.createdAt)}</span>
-        </div>
-
-        <div className="mt-3 border-t border-[#F0EAFE] pt-3 text-xs font-bold leading-5 text-[var(--bd-muted)]">
-          <div className="truncate text-[#3B254F]">{sellerName}</div>
-          <div className="mt-1 inline-flex max-w-full items-center rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.10em] text-[var(--bd-purple-dark)]">
-            {trustLabel}
-          </div>
+        <div className="mt-3 flex items-center justify-between gap-3 text-[11px] font-bold text-[#6D647A]">
+          <span className="inline-flex min-w-0 items-center gap-1 truncate"><PinIcon /><span className="truncate">{place}</span></span>
+          <span className="inline-flex shrink-0 items-center gap-1 text-[#E11D48]"><ClockIcon /> {remaining}</span>
         </div>
       </div>
     </Link>
@@ -154,61 +126,32 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
 
 export function BrowseListingMobileCard({ listing }: { listing: BrowseListing }) {
   const image = getListingImage(listing);
-  const price = listing.buyNowPrice ?? listing.price;
+  const price = displayPriceForListing(listing);
   const typeLabel = saleTypeLabel(listing);
-  const handover = handoverLabel(listing.fulfillmentType);
-  const offerCount = listing._count?.offers ?? 0;
   const highestOffer = listing.offers?.[0]?.amount ?? null;
   const remaining = timeRemaining(listing.offers?.[0]?.expiresAt ?? null);
-  const sellerName = listing.seller?.name || listing.seller?.username || "Bidra seller";
-  const trustLabel = sellerTrustLabel(listing.seller);
   const place = suburbLabel(listing.location);
 
   return (
-    <Link href={"/listings/" + listing.id} className="block overflow-hidden rounded-[30px] border border-[var(--bd-border)] bg-white shadow-[0_18px_50px_rgba(43,16,85,0.10)] active:scale-[0.995]">
-      <div className="relative aspect-[16/10] overflow-hidden bg-[#F8FAFC]">
+    <Link href={"/listings/" + listing.id} className="grid grid-cols-[132px_1fr] overflow-hidden rounded-[20px] border border-[#E8E2F4] bg-white shadow-[0_14px_38px_rgba(18,7,36,0.08)] active:scale-[0.995]">
+      <div className="relative min-h-[132px] overflow-hidden bg-[linear-gradient(135deg,#F5F3FF,#FFFFFF)]">
         {image ? (
-          <Image src={image} alt={listing.title} fill sizes="100vw" className="object-cover" unoptimized />
+          <Image src={image} alt={listing.title} fill sizes="132px" className="object-cover" unoptimized />
         ) : (
           <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Image pending" />
         )}
-
-        <div className="absolute left-3 top-3 flex flex-wrap gap-2">
-          <Badge tone={typeLabel.includes("Buy") ? "buy" : "offer"}>{typeLabel}</Badge>
-          {listing.buyNowPrice && listing.type === "OFFERABLE" ? <Badge tone="neutral">Flexible deal</Badge> : null}
-        </div>
-
-        {remaining ? (
-          <span className="absolute bottom-3 left-3 rounded-full bg-[#120724]/92 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.10em] text-white shadow-sm">
-            {remaining}
-          </span>
-        ) : null}
+        <div className="absolute left-2 top-2"><Badge tone={typeLabel.includes("Buy") ? "buy" : "offer"}>{typeLabel}</Badge></div>
       </div>
 
-      <div className="p-4 sm:p-5">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <h3 className="line-clamp-2 text-lg font-black leading-tight tracking-[-0.02em] text-[var(--bd-ink)]">{listing.title}</h3>
-            <p className="mt-2 text-2xl font-black tracking-[-0.045em] text-[var(--bd-ink)]">{formatPrice(price)}</p>
-            {listing.type === "OFFERABLE" && highestOffer ? (
-              <p className="mt-1 text-xs font-black uppercase tracking-[0.10em] text-[var(--bd-purple-dark)]">Highest offer {formatPrice(highestOffer)}</p>
-            ) : null}
-          </div>
-          <span className="shrink-0 rounded-full border border-[#DDD6FE] bg-white px-3 py-1.5 text-xs font-black text-[var(--bd-purple-dark)] shadow-sm">{formatAge(listing.createdAt)}</span>
+      <div className="min-w-0 p-3.5">
+        <h3 className="line-clamp-2 text-sm font-black leading-tight tracking-[-0.02em] text-[#120724]">{listing.title}</h3>
+        <p className="mt-2 text-[11px] font-bold text-[#6D647A]">{listing.type === "OFFERABLE" ? "Current bid" : "Price"}</p>
+        <p className="text-xl font-black tracking-[-0.045em] text-[#120724]">{formatPrice(price)}</p>
+        {highestOffer ? <p className="mt-1 truncate text-[10px] font-black uppercase tracking-[0.08em] text-[#7C3AED]">Highest offer {formatPrice(highestOffer)}</p> : null}
+        <div className="mt-2 flex items-center justify-between gap-2 text-[11px] font-bold text-[#6D647A]">
+          <span className="inline-flex min-w-0 items-center gap-1 truncate"><PinIcon /><span className="truncate">{place}</span></span>
+          <span className="inline-flex shrink-0 items-center gap-1 text-[#E11D48]"><ClockIcon /> {remaining}</span>
         </div>
-
-        <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-black text-[#3730A3]">
-          <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{handover}</span>
-          {listing.condition ? <span className="rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1">{String(listing.condition).replace(/_/g, " ")}</span> : null}
-          {listing.buyNowPrice ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">Buy Now available</span> : null}
-          {listing.type === "OFFERABLE" ? <span className="rounded-full border border-[#DDD6FE] bg-white px-2.5 py-1">{offerCount} offers</span> : null}
-        </div>
-
-        <div className="mt-3 flex items-center justify-between gap-3 text-sm font-bold text-[var(--bd-muted)]">
-          <span className="min-w-0 truncate">{place}</span>
-          <span className="shrink-0 rounded-full border border-[#DDD6FE] bg-[#F5F3FF] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-[var(--bd-purple-dark)]">{trustLabel}</span>
-        </div>
-        <p className="mt-1 truncate text-xs font-bold text-[#8B7A98]">{sellerName}</p>
       </div>
     </Link>
   );
