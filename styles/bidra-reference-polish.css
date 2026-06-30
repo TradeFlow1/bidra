@@ -7,6 +7,82 @@ body {
     linear-gradient(180deg, #fbf9ff 0%, #ffffff 48%, #ffffff 100%) !important;
 }
 
+/* Global reference surface polish */
+.bd-card,
+.bd-form-card,
+.bd-marketplace-section,
+.bd-surface,
+.bd-empty-state,
+article[class*="border"][class*="bg-white"],
+section[class*="border"][class*="bg-white"],
+div[class*="border"][class*="bg-white"] {
+  border-color: rgba(124, 58, 237, 0.16) !important;
+  box-shadow: 0 20px 64px rgba(18, 7, 36, 0.08) !important;
+}
+
+.bd-btn,
+.bd-primary-action,
+.bd-back-link {
+  font-weight: 900 !important;
+}
+
+.bd-btn-primary,
+.bd-primary-action,
+button[type="submit"].bd-btn-primary {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 48%, #5b21b6 100%) !important;
+  box-shadow: 0 18px 38px rgba(124, 58, 237, 0.26) !important;
+}
+
+/* Home reference polish */
+main section:first-child[class*="bg-[radial-gradient"] {
+  min-height: clamp(520px, 58vw, 680px);
+}
+
+main section:first-child h1 {
+  text-wrap: balance;
+}
+
+main section:first-child a[href="/listings"],
+main section:first-child a[href="/sell/new"] {
+  min-height: 3.25rem;
+  border-radius: 0.95rem !important;
+}
+
+main section:first-child [class*="aspect-[16/9]"] {
+  min-height: 320px;
+}
+
+main section[class*="rounded-[2rem]"] {
+  border: 1px solid rgba(124, 58, 237, 0.12);
+}
+
+main section[class*="rounded-[2rem]"] h2 {
+  letter-spacing: -0.045em;
+}
+
+/* Listing detail reference polish */
+main[class*="bg-[#F7F3FF]"] {
+  background:
+    radial-gradient(720px 320px at 10% -120px, rgba(124, 58, 237, 0.10), transparent 72%),
+    linear-gradient(180deg, #fbf9ff 0%, #ffffff 64%, #ffffff 100%) !important;
+}
+
+main[class*="bg-[#F7F3FF]"] aside .bd-btn,
+main[class*="bg-[#F7F3FF]"] aside a[class*="rounded"],
+main[class*="bg-[#F7F3FF]"] aside button[class*="rounded"] {
+  min-height: 3rem;
+  border-radius: 0.95rem !important;
+}
+
+main[class*="bg-[#F7F3FF]"] [class*="rounded-[28px]"] {
+  border-color: rgba(124, 58, 237, 0.16) !important;
+}
+
+main[class*="bg-[#F7F3FF]"] img {
+  background: #fbf9ff;
+}
+
+/* Sell page reference polish */
 .bd-form-card {
   border-radius: 1.75rem !important;
   border-color: rgba(124, 58, 237, 0.16) !important;
@@ -52,7 +128,6 @@ textarea:focus {
   box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.13), 0 12px 34px rgba(43, 16, 85, 0.08) !important;
 }
 
-/* Sell page reference polish */
 form .bd-form-card:first-of-type {
   border-radius: 2rem !important;
   background:
@@ -78,13 +153,21 @@ form .bd-form-card [class*="bg-[#F5F3FF]"] {
 button[type="submit"].bd-btn-primary {
   min-height: 3.5rem;
   border-radius: 1.2rem !important;
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 48%, #5b21b6 100%) !important;
-  box-shadow: 0 18px 38px rgba(124, 58, 237, 0.26) !important;
 }
 
 @media (min-width: 1024px) {
   form.grid {
     gap: 1.35rem !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  main section:first-child[class*="bg-[radial-gradient"] {
+    min-height: auto;
+  }
+
+  main section:first-child [class*="aspect-[16/9]"] {
+    min-height: 230px;
   }
 }
 
