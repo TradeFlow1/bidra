@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 export function ListingDetailShell({ children }: { children: ReactNode }) {
   return (
-    <main className="min-h-screen bg-[#F7F3FF] px-4 py-6 text-[#120724] sm:px-6 lg:px-10 lg:py-8">
+    <main className="min-h-screen bg-[radial-gradient(760px_320px_at_10%_-120px,rgba(124,58,237,0.12),transparent_70%),linear-gradient(180deg,#FAF7FF_0%,#F7F3FF_100%)] px-4 py-6 text-[#120724] sm:px-6 lg:px-10 lg:py-8">
       <div className="mx-auto max-w-[1440px] pb-24">
         {children}
       </div>

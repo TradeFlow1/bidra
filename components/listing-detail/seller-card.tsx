@@ -28,7 +28,7 @@ export function SellerCard({
   messageAction: ReactNode;
 }) {
   return (
-    <div className="mt-6 overflow-hidden rounded-[28px] border border-[#E8E2F4] bg-white shadow-[0_18px_60px_rgba(18,7,36,0.08)]">
+    <div className="mt-6 overflow-hidden rounded-[32px] border border-[#E8E2F4] bg-white shadow-[0_20px_70px_rgba(18,7,36,0.08)]">
       <div className="bg-[linear-gradient(135deg,#120724,#231044)] px-5 py-5 text-white sm:px-6">
         <div className="flex items-center gap-4">
           <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white/12 text-xl font-black text-white shadow-sm">
@@ -61,7 +61,7 @@ export function SellerCard({
       </div>
 
       <div className="grid gap-3 p-5 sm:grid-cols-2 sm:p-6">
-        <Link href={sellerHref} className="flex h-12 items-center justify-center rounded-[14px] border border-[#DDD6FE] bg-white px-5 text-sm font-black text-[#5B21B6] shadow-sm transition hover:bg-[#F5F3FF]">
+        <Link href={sellerHref} className="flex h-12 items-center justify-center rounded-[16px] border border-[#DDD6FE] bg-white px-5 text-sm font-black text-[#5B21B6] shadow-sm transition hover:bg-[#F5F3FF]">
           View profile
         </Link>
         {messageAction}

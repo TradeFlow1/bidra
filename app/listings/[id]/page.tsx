@@ -11,7 +11,7 @@ import WatchlistButton from "./watchlist-button";
 import ListingImageGallery from "@/components/listing-image-gallery";
 import ListingCard from "@/components/listing-card";
 import { getBaseUrl } from "@/lib/base-url";
-import { BuyerSafetyCard, DescriptionCard, ListingActionPanel, ListingBreadcrumbs, ListingGallery, ListingOfferSummary, RelatedListings, SellerCard, SpecificationTable, StickyMobileActions } from "@/components/listing-detail";
+import { BuyerSafetyCard, DescriptionCard, ListingActionPanel, ListingBreadcrumbs, ListingDetailGrid, ListingDetailShell, ListingGallery, ListingOfferSummary, RelatedListings, SellerCard, SpecificationTable, StickyMobileActions } from "@/components/listing-detail";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -332,14 +332,13 @@ export default async function ListingDetailPage({
   const images = safeListingImages(listing.images, listing.photos);
 
   return (
-    <main className="bd-listing-detail-page min-h-screen bg-[#FBF9FF] px-4 py-8 text-[#120724] sm:px-6 lg:px-10">
-      <div className="mx-auto max-w-[1440px] pb-24">
-        <ListingBreadcrumbs category={category} />
+    <ListingDetailShell>
+      <ListingBreadcrumbs category={category} />
 
-        <section className="grid gap-8 lg:grid-cols-[1.35fr_0.85fr] lg:items-start xl:gap-12">
-          <div>
+      <ListingDetailGrid
+        gallery={(
+          <div className="space-y-6">
             <ListingGallery images={images} title={title} />
-
             <SellerCard
               sellerName={sellerName}
               sellerInitials={sellerInitials}
@@ -354,8 +353,9 @@ export default async function ListingDetailPage({
               messageAction={<MessageSellerButton listingId={listing.id} />}
             />
           </div>
-
-          <aside className="bd-listing-action-panel lg:sticky lg:top-28 lg:pt-2">
+        )}
+        side={(
+          <div className="bd-listing-action-panel lg:pt-2">
             <div className="flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#7C3AED]">
               <span>{category}</span>
               <span>-</span>
@@ -412,10 +412,11 @@ export default async function ListingDetailPage({
                 <ReportListingButton listingId={listing.id} />
               </div>
             </div>
-          </aside>
-        </section>
+          </div>
+        )}
+      />
 
-        <RelatedListings hasListings={relatedListings.length > 0}>
+      <RelatedListings hasListings={relatedListings.length > 0}>
           {relatedListings.map((item) => {
                 const itemPrice = item.type === "OFFERABLE"
                   ? (typeof item.offers?.[0]?.amount === "number" ? item.offers[0].amount : item.price)
@@ -463,7 +464,6 @@ export default async function ListingDetailPage({
           ) : null}
           secondaryAction={!isOwner ? <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} /> : null}
         />
-      </div>
-    </main>
+    </ListingDetailShell>
   );
 }

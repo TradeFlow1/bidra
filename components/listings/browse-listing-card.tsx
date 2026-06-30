@@ -84,7 +84,7 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
   return (
     <Link
       href={"/listings/" + listing.id}
-      className="group block overflow-hidden rounded-[18px] border border-[#E8E2F4] bg-white shadow-[0_14px_38px_rgba(18,7,36,0.08)] transition duration-200 hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-[0_26px_80px_rgba(43,16,85,0.16)]"
+      className="group block overflow-hidden rounded-[24px] border border-[#E8E2F4] bg-white shadow-[0_16px_42px_rgba(18,7,36,0.08)] transition duration-200 hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-[0_28px_90px_rgba(43,16,85,0.16)]"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-[linear-gradient(135deg,#F5F3FF,#FFFFFF)]">
         {image ? (
@@ -108,7 +108,11 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
       </div>
 
       <div className="p-4">
-        <h3 className="line-clamp-2 min-h-[2.35rem] text-sm font-black leading-tight tracking-[-0.03em] text-[#120724]">{listing.title}</h3>
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7C3AED]">{listing.category || "Listing"}</span>
+          <span className="rounded-full border border-[#E8E2F4] bg-[#FBFAFF] px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">{typeLabel}</span>
+        </div>
+        <h3 className="mt-3 line-clamp-2 min-h-[2.35rem] text-sm font-black leading-tight tracking-[-0.03em] text-[#120724]">{listing.title}</h3>
         <div className="mt-3">
           <p className="text-[11px] font-bold text-[#6D647A]">{listing.type === "OFFERABLE" ? "Current bid" : "Price"}</p>
           <p className="text-xl font-black tracking-[-0.045em] text-[#120724]">{formatPrice(price)}</p>

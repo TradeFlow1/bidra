@@ -96,34 +96,37 @@ function CategoryIcon({ icon }: { icon?: string | null }) {
 function CategoryGrid({ categories }: { categories: HomeCategory[] }) {
   const items = (categories.length ? categories : [
     { label: "Vehicles", href: "/listings?category=Vehicles", icon: "vehicles", count: 0 },
-    { label: "Property", href: "/listings?category=Property", icon: "property", count: 0 },
+    { label: "Home & Living", href: "/listings?category=Home%20%26%20Living", icon: "home", count: 0 },
     { label: "Tools & Equipment", href: "/listings?category=Tools%20%26%20Equipment", icon: "tools", count: 0 },
-    { label: "Home & Garden", href: "/listings?category=Home%20%26%20Garden", icon: "home", count: 0 },
     { label: "Electronics", href: "/listings?category=Electronics", icon: "electronics", count: 0 },
-    { label: "Collectables", href: "/listings?category=Collectables", icon: "collectables", count: 0 },
     { label: "Sports & Outdoors", href: "/listings?category=Sports%20%26%20Outdoors", icon: "sports", count: 0 },
-    { label: "Business & Industrial", href: "/listings?category=Business%20%26%20Industrial", icon: "business", count: 0 },
-  ]).slice(0, 8);
+    { label: "Fashion", href: "/listings?category=Fashion", icon: "generic", count: 0 },
+  ]).slice(0, 6);
 
   return (
-    <section className="mt-8 rounded-[2rem] bg-white px-5 py-6 shadow-[0_18px_65px_rgba(18,7,36,0.05)] sm:px-7 lg:px-8">
-      <div className="mb-5 flex items-center justify-between gap-4">
-        <h2 className="text-2xl font-black tracking-[-0.045em] text-[var(--bd-ink)]">Popular categories</h2>
-        <Link href="/categories" className="text-sm font-black text-[var(--bd-purple-dark)] hover:underline">View all categories</Link>
+    <section className="mt-8 rounded-[32px] border border-[var(--bd-border)] bg-white/90 p-5 shadow-[0_24px_80px_rgba(18,7,36,0.08)] sm:p-7 lg:p-8">
+      <div className="mb-6 flex items-center justify-between gap-4">
+        <div>
+          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[var(--bd-purple)]">Popular categories</p>
+          <h2 className="mt-2 text-2xl font-black tracking-[-0.045em] text-[var(--bd-ink)]">Browse by what matters</h2>
+        </div>
+        <Link href="/categories" className="text-sm font-black text-[var(--bd-purple-dark)] hover:underline">View all</Link>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {items.map((category) => (
           <Link
             key={category.label}
             href={category.href}
-            className="group flex min-h-[118px] flex-col items-center justify-center rounded-[16px] border border-[#E8E2F4] bg-[#FBFAFF] px-3 py-4 text-center shadow-sm transition hover:-translate-y-1 hover:border-[#C4B5FD] hover:bg-white hover:shadow-[0_18px_45px_rgba(43,16,85,0.10)]"
+            className="group flex min-h-[124px] flex-col items-start justify-between rounded-[22px] border border-[#E8E2F4] bg-[linear-gradient(180deg,#ffffff_0%,#fbf9ff_100%)] p-4 text-left shadow-sm transition hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-[0_20px_55px_rgba(43,16,85,0.12)]"
           >
-            <div className="grid h-12 w-12 place-items-center rounded-2xl bg-white text-[#251B3D] shadow-sm ring-1 ring-[#E8E2F4] group-hover:text-[var(--bd-purple-dark)]">
+            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-[var(--bd-purple-soft)] text-[var(--bd-purple-dark)] ring-1 ring-[#DDD6FE]">
               <CategoryIcon icon={category.icon || category.label} />
             </div>
-            <h3 className="mt-3 line-clamp-2 text-[12px] font-black leading-tight text-[#1C1430]">{category.label}</h3>
-            <p className="mt-1 text-[10px] font-semibold text-[#6D647A]">{(category.count || 0).toLocaleString("en-AU")} listings</p>
+            <div>
+              <h3 className="text-sm font-black leading-tight text-[#1C1430]">{category.label}</h3>
+              <p className="mt-1 text-[11px] font-semibold text-[#6D647A]">{(category.count || 0).toLocaleString("en-AU")} listings</p>
+            </div>
           </Link>
         ))}
       </div>
@@ -135,21 +138,17 @@ function FeaturedListings({ listings }: { listings: HomeListing[] }) {
   const featured = listings.slice(0, 6);
 
   return (
-    <section className="mt-8 rounded-[2rem] bg-white px-5 py-6 shadow-[0_18px_65px_rgba(18,7,36,0.05)] sm:px-7 lg:px-8">
-      <div className="mb-5 flex items-end justify-between gap-4">
+    <section className="mt-8 rounded-[32px] border border-[var(--bd-border)] bg-white/90 p-5 shadow-[0_24px_80px_rgba(18,7,36,0.08)] sm:p-7 lg:p-8">
+      <div className="mb-6 flex items-end justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-black tracking-[-0.045em] text-[var(--bd-ink)]">Featured listings</h2>
-          <div className="mt-4 flex gap-6 text-xs font-bold text-[#6D647A]">
-            <span className="border-b-2 border-[#7C3AED] pb-2 text-[#7C3AED]">All</span>
-            <span>Auctions</span>
-            <span>Buy Now</span>
-          </div>
+          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[var(--bd-purple)]">Featured today</p>
+          <h2 className="mt-2 text-2xl font-black tracking-[-0.045em] text-[var(--bd-ink)]">Fresh finds worth a closer look</h2>
         </div>
-        <Link href="/listings" className="hidden text-sm font-black text-[var(--bd-purple-dark)] hover:underline sm:inline-flex">View all listings</Link>
+        <Link href="/listings" className="hidden text-sm font-black text-[var(--bd-purple-dark)] hover:underline sm:inline-flex">Browse all</Link>
       </div>
 
       {featured.length ? (
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {featured.map((listing) => (
             <ListingCard
               key={listing.id}
@@ -180,17 +179,17 @@ function FeaturedListings({ listings }: { listings: HomeListing[] }) {
 
 function HomeTrustBar() {
   const items = [
-    ["Safe & secure", "Your safety is our priority with secure messaging and trusted users."],
-    ["Australia wide", "Buy and sell locally or across Australia with ease."],
-    ["Free to list", "List your items for free and reach thousands of buyers."],
-    ["Trusted community", "Join a growing community of honest buyers and sellers."],
+    ["Verified by design", "Secure messaging, clear handover options, and trusted seller signals."],
+    ["Australia wide", "Buy and sell locally or across Australia in one premium flow."],
+    ["Free to list", "Get your item in front of buyers quickly and clearly."],
+    ["Serious transactions", "Made for high-value buys, offers, and confident handovers."],
   ];
 
   return (
-    <section className="mt-5 grid gap-3 rounded-[24px] border border-[#E8E2F4] bg-[#FBFAFF] p-4 sm:grid-cols-2 lg:grid-cols-4">
+    <section className="mt-6 grid gap-3 rounded-[28px] border border-[#E8E2F4] bg-[linear-gradient(135deg,#fbf9ff_0%,#ffffff_100%)] p-4 shadow-[0_18px_55px_rgba(18,7,36,0.06)] sm:grid-cols-2 lg:grid-cols-4">
       {items.map(([title, text]) => (
-        <div key={title} className="flex gap-3 rounded-[18px] bg-white p-4 shadow-sm">
-          <Badge tone="offer">B</Badge>
+        <div key={title} className="flex gap-3 rounded-[20px] border border-[#EEE7FC] bg-white p-4 shadow-sm">
+          <Badge tone="offer">✓</Badge>
           <div>
             <h3 className="text-sm font-black text-[#1C1430]">{title}</h3>
             <p className="mt-1 text-xs font-semibold leading-5 text-[#6D647A]">{text}</p>
@@ -205,7 +204,7 @@ export default function BidraHomepage({ listings, categories, sellHref, viewerAu
   const heroListing = listings.find((listing) => firstImage(listing)) || listings[0] || null;
 
   return (
-    <PageShell className="max-w-[1440px] py-6 sm:py-8 lg:py-10">
+    <PageShell className="mx-auto max-w-[1440px] py-6 sm:py-8 lg:py-10">
       <MarketplaceHero
         listing={heroListing ? {
           id: heroListing.id,
@@ -225,9 +224,9 @@ export default function BidraHomepage({ listings, categories, sellHref, viewerAu
       <FeaturedListings listings={listings} />
       <HomeTrustBar />
 
-      <section className="mt-8 rounded-[28px] border border-[var(--bd-border)] bg-white p-5 shadow-[0_18px_55px_rgba(18,7,36,0.08)] sm:p-6 lg:flex lg:items-center lg:justify-between lg:gap-8">
+      <section className="mt-8 rounded-[32px] border border-[var(--bd-border)] bg-[linear-gradient(135deg,#ffffff_0%,#fbf9ff_100%)] p-5 shadow-[0_24px_80px_rgba(18,7,36,0.08)] sm:p-6 lg:flex lg:items-center lg:justify-between lg:gap-8">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-[var(--bd-purple)]">Start selling</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[var(--bd-purple)]">Start selling</p>
           <h2 className="mt-2 text-3xl font-black tracking-[-0.055em] text-[var(--bd-ink)] sm:text-4xl">Turn your item into a serious listing.</h2>
           <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-[var(--bd-muted)]">
             Add photos, set Buy Now or Auctions, and keep buyer messages in one place.

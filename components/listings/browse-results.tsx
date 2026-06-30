@@ -6,7 +6,7 @@ export function BrowseResultsGrid({ listings }: { listings: BrowseListing[] }) {
   if (!listings.length) return <BrowseEmptyState />;
 
   return (
-    <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
       {listings.map((listing) => (
         <BrowseListingCard key={listing.id} listing={listing} />
       ))}
