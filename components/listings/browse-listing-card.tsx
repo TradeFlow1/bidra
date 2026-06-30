@@ -41,6 +41,12 @@ function timeRemaining(value: Date | string | null | undefined) {
   return "Closing soon";
 }
 
+function displayPriceForListing(listing: BrowseListing) {
+  const highestOffer = listing.offers?.[0]?.amount ?? null;
+  if (listing.type === "OFFERABLE") return highestOffer ?? listing.price ?? listing.buyNowPrice;
+  return listing.buyNowPrice ?? listing.price;
+}
+
 function HeartIcon({ className = "h-4 w-4" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -69,9 +75,9 @@ function PinIcon() {
 
 export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
   const image = getListingImage(listing);
-  const price = listing.currentOfferAmount ?? listing.buyNowPrice ?? listing.price;
+  const price = displayPriceForListing(listing);
   const typeLabel = saleTypeLabel(listing);
-  const highestOffer = listing.offers?.[0]?.amount ?? listing.currentOfferAmount ?? null;
+  const highestOffer = listing.offers?.[0]?.amount ?? null;
   const remaining = timeRemaining(listing.offers?.[0]?.expiresAt ?? null);
   const place = suburbLabel(listing.location);
 
@@ -104,7 +110,7 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
       <div className="p-4">
         <h3 className="line-clamp-2 min-h-[2.35rem] text-sm font-black leading-tight tracking-[-0.03em] text-[#120724]">{listing.title}</h3>
         <div className="mt-3">
-          <p className="text-[11px] font-bold text-[#6D647A]">Current bid</p>
+          <p className="text-[11px] font-bold text-[#6D647A]">{listing.type === "OFFERABLE" ? "Current bid" : "Price"}</p>
           <p className="text-xl font-black tracking-[-0.045em] text-[#120724]">{formatPrice(price)}</p>
           {highestOffer ? <p className="mt-1 text-[11px] font-black uppercase tracking-[0.08em] text-[#7C3AED]">Highest offer {formatPrice(highestOffer)}</p> : null}
         </div>
@@ -120,9 +126,9 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
 
 export function BrowseListingMobileCard({ listing }: { listing: BrowseListing }) {
   const image = getListingImage(listing);
-  const price = listing.currentOfferAmount ?? listing.buyNowPrice ?? listing.price;
+  const price = displayPriceForListing(listing);
   const typeLabel = saleTypeLabel(listing);
-  const highestOffer = listing.offers?.[0]?.amount ?? listing.currentOfferAmount ?? null;
+  const highestOffer = listing.offers?.[0]?.amount ?? null;
   const remaining = timeRemaining(listing.offers?.[0]?.expiresAt ?? null);
   const place = suburbLabel(listing.location);
 
@@ -139,7 +145,7 @@ export function BrowseListingMobileCard({ listing }: { listing: BrowseListing })
 
       <div className="min-w-0 p-3.5">
         <h3 className="line-clamp-2 text-sm font-black leading-tight tracking-[-0.02em] text-[#120724]">{listing.title}</h3>
-        <p className="mt-2 text-[11px] font-bold text-[#6D647A]">Current bid</p>
+        <p className="mt-2 text-[11px] font-bold text-[#6D647A]">{listing.type === "OFFERABLE" ? "Current bid" : "Price"}</p>
         <p className="text-xl font-black tracking-[-0.045em] text-[#120724]">{formatPrice(price)}</p>
         {highestOffer ? <p className="mt-1 truncate text-[10px] font-black uppercase tracking-[0.08em] text-[#7C3AED]">Highest offer {formatPrice(highestOffer)}</p> : null}
         <div className="mt-2 flex items-center justify-between gap-2 text-[11px] font-bold text-[#6D647A]">
