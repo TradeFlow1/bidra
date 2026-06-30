@@ -330,10 +330,35 @@ export default async function ListingDetailPage({
   const isSold = listing.status !== "ACTIVE";
   const attributeRows = listingAttributeRows(listing.attributes);
   const images = safeListingImages(listing.images, listing.photos);
+  const descriptionPreview = description.length > 160 ? description.slice(0, 157) + "..." : description;
 
   return (
     <ListingDetailShell>
       <ListingBreadcrumbs category={category} />
+
+      <section className="mb-8 overflow-hidden rounded-[34px] border border-[#E8E2F4] bg-[linear-gradient(135deg,#ffffff_0%,#fcf9ff_100%)] p-6 shadow-[0_22px_70px_rgba(18,7,36,0.08)] sm:p-7">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">Premium listing</p>
+            <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#120724] sm:text-3xl">{title}</h2>
+            <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-[#62516F]">{descriptionPreview}</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-[18px] border border-[#E8E2F4] bg-white px-3 py-3 text-center shadow-sm">
+              <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Location</div>
+              <div className="mt-1 text-sm font-black text-[#120724]">{location}</div>
+            </div>
+            <div className="rounded-[18px] border border-[#E8E2F4] bg-white px-3 py-3 text-center shadow-sm">
+              <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Type</div>
+              <div className="mt-1 text-sm font-black text-[#120724]">{listingType}</div>
+            </div>
+            <div className="rounded-[18px] border border-[#E8E2F4] bg-white px-3 py-3 text-center shadow-sm">
+              <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Handover</div>
+              <div className="mt-1 text-sm font-black text-[#120724]">{fulfillmentLabel}</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <ListingDetailGrid
         gallery={(

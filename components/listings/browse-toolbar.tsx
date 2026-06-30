@@ -26,12 +26,12 @@ export function BrowseToolbar({
         : "All sale types";
 
   return (
-    <div className="mb-6 rounded-[26px] border border-[var(--bd-border)] bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_62%,#F5F3FF_100%)] p-4 shadow-[0_18px_55px_rgba(43,16,85,0.08)]">
+    <div className="mb-6 overflow-hidden rounded-[28px] border border-[#E8E2F4] bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_62%,#F5F3FF_100%)] p-4 shadow-[0_18px_55px_rgba(43,16,85,0.08)]">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-base font-black tracking-[-0.035em] text-[var(--bd-ink)]">{count} results</p>
+          <p className="text-base font-black tracking-[-0.035em] text-[var(--bd-ink)]">{count} curated results</p>
           <p className="mt-1 text-xs font-bold text-[var(--bd-muted)]">
-            {selectedCategory} Â· {typeLabel} Â· {sortLabel}
+            {selectedCategory} • {typeLabel} • {sortLabel}
           </p>
         </div>
 

@@ -28,7 +28,7 @@ export function SellerCard({
   messageAction: ReactNode;
 }) {
   return (
-    <div className="mt-6 overflow-hidden rounded-[32px] border border-[#E8E2F4] bg-white shadow-[0_20px_70px_rgba(18,7,36,0.08)]">
+    <div className="mt-6 overflow-hidden rounded-[34px] border border-[#E8E2F4] bg-[linear-gradient(180deg,#ffffff_0%,#fcf9ff_100%)] shadow-[0_22px_70px_rgba(18,7,36,0.08)]">
       <div className="bg-[linear-gradient(135deg,#120724,#231044)] px-5 py-5 text-white sm:px-6">
         <div className="flex items-center gap-4">
           <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white/12 text-xl font-black text-white shadow-sm">

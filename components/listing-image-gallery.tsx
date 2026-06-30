@@ -123,7 +123,7 @@ export default function ListingImageGallery(props: { images: any; title?: string
 
   return (
     <div className="w-full">
-      <div className="relative overflow-hidden rounded-[30px] border border-[#EDE9FE] bg-white shadow-[0_18px_50px_rgba(43,16,85,0.08)]">
+      <div className="relative overflow-hidden rounded-[34px] border border-[#EDE9FE] bg-[linear-gradient(180deg,#ffffff_0%,#fcf9ff_100%)] shadow-[0_22px_70px_rgba(43,16,85,0.09)]">
         <div
           ref={scroller}
           onMouseDown={onMouseDown}
@@ -158,8 +158,8 @@ export default function ListingImageGallery(props: { images: any; title?: string
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/45 to-transparent" />
 
                 <div className="pointer-events-none absolute left-3 top-3 flex items-center gap-2 sm:left-4 sm:top-4">
-                <span className="rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#120724] shadow-sm ring-1 ring-[#DDD6FE]">
-                    Gallery
+                  <span className="rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-[#120724] shadow-sm ring-1 ring-[#DDD6FE]">
+                    Premium gallery
                   </span>
                   {isMulti ? (
                     <span className="rounded-full bg-black/75 px-3 py-1.5 text-xs font-extrabold text-white shadow-sm ring-1 ring-white/20">

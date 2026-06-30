@@ -24,17 +24,17 @@ export function ListingActionPanel({
 
       <div className="grid gap-3 p-5 sm:p-6">
         <div className={canSplitActions ? "grid gap-3 sm:grid-cols-2" : "grid gap-3"}>
-          {buyNowAction}
-          {offerAction}
-          {loginAction}
+          <div className="rounded-[20px] border border-[#E8E2F4] bg-white/90 p-3 shadow-sm">{buyNowAction}</div>
+          <div className="rounded-[20px] border border-[#E8E2F4] bg-white/90 p-3 shadow-sm">{offerAction}</div>
+          <div className="rounded-[20px] border border-[#E8E2F4] bg-white/90 p-3 shadow-sm sm:col-span-2">{loginAction}</div>
         </div>
 
         {ownerTools ? (
-          <div className="mt-1 rounded-[18px] border border-[#E8E2F4] bg-[#FBFAFF] p-3">
+          <div className="mt-1 rounded-[20px] border border-[#E8E2F4] bg-[#FBFAFF] p-3 shadow-sm">
             {ownerTools}
           </div>
         ) : (
-          <div className="mt-1 grid gap-3">
+          <div className="mt-1 rounded-[20px] border border-[#E8E2F4] bg-[#FBFAFF] p-3 shadow-sm">
             {watchlistAction}
           </div>
         )}
