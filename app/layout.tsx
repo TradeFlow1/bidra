@@ -45,10 +45,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen flex flex-col bg-[#FBF9FF] text-[#120724] antialiased">
+      <body className="min-h-screen flex flex-col bg-[var(--bd-app-bg)] text-[var(--bd-ink)] antialiased">
         <Providers>
           <SiteHeader />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 bg-[radial-gradient(circle_at_top_left,rgba(124,58,237,0.06),transparent_34%),linear-gradient(180deg,#ffffff_0%,#fbf9ff_100%)]">{children}</main>
           <SiteFooter />
           <MobileBottomNav />
         </Providers>
