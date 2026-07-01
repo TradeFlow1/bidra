@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import {
-  ActionPanel,
   CategoryRail,
   ListingGrid,
   MarketplaceShell,
+  SellerCard,
+  SearchBar,
   TrustStrip,
   type ListingPreview,
 } from "@/components/marketplace-shell";
@@ -83,14 +84,14 @@ export default function ListingsPage() {
     <MarketplaceShell title="Browse" activeNav="browse">
       <section className="mk-panel mk-home-intro mk-home-intro-tight">
         <p className="mk-kicker">Browse</p>
-        <h1>Search and filter listings</h1>
-        <p>Dense results, cleaner filters, and quicker decisions.</p>
+        <h1>Browse active listings</h1>
+        <SearchBar placeholder="Search listings" locationPlaceholder="Nearby" />
       </section>
 
       <section className="mk-panel mk-filter-shell">
         <div className="mk-panel-head">
-          <h2>Search and filters</h2>
-          <span className="mk-thread-pill">Updated just now</span>
+          <h2>Filters</h2>
+          <span className="mk-thread-pill">6 listings</span>
         </div>
         <div className="mk-filter-grid">
           <input type="text" placeholder="Search listings" aria-label="Search listings" />
@@ -114,14 +115,40 @@ export default function ListingsPage() {
 
       <div className="mk-app-grid">
         <ListingGrid title="Browse" items={browseListings} />
-        <ActionPanel
-          title="Need it quickly?"
-          description="Use Buy Now for instant checkout intent, or make an offer and wait for seller choice."
-          primaryLabel="Create wanted request"
-          primaryHref="/wanted/new"
-          secondaryLabel="View messages"
-          secondaryHref="/messages"
-        />
+        <div className="mk-side-stack">
+          <section className="mk-panel mk-side-module">
+            <h3>Nearby now</h3>
+            <ul>
+              <li>Indoor bike trainer - $120 - Springfield</li>
+              <li>Standing lamp - $40 - Ipswich</li>
+              <li>Desk chair - $90 - Forest Lake</li>
+            </ul>
+          </section>
+          <section className="mk-panel mk-side-module">
+            <h3>Popular this week</h3>
+            <ul>
+              <li>Phone accessories</li>
+              <li>Kitchen appliances</li>
+              <li>Outdoor furniture</li>
+            </ul>
+          </section>
+          <section className="mk-panel mk-side-module">
+            <h3>Wanted requests</h3>
+            <ul>
+              <li>Need toddler bike - Brisbane</li>
+              <li>Looking for gym bench - Logan</li>
+              <li>Need office desk - Gold Coast</li>
+            </ul>
+          </section>
+          <SellerCard
+            seller={{
+              name: "Marketplace support",
+              suburb: "Australia",
+              memberSince: "Since launch",
+              response: "within 15 minutes",
+            }}
+          />
+        </div>
       </div>
     </MarketplaceShell>
   );

@@ -11,8 +11,8 @@ export default function MessagesInboxPage() {
     <MarketplaceShell title="Messages" activeNav="messages">
       <section className="mk-panel mk-home-intro mk-home-intro-tight">
         <p className="mk-kicker">Inbox</p>
-        <h1>Marketplace messages</h1>
-        <p>Review listing threads, exchange offers, and confirm handover details.</p>
+        <h1>Marketplace chat</h1>
+        <p>Keep listing context, offers, and handover details in one thread.</p>
       </section>
       <TrustStrip />
       <MessageLayout title="Messages" />

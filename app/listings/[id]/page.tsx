@@ -53,38 +53,42 @@ const relatedListings: ListingPreview[] = [
 export default function ListingDetailPage({ params }: { params: { id: string } }) {
   return (
     <MarketplaceShell title="Listing" activeNav="browse">
-      <section className="mk-detail-head mk-panel">
-        <p className="mk-listing-type">Featured listing</p>
-        <h1>Listing {params.id}</h1>
-        <p className="mk-detail-location">Springfield, QLD</p>
-        <div className="mk-detail-price-row">
-          <p className="mk-detail-price">$320</p>
-          <p className="mk-detail-offer">Current offer $295</p>
+      <section className="mk-detail-layout">
+        <div className="mk-panel mk-detail-head">
+          <p className="mk-listing-type">Featured listing</p>
+          <h1>Listing {params.id}</h1>
+          <p className="mk-detail-location">Springfield, QLD</p>
+          <div className="mk-detail-price-row">
+            <p className="mk-detail-price">$320</p>
+            <p className="mk-detail-offer">Current offer $295</p>
+          </div>
+
+          <div className="mk-detail-gallery">
+            <Image src="/brand/hero-clouds.png" alt="Listing visual" width={920} height={620} className="mk-detail-image mk-detail-image-main" unoptimized />
+            <Image src="/brand/hero-clouds.png" alt="Listing visual" width={420} height={300} className="mk-detail-image" unoptimized />
+            <Image src="/brand/hero-clouds.png" alt="Listing visual" width={420} height={300} className="mk-detail-image" unoptimized />
+          </div>
+
+          <p className="mk-detail-copy">
+            Strong condition, local pickup flexibility, and clear listing details. This visual shell will be wired to live listing data in the next phase.
+          </p>
         </div>
-
-        <div className="mk-detail-gallery">
-          <Image src="/brand/hero-clouds.png" alt="Listing visual" width={920} height={620} className="mk-detail-image mk-detail-image-main" unoptimized />
-          <Image src="/brand/hero-clouds.png" alt="Listing visual" width={420} height={300} className="mk-detail-image" unoptimized />
-          <Image src="/brand/hero-clouds.png" alt="Listing visual" width={420} height={300} className="mk-detail-image" unoptimized />
-        </div>
-
-        <p className="mk-detail-copy">
-          This is a visual shell for listing detail. The final data wiring will plug into this layout without changing backend offer and Buy Now logic.
-        </p>
-      </section>
-
-      <TrustStrip />
-
-      <div className="mk-app-grid">
-        <ListingGrid title="Similar listings" items={relatedListings} />
 
         <div className="mk-side-stack">
           <ActionPanel
-            title="Take action"
-            description="Choose Buy Now for immediate checkout intent or make an offer and wait for seller selection."
-            primaryLabel="Make an offer"
+            title="Choose your action"
+            description="Use Buy Now for immediate checkout intent, make an offer, or message seller first."
+            primaryLabel="Buy Now"
             primaryHref="#"
-            secondaryLabel="Buy Now"
+            secondaryLabel="Make an offer"
+            secondaryHref="#"
+          />
+          <ActionPanel
+            title="Need more details?"
+            description="Message seller and confirm condition, pickup window, and payment preference."
+            primaryLabel="Message seller"
+            primaryHref="#"
+            secondaryLabel="Save listing"
             secondaryHref="#"
           />
           <SellerCard
@@ -96,7 +100,23 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
             }}
           />
         </div>
-      </div>
+      </section>
+
+      <section className="mk-panel mk-specs">
+        <div className="mk-panel-head">
+          <h2>Details</h2>
+        </div>
+        <div className="mk-spec-grid">
+          <p><strong>Condition:</strong> Very good</p>
+          <p><strong>Category:</strong> Home and Furniture</p>
+          <p><strong>Pickup:</strong> Springfield evenings</p>
+          <p><strong>Payment:</strong> In-app confirmed handover</p>
+        </div>
+      </section>
+
+      <TrustStrip />
+
+      <ListingGrid title="Similar listings" items={relatedListings} />
     </MarketplaceShell>
   );
 }

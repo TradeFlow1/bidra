@@ -5,6 +5,7 @@ import {
   ListingGrid,
   MarketplaceShell,
   SellerCard,
+  SearchBar,
   TrustStrip,
   type ListingPreview,
 } from "@/components/marketplace-shell";
@@ -18,11 +19,12 @@ const categories = [
   "Home and Furniture",
   "Tech and Electronics",
   "Tools and DIY",
+  "Vehicles",
   "Sports and Outdoors",
-  "Fashion and Wearables",
-  "Kids and Toys",
-  "Books and Media",
-  "Wanted requests",
+  "Fashion",
+  "Kids",
+  "Garden",
+  "Wanted",
 ];
 
 const listings: ListingPreview[] = [
@@ -61,41 +63,60 @@ const listings: ListingPreview[] = [
     image: "/brand/hero-clouds.png",
     typeLabel: "Buy Now",
   },
+  {
+    id: "sample-shelf",
+    title: "Storage shelf unit",
+    location: "Logan, QLD",
+    priceLabel: "$110",
+    offerLabel: "Current offer $98",
+    image: "/brand/hero-clouds.png",
+    typeLabel: "Timed offer",
+  },
+  {
+    id: "sample-monitor",
+    title: "27 inch monitor",
+    location: "Brisbane, QLD",
+    priceLabel: "$210",
+    image: "/brand/hero-clouds.png",
+    typeLabel: "Buy Now",
+  },
 ];
 
 export default function HomePage() {
   return (
     <MarketplaceShell title="Home" activeNav="home">
-      <section className="mk-panel mk-home-intro">
-        <p className="mk-kicker">Marketplace app</p>
-        <h1>Find what you need nearby</h1>
-        <p>Search first, compare listings quickly, and chat with sellers in one place.</p>
+      <section className="mk-panel mk-command-panel">
+        <p className="mk-kicker">Marketplace command</p>
+        <h1>Search, compare, and buy faster</h1>
+        <SearchBar placeholder="What are you looking for?" locationPlaceholder="Suburb or postcode" />
       </section>
 
       <CategoryRail categories={categories} />
+
+      <ListingGrid title="Active listings" items={listings} />
+
       <TrustStrip />
 
-      <div className="mk-app-grid">
-        <ListingGrid title="Latest listings" items={listings} />
-        <div className="mk-side-stack">
-          <ActionPanel
-            title="Ready to sell today?"
-            description="Post in minutes, accept offers, and confirm handover in messages."
-            primaryLabel="Sell an item"
-            primaryHref="/sell/new"
-            secondaryLabel="Browse listings"
-            secondaryHref="/listings"
-          />
-          <SellerCard
-            seller={{
-              name: "Local trusted seller",
-              suburb: "Brisbane, QLD",
-              memberSince: "Jan 2025",
-              response: "within 30 minutes",
-            }}
-          />
-        </div>
+      <div className="mk-home-lower">
+        <ActionPanel
+          title="Sell your item"
+          description="Create a listing in minutes and manage offers through messages."
+          primaryLabel="Start selling"
+          primaryHref="/sell/new"
+          secondaryLabel="See selling tips"
+          secondaryHref="/help"
+        />
+        <SellerCard
+          seller={{
+            name: "Trusted marketplace seller",
+            suburb: "Brisbane, QLD",
+            memberSince: "Jan 2025",
+            response: "within 30 minutes",
+          }}
+        />
       </div>
+
+      <footer className="mk-footer">Bidra marketplace prototype - search first, list fast, handover with confidence.</footer>
     </MarketplaceShell>
   );
 }

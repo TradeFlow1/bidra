@@ -9,12 +9,12 @@ export const metadata: Metadata = {
 export default function MessagesThreadPage({ params }: { params: { id: string } }) {
   return (
     <MarketplaceShell title="Messages" activeNav="messages">
-      <TrustStrip />
       <section className="mk-panel mk-home-intro mk-home-intro-tight">
         <p className="mk-kicker">Thread</p>
         <h1>Conversation {params.id}</h1>
-        <p>Listing context is pinned in the chat so decisions stay clear.</p>
+        <p>Listing details stay visible while you message and confirm next steps.</p>
       </section>
+      <TrustStrip />
       <MessageLayout title="Conversation" />
     </MarketplaceShell>
   );

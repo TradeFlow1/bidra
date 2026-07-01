@@ -12,19 +12,22 @@ export default function ListingCard({ item }: ListingCardProps) {
       <Link href={`/listings/${item.id}`} className="mk-listing-media" aria-label={item.title}>
         <Image src={item.image} alt="" width={420} height={300} unoptimized className="mk-listing-image" />
         {item.featured ? <span className="mk-listing-tag">Featured listing</span> : null}
-        <span className="mk-listing-price-chip">{item.priceLabel}</span>
       </Link>
       <div className="mk-listing-body">
-        <p className="mk-listing-type">{item.typeLabel}</p>
+        <div className="mk-listing-top">
+          <p className="mk-listing-type">{item.typeLabel}</p>
+          <p className="mk-listing-price">{item.priceLabel}</p>
+        </div>
         <h3>{item.title}</h3>
         <p className="mk-listing-location">{item.location}</p>
-        <p className="mk-listing-price">{item.priceLabel}</p>
         {item.offerLabel ? <p className="mk-listing-offer">{item.offerLabel}</p> : null}
         <div className="mk-listing-foot">
           <Link href={`/listings/${item.id}`} className="mk-inline-link">
-            View listing
+            View details
           </Link>
-          <button type="button" className="mk-save-pill">Save</button>
+          <Link href={`/messages/${item.id}`} className="mk-inline-link mk-inline-link-ghost">
+            Message
+          </Link>
         </div>
       </div>
     </article>

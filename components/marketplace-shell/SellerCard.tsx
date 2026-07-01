@@ -8,7 +8,7 @@ export default function SellerCard({ seller }: SellerCardProps) {
   return (
     <section className="mk-panel mk-seller-card">
       <p className="mk-kicker">Seller</p>
-      <h2>Seller profile</h2>
+      <h2>Seller trust</h2>
       <div className="mk-seller-top">
         <span className="mk-seller-avatar" aria-hidden="true">{seller.name.slice(0, 1).toUpperCase()}</span>
         <div>
@@ -18,7 +18,7 @@ export default function SellerCard({ seller }: SellerCardProps) {
       </div>
       <p className="mk-seller-meta">Member since {seller.memberSince}</p>
       <p className="mk-seller-meta">Response time: {seller.response}</p>
-      <p className="mk-seller-badge">Trusted local seller</p>
+      <p className="mk-seller-badge">Verified handover history</p>
     </section>
   );
 }

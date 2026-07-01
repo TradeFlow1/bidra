@@ -6,16 +6,19 @@ type BottomNavProps = {
 };
 
 const items: Array<{ key: ShellNavKey; label: string; href: string }> = [
-  { key: "home", label: "Home", href: "/" },
+  { key: "home", label: "Search", href: "/" },
   { key: "browse", label: "Browse", href: "/listings" },
   { key: "sell", label: "Sell", href: "/sell/new" },
   { key: "messages", label: "Messages", href: "/messages" },
-  { key: "account", label: "Account", href: "/dashboard" },
+  { key: "wanted", label: "Wanted", href: "/wanted" },
 ];
 
 const icons: Record<ShellNavKey, string> = {
-  home: "H",
+  home: "S",
   browse: "B",
+  offers: "O",
+  "buy-now": "N",
+  wanted: "W",
   sell: "S",
   messages: "M",
   account: "A",

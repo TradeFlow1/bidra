@@ -1,4 +1,4 @@
-export type ShellNavKey = "home" | "browse" | "sell" | "messages" | "account";
+export type ShellNavKey = "home" | "browse" | "offers" | "buy-now" | "wanted" | "sell" | "messages" | "account";
 
 export type ListingPreview = {
   id: string;

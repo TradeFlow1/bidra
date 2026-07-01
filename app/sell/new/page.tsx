@@ -11,22 +11,32 @@ export default function SellNewPage() {
     <MarketplaceShell title="Sell" activeNav="sell">
       <section className="mk-panel mk-home-intro mk-home-intro-tight">
         <p className="mk-kicker">Seller workspace</p>
-        <h1>Create your listing</h1>
-        <p>Guided setup with compact steps designed for desktop and mobile.</p>
+        <h1>Sell your item</h1>
+        <p>Use the guided console to add photos, details, price, and handover plan.</p>
       </section>
 
       <TrustStrip />
 
       <div className="mk-app-grid">
         <SellFormLayout title="Create a listing" />
-        <ActionPanel
-          title="Seller quality"
-          description="Keep photos clear, write concise details, and use in-app messages to confirm handover."
-          primaryLabel="Save as draft"
-          primaryHref="#"
-          secondaryLabel="Preview"
-          secondaryHref="#"
-        />
+        <div className="mk-side-stack">
+          <ActionPanel
+            title="Next steps"
+            description="Save draft, preview, then publish once photos and handover notes are complete."
+            primaryLabel="Save draft"
+            primaryHref="#"
+            secondaryLabel="Preview"
+            secondaryHref="#"
+          />
+          <section className="mk-panel mk-side-module">
+            <h3>Seller trust</h3>
+            <ul>
+              <li>Use clear photos from multiple angles</li>
+              <li>Set realistic price and offer expectations</li>
+              <li>Confirm handover details in messages</li>
+            </ul>
+          </section>
+        </div>
       </div>
     </MarketplaceShell>
   );

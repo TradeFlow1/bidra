@@ -7,13 +7,24 @@ export default function SellFormLayout({ title = "Create a listing" }: SellFormL
     <section className="mk-panel mk-sell-layout">
       <div className="mk-panel-head">
         <h2>{title}</h2>
-        <span className="mk-thread-pill">Step 2 of 4</span>
+        <span className="mk-thread-pill">Step 1 of 3</span>
       </div>
-      <p className="mk-sell-intro">Build a clear listing quickly. Save often and publish when ready.</p>
+      <p className="mk-sell-intro">Create a clean listing quickly. Save, review, then publish.</p>
 
       <div className="mk-sell-progress" aria-label="Listing progress">
         <span className="mk-sell-progress-bar" />
       </div>
+
+      <section className="mk-photo-zone" aria-label="Photo section">
+        <p className="mk-photo-title">Photos</p>
+        <p>Add clear photos. First photo appears in search cards.</p>
+        <div className="mk-photo-grid" aria-hidden="true">
+          <span>Front</span>
+          <span>Detail</span>
+          <span>Condition</span>
+          <span>Extra</span>
+        </div>
+      </section>
 
       <form className="mk-form" action="#">
         <label>
@@ -54,7 +65,7 @@ export default function SellFormLayout({ title = "Create a listing" }: SellFormL
         </label>
 
         <div className="mk-sell-checklist">
-          <p>Checklist</p>
+          <p>Before publish</p>
           <ul>
             <li>Use a clear title with item condition</li>
             <li>Add at least 3 photos before publish</li>
