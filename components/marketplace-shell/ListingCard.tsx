@@ -14,6 +14,10 @@ export default function ListingCard({ item }: ListingCardProps) {
         {item.featured ? <span className="mk-listing-tag">Featured listing</span> : null}
       </Link>
       <div className="mk-listing-body">
+        <div className="mk-listing-status-row">
+          <span className="mk-card-pill">Local pickup</span>
+          <span className="mk-card-pill mk-card-pill-soft">Updated today</span>
+        </div>
         <div className="mk-listing-top">
           <p className="mk-listing-type">{item.typeLabel}</p>
           <p className="mk-listing-price">{item.priceLabel}</p>

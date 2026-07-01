@@ -29,6 +29,7 @@ export default function Header({ active = "home" }: HeaderProps) {
             <span className="mk-brand-dot" />
             <span className="mk-brand-wordmark">Bidra</span>
           </Link>
+          <p className="mk-brand-subline">Australia marketplace</p>
         </div>
 
         <div className="mk-header-search-wrap">

@@ -116,7 +116,7 @@ export default function HomePage() {
         />
       </div>
 
-      <footer className="mk-footer">Bidra marketplace prototype - search first, list fast, handover with confidence.</footer>
+      <footer className="mk-footer">Bidra marketplace - search first, list fast, handover with confidence.</footer>
     </MarketplaceShell>
   );
 }
