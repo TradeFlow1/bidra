@@ -120,23 +120,23 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
           </div>
         </section>
 
-        <section className="bd-logged-in-hero mt-5 hidden md:block">
+        <section className="mt-5 hidden overflow-hidden rounded-[36px] border border-[#E7DEF4] bg-[linear-gradient(135deg,#ffffff_0%,#F5F3FF_100%)] p-6 shadow-[0_28px_80px_rgba(18,7,36,0.10)] md:block">
           <div>
-            <div className="bd-logged-in-eyebrow">Messages</div>
-            <h1 className="bd-logged-in-title">Messages</h1>
-            <p className="bd-logged-in-copy">Keep buyer and seller conversations in one place.</p>
+            <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#7C3AED]">Messages</div>
+            <h1 className="mt-3 text-4xl font-black tracking-[-0.055em] text-[#120724] sm:text-5xl">Messages</h1>
+            <p className="mt-3 max-w-2xl text-base font-semibold leading-7 text-[#62516F]">Keep buyer and seller conversations in one place with clear handover details and recent activity.</p>
           </div>
         </section>
 
         {items.length === 0 ? (
-          <div className="mt-8 rounded-[30px] border border-[#EDE9FE] bg-white p-10 text-center shadow-[0_22px_60px_rgba(43,16,85,0.08)]">
+          <div className="mt-8 rounded-[32px] border border-[#EDE9FE] bg-white p-10 text-center shadow-[0_24px_70px_rgba(43,16,85,0.09)]">
             <h2 className="text-2xl font-black">No messages yet</h2>
             <p className="mt-3 text-base font-semibold text-[#62516F]">Messages from listings and orders will appear here.</p>
             <Link href="/listings" className="bd-btn bd-btn-primary mt-6 inline-flex h-12 items-center rounded-2xl px-6 text-sm font-black !text-white">Browse listings</Link>
           </div>
         ) : (
           <div className="mt-4 grid gap-4 lg:mt-6 lg:grid-cols-[400px_minmax(0,1fr)]">
-            <aside className="overflow-hidden rounded-[20px] border border-[#EDE9FE] bg-white shadow-[0_18px_52px_rgba(43,16,85,0.07)] md:rounded-[24px]">
+            <aside className="overflow-hidden rounded-[24px] border border-[#EDE9FE] bg-white shadow-[0_20px_60px_rgba(43,16,85,0.08)] md:rounded-[26px]">
               {items.map((thread) => (
                 <Link key={thread.id} href={`/messages/${thread.id}`} className={`flex min-h-[88px] gap-3 border-b border-[#F0EAFE] p-4 last:border-b-0 active:bg-[#FBF9FF] md:min-h-0 md:gap-4 md:p-5 md:hover:bg-[#FBF9FF] ${selected?.id === thread.id ? "bg-[#FBF9FF] shadow-[inset_4px_0_0_#7C3AED]" : ""}`}>
                   <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#F5F3FF] text-sm font-black text-[#6D28D9] md:text-base">
@@ -159,7 +159,7 @@ export default async function MessagesInboxPage({ searchParams }: { searchParams
               </div>
             </aside>
 
-            <section className="hidden overflow-hidden rounded-[24px] border border-[#EDE9FE] bg-white shadow-[0_18px_52px_rgba(43,16,85,0.07)] lg:block">
+            <section className="hidden overflow-hidden rounded-[26px] border border-[#EDE9FE] bg-white shadow-[0_20px_60px_rgba(43,16,85,0.08)] lg:block">
               <div className="flex items-center justify-between border-b border-[#F0EAFE] p-4 md:p-5">
                 <div className="flex min-w-0 items-center gap-4">
                   <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#F5F3FF] text-sm font-black text-[#6D28D9] md:text-base">

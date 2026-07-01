@@ -85,7 +85,7 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
   return (
     <Link
       href={"/listings/" + listing.id}
-      className="group flex h-full flex-col overflow-hidden rounded-[30px] border border-[#E8E2F4] bg-[linear-gradient(180deg,#ffffff_0%,#fcf9ff_100%)] shadow-[0_20px_70px_rgba(18,7,36,0.08)] transition duration-200 hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-[0_30px_95px_rgba(43,16,85,0.16)]"
+      className="group flex h-full flex-col overflow-hidden rounded-[30px] border border-[#E8E2F4] bg-[linear-gradient(180deg,#ffffff_0%,#fcf9ff_100%)] shadow-[0_20px_70px_rgba(18,7,36,0.08)] transition duration-200 hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-[0_34px_100px_rgba(43,16,85,0.16)]"
     >
       <div className="relative aspect-[4/3] overflow-hidden bg-[linear-gradient(135deg,#F5F3FF,#FFFFFF)]">
         {image ? (
@@ -101,7 +101,7 @@ export function BrowseListingCard({ listing }: { listing: BrowseListing }) {
           <ProductPlaceholder kind={placeholderKindFromCategory(listing.category)} title="Image pending" />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#120724]/80 via-[#120724]/15 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#120724]/82 via-[#120724]/12 to-transparent" />
         <div className="absolute left-3 top-3 flex flex-wrap items-center gap-2">
           <Badge tone={typeLabel.includes("Buy") ? "buy" : "offer"}>{typeLabel}</Badge>
           <span className="rounded-full border border-white/20 bg-white/85 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-[#5B21B6] backdrop-blur">

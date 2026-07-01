@@ -57,7 +57,7 @@ function FeaturedAuctionCard({ listing }: { listing?: MarketplaceHeroListing | n
   return (
     <Link
       href={href}
-      className="group relative block overflow-hidden rounded-[22px] border border-white/18 bg-white/8 shadow-[0_22px_70px_rgba(0,0,0,0.30)] ring-1 ring-white/8 transition hover:-translate-y-1 hover:border-white/28"
+      className="group relative block overflow-hidden rounded-[24px] border border-white/16 bg-white/8 shadow-[0_28px_90px_rgba(0,0,0,0.30)] ring-1 ring-white/10 transition hover:-translate-y-1 hover:border-white/24"
     >
       <div className="relative aspect-[16/9] overflow-hidden bg-[linear-gradient(135deg,#201038,#0B0417)]">
         {listing?.imageUrl ? (
@@ -74,8 +74,8 @@ function FeaturedAuctionCard({ listing }: { listing?: MarketplaceHeroListing | n
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_46%_44%,rgba(124,58,237,0.55),transparent_28%),linear-gradient(135deg,#251044,#10061F)]" />
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/74 via-black/10 to-black/20" />
-        <div className="absolute left-4 top-4 rounded-lg bg-black/50 px-3 py-2 text-[11px] font-black uppercase tracking-[0.10em] text-white backdrop-blur">
-          Featured auction
+        <div className="absolute left-4 top-4 rounded-full border border-white/20 bg-black/45 px-3 py-2 text-[11px] font-black uppercase tracking-[0.12em] text-white backdrop-blur">
+          Featured today
         </div>
         <div className="absolute right-4 top-4 rounded-lg bg-black/48 px-3 py-2 text-xs font-black text-white backdrop-blur">
           {timeLeft(listing?.endsAt)}
@@ -101,21 +101,24 @@ function FeaturedAuctionCard({ listing }: { listing?: MarketplaceHeroListing | n
 
 export function MarketplaceHero({ listing }: { listing?: MarketplaceHeroListing | null }) {
   return (
-    <section className="relative overflow-hidden rounded-[32px] bg-[radial-gradient(900px_420px_at_78%_22%,rgba(124,58,237,0.38),transparent_62%),linear-gradient(135deg,#10061F_0%,#170A2E_55%,#231044_100%)] px-5 py-8 text-white shadow-[0_30px_100px_rgba(18,7,36,0.28)] sm:px-8 sm:py-10 lg:grid lg:grid-cols-[1fr_560px] lg:items-center lg:gap-10 lg:px-12 lg:py-16">
-      <div className="pointer-events-none absolute inset-0 opacity-35 [background-image:linear-gradient(135deg,transparent_0%,transparent_58%,rgba(124,58,237,0.35)_58%,transparent_70%)]" />
+    <section className="relative overflow-hidden rounded-[36px] border border-white/10 bg-[radial-gradient(760px_360px_at_82%_18%,rgba(124,58,237,0.40),transparent_70%),linear-gradient(135deg,#120724_0%,#180A2C_54%,#221041_100%)] px-5 py-8 text-white shadow-[0_32px_110px_rgba(18,7,36,0.30)] sm:px-8 sm:py-10 lg:grid lg:grid-cols-[1fr_560px] lg:items-center lg:gap-10 lg:px-12 lg:py-16">
+      <div className="pointer-events-none absolute inset-0 opacity-35 [background-image:linear-gradient(135deg,transparent_0%,transparent_56%,rgba(167,139,250,0.18)_56%,transparent_72%)]" />
 
       <div className="relative z-10 max-w-3xl">
-        <h1 className="text-5xl font-black leading-[0.96] tracking-[-0.065em] sm:text-6xl lg:text-[64px]">
-          Australia&apos;s trusted marketplace<br />
-          <span className="bg-gradient-to-r from-[#8B5CF6] to-[#A78BFA] bg-clip-text text-transparent">bid. buy. sell.</span>
+        <div className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-white/85 shadow-[0_10px_30px_rgba(0,0,0,0.16)]">
+          Premium marketplace • Trusted by locals
+        </div>
+        <h1 className="mt-5 text-5xl font-black leading-[0.96] tracking-[-0.065em] sm:text-6xl lg:text-[64px]">
+          Discover better buys<br />
+          <span className="bg-gradient-to-r from-[#D8CCFF] via-[#A78BFA] to-[#F5EFFF] bg-clip-text text-transparent">done with confidence.</span>
         </h1>
         <p className="mt-6 max-w-xl text-base font-semibold leading-7 text-white/76 sm:text-lg">
-          Auctions and Buy Now listings across Australia. Find great deals or sell with confidence.
+          Browse verified listings, secure handover options, and clear seller signals from one polished marketplace experience.
         </p>
 
         <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
           <Link href="/listings" className={anchorButtonClassName("primary", "lg", "!bg-[#7C3AED] !text-white hover:!bg-[#6D28D9]")}>Browse all listings</Link>
-          <Link href="/sell/new" className={anchorButtonClassName("secondary", "lg", "border-white/18 bg-white !text-[#5B21B6] hover:bg-[#F5F3FF] hover:!text-[#5B21B6]")}>Sell your item</Link>
+          <Link href="/sell/new" className={anchorButtonClassName("secondary", "lg", "border-white/18 bg-white/95 !text-[#5B21B6] hover:bg-[#F5F3FF] hover:!text-[#5B21B6]")}>Sell your item</Link>
         </div>
 
         <div className="mt-9 grid grid-cols-2 gap-4 border-t border-white/10 pt-6 text-xs font-bold text-white/76 sm:flex sm:flex-wrap sm:gap-6">
