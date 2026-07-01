@@ -432,18 +432,18 @@ export default async function ListingsPage({ searchParams = {} }: ListingsPagePr
         </div>
       </main>
 
-      <main className="min-h-screen bg-[linear-gradient(180deg,#FBF9FF_0%,#FFFFFF_46%)] pb-32 text-[#120724] md:hidden">
+      <main className="min-h-screen bg-[#FCFBFE] pb-28 text-[#17131F] md:hidden">
         <BrowseMobileHero count={displayCount} selectedCategory={selectedCategory} />
 
         <section className="px-4 pb-5">
-          <form action="/listings" className="mt-4 rounded-[28px] border border-[#EDE9FE] bg-white p-4 shadow-[0_16px_38px_rgba(43,16,85,0.08)]">
+          <form action="/listings" className="mt-4 rounded-[24px] border border-[#E8E2EF] bg-white p-4 shadow-[0_10px_28px_rgba(15,12,22,0.04)]">
             <input type="hidden" name="category" value={selectedCategory === "All categories" ? "" : slugify(selectedCategory)} />
             <div className="flex items-center justify-between gap-3">
               <div>
                 <h2 className="text-xl font-black tracking-[-0.035em] text-[#120724]">Refine</h2>
                 <p className="mt-1 text-xs font-semibold text-[#62516F]">Built for quick one-handed browsing.</p>
               </div>
-              <Link href="/listings" className="rounded-full border border-[#DDD6FE] bg-white px-3 py-2 text-xs font-black text-[#5B21B6] shadow-sm">Clear</Link>
+              <Link href="/listings" className="rounded-full border border-[#E8E2EF] bg-white px-3 py-2 text-xs font-semibold text-[#6F3FF5] shadow-sm">Clear</Link>
             </div>
 
             <div className="mt-4 grid grid-cols-2 gap-3">

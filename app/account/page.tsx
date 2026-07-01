@@ -100,14 +100,14 @@ export default async function AccountPage() {
   const avatarInitials = initials(user.name, user.email);
 
   return (
-    <main className="bd-logged-in-page text-[#0F172A]">
+    <main className="bg-[#FCFBFE] text-[#17131F]">
       <div className="mx-auto w-full max-w-[1440px] px-4 pb-24 pt-4 sm:px-6 sm:py-8 lg:px-8">
         <div className="hidden md:block">
           <AccountNav active="account" />
         </div>
 
         <section className="mb-4 md:hidden">
-          <div className="overflow-hidden rounded-[30px] border border-[#D7E2F1] bg-gradient-to-br from-white via-[#F8FAFF] to-[#EEF2FF] p-4 shadow-[0_18px_45px_rgba(15,23,42,0.08)]">
+          <div className="overflow-hidden rounded-[24px] border border-[#E8E2EF] bg-white p-4 shadow-[0_10px_28px_rgba(15,12,22,0.04)]">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="text-[10px] font-black uppercase tracking-[0.22em] text-[#4F46E5]">My Bidra</div>
@@ -128,9 +128,9 @@ export default async function AccountPage() {
           <span>Account</span>
         </nav>
 
-        <section className="overflow-hidden rounded-[30px] border border-[#D7E2F1] bg-white shadow-[0_18px_45px_rgba(15,23,42,0.08)] md:rounded-[32px]">
-          <div className="h-28 bg-[linear-gradient(135deg,#DBEAFE_0%,#EEF2FF_45%,#F8FAFC_100%)] sm:h-72">
-            <div className="h-full w-full bg-[radial-gradient(circle_at_25%_20%,rgba(79,70,229,0.22),transparent_28%),radial-gradient(circle_at_80%_40%,rgba(14,165,233,0.16),transparent_30%)]" />
+        <section className="overflow-hidden rounded-[24px] border border-[#E8E2EF] bg-white shadow-[0_10px_28px_rgba(15,12,22,0.04)] md:rounded-[28px]">
+          <div className="h-28 bg-[#F7F5FA] sm:h-72">
+            <div className="h-full w-full bg-[radial-gradient(circle_at_20%_20%,rgba(111,63,245,0.10),transparent_32%),radial-gradient(circle_at_80%_40%,rgba(15,23,42,0.05),transparent_30%)]" />
           </div>
 
           <div className="px-4 pb-5 sm:px-10 sm:pb-10">
@@ -146,7 +146,7 @@ export default async function AccountPage() {
                 </div>
               </div>
 
-              <Link href={`/seller/${user.id}`} className="inline-flex h-12 w-full items-center justify-center rounded-[22px] border border-[#C7D2FE] bg-white px-4 text-sm font-black text-[#3730A3] shadow-sm md:h-12 md:w-auto md:px-6 md:hover:bg-[#EEF2FF]">
+              <Link href={`/seller/${user.id}`} className="inline-flex h-12 w-full items-center justify-center rounded-[18px] border border-[#E8E2EF] bg-white px-4 text-sm font-semibold text-[#4F475D] shadow-sm md:h-12 md:w-auto md:px-6 md:hover:bg-[#F7F5FA]">
                 View public profile
               </Link>
             </div>
@@ -167,12 +167,12 @@ export default async function AccountPage() {
           <MobileActionCard title="Status" body={user.policyBlockedUntil ? "Restricted" : "Clear account"} href="#restrictions" />
         </section>
 
-        <div className="mt-10 hidden border-b border-[#E2E8F0] md:block">
-          <div className="flex gap-10 text-base font-black">
-            <a href="#listings" className="border-b-2 border-[#4F46E5] pb-4 text-[#4F46E5]">Listings</a>
-            <a href="#account" className="pb-4 text-[#0F172A]">Account</a>
-            <a href="#activity" className="pb-4 text-[#0F172A]">Activity</a>
-            <a href="#restrictions" className="pb-4 text-[#0F172A]">Restrictions</a>
+        <div className="mt-10 hidden border-b border-[#E8E2EF] md:block">
+          <div className="flex gap-10 text-base font-semibold">
+            <a href="#listings" className="border-b-2 border-[#6F3FF5] pb-4 text-[#6F3FF5]">Listings</a>
+            <a href="#account" className="pb-4 text-[#4F475D]">Account</a>
+            <a href="#activity" className="pb-4 text-[#4F475D]">Activity</a>
+            <a href="#restrictions" className="pb-4 text-[#4F475D]">Restrictions</a>
           </div>
         </div>
 
@@ -193,7 +193,7 @@ export default async function AccountPage() {
                 const price = listing.buyNowPrice ?? listing.price;
 
                 return (
-                  <Link key={listing.id} href={`/listings/${listing.id}`} className="group overflow-hidden rounded-2xl border border-[#DCE5F2] bg-white shadow-sm transition">
+                  <Link key={listing.id} href={`/listings/${listing.id}`} className="group overflow-hidden rounded-[18px] border border-[#E8E2EF] bg-white shadow-sm transition hover:-translate-y-0.5">
                     <div className="relative aspect-[4/3] overflow-hidden bg-[#F8FAFC] md:aspect-square">
                       {image ? <Image src={image} alt="" fill className="object-cover transition duration-300" /> : null}
                     </div>
@@ -207,7 +207,7 @@ export default async function AccountPage() {
               })}
             </div>
           ) : (
-            <div className="rounded-[24px] border border-dashed border-[#C7D2FE] bg-[#F8FAFC] p-8 text-center">
+            <div className="rounded-[24px] border border-dashed border-[#E8E2EF] bg-[#F7F5FA] p-8 text-center">
               <h3 className="text-xl font-black">No listings yet</h3>
               <p className="mt-2 text-sm font-semibold text-[#64748B]">Create your first listing when you are ready to sell.</p>
             </div>
@@ -222,7 +222,7 @@ export default async function AccountPage() {
 
         <section id="activity" className="mt-8 md:mt-14">
           <h2 className="text-xl font-black tracking-tight md:text-2xl">Recent activity</h2>
-          <div className="mt-3 divide-y divide-[#E2E8F0] overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white shadow-sm md:mt-5">
+          <div className="mt-3 divide-y divide-[#E8E2EF] overflow-hidden rounded-[24px] border border-[#E8E2EF] bg-white shadow-sm md:mt-5">
             {activeOrders.length ? activeOrders.map((order) => (
               <Link key={order.id} href={`/orders/${order.id}`} className="flex items-center justify-between gap-4 p-4 md:p-5 md:hover:bg-[#EEF2FF]">
                 <div>
@@ -237,7 +237,7 @@ export default async function AccountPage() {
           </div>
         </section>
 
-        <section id="edit-account" className="mt-8 hidden rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm md:mt-14 md:block md:p-6">
+        <section id="edit-account" className="mt-8 hidden rounded-[24px] border border-[#E8E2EF] bg-white p-4 shadow-sm md:mt-14 md:block md:p-6">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-2xl font-black tracking-tight">Manage account</h2>
@@ -299,7 +299,7 @@ export default async function AccountPage() {
             </form>
           </div>
         </section>
-        <section id="restrictions" className="mt-6 rounded-[24px] border border-[#DCE5F2] bg-white p-4 shadow-sm md:mt-14 md:p-6">
+        <section id="restrictions" className="mt-6 rounded-[24px] border border-[#E8E2EF] bg-white p-4 shadow-sm md:mt-14 md:p-6">
           <h2 className="text-xl font-black tracking-tight md:text-2xl">Account status</h2>
           <div className="mt-3 grid gap-3 sm:grid-cols-2 md:mt-4 md:gap-4">
             <StatusPill label="Email" value={user.emailVerified ? "Verified" : "Needs verification"} good={Boolean(user.emailVerified)} />

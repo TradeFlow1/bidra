@@ -336,25 +336,25 @@ export default async function ListingDetailPage({
     <ListingDetailShell>
       <ListingBreadcrumbs category={category} />
 
-      <section className="mb-8 overflow-hidden rounded-[34px] border border-[#E8E2F4] bg-[linear-gradient(135deg,#ffffff_0%,#fcf9ff_100%)] p-6 shadow-[0_22px_70px_rgba(18,7,36,0.08)] sm:p-7">
+      <section className="mb-6 overflow-hidden rounded-[24px] border border-[#E8E2EF] bg-[#F7F5FA] p-5 shadow-[0_10px_28px_rgba(15,12,22,0.04)] sm:p-6">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7C3AED]">Premium listing</p>
-            <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#120724] sm:text-3xl">{title}</h2>
-            <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-[#62516F]">{descriptionPreview}</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#6F3FF5]">Premium listing</p>
+            <h2 className="mt-2 text-2xl font-black tracking-[-0.03em] text-[#17131F] sm:text-3xl">{title}</h2>
+            <p className="mt-3 max-w-2xl text-sm font-medium leading-6 text-[#4F475D]">{descriptionPreview}</p>
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
-            <div className="rounded-[18px] border border-[#E8E2F4] bg-white px-3 py-3 text-center shadow-sm">
+            <div className="rounded-[16px] border border-[#E8E2EF] bg-white px-3 py-3 text-center shadow-sm">
               <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Location</div>
-              <div className="mt-1 text-sm font-black text-[#120724]">{location}</div>
+              <div className="mt-1 text-sm font-semibold text-[#17131F]">{location}</div>
             </div>
-            <div className="rounded-[18px] border border-[#E8E2F4] bg-white px-3 py-3 text-center shadow-sm">
+            <div className="rounded-[16px] border border-[#E8E2EF] bg-white px-3 py-3 text-center shadow-sm">
               <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Type</div>
-              <div className="mt-1 text-sm font-black text-[#120724]">{listingType}</div>
+              <div className="mt-1 text-sm font-semibold text-[#17131F]">{listingType}</div>
             </div>
-            <div className="rounded-[18px] border border-[#E8E2F4] bg-white px-3 py-3 text-center shadow-sm">
+            <div className="rounded-[16px] border border-[#E8E2EF] bg-white px-3 py-3 text-center shadow-sm">
               <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Handover</div>
-              <div className="mt-1 text-sm font-black text-[#120724]">{fulfillmentLabel}</div>
+              <div className="mt-1 text-sm font-semibold text-[#17131F]">{fulfillmentLabel}</div>
             </div>
           </div>
         </div>
@@ -381,7 +381,7 @@ export default async function ListingDetailPage({
         )}
         side={(
           <div className="bd-listing-action-panel lg:pt-2">
-            <div className="flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#7C3AED]">
+            <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#6F3FF5]">
               <span>{category}</span>
               <span>-</span>
               <span>{listingType}</span>
@@ -389,9 +389,9 @@ export default async function ListingDetailPage({
               <span>{fulfillmentLabel}</span>
             </div>
 
-            <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.055em] text-[#120724] sm:text-5xl lg:text-[52px]">{title}</h1>
-            <div className="mt-4 text-4xl font-black tracking-[-0.045em] text-[#120724]">{money(displayPrice)}</div>
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-base font-bold text-[#62516F]">
+            <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.05em] text-[#17131F] sm:text-5xl lg:text-[52px]">{title}</h1>
+            <div className="mt-4 text-4xl font-black tracking-[-0.04em] text-[#17131F]">{money(displayPrice)}</div>
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-base font-medium text-[#4F475D]">
               <span>{location}</span>
               <span>-</span>
               <span>{cleanText(listing.status)}</span>
@@ -409,9 +409,9 @@ export default async function ListingDetailPage({
                 </Link>
               ) : null}
               ownerTools={isOwner ? (
-                <div className="mt-6 rounded-[24px] border border-[#DDD6FE] bg-white p-4 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
-                  <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7C3AED]">Seller tools</div>
-                  <div className="mt-2 text-sm font-semibold text-[#62516F]">Manage this listing from your seller view.</div>
+                <div className="mt-6 rounded-[20px] border border-[#E8E2EF] bg-white p-4 shadow-sm">
+                  <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#6F3FF5]">Seller tools</div>
+                  <div className="mt-2 text-sm font-medium text-[#4F475D]">Manage this listing from your seller view.</div>
                   <Link href={"/sell/edit/" + params.id} className="bd-btn bd-btn-secondary mt-4 h-12 w-full rounded-2xl px-5 text-sm">
                     Edit listing
                   </Link>

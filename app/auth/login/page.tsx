@@ -47,32 +47,32 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="bg-[#FBF9FF] px-4 py-6 text-[#120724] sm:px-6 lg:px-8">
-      <div className="mx-auto grid w-full max-w-[1180px] overflow-hidden rounded-[34px] border border-[#EDE9FE] bg-white shadow-[0_28px_90px_rgba(43,16,85,0.12)] lg:grid-cols-[0.9fr_1.1fr]">
-        <section className="relative overflow-hidden bg-[#120724] p-7 text-white sm:p-10">
-          <div className="absolute inset-0 bg-[radial-gradient(680px_300px_at_82%_0%,rgba(124,58,237,0.28),transparent_68%),linear-gradient(135deg,#10061F_0%,#160A2A_58%,#21103C_100%)]" />
+    <main className="bg-[#FCFBFE] px-4 py-6 text-[#17131F] sm:px-6 lg:px-8">
+      <div className="mx-auto grid w-full max-w-[1180px] overflow-hidden rounded-[28px] border border-[#E8E2EF] bg-white shadow-[0_10px_28px_rgba(15,12,22,0.04)] lg:grid-cols-[0.9fr_1.1fr]">
+        <section className="relative overflow-hidden bg-[#17131F] p-7 text-white sm:p-10">
+          <div className="absolute inset-0 bg-[radial-gradient(680px_300px_at_82%_0%,rgba(111,63,245,0.18),transparent_68%),linear-gradient(135deg,#17131F_0%,#201A2A_58%,#2A2234_100%)]" />
           <div className="relative flex min-h-[360px] flex-col justify-between">
             <div>
-              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#C4B5FD]">Account</div>
+              <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#D8CDF8]">Account</div>
               <h1 className="mt-4 max-w-lg text-5xl font-black leading-[0.95] tracking-[-0.06em] sm:text-6xl">Welcome back.</h1>
-              <p className="mt-4 max-w-md text-base font-semibold leading-7 text-white/72">Open saved listings, messages, orders and seller tools.</p>
+              <p className="mt-4 max-w-md text-base font-medium leading-7 text-white/75">Open saved listings, messages, orders and seller tools.</p>
             </div>
             <div className="mt-8 grid gap-3 text-sm font-bold text-white/78 sm:grid-cols-3 lg:grid-cols-1">
-              <div className="rounded-2xl border border-white/10 bg-white/8 px-4 py-3">Saved listings</div>
-              <div className="rounded-2xl border border-white/10 bg-white/8 px-4 py-3">Messages</div>
-              <div className="rounded-2xl border border-white/10 bg-white/8 px-4 py-3">Orders</div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">Saved listings</div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">Messages</div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3">Orders</div>
             </div>
           </div>
         </section>
 
         <section className="p-5 sm:p-8 lg:p-10">
           <div className="mb-7">
-            <h2 className="text-3xl font-black tracking-[-0.045em] text-[#120724]">Sign in</h2>
-            <p className="mt-2 text-sm font-semibold text-[#62516F]">Use your email and password to continue.</p>
+            <h2 className="text-3xl font-black tracking-[-0.045em] text-[#17131F]">Sign in</h2>
+            <p className="mt-2 text-sm font-medium text-[#4F475D]">Use your email and password to continue.</p>
           </div>
           <form onSubmit={onSubmit} className="space-y-5">
             <label className="block">
-              <span className="text-sm font-black text-[#0F172A]">Email</span>
+              <span className="text-sm font-semibold text-[#17131F]">Email</span>
               <input
                 name="email"
                 type="email"
@@ -84,20 +84,20 @@ export default function LoginPage() {
             </label>
 
             <label className="block">
-              <span className="text-sm font-black text-[#0F172A]">Password</span>
+              <span className="text-sm font-semibold text-[#17131F]">Password</span>
               <span className="mt-2 flex h-12 overflow-hidden rounded-2xl border border-[#CBD5E1] bg-white transition focus-within:border-[#4F46E5] focus-within:ring-4 focus-within:ring-[#C7D2FE]">
                 <input
                   name="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   required
-                  className="min-w-0 flex-1 px-4 text-sm font-semibold outline-none"
+                  className="min-w-0 flex-1 px-4 text-sm font-medium outline-none"
                   placeholder="Password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((value) => !value)}
-                  className="px-4 text-sm font-black text-[#4F46E5]"
+                  className="px-4 text-sm font-semibold text-[#6F3FF5]"
                 >
                   {showPassword ? "Hide" : "Show"}
                 </button>
@@ -113,7 +113,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="h-12 w-full rounded-2xl bg-[#4F46E5] text-sm font-black text-white shadow-sm transition hover:bg-[#4338CA] disabled:cursor-not-allowed disabled:opacity-60 !text-white disabled:!text-white"
+              className="h-12 w-full rounded-2xl bg-[#6F3FF5] text-sm font-semibold text-white shadow-sm transition hover:bg-[#5B2EEA] disabled:cursor-not-allowed disabled:opacity-60 !text-white disabled:!text-white"
             >
               {loading ? "Signing in..." : "Sign in"}
             </button>
@@ -121,16 +121,16 @@ export default function LoginPage() {
 
           <p className="mt-6 text-center text-sm font-semibold text-[#62516F]">
             New to Bidra?{" "}
-            <Link href="/auth/register" className="font-black text-[#5B21B6]">Create an account</Link>
+            <Link href="/auth/register" className="font-semibold text-[#6F3FF5]">Create an account</Link>
           </p>
         </section>
       </div>
       <div className="mx-auto mt-4 flex w-full max-w-[1180px] flex-col gap-3 sm:flex-row">
-        <Link href="/auth/register" className="flex min-h-14 flex-1 items-center justify-between rounded-2xl border border-[#EDE9FE] bg-white px-5 text-sm font-black text-[#120724] shadow-sm hover:bg-[#F5F3FF]">
-          Create an account <span className="text-[#7C3AED]">Join</span>
+        <Link href="/auth/register" className="flex min-h-14 flex-1 items-center justify-between rounded-2xl border border-[#E8E2EF] bg-white px-5 text-sm font-semibold text-[#17131F] shadow-sm hover:bg-[#F7F5FA]">
+          Create an account <span className="text-[#6F3FF5]">Join</span>
         </Link>
-        <Link href="/forgot-password" className="flex min-h-14 flex-1 items-center justify-between rounded-2xl border border-[#EDE9FE] bg-white px-5 text-sm font-black text-[#120724] shadow-sm hover:bg-[#F5F3FF]">
-          Forgot password <span className="text-[#7C3AED]">Reset</span>
+        <Link href="/forgot-password" className="flex min-h-14 flex-1 items-center justify-between rounded-2xl border border-[#E8E2EF] bg-white px-5 text-sm font-semibold text-[#17131F] shadow-sm hover:bg-[#F7F5FA]">
+          Forgot password <span className="text-[#6F3FF5]">Reset</span>
         </Link>
       </div>
     </main>
