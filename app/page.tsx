@@ -66,14 +66,20 @@ const listings: ListingPreview[] = [
 export default function HomePage() {
   return (
     <MarketplaceShell title="Home" activeNav="home">
-      <TrustStrip />
-      <CategoryRail categories={categories} />
+      <section className="mk-panel mk-home-intro">
+        <p className="mk-kicker">Marketplace app</p>
+        <h1>Find what you need nearby</h1>
+        <p>Search first, compare listings quickly, and chat with sellers in one place.</p>
+      </section>
 
-      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <CategoryRail categories={categories} />
+      <TrustStrip />
+
+      <div className="mk-app-grid">
         <ListingGrid title="Latest listings" items={listings} />
-        <div>
+        <div className="mk-side-stack">
           <ActionPanel
-            title="Ready to list?"
+            title="Ready to sell today?"
             description="Post in minutes, accept offers, and confirm handover in messages."
             primaryLabel="Sell an item"
             primaryHref="/sell/new"

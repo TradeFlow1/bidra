@@ -15,7 +15,9 @@ export default function MarketplaceShell({ children, title, activeNav = "home" }
     <div className="mk-shell">
       <Header active={activeNav} />
       <MobileHeader title={title} />
-      <main className="mk-main">{children}</main>
+      <main className="mk-main">
+        <div className="mk-content">{children}</div>
+      </main>
       <BottomNav active={activeNav} />
     </div>
   );

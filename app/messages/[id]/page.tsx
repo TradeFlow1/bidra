@@ -10,9 +10,10 @@ export default function MessagesThreadPage({ params }: { params: { id: string } 
   return (
     <MarketplaceShell title="Messages" activeNav="messages">
       <TrustStrip />
-      <section className="mk-panel">
-        <p className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--mk-muted)]">Thread</p>
-        <h1 className="mt-1 text-2xl font-extrabold">Conversation {params.id}</h1>
+      <section className="mk-panel mk-home-intro mk-home-intro-tight">
+        <p className="mk-kicker">Thread</p>
+        <h1>Conversation {params.id}</h1>
+        <p>Listing context is pinned in the chat so decisions stay clear.</p>
       </section>
       <MessageLayout title="Conversation" />
     </MarketplaceShell>

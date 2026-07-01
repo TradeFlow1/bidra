@@ -9,9 +9,15 @@ export const metadata: Metadata = {
 export default function SellNewPage() {
   return (
     <MarketplaceShell title="Sell" activeNav="sell">
+      <section className="mk-panel mk-home-intro mk-home-intro-tight">
+        <p className="mk-kicker">Seller workspace</p>
+        <h1>Create your listing</h1>
+        <p>Guided setup with compact steps designed for desktop and mobile.</p>
+      </section>
+
       <TrustStrip />
 
-      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="mk-app-grid">
         <SellFormLayout title="Create a listing" />
         <ActionPanel
           title="Seller quality"

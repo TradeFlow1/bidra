@@ -81,13 +81,18 @@ const browseListings: ListingPreview[] = [
 export default function ListingsPage() {
   return (
     <MarketplaceShell title="Browse" activeNav="browse">
-      <TrustStrip />
+      <section className="mk-panel mk-home-intro mk-home-intro-tight">
+        <p className="mk-kicker">Browse</p>
+        <h1>Search and filter listings</h1>
+        <p>Dense results, cleaner filters, and quicker decisions.</p>
+      </section>
 
-      <section className="mk-panel">
+      <section className="mk-panel mk-filter-shell">
         <div className="mk-panel-head">
-          <h2>Search and filter</h2>
+          <h2>Search and filters</h2>
+          <span className="mk-thread-pill">Updated just now</span>
         </div>
-        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mk-filter-grid">
           <input type="text" placeholder="Search listings" aria-label="Search listings" />
           <select defaultValue="all" aria-label="Category">
             <option value="all">All categories</option>
@@ -105,8 +110,9 @@ export default function ListingsPage() {
       </section>
 
       <CategoryRail categories={categories} />
+      <TrustStrip />
 
-      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="mk-app-grid">
         <ListingGrid title="Browse" items={browseListings} />
         <ActionPanel
           title="Need it quickly?"

@@ -11,6 +11,10 @@ export default function ListingGrid({ title, items }: ListingGridProps) {
     <section className="mk-panel">
       <div className="mk-panel-head">
         <h2>{title}</h2>
+        <div className="mk-grid-meta">
+          <span>{items.length} results</span>
+          <button type="button" className="mk-grid-sort">Newest</button>
+        </div>
       </div>
       <div className="mk-grid">
         {items.map((item) => (

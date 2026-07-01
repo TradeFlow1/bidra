@@ -13,11 +13,20 @@ const items: Array<{ key: ShellNavKey; label: string; href: string }> = [
   { key: "account", label: "Account", href: "/dashboard" },
 ];
 
+const icons: Record<ShellNavKey, string> = {
+  home: "H",
+  browse: "B",
+  sell: "S",
+  messages: "M",
+  account: "A",
+};
+
 export default function BottomNav({ active = "home" }: BottomNavProps) {
   return (
     <nav className="mk-bottom-nav" aria-label="Mobile primary navigation">
       {items.map((item) => (
         <Link key={item.key} href={item.href} className={item.key === active ? "mk-bottom-item mk-bottom-item-active" : "mk-bottom-item"}>
+          <span className="mk-bottom-icon" aria-hidden="true">{icons[item.key]}</span>
           {item.label}
         </Link>
       ))}

@@ -7,7 +7,14 @@ export default function SellFormLayout({ title = "Create a listing" }: SellFormL
     <section className="mk-panel mk-sell-layout">
       <div className="mk-panel-head">
         <h2>{title}</h2>
+        <span className="mk-thread-pill">Step 2 of 4</span>
       </div>
+      <p className="mk-sell-intro">Build a clear listing quickly. Save often and publish when ready.</p>
+
+      <div className="mk-sell-progress" aria-label="Listing progress">
+        <span className="mk-sell-progress-bar" />
+      </div>
+
       <form className="mk-form" action="#">
         <label>
           Sale type
@@ -41,6 +48,20 @@ export default function SellFormLayout({ title = "Create a listing" }: SellFormL
           Price (AUD)
           <input type="text" placeholder="e.g. 120" />
         </label>
+        <label>
+          Handover notes
+          <textarea rows={3} placeholder="Pickup window, preferred area, and payment notes" />
+        </label>
+
+        <div className="mk-sell-checklist">
+          <p>Checklist</p>
+          <ul>
+            <li>Use a clear title with item condition</li>
+            <li>Add at least 3 photos before publish</li>
+            <li>Confirm location and handover availability</li>
+          </ul>
+        </div>
+
         <div className="mk-action-row">
           <button type="button" className="mk-btn mk-btn-primary">Save draft</button>
           <button type="button" className="mk-btn mk-btn-ghost">Preview listing</button>

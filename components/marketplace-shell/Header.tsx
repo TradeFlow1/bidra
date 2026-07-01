@@ -18,20 +18,28 @@ export default function Header({ active = "home" }: HeaderProps) {
   return (
     <header className="mk-header mk-desktop-header" aria-label="Main header">
       <div className="mk-header-inner">
-        <Link href="/" className="mk-brand" aria-label="Bidra home">
-          <span className="mk-brand-dot" />
-          <span>Bidra</span>
-        </Link>
+        <div className="mk-brand-block">
+          <Link href="/" className="mk-brand" aria-label="Bidra home">
+            <span className="mk-brand-dot" />
+            <span className="mk-brand-wordmark">Bidra</span>
+          </Link>
+          <p className="mk-brand-sub">Marketplace</p>
+        </div>
 
         <SearchBar />
 
-        <nav className="mk-nav" aria-label="Desktop navigation">
-          {links.map((item) => (
-            <Link key={item.key} href={item.href} className={item.key === active ? "mk-nav-link mk-nav-link-active" : "mk-nav-link"}>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+        <div className="mk-header-right">
+          <nav className="mk-nav" aria-label="Desktop navigation">
+            {links.map((item) => (
+              <Link key={item.key} href={item.href} className={item.key === active ? "mk-nav-link mk-nav-link-active" : "mk-nav-link"}>
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <Link href="/messages" className="mk-header-cta">
+            Inbox
+          </Link>
+        </div>
       </div>
     </header>
   );

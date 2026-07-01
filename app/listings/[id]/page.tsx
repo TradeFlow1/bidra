@@ -53,29 +53,32 @@ const relatedListings: ListingPreview[] = [
 export default function ListingDetailPage({ params }: { params: { id: string } }) {
   return (
     <MarketplaceShell title="Listing" activeNav="browse">
-      <TrustStrip />
-
-      <section className="mk-panel">
+      <section className="mk-detail-head mk-panel">
         <p className="mk-listing-type">Featured listing</p>
-        <h1 className="mt-1 text-2xl font-extrabold">Listing {params.id}</h1>
-        <p className="mt-1 text-sm text-[var(--mk-muted)]">Springfield, QLD</p>
-        <p className="mt-2 text-3xl font-black">$320</p>
-        <p className="mt-2 text-sm text-[var(--mk-muted)]">Current offer $295</p>
-
-        <div className="mt-4 grid gap-2 sm:grid-cols-2">
-          <Image src="/brand/hero-clouds.png" alt="Listing visual" width={720} height={440} className="h-[220px] w-full rounded-xl object-cover" unoptimized />
-          <Image src="/brand/hero-clouds.png" alt="Listing visual" width={720} height={440} className="h-[220px] w-full rounded-xl object-cover" unoptimized />
+        <h1>Listing {params.id}</h1>
+        <p className="mk-detail-location">Springfield, QLD</p>
+        <div className="mk-detail-price-row">
+          <p className="mk-detail-price">$320</p>
+          <p className="mk-detail-offer">Current offer $295</p>
         </div>
 
-        <p className="mt-4 text-sm leading-6 text-[var(--mk-muted)]">
+        <div className="mk-detail-gallery">
+          <Image src="/brand/hero-clouds.png" alt="Listing visual" width={920} height={620} className="mk-detail-image mk-detail-image-main" unoptimized />
+          <Image src="/brand/hero-clouds.png" alt="Listing visual" width={420} height={300} className="mk-detail-image" unoptimized />
+          <Image src="/brand/hero-clouds.png" alt="Listing visual" width={420} height={300} className="mk-detail-image" unoptimized />
+        </div>
+
+        <p className="mk-detail-copy">
           This is a visual shell for listing detail. The final data wiring will plug into this layout without changing backend offer and Buy Now logic.
         </p>
       </section>
 
-      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <TrustStrip />
+
+      <div className="mk-app-grid">
         <ListingGrid title="Similar listings" items={relatedListings} />
 
-        <div>
+        <div className="mk-side-stack">
           <ActionPanel
             title="Take action"
             description="Choose Buy Now for immediate checkout intent or make an offer and wait for seller selection."
