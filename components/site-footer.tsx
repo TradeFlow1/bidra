@@ -3,7 +3,7 @@ import BrandLogo from "./brand-logo";
 
 const buyLinks = [
   ["Browse all", "/listings"],
-  ["Auctions", "/listings?type=OFFERABLE"],
+  ["Offers", "/listings?type=OFFERABLE"],
   ["Buy Now", "/listings?type=BUY_NOW"],
   ["Popular searches", "/categories"],
 ];
@@ -54,44 +54,32 @@ function SocialDot({ label }: { label: string }) {
 
 export default function SiteFooter() {
   return (
-    <footer className="bg-[linear-gradient(135deg,#10061F_0%,#170A2E_58%,#21103C_100%)] text-white" data-site-footer>
-      <div className="mx-auto w-full max-w-[1440px] px-4 pb-28 pt-12 sm:px-6 md:px-8 md:pb-12 lg:pt-16">
-        <div className="grid gap-10 lg:grid-cols-[1.25fr_0.7fr_0.7fr_0.7fr_0.8fr_1.25fr]">
-          <div>
+    <footer className="border-t border-[#E8E2EF] bg-[#FCFBFE] text-[#17131F]" data-site-footer>
+      <div className="mx-auto w-full max-w-[1280px] px-4 pb-24 pt-10 sm:px-6 md:px-8 md:pb-12 lg:pt-12">
+        <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+          <div className="max-w-sm">
             <Link href="/" aria-label="Bidra home" className="inline-flex">
-              <BrandLogo tone="light" />
+              <BrandLogo tone="default" />
             </Link>
-
-            <p className="mt-5 max-w-xs text-sm font-semibold leading-7 text-white/70">
-              Australia&apos;s trusted marketplace. bid. buy. sell.
+            <p className="mt-4 text-sm font-medium leading-7 text-[#6C6778]">
+              A clearer way to browse, offer, message and complete local marketplace transactions.
             </p>
           </div>
 
-          <FooterColumn title="Buy" links={buyLinks} />
-          <FooterColumn title="Sell" links={sellLinks} />
-          <FooterColumn title="Support" links={supportLinks} />
-          <FooterColumn title="Company" links={companyLinks} />
-
-          <div className="rounded-[22px] border border-white/10 bg-white/8 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.20)]">
-            <h2 className="text-sm font-black text-white">Stay in the loop</h2>
-            <p className="mt-2 text-xs font-semibold leading-5 text-white/62">Get the best deals and new listings.</p>
-            <form className="mt-4 grid gap-2 sm:grid-cols-[1fr_auto]">
-              <label className="sr-only" htmlFor="footer-email">Email address</label>
-              <input id="footer-email" type="email" placeholder="Enter your email" className="h-11 rounded-[12px] border border-white/12 bg-white px-3 text-sm font-semibold text-[#120724] outline-none placeholder:text-[#8B7A98]" />
-              <button type="button" className="h-11 rounded-[12px] bg-[#7C3AED] px-4 text-sm font-black text-white transition hover:bg-[#6D28D9]">Subscribe</button>
-            </form>
-            <div className="mt-5 flex gap-2">
-              <SocialDot label="f" />
-              <SocialDot label="ig" />
-              <SocialDot label="yt" />
-              <SocialDot label="x" />
-            </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <FooterColumn title="Browse" links={buyLinks} />
+            <FooterColumn title="Sell" links={sellLinks} />
+            <FooterColumn title="Support" links={supportLinks} />
           </div>
         </div>
 
-        <div className="mt-10 grid gap-4 border-t border-white/10 pt-6 text-xs font-semibold text-white/52 sm:grid-cols-[1fr_auto] sm:items-center">
+        <div className="mt-8 flex flex-col gap-3 border-t border-[#E8E2EF] pt-6 text-sm font-medium text-[#6C6778] sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Bidra. All rights reserved.</p>
-          <p>Buyers and sellers confirm pickup, postage and payment details directly.</p>
+          <div className="flex flex-wrap gap-4">
+            <Link href="/legal/privacy" className="transition hover:text-[#17131F]">Privacy</Link>
+            <Link href="/legal/terms" className="transition hover:text-[#17131F]">Terms</Link>
+            <Link href="/support" className="transition hover:text-[#17131F]">Support</Link>
+          </div>
         </div>
       </div>
     </footer>

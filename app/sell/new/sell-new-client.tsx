@@ -540,7 +540,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
   }
 
   return (
-    <div className="rounded-[30px] border border-[#EDE9FE] bg-white p-3 shadow-[0_22px_64px_rgba(43,16,85,0.09)] sm:p-6">
+    <div className="rounded-[24px] border border-[#E8E2EF] bg-white p-3 shadow-sm sm:p-6">
       {err && (
         <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div>
       )}
@@ -562,25 +562,25 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         </div>
       )}
 
-      <section className="mb-4 rounded-[26px] border border-[#EDE9FE] bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_58%,#F5F3FF_100%)] p-4 shadow-[0_16px_44px_rgba(43,16,85,0.07)] sm:p-5">
+      <section className="mb-4 rounded-[22px] border border-[#E8E2EF] bg-[#F7F5FA] p-4 shadow-sm sm:p-5">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#6D28D9]">Listing readiness</div>
-            <h2 className="mt-1 text-2xl font-black tracking-[-0.045em] text-[#120724]">{publishReady ? "Ready to publish" : "Build a buyer-ready listing"}</h2>
-            <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-[#62516F]">
+            <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#6F3FF5]">Listing readiness</div>
+            <h2 className="mt-1 text-2xl font-black tracking-[-0.03em] text-[#17131F]">{publishReady ? "Ready to publish" : "Build a buyer-ready listing"}</h2>
+            <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-[#4F475D]">
               Strong listings use clear photos, accurate category details, transparent condition notes and a suburb buyers can understand.
             </p>
           </div>
-          <div className="grid gap-2 text-sm font-black text-[#3B254F] sm:grid-cols-3 lg:w-[420px]">
-            <div className="rounded-2xl border border-[#EDE9FE] bg-white px-4 py-3">
+          <div className="grid gap-2 text-sm font-semibold text-[#17131F] sm:grid-cols-3 lg:w-[420px]">
+            <div className="rounded-2xl border border-[#E8E2EF] bg-white px-4 py-3">
               <div className="text-[10px] uppercase tracking-[0.14em] text-[#8B7A98]">Mode</div>
               <div className="mt-1">{reviewSaleType}</div>
             </div>
-            <div className="rounded-2xl border border-[#EDE9FE] bg-white px-4 py-3">
+            <div className="rounded-2xl border border-[#E8E2EF] bg-white px-4 py-3">
               <div className="text-[10px] uppercase tracking-[0.14em] text-[#8B7A98]">Photos</div>
               <div className="mt-1">{files.length}/10</div>
             </div>
-            <div className="rounded-2xl border border-[#EDE9FE] bg-white px-4 py-3">
+            <div className="rounded-2xl border border-[#E8E2EF] bg-white px-4 py-3">
               <div className="text-[10px] uppercase tracking-[0.14em] text-[#8B7A98]">Status</div>
               <div className="mt-1">{publishReady ? "Complete" : `${missingRequirements.length} left`}</div>
             </div>
@@ -589,7 +589,7 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
         {!publishReady ? (
           <div className="mt-4 flex gap-2 overflow-x-auto pb-1 text-xs font-black text-[#5B21B6] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {missingRequirements.slice(0, 5).map((item) => (
-              <span key={item} className="shrink-0 rounded-full border border-[#DDD6FE] bg-white px-3 py-2 shadow-sm">
+              <span key={item} className="shrink-0 rounded-full border border-[#E8E2EF] bg-white px-3 py-2 shadow-sm">
                 {item}
               </span>
             ))}

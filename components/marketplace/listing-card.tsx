@@ -8,7 +8,7 @@ type ListingCardProps = {
   price?: string | null;
   location?: string | null;
   imageUrl?: string | null;
-  typeLabel?: "Buy Now" | "Offers" | "Auction" | string;
+  typeLabel?: "Buy Now" | "Offers" | "Offer" | string;
   highestOffer?: string | null;
   className?: string;
 };
@@ -39,12 +39,12 @@ function PinIcon() {
   );
 }
 
-export function ListingCard({ href, title, price, location, imageUrl, typeLabel = "Auction", highestOffer, className }: ListingCardProps) {
-  const label = typeLabel.toLowerCase().includes("buy") ? "Buy Now" : typeLabel.toLowerCase().includes("offer") ? "Auction" : typeLabel;
+export function ListingCard({ href, title, price, location, imageUrl, typeLabel = "Offer", highestOffer, className }: ListingCardProps) {
+  const label = typeLabel.toLowerCase().includes("buy") ? "Buy Now" : typeLabel.toLowerCase().includes("offer") ? "Offer" : typeLabel;
   const badgeTone = label.toLowerCase().includes("buy") ? "buy" : "offer";
 
   return (
-    <Link href={href} className={cn("group block overflow-hidden rounded-[18px] border border-[#E8E2F4] bg-white shadow-[0_14px_38px_rgba(18,7,36,0.08)] transition hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-[0_26px_80px_rgba(43,16,85,0.16)]", className)}>
+    <Link href={href} className={cn("group block overflow-hidden rounded-[24px] border border-[#E8E2F4] bg-[linear-gradient(180deg,#ffffff_0%,#fcf9ff_100%)] shadow-[0_16px_48px_rgba(18,7,36,0.09)] transition hover:-translate-y-1 hover:border-[#C4B5FD] hover:shadow-[0_30px_90px_rgba(43,16,85,0.16)]", className)}>
       <div className="relative aspect-[4/3] overflow-hidden bg-[linear-gradient(135deg,#F5F3FF,#FFFFFF)]">
         {imageUrl ? (
           <Image src={imageUrl} alt={title} fill sizes="(max-width: 768px) 50vw, 20vw" className="object-cover transition duration-500 group-hover:scale-[1.045]" unoptimized />
@@ -53,13 +53,15 @@ export function ListingCard({ href, title, price, location, imageUrl, typeLabel 
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/18 via-transparent to-black/10" />
         <div className="absolute left-3 top-3"><Badge tone={badgeTone}>{label}</Badge></div>
-        <div className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/86 text-[#4C3D63] shadow-sm backdrop-blur transition group-hover:text-[#7C3AED]"><HeartIcon /></div>
+        <div className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full border border-white/70 bg-white/90 text-[#4C3D63] shadow-[0_10px_24px_rgba(18,7,36,0.13)] backdrop-blur transition group-hover:text-[#7C3AED]"><HeartIcon /></div>
       </div>
-      <div className="p-4">
-        <h3 className="line-clamp-2 min-h-[2.35rem] text-sm font-black leading-tight tracking-[-0.03em] text-[#120724]">{title}</h3>
-        <div className="mt-3">
-          <p className="text-[11px] font-bold text-[#6D647A]">Current bid</p>
-          {price ? <p className="text-xl font-black tracking-[-0.045em] text-[#120724]">{price}</p> : <p className="text-xl font-black tracking-[-0.045em] text-[#120724]">Price hidden</p>}
+      <div className="p-4 sm:p-5">
+        <div className="rounded-[16px] border border-[#F0EAFE] bg-[#FBF9FF] p-3 shadow-sm">
+          <h3 className="line-clamp-2 min-h-[2.35rem] text-sm font-black leading-tight tracking-[-0.03em] text-[#120724]">{title}</h3>
+          <div className="mt-3">
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Current offer</p>
+            {price ? <p className="mt-1 text-xl font-black tracking-[-0.045em] text-[#120724]">{price}</p> : <p className="mt-1 text-xl font-black tracking-[-0.045em] text-[#120724]">Price hidden</p>}
+          </div>
         </div>
         <div className="mt-3 flex items-center justify-between gap-3 text-[11px] font-bold text-[#6D647A]">
           <span className="inline-flex min-w-0 items-center gap-1 truncate">{location ? <PinIcon /> : null}<span className="truncate">{location || "Australia"}</span></span>

@@ -44,8 +44,8 @@ export function BrowseCategoryNav({
             href={categoryHref(category)}
             className={
               active
-                ? "rounded-2xl bg-[var(--bd-purple-soft)] px-4 py-3 text-sm font-black text-[var(--bd-purple-dark)] shadow-sm ring-1 ring-[#DDD6FE]"
-                : "rounded-2xl px-4 py-3 text-sm font-bold text-[var(--bd-muted)] transition hover:bg-white hover:text-[var(--bd-purple-dark)]"
+                ? "rounded-[18px] border border-[#DDD6FE] bg-[var(--bd-purple-soft)] px-4 py-3 text-sm font-black text-[var(--bd-purple-dark)] shadow-sm"
+                : "rounded-[18px] border border-transparent bg-white/70 px-4 py-3 text-sm font-bold text-[var(--bd-muted)] transition hover:border-[#DDD6FE] hover:bg-white hover:text-[var(--bd-purple-dark)]"
             }
           >
             {category}

@@ -48,31 +48,31 @@ export default async function SellNewPage() {
         <BackButton href="/dashboard" label="Back to dashboard" />
         <section className="mt-4 grid gap-5 xl:grid-cols-[minmax(0,1120px)_320px] xl:justify-center xl:items-start">
           <div>
-            <div className="rounded-[32px] border border-[#EDE9FE] bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_56%,#F5F3FF_100%)] p-5 shadow-[0_24px_70px_rgba(43,16,85,0.10)] sm:p-7">
-              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#6D28D9]">Sell on Bidra</div>
-              <h1 className="mt-2 text-4xl font-black tracking-[-0.055em] text-[#120724] sm:text-5xl">Sell your item</h1>
-              <p className="mt-3 max-w-3xl text-sm font-semibold leading-6 text-[#62516F] sm:text-base">Add photos, details, price and location. Buyers and sellers arrange payment, pickup, postage and handover directly.</p>
-              <div className="mt-5 flex flex-wrap gap-2 text-center text-xs font-black text-[#5B21B6]"><span className="rounded-full border border-[#EDE9FE] bg-white px-3 py-2">Details</span><span className="rounded-full border border-[#EDE9FE] bg-white px-3 py-2">Photos</span><span className="rounded-full border border-[#EDE9FE] bg-white px-3 py-2">Review</span><Link href="/sell/bulk" className="rounded-full border border-[#EDE9FE] bg-white px-3 py-2 underline-offset-2 hover:bg-[#F5F3FF] hover:underline">Bulk/photo prep</Link></div>
+            <div className="rounded-[24px] border border-[#E8E2EF] bg-[#F7F5FA] p-5 shadow-[0_10px_28px_rgba(15,12,22,0.04)] sm:p-7">
+              <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#6F3FF5]">Sell on Bidra</div>
+              <h1 className="mt-2 text-4xl font-black tracking-[-0.05em] text-[#17131F] sm:text-5xl">Sell your item</h1>
+              <p className="mt-3 max-w-3xl text-sm font-medium leading-6 text-[#4F475D] sm:text-base">Add photos, details, price and location. Buyers and sellers arrange payment, pickup, postage and handover directly.</p>
+              <div className="mt-5 flex flex-wrap gap-2 text-center text-xs font-semibold text-[#6F3FF5]"><span className="rounded-full border border-[#E8E2EF] bg-white px-3 py-2 shadow-sm">Details</span><span className="rounded-full border border-[#E8E2EF] bg-white px-3 py-2 shadow-sm">Photos</span><span className="rounded-full border border-[#E8E2EF] bg-white px-3 py-2 shadow-sm">Review</span><Link href="/sell/bulk" className="rounded-full border border-[#E8E2EF] bg-white px-3 py-2 shadow-sm underline-offset-2 hover:bg-[#F7F5FA] hover:underline">Bulk/photo prep</Link></div>
             </div>
             <div className="mt-4 grid gap-4"><SellNewQualityGate /><SellNewClient defaultLocation={defaultLocation} /></div>
           </div>
           <aside className="hidden gap-4 xl:sticky xl:top-24 xl:grid">
             <AppPanel>
-              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#6D28D9]">Listing quality</div>
-              <h2 className="mt-2 text-xl font-black tracking-tight text-[#120724]">Buyer-ready checklist</h2>
-              <ul className="mt-4 space-y-3 text-sm font-semibold leading-6 text-[#62516F]">
+              <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#6F3FF5]">Listing quality</div>
+              <h2 className="mt-2 text-xl font-black tracking-tight text-[#17131F]">Buyer-ready checklist</h2>
+              <ul className="mt-4 space-y-3 text-sm font-medium leading-6 text-[#4F475D]">
                 <li>Hero photo shows the real item clearly.</li>
                 <li>Title names the item, model or size.</li>
                 <li>Condition, faults and inclusions are explicit.</li>
                 <li>Price and offer settings match your intent.</li>
                 <li>Pickup, postage or delivery expectations are clear.</li>
               </ul>
-              <Link href="/sell/bulk" className="bd-btn bd-btn-secondary mt-5 inline-flex h-11 items-center rounded-2xl px-4 text-sm font-black">Prepare photos</Link>
+              <Link href="/sell/bulk" className="mt-5 inline-flex h-11 items-center rounded-2xl border border-[#E8E2EF] bg-white px-4 text-sm font-semibold text-[#17131F]">Prepare photos</Link>
             </AppPanel>
             <AppPanel tone="dark">
-              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-[#C4B5FD]">Seller profile</div>
-              <h2 className="mt-2 text-2xl font-black tracking-[-0.045em] text-white">Build trust with every listing.</h2>
-              <p className="mt-3 text-sm font-semibold leading-6 text-white/70">Clear photos, accurate details and on-platform messages help buyers make confident decisions.</p>
+              <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#D8CDF8]">Seller profile</div>
+              <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-white">Build trust with every listing.</h2>
+              <p className="mt-3 text-sm font-medium leading-6 text-white/75">Clear photos, accurate details and on-platform messages help buyers make confident decisions.</p>
             </AppPanel>
           </aside>
         </section>

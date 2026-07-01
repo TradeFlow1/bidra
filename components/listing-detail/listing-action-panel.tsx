@@ -16,25 +16,25 @@ export function ListingActionPanel({
   watchlistAction?: ReactNode;
 }) {
   return (
-    <div className="mt-6 overflow-hidden rounded-[28px] border border-[#E8E2F4] bg-white shadow-[0_18px_60px_rgba(18,7,36,0.08)]">
-      <div className="border-b border-[#F0EAFE] px-5 py-4 sm:px-6">
-        <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#7C3AED]">Ready to transact</div>
-        <p className="mt-1 text-sm font-semibold leading-6 text-[#62516F]">Buy now, place an offer, or save this listing while you decide.</p>
+    <div className="mt-6 overflow-hidden rounded-[24px] border border-[#E8E2EF] bg-[#FCFBFE] shadow-[0_10px_28px_rgba(15,12,22,0.04)]">
+      <div className="border-b border-[#E8E2EF] bg-[#F7F5FA] px-5 py-4 sm:px-6">
+        <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#6F3FF5]">Ready to transact</div>
+        <p className="mt-1 text-sm font-medium leading-6 text-[#4F475D]">Buy now, make an offer, or save this listing while you decide.</p>
       </div>
 
       <div className="grid gap-3 p-5 sm:p-6">
         <div className={canSplitActions ? "grid gap-3 sm:grid-cols-2" : "grid gap-3"}>
-          {buyNowAction}
-          {offerAction}
-          {loginAction}
+          <div className="rounded-[16px] border border-[#E8E2EF] bg-white p-3 shadow-sm">{buyNowAction}</div>
+          <div className="rounded-[16px] border border-[#E8E2EF] bg-white p-3 shadow-sm">{offerAction}</div>
+          <div className="rounded-[16px] border border-[#E8E2EF] bg-white p-3 shadow-sm sm:col-span-2">{loginAction}</div>
         </div>
 
         {ownerTools ? (
-          <div className="mt-1 rounded-[18px] border border-[#E8E2F4] bg-[#FBFAFF] p-3">
+          <div className="mt-1 rounded-[20px] border border-[#E8E2F4] bg-[#FBFAFF] p-3 shadow-sm">
             {ownerTools}
           </div>
         ) : (
-          <div className="mt-1 grid gap-3">
+          <div className="mt-1 rounded-[20px] border border-[#E8E2F4] bg-[#FBFAFF] p-3 shadow-sm">
             {watchlistAction}
           </div>
         )}

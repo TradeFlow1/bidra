@@ -52,7 +52,7 @@ export default function SearchBar({
   return (
     <form onSubmit={submit} className={className} role="search">
       <div className="relative">
-        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-white/58">
+        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#6C6778]">
           <SearchIcon />
         </span>
         <input
@@ -61,7 +61,7 @@ export default function SearchBar({
           placeholder={placeholder}
           className={
             inputClassName ||
-            "h-12 w-full rounded-2xl border border-white/15 bg-white/10 pl-12 pr-4 text-sm font-bold text-white outline-none placeholder:text-white/52 focus:border-white/40 focus:ring-4 focus:ring-white/10"
+            "h-12 w-full rounded-[14px] border border-[#E8E2EF] bg-[#F7F5FA] pl-12 pr-4 text-sm font-semibold text-[#17131F] outline-none placeholder:text-[#6C6778] focus:border-[#6F3FF5] focus:ring-4 focus:ring-[#6F3FF5]/10"
           }
         />
       </div>

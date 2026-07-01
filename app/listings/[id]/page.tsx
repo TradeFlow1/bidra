@@ -11,7 +11,7 @@ import WatchlistButton from "./watchlist-button";
 import ListingImageGallery from "@/components/listing-image-gallery";
 import ListingCard from "@/components/listing-card";
 import { getBaseUrl } from "@/lib/base-url";
-import { BuyerSafetyCard, DescriptionCard, ListingActionPanel, ListingBreadcrumbs, ListingGallery, ListingOfferSummary, RelatedListings, SellerCard, SpecificationTable, StickyMobileActions } from "@/components/listing-detail";
+import { BuyerSafetyCard, DescriptionCard, ListingActionPanel, ListingBreadcrumbs, ListingDetailGrid, ListingDetailShell, ListingGallery, ListingOfferSummary, RelatedListings, SellerCard, SpecificationTable, StickyMobileActions } from "@/components/listing-detail";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -330,16 +330,40 @@ export default async function ListingDetailPage({
   const isSold = listing.status !== "ACTIVE";
   const attributeRows = listingAttributeRows(listing.attributes);
   const images = safeListingImages(listing.images, listing.photos);
+  const descriptionPreview = description.length > 160 ? description.slice(0, 157) + "..." : description;
 
   return (
-    <main className="bd-listing-detail-page min-h-screen bg-[#FBF9FF] px-4 py-8 text-[#120724] sm:px-6 lg:px-10">
-      <div className="mx-auto max-w-[1440px] pb-24">
-        <ListingBreadcrumbs category={category} />
+    <ListingDetailShell>
+      <ListingBreadcrumbs category={category} />
 
-        <section className="grid gap-8 lg:grid-cols-[1.35fr_0.85fr] lg:items-start xl:gap-12">
+      <section className="mb-6 overflow-hidden rounded-[24px] border border-[#E8E2EF] bg-[#F7F5FA] p-5 shadow-[0_10px_28px_rgba(15,12,22,0.04)] sm:p-6">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <ListingGallery images={images} title={title} />
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#6F3FF5]">Premium listing</p>
+            <h2 className="mt-2 text-2xl font-black tracking-[-0.03em] text-[#17131F] sm:text-3xl">{title}</h2>
+            <p className="mt-3 max-w-2xl text-sm font-medium leading-6 text-[#4F475D]">{descriptionPreview}</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-[16px] border border-[#E8E2EF] bg-white px-3 py-3 text-center shadow-sm">
+              <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Location</div>
+              <div className="mt-1 text-sm font-semibold text-[#17131F]">{location}</div>
+            </div>
+            <div className="rounded-[16px] border border-[#E8E2EF] bg-white px-3 py-3 text-center shadow-sm">
+              <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Type</div>
+              <div className="mt-1 text-sm font-semibold text-[#17131F]">{listingType}</div>
+            </div>
+            <div className="rounded-[16px] border border-[#E8E2EF] bg-white px-3 py-3 text-center shadow-sm">
+              <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Handover</div>
+              <div className="mt-1 text-sm font-semibold text-[#17131F]">{fulfillmentLabel}</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
+      <ListingDetailGrid
+        gallery={(
+          <div className="space-y-6">
+            <ListingGallery images={images} title={title} />
             <SellerCard
               sellerName={sellerName}
               sellerInitials={sellerInitials}
@@ -354,9 +378,10 @@ export default async function ListingDetailPage({
               messageAction={<MessageSellerButton listingId={listing.id} />}
             />
           </div>
-
-          <aside className="bd-listing-action-panel lg:sticky lg:top-28 lg:pt-2">
-            <div className="flex flex-wrap gap-2 text-xs font-extrabold uppercase tracking-[0.14em] text-[#7C3AED]">
+        )}
+        side={(
+          <div className="bd-listing-action-panel lg:pt-2">
+            <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#6F3FF5]">
               <span>{category}</span>
               <span>-</span>
               <span>{listingType}</span>
@@ -364,9 +389,9 @@ export default async function ListingDetailPage({
               <span>{fulfillmentLabel}</span>
             </div>
 
-            <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.055em] text-[#120724] sm:text-5xl lg:text-[52px]">{title}</h1>
-            <div className="mt-4 text-4xl font-black tracking-[-0.045em] text-[#120724]">{money(displayPrice)}</div>
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-base font-bold text-[#62516F]">
+            <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.05em] text-[#17131F] sm:text-5xl lg:text-[52px]">{title}</h1>
+            <div className="mt-4 text-4xl font-black tracking-[-0.04em] text-[#17131F]">{money(displayPrice)}</div>
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-base font-medium text-[#4F475D]">
               <span>{location}</span>
               <span>-</span>
               <span>{cleanText(listing.status)}</span>
@@ -384,9 +409,9 @@ export default async function ListingDetailPage({
                 </Link>
               ) : null}
               ownerTools={isOwner ? (
-                <div className="mt-6 rounded-[24px] border border-[#DDD6FE] bg-white p-4 shadow-[0_14px_40px_rgba(43,16,85,0.06)]">
-                  <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#7C3AED]">Seller tools</div>
-                  <div className="mt-2 text-sm font-semibold text-[#62516F]">Manage this listing from your seller view.</div>
+                <div className="mt-6 rounded-[20px] border border-[#E8E2EF] bg-white p-4 shadow-sm">
+                  <div className="text-[11px] font-black uppercase tracking-[0.16em] text-[#6F3FF5]">Seller tools</div>
+                  <div className="mt-2 text-sm font-medium text-[#4F475D]">Manage this listing from your seller view.</div>
                   <Link href={"/sell/edit/" + params.id} className="bd-btn bd-btn-secondary mt-4 h-12 w-full rounded-2xl px-5 text-sm">
                     Edit listing
                   </Link>
@@ -412,10 +437,11 @@ export default async function ListingDetailPage({
                 <ReportListingButton listingId={listing.id} />
               </div>
             </div>
-          </aside>
-        </section>
+          </div>
+        )}
+      />
 
-        <RelatedListings hasListings={relatedListings.length > 0}>
+      <RelatedListings hasListings={relatedListings.length > 0}>
           {relatedListings.map((item) => {
                 const itemPrice = item.type === "OFFERABLE"
                   ? (typeof item.offers?.[0]?.amount === "number" ? item.offers[0].amount : item.price)
@@ -463,7 +489,6 @@ export default async function ListingDetailPage({
           ) : null}
           secondaryAction={!isOwner ? <WatchlistButton listingId={listing.id} authed={!!userId} loginHref={"/auth/login?next=/listings/" + listing.id} /> : null}
         />
-      </div>
-    </main>
+    </ListingDetailShell>
   );
 }

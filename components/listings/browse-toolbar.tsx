@@ -26,26 +26,26 @@ export function BrowseToolbar({
         : "All sale types";
 
   return (
-    <div className="mb-6 rounded-[26px] border border-[var(--bd-border)] bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_62%,#F5F3FF_100%)] p-4 shadow-[0_18px_55px_rgba(43,16,85,0.08)]">
+    <div className="mb-5 overflow-hidden rounded-[24px] border border-[#E8E2EF] bg-[#FCFBFE] p-4 shadow-[0_10px_28px_rgba(15,12,22,0.04)] sm:p-5">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-base font-black tracking-[-0.035em] text-[var(--bd-ink)]">{count} results</p>
+          <p className="text-base font-black tracking-[-0.035em] text-[var(--bd-ink)]">{count} curated results</p>
           <p className="mt-1 text-xs font-bold text-[var(--bd-muted)]">
-            {selectedCategory} Â· {typeLabel} Â· {sortLabel}
+            {selectedCategory} • {typeLabel} • {sortLabel}
           </p>
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <Link href="/listings?sort=newest" className="rounded-full border border-[#DDD6FE] bg-white px-3.5 py-2 text-xs font-black text-[var(--bd-purple-dark)] shadow-sm transition hover:border-[#C4B5FD] hover:bg-[var(--bd-purple-soft)]">
+          <Link href="/listings?sort=newest" className="rounded-full border border-[#E8E2EF] bg-white px-3.5 py-2 text-xs font-semibold text-[#4F475D] shadow-sm transition hover:border-[#D9CEE9] hover:bg-[#F7F5FA]">
             Newest
           </Link>
-          <Link href="/listings?type=OFFERABLE" className="rounded-full border border-[#DDD6FE] bg-white px-3.5 py-2 text-xs font-black text-[var(--bd-purple-dark)] shadow-sm transition hover:border-[#C4B5FD] hover:bg-[var(--bd-purple-soft)]">
+          <Link href="/listings?type=OFFERABLE" className="rounded-full border border-[#E8E2EF] bg-white px-3.5 py-2 text-xs font-semibold text-[#4F475D] shadow-sm transition hover:border-[#D9CEE9] hover:bg-[#F7F5FA]">
             Offers
           </Link>
-          <Link href="/listings?type=BUY_NOW" className="rounded-full border border-[#DDD6FE] bg-white px-3.5 py-2 text-xs font-black text-[var(--bd-purple-dark)] shadow-sm transition hover:border-[#C4B5FD] hover:bg-[var(--bd-purple-soft)]">
+          <Link href="/listings?type=BUY_NOW" className="rounded-full border border-[#E8E2EF] bg-white px-3.5 py-2 text-xs font-semibold text-[#4F475D] shadow-sm transition hover:border-[#D9CEE9] hover:bg-[#F7F5FA]">
             Buy Now
           </Link>
-          <Link href="/listings" className="rounded-full border border-[#DDD6FE] bg-white px-3.5 py-2 text-xs font-black text-[var(--bd-purple-dark)] shadow-sm transition hover:border-[#C4B5FD] hover:bg-[var(--bd-purple-soft)]">
+          <Link href="/listings" className="rounded-full border border-[#E8E2EF] bg-white px-3.5 py-2 text-xs font-semibold text-[#4F475D] shadow-sm transition hover:border-[#D9CEE9] hover:bg-[#F7F5FA]">
             Clear
           </Link>
         </div>

@@ -34,11 +34,11 @@ const legalLinks = [
 
 export function PublicContentPage({ title, subtitle, children, className }: PublicContentPageProps) {
   return (
-    <main className="bg-white text-[#4F46E5]">
-      <div className={cn("mx-auto w-full max-w-[1320px] px-8 py-12 lg:py-16", className)}>
+    <main className="bg-[#FCFBFE] text-[#6F3FF5]">
+      <div className={cn("mx-auto w-full max-w-[1320px] px-6 py-10 sm:px-8 lg:px-10 lg:py-14", className)}>
         <header className="max-w-5xl">
-          <h1 className="text-4xl font-black tracking-tight text-[#0F172A] sm:text-5xl">{title}</h1>
-          {subtitle ? <p className="mt-3 text-xl font-black text-[#0F172A]">{subtitle}</p> : null}
+          <h1 className="text-4xl font-black tracking-tight text-[#17131F] sm:text-5xl">{title}</h1>
+          {subtitle ? <p className="mt-3 text-lg font-medium text-[#4F475D] sm:text-xl">{subtitle}</p> : null}
         </header>
         <div className="mt-9">{children}</div>
       </div>
@@ -48,22 +48,22 @@ export function PublicContentPage({ title, subtitle, children, className }: Publ
 
 export function LegalContentPage({ title, active, children }: LegalContentPageProps) {
   return (
-    <main className="bg-white text-[#07152E]">
+    <main className="bg-[#FCFBFE] text-[#17131F]">
       <div className="mx-auto w-full max-w-[1120px] px-6 py-10 sm:px-8">
-        <section className="rounded-[34px] border border-[#D8E6F8] bg-[#EEF6FF] p-6 shadow-[0_20px_60px_rgba(32,75,140,0.10)] sm:p-8">
-          <div className="text-xs font-black uppercase tracking-[0.18em] text-[#4F46E5]">Legal</div>
-          <h1 className="mt-4 text-5xl font-black leading-none tracking-[-0.06em] text-[#07152E] sm:text-6xl">{title}</h1>
-          <p className="mt-4 text-base font-semibold leading-7 text-[#475569]">Last updated: 1 May 2025</p>
+        <section className="rounded-[28px] border border-[#E8E2EF] bg-[#F7F5FA] p-6 shadow-[0_10px_28px_rgba(15,12,22,0.04)] sm:p-8">
+          <div className="text-xs font-black uppercase tracking-[0.16em] text-[#6F3FF5]">Legal</div>
+          <h1 className="mt-4 text-5xl font-black leading-none tracking-[-0.06em] text-[#17131F] sm:text-6xl">{title}</h1>
+          <p className="mt-4 text-base font-medium leading-7 text-[#4F475D]">Last updated: 1 May 2025</p>
           <div className="mt-6 flex flex-wrap gap-3">
             {legalLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={[
-                  "rounded-2xl border px-4 py-2 text-sm font-black shadow-sm transition",
+                  "rounded-2xl border px-4 py-2 text-sm font-semibold shadow-sm transition",
                   active === item.key
-                    ? "border-[#4F46E5] bg-[#4F46E5] text-white"
-                    : "border-[#D8E1F0] bg-white text-[#4F46E5]",
+                    ? "border-[#6F3FF5] bg-[#6F3FF5] text-white"
+                    : "border-[#E8E2EF] bg-white text-[#6F3FF5]",
                 ].join(" ")}
               >
                 {item.label}
@@ -72,7 +72,7 @@ export function LegalContentPage({ title, active, children }: LegalContentPagePr
           </div>
         </section>
 
-        <article className="mt-8 rounded-[28px] border border-[#D8E1F0] bg-white p-6 shadow-sm sm:p-8">
+        <article className="mt-8 rounded-[24px] border border-[#E8E2EF] bg-white p-6 shadow-sm sm:p-8">
           <div className="space-y-8">{children}</div>
         </article>
       </div>
@@ -84,15 +84,15 @@ export function TopicGrid({ items }: { items: InfoCardProps[] }) {
     <div className="grid gap-4 md:grid-cols-2">
       {items.map((item) => {
         const content = (
-          <div className="flex items-center gap-5 rounded-[24px] border border-[#D8E1F0] bg-white p-5 shadow-sm">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#EEF2FF] text-xl text-[#4F46E5]">
+          <div className="flex items-center gap-5 rounded-[20px] border border-[#E8E2EF] bg-white p-5 shadow-sm">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#F7F5FA] text-xl text-[#6F3FF5]">
               {item.icon || "□"}
             </div>
             <div className="min-w-0">
-              <h2 className="text-lg font-black tracking-[-0.03em] text-[#07152E]">{item.title}</h2>
-              <p className="mt-1 text-sm font-semibold leading-6 text-[#475569]">{item.body}</p>
+              <h2 className="text-lg font-black tracking-[-0.03em] text-[#17131F]">{item.title}</h2>
+              <p className="mt-1 text-sm font-medium leading-6 text-[#4F475D]">{item.body}</p>
             </div>
-            <span className="ml-auto text-2xl font-semibold text-[#4F46E5]">›</span>
+            <span className="ml-auto text-2xl font-semibold text-[#6F3FF5]">›</span>
           </div>
         );
 
@@ -104,9 +104,9 @@ export function TopicGrid({ items }: { items: InfoCardProps[] }) {
 
 export function ArticleList({ items }: { items: { href: string; title: string }[] }) {
   return (
-    <div className="divide-y divide-[#E2E8F0] overflow-hidden rounded-[24px] border border-[#D8E1F0] bg-white shadow-sm">
+    <div className="divide-y divide-[#E8E2EF] overflow-hidden rounded-[24px] border border-[#E8E2EF] bg-white shadow-sm">
       {items.map((item) => (
-        <Link key={item.href + item.title} href={item.href} className="flex items-center gap-4 px-5 py-5 text-sm font-black text-[#4F46E5]">
+        <Link key={item.href + item.title} href={item.href} className="flex items-center gap-4 px-5 py-5 text-sm font-semibold text-[#6F3FF5]">
           <span className="text-lg">▤</span>
           <span>{item.title}</span>
           <span className="ml-auto text-2xl">›</span>

@@ -47,11 +47,11 @@ export default function MobileBottomNav() {
   if (!isEnabled || isBlocked) return null;
 
   return (
-    <nav className="bd-mobile-bottom-nav fixed inset-x-0 bottom-0 z-[110] grid grid-cols-5 gap-1 px-2 pb-[env(safe-area-inset-bottom)] pt-2 lg:hidden" aria-label="Primary mobile navigation" data-mobile-bottom-nav>
+    <nav className="bd-mobile-bottom-nav fixed inset-x-0 bottom-0 z-[110] grid grid-cols-5 gap-1 border-t border-[#E8E2EF] bg-[#FCFBFE] px-2 pb-[env(safe-area-inset-bottom)] pt-2 shadow-[0_-8px_24px_rgba(15,12,22,0.04)] lg:hidden" aria-label="Primary mobile navigation" data-mobile-bottom-nav>
       {items.map((item) => {
         const active = item.match(pathname);
         return (
-          <Link key={item.href} href={item.href} className={"bd-bottom-nav-item flex min-h-[52px] w-full flex-col items-center justify-center gap-1 rounded-2xl text-[11px] font-black" + (active ? " bd-bottom-nav-item-active" : "")}>
+          <Link key={item.href} href={item.href} className={"bd-bottom-nav-item flex min-h-[52px] w-full flex-col items-center justify-center gap-1 rounded-2xl text-[11px] font-semibold" + (active ? " bg-[#F2EBFF] text-[#4F2DC9]" : " text-[#6C6778]")}>
             <span className="bd-bottom-nav-icon" aria-hidden="true"><Icon name={item.icon} /></span>
             <span>{item.label}</span>
           </Link>

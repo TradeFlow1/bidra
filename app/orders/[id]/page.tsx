@@ -121,19 +121,19 @@ export default async function OrderDetailPage({ params }: { params: { id: string
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-3xl">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center rounded-full border border-[#EDE9FE] bg-white px-3 py-1.5 text-xs font-black text-[#120724] shadow-sm">
+                <span className="inline-flex items-center rounded-full border border-[#E8E2EF] bg-white px-3 py-1.5 text-xs font-semibold text-[#17131F] shadow-sm">
                   {roleLabel}
                 </span>
                 <span className={`inline-flex items-center rounded-full border px-3 py-1.5 text-xs font-black ${statusTone(String(order.status), order.outcome)}`}>
                   {statusLabel}
                 </span>
               </div>
-              <h1 className="mt-4 text-3xl font-black leading-[1.05] tracking-[-0.055em] text-[#120724] sm:text-4xl">{order.listing?.title ?? "Purchased item"}</h1>
-              <p className="mt-3 max-w-2xl text-sm font-semibold leading-6 text-[#62516F] sm:text-base">
+              <h1 className="mt-4 text-3xl font-black leading-[1.05] tracking-[-0.05em] text-[#17131F] sm:text-4xl">{order.listing?.title ?? "Purchased item"}</h1>
+              <p className="mt-3 max-w-2xl text-sm font-medium leading-6 text-[#4F475D] sm:text-base">
                 This Buy now order is a committed purchase. Use Messages to arrange payment, pickup/postage and handover.
               </p>
-              <div className="mt-5 rounded-[22px] border border-[#EDE9FE] bg-white/90 px-4 py-3 text-sm leading-6 text-[#3B254F] shadow-sm ring-1 ring-white/70">
-                <div className="text-[11px] font-black uppercase tracking-[0.14em] text-[#6D28D9]">Next action</div>
+              <div className="mt-5 rounded-[20px] border border-[#E8E2EF] bg-white px-4 py-3 text-sm leading-6 text-[#4F475D] shadow-sm">
+                <div className="text-[11px] font-black uppercase tracking-[0.14em] text-[#6F3FF5]">Next action</div>
                 <div className="mt-1 font-bold">{primaryNextAction}</div>
               </div>
               <div className="mt-4 text-xs font-bold uppercase tracking-[0.12em] text-[#64748B]">
@@ -142,17 +142,17 @@ export default async function OrderDetailPage({ params }: { params: { id: string
             </div>
 
             <div className="grid gap-2.5 sm:min-w-[360px] sm:grid-cols-3 lg:w-[360px]">
-                <Link href={primaryNextHref} className="bd-btn bd-btn-primary inline-flex h-12 items-center justify-center whitespace-nowrap rounded-[22px] px-4 text-center text-sm font-black !text-white shadow-[0_18px_38px_rgba(124,58,237,0.22)] transition active:scale-[0.99]">
+                <Link href={primaryNextHref} className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-[18px] bg-[#6F3FF5] px-4 text-center text-sm font-semibold !text-white shadow-sm transition active:scale-[0.99]">
                 {primaryNextLabel}
               </Link>
-              <Link href={listingHref} className="bd-btn bd-btn-secondary inline-flex h-12 items-center justify-center whitespace-nowrap rounded-[22px] px-4 text-center text-sm font-black shadow-sm transition active:scale-[0.99]">
+              <Link href={listingHref} className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-[18px] border border-[#E8E2EF] bg-white px-4 text-center text-sm font-semibold text-[#17131F] shadow-sm transition active:scale-[0.99]">
                 View item
               </Link>
-              <Link href="/disputes" className="bd-btn bd-btn-secondary inline-flex h-12 items-center justify-center whitespace-nowrap rounded-[22px] px-4 text-center text-sm font-black shadow-sm transition active:scale-[0.99]">
+              <Link href="/disputes" className="inline-flex h-12 items-center justify-center whitespace-nowrap rounded-[18px] border border-[#E8E2EF] bg-white px-4 text-center text-sm font-semibold text-[#17131F] shadow-sm transition active:scale-[0.99]">
                 Get help
               </Link>
               {alreadyLeft ? (
-                <span className="col-span-3 inline-flex items-center justify-center rounded-2xl border border-[#EDE9FE] bg-white px-4 py-3 text-center text-sm font-semibold bd-ink shadow-sm">
+                <span className="col-span-3 inline-flex items-center justify-center rounded-2xl border border-[#E8E2EF] bg-white px-4 py-3 text-center text-sm font-semibold text-[#17131F] shadow-sm">
                   Feedback sent
                 </span>
               ) : null}
@@ -163,20 +163,20 @@ export default async function OrderDetailPage({ params }: { params: { id: string
         <div className="grid gap-3 sm:grid-cols-3">
           <div className="bd-order-stat rounded-[24px] border border-[#EDE9FE] bg-white p-4 shadow-[0_16px_44px_rgba(43,16,85,0.06)]">
             <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Order ID</div>
-            <div className="mt-1 text-xl font-black tracking-[-0.03em] text-[#120724]">{String(order.id).slice(-6)}</div>
-            <div className="mt-1 hidden break-all font-mono text-xs text-[#62516F] sm:block">{order.id}</div>
+            <div className="mt-1 text-xl font-black tracking-[-0.03em] text-[#17131F]">{String(order.id).slice(-6)}</div>
+            <div className="mt-1 hidden break-all font-mono text-xs text-[#4F475D] sm:block">{order.id}</div>
           </div>
 
           <div className="bd-order-stat rounded-[24px] border border-[#EDE9FE] bg-white p-4 shadow-[0_16px_44px_rgba(43,16,85,0.06)]">
             <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Amount</div>
-            <div className="mt-1 text-3xl font-black tracking-[-0.055em] text-[#120724]">{formatMoney(order.amount)}</div>
-            <div className="mt-1 text-sm text-[#62516F]">Final sold price.</div>
+            <div className="mt-1 text-3xl font-black tracking-[-0.05em] text-[#17131F]">{formatMoney(order.amount)}</div>
+            <div className="mt-1 text-sm text-[#4F475D]">Final sold price.</div>
           </div>
 
           <div className="bd-order-stat rounded-[24px] border border-[#EDE9FE] bg-white p-4 shadow-[0_16px_44px_rgba(43,16,85,0.06)]">
             <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Listing</div>
-            <div className="mt-1 truncate text-lg font-extrabold tracking-tight text-[#120724]">{order.listing?.title ?? "Listing"}</div>
-            <div className="mt-1 text-sm text-[#62516F]">Original listing.</div>
+            <div className="mt-1 truncate text-lg font-extrabold tracking-tight text-[#17131F]">{order.listing?.title ?? "Listing"}</div>
+            <div className="mt-1 text-sm text-[#4F475D]">Original listing.</div>
           </div>
         </div>
         <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
