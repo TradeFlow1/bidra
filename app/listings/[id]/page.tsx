@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import {
   ActionPanel,
   ListingGrid,
@@ -62,8 +63,8 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
         <p className="mt-2 text-sm text-[var(--mk-muted)]">Current offer $295</p>
 
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
-          <img src="/brand/hero-clouds.png" alt="Listing visual" className="h-[220px] w-full rounded-xl object-cover" />
-          <img src="/brand/hero-clouds.png" alt="Listing visual" className="h-[220px] w-full rounded-xl object-cover" />
+          <Image src="/brand/hero-clouds.png" alt="Listing visual" width={720} height={440} className="h-[220px] w-full rounded-xl object-cover" unoptimized />
+          <Image src="/brand/hero-clouds.png" alt="Listing visual" width={720} height={440} className="h-[220px] w-full rounded-xl object-cover" unoptimized />
         </div>
 
         <p className="mt-4 text-sm leading-6 text-[var(--mk-muted)]">
