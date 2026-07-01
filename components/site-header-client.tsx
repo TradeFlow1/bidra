@@ -14,7 +14,7 @@ type SessionLike = {
 
 const DESKTOP_LINKS = [
   { href: "/listings", label: "Browse" },
-  { href: "/listings?type=OFFERABLE", label: "Auctions" },
+  { href: "/listings?type=OFFERABLE", label: "Offers" },
   { href: "/listings?type=BUY_NOW", label: "Buy Now" },
   { href: "/wanted", label: "Wanted" },
   { href: "/sell/new", label: "Sell" },
@@ -157,51 +157,51 @@ export default function SiteHeaderClient({ session, notificationCount = 0 }: { s
   }
 
   return (
-    <header className="sticky top-0 z-[100] border-b border-white/10 bg-[#0F071A] text-white shadow-[0_18px_55px_rgba(6,4,12,0.28)] backdrop-blur" data-site-header>
-      <div className="mx-auto hidden h-[96px] w-full max-w-[1440px] items-center gap-4 px-6 lg:flex xl:px-8">
+    <header className="sticky top-0 z-[100] border-b border-[#E8E2EF] bg-[#FCFBFE] text-[#17131F] shadow-[0_8px_24px_rgba(15,12,22,0.04)]" data-site-header>
+      <div className="mx-auto hidden h-[84px] w-full max-w-[1280px] items-center gap-4 px-6 lg:flex xl:px-8">
         <Link href="/" className="flex h-16 w-[240px] shrink-0 items-center" aria-label="Bidra home">
           <BrandLogo priority tone="light" />
         </Link>
 
         <nav className="flex shrink-0 items-center gap-1 xl:gap-2" aria-label="Primary navigation">
           {DESKTOP_LINKS.map((link) => (
-            <Link key={link.href} href={link.href} className="whitespace-nowrap rounded-full px-3.5 py-2.5 text-[13px] font-black tracking-[0.01em] text-white/82 transition hover:bg-white/10 hover:text-white">
+            <Link key={link.href} href={link.href} className="whitespace-nowrap rounded-full px-3.5 py-2.5 text-[13px] font-semibold text-[#4F475D] transition hover:bg-[#F5F2FA] hover:text-[#17131F]">
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <SearchBar className="min-w-[16rem] max-w-[32rem] flex-1" inputClassName={searchInputClass} />
+        <SearchBar className="min-w-[16rem] max-w-[30rem] flex-1" inputClassName={searchInputClass} />
 
         <div className="flex shrink-0 items-center gap-2">
-          <Link href="/watchlist" className="inline-flex h-11 items-center gap-2 rounded-full px-3 text-sm font-black text-white/88 transition hover:bg-white/10 hover:text-white"><WatchIcon /> Watchlist</Link>
-          <Link href="/messages" className="inline-flex h-11 items-center gap-2 rounded-full px-3 text-sm font-black text-white/88 transition hover:bg-white/10 hover:text-white"><MessageIcon /> Messages</Link>
+          <Link href="/watchlist" className="inline-flex h-11 items-center gap-2 rounded-full px-3 text-sm font-semibold text-[#4F475D] transition hover:bg-[#F5F2FA] hover:text-[#17131F]"><WatchIcon /> Watchlist</Link>
+          <Link href="/messages" className="inline-flex h-11 items-center gap-2 rounded-full px-3 text-sm font-semibold text-[#4F475D] transition hover:bg-[#F5F2FA] hover:text-[#17131F]"><MessageIcon /> Messages</Link>
           {isAuthed ? (
             <div ref={desktopAccountRef} className="relative">
-              <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="inline-flex h-11 items-center gap-2 rounded-full border border-white/16 bg-white/10 px-4 text-sm font-black text-white transition hover:bg-white/12" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
+              <button type="button" onClick={(e) => { e.stopPropagation(); setDesktopAcctOpen(!desktopAcctOpen); }} className="inline-flex h-11 items-center gap-2 rounded-full border border-[#E8E2EF] bg-[#F7F5FA] px-4 text-sm font-semibold text-[#17131F] transition hover:bg-[#F0ECF8]" aria-haspopup="menu" aria-expanded={desktopAcctOpen ? "true" : "false"}>
                 {accountRoleLabel}{badge}
               </button>
               {desktopAcctOpen ? renderAccountMenu(() => setDesktopAcctOpen(false)) : null}
             </div>
           ) : (
-            <Link href="/auth/login" className="inline-flex h-11 items-center rounded-full border border-white/18 bg-white/10 px-4 text-sm font-black text-white transition hover:bg-white/12">Sign in</Link>
+            <Link href="/auth/login" className="inline-flex h-11 items-center rounded-full border border-[#E8E2EF] bg-[#F7F5FA] px-4 text-sm font-semibold text-[#17131F] transition hover:bg-[#F0ECF8]">Sign in</Link>
           )}
-          <Link href="/sell/new" className="inline-flex h-12 items-center justify-center rounded-[16px] bg-[#7C3AED] px-5 text-sm font-black text-white shadow-[0_14px_30px_rgba(124,58,237,0.30)] transition hover:bg-[#6D28D9]">Sell your item</Link>
-          <Link href="/notifications" className="relative grid h-11 w-11 place-items-center rounded-full border border-white/18 bg-white/10 text-white transition hover:bg-white/12" aria-label="Notifications">
+          <Link href="/sell/new" className="inline-flex h-12 items-center justify-center rounded-[14px] bg-[#6F3FF5] px-5 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(111,63,245,0.18)] transition hover:bg-[#4F2DC9]">Sell your item</Link>
+          <Link href="/notifications" className="relative grid h-11 w-11 place-items-center rounded-full border border-[#E8E2EF] bg-[#F7F5FA] text-[#17131F] transition hover:bg-[#F0ECF8]" aria-label="Notifications">
             <NotificationIcon />
-            {notificationCount > 0 ? <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-[#A78BFA] ring-2 ring-[#120724]" aria-hidden="true" /> : null}
+            {notificationCount > 0 ? <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-[#6F3FF5] ring-2 ring-[#FCFBFE]" aria-hidden="true" /> : null}
           </Link>
         </div>
       </div>
 
       <div className="lg:hidden">
         <div className="flex items-center gap-3 px-4 py-3">
-          <button type="button" className="grid h-11 w-11 place-items-center rounded-full border border-white/18 bg-white/10 text-white shadow-sm transition active:scale-95" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><MenuIcon /></button>
+          <button type="button" className="grid h-11 w-11 place-items-center rounded-full border border-[#E8E2EF] bg-[#F7F5FA] text-[#17131F] shadow-sm transition active:scale-95" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} aria-label="Open menu" aria-haspopup="menu" aria-expanded={mobileMenuOpen ? "true" : "false"}><MenuIcon /></button>
           <Link href="/" className="flex h-12 min-w-0 flex-1 items-center justify-center" aria-label="Bidra home">
-            <BrandLogo priority tone="light" className="inline-flex items-center gap-2" />
+            <BrandLogo priority tone="default" className="inline-flex items-center gap-2" />
           </Link>
           <div ref={mobileMenuRef} className="relative ml-auto">
-            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="relative grid h-11 w-11 place-items-center rounded-full border border-white/18 bg-white/10 text-white shadow-sm transition active:scale-95" aria-label="Account and notifications"><AccountIcon />{notificationCount > 0 ? <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-[#C4B5FD] ring-2 ring-[#120724]" aria-hidden="true" /> : null}</button>
+            <button type="button" onClick={(e) => { e.stopPropagation(); setMobileMenuOpen(!mobileMenuOpen); }} className="relative grid h-11 w-11 place-items-center rounded-full border border-[#E8E2EF] bg-[#F7F5FA] text-[#17131F] shadow-sm transition active:scale-95" aria-label="Account and notifications"><AccountIcon />{notificationCount > 0 ? <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-[#6F3FF5] ring-2 ring-[#FCFBFE]" aria-hidden="true" /> : null}</button>
             {mobileMenuOpen ? renderMobileMenu() : null}
           </div>
         </div>

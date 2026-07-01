@@ -1,33 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --bd-bg: #f7f5fb;
-  --bd-app-bg: #f7f5fb;
-  --bd-app-bg-accent: #f3effd;
-  --bd-ink: #120724;
-  --bd-ink-strong: #0b0717;
-  --bd-muted: #6d647a;
-  --bd-muted-strong: #4f4660;
+  --bd-bg: #f5f4f8;
+  --bd-app-bg: #f5f4f8;
+  --bd-app-bg-accent: #f0edf7;
+  --bd-ink: #17131f;
+  --bd-ink-strong: #0f0c16;
+  --bd-muted: #6c6778;
+  --bd-muted-strong: #4f475d;
   --bd-surface: #ffffff;
-  --bd-surface-elevated: #fcfbff;
-  --bd-surface-muted: #f6f2ff;
-  --bd-border: #e7def4;
-  --bd-border-strong: rgba(124, 58, 237, 0.24);
-  --bd-purple: #7c3aed;
-  --bd-purple-dark: #5b21b6;
-  --bd-purple-soft: #f3eefe;
-  --bd-hero: #120724;
-  --bd-hero-2: #241047;
-  --bd-success: #22c55e;
-  --bd-warning: #f59e0b;
-  --bd-danger: #ef4444;
-  --bd-radius-sm: 12px;
-  --bd-radius-md: 16px;
-  --bd-radius-lg: 22px;
-  --bd-radius-xl: 28px;
-  --bd-shadow-sm: 0 10px 28px rgba(18, 7, 36, 0.06);
-  --bd-shadow-md: 0 18px 48px rgba(18, 7, 36, 0.10);
-  --bd-shadow-lg: 0 26px 70px rgba(18, 7, 36, 0.13);
+  --bd-surface-elevated: #fcfbfe;
+  --bd-surface-muted: #f7f5fa;
+  --bd-border: #e8e2ef;
+  --bd-border-strong: #d9cee9;
+  --bd-purple: #6f3ff5;
+  --bd-purple-dark: #4f2dc9;
+  --bd-purple-soft: #f2ebff;
+  --bd-hero: #130f1d;
+  --bd-hero-2: #23163a;
+  --bd-success: #3da96b;
+  --bd-warning: #e6942a;
+  --bd-danger: #d64545;
+  --bd-radius-sm: 10px;
+  --bd-radius-md: 14px;
+  --bd-radius-lg: 18px;
+  --bd-radius-xl: 24px;
+  --bd-shadow-sm: 0 8px 24px rgba(15, 12, 22, 0.05);
+  --bd-shadow-md: 0 16px 40px rgba(15, 12, 22, 0.08);
+  --bd-shadow-lg: 0 24px 60px rgba(15, 12, 22, 0.1);
   --bd-space-1: 0.25rem;
   --bd-space-2: 0.5rem;
   --bd-space-3: 0.75rem;
@@ -38,7 +38,7 @@
   --bd-space-10: 2.5rem;
   --bd-space-12: 3rem;
   --bd-space-16: 4rem;
-  --bd-max-width: 1320px;
+  --bd-max-width: 1280px;
 }
 
 * { box-sizing: border-box; }
@@ -50,6 +50,7 @@ body {
   margin: 0;
   background: var(--bd-app-bg);
   color: var(--bd-ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-feature-settings: "ss01" on, "cv11" on;
@@ -75,20 +76,27 @@ img, svg, video, canvas { max-width: 100%; }
   width: min(100%, var(--bd-max-width));
   margin-left: auto;
   margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (min-width: 768px) {
+  .bd-container, .bd-shell, .bd-page-shell, .bd-account-shell {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 }
 
 .bd-page-shell, .bd-account-shell {
-  padding-top: clamp(24px, 3.2vw, 36px);
-  padding-bottom: clamp(40px, 5vw, 64px);
+  padding-top: clamp(16px, 2.2vw, 24px);
+  padding-bottom: clamp(32px, 4vw, 56px);
 }
 
 .bd-surface-shell {
-  background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(247,245,251,0.94) 100%);
+  background: var(--bd-surface);
   border: 1px solid var(--bd-border);
   border-radius: var(--bd-radius-xl);
-  box-shadow: var(--bd-shadow-md);
+  box-shadow: var(--bd-shadow-sm);
 }
 
 .bd-card, .bd-form-card, .bd-marketplace-section, .bd-surface, .bd-empty-state, .bd-panel {
@@ -161,9 +169,9 @@ img, svg, video, canvas { max-width: 100%; }
 
 .bd-btn-primary, .bd-primary-action {
   border: 1px solid var(--bd-purple);
-  background: linear-gradient(135deg, #8b5cf6 0%, var(--bd-purple) 52%, var(--bd-purple-dark) 100%);
+  background: var(--bd-purple);
   color: #ffffff !important;
-  box-shadow: 0 14px 30px rgba(124, 58, 237, 0.24);
+  box-shadow: 0 12px 24px rgba(111, 63, 245, 0.18);
 }
 
 .bd-btn-primary *, .bd-primary-action * { color: #ffffff !important; }
@@ -175,7 +183,7 @@ img, svg, video, canvas { max-width: 100%; }
 
 .bd-btn-secondary, .bd-btn-outline, .bd-back-link {
   border: 1px solid var(--bd-border);
-  background: #ffffff;
+  background: var(--bd-surface);
   color: var(--bd-ink);
 }
 
@@ -190,10 +198,10 @@ img, svg, video, canvas { max-width: 100%; }
   min-height: 46px;
   border: 1px solid var(--bd-border);
   border-radius: var(--bd-radius-md);
-  background: #ffffff;
+  background: var(--bd-surface);
   color: var(--bd-ink);
   padding: 10px 14px;
-  box-shadow: 0 8px 22px rgba(18, 7, 36, 0.04);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
 .bd-input:focus, input:not([type="checkbox"]):not([type="radio"]):focus, select:focus, textarea:focus {

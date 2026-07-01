@@ -8,7 +8,7 @@ type ListingCardProps = {
   price?: string | null;
   location?: string | null;
   imageUrl?: string | null;
-  typeLabel?: "Buy Now" | "Offers" | "Auction" | string;
+  typeLabel?: "Buy Now" | "Offers" | "Offer" | string;
   highestOffer?: string | null;
   className?: string;
 };
@@ -39,8 +39,8 @@ function PinIcon() {
   );
 }
 
-export function ListingCard({ href, title, price, location, imageUrl, typeLabel = "Auction", highestOffer, className }: ListingCardProps) {
-  const label = typeLabel.toLowerCase().includes("buy") ? "Buy Now" : typeLabel.toLowerCase().includes("offer") ? "Auction" : typeLabel;
+export function ListingCard({ href, title, price, location, imageUrl, typeLabel = "Offer", highestOffer, className }: ListingCardProps) {
+  const label = typeLabel.toLowerCase().includes("buy") ? "Buy Now" : typeLabel.toLowerCase().includes("offer") ? "Offer" : typeLabel;
   const badgeTone = label.toLowerCase().includes("buy") ? "buy" : "offer";
 
   return (
@@ -59,7 +59,7 @@ export function ListingCard({ href, title, price, location, imageUrl, typeLabel 
         <div className="rounded-[16px] border border-[#F0EAFE] bg-[#FBF9FF] p-3 shadow-sm">
           <h3 className="line-clamp-2 min-h-[2.35rem] text-sm font-black leading-tight tracking-[-0.03em] text-[#120724]">{title}</h3>
           <div className="mt-3">
-            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Current bid</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Current offer</p>
             {price ? <p className="mt-1 text-xl font-black tracking-[-0.045em] text-[#120724]">{price}</p> : <p className="mt-1 text-xl font-black tracking-[-0.045em] text-[#120724]">Price hidden</p>}
           </div>
         </div>

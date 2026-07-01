@@ -32,7 +32,7 @@ export function ListingOfferSummary({
       <div className="mt-6 rounded-[22px] bg-[linear-gradient(135deg,#F7F2FF,#FFFFFF)] p-5 ring-1 ring-[#E8E2F4]">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#7C3AED]">Current bid</div>
+            <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#7C3AED]">Current offer</div>
             <div className="mt-1 text-4xl font-black tracking-[-0.055em] text-[#120724]">{displayPrice}</div>
           </div>
           <div className="hidden rounded-[16px] border border-[#DDD6FE] bg-white px-4 py-3 text-right shadow-sm sm:block">

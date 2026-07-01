@@ -16,7 +16,7 @@ function getListingImage(listing: BrowseListing) {
 }
 
 function saleTypeLabel(listing: BrowseListing) {
-  if (listing.type === "OFFERABLE") return "Auction";
+  if (listing.type === "OFFERABLE") return "Offer";
   return "Buy Now";
 }
 

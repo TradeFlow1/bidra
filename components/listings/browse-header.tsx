@@ -22,7 +22,7 @@ export function BrowseHeader({
       <div className="mt-5 grid gap-3 sm:grid-cols-3 lg:mt-0 lg:w-[430px]">
         <div className="rounded-[18px] border border-[#E8E2F4] bg-white px-3 py-3 text-center shadow-sm">
           <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Type</div>
-          <div className="mt-1 text-xs font-black text-[#120724]">Buy / Auction</div>
+          <div className="mt-1 text-xs font-black text-[#120724]">Buy / Offer</div>
         </div>
         <div className="rounded-[18px] border border-[#E8E2F4] bg-white px-3 py-3 text-center shadow-sm">
           <div className="text-[10px] font-black uppercase tracking-[0.14em] text-[#8B7A98]">Area</div>
