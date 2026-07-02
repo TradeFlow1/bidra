@@ -1,156 +1,40 @@
 import type { Metadata } from "next";
 import {
-  CategoryRail,
-  ListingGrid,
-  MarketplaceShell,
-  SellerCard,
-  SearchBar,
-  TrustStrip,
-  type ListingPreview,
-} from "@/components/marketplace-shell";
+  BidraAppShell,
+  BidraCategoryRail,
+  BidraListingGrid,
+  BidraSearch,
+  BidraTrustCue,
+  browseCategories,
+  browseListings,
+} from "@/components/bidra-marketplace";
 
 export const metadata: Metadata = {
   title: "Browse listings | Bidra",
-  description: "Browse Australian listings with strong search and fast filters.",
+  description: "Browse Australian marketplace listings with compact search and filters.",
 };
-
-const categories = [
-  "All listings",
-  "Home and Furniture",
-  "Tech and Electronics",
-  "Tools and DIY",
-  "Vehicles",
-  "Sports and Outdoors",
-  "Wanted requests",
-];
-
-const browseListings: ListingPreview[] = [
-  {
-    id: "b1",
-    title: "Bicycle - commuter ready",
-    location: "Redbank Plains, QLD",
-    priceLabel: "$380",
-    offerLabel: "Current offer $340",
-    image: "/brand/hero-clouds.png",
-    typeLabel: "Timed offer",
-  },
-  {
-    id: "b2",
-    title: "Hand tools bundle",
-    location: "Ipswich, QLD",
-    priceLabel: "$80",
-    image: "/brand/hero-clouds.png",
-    typeLabel: "Buy Now",
-  },
-  {
-    id: "b3",
-    title: "Decor candles set",
-    location: "Springfield, QLD",
-    priceLabel: "$45",
-    offerLabel: "Highest offer $35",
-    image: "/brand/hero-clouds.png",
-    typeLabel: "Offers open",
-  },
-  {
-    id: "b4",
-    title: "Outdoor storage box",
-    location: "Brisbane, QLD",
-    priceLabel: "$120",
-    image: "/brand/hero-clouds.png",
-    typeLabel: "Buy Now",
-    featured: true,
-  },
-  {
-    id: "b5",
-    title: "Kids bike 20 inch",
-    location: "Toowoomba, QLD",
-    priceLabel: "$95",
-    offerLabel: "Current offer $88",
-    image: "/brand/hero-clouds.png",
-    typeLabel: "Timed offer",
-  },
-  {
-    id: "b6",
-    title: "Gaming monitor 27 inch",
-    location: "Gold Coast, QLD",
-    priceLabel: "$220",
-    image: "/brand/hero-clouds.png",
-    typeLabel: "Buy Now",
-  },
-];
 
 export default function ListingsPage() {
   return (
-    <MarketplaceShell title="Browse" activeNav="browse">
-      <section>
-        <p>Browse</p>
-        <h1>Browse active listings</h1>
-        <SearchBar placeholder="Search listings" locationPlaceholder="Nearby" />
+    <BidraAppShell activeNav="listings" pageLabel="Browse listings">
+      <section className="bidra-browse-top">
+        <div className="bidra-browse-top__head">
+          <h1>Browse listings</h1>
+          <p>12,400 active results</p>
+        </div>
+        <BidraSearch queryPlaceholder="Search listings" locationPlaceholder="All Australia" compact />
       </section>
 
-      <section>
-        <div>
-          <h2>Filters</h2>
-          <span>6 listings</span>
-        </div>
-        <div>
-          <input type="text" placeholder="Search listings" aria-label="Search listings" />
-          <select defaultValue="all" aria-label="Category">
-            <option value="all">All categories</option>
-            <option value="home">Home and Furniture</option>
-            <option value="tech">Tech and Electronics</option>
-            <option value="tools">Tools and DIY</option>
-          </select>
-          <select defaultValue="all" aria-label="Sale type">
-            <option value="all">Buy Now and offers</option>
-            <option value="buy-now">Buy Now only</option>
-            <option value="timed-offer">Timed offers</option>
-          </select>
-          <input type="text" placeholder="Location" aria-label="Location" />
-        </div>
+      <BidraCategoryRail categories={browseCategories} />
+
+      <section className="bidra-browse-trust-row" aria-label="Compact trust cues">
+        <BidraTrustCue text="Profile checks" />
+        <BidraTrustCue text="Secure messages" />
+        <BidraTrustCue text="Clear offer state" />
       </section>
 
-      <CategoryRail categories={categories} />
-      <TrustStrip />
-
-      <section>
-        <ListingGrid title="Browse" items={browseListings} />
-        <div>
-          <section>
-            <h3>Nearby now</h3>
-            <ul>
-              <li>Indoor bike trainer - $120 - Springfield</li>
-              <li>Standing lamp - $40 - Ipswich</li>
-              <li>Desk chair - $90 - Forest Lake</li>
-            </ul>
-          </section>
-          <section>
-            <h3>Popular this week</h3>
-            <ul>
-              <li>Phone accessories</li>
-              <li>Kitchen appliances</li>
-              <li>Outdoor furniture</li>
-            </ul>
-          </section>
-          <section>
-            <h3>Wanted requests</h3>
-            <ul>
-              <li>Need toddler bike - Brisbane</li>
-              <li>Looking for gym bench - Logan</li>
-              <li>Need office desk - Gold Coast</li>
-            </ul>
-          </section>
-          <SellerCard
-            seller={{
-              name: "Marketplace support",
-              suburb: "Australia",
-              memberSince: "Since launch",
-              response: "within 15 minutes",
-            }}
-          />
-        </div>
-      </section>
-    </MarketplaceShell>
+      <BidraListingGrid title="All listings" listings={browseListings} resultCountLabel="Showing newest first" />
+    </BidraAppShell>
   );
 }
 
