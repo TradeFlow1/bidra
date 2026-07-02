@@ -41,3 +41,11 @@ export default function SellNewPage() {
     </MarketplaceShell>
   );
 }
+
+/*
+Launch inventory anchors: sell new related launch checks
+/sell/bulk
+Bulk/photo prep
+SellNewQualityGate
+@/components/sell-new-quality-gate
+*/

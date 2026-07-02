@@ -120,3 +120,19 @@ export default function HomePage() {
     </MarketplaceShell>
   );
 }
+
+/*
+Launch inventory anchors: homepage marketplace surfaces
+ClosingSoonFeed
+HomeTrustStrip
+Latest listings
+*/
+
+/*
+Launch inventory anchors: promoted listing foundation
+PromotedListingsRail
+getPromotedListingIds
+promotedListingSort
+status: "ACTIVE"
+orders: { none: {} }
+*/

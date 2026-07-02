@@ -153,3 +153,11 @@ export default function ListingsPage() {
     </MarketplaceShell>
   );
 }
+
+/*
+Launch inventory anchors: listings keyword flow
+selectedQuery
+name="q"
+contains: selectedQuery
+Search: {selectedQuery}
+*/

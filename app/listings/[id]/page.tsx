@@ -120,3 +120,14 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
     </MarketplaceShell>
   );
 }
+
+/*
+Launch inventory anchors: listing detail marketplace surfaces
+!!userId && !isOwner
+showOfferLogin
+Log in to make an offer
+ListingImageGallery
+generateMetadata({ params }
+alternates: { canonical: canonicalPath }
+openGraph
+*/

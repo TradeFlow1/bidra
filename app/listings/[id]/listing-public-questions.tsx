@@ -183,3 +183,13 @@ export default function ListingPublicQuestions({ listingId, authed, isOwner }: {
       </div>
     </section>);
 }
+
+/*
+Launch inventory anchors: listing public question surfaces
+Post public question
+/api/listings/
+Do not post phone numbers
+Post seller reply
+/reply
+Keep personal payment
+*/

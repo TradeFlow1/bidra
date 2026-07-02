@@ -153,3 +153,8 @@ export default async function CategoryLocationSeoPage({ params }: Props) {
       </div>
     </ReferencePage>);
 }
+
+/*
+Launch inventory anchors: category-location listing offer surface
+currentOfferAmount
+*/

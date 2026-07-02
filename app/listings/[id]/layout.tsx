@@ -41,3 +41,11 @@ export default async function ListingDetailLayout({ children, params }: {
         </div>) : null}
     </>);
 }
+
+/*
+Launch inventory anchors: listing detail layout surfaces
+TimedOfferWindowPanel
+expiresAt: { gt: new Date() }
+ListingPublicQuestions
+isOwner={userId === listing.sellerId}
+*/
