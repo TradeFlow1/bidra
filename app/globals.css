@@ -71,9 +71,9 @@ a {
 }
 
 .bidra-header__inner {
-  max-width: 1320px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0.7rem 1rem;
+  padding: 0.8rem 1.1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -88,7 +88,7 @@ a {
 .bidra-wordmark img {
   display: block;
   width: auto;
-  height: 28px;
+  height: 33px;
 }
 
 .bidra-header__utility {
@@ -101,7 +101,7 @@ a {
   align-items: center;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
-  padding: 0.4rem 0.7rem;
+  padding: 0.45rem 0.76rem;
   background: rgba(255, 255, 255, 0.04);
   color: #e8defc;
   font-size: 0.8rem;
@@ -132,33 +132,33 @@ a {
 }
 
 .bidra-main {
-  max-width: 1320px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0.95rem 0.85rem 1.4rem;
+  padding: 1rem 1rem 1.5rem;
   display: grid;
-  gap: 0.95rem;
+  gap: 1rem;
 }
 
 .bidra-home-top,
 .bidra-browse-top {
   display: grid;
-  gap: 0.75rem;
+  gap: 0.85rem;
   background: var(--bidra-ink);
   color: #fff;
   border: 1px solid var(--bidra-border);
   border-color: rgba(106, 43, 216, 0.28);
   border-radius: calc(var(--bidra-radius) + 2px);
-  padding: 1rem;
+  padding: 1.1rem;
   box-shadow: 0 18px 40px rgba(15, 10, 25, 0.14);
 }
 
 .bidra-home-top h1,
 .bidra-browse-top h1 {
   margin: 0;
-  font-size: clamp(1.38rem, 2.6vw, 2rem);
+  font-size: clamp(1.5rem, 2.5vw, 2.2rem);
   line-height: 1.02;
   letter-spacing: -0.03em;
-  max-width: 11ch;
+  max-width: 13ch;
 }
 
 .bidra-home-top__eyebrow-row,
@@ -219,8 +219,8 @@ a {
 
 .bidra-search {
   display: grid;
-  gap: 0.6rem;
-  padding: 0.76rem;
+  gap: 0.7rem;
+  padding: 0.88rem;
   border-radius: calc(var(--bidra-radius) - 2px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
@@ -257,7 +257,7 @@ a {
 .bidra-search__submit {
   border: 0;
   border-radius: 12px;
-  padding: 0.72rem 1rem;
+  padding: 0.8rem 1.05rem;
   color: #fff;
   background: linear-gradient(180deg, #8d4dff 0%, var(--bidra-accent) 100%);
   font-weight: 700;
@@ -271,13 +271,13 @@ a {
 
 .bidra-category-rail {
   display: grid;
-  gap: 0.55rem;
+  gap: 0.62rem;
 }
 
 .bidra-category-rail h2,
 .bidra-listing-grid h2 {
   margin: 0;
-  font-size: 0.98rem;
+  font-size: 1.02rem;
   letter-spacing: -0.01em;
 }
 
@@ -293,8 +293,8 @@ a {
   border-radius: 999px;
   border: 1px solid var(--bidra-border);
   background: var(--bidra-surface);
-  padding: 0.48rem 0.78rem;
-  font-size: 0.83rem;
+  padding: 0.53rem 0.82rem;
+  font-size: 0.84rem;
   font-weight: 600;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset;
 }
@@ -306,7 +306,7 @@ a {
 
 .bidra-listing-grid {
   display: grid;
-  gap: 0.7rem;
+  gap: 0.76rem;
 }
 
 .bidra-listing-grid__head {
@@ -325,24 +325,24 @@ a {
 
 .bidra-listing-grid__grid {
   display: grid;
-  gap: 0.8rem;
+  gap: 0.92rem;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .bidra-listing-card {
   border: 1px solid var(--bidra-border);
-  border-radius: 18px;
+  border-radius: 20px;
   background: var(--bidra-surface);
   overflow: hidden;
   display: grid;
-  box-shadow: 0 8px 22px rgba(24, 18, 44, 0.08);
+  box-shadow: 0 10px 26px rgba(24, 18, 44, 0.09);
 }
 
 .bidra-listing-card__image-wrap {
   position: relative;
   display: block;
-  aspect-ratio: 4 / 3;
-  background: linear-gradient(180deg, #d9d2e7 0%, #ece7f4 100%);
+  aspect-ratio: 16 / 12;
+  background: linear-gradient(180deg, #d7d1e5 0%, #ede8f5 100%);
 }
 
 .bidra-listing-card__image {
@@ -350,6 +350,7 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transform: scale(1.015);
 }
 
 .bidra-listing-card__mode,
@@ -376,28 +377,28 @@ a {
 }
 
 .bidra-listing-card__content {
-  padding: 0.78rem;
+  padding: 0.9rem;
   display: grid;
-  gap: 0.46rem;
+  gap: 0.52rem;
 }
 
 .bidra-listing-card__topline {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.45rem;
+  gap: 0.55rem;
 }
 
 .bidra-listing-card h3 {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
 
 .bidra-listing-card__price {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.28rem;
   font-weight: 800;
   letter-spacing: -0.03em;
   color: var(--bidra-ink);
@@ -407,7 +408,7 @@ a {
 .bidra-listing-card__offer,
 .bidra-listing-card__seller {
   margin: 0;
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   color: var(--bidra-muted);
 }
 
@@ -426,7 +427,7 @@ a {
   align-items: center;
   border: 1px solid var(--bidra-border);
   border-radius: 999px;
-  font-size: 0.67rem;
+  font-size: 0.68rem;
   font-weight: 700;
   color: #4d4760;
   padding: 0.2rem 0.44rem;
@@ -440,20 +441,20 @@ a {
 }
 
 .bidra-listing-card__actions {
-  display: flex;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.38rem;
-  margin-top: 0.15rem;
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 0.45rem;
+  margin-top: 0.2rem;
 }
 
 .bidra-listing-card__action {
   border: 1px solid var(--bidra-border);
-  border-radius: 11px;
+  border-radius: 12px;
   background: #fff;
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   color: #362f46;
   font-weight: 700;
-  padding: 0.46rem 0.5rem;
+  padding: 0.54rem 0.55rem;
   text-align: center;
 }
 
@@ -490,7 +491,7 @@ a {
   border: 1px solid var(--bidra-border);
   border-radius: 20px;
   background: var(--bidra-surface);
-  padding: 0.9rem 1rem;
+  padding: 1rem 1.05rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -500,13 +501,13 @@ a {
 
 .bidra-sell-prompt h2 {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.06rem;
 }
 
 .bidra-sell-prompt p {
   margin: 0.2rem 0 0;
   color: var(--bidra-muted);
-  font-size: 0.82rem;
+  font-size: 0.84rem;
 }
 
 .bidra-sell-prompt__action {
@@ -533,9 +534,9 @@ a {
 }
 
 .bidra-mobile-nav__item {
-  padding: 0.5rem 0.2rem 0.58rem;
+  padding: 0.56rem 0.2rem 0.64rem;
   text-align: center;
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   color: var(--bidra-muted);
   font-weight: 700;
 }
@@ -555,7 +556,7 @@ a {
 .bidra-browse-top__filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  gap: 0.5rem;
 }
 
 .bidra-filter-chip {
@@ -565,8 +566,8 @@ a {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.05);
   color: #f1e8ff;
-  padding: 0.42rem 0.68rem;
-  font-size: 0.8rem;
+  padding: 0.46rem 0.72rem;
+  font-size: 0.81rem;
   font-weight: 700;
 }
 
@@ -647,8 +648,8 @@ a {
   }
 
   .bidra-main {
-    padding: 1rem;
-    gap: 1rem;
+    padding: 1.1rem;
+    gap: 1.05rem;
   }
 
   .bidra-listing-grid__grid {
@@ -661,6 +662,59 @@ a {
 
   .bidra-home-top,
   .bidra-browse-top {
-    padding: 1.1rem;
+    padding: 1.25rem;
+  }
+
+  .bidra-header__inner {
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+  }
+
+  .bidra-header__utility {
+    display: flex;
+  }
+
+  .bidra-header__nav {
+    display: flex;
+  }
+}
+
+@media (min-width: 1180px) {
+  .bidra-main {
+    max-width: 1500px;
+  }
+
+  .bidra-header__inner {
+    max-width: 1500px;
+  }
+
+  .bidra-home-top,
+  .bidra-browse-top {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    align-items: end;
+  }
+
+  .bidra-home-top > :first-child,
+  .bidra-browse-top > :first-child {
+    grid-column: 1 / -1;
+  }
+
+  .bidra-home-top .bidra-search,
+  .bidra-browse-top .bidra-search {
+    grid-column: 1 / -1;
+  }
+
+  .bidra-home-top .bidra-home-top__trust,
+  .bidra-browse-top .bidra-browse-top__filters {
+    grid-column: 1 / -1;
+  }
+
+  .bidra-home-top h1,
+  .bidra-browse-top h1 {
+    max-width: 15ch;
+  }
+
+  .bidra-listing-grid__grid {
+    gap: 1rem;
   }
 }
