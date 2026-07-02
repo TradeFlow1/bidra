@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 export default function MessagesInboxPage() {
   return (
     <MarketplaceShell title="Messages" activeNav="messages">
-      <section className="mk-panel mk-home-intro mk-home-intro-tight">
-        <p className="mk-kicker">Inbox</p>
+      <section>
+        <p>Inbox</p>
         <h1>Marketplace chat</h1>
         <p>Keep listing context, offers, and handover details in one thread.</p>
       </section>

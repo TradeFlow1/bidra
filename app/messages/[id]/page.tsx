@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 export default function MessagesThreadPage({ params }: { params: { id: string } }) {
   return (
     <MarketplaceShell title="Messages" activeNav="messages">
-      <section className="mk-panel mk-home-intro mk-home-intro-tight">
-        <p className="mk-kicker">Thread</p>
+      <section>
+        <p>Thread</p>
         <h1>Conversation {params.id}</h1>
         <p>Listing details stay visible while you message and confirm next steps.</p>
       </section>

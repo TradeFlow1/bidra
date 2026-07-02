@@ -8,22 +8,22 @@ type ListingGridProps = {
 
 export default function ListingGrid({ title, items }: ListingGridProps) {
   return (
-    <section className="mk-panel mk-grid-panel">
-      <div className="mk-panel-head">
+    <section>
+      <div>
         <h2>{title}</h2>
-        <div className="mk-grid-meta">
+        <div>
           <span>{items.length} listings</span>
-          <button type="button" className="mk-grid-sort">Newest first</button>
+          <button type="button">Newest first</button>
         </div>
       </div>
       {items.length > 0 ? (
-        <div className="mk-grid">
+        <div>
           {items.map((item) => (
             <ListingCard key={item.id} item={item} />
           ))}
         </div>
       ) : (
-        <div className="mk-empty">No listings yet. Check nearby and popular modules.</div>
+        <p>No listings yet. Check nearby and popular modules.</p>
       )}
     </section>
   );

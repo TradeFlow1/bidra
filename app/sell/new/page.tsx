@@ -9,17 +9,17 @@ export const metadata: Metadata = {
 export default function SellNewPage() {
   return (
     <MarketplaceShell title="Sell" activeNav="sell">
-      <section className="mk-panel mk-home-intro mk-home-intro-tight">
-        <p className="mk-kicker">Seller workspace</p>
+      <section>
+        <p>Seller workspace</p>
         <h1>Sell your item</h1>
         <p>Use the guided console to add photos, details, price, and handover plan.</p>
       </section>
 
       <TrustStrip />
 
-      <div className="mk-app-grid">
+      <section>
         <SellFormLayout title="Create a listing" />
-        <div className="mk-side-stack">
+        <div>
           <ActionPanel
             title="Next steps"
             description="Save draft, preview, then publish once photos and handover notes are complete."
@@ -28,7 +28,7 @@ export default function SellNewPage() {
             secondaryLabel="Preview"
             secondaryHref="#"
           />
-          <section className="mk-panel mk-side-module">
+          <section>
             <h3>Seller trust</h3>
             <ul>
               <li>Use clear photos from multiple angles</li>
@@ -37,7 +37,7 @@ export default function SellNewPage() {
             </ul>
           </section>
         </div>
-      </div>
+      </section>
     </MarketplaceShell>
   );
 }

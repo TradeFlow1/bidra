@@ -26,10 +26,10 @@ const icons: Record<ShellNavKey, string> = {
 
 export default function BottomNav({ active = "home" }: BottomNavProps) {
   return (
-    <nav className="mk-bottom-nav" aria-label="Mobile primary navigation">
+    <nav aria-label="Mobile primary navigation">
       {items.map((item) => (
-        <Link key={item.key} href={item.href} className={item.key === active ? "mk-bottom-item mk-bottom-item-active" : "mk-bottom-item"}>
-          <span className="mk-bottom-icon" aria-hidden="true">{icons[item.key]}</span>
+        <Link key={item.key} href={item.href} aria-current={item.key === active ? "page" : undefined}>
+          <span aria-hidden="true">{icons[item.key]}</span>
           {item.label}
         </Link>
       ))}

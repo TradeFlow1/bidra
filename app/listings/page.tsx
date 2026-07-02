@@ -82,18 +82,18 @@ const browseListings: ListingPreview[] = [
 export default function ListingsPage() {
   return (
     <MarketplaceShell title="Browse" activeNav="browse">
-      <section className="mk-panel mk-home-intro mk-home-intro-tight">
-        <p className="mk-kicker">Browse</p>
+      <section>
+        <p>Browse</p>
         <h1>Browse active listings</h1>
         <SearchBar placeholder="Search listings" locationPlaceholder="Nearby" />
       </section>
 
-      <section className="mk-panel mk-filter-shell">
-        <div className="mk-panel-head">
+      <section>
+        <div>
           <h2>Filters</h2>
-          <span className="mk-thread-pill">6 listings</span>
+          <span>6 listings</span>
         </div>
-        <div className="mk-filter-grid">
+        <div>
           <input type="text" placeholder="Search listings" aria-label="Search listings" />
           <select defaultValue="all" aria-label="Category">
             <option value="all">All categories</option>
@@ -113,10 +113,10 @@ export default function ListingsPage() {
       <CategoryRail categories={categories} />
       <TrustStrip />
 
-      <div className="mk-app-grid">
+      <section>
         <ListingGrid title="Browse" items={browseListings} />
-        <div className="mk-side-stack">
-          <section className="mk-panel mk-side-module">
+        <div>
+          <section>
             <h3>Nearby now</h3>
             <ul>
               <li>Indoor bike trainer - $120 - Springfield</li>
@@ -124,7 +124,7 @@ export default function ListingsPage() {
               <li>Desk chair - $90 - Forest Lake</li>
             </ul>
           </section>
-          <section className="mk-panel mk-side-module">
+          <section>
             <h3>Popular this week</h3>
             <ul>
               <li>Phone accessories</li>
@@ -132,7 +132,7 @@ export default function ListingsPage() {
               <li>Outdoor furniture</li>
             </ul>
           </section>
-          <section className="mk-panel mk-side-module">
+          <section>
             <h3>Wanted requests</h3>
             <ul>
               <li>Need toddler bike - Brisbane</li>
@@ -149,7 +149,7 @@ export default function ListingsPage() {
             }}
           />
         </div>
-      </div>
+      </section>
     </MarketplaceShell>
   );
 }

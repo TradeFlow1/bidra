@@ -22,37 +22,32 @@ const actions: Array<{ key: ShellNavKey; label: string; href: string }> = [
 
 export default function Header({ active = "home" }: HeaderProps) {
   return (
-    <header className="mk-header mk-desktop-header" aria-label="Main header">
-      <div className="mk-header-inner">
-        <div className="mk-brand-wrap">
-          <Link href="/" className="mk-brand" aria-label="Bidra home">
-            <span className="mk-brand-dot" />
-            <span className="mk-brand-wordmark">Bidra</span>
-          </Link>
-          <p className="mk-brand-subline">Australia marketplace</p>
+    <header aria-label="Main header">
+      <div>
+        <div>
+          <Link href="/" aria-label="Bidra home">Bidra</Link>
+          <p>Australia marketplace</p>
         </div>
 
-        <div className="mk-header-search-wrap">
+        <div>
           <SearchBar placeholder="Search listings" locationPlaceholder="Australia" />
         </div>
 
-        <div className="mk-header-right">
-          <nav className="mk-nav" aria-label="Desktop navigation">
+        <div>
+          <nav aria-label="Desktop navigation">
             {links.map((item) => (
-              <Link key={item.key} href={item.href} className={item.key === active ? "mk-nav-link mk-nav-link-active" : "mk-nav-link"}>
+              <Link key={item.key} href={item.href} aria-current={item.key === active ? "page" : undefined}>
                 {item.label}
               </Link>
             ))}
           </nav>
-          <nav className="mk-actions" aria-label="Desktop account actions">
+          <nav aria-label="Desktop account actions">
             {actions.map((item) => (
-              <Link key={`${item.label}-${item.href}`} href={item.href} className="mk-action-link">
+              <Link key={`${item.label}-${item.href}`} href={item.href}>
                 {item.label}
               </Link>
             ))}
-            <Link href="/sell/new" className="mk-header-cta">
-              Sell your item
-            </Link>
+            <Link href="/sell/new">Sell your item</Link>
           </nav>
         </div>
       </div>

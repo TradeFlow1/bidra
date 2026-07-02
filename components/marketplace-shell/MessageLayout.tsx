@@ -13,23 +13,23 @@ const threads = [
 
 export default function MessageLayout({ title = "Messages" }: MessageLayoutProps) {
   return (
-    <section className="mk-message-layout">
-      <div className="mk-panel mk-inbox-panel">
-        <div className="mk-panel-head">
+    <section>
+      <div>
+        <div>
           <h2>{title}</h2>
           <Link href="/listings">Browse listings</Link>
         </div>
-        <div className="mk-thread-filter">
-          <button type="button" className="mk-thread-filter-item mk-thread-filter-item-active">All</button>
-          <button type="button" className="mk-thread-filter-item">Unread</button>
-          <button type="button" className="mk-thread-filter-item">Offers</button>
+        <div>
+          <button type="button">All</button>
+          <button type="button">Unread</button>
+          <button type="button">Offers</button>
         </div>
-        <div className="mk-thread-list">
+        <div>
           {threads.map((thread, index) => (
-            <article key={thread.id} className={index === 0 ? "mk-thread-item mk-thread-item-active" : "mk-thread-item"}>
+            <article key={thread.id} data-active={index === 0 ? "true" : "false"}>
               <div>
                 <h3>{thread.person}</h3>
-                <p className="mk-thread-listing">{thread.listing}</p>
+                <p>{thread.listing}</p>
                 <p>{thread.preview}</p>
               </div>
               <span>{thread.time}</span>
@@ -38,21 +38,21 @@ export default function MessageLayout({ title = "Messages" }: MessageLayoutProps
         </div>
       </div>
 
-      <div className="mk-panel mk-conversation">
-        <div className="mk-conversation-head">
+      <div>
+        <div>
           <h2>Conversation</h2>
-          <span className="mk-thread-pill">Listing chat</span>
+          <span>Listing chat</span>
         </div>
-        <div className="mk-chat-context">
-          <p className="mk-chat-context-title">City commuter bike</p>
+        <div>
+          <p>City commuter bike</p>
           <p>Buy Now: $420</p>
           <p>Current offer: $390</p>
         </div>
-        <div className="mk-bubble mk-bubble-theirs">Is this still available?</div>
-        <div className="mk-bubble mk-bubble-mine">Yes, make an offer or use Buy Now.</div>
-        <form className="mk-compose" action="#">
+        <p>Is this still available?</p>
+        <p>Yes, make an offer or use Buy Now.</p>
+        <form action="#">
           <input type="text" placeholder="Write a message" aria-label="Write a message" />
-          <button type="button" className="mk-btn mk-btn-primary">Send</button>
+          <button type="button">Send</button>
         </form>
       </div>
     </section>

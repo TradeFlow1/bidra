@@ -12,12 +12,10 @@ type MarketplaceShellProps = {
 
 export default function MarketplaceShell({ children, title, activeNav = "home" }: MarketplaceShellProps) {
   return (
-    <div className="mk-shell">
+    <div>
       <Header active={activeNav} />
       <MobileHeader title={title} />
-      <main className="mk-main">
-        <div className="mk-content">{children}</div>
-      </main>
+      <main>{children}</main>
       <BottomNav active={activeNav} />
     </div>
   );

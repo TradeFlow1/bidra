@@ -53,28 +53,28 @@ const relatedListings: ListingPreview[] = [
 export default function ListingDetailPage({ params }: { params: { id: string } }) {
   return (
     <MarketplaceShell title="Listing" activeNav="browse">
-      <section className="mk-detail-layout">
-        <div className="mk-panel mk-detail-head">
-          <p className="mk-listing-type">Featured listing</p>
+      <section>
+        <div>
+          <p>Featured listing</p>
           <h1>Listing {params.id}</h1>
-          <p className="mk-detail-location">Springfield, QLD</p>
-          <div className="mk-detail-price-row">
-            <p className="mk-detail-price">$320</p>
-            <p className="mk-detail-offer">Current offer $295</p>
+          <p>Springfield, QLD</p>
+          <div>
+            <p>$320</p>
+            <p>Current offer $295</p>
           </div>
 
-          <div className="mk-detail-gallery">
-            <Image src="/brand/hero-clouds.png" alt="Listing visual" width={920} height={620} className="mk-detail-image mk-detail-image-main" unoptimized />
-            <Image src="/brand/hero-clouds.png" alt="Listing visual" width={420} height={300} className="mk-detail-image" unoptimized />
-            <Image src="/brand/hero-clouds.png" alt="Listing visual" width={420} height={300} className="mk-detail-image" unoptimized />
+          <div>
+            <Image src="/brand/hero-clouds.png" alt="Listing visual" width={920} height={620} unoptimized />
+            <Image src="/brand/hero-clouds.png" alt="Listing visual" width={420} height={300} unoptimized />
+            <Image src="/brand/hero-clouds.png" alt="Listing visual" width={420} height={300} unoptimized />
           </div>
 
-          <p className="mk-detail-copy">
+          <p>
             Strong condition, local pickup flexibility, and clear listing details. This visual shell will be wired to live listing data in the next phase.
           </p>
         </div>
 
-        <div className="mk-side-stack">
+        <div>
           <ActionPanel
             title="Choose your action"
             description="Use Buy Now for immediate checkout intent, make an offer, or message seller first."
@@ -102,11 +102,11 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
         </div>
       </section>
 
-      <section className="mk-panel mk-specs">
-        <div className="mk-panel-head">
+      <section>
+        <div>
           <h2>Details</h2>
         </div>
-        <div className="mk-spec-grid">
+        <div>
           <p><strong>Condition:</strong> Very good</p>
           <p><strong>Category:</strong> Home and Furniture</p>
           <p><strong>Pickup:</strong> Springfield evenings</p>

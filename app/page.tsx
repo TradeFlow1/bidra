@@ -85,8 +85,8 @@ const listings: ListingPreview[] = [
 export default function HomePage() {
   return (
     <MarketplaceShell title="Home" activeNav="home">
-      <section className="mk-panel mk-command-panel">
-        <p className="mk-kicker">Marketplace command</p>
+      <section>
+        <p>Marketplace command</p>
         <h1>Search, compare, and buy faster</h1>
         <SearchBar placeholder="What are you looking for?" locationPlaceholder="Suburb or postcode" />
       </section>
@@ -97,7 +97,7 @@ export default function HomePage() {
 
       <TrustStrip />
 
-      <div className="mk-home-lower">
+      <section>
         <ActionPanel
           title="Sell your item"
           description="Create a listing in minutes and manage offers through messages."
@@ -114,9 +114,9 @@ export default function HomePage() {
             response: "within 30 minutes",
           }}
         />
-      </div>
+      </section>
 
-      <footer className="mk-footer">Bidra marketplace - search first, list fast, handover with confidence.</footer>
+      <footer>Bidra marketplace - search first, list fast, handover with confidence.</footer>
     </MarketplaceShell>
   );
 }
