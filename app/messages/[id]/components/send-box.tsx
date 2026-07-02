@@ -1,175 +1,131 @@
-"use client"
-
-import { useState } from "react"
-
-type SendState = "idle" | "sending" | "sent" | "failed"
-
-const SEND_TIMEOUT_MS = 12000
-
+"use client";
+import { useState } from "react";
+type SendState = "idle" | "sending" | "sent" | "failed";
+const SEND_TIMEOUT_MS = 12000;
 const QUICK_REPLIES = [
-  "Is the item still available?",
-  "Can I inspect it before paying?",
-  "What pickup time and suburb work for you?",
-  "Is postage available, and what would it cost?",
-  "Would you consider an offer?",
-  "I’ll keep payment and handover details in Bidra Messages."
-]
-
+    "Is the item still available?",
+    "Can I inspect it before paying?",
+    "What pickup time and suburb work for you?",
+    "Is postage available, and what would it cost?",
+    "Would you consider an offer?",
+    "I’ll keep payment and handover details in Bidra Messages."
+];
 function displayQuickReply(text: string) {
-  return text.replace("\u00e2\u20ac\u2122", "'");
+    return text.replace("\u00e2\u20ac\u2122", "'");
 }
-
 function errorMessage(value: unknown) {
-  if (value instanceof Error && value.name === "AbortError") {
-    return "Message send timed out. Check your connection and try again."
-  }
-
-  if (value instanceof Error && value.message) {
-    return value.message
-  }
-
-  return "Message failed to send. Try again."
-}
-
-export default function SendBox({ threadId }: { threadId: string }) {
-  const [body, setBody] = useState("")
-  const [lastDraft, setLastDraft] = useState("")
-  const [sendState, setSendState] = useState<SendState>("idle")
-  const [err, setErr] = useState<string | null>(null)
-
-  const busy = sendState === "sending"
-
-  function addQuickReply(text: string) {
-    if (busy) return
-    setBody(function (current) {
-      const trimmed = current.trim()
-      return trimmed ? trimmed + "\n" + text : text
-    })
-    setSendState("idle")
-    setErr(null)
-  }
-
-  async function send() {
-    const text = body.trim()
-    if (!text || busy) return
-
-    const controller = new AbortController()
-    const timeoutId = window.setTimeout(function () {
-      controller.abort()
-    }, SEND_TIMEOUT_MS)
-
-    setErr(null)
-    setLastDraft(text)
-    setSendState("sending")
-
-    try {
-      const res = await fetch(`/api/messages/thread/${threadId}/send`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ body: text }),
-        signal: controller.signal,
-      })
-
-      const data = await res.json().catch(() => ({}))
-
-      if (!res.ok) {
-        throw new Error(data?.error || "Message failed to send. Try again.")
-      }
-
-      setBody("")
-      setSendState("sent")
-      window.dispatchEvent(new CustomEvent("bidra:message-sent"))
-    } catch (e: unknown) {
-      setErr(errorMessage(e))
-      setSendState("failed")
-    } finally {
-      window.clearTimeout(timeoutId)
+    if (value instanceof Error && value.name === "AbortError") {
+        return "Message send timed out. Check your connection and try again.";
     }
-  }
+    if (value instanceof Error && value.message) {
+        return value.message;
+    }
+    return "Message failed to send. Try again.";
+}
+export default function SendBox({ threadId }: {
+    threadId: string;
+}) {
+    const [body, setBody] = useState("");
+    const [lastDraft, setLastDraft] = useState("");
+    const [sendState, setSendState] = useState<SendState>("idle");
+    const [err, setErr] = useState<string | null>(null);
+    const busy = sendState === "sending";
+    function addQuickReply(text: string) {
+        if (busy)
+            return;
+        setBody(function (current) {
+            const trimmed = current.trim();
+            return trimmed ? trimmed + "\n" + text : text;
+        });
+        setSendState("idle");
+        setErr(null);
+    }
+    async function send() {
+        const text = body.trim();
+        if (!text || busy)
+            return;
+        const controller = new AbortController();
+        const timeoutId = window.setTimeout(function () {
+            controller.abort();
+        }, SEND_TIMEOUT_MS);
+        setErr(null);
+        setLastDraft(text);
+        setSendState("sending");
+        try {
+            const res = await fetch(`/api/messages/thread/${threadId}/send`, {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({ body: text }),
+                signal: controller.signal,
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                throw new Error(data?.error || "Message failed to send. Try again.");
+            }
+            setBody("");
+            setSendState("sent");
+            window.dispatchEvent(new CustomEvent("bidra:message-sent"));
+        }
+        catch (e: unknown) {
+            setErr(errorMessage(e));
+            setSendState("failed");
+        }
+        finally {
+            window.clearTimeout(timeoutId);
+        }
+    }
+    function retry() {
+        if (busy)
+            return;
+        if (!body.trim() && lastDraft)
+            setBody(lastDraft);
+        setErr(null);
+        setSendState("idle");
+    }
+    return (<div>
+      <label>Message</label>
 
-  function retry() {
-    if (busy) return
-    if (!body.trim() && lastDraft) setBody(lastDraft)
-    setErr(null)
-    setSendState("idle")
-  }
-
-  return (
-    <div>
-      <label className="sr-only">Message</label>
-
-      <div className="mb-2 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div>
         {QUICK_REPLIES.map((reply) => {
-          const label = displayQuickReply(reply);
-
-          return (
-            <button
-              key={label}
-              type="button"
-              disabled={busy}
-              onClick={() => addQuickReply(label)}
-              className="shrink-0 rounded-full border border-[#EDE9FE] bg-[#FBF9FF] px-3 py-2 text-xs font-extrabold text-[#3B254F] shadow-sm hover:border-[#C4B5FD] hover:bg-white disabled:opacity-60"
-            >
+            const label = displayQuickReply(reply);
+            return (<button key={label} type="button" disabled={busy} onClick={() => addQuickReply(label)}>
               {label}
-            </button>
-          );
+            </button>);
         })}
       </div>
 
-      <textarea
-        className="bd-input min-h-[54px] resize-none rounded-2xl px-4 py-3 text-sm leading-5"
-        value={body}
-        onChange={(e) => {
-          setBody(e.target.value)
-          if (sendState !== "sending") {
-            setSendState("idle")
-            setErr(null)
-          }
-        }}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault()
-            send()
-          }
-        }}
-        placeholder="Ask about the item, pickup, postage, payment expectations, or handover details..."
-        aria-label="Message text"
-        disabled={busy}
-      />
+      <textarea value={body} onChange={(e) => {
+            setBody(e.target.value);
+            if (sendState !== "sending") {
+                setSendState("idle");
+                setErr(null);
+            }
+        }} onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                send();
+            }
+        }} placeholder="Ask about the item, pickup, postage, payment expectations, or handover details..." aria-label="Message text" disabled={busy}/>
 
-      {sendState === "sent" ? (
-        <div role="status" aria-live="polite" className="mt-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-900">
+      {sendState === "sent" ? (<div role="status" aria-live="polite">
           Message sent.
-        </div>
-      ) : null}
+        </div>) : null}
 
-      {sendState === "failed" && err ? (
-        <div role="alert" className="mt-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">
+      {sendState === "failed" && err ? (<div role="alert">
           <div>{err}</div>
-          <button
-            type="button"
-            onClick={retry}
-            className="mt-2 rounded-lg border border-red-200 bg-white px-3 py-1.5 text-xs font-extrabold text-red-800 hover:bg-red-50"
-          >
+          <button type="button" onClick={retry}>
             Retry message
           </button>
-        </div>
-      ) : null}
+        </div>) : null}
 
-      <div className="mt-2 flex items-center justify-end gap-3">
-        <div className="hidden text-xs text-[var(--bidra-ink-2)] sm:block">
+      <div>
+        <div>
           Press <b>Enter</b> to send - <b>Shift+Enter</b> for a new line
         </div>
 
-        <button
-          type="button"
-          disabled={busy || !body.trim()}
-          onClick={send}
-          className="bd-btn bd-btn-primary h-11 shrink-0 rounded-2xl px-5 disabled:opacity-60"
-        >
+        <button type="button" disabled={busy || !body.trim()} onClick={send}>
           {busy ? "Sending..." : sendState === "failed" ? "Retry" : "Send"}
         </button>
       </div>
-    </div>
-  )
+    </div>);
 }

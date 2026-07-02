@@ -1,761 +1,693 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-
 import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-
-import {
-  BIDRA_CATEGORIES,
-  findCategoryByKey,
-  findSubcategory,
-  FULL_CATEGORIES,
-  joinCategory,
-} from "@/lib/categories";
-
+import { BIDRA_CATEGORIES, findCategoryByKey, findSubcategory, FULL_CATEGORIES, joinCategory, } from "@/lib/categories";
 type CategorySuggestion = {
-  categoryKey: string;
-  subcategoryKey: string | null;
-  categoryLabel: string;
+    categoryKey: string;
+    subcategoryKey: string | null;
+    categoryLabel: string;
 };
-
 type ListingTypeUI = "BUY_NOW" | "TIMED_OFFERS";
-
 type SuggestionRule = {
-  categoryKey: string;
-  subcategoryKey: string | null;
-  kws: string[];
+    categoryKey: string;
+    subcategoryKey: string | null;
+    kws: string[];
 };
-
 const MACHINERY_TERMS = [
-  "skid steer",
-  "excavator",
-  "loader",
-  "bobcat",
-  "forklift",
-  "tractor",
-  "backhoe",
-  "dozer",
-  "grader",
-  "tipper",
-  "machinery",
-  "earthmoving",
-  "plant equipment",
-  "farm machinery",
-  "generator",
-  "compressor",
-  "pallet jack"
+    "skid steer",
+    "excavator",
+    "loader",
+    "bobcat",
+    "forklift",
+    "tractor",
+    "backhoe",
+    "dozer",
+    "grader",
+    "tipper",
+    "machinery",
+    "earthmoving",
+    "plant equipment",
+    "farm machinery",
+    "generator",
+    "compressor",
+    "pallet jack"
 ];
-
 const SUGGESTION_RULES: SuggestionRule[] = [
-  { categoryKey: "machinery-equipment", subcategoryKey: "excavators-loaders", kws: ["skid steer","loader","bobcat","excavator","backhoe","dozer","grader","earthmoving","digger"] },
-  { categoryKey: "machinery-equipment", subcategoryKey: "farm-machinery", kws: ["tractor","farm machinery","harvester","slasher","plough","seeder"] },
-  { categoryKey: "machinery-equipment", subcategoryKey: "forklifts-material-handling", kws: ["forklift","pallet jack","telehandler","material handling"] },
-  { categoryKey: "machinery-equipment", subcategoryKey: "generators-compressors", kws: ["generator","compressor","air compressor"] },
-  { categoryKey: "machinery-equipment", subcategoryKey: "trailers-attachments", kws: ["machinery trailer","plant trailer","attachment","bucket","auger","grapple"] },
-  { categoryKey: "machinery-equipment", subcategoryKey: "construction-equipment", kws: ["machinery","plant equipment","construction equipment","tipper"] },
-  { categoryKey: "fashion", subcategoryKey: "jewellery", kws: ["watch","watches","rolex","seiko","casio","ring","rings","necklace","bracelet","earrings","jewellery","jewelry"] },
-  { categoryKey: "electronics", subcategoryKey: "phones", kws: ["iphone","android","phone","mobile","samsung","pixel","charger","case","airpods"] },
-  { categoryKey: "electronics", subcategoryKey: "computers", kws: ["laptop","macbook","pc","desktop","computer","monitor","keyboard","mouse","ssd","gpu","graphics","ram"] },
-  { categoryKey: "electronics", subcategoryKey: "gaming", kws: ["ps5","playstation","xbox","switch","nintendo","controller","gaming","steamdeck"] },
-  { categoryKey: "electronics", subcategoryKey: "audio", kws: ["speaker","soundbar","headphones","earbuds","amp","amplifier","receiver","audio"] },
-  { categoryKey: "electronics", subcategoryKey: "cameras", kws: ["camera","dslr","mirrorless","lens","gopro","canon","nikon","sony"] },
-  { categoryKey: "electronics", subcategoryKey: "tvs", kws: ["tv","television","oled","qled"] },
-  { categoryKey: "home-furniture", subcategoryKey: "sofas", kws: ["sofa","couch","lounge","recliner"] },
-  { categoryKey: "home-furniture", subcategoryKey: "beds", kws: ["bed","mattress","bedframe","bedside"] },
-  { categoryKey: "home-furniture", subcategoryKey: "tables", kws: ["table","dining table","coffee table","desk"] },
-  { categoryKey: "home-furniture", subcategoryKey: "storage", kws: ["wardrobe","dresser","drawers","cabinet","shelves","storage"] },
-  { categoryKey: "home-furniture", subcategoryKey: "decor", kws: ["mirror","lamp","rug","art","decor","vase"] },
-  { categoryKey: "appliances", subcategoryKey: "kitchen", kws: ["fridge","refrigerator","microwave","air fryer","toaster","kettle","blender","coffee machine","dishwasher","oven"] },
-  { categoryKey: "appliances", subcategoryKey: "laundry", kws: ["washer","washing machine","dryer","laundry"] },
-  { categoryKey: "appliances", subcategoryKey: "heating-cooling", kws: ["aircon","air conditioner","heater","fan","dehumidifier"] },
-  { categoryKey: "tools-diy", subcategoryKey: "power-tools", kws: ["drill","impact","saw","jigsaw","sander","makita","dewalt","milwaukee","router","grinder"] },
-  { categoryKey: "tools-diy", subcategoryKey: "hand-tools", kws: ["spanner","wrench","socket","hammer","screwdriver","pliers","ratchet","allen","hex","chisel"] },
-  { categoryKey: "tools-diy", subcategoryKey: "building-supplies", kws: ["timber","wood","plywood","gyprock","cement","bricks","concrete","tiles"] },
-  { categoryKey: "fashion", subcategoryKey: "womens", kws: ["womens","women's","dress","skirt","blouse","heels"] },
-  { categoryKey: "fashion", subcategoryKey: "mens", kws: ["mens","men's","jacket","shirt","pants","jeans","hoodie"] },
-  { categoryKey: "fashion", subcategoryKey: "shoes", kws: ["shoes","sneakers","boots","nike","adidas"] },
-  { categoryKey: "fashion", subcategoryKey: "bags", kws: ["bag","handbag","backpack","luggage","wallet"] },
-  { categoryKey: "baby-kids", subcategoryKey: "toys", kws: ["lego","toy","doll","action figure","hot wheels"] },
-  { categoryKey: "baby-kids", subcategoryKey: "clothing", kws: ["kids","kid's","children","child","baby clothes"] },
-  { categoryKey: "baby-kids", subcategoryKey: "nursery", kws: ["cot","crib","bassinet","nursery","change table"] },
-  { categoryKey: "baby-kids", subcategoryKey: "prams", kws: ["pram","stroller","pushchair","buggy"] },
-  { categoryKey: "sports-outdoors", subcategoryKey: "fitness", kws: ["dumbbell","weights","treadmill","bench","gym","barbell"] },
-  { categoryKey: "sports-outdoors", subcategoryKey: "camping", kws: ["tent","swag","sleeping bag","camping","esky","gazebo"] },
-  { categoryKey: "sports-outdoors", subcategoryKey: "cycling", kws: ["bike","bicycle","helmet","mtb","road bike"] },
-  { categoryKey: "vehicles", subcategoryKey: "cars", kws: ["car","sedan","hatch","ute","4x4","toyota","ford","mazda","kia"] },
-  { categoryKey: "vehicles", subcategoryKey: "motorcycles", kws: ["motorbike","motorcycle","helmet","yamaha","honda","kawasaki"] },
-  { categoryKey: "vehicles", subcategoryKey: "parts", kws: ["tyres","tires","rim","wheels","car parts","towbar","roof rack"] },
-  { categoryKey: "property", subcategoryKey: "rentals", kws: ["rent","rental","lease","apartment for rent","unit for rent"] },
-  { categoryKey: "property", subcategoryKey: "home-sales", kws: ["house for sale","home for sale","apartment for sale","unit for sale"] },
-  { categoryKey: "hobbies-collectibles", subcategoryKey: "collectibles", kws: ["collectible","collectibles","pokemon","trading card","memorabilia","antique","vintage","coin"] },
-  { categoryKey: "hobbies-collectibles", subcategoryKey: "art", kws: ["art","painting","canvas","sculpture","print"] },
-  { categoryKey: "hobbies-collectibles", subcategoryKey: "music", kws: ["guitar","piano","keyboard","instrument","vinyl","record"] },
-  { categoryKey: "entertainment-media", subcategoryKey: "books", kws: ["book","novel","textbook","paperback","hardcover"] },
-  { categoryKey: "entertainment-media", subcategoryKey: "movies", kws: ["dvd","bluray","blu-ray","movie"] },
-  { categoryKey: "entertainment-media", subcategoryKey: "games", kws: ["video game","game disc","nintendo game","xbox game","ps5 game"] },
-  { categoryKey: "business-office", subcategoryKey: "office-furniture", kws: ["office chair","desk","standing desk","filing cabinet"] },
-  { categoryKey: "business-office", subcategoryKey: "supplies", kws: ["stationery","paper","notebook","pens","labels","ink","toner"] },
-  { categoryKey: "pet-supplies", subcategoryKey: "dogs", kws: ["dog","puppy","leash","collar","kennel","crate"] },
-  { categoryKey: "pet-supplies", subcategoryKey: "cats", kws: ["cat","kitten","litter","scratching post","cat tree"] },
-  { categoryKey: "pet-supplies", subcategoryKey: "tanks", kws: ["aquarium","fish tank"] },
-  { categoryKey: "garden-outdoor", subcategoryKey: "plants", kws: ["plant","plants","succulent","garden plant"] },
-  { categoryKey: "garden-outdoor", subcategoryKey: "outdoor-furniture", kws: ["outdoor furniture","patio set","outdoor table","outdoor chair"] },
-  { categoryKey: "garden-outdoor", subcategoryKey: "garden-tools", kws: ["lawn mower","mower","blower","hedge trimmer","garden tool"] },
-  { categoryKey: "garden-outdoor", subcategoryKey: "bbq", kws: ["bbq","barbecue","grill"] },
-  { categoryKey: "free-stuff", subcategoryKey: "free-items", kws: ["free","giveaway","free to good home","no charge"] }
+    { categoryKey: "machinery-equipment", subcategoryKey: "excavators-loaders", kws: ["skid steer", "loader", "bobcat", "excavator", "backhoe", "dozer", "grader", "earthmoving", "digger"] },
+    { categoryKey: "machinery-equipment", subcategoryKey: "farm-machinery", kws: ["tractor", "farm machinery", "harvester", "slasher", "plough", "seeder"] },
+    { categoryKey: "machinery-equipment", subcategoryKey: "forklifts-material-handling", kws: ["forklift", "pallet jack", "telehandler", "material handling"] },
+    { categoryKey: "machinery-equipment", subcategoryKey: "generators-compressors", kws: ["generator", "compressor", "air compressor"] },
+    { categoryKey: "machinery-equipment", subcategoryKey: "trailers-attachments", kws: ["machinery trailer", "plant trailer", "attachment", "bucket", "auger", "grapple"] },
+    { categoryKey: "machinery-equipment", subcategoryKey: "construction-equipment", kws: ["machinery", "plant equipment", "construction equipment", "tipper"] },
+    { categoryKey: "fashion", subcategoryKey: "jewellery", kws: ["watch", "watches", "rolex", "seiko", "casio", "ring", "rings", "necklace", "bracelet", "earrings", "jewellery", "jewelry"] },
+    { categoryKey: "electronics", subcategoryKey: "phones", kws: ["iphone", "android", "phone", "mobile", "samsung", "pixel", "charger", "case", "airpods"] },
+    { categoryKey: "electronics", subcategoryKey: "computers", kws: ["laptop", "macbook", "pc", "desktop", "computer", "monitor", "keyboard", "mouse", "ssd", "gpu", "graphics", "ram"] },
+    { categoryKey: "electronics", subcategoryKey: "gaming", kws: ["ps5", "playstation", "xbox", "switch", "nintendo", "controller", "gaming", "steamdeck"] },
+    { categoryKey: "electronics", subcategoryKey: "audio", kws: ["speaker", "soundbar", "headphones", "earbuds", "amp", "amplifier", "receiver", "audio"] },
+    { categoryKey: "electronics", subcategoryKey: "cameras", kws: ["camera", "dslr", "mirrorless", "lens", "gopro", "canon", "nikon", "sony"] },
+    { categoryKey: "electronics", subcategoryKey: "tvs", kws: ["tv", "television", "oled", "qled"] },
+    { categoryKey: "home-furniture", subcategoryKey: "sofas", kws: ["sofa", "couch", "lounge", "recliner"] },
+    { categoryKey: "home-furniture", subcategoryKey: "beds", kws: ["bed", "mattress", "bedframe", "bedside"] },
+    { categoryKey: "home-furniture", subcategoryKey: "tables", kws: ["table", "dining table", "coffee table", "desk"] },
+    { categoryKey: "home-furniture", subcategoryKey: "storage", kws: ["wardrobe", "dresser", "drawers", "cabinet", "shelves", "storage"] },
+    { categoryKey: "home-furniture", subcategoryKey: "decor", kws: ["mirror", "lamp", "rug", "art", "decor", "vase"] },
+    { categoryKey: "appliances", subcategoryKey: "kitchen", kws: ["fridge", "refrigerator", "microwave", "air fryer", "toaster", "kettle", "blender", "coffee machine", "dishwasher", "oven"] },
+    { categoryKey: "appliances", subcategoryKey: "laundry", kws: ["washer", "washing machine", "dryer", "laundry"] },
+    { categoryKey: "appliances", subcategoryKey: "heating-cooling", kws: ["aircon", "air conditioner", "heater", "fan", "dehumidifier"] },
+    { categoryKey: "tools-diy", subcategoryKey: "power-tools", kws: ["drill", "impact", "saw", "jigsaw", "sander", "makita", "dewalt", "milwaukee", "router", "grinder"] },
+    { categoryKey: "tools-diy", subcategoryKey: "hand-tools", kws: ["spanner", "wrench", "socket", "hammer", "screwdriver", "pliers", "ratchet", "allen", "hex", "chisel"] },
+    { categoryKey: "tools-diy", subcategoryKey: "building-supplies", kws: ["timber", "wood", "plywood", "gyprock", "cement", "bricks", "concrete", "tiles"] },
+    { categoryKey: "fashion", subcategoryKey: "womens", kws: ["womens", "women's", "dress", "skirt", "blouse", "heels"] },
+    { categoryKey: "fashion", subcategoryKey: "mens", kws: ["mens", "men's", "jacket", "shirt", "pants", "jeans", "hoodie"] },
+    { categoryKey: "fashion", subcategoryKey: "shoes", kws: ["shoes", "sneakers", "boots", "nike", "adidas"] },
+    { categoryKey: "fashion", subcategoryKey: "bags", kws: ["bag", "handbag", "backpack", "luggage", "wallet"] },
+    { categoryKey: "baby-kids", subcategoryKey: "toys", kws: ["lego", "toy", "doll", "action figure", "hot wheels"] },
+    { categoryKey: "baby-kids", subcategoryKey: "clothing", kws: ["kids", "kid's", "children", "child", "baby clothes"] },
+    { categoryKey: "baby-kids", subcategoryKey: "nursery", kws: ["cot", "crib", "bassinet", "nursery", "change table"] },
+    { categoryKey: "baby-kids", subcategoryKey: "prams", kws: ["pram", "stroller", "pushchair", "buggy"] },
+    { categoryKey: "sports-outdoors", subcategoryKey: "fitness", kws: ["dumbbell", "weights", "treadmill", "bench", "gym", "barbell"] },
+    { categoryKey: "sports-outdoors", subcategoryKey: "camping", kws: ["tent", "swag", "sleeping bag", "camping", "esky", "gazebo"] },
+    { categoryKey: "sports-outdoors", subcategoryKey: "cycling", kws: ["bike", "bicycle", "helmet", "mtb", "road bike"] },
+    { categoryKey: "vehicles", subcategoryKey: "cars", kws: ["car", "sedan", "hatch", "ute", "4x4", "toyota", "ford", "mazda", "kia"] },
+    { categoryKey: "vehicles", subcategoryKey: "motorcycles", kws: ["motorbike", "motorcycle", "helmet", "yamaha", "honda", "kawasaki"] },
+    { categoryKey: "vehicles", subcategoryKey: "parts", kws: ["tyres", "tires", "rim", "wheels", "car parts", "towbar", "roof rack"] },
+    { categoryKey: "property", subcategoryKey: "rentals", kws: ["rent", "rental", "lease", "apartment for rent", "unit for rent"] },
+    { categoryKey: "property", subcategoryKey: "home-sales", kws: ["house for sale", "home for sale", "apartment for sale", "unit for sale"] },
+    { categoryKey: "hobbies-collectibles", subcategoryKey: "collectibles", kws: ["collectible", "collectibles", "pokemon", "trading card", "memorabilia", "antique", "vintage", "coin"] },
+    { categoryKey: "hobbies-collectibles", subcategoryKey: "art", kws: ["art", "painting", "canvas", "sculpture", "print"] },
+    { categoryKey: "hobbies-collectibles", subcategoryKey: "music", kws: ["guitar", "piano", "keyboard", "instrument", "vinyl", "record"] },
+    { categoryKey: "entertainment-media", subcategoryKey: "books", kws: ["book", "novel", "textbook", "paperback", "hardcover"] },
+    { categoryKey: "entertainment-media", subcategoryKey: "movies", kws: ["dvd", "bluray", "blu-ray", "movie"] },
+    { categoryKey: "entertainment-media", subcategoryKey: "games", kws: ["video game", "game disc", "nintendo game", "xbox game", "ps5 game"] },
+    { categoryKey: "business-office", subcategoryKey: "office-furniture", kws: ["office chair", "desk", "standing desk", "filing cabinet"] },
+    { categoryKey: "business-office", subcategoryKey: "supplies", kws: ["stationery", "paper", "notebook", "pens", "labels", "ink", "toner"] },
+    { categoryKey: "pet-supplies", subcategoryKey: "dogs", kws: ["dog", "puppy", "leash", "collar", "kennel", "crate"] },
+    { categoryKey: "pet-supplies", subcategoryKey: "cats", kws: ["cat", "kitten", "litter", "scratching post", "cat tree"] },
+    { categoryKey: "pet-supplies", subcategoryKey: "tanks", kws: ["aquarium", "fish tank"] },
+    { categoryKey: "garden-outdoor", subcategoryKey: "plants", kws: ["plant", "plants", "succulent", "garden plant"] },
+    { categoryKey: "garden-outdoor", subcategoryKey: "outdoor-furniture", kws: ["outdoor furniture", "patio set", "outdoor table", "outdoor chair"] },
+    { categoryKey: "garden-outdoor", subcategoryKey: "garden-tools", kws: ["lawn mower", "mower", "blower", "hedge trimmer", "garden tool"] },
+    { categoryKey: "garden-outdoor", subcategoryKey: "bbq", kws: ["bbq", "barbecue", "grill"] },
+    { categoryKey: "free-stuff", subcategoryKey: "free-items", kws: ["free", "giveaway", "free to good home", "no charge"] }
 ];
-
 function normalizeToken(value: string): string {
-  return String(value || "").trim().toLowerCase();
+    return String(value || "").trim().toLowerCase();
 }
-
 function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
-
 function textHasToken(text: string, token: string): boolean {
-  const t = normalizeToken(text);
-  const k = normalizeToken(token);
-  if (!t || !k) return false;
-  if (k.indexOf(" ") >= 0) return t.indexOf(k) >= 0;
-  const re = new RegExp(`(^|[^a-z0-9])${escapeRegExp(k)}([^a-z0-9]|$)`);
-  return re.test(t);
+    const t = normalizeToken(text);
+    const k = normalizeToken(token);
+    if (!t || !k)
+        return false;
+    if (k.indexOf(" ") >= 0)
+        return t.indexOf(k) >= 0;
+    const re = new RegExp(`(^|[^a-z0-9])${escapeRegExp(k)}([^a-z0-9]|$)`);
+    return re.test(t);
 }
-
 function buildCategoryLabel(categoryKey: string, subcategoryKey: string | null): string {
-  const category = findCategoryByKey(categoryKey);
-  if (!category) return "";
-  if (!subcategoryKey) return category.label;
-  const subcategory = findSubcategory(categoryKey, subcategoryKey);
-  if (!subcategory) return category.label;
-  return joinCategory(category.label, subcategory.label);
+    const category = findCategoryByKey(categoryKey);
+    if (!category)
+        return "";
+    if (!subcategoryKey)
+        return category.label;
+    const subcategory = findSubcategory(categoryKey, subcategoryKey);
+    if (!subcategory)
+        return category.label;
+    return joinCategory(category.label, subcategory.label);
 }
-
-function parseCategoryLabel(value: string): { categoryKey: string; subcategoryKey: string } | null {
-  const label = String(value || "").trim();
-  if (!label) return null;
-  for (let i = 0; i < BIDRA_CATEGORIES.length; i += 1) {
-    const category = BIDRA_CATEGORIES[i];
-    if (category.label === label) {
-      return { categoryKey: category.key, subcategoryKey: "" };
+function parseCategoryLabel(value: string): {
+    categoryKey: string;
+    subcategoryKey: string;
+} | null {
+    const label = String(value || "").trim();
+    if (!label)
+        return null;
+    for (let i = 0; i < BIDRA_CATEGORIES.length; i += 1) {
+        const category = BIDRA_CATEGORIES[i];
+        if (category.label === label) {
+            return { categoryKey: category.key, subcategoryKey: "" };
+        }
+        for (let j = 0; j < category.subcategories.length; j += 1) {
+            const subcategory = category.subcategories[j];
+            if (joinCategory(category.label, subcategory.label) === label) {
+                return { categoryKey: category.key, subcategoryKey: subcategory.key };
+            }
+        }
     }
-    for (let j = 0; j < category.subcategories.length; j += 1) {
-      const subcategory = category.subcategories[j];
-      if (joinCategory(category.label, subcategory.label) === label) {
-        return { categoryKey: category.key, subcategoryKey: subcategory.key };
-      }
-    }
-  }
-  return null;
+    return null;
 }
-
 function suggestCategoryFromText(textRaw: string): CategorySuggestion | null {
-  const text = String(textRaw || "").trim().toLowerCase();
-  if (!text) return null;
-
-  let bestRule: SuggestionRule | null = null;
-  let bestScore = 0;
-
-  for (let i = 0; i < SUGGESTION_RULES.length; i += 1) {
-    const rule = SUGGESTION_RULES[i];
-    let score = 0;
-    for (let j = 0; j < rule.kws.length; j += 1) {
-      if (textHasToken(text, rule.kws[j])) score += 1;
-    }
-    if (score > bestScore) {
-      bestScore = score;
-      bestRule = rule;
-    }
-  }
-
-  if (!bestRule || bestScore < 1) return null;
-
-  const categoryLabel = buildCategoryLabel(bestRule.categoryKey, bestRule.subcategoryKey);
-  if (!categoryLabel || FULL_CATEGORIES.indexOf(categoryLabel) < 0) return null;
-
-  return {
-    categoryKey: bestRule.categoryKey,
-    subcategoryKey: bestRule.subcategoryKey,
-    categoryLabel,
-  };
-}
-
-function suggestDescriptionDraft(args: {
-  title: string;
-  category: string;
-  condition: string;
-  type: "BUY_NOW" | "TIMED_OFFERS";
-  priceLabel: string;
-  location: string;
-}): string {
-  const lines: string[] = [];
-
-  if ((args.title || "").trim()) {
-    lines.push(`Item: ${(args.title || "").trim()}`);
-  } else {
-    lines.push("Item:");
-  }
-
-  lines.push(`Condition: ${String(args.condition || "USED").replaceAll("_", " ").toLowerCase()}`);
-  lines.push("Brand/model:");
-  lines.push("Size/specs:");
-  lines.push("Included:");
-  lines.push("Marks or faults:");
-
-  if ((args.location || "").trim()) {
-    lines.push(`Pickup/postage: Pickup from ${(args.location || "").trim()}, or postage can be arranged.`);
-  } else {
-    lines.push("Pickup/postage:");
-  }
-
-  return lines.join("\n");
-}
-
-function dollarsToCentsOrNull(v: string): number | null {
-  const raw = (v ?? "").trim();
-  if (!raw) return null;
-
-  const cleaned = raw.replace(/[$,\s]/g, "");
-  const n = Number(cleaned);
-
-  if (!Number.isFinite(n)) return NaN;
-  return Math.round(n * 100);
-}
-
-export default function SellNewClient({ defaultLocation = "" }: { defaultLocation?: string }) {
-  const [feedbackGate, setFeedbackGate] = React.useState<null | {
-    message: string;
-    pendingCount: number;
-    feedbackUrl: string | null;
-  }>(null);
-
-  const router = useRouter();
-  const cameraInputRef = useRef<HTMLInputElement | null>(null);
-  const galleryInputRef = useRef<HTMLInputElement | null>(null);
-
-  const [type, setType] = useState<ListingTypeUI>("BUY_NOW");
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [topCategoryKey, setTopCategoryKey] = useState("");
-  const [subcategoryKey, setSubcategoryKey] = useState("");
-  const [categoryTouched, setCategoryTouched] = useState(false);
-  const [condition, setCondition] = useState("USED");
-  const [attributeValues, setAttributeValues] = useState<Record<string, string>>({});
-  const [location, setLocation] = useState((defaultLocation || "").trim());
-  const [price, setPrice] = useState("");
-  const [startingBid, setStartingBid] = useState("");
-  const [buyNowPrice, setBuyNowPrice] = useState("");
-  const [durationDays, setDurationDays] = useState("7");
-  const [files, setFiles] = useState<File[]>([]);
-  const [busy, setBusy] = useState(false);
-  const [err, setErr] = useState<string | null>(null);
-
-  const addPicked = (picked: File[]) => {
-    if (!picked || picked.length === 0) return;
-    setFiles((prev) => [...prev, ...picked].slice(0, 10));
-  };
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    let old: any = undefined;
-    try {
-      if ("scrollRestoration" in window.history) {
-        old = (window.history as unknown as { scrollRestoration?: string }).scrollRestoration;
-        (window.history as unknown as { scrollRestoration?: string }).scrollRestoration = "manual";
-      }
-    } catch {}
-
-    try { window.scrollTo({ top: 0, left: 0 }); } catch {}
-
-    return () => {
-      try {
-        if (old !== undefined && "scrollRestoration" in window.history) {
-          (window.history as unknown as { scrollRestoration?: string }).scrollRestoration = old as string;
+    const text = String(textRaw || "").trim().toLowerCase();
+    if (!text)
+        return null;
+    let bestRule: SuggestionRule | null = null;
+    let bestScore = 0;
+    for (let i = 0; i < SUGGESTION_RULES.length; i += 1) {
+        const rule = SUGGESTION_RULES[i];
+        let score = 0;
+        for (let j = 0; j < rule.kws.length; j += 1) {
+            if (textHasToken(text, rule.kws[j]))
+                score += 1;
         }
-      } catch {}
+        if (score > bestScore) {
+            bestScore = score;
+            bestRule = rule;
+        }
+    }
+    if (!bestRule || bestScore < 1)
+        return null;
+    const categoryLabel = buildCategoryLabel(bestRule.categoryKey, bestRule.subcategoryKey);
+    if (!categoryLabel || FULL_CATEGORIES.indexOf(categoryLabel) < 0)
+        return null;
+    return {
+        categoryKey: bestRule.categoryKey,
+        subcategoryKey: bestRule.subcategoryKey,
+        categoryLabel,
     };
-  }, []);
-
-  function clearErrOnEdit() {
-    if (err) setErr(null);
-  }
-
-  const isTimedOffers = type === "TIMED_OFFERS";
-  const selectedCategory = useMemo(() => findCategoryByKey(topCategoryKey), [topCategoryKey]);
-  const selectedSubcategory = useMemo(() => findSubcategory(topCategoryKey, subcategoryKey), [topCategoryKey, subcategoryKey]);
-  const category = useMemo(() => {
-    if (!selectedCategory) return "";
-    if (selectedSubcategory) return joinCategory(selectedCategory.label, selectedSubcategory.label);
-    return selectedCategory.label;
-  }, [selectedCategory, selectedSubcategory]);
-
-  const suggestedCategory = useMemo(() => {
-    const blob = `${title} ${description}`.trim();
-    return suggestCategoryFromText(blob);
-  }, [title, description]);
-
-  useEffect(() => {
-    if (categoryTouched) return;
-    if (category) return;
-    if (!suggestedCategory) return;
-    setTopCategoryKey(suggestedCategory.categoryKey);
-    setSubcategoryKey(suggestedCategory.subcategoryKey || "");
-  }, [suggestedCategory, categoryTouched, category]);
-
-  const missingRequirements = useMemo(() => {
-    const missing: string[] = [];
-    const t = title.trim();
-    const d = description.trim();
-    const loc = location.trim();
-    const fixedPriceCents = dollarsToCentsOrNull(price);
-    const startBidCents = dollarsToCentsOrNull(startingBid);
-    const buyNowCents = dollarsToCentsOrNull(buyNowPrice);
-
-    if (t.length < 3) missing.push("Add a listing title");
-    if (d.length < 3) missing.push("Add a description");
-    if (!category) missing.push("Select a category");
-    if (!loc) missing.push("Add a location");
-    if (files.length < 1) missing.push("Add at least 1 photo");
-
-    if (!isTimedOffers) {
-      if (fixedPriceCents === null || Number.isNaN(fixedPriceCents) || fixedPriceCents <= 0) {
-        missing.push("Enter a valid Buy now price");
-      }
-      return missing;
+}
+function suggestDescriptionDraft(args: {
+    title: string;
+    category: string;
+    condition: string;
+    type: "BUY_NOW" | "TIMED_OFFERS";
+    priceLabel: string;
+    location: string;
+}): string {
+    const lines: string[] = [];
+    if ((args.title || "").trim()) {
+        lines.push(`Item: ${(args.title || "").trim()}`);
     }
-
-    if (startBidCents === null || Number.isNaN(startBidCents) || startBidCents <= 0) {
-      missing.push("Enter a valid starting offer");
+    else {
+        lines.push("Item:");
     }
-
-    if (buyNowCents !== null) {
-      if (Number.isNaN(buyNowCents) || buyNowCents <= 0) {
-        missing.push("Enter a valid Buy now price");
-      } else if (startBidCents !== null && !Number.isNaN(startBidCents) && buyNowCents < startBidCents) {
-        missing.push("Buy now price must be at least the starting offer");
-      }
+    lines.push(`Condition: ${String(args.condition || "USED").replaceAll("_", " ").toLowerCase()}`);
+    lines.push("Brand/model:");
+    lines.push("Size/specs:");
+    lines.push("Included:");
+    lines.push("Marks or faults:");
+    if ((args.location || "").trim()) {
+        lines.push(`Pickup/postage: Pickup from ${(args.location || "").trim()}, or postage can be arranged.`);
     }
-
-    return missing;
-  }, [title, description, category, location, price, startingBid, buyNowPrice, isTimedOffers, files.length]);
-
-  const publishReady = missingRequirements.length === 0;
-
-  const attributeFields = useMemo(() => {
-    if (topCategoryKey === "vehicles") {
-      return [
-        { key: "make", label: "Make", placeholder: "Toyota, Ford, Mazda" },
-        { key: "model", label: "Model", placeholder: "Corolla, Ranger, CX-5" },
-        { key: "year", label: "Year", placeholder: "e.g. 2018" },
-        { key: "odometer", label: "Odometer", placeholder: "e.g. 125000 km" },
-        { key: "transmission", label: "Transmission", placeholder: "Auto or manual" },
-        { key: "fuelType", label: "Fuel type", placeholder: "Petrol, diesel, hybrid, EV" },
-        { key: "bodyType", label: "Body type", placeholder: "Sedan, hatch, ute, SUV" },
-        { key: "registration", label: "Registration", placeholder: "Registered, expired, unregistered" },
-      ];
+    else {
+        lines.push("Pickup/postage:");
     }
-
-    if (topCategoryKey === "electronics") {
-      return [
-        { key: "brand", label: "Brand", placeholder: "Apple, Samsung, Sony" },
-        { key: "model", label: "Model", placeholder: "iPhone 14, Galaxy S23" },
-        { key: "storage", label: "Storage / capacity", placeholder: "128GB, 512GB, 55 inch" },
-        { key: "colour", label: "Colour", placeholder: "Black, white, blue" },
-      ];
-    }
-
-    return [];
-  }, [topCategoryKey]);
-
-  const listingAttributes = useMemo(() => {
-    const output: Record<string, string> = {};
-    for (let i = 0; i < attributeFields.length; i += 1) {
-      const field = attributeFields[i];
-      const value = String(attributeValues[field.key] || "").trim();
-      if (value) output[field.key] = value;
-    }
-    return output;
-  }, [attributeFields, attributeValues]);
-
-  function setAttributeValue(key: string, value: string) {
-    setAttributeValues((prev) => ({ ...prev, [key]: value }));
-  }
-
-  const reviewSaleType = isTimedOffers ? "Make an offer" : "Buy now";
-  const reviewPrice = isTimedOffers
-    ? `${startingBid ? `$${startingBid} starting` : "Not set"}${buyNowPrice ? ` | Buy now $${buyNowPrice}` : ""}`
-    : (price ? `$${price}` : "Not set");
-
-  const previews = useMemo(() => {
-    return files.slice(0, 10).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
-  }, [files]);
-
-  function sanitizeMoneyInput(v: string): string {
-    const s = String(v ?? "");
-    let out = "";
-    let seenDot = false;
-    for (let i = 0; i < s.length; i += 1) {
-      const ch = s[i];
-      if (ch >= "0" && ch <= "9") { out += ch; continue; }
-      if (ch === "." && !seenDot) { out += "."; seenDot = true; continue; }
-    }
-    return out;
-  }
-
-  async function onSubmit(e: React.FormEvent) {
-    setFeedbackGate(null);
-    e.preventDefault();
-    setErr(null);
-
-    const t = title.trim();
-    const d = description.trim();
-    const loc = location.trim();
-
-    if (t.length < 3) return setErr("Title must be at least 3 characters.");
-    if (d.length < 3) return setErr("Description must be at least 3 characters.");
-    if (!category) return setErr("Category is required.");
-    if (!loc) return setErr("Location is required.");
-    if (files.length < 1) return setErr("Add at least 1 photo to publish your listing.");
-
-    const fixedPriceCents = dollarsToCentsOrNull(price);
-    const startBidCents = dollarsToCentsOrNull(startingBid);
-    const reserveCents = null;
-    const buyNowCents = dollarsToCentsOrNull(buyNowPrice);
-
-    if (!Number.isFinite(Number(durationDays))) return setErr("Duration is invalid.");
-    if (isTimedOffers && ["3","5","7"].indexOf(String(durationDays)) < 0) return setErr("Timed offers duration must be 3, 5, or 7 days.");
-
-    if (!isTimedOffers) {
-      if (fixedPriceCents === null || Number.isNaN(fixedPriceCents) || fixedPriceCents <= 0) {
-        return setErr("Price must be greater than 0.");
-      }
-    } else {
-      if (startBidCents === null || Number.isNaN(startBidCents) || startBidCents <= 0) {
-        return setErr("Starting offer must be greater than 0.");
-      }
-      if (buyNowCents !== null) {
-        if (Number.isNaN(buyNowCents)) return setErr("Buy now must be a number or blank.");
-        if (buyNowCents <= 0) return setErr("Buy now must be greater than 0 (or blank).");
-        if (buyNowCents < startBidCents) return setErr("Buy now must be >= starting offer.");
-      }
-    }
-
-    setBusy(true);
-    try {
-      let uploadedImages: { url: string }[] = [];
-      if (files.length > 0) {
-        const fd = new FormData();
-        for (const f of files.slice(0, 10)) {
-          fd.append("files", f);
+    return lines.join("\n");
+}
+function dollarsToCentsOrNull(v: string): number | null {
+    const raw = (v ?? "").trim();
+    if (!raw)
+        return null;
+    const cleaned = raw.replace(/[$,\s]/g, "");
+    const n = Number(cleaned);
+    if (!Number.isFinite(n))
+        return NaN;
+    return Math.round(n * 100);
+}
+export default function SellNewClient({ defaultLocation = "" }: {
+    defaultLocation?: string;
+}) {
+    const [feedbackGate, setFeedbackGate] = React.useState<null | {
+        message: string;
+        pendingCount: number;
+        feedbackUrl: string | null;
+    }>(null);
+    const router = useRouter();
+    const cameraInputRef = useRef<HTMLInputElement | null>(null);
+    const galleryInputRef = useRef<HTMLInputElement | null>(null);
+    const [type, setType] = useState<ListingTypeUI>("BUY_NOW");
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [topCategoryKey, setTopCategoryKey] = useState("");
+    const [subcategoryKey, setSubcategoryKey] = useState("");
+    const [categoryTouched, setCategoryTouched] = useState(false);
+    const [condition, setCondition] = useState("USED");
+    const [attributeValues, setAttributeValues] = useState<Record<string, string>>({});
+    const [location, setLocation] = useState((defaultLocation || "").trim());
+    const [price, setPrice] = useState("");
+    const [startingBid, setStartingBid] = useState("");
+    const [buyNowPrice, setBuyNowPrice] = useState("");
+    const [durationDays, setDurationDays] = useState("7");
+    const [files, setFiles] = useState<File[]>([]);
+    const [busy, setBusy] = useState(false);
+    const [err, setErr] = useState<string | null>(null);
+    const addPicked = (picked: File[]) => {
+        if (!picked || picked.length === 0)
+            return;
+        setFiles((prev) => [...prev, ...picked].slice(0, 10));
+    };
+    useEffect(() => {
+        if (typeof window === "undefined")
+            return;
+        let old: any = undefined;
+        try {
+            if ("scrollRestoration" in window.history) {
+                old = (window.history as unknown as {
+                    scrollRestoration?: string;
+                }).scrollRestoration;
+                (window.history as unknown as {
+                    scrollRestoration?: string;
+                }).scrollRestoration = "manual";
+            }
         }
-
-        const up = await fetch("/api/uploads/images", { method: "POST", body: fd });
-        const upText = await up.text();
-        let upData: any = null;
-        try { upData = JSON.parse(upText); } catch { upData = null; }
-
-        if (!up.ok) {
-          const msg = (upData && upData.error) ? String(upData.error) : upText || "Image upload failed. Please try again.";
-          setErr(msg);
-          return;
+        catch { }
+        try {
+            window.scrollTo({ top: 0, left: 0 });
         }
-
-        uploadedImages = Array.isArray(upData?.images)
-          ? upData.images
-              .map(function (img: any) { return img && typeof img.url === "string" ? { url: String(img.url) } : null; })
-              .filter(Boolean)
-          : [];
-
-        if (uploadedImages.length !== files.slice(0, 10).length) {
-          setErr("Some images did not upload correctly. Please try again.");
-          return;
-        }
-      }
-
-      const res = await fetch("/api/listings/create", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          type: isTimedOffers ? "OFFERABLE" : "BUY_NOW",
-          title: t,
-          description: d,
-          category,
-          condition: condition.trim(),
-          location: loc,
-          price: isTimedOffers ? null : fixedPriceCents,
-          startingBid: isTimedOffers ? startBidCents : null,
-          reservePrice: isTimedOffers ? reserveCents : null,
-          buyNowPrice: isTimedOffers ? buyNowCents : null,
-          durationDays: isTimedOffers ? Number(durationDays) : null,
-          images: uploadedImages,
-          attributes: listingAttributes,
-        }),
-      });
-
-      if (res.status === 401) {
-        router.push("/auth/login?next=/sell/new");
-        return;
-      }
-
-      const text = await res.text().catch(() => "");
-      let data: any = null;
-      try { data = text ? JSON.parse(text) : null; } catch { data = null; }
-
-      if (res.status === 403) {
-        if (data && (data.code === "FEEDBACK_REQUIRED" || data.error === "FEEDBACK_REQUIRED")) {
-          setFeedbackGate({
-            message: data.error || data.message || "Please leave feedback to continue.",
-            pendingCount: Number(data.pendingCount || 0),
-            feedbackUrl: data.feedbackUrl || null,
-          });
-          return;
-        }
-
-        const reason = (data && (data.reason || data.error)) ? String(data.reason || data.error) : "";
-        const msg =
-          reason === "MISSING_AGE_VERIFICATION" ? "Please add your date of birth in Account settings (18+ required) to list items." :
-          reason === "AGE_NOT_VERIFIED" ? "Your account isn't age-verified yet. Please complete age verification to list items." :
-          reason === "UNDER_18" ? "Bidra accounts are 18+ only. You can browse publicly, but you can't list or make offers." :
-          reason === "POLICY_BLOCKED" ? "Your account is temporarily restricted. Please try again later." :
-          "You can't create a listing right now.";
-        setErr(msg);
-        return;
-      }
-
-      if (!res.ok) {
-        const msg = (data && data.error) ? String(data.error) : text || "Failed to create listing.";
-        setErr(msg);
-        return;
-      }
-
-      const id = data?.listing?.id;
-      if (id) router.push(`/listings/${id}`);
-      else router.push("/listings");
-    } finally {
-      previews.forEach((p) => URL.revokeObjectURL(p.url));
-      setBusy(false);
+        catch { }
+        return () => {
+            try {
+                if (old !== undefined && "scrollRestoration" in window.history) {
+                    (window.history as unknown as {
+                        scrollRestoration?: string;
+                    }).scrollRestoration = old as string;
+                }
+            }
+            catch { }
+        };
+    }, []);
+    function clearErrOnEdit() {
+        if (err)
+            setErr(null);
     }
-  }
+    const isTimedOffers = type === "TIMED_OFFERS";
+    const selectedCategory = useMemo(() => findCategoryByKey(topCategoryKey), [topCategoryKey]);
+    const selectedSubcategory = useMemo(() => findSubcategory(topCategoryKey, subcategoryKey), [topCategoryKey, subcategoryKey]);
+    const category = useMemo(() => {
+        if (!selectedCategory)
+            return "";
+        if (selectedSubcategory)
+            return joinCategory(selectedCategory.label, selectedSubcategory.label);
+        return selectedCategory.label;
+    }, [selectedCategory, selectedSubcategory]);
+    const suggestedCategory = useMemo(() => {
+        const blob = `${title} ${description}`.trim();
+        return suggestCategoryFromText(blob);
+    }, [title, description]);
+    useEffect(() => {
+        if (categoryTouched)
+            return;
+        if (category)
+            return;
+        if (!suggestedCategory)
+            return;
+        setTopCategoryKey(suggestedCategory.categoryKey);
+        setSubcategoryKey(suggestedCategory.subcategoryKey || "");
+    }, [suggestedCategory, categoryTouched, category]);
+    const missingRequirements = useMemo(() => {
+        const missing: string[] = [];
+        const t = title.trim();
+        const d = description.trim();
+        const loc = location.trim();
+        const fixedPriceCents = dollarsToCentsOrNull(price);
+        const startBidCents = dollarsToCentsOrNull(startingBid);
+        const buyNowCents = dollarsToCentsOrNull(buyNowPrice);
+        if (t.length < 3)
+            missing.push("Add a listing title");
+        if (d.length < 3)
+            missing.push("Add a description");
+        if (!category)
+            missing.push("Select a category");
+        if (!loc)
+            missing.push("Add a location");
+        if (files.length < 1)
+            missing.push("Add at least 1 photo");
+        if (!isTimedOffers) {
+            if (fixedPriceCents === null || Number.isNaN(fixedPriceCents) || fixedPriceCents <= 0) {
+                missing.push("Enter a valid Buy now price");
+            }
+            return missing;
+        }
+        if (startBidCents === null || Number.isNaN(startBidCents) || startBidCents <= 0) {
+            missing.push("Enter a valid starting offer");
+        }
+        if (buyNowCents !== null) {
+            if (Number.isNaN(buyNowCents) || buyNowCents <= 0) {
+                missing.push("Enter a valid Buy now price");
+            }
+            else if (startBidCents !== null && !Number.isNaN(startBidCents) && buyNowCents < startBidCents) {
+                missing.push("Buy now price must be at least the starting offer");
+            }
+        }
+        return missing;
+    }, [title, description, category, location, price, startingBid, buyNowPrice, isTimedOffers, files.length]);
+    const publishReady = missingRequirements.length === 0;
+    const attributeFields = useMemo(() => {
+        if (topCategoryKey === "vehicles") {
+            return [
+                { key: "make", label: "Make", placeholder: "Toyota, Ford, Mazda" },
+                { key: "model", label: "Model", placeholder: "Corolla, Ranger, CX-5" },
+                { key: "year", label: "Year", placeholder: "e.g. 2018" },
+                { key: "odometer", label: "Odometer", placeholder: "e.g. 125000 km" },
+                { key: "transmission", label: "Transmission", placeholder: "Auto or manual" },
+                { key: "fuelType", label: "Fuel type", placeholder: "Petrol, diesel, hybrid, EV" },
+                { key: "bodyType", label: "Body type", placeholder: "Sedan, hatch, ute, SUV" },
+                { key: "registration", label: "Registration", placeholder: "Registered, expired, unregistered" },
+            ];
+        }
+        if (topCategoryKey === "electronics") {
+            return [
+                { key: "brand", label: "Brand", placeholder: "Apple, Samsung, Sony" },
+                { key: "model", label: "Model", placeholder: "iPhone 14, Galaxy S23" },
+                { key: "storage", label: "Storage / capacity", placeholder: "128GB, 512GB, 55 inch" },
+                { key: "colour", label: "Colour", placeholder: "Black, white, blue" },
+            ];
+        }
+        return [];
+    }, [topCategoryKey]);
+    const listingAttributes = useMemo(() => {
+        const output: Record<string, string> = {};
+        for (let i = 0; i < attributeFields.length; i += 1) {
+            const field = attributeFields[i];
+            const value = String(attributeValues[field.key] || "").trim();
+            if (value)
+                output[field.key] = value;
+        }
+        return output;
+    }, [attributeFields, attributeValues]);
+    function setAttributeValue(key: string, value: string) {
+        setAttributeValues((prev) => ({ ...prev, [key]: value }));
+    }
+    const reviewSaleType = isTimedOffers ? "Make an offer" : "Buy now";
+    const reviewPrice = isTimedOffers
+        ? `${startingBid ? `$${startingBid} starting` : "Not set"}${buyNowPrice ? ` | Buy now $${buyNowPrice}` : ""}`
+        : (price ? `$${price}` : "Not set");
+    const previews = useMemo(() => {
+        return files.slice(0, 10).map((f) => ({ name: f.name, url: URL.createObjectURL(f) }));
+    }, [files]);
+    function sanitizeMoneyInput(v: string): string {
+        const s = String(v ?? "");
+        let out = "";
+        let seenDot = false;
+        for (let i = 0; i < s.length; i += 1) {
+            const ch = s[i];
+            if (ch >= "0" && ch <= "9") {
+                out += ch;
+                continue;
+            }
+            if (ch === "." && !seenDot) {
+                out += ".";
+                seenDot = true;
+                continue;
+            }
+        }
+        return out;
+    }
+    async function onSubmit(e: React.FormEvent) {
+        setFeedbackGate(null);
+        e.preventDefault();
+        setErr(null);
+        const t = title.trim();
+        const d = description.trim();
+        const loc = location.trim();
+        if (t.length < 3)
+            return setErr("Title must be at least 3 characters.");
+        if (d.length < 3)
+            return setErr("Description must be at least 3 characters.");
+        if (!category)
+            return setErr("Category is required.");
+        if (!loc)
+            return setErr("Location is required.");
+        if (files.length < 1)
+            return setErr("Add at least 1 photo to publish your listing.");
+        const fixedPriceCents = dollarsToCentsOrNull(price);
+        const startBidCents = dollarsToCentsOrNull(startingBid);
+        const reserveCents = null;
+        const buyNowCents = dollarsToCentsOrNull(buyNowPrice);
+        if (!Number.isFinite(Number(durationDays)))
+            return setErr("Duration is invalid.");
+        if (isTimedOffers && ["3", "5", "7"].indexOf(String(durationDays)) < 0)
+            return setErr("Timed offers duration must be 3, 5, or 7 days.");
+        if (!isTimedOffers) {
+            if (fixedPriceCents === null || Number.isNaN(fixedPriceCents) || fixedPriceCents <= 0) {
+                return setErr("Price must be greater than 0.");
+            }
+        }
+        else {
+            if (startBidCents === null || Number.isNaN(startBidCents) || startBidCents <= 0) {
+                return setErr("Starting offer must be greater than 0.");
+            }
+            if (buyNowCents !== null) {
+                if (Number.isNaN(buyNowCents))
+                    return setErr("Buy now must be a number or blank.");
+                if (buyNowCents <= 0)
+                    return setErr("Buy now must be greater than 0 (or blank).");
+                if (buyNowCents < startBidCents)
+                    return setErr("Buy now must be >= starting offer.");
+            }
+        }
+        setBusy(true);
+        try {
+            let uploadedImages: {
+                url: string;
+            }[] = [];
+            if (files.length > 0) {
+                const fd = new FormData();
+                for (const f of files.slice(0, 10)) {
+                    fd.append("files", f);
+                }
+                const up = await fetch("/api/uploads/images", { method: "POST", body: fd });
+                const upText = await up.text();
+                let upData: any = null;
+                try {
+                    upData = JSON.parse(upText);
+                }
+                catch {
+                    upData = null;
+                }
+                if (!up.ok) {
+                    const msg = (upData && upData.error) ? String(upData.error) : upText || "Image upload failed. Please try again.";
+                    setErr(msg);
+                    return;
+                }
+                uploadedImages = Array.isArray(upData?.images)
+                    ? upData.images
+                        .map(function (img: any) { return img && typeof img.url === "string" ? { url: String(img.url) } : null; })
+                        .filter(Boolean)
+                    : [];
+                if (uploadedImages.length !== files.slice(0, 10).length) {
+                    setErr("Some images did not upload correctly. Please try again.");
+                    return;
+                }
+            }
+            const res = await fetch("/api/listings/create", {
+                method: "POST",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({
+                    type: isTimedOffers ? "OFFERABLE" : "BUY_NOW",
+                    title: t,
+                    description: d,
+                    category,
+                    condition: condition.trim(),
+                    location: loc,
+                    price: isTimedOffers ? null : fixedPriceCents,
+                    startingBid: isTimedOffers ? startBidCents : null,
+                    reservePrice: isTimedOffers ? reserveCents : null,
+                    buyNowPrice: isTimedOffers ? buyNowCents : null,
+                    durationDays: isTimedOffers ? Number(durationDays) : null,
+                    images: uploadedImages,
+                    attributes: listingAttributes,
+                }),
+            });
+            if (res.status === 401) {
+                router.push("/auth/login?next=/sell/new");
+                return;
+            }
+            const text = await res.text().catch(() => "");
+            let data: any = null;
+            try {
+                data = text ? JSON.parse(text) : null;
+            }
+            catch {
+                data = null;
+            }
+            if (res.status === 403) {
+                if (data && (data.code === "FEEDBACK_REQUIRED" || data.error === "FEEDBACK_REQUIRED")) {
+                    setFeedbackGate({
+                        message: data.error || data.message || "Please leave feedback to continue.",
+                        pendingCount: Number(data.pendingCount || 0),
+                        feedbackUrl: data.feedbackUrl || null,
+                    });
+                    return;
+                }
+                const reason = (data && (data.reason || data.error)) ? String(data.reason || data.error) : "";
+                const msg = reason === "MISSING_AGE_VERIFICATION" ? "Please add your date of birth in Account settings (18+ required) to list items." :
+                    reason === "AGE_NOT_VERIFIED" ? "Your account isn't age-verified yet. Please complete age verification to list items." :
+                        reason === "UNDER_18" ? "Bidra accounts are 18+ only. You can browse publicly, but you can't list or make offers." :
+                            reason === "POLICY_BLOCKED" ? "Your account is temporarily restricted. Please try again later." :
+                                "You can't create a listing right now.";
+                setErr(msg);
+                return;
+            }
+            if (!res.ok) {
+                const msg = (data && data.error) ? String(data.error) : text || "Failed to create listing.";
+                setErr(msg);
+                return;
+            }
+            const id = data?.listing?.id;
+            if (id)
+                router.push(`/listings/${id}`);
+            else
+                router.push("/listings");
+        }
+        finally {
+            previews.forEach((p) => URL.revokeObjectURL(p.url));
+            setBusy(false);
+        }
+    }
+    return (<div>
+      {err && (<div>{err}</div>)}
 
-  return (
-    <div className="rounded-[30px] border border-[#EDE9FE] bg-white p-3 shadow-[0_22px_64px_rgba(43,16,85,0.09)] sm:p-6">
-      {err && (
-        <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800">{err}</div>
-      )}
-
-      {feedbackGate && (
-        <div className="mb-4 bd-card p-5">
-          <div className="text-base font-extrabold bd-ink">Feedback required</div>
-          <div className="mt-1 text-sm bd-ink2">{feedbackGate.message}</div>
-          {feedbackGate.feedbackUrl && (
-            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
-              <Link href={feedbackGate.feedbackUrl} className="bd-btn bd-btn-primary text-center">
+      {feedbackGate && (<div>
+          <div>Feedback required</div>
+          <div>{feedbackGate.message}</div>
+          {feedbackGate.feedbackUrl && (<div>
+              <Link href={feedbackGate.feedbackUrl}>
                 Leave feedback to continue
               </Link>
-              <Link href="/orders" className="bd-btn bd-btn-ghost text-center">
+              <Link href="/orders">
                 Go to Orders
               </Link>
-            </div>
-          )}
-        </div>
-      )}
+            </div>)}
+        </div>)}
 
-      <section className="mb-4 rounded-[26px] border border-[#EDE9FE] bg-[linear-gradient(135deg,#FFFFFF_0%,#FBF9FF_58%,#F5F3FF_100%)] p-4 shadow-[0_16px_44px_rgba(43,16,85,0.07)] sm:p-5">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+      <section>
+        <div>
           <div>
-            <div className="text-[11px] font-black uppercase tracking-[0.18em] text-[#6D28D9]">Listing readiness</div>
-            <h2 className="mt-1 text-2xl font-black tracking-[-0.045em] text-[#120724]">{publishReady ? "Ready to publish" : "Build a buyer-ready listing"}</h2>
-            <p className="mt-2 max-w-2xl text-sm font-semibold leading-6 text-[#62516F]">
+            <div>Listing readiness</div>
+            <h2>{publishReady ? "Ready to publish" : "Build a buyer-ready listing"}</h2>
+            <p>
               Strong listings use clear photos, accurate category details, transparent condition notes and a suburb buyers can understand.
             </p>
           </div>
-          <div className="grid gap-2 text-sm font-black text-[#3B254F] sm:grid-cols-3 lg:w-[420px]">
-            <div className="rounded-2xl border border-[#EDE9FE] bg-white px-4 py-3">
-              <div className="text-[10px] uppercase tracking-[0.14em] text-[#8B7A98]">Mode</div>
-              <div className="mt-1">{reviewSaleType}</div>
+          <div>
+            <div>
+              <div>Mode</div>
+              <div>{reviewSaleType}</div>
             </div>
-            <div className="rounded-2xl border border-[#EDE9FE] bg-white px-4 py-3">
-              <div className="text-[10px] uppercase tracking-[0.14em] text-[#8B7A98]">Photos</div>
-              <div className="mt-1">{files.length}/10</div>
+            <div>
+              <div>Photos</div>
+              <div>{files.length}/10</div>
             </div>
-            <div className="rounded-2xl border border-[#EDE9FE] bg-white px-4 py-3">
-              <div className="text-[10px] uppercase tracking-[0.14em] text-[#8B7A98]">Status</div>
-              <div className="mt-1">{publishReady ? "Complete" : `${missingRequirements.length} left`}</div>
+            <div>
+              <div>Status</div>
+              <div>{publishReady ? "Complete" : `${missingRequirements.length} left`}</div>
             </div>
           </div>
         </div>
-        {!publishReady ? (
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-1 text-xs font-black text-[#5B21B6] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {missingRequirements.slice(0, 5).map((item) => (
-              <span key={item} className="shrink-0 rounded-full border border-[#DDD6FE] bg-white px-3 py-2 shadow-sm">
+        {!publishReady ? (<div>
+            {missingRequirements.slice(0, 5).map((item) => (<span key={item}>
                 {item}
-              </span>
-            ))}
-          </div>
-        ) : null}
+              </span>))}
+          </div>) : null}
       </section>
 
-      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit} className="grid gap-4 sm:gap-5">
-        <section className="bd-form-card rounded-[24px] p-4 sm:rounded-[26px] sm:p-7">
-          <div className="flex items-center justify-between gap-3">
+      <form onSubmit={onSubmit} onChangeCapture={clearErrOnEdit}>
+        <section>
+          <div>
             <div>
-              <h2 className="text-base font-extrabold bd-ink">Photos</h2>
-              <p className="mt-1 text-xs bd-ink2">Add at least one clear photo.</p>
+              <h2>Photos</h2>
+              <p>Add at least one clear photo.</p>
             </div>
-            <span className={files.length > 0 ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
+            <span>
               {files.length}/10
             </span>
           </div>
 
-          <div className="mt-3">
-            <div className="grid gap-2 sm:flex sm:flex-wrap sm:items-center">
-              <button
-                type="button"
-                className="bd-btn bd-btn-secondary w-full rounded-2xl px-5 text-center sm:w-auto"
-                onClick={() => cameraInputRef.current?.click()}
-              >
+          <div>
+            <div>
+              <button type="button" onClick={() => cameraInputRef.current?.click()}>
                 Take photo
               </button>
 
-              <button
-                type="button"
-                className="bd-btn bd-btn-secondary w-full rounded-2xl px-5 text-center sm:w-auto"
-                onClick={() => galleryInputRef.current?.click()}
-              >
+              <button type="button" onClick={() => galleryInputRef.current?.click()}>
                 Add photos
               </button>
 
-              <div className="text-center text-xs bd-ink2 sm:text-left">{files.length}/10 selected (min 1, max 10)</div>
+              <div>{files.length}/10 selected (min 1, max 10)</div>
             </div>
 
-            <input
-              ref={cameraInputRef}
-              id="field-photos-camera"
-              className="hidden"
-              type="file"
-              accept="image/*"
-              capture="environment"
-              onChange={(e) => { addPicked(Array.from(e.target.files || [])); e.currentTarget.value = ""; }}
-            />
+            <input ref={cameraInputRef} id="field-photos-camera" type="file" accept="image/*" capture="environment" onChange={(e) => { addPicked(Array.from(e.target.files || [])); e.currentTarget.value = ""; }}/>
 
-            <input
-              ref={galleryInputRef}
-              id="field-photos-gallery"
-              className="hidden"
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={(e) => { addPicked(Array.from(e.target.files || [])); e.currentTarget.value = ""; }}
-            />
+            <input ref={galleryInputRef} id="field-photos-gallery" type="file" accept="image/*" multiple onChange={(e) => { addPicked(Array.from(e.target.files || [])); e.currentTarget.value = ""; }}/>
 
-            {previews.length > 0 && (
-              <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                {previews.map((p, idx) => (
-                  <div key={p.url} className="relative h-24 overflow-hidden rounded-2xl border border-[#EDE9FE] bg-[#FBF9FF] shadow-sm sm:h-32">
-                    <button
-                      type="button"
-                      aria-label="Remove photo"
-                      className="absolute right-2 top-2 z-10 inline-flex min-h-9 items-center justify-center rounded-full border border-[#EDE9FE] bg-white/95 px-3 text-xs font-extrabold text-[#6D28D9] shadow-sm hover:bg-[#F5F3FF]"
-                      onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}
-                    >
+            {previews.length > 0 && (<div>
+                {previews.map((p, idx) => (<div key={p.url}>
+                    <button type="button" aria-label="Remove photo" onClick={() => setFiles((prev) => prev.filter((_, i) => i !== idx))}>
                       Remove
                     </button>
-                    <Image src={p.url} alt={p.name} fill unoptimized className="object-contain p-2" />
-                  </div>
-                ))}
-              </div>
-            )}
+                    <Image src={p.url} alt={p.name} fill unoptimized/>
+                  </div>))}
+              </div>)}
           </div>
         </section>
 
-        <details className="bd-form-card rounded-[24px] p-4 sm:rounded-[26px] sm:p-7" open={!(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim())}>
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-extrabold bd-ink [&::-webkit-details-marker]:hidden">
+        <details open={!(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim())}>
+          <summary>
             <span>Details</span>
-            <span className={(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim()) ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
+            <span>
               {(title.trim().length >= 3 && description.trim().length >= 3 && category && location.trim()) ? "Done" : "Open"}
             </span>
           </summary>
-          <p className="mt-1 text-xs bd-ink2">Title, category, condition, description, and location.</p>
-          <div className="mt-3 grid gap-2">
+          <p>Title, category, condition, description, and location.</p>
+          <div>
             <div>
-              <label className="bd-label" htmlFor="field-title">Title</label>
-              <input id="field-title" className="mt-1 bd-input" value={title} onChange={(e) => setTitle(e.target.value)} />
+              <label htmlFor="field-title">Title</label>
+              <input id="field-title" value={title} onChange={(e) => setTitle(e.target.value)}/>
             </div>
 
-            <div className="rounded-[20px] border border-[#EDE9FE] bg-[#FBF9FF] p-2.5 sm:p-3">
-              <div className="text-sm font-semibold bd-ink">Category</div>
-              <p className="mt-1 text-xs font-semibold bd-ink2">Choose what the item is, not where it is used.</p>
+            <div>
+              <div>Category</div>
+              <p>Choose what the item is, not where it is used.</p>
 
-              {suggestedCategory && suggestedCategory.categoryLabel !== category ? (
-                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs bd-ink2">
-                  <span>Suggested: <span className="font-semibold bd-ink">{suggestedCategory.categoryLabel}</span></span>
-                  <button
-                    type="button"
-                    className="bd-btn bd-btn-secondary w-full rounded-2xl px-5 text-center sm:w-auto"
-                    onClick={() => {
-                      setCategoryTouched(true);
-                      setTopCategoryKey(suggestedCategory.categoryKey);
-                      setSubcategoryKey(suggestedCategory.subcategoryKey || "");
-                    }}
-                  >
+              {suggestedCategory && suggestedCategory.categoryLabel !== category ? (<div>
+                  <span>Suggested: <span>{suggestedCategory.categoryLabel}</span></span>
+                  <button type="button" onClick={() => {
+                setCategoryTouched(true);
+                setTopCategoryKey(suggestedCategory.categoryKey);
+                setSubcategoryKey(suggestedCategory.subcategoryKey || "");
+            }}>
                     Use suggestion
                   </button>
-                </div>
-              ) : null}
+                </div>) : null}
 
-              <div className="mt-2 grid gap-2 sm:grid-cols-2">
+              <div>
                 <div>
-                  <label className="bd-label" htmlFor="field-category-top">Top category</label>
-                  <select
-                    id="field-category-top"
-                    className="mt-1 bd-input"
-                    value={topCategoryKey}
-                    onChange={(e) => {
-                      setCategoryTouched(true);
-                      setTopCategoryKey(e.target.value);
-                      setSubcategoryKey("");
-                    }}
-                  >
+                  <label htmlFor="field-category-top">Top category</label>
+                  <select id="field-category-top" value={topCategoryKey} onChange={(e) => {
+            setCategoryTouched(true);
+            setTopCategoryKey(e.target.value);
+            setSubcategoryKey("");
+        }}>
                     <option value="">Select top category...</option>
-                    {BIDRA_CATEGORIES.map((item) => (
-                      <option key={item.key} value={item.key}>{item.label}</option>
-                    ))}
+                    {BIDRA_CATEGORIES.map((item) => (<option key={item.key} value={item.key}>{item.label}</option>))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="bd-label" htmlFor="field-subcategory">Subcategory</label>
-                  <select
-                    id="field-subcategory"
-                    className="mt-1 bd-input"
-                    value={subcategoryKey}
-                    onChange={(e) => {
-                      setCategoryTouched(true);
-                      setSubcategoryKey(e.target.value);
-                    }}
-                    disabled={!selectedCategory}
-                  >
+                  <label htmlFor="field-subcategory">Subcategory</label>
+                  <select id="field-subcategory" value={subcategoryKey} onChange={(e) => {
+            setCategoryTouched(true);
+            setSubcategoryKey(e.target.value);
+        }} disabled={!selectedCategory}>
                     <option value="">{selectedCategory ? "Select subcategory..." : "Choose top category first"}</option>
-                    {selectedCategory ? selectedCategory.subcategories.map((item) => (
-                      <option key={item.key} value={item.key}>{item.label}</option>
-                    )) : null}
+                    {selectedCategory ? selectedCategory.subcategories.map((item) => (<option key={item.key} value={item.key}>{item.label}</option>)) : null}
                   </select>
                 </div>
               </div>
 
-              {category ? (
-                <div className="mt-3 rounded-[18px] border border-[#EDE9FE] bg-white px-3 py-2 text-sm">
-                  <span className="text-xs uppercase tracking-wide text-black/50">Selected</span>
-                  <div className="mt-1 font-medium bd-ink">{category}</div>
-                </div>
-              ) : null}
+              {category ? (<div>
+                  <span>Selected</span>
+                  <div>{category}</div>
+                </div>) : null}
             </div>
 
             <div>
-              <label className="bd-label" htmlFor="field-condition">Condition</label>
-              <select id="field-condition" className="mt-1 bd-input" value={condition} onChange={(e) => setCondition(e.target.value)}>
+              <label htmlFor="field-condition">Condition</label>
+              <select id="field-condition" value={condition} onChange={(e) => setCondition(e.target.value)}>
                 <option value="NEW">New</option>
                 <option value="LIKE_NEW">Like new</option>
                 <option value="USED">Used</option>
@@ -763,147 +695,122 @@ export default function SellNewClient({ defaultLocation = "" }: { defaultLocatio
               </select>
             </div>
 
-            {attributeFields.length > 0 ? (
-              <div className="rounded-[20px] border border-[#EDE9FE] bg-[#FBF9FF] p-3">
-                <div className="text-sm font-extrabold bd-ink">Item specifics</div>
-                <p className="mt-1 text-xs bd-ink2">Add make, model and specs so buyers can compare listings properly.</p>
-                <div className="mt-3 grid gap-2 sm:grid-cols-2">
-                  {attributeFields.map((field) => (
-                    <div key={field.key}>
-                      <label className="bd-label" htmlFor={"field-attribute-" + field.key}>{field.label}</label>
-                      <input
-                        id={"field-attribute-" + field.key}
-                        className="mt-1 bd-input"
-                        value={attributeValues[field.key] || ""}
-                        onChange={(e) => setAttributeValue(field.key, e.target.value)}
-                        placeholder={field.placeholder}
-                      />
-                    </div>
-                  ))}
+            {attributeFields.length > 0 ? (<div>
+                <div>Item specifics</div>
+                <p>Add make, model and specs so buyers can compare listings properly.</p>
+                <div>
+                  {attributeFields.map((field) => (<div key={field.key}>
+                      <label htmlFor={"field-attribute-" + field.key}>{field.label}</label>
+                      <input id={"field-attribute-" + field.key} value={attributeValues[field.key] || ""} onChange={(e) => setAttributeValue(field.key, e.target.value)} placeholder={field.placeholder}/>
+                    </div>))}
                 </div>
-              </div>
-            ) : null}
+              </div>) : null}
 
             <div>
-              <label className="bd-label" htmlFor="field-description">Description</label>
-              <textarea id="field-description" className="mt-1 bd-input" rows={3} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."} />
-              <div className="mt-2 flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  className="bd-btn bd-btn-secondary w-full rounded-2xl px-5 text-center sm:w-auto"
-                  onClick={() => {
-                    const priceLabel = type === "TIMED_OFFERS" ? (startingBid ? `$${startingBid} starting` : "") : (price ? `$${price}` : "");
-                    const draft = suggestDescriptionDraft({
-                      title,
-                      category: String(category || ""),
-                      condition,
-                      type,
-                      priceLabel,
-                      location,
-                    });
-                    setDescription(draft);
-                  }}
-                >
+              <label htmlFor="field-description">Description</label>
+              <textarea id="field-description" rows={3} value={description} onChange={(e) => setDescription(e.target.value)} placeholder={"What is it? What condition is it in? What is included? Pickup or postage details."}/>
+              <div>
+                <button type="button" onClick={() => {
+            const priceLabel = type === "TIMED_OFFERS" ? (startingBid ? `$${startingBid} starting` : "") : (price ? `$${price}` : "");
+            const draft = suggestDescriptionDraft({
+                title,
+                category: String(category || ""),
+                condition,
+                type,
+                priceLabel,
+                location,
+            });
+            setDescription(draft);
+        }}>
                   Description guide
                 </button>
               </div>
             </div>
 
             <div>
-              <label className="bd-label" htmlFor="field-location">Location</label>
-              <input id="field-location" className="mt-1 bd-input" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="4000 Brisbane, QLD" />
+              <label htmlFor="field-location">Location</label>
+              <input id="field-location" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="4000 Brisbane, QLD"/>
             </div>
           </div>
         </details>
 
-        <section className="bd-form-card rounded-[24px] p-4 sm:rounded-[26px] sm:p-7">
-          <h2 className="text-base font-extrabold bd-ink">Price</h2>
-          <div className="mt-3 grid gap-2">
+        <section>
+          <h2>Price</h2>
+          <div>
             <div>
-              <label className="bd-label" htmlFor="field-sale-type">Sale type</label>
-              <select
-                id="field-sale-type"
-                className="mt-1 bd-input"
-                value={type}
-                onChange={(e) => setType(e.target.value as ListingTypeUI)}
-              >
+              <label htmlFor="field-sale-type">Sale type</label>
+              <select id="field-sale-type" value={type} onChange={(e) => setType(e.target.value as ListingTypeUI)}>
                 <option value="BUY_NOW">Buy now</option>
                 <option value="TIMED_OFFERS">Timed offers (seller decides at end)</option>
               </select>
             </div>
 
-            {!isTimedOffers && (
-              <div>
-                <label className="bd-label" htmlFor="field-price">Price (AUD)</label>
-                <input id="field-price" className="mt-1 bd-input" value={price} onChange={(e) => setPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
-              </div>
-            )}
+            {!isTimedOffers && (<div>
+                <label htmlFor="field-price">Price (AUD)</label>
+                <input id="field-price" value={price} onChange={(e) => setPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal"/>
+              </div>)}
 
-            {isTimedOffers && (
-              <>
+            {isTimedOffers && (<>
                 <div>
-                  <label className="bd-label" htmlFor="field-starting-bid">Starting offer (AUD)</label>
-                  <input id="field-starting-bid" className="mt-1 bd-input" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal" />
+                  <label htmlFor="field-starting-bid">Starting offer (AUD)</label>
+                  <input id="field-starting-bid" value={startingBid} onChange={(e) => setStartingBid(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 60" inputMode="decimal"/>
                 </div>
 
                 <div>
-                  <label className="bd-label" htmlFor="field-buy-now-price">Buy now price (AUD) (optional)</label>
-                  <input id="field-buy-now-price" className="mt-1 bd-input" value={buyNowPrice} onChange={(e) => setBuyNowPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 200" inputMode="decimal" />
+                  <label htmlFor="field-buy-now-price">Buy now price (AUD) (optional)</label>
+                  <input id="field-buy-now-price" value={buyNowPrice} onChange={(e) => setBuyNowPrice(sanitizeMoneyInput(e.target.value))} placeholder="e.g. 200" inputMode="decimal"/>
                 </div>
 
                 <div>
-                  <label className="bd-label" htmlFor="field-duration">Duration</label>
-                  <select id="field-duration" className="mt-1 bd-input" value={durationDays} onChange={(e) => setDurationDays(e.target.value)}>
+                  <label htmlFor="field-duration">Duration</label>
+                  <select id="field-duration" value={durationDays} onChange={(e) => setDurationDays(e.target.value)}>
                     <option value="3">3 days</option>
                     <option value="5">5 days</option>
                     <option value="7">7 days</option>
                   </select>
                 </div>
-              </>
-            )}
+              </>)}
 
           </div>
         </section>
 
-        <details className="bd-form-card rounded-[24px] p-4 sm:rounded-[26px] sm:p-7" open={!publishReady}>
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-extrabold bd-ink [&::-webkit-details-marker]:hidden">
+        <details open={!publishReady}>
+          <summary>
             <span>Review</span>
-            <span className={publishReady ? "rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-emerald-800" : "rounded-full bg-amber-50 px-3 py-1 text-xs font-extrabold text-amber-900"}>
+            <span>
               {publishReady ? "Ready" : `${missingRequirements.length} left`}
             </span>
           </summary>
 
-          <div className="mt-3 rounded-[20px] border border-[#EDE9FE] bg-[#FBF9FF] p-3 text-sm">
-            <div className="grid grid-cols-2 gap-2">
+          <div>
+            <div>
               <div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Listing</div>
-                <div className="mt-1 line-clamp-1 font-extrabold bd-ink">{title.trim() || "Untitled listing"}</div>
+                <div>Listing</div>
+                <div>{title.trim() || "Untitled listing"}</div>
               </div>
               <div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Price</div>
-                <div className="mt-1 font-extrabold bd-ink">{reviewPrice}</div>
+                <div>Price</div>
+                <div>{reviewPrice}</div>
               </div>
               <div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Category</div>
-                <div className="mt-1 line-clamp-1 font-extrabold bd-ink">{category || "Not set"}</div>
+                <div>Category</div>
+                <div>{category || "Not set"}</div>
               </div>
               <div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#64748B]">Photos</div>
-                <div className="mt-1 font-extrabold bd-ink">{files.length}</div>
+                <div>Photos</div>
+                <div>{files.length}</div>
               </div>
             </div>
           </div>
 
-          <div className={publishReady ? "mt-3 rounded-[20px] border border-emerald-200 bg-emerald-50 p-3 text-sm font-extrabold text-emerald-950" : "mt-3 rounded-[20px] border border-amber-200 bg-amber-50 p-3 text-sm font-extrabold text-amber-950"}>
+          <div>
             {publishReady ? "Ready to publish." : "Complete the required fields above to publish."}
           </div>
         </details>
 
-        <button type="submit" disabled={busy || !publishReady} className="bd-btn bd-btn-primary sticky bottom-20 z-20 inline-flex h-14 w-full items-center justify-center rounded-[22px] px-6 text-base font-extrabold shadow-[0_18px_38px_rgba(124,58,237,0.22)] transition disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none sm:static">
+        <button type="submit" disabled={busy || !publishReady}>
           {busy ? "Saving..." : "Continue"}
         </button>
       </form>
-    </div>
-  );
+    </div>);
 }
-

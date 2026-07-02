@@ -1,147 +1,126 @@
 "use client";
-
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import StatusMessage from "@/components/status-message";
-
 type Props = {
-  listingId: string;
-  authed: boolean;
-  loginHref: string;
+    listingId: string;
+    authed: boolean;
+    loginHref: string;
 };
-
 export default function WatchlistButton(props: Props) {
-  const router = useRouter();
-  const [watched, setWatched] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [ready, setReady] = useState(false);
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
-
-  const label = useMemo(function () {
-    if (!props.authed) return "Log in to watch";
-    if (loading) return watched ? "Removing..." : "Saving...";
-    return watched ? "Watching" : "Save listing";
-  }, [props.authed, loading, watched]);
-
-  useEffect(function () {
-    let alive = true;
-
-    if (!props.authed) {
-      setReady(true);
-      setWatched(false);
-      setError("");
-      setMessage("");
-      return function () {
-        alive = false;
-      };
-    }
-
-    async function loadStatus() {
-      try {
-        setError("");
-        setMessage("");
-        const res = await fetch("/api/watchlist/status?listingId=" + encodeURIComponent(props.listingId), {
-          method: "GET",
-          credentials: "same-origin",
-          cache: "no-store",
-        });
-
-        const data = await res.json().catch(function () { return {}; });
-        if (!alive) return;
-
-        if (!res.ok) {
-          setError(typeof data?.error === "string" ? data.error : "Unable to load watch status.");
-          setWatched(false);
-          setReady(true);
-          return;
+    const router = useRouter();
+    const [watched, setWatched] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [ready, setReady] = useState(false);
+    const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
+    const label = useMemo(function () {
+        if (!props.authed)
+            return "Log in to watch";
+        if (loading)
+            return watched ? "Removing..." : "Saving...";
+        return watched ? "Watching" : "Save listing";
+    }, [props.authed, loading, watched]);
+    useEffect(function () {
+        let alive = true;
+        if (!props.authed) {
+            setReady(true);
+            setWatched(false);
+            setError("");
+            setMessage("");
+            return function () {
+                alive = false;
+            };
         }
-
-        const nextWatched = Boolean(data?.watched);
-        setWatched(nextWatched);
-        setReady(true);
-      } catch (e) {
-        if (!alive) return;
-        setError("Unable to load watch status.");
-        setWatched(false);
-        setReady(true);
-      }
-    }
-
-    loadStatus();
-
-    return function () {
-      alive = false;
-    };
-  }, [props.authed, props.listingId]);
-
-
-  useEffect(function () {
-    if (!message) return;
-    const timer = window.setTimeout(function () {
-      setMessage("");
-    }, 2500);
-    return function () {
-      window.clearTimeout(timer);
-    };
-  }, [message]);
-
-  async function onClick() {
-    if (!props.authed) {
-      router.push(props.loginHref);
-      return;
-    }
-
-    if (loading) return;
-
-    try {
-      setLoading(true);
-      setError("");
-      setMessage("");
-
-      const res = await fetch("/api/watchlist/toggle", {
-        method: "POST",
-        credentials: "same-origin",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ listingId: props.listingId }),
-      });
-
-      const data = await res.json().catch(function () { return {}; });
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          router.push(props.loginHref);
-          return;
+        async function loadStatus() {
+            try {
+                setError("");
+                setMessage("");
+                const res = await fetch("/api/watchlist/status?listingId=" + encodeURIComponent(props.listingId), {
+                    method: "GET",
+                    credentials: "same-origin",
+                    cache: "no-store",
+                });
+                const data = await res.json().catch(function () { return {}; });
+                if (!alive)
+                    return;
+                if (!res.ok) {
+                    setError(typeof data?.error === "string" ? data.error : "Unable to load watch status.");
+                    setWatched(false);
+                    setReady(true);
+                    return;
+                }
+                const nextWatched = Boolean(data?.watched);
+                setWatched(nextWatched);
+                setReady(true);
+            }
+            catch (e) {
+                if (!alive)
+                    return;
+                setError("Unable to load watch status.");
+                setWatched(false);
+                setReady(true);
+            }
         }
-
-        setError(typeof data?.error === "string" ? data.error : "Unable to update watchlist.");
-        return;
-      }
-
-      const nextWatched = Boolean(data?.watched);
-      setWatched(nextWatched);
-      setMessage(nextWatched ? "Saved to watchlist." : "Listing removed from watchlist.");
-    } catch (e) {
-      setError("Unable to update watchlist.");
-    } finally {
-      setLoading(false);
+        loadStatus();
+        return function () {
+            alive = false;
+        };
+    }, [props.authed, props.listingId]);
+    useEffect(function () {
+        if (!message)
+            return;
+        const timer = window.setTimeout(function () {
+            setMessage("");
+        }, 2500);
+        return function () {
+            window.clearTimeout(timer);
+        };
+    }, [message]);
+    async function onClick() {
+        if (!props.authed) {
+            router.push(props.loginHref);
+            return;
+        }
+        if (loading)
+            return;
+        try {
+            setLoading(true);
+            setError("");
+            setMessage("");
+            const res = await fetch("/api/watchlist/toggle", {
+                method: "POST",
+                credentials: "same-origin",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ listingId: props.listingId }),
+            });
+            const data = await res.json().catch(function () { return {}; });
+            if (!res.ok) {
+                if (res.status === 401) {
+                    router.push(props.loginHref);
+                    return;
+                }
+                setError(typeof data?.error === "string" ? data.error : "Unable to update watchlist.");
+                return;
+            }
+            const nextWatched = Boolean(data?.watched);
+            setWatched(nextWatched);
+            setMessage(nextWatched ? "Saved to watchlist." : "Listing removed from watchlist.");
+        }
+        catch (e) {
+            setError("Unable to update watchlist.");
+        }
+        finally {
+            setLoading(false);
+        }
     }
-  }
-
-  return (
-    <div className="space-y-2">
-      <button
-        type="button"
-        onClick={onClick}
-        disabled={loading || !ready}
-        className="inline-flex h-12 w-full items-center justify-center rounded-2xl border border-[#D8E1F0] bg-white px-5 text-sm font-extrabold text-[#4F46E5] shadow-sm transition hover:bg-[#F8FAFC] disabled:cursor-not-allowed disabled:opacity-60"
-      >
+    return (<div>
+      <button type="button" onClick={onClick} disabled={loading || !ready}>
         {ready ? label : "Loading..."}
       </button>
 
-      {message ? <StatusMessage tone="info" className="text-xs">{message}</StatusMessage> : null}
+      {message ? <StatusMessage tone="info">{message}</StatusMessage> : null}
 
-      {error ? <StatusMessage tone="error" className="text-xs">{error}</StatusMessage> : null}
-    </div>
-  );
+      {error ? <StatusMessage tone="error">{error}</StatusMessage> : null}
+    </div>);
 }
