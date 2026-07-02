@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { BidraNavKey } from "./types";
 
@@ -18,8 +19,12 @@ export function BidraHeader({ activeNav }: BidraHeaderProps) {
     <header className="bidra-header">
       <div className="bidra-header__inner">
         <Link href="/" className="bidra-wordmark" aria-label="Bidra home">
-          Bidra
+          <Image src="/brand/bidra-wordmark-purple.svg" alt="Bidra" width={136} height={34} priority />
         </Link>
+
+        <div className="bidra-header__utility" aria-label="Marketplace coverage">
+          <span className="bidra-header__utility-pill">Australia-wide</span>
+        </div>
 
         <nav className="bidra-header__nav" aria-label="Main navigation">
           {desktopNav.map((item) => (

@@ -34,7 +34,7 @@ export const homeListings: BidraListing[] = [
     imageSrc: "/brand/hero-clouds.png",
     imageAlt: "Dining table listing",
     seller: "Brisbane Home Finds",
-    sellerRating: "Verified seller",
+    sellerRating: "Verified local seller",
     featured: true,
     isSaved: true,
   },

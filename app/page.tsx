@@ -19,8 +19,17 @@ export default function HomePage() {
   return (
     <BidraAppShell activeNav="home" pageLabel="Bidra home">
       <section className="bidra-home-top">
-        <h1>Find what you need, close to you.</h1>
+        <div className="bidra-home-top__eyebrow-row">
+          <span className="bidra-home-top__eyebrow">Australia-wide marketplace</span>
+          <span className="bidra-home-top__status">Local pickup · Postage · Handover</span>
+        </div>
+        <h1>Search local. Buy fast. Handover clearly.</h1>
         <BidraSearch queryPlaceholder="Search listings, tools, furniture, electronics" />
+        <div className="bidra-home-top__trust" aria-label="Marketplace trust cues">
+          <BidraTrustCue text="Verified members" variant="inverse" />
+          <BidraTrustCue text="In-app messages" variant="inverse" />
+          <BidraTrustCue text="Clear offers" variant="inverse" />
+        </div>
       </section>
 
       <BidraCategoryRail categories={homeCategories} />

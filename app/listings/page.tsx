@@ -19,10 +19,30 @@ export default function ListingsPage() {
     <BidraAppShell activeNav="listings" pageLabel="Browse listings">
       <section className="bidra-browse-top">
         <div className="bidra-browse-top__head">
-          <h1>Browse listings</h1>
-          <p>12,400 active results</p>
+          <div>
+            <span className="bidra-page-kicker">Browse</span>
+            <h1>Find active listings fast</h1>
+          </div>
+          <p>12,400 results</p>
         </div>
         <BidraSearch queryPlaceholder="Search listings" locationPlaceholder="All Australia" compact />
+        <div className="bidra-browse-top__filters" aria-label="Quick listing filters">
+          <a href="/listings" className="bidra-filter-chip is-active">
+            All Australia
+          </a>
+          <a href="/listings?mode=buy-now" className="bidra-filter-chip">
+            Buy Now
+          </a>
+          <a href="/listings?mode=offers" className="bidra-filter-chip">
+            Offers
+          </a>
+          <a href="/listings?pickup=local" className="bidra-filter-chip">
+            Local pickup
+          </a>
+          <a href="/listings?delivery=postage" className="bidra-filter-chip">
+            Postage
+          </a>
+        </div>
       </section>
 
       <BidraCategoryRail categories={browseCategories} />
